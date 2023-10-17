@@ -1,23 +1,44 @@
 import type { NextPage } from "next";
-import { SvgIcon, Button, Icon } from "@mui/material";
-import dataDiscoveryIcon from "../../../../public/logos/data-discovery-icon.svg";
+import { Button, Icon, colors } from "@mui/material";
 import Image from "next/image";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config.js";
 
-const ButtonWithIcon: NextPage = () => {
+const fullConfig = resolveConfig(tailwindConfig);
+interface Props {
+  svgIcon: any;
+  label: string;
+  fillColor: string;
+  labelColor: string;
+}
+
+const ButtonWithIcon: NextPage<Props> = (props: Props) => {
   return (
     <div>
-      {/* <SvgIcon component={dataDiscoveryIcon} viewBox="0 0 24 24"/> */}
-      <Button className="h-[3.75rem] rounded-[6.25rem]"
+      <Button
         variant="contained"
         startIcon={
           <Image
             priority
-            src={dataDiscoveryIcon}
+            src={props.svgIcon}
             alt="The SDOH & Place project logo"
           />
         }
+        sx={{
+          height: "3.75rem",
+          borderRadius: "6.25rem",
+          background: `${props.fillColor}`,
+          textTransform: "none",
+          color: `${fullConfig.theme.colors[props.labelColor]}`,
+          fontFamily: "nunito",
+          fontSize: "1.25rem",
+          fontStyle: "normal",
+          fontWeight: 700,
+          lineHeight: "1.5rem",
+          letterSpacing: "0.00938rem",
+        }}
       >
-        Data Discovery
+        {props.label}
       </Button>
     </div>
   );

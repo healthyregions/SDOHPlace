@@ -11,12 +11,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "m3-sys-light-on-primary": "#fff",
-        gray: "#1e1e1e",
+        white: "#fff",
+        almostblack: "#1e1e1e",
         lightsalmon: "#ff9c77",
         black: "#000",
         darkorchid: "#7e1cc4",
         mediumpurple: "#b379dd",
+        lightbisque: "#ffe5c4",
       },
       spacing: {},
       fontFamily: {
@@ -29,11 +30,21 @@ module.exports = {
       },
     },
     fontSize: {
+      sm: "0.8rem",
       base: "1rem",
-      "5xl": "1.5rem",
+      xl: "1.25rem",
+      "2xl": "1.563rem",
+      "3xl": "1.953rem",
+      "4xl": "2.441rem",
+      "5xl": "3.052rem",
       inherit: "inherit",
+      "2xl-rfs": "clamp(1.125rem, 1vw + 1rem, 1.5rem)",
+      "xl-rfs": "clamp(0.875rem, 1vw + 0.5rem, 1.125rem)",
+      "3xl-rfs": "clamp(1.5rem, 1vw + 1rem, 2rem)",
     },
+    corePlugins: {
+      preflight: false,
+    },
+    important: "#__next",
   },
 };
-
-
