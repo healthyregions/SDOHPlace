@@ -13,6 +13,9 @@ import workplaceIcon from "../../../public/logos/workplace-icon.svg";
 import medicalIcon from "../../../public/logos/medical-icon.svg";
 import housingIcon from "../../../public/logos/housing-icon.svg";
 import etcIcon from "../../../public/logos/etc-icon.svg";
+import dataDiscoveryIconEnlarged from "../../../public/logos/data-discovery-icon-enlarged.svg";
+import communityToolkitIconEnlarged from "../../../public/logos/community-toolkit-icon-enlarged.svg";
+import communityToolkitIconBlack from "../../../public/logos/community-toolkit-icon-black.svg";
 
 import newsImage1 from "../../../public/images/news-1.png";
 import newsImage2 from "../../../public/images/news-2.png";
@@ -99,13 +102,7 @@ const HomePage: NextPage = () => {
                 alt="The SDOH & Place project logo"
               />
             </div>
-            {/* <div className=" border-red-500 border-2 my-auto text-[#AAA] font-fredoka text-[5rem] min-[1565px]:text-[5.5rem] min-[1639px]:text-[6rem] font-normal leading-normal
-          tracking-[0.5rem] max-w-[35.938rem] min-w-0 flex-shrink p-8">
-            <p>The 
-            SDOH &
-            Place
-            Project</p>
-          </div> */}
+
             <div className="p-4">
               <Image
                 priority
@@ -228,25 +225,107 @@ const HomePage: NextPage = () => {
         </div>
       </div>
 
-      <div className="w-full min-h-[16rem] bg-darkorchid grid grid-flow-row max-md:grid-rows-[3fr_2fr_2fr_2fr] md:grid-flow-col md:grid-cols-[3fr_2fr_2fr_2fr] text-center">
-        <div className="my-auto text-white font-nunito-sans text-[1.5rem] font-bold leading-8">
+      <div className="w-full min-h-[16rem] bg-darkorchid grid grid-flow-row max-md:grid-rows-[1fr_1fr] md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
+        <div className="my-auto text-white font-nunito text-2xl-rfs font-normal leading-8 px-[5.5%]">
           Brought to you by
         </div>
-        <img
-          className="max-md:mx-auto md:my-auto"
-          alt="Herop light logo"
-          src="/logos/herop-light-logo.svg"
-        />
-        <img
-          className="max-md:mx-auto md:my-auto"
-          alt="University wordmark"
-          src="/logos/university-wordmark.svg"
-        />
-        <div className="w-[12.0625rem] h-[3.5rem] bg-mediumpurple max-md:mx-auto md:my-auto"></div>
+        <div className="grid grid-flow-col grid-cols-[1fr_1fr]">
+          <img
+            className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]"
+            alt="Herop light logo"
+            src="/logos/herop-light-logo.svg"
+          />
+          <img
+            className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]"
+            alt="University wordmark"
+            src="/logos/university-wordmark.svg"
+          />
+        </div>
       </div>
-      <div className="w-full min-h-[24rem] grid grid-flow-row max-md:grid-rows-2 md:grid-flow-col md:grid-cols-2">
-        <div className="border-r-2">1</div>
-        <div>2 hello</div>
+
+      <div className="flex flex-col w-full min-h-[67.44rem] pt-[5rem] px-[2.5%] gap-14">
+        <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
+          Access Data & Resources on SDOH & Place
+        </div>
+
+        <div>
+          <div className="flex flex-row justify-between flex-wrap">
+            <div className="flex flex-col gap-10">
+              <div className="w-[3.5rem] h-[3.5rem]">
+                <Image
+                  priority
+                  src={dataDiscoveryIconEnlarged}
+                  alt="Data Discovery Enlarged icon"
+                />
+              </div>
+
+              <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
+                Data Discovery
+              </div>
+
+              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
+                Find free, high-quality SDOH Data by Topic and/or Location
+                within rural, suburban, or urban U.S. places
+              </div>
+
+              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] relative top-[-2%]">
+                Our data discovery platform makes it easier to discover SDOH
+                data according to...
+              </div>
+
+              <div className="flex flex-row gap-6 items-center">
+                <ButtonWithIcon
+                  svgIcon={dataDiscoveryIcon}
+                  label="Data Discovery"
+                  fillColor="neutralgray"
+                  labelColor="almostblack"
+                />
+
+                <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase">
+                  Coming Soon
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-10">
+              <div className="w-[3.5rem] h-[3.5rem]">
+                <Image
+                  priority
+                  src={communityToolkitIconEnlarged}
+                  alt="Data Practice Enlarged icon"
+                />
+              </div>
+
+              <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
+                Data Practice
+              </div>
+
+              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
+                Learn how to work with SDOH & Place Data to explore health
+                equity in your community & build your own app.
+              </div>
+
+              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] relative top-[-2%]">
+                Our community toolkit ensures you have easy access to
+                harmonized...
+              </div>
+
+              <div className="flex flex-row gap-6 items-center">
+                <ButtonWithIcon
+                  svgIcon={communityToolkitIconBlack}
+                  label="Community Toolkit"
+                  fillColor="neutralgray"
+                  labelColor="almostblack"
+                />
+
+                <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase">
+                  Coming Soon
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="h-[500px]"></div>
       </div>
     </>
   );

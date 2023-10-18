@@ -18,6 +18,7 @@ module.exports = {
         darkorchid: "#7e1cc4",
         mediumpurple: "#b379dd",
         lightbisque: "#ffe5c4",
+        neutralgray: "#AAA",
       },
       spacing: {},
       fontFamily: {
@@ -41,6 +42,8 @@ module.exports = {
       "2xl-rfs": "clamp(1.125rem, 1vw + 1rem, 1.5rem)",
       "xl-rfs": "clamp(0.875rem, 1vw + 0.5rem, 1.125rem)",
       "3xl-rfs": "clamp(1.5rem, 1vw + 1rem, 2rem)",
+      "base-rfs": "clamp(0.75rem, 1vw + 0.25rem, 1rem)",
+      "1.5xl-rfs": "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
     },
     corePlugins: {
       preflight: false,

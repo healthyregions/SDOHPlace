@@ -20,7 +20,7 @@ const CardWithImage: NextPage<Props> = (props: Props) => {
           src={props.image}
           alt={props.title + " image"}
           fill
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: "cover" }}
         />
       </div>
       <div className="text-almostblack font-nunito text-3xl-rfs font-normal leading-10 max-w-[22.3125rem] mt-[2.31rem]">
