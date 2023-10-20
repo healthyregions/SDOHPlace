@@ -327,7 +327,7 @@ const HomePage: NextPage = () => {
           </div>
         </div>
 
-        <div className="px-[2.5%] relative mt-[-13%]">
+        <div className="px-[2.5%] relative mt-[-13%] self-center">
           <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
         </div>
       </div>

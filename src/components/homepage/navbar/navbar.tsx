@@ -25,7 +25,7 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`fixed left-0 top-0 w-full z-10 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`absolute left-0 top-0 w-full z-10 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
         className={`max-w-[1240px] m-auto flex ${
