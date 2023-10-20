@@ -16,6 +16,7 @@ import etcIcon from "../../../public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "../../../public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "../../../public/logos/community-toolkit-icon-enlarged.svg";
 import communityToolkitIconBlack from "../../../public/logos/community-toolkit-icon-black.svg";
+import sdohGraphic from "../../../public/logos/sdoh-graphic.svg";
 
 import newsImage1 from "../../../public/images/news-1.png";
 import newsImage2 from "../../../public/images/news-2.png";
@@ -249,7 +250,7 @@ const HomePage: NextPage = () => {
         </div>
 
         <div>
-          <div className="flex flex-row justify-between flex-wrap items-center before:border-2 before:border-solid before:border-neutralgray before:self-stretch">
+          <div className="flex flex-row justify-between flex-wrap items-center max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#AAA_33%,#AAA_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#AAA_5%,#AAA_95%,white_95%)_1]">
             <div className="flex flex-col gap-10 -order-1">
               <div className="w-[3.5rem] h-[3.5rem]">
                 <Image
@@ -325,8 +326,13 @@ const HomePage: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="h-[500px]"></div>
+
+        <div className="px-[2.5%] relative mt-[-13%]">
+          <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
+        </div>
       </div>
+
+      <div className="w-full min-h-[33.625rem] bg-almostblack"></div>
     </>
   );
 };
