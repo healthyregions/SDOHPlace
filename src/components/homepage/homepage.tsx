@@ -112,7 +112,7 @@ const HomePage: NextPage = () => {
               />
             </div>
           </div>
-          <div className="self-center uppercase text-almostblack font-nunito text-[1.5rem] font-normal leading-8 tracking-[0.75rem]">
+          <div className="self-center uppercase text-almostblack font-nunito text-[1.5rem] font-normal leading-8 tracking-[0.75rem] relative bottom-[-5%]">
             Coming Soon
           </div>
           <div className="max-md:hidden self-center text-center pr-[8%] mt-auto">
