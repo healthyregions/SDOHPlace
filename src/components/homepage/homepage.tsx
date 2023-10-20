@@ -249,8 +249,8 @@ const HomePage: NextPage = () => {
         </div>
 
         <div>
-          <div className="flex flex-row justify-between flex-wrap">
-            <div className="flex flex-col gap-10">
+          <div className="flex flex-row justify-between flex-wrap items-center before:border-2 before:border-solid before:border-neutralgray before:self-stretch">
+            <div className="flex flex-col gap-10 -order-1">
               <div className="w-[3.5rem] h-[3.5rem]">
                 <Image
                   priority

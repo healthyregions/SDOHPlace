@@ -12,7 +12,7 @@ interface Props {
   labelColor: string;
 }
 
-const ButtonWithIcon: NextPage<Props> = (props: Props) => {
+const ButtonWithIcon = (props: Props): JSX.Element => {
   return (
     <div>
       <Button

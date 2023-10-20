@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
-const NavBar: NextPage = () => {
+const NavBar = (): JSX.Element => {
   const [nav, setNav] = useState(false);
   const [navBackgroundColor, setNavBackgroundColor] = useState("transparent");
 

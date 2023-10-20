@@ -10,7 +10,7 @@ interface Props {
   text: string;
 }
 
-const Card: NextPage<Props> = (props: Props) => {
+const Card = (props: Props): JSX.Element => {
   return (
     <div
       className={`flex flex-col items-start gap-4 ${
