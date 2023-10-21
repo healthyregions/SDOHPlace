@@ -1,6 +1,15 @@
 import type { NextPage } from "next";
 import NavBar from "./navbar";
 import Image from "next/image";
+import Link from "next/link";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
+import { withStyles, makeStyles, createStyles } from "@mui/styles";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { AiOutlineMail } from "react-icons/ai";
 
 import styles from "./homepage.module.css";
 import mapWithPinLogo from "../../../public/logos/map-with-pin.svg";
@@ -17,6 +26,13 @@ import dataDiscoveryIconEnlarged from "../../../public/logos/data-discovery-icon
 import communityToolkitIconEnlarged from "../../../public/logos/community-toolkit-icon-enlarged.svg";
 import communityToolkitIconBlack from "../../../public/logos/community-toolkit-icon-black.svg";
 import sdohGraphic from "../../../public/logos/sdoh-graphic.svg";
+import mapWithPinFooter from "../../../public/logos/map-with-pin-footer.svg";
+import theSDOHPlaceProjectFooter from "../../../public/logos/the-sdoh-place-project-footer.svg";
+import githubIcon from "../../../public/logos/github-purple-icon.svg";
+import linkedinIcon from "../../../public/logos/linkedin-purple-icon.svg";
+import facebookIcon from "../../../public/logos/facebook-purple-icon.svg";
+import xIcon from "../../../public/logos/x-purple-icon.svg";
+import sendIcon from "../../../public/logos/send-icon.svg";
 
 import newsImage1 from "../../../public/images/news-1.png";
 import newsImage2 from "../../../public/images/news-2.png";
@@ -89,6 +105,39 @@ const HomePage: NextPage = () => {
       url: "",
     },
   ];
+
+  const CssTextField = withStyles({
+    root: {
+      "& label.Mui-focused": {
+        color: "#7e1cc4",
+      },
+      "& label": {
+        color: "#CAC4D0",
+      },
+      "& .MuiInput-underline:after": {
+        borderBottomColor: "#7e1cc4",
+      },
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: "#CAC4D0",
+        },
+        "&.Mui-focused input": {
+          "--tw-ring-color": "none",
+          outline: "none",
+        },
+        "&:hover fieldset": {
+          borderColor: "#CAC4D0",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "#7e1cc4",
+          outline: "none",
+        },
+      },
+      "& input": {
+        color: "#CAC4D0",
+      },
+    },
+  })(TextField);
 
   return (
     <>
@@ -332,7 +381,109 @@ const HomePage: NextPage = () => {
         </div>
       </div>
 
-      <div className="w-full min-h-[33.625rem] bg-almostblack"></div>
+      <div className="w-full min-h-[33.625rem] bg-almostblack flex md:flex-row px-[2.5%] max-md:flex-col">
+        <div className="flex flex-col justify-center gap-[1.56rem] flex-[38.34]">
+          <div className="flex flex-row">
+            <div>
+              <Image
+                priority
+                src={mapWithPinFooter}
+                alt="The SDOH & Place project logo"
+              />
+            </div>
+
+            <div className="p-4">
+              <Image
+                priority
+                src={theSDOHPlaceProjectFooter}
+                alt="The SDOH & Place project logo"
+              />
+            </div>
+          </div>
+
+          <div className="max-w-[21.5625rem] text-white font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
+            The SDOH & PLACE Project&apos;s mission is to unravel the
+            application design process essential for developing web applications
+            centered on neighborhood health.
+          </div>
+
+          <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
+
+          <div className="flex flex-row gap-5">
+            <div>
+              <Image
+                priority
+                src={githubIcon}
+                alt="The SDOH & Place project logo"
+              />
+            </div>
+            <div>
+              <Image
+                priority
+                src={linkedinIcon}
+                alt="The SDOH & Place project logo"
+              />
+            </div>
+            <div>
+              <Image
+                priority
+                src={facebookIcon}
+                alt="The SDOH & Place project logo"
+              />
+            </div>
+            <div>
+              <Image priority src={xIcon} alt="The SDOH & Place project logo" />
+            </div>
+          </div>
+        </div>
+
+        <ul className="flex flex-col justify-center gap-5 items-start flex-[26.8]">
+          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <Link href="/">Home</Link>
+          </li>
+          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <Link href="/">About</Link>
+          </li>
+          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <Link href="/">Advisory</Link>
+          </li>
+          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <Link href="/">Contact Us</Link>
+          </li>
+        </ul>
+
+        <div className="flex flex-col justify-center flex-[34.86] items-start">
+          <div className=" text-white font-nunito text-2xl-rfs leading-8 tracking-[0.03125rem]">
+            Sign up for our newsletter!
+          </div>
+          <div className=" text-lightsalmon font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
+            For all the latest and greatest
+          </div>
+          <div className="relative top-[1.25rem]">
+            <CssTextField
+              label="Email"
+              variant="outlined"
+              id="custom-css-outlined-input"
+              type="email"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      edge="end"
+                    ></IconButton>
+                    <Image
+                      priority
+                      src={sendIcon}
+                      alt="The SDOH & Place project logo"
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

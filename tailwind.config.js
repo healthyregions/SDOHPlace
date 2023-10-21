@@ -19,6 +19,7 @@ module.exports = {
         mediumpurple: "#b379dd",
         lightbisque: "#ffe5c4",
         neutralgray: "#AAA",
+        m3_on_surface: "#CAC4D0",
       },
       spacing: {},
       fontFamily: {
