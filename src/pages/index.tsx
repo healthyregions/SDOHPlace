@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
         <script
           src="https://identity.netlify.com/v1/netlify-identity-widget.js"
-          defer
+          async
         ></script>
       </Head>
       <HomePage></HomePage>
