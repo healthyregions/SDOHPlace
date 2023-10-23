@@ -11,6 +11,10 @@ const Home: NextPage = () => {
         <title>SDOH & Place</title>
         <meta name="description" content="Homepage for the place project" />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+          defer
+        ></script>
       </Head>
       <HomePage></HomePage>
     </>
