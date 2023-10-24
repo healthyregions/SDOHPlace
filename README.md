@@ -12,7 +12,7 @@ We have integrated a [Decap CMS](https://decapcms.org/) blog into this site, whi
 
 To create/edit/delete blog posts:
 
-- Log in at [https://sdohplace.org/admin](https://sdohplace.org/admin) and create/edit/delete content there
+- Log in with your GitHub credentials at [https://sdohplace.org/admin](https://sdohplace.org/admin) and create/edit/delete content there
 
 Or
 
@@ -33,6 +33,6 @@ To contribute code to this repo:
 3. After the PR is merged, changes will be reflected on the [staging site](https://main--cheerful-treacle-913a24.netlify.app/)
 4. To deploy, create another PR from `main` against the `publish` branch
 
-**_Please note: The `publish` branch should never be merged back into the `main` branch!_**
+**_The `publish` branch should never be merged back into the `main` branch!_**
 
 We've chosen this setup to keep code development history on the main branch, and isolate all of the blog-authored commit activity to the publish branch.
