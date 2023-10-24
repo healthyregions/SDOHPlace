@@ -3,8 +3,12 @@
   "site_title": "Blog for SDOH & Place Project",
   "site_description": "News and updates related to the SDOH & Place Project from Heathy Regions & Policies Lab at Univiersity of Illinois, Urbana-Champaign.",
   "site_keywords": [
-    "Public Health",
-    "Spatial Data"
+    {
+      "keyword": "Public Health"
+    },
+    {
+      "keyword": "Spatial Data"
+    }
   ],
   "posts_per_page": 5,
   "twitter_account": "@HealthyRegions",
