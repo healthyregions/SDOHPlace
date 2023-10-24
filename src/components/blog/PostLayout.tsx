@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../public/styles/content.module.css";
+import styles from "../../../public/styles/content.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
 import Date from "./Date";
@@ -9,8 +9,8 @@ import JsonLdMeta from "./meta/JsonLdMeta";
 import OpenGraphMeta from "./meta/OpenGraphMeta";
 import TwitterCardMeta from "./meta/TwitterCardMeta";
 import TagButton from "./TagButton";
-import { getAuthor } from "../lib/authors";
-import { getTag } from "../lib/tags";
+import { getAuthor } from "../../lib/authors";
+import { getTag } from "../../lib/tags";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 
 type Props = {
