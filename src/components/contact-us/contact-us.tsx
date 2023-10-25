@@ -1,25 +1,21 @@
 import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import NavBar from "../homepage/navbar";
-import { Button, Icon, colors } from "@mui/material";
+import Footer from "../homepage/footer";
+import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import FormControl from "@mui/material/FormControl";
-import { withStyles, makeStyles, createStyles } from "@mui/styles";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import { withStyles } from "@mui/styles";
+import TextField from "@mui/material/TextField";
 
 import githubIcon from "../../../public/logos/github-purple-icon.svg";
 import linkedinIcon from "../../../public/logos/linkedin-purple-icon.svg";
 import facebookIcon from "../../../public/logos/facebook-purple-icon.svg";
 import xIcon from "../../../public/logos/x-purple-icon.svg";
 import emailIcon from "../../../public/logos/email-icon.svg";
-
-import { AiOutlineMail } from "react-icons/ai";
+import line1 from "../../../public/logos/line1.svg";
+import line2 from "../../../public/logos/line2.svg";
+import line3 from "../../../public/logos/line3.svg";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -78,11 +74,37 @@ const Contact: NextPage = () => {
   return (
     <>
       <NavBar />
-      <div className="w-full min-h-[10rem]">
-        <div className="container mx-auto">
-          <div className="text-almostblack pt-[5rem] font-nunito text-2xl-rfs font-normal leading-8 ml mb-5">
+      <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
+        <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
+          <Image
+            priority
+            src={line1}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute right-0 top-[2%] w-[11vw] max-md:w-[18vw] max-md:top-[5%] h-auto">
+          <Image
+            priority
+            src={line2}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
+          <Image
+            priority
+            src={line3}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+      </div>
+      <div className="w-full min-h-[33rem]">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1068px] mx-auto py-[5rem]">
+          <h1 className="text-almostblack pt-[5rem] font-fredoka text-2xl-rfs font-normal leading-8 ml mb-5">
             Contact Us
-          </div>
+          </h1>
           <div className="grid grid-flow-col font-nunito justify-start max-md:grid-flow-row max-md:grid-cols-2 gap-y-8 gap-x-4 max-md:justify-items-center max-md:items-start">
             <p>Please connect with us!</p>
           </div>
@@ -141,7 +163,7 @@ const Contact: NextPage = () => {
         </div>
       </div>
       <div className="w-full min-h-[33rem] bg-lightbisque">
-        <div className="container mx-auto">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1068px] mx-auto py-[5rem]">
           <div className="text-almostblack pt-[5rem] font-nunito text-2xl-rfs font-normal leading-8 ml mb-5">
             Send us a Message
           </div>
@@ -229,6 +251,7 @@ const Contact: NextPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
