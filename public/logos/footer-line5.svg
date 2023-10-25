@@ -1,0 +1,13 @@
+<svg width="88" height="122" viewBox="0 0 88 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Line 22">
+<circle id="Ellipse 4" cx="21" cy="12" r="12" fill="#7E1CC4"/>
+<g id="Mask group">
+<mask id="mask0_588_503" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="17" width="88" height="110">
+<path id="Union" d="M0 36.7586L54.9152 17.1904L87.0339 107.327L32.1186 126.895L0 36.7586Z" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_588_503)">
+<path id="Line 12" d="M-221.459 -383.797C-221.459 -383.797 -15.9468 -343.054 53.7789 -201.267C123.505 -59.4802 -28.9786 -35.965 32.4792 107.654C93.937 251.272 251.661 284.176 251.661 284.176" stroke="#FF9C77" stroke-width="8" stroke-dasharray="16 16"/>
+</g>
+</g>
+</g>
+</svg>

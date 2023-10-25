@@ -1,0 +1,10 @@
+<svg width="189" height="180" viewBox="0 0 189 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Line 50">
+<mask id="mask0_489_721" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="49" y="13" width="144" height="216">
+<path id="Union" d="M99.986 228.718L49.5204 204.239L141.637 13.5818L192.102 38.0612L99.986 228.718Z" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_489_721)">
+<path id="Line 1" d="M145.777 446.014C145.777 446.014 39.9602 294.345 91.221 141.039C142.482 -12.2671 266.86 80.259 325.26 -68.4351C383.659 -217.129 295.574 -354.477 295.574 -354.477" stroke="#FF9C77" stroke-width="6" stroke-dasharray="16 16"/>
+</g>
+</g>
+</svg>

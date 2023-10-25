@@ -14,7 +14,7 @@ interface Props {
 const CardWithImage = (props: Props): JSX.Element => {
   return (
     <div className="flex flex-col items-start">
-      <div className="h-[12.9375rem] w-[22.3125rem] relative border-4 border-solid border-lightsalmon shadow-[2px_4px_0px_0px_darkorchid]">
+      <div className="h-[12.9375rem] w-[22.3125rem] relative border-4 border-solid border-lightsalmon shadow-[2px_4px_0px_0px_darkorchid] max-sm:h-[14rem] max-sm:w-[20rem]">
         <Image
           priority
           src={props.image}
