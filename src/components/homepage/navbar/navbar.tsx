@@ -25,7 +25,7 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`absolute left-0 top-0 w-full z-10 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
         className={`max-w-[1240px] m-auto flex ${
@@ -37,18 +37,18 @@ const NavBar = (): JSX.Element => {
             <Link href="/">Home</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/">About</Link>
+            <Link href="/about">About</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/">Advisory</Link>
+            <Link href="/advisory">Advisory</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/">Contact Us</Link>
+            <Link href="/contact">Contact Us</Link>
           </li>
         </ul>
 
         {/* Mobile Button */}
-        <div onClick={handleNav} className="block sm:hidden z-10">
+        <div onClick={handleNav} className="block sm:hidden z-50">
           {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
 
@@ -64,13 +64,13 @@ const NavBar = (): JSX.Element => {
               <Link href="/">Home</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">About</Link>
+              <Link href="/about">About</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">Advisory</Link>
+              <Link href="/advisory">Advisory</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">Contact Us</Link>
+              <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>
