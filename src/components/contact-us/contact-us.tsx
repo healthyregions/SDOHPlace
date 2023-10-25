@@ -162,17 +162,19 @@ const Contact: NextPage = () => {
                 <div className="flex justify-start mb-5">
                   <CssTextField
                     label="Name"
+                    name="name"
                     focused
                     sx={{
                       marginRight: "20px",
                     }}
                   />
-                  <CssTextField label="Email" focused />
+                  <CssTextField label="Email" name="email" focused />
                 </div>
                 <div className="w-full mb-5">
                   <CssTextField
                     id="outlined-multiline-flexible"
                     label="Message"
+                    name="message"
                     minRows={4}
                     focused
                     multiline
