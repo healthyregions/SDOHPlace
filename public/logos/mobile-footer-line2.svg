@@ -1,0 +1,13 @@
+<svg width="90" height="92" viewBox="0 0 90 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Line 20">
+<g id="Mask group">
+<mask id="mask0_489_684" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="28" y="25" width="95" height="39">
+<rect id="Rectangle 22" width="31.2181" height="91.7583" transform="matrix(-0.0834906 0.996509 0.996529 0.0832472 31.1738 25.0234)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_489_684)">
+<path id="Line 12" d="M138.71 47.8025C138.71 47.8025 -70.4903 60.5834 -173.951 -58.8524C-277.411 -178.288 -135.834 -239.756 -231.759 -363.063C-327.685 -486.371 -488.654 -478.143 -488.654 -478.143" stroke="#FF9C77" stroke-width="6" stroke-dasharray="16 16"/>
+</g>
+</g>
+<ellipse id="Ellipse 3" cx="14.6578" cy="38.4893" rx="12.0047" ry="12" transform="rotate(165.295 14.6578 38.4893)" fill="#7E1CC4"/>
+</g>
+</svg>
