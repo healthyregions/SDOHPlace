@@ -61,101 +61,101 @@ const Footer = (): JSX.Element => {
 
   return (
     <>
-      <div className="w-full min-h-[33.625rem] max-md:min-h-[55rem] px-[2.5%] z-50 absolute">
-        <div className="absolute left-[63%] top-[-3.5%] w-[7.5vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={footerLine1}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute left-[79%] top-[-3%] w-[7vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={footerLine2}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-0 top-[43%] w-[6vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={footerLine3}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-0 bottom-0 w-[6vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={footerLine4}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute left-[82%] bottom-0 w-[4vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={footerLine5}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute left-[63%] bottom-0 w-[1.75vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={footerLine6}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+      <div className="w-full min-h-[33.625rem] max-md:min-h-[55rem] bg-almostblack z-10">
+        <div className="w-full min-h-[33.625rem] max-md:min-h-[55rem] px-[2.5%] z-20 absolute">
+          <div className="absolute left-[63%] top-[-3.5%] w-[7.5vw] max-md:hidden h-auto">
+            <Image
+              priority
+              src={footerLine1}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute left-[79%] top-[-3%] w-[7vw] max-md:hidden h-auto">
+            <Image
+              priority
+              src={footerLine2}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute right-0 top-[43%] w-[6vw] max-md:hidden h-auto">
+            <Image
+              priority
+              src={footerLine3}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute right-0 bottom-0 w-[6vw] max-md:hidden h-auto">
+            <Image
+              priority
+              src={footerLine4}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute left-[82%] bottom-0 w-[4vw] max-md:hidden h-auto">
+            <Image
+              priority
+              src={footerLine5}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute left-[63%] bottom-0 w-[1.75vw] max-md:hidden h-auto">
+            <Image
+              priority
+              src={footerLine6}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+
+          {/* Mobile footer lines */}
+          <div className="absolute right-0 bottom-[32%] w-[18vw] md:hidden h-auto">
+            <Image
+              priority
+              src={mobileFooterLine1}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute right-0 bottom-[22%] w-[12vw] md:hidden h-auto">
+            <Image
+              priority
+              src={mobileFooterLine2}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute right-0 bottom-0 w-[25vw] md:hidden h-auto">
+            <Image
+              priority
+              src={mobileFooterLine3}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute right-[30%] bottom-0 w-[12vw] md:hidden h-auto">
+            <Image
+              priority
+              src={mobileFooterLine4}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="absolute right-[60%] bottom-0 w-[6vw] md:hidden h-auto">
+            <Image
+              priority
+              src={mobileFooterLine5}
+              alt="The SDOH & Place project logo"
+              className="w-full h-full"
+            />
+          </div>
         </div>
 
-        {/* Mobile footer lines */}
-        <div className="absolute right-0 bottom-[32%] w-[18vw] md:hidden h-auto">
-          <Image
-            priority
-            src={mobileFooterLine1}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-0 bottom-[22%] w-[12vw] md:hidden h-auto">
-          <Image
-            priority
-            src={mobileFooterLine2}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-0 bottom-0 w-[25vw] md:hidden h-auto">
-          <Image
-            priority
-            src={mobileFooterLine3}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-[30%] bottom-0 w-[12vw] md:hidden h-auto">
-          <Image
-            priority
-            src={mobileFooterLine4}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-[60%] bottom-0 w-[6vw] md:hidden h-auto">
-          <Image
-            priority
-            src={mobileFooterLine5}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-      </div>
-
-      <div className="w-full min-h-[33.625rem] max-md:min-h-[55rem] bg-almostblack">
-        <div className="max-md:max-w-[87%] mx-auto py-[5rem] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%]">
+        <div className="max-md:max-w-[87%] mx-auto py-[5rem] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
           <div className="flex flex-col justify-center gap-[1.56rem] flex-[38.34]">
             <div className="flex flex-row">
               <div>
