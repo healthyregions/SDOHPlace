@@ -1,6 +1,6 @@
 import Head from "next/head";
-import NavBar from "../homepage/navbar";
-import TopLines from "../TopLines";
+import NavBar from "@/components/NavBar";
+import TopLines from "@/components/TopLines";
 
 type Props = {
   children: React.ReactNode;

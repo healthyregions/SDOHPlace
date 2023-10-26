@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import type { NextPage } from "next";
-import NavBar from "../homepage/navbar";
-import Footer from "../homepage/footer";
 import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { withStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 
-import githubIcon from "../../../public/logos/github-purple-icon.svg";
-import linkedinIcon from "../../../public/logos/linkedin-purple-icon.svg";
-import facebookIcon from "../../../public/logos/facebook-purple-icon.svg";
-import xIcon from "../../../public/logos/x-purple-icon.svg";
-import emailIcon from "../../../public/logos/email-icon.svg";
+import githubIcon from "@/public/logos/github-purple-icon.svg";
+import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
+import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
+import xIcon from "@/public/logos/x-purple-icon.svg";
 
-import TopLines from "../TopLines";
+import TopLines from "@/components/TopLines";
+import Header from "@/components/Header";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/homepage/footer";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -72,6 +72,7 @@ const Contact: NextPage = () => {
   })(TextField);
   return (
     <>
+      <Header title={"Contact Us"} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col">
@@ -146,7 +147,7 @@ const Contact: NextPage = () => {
         </div>
       </div>
       <div className="w-full min-h-[20rem] bg-lightbisque">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1068px] mx-auto py-[5rem]">
+        <div className="max-md:max-w-[87%] max-w-[1068px] mx-auto py-[5rem]">
           <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8 ml mb-5">
             Send us a Message
           </div>

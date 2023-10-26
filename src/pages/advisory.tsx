@@ -1,6 +1,7 @@
 "use client";
+import type { NextPage } from "next";
 import Footer from "@/components/homepage/footer";
-import Navbar from "@/components/homepage/navbar";
+import NavBar from "@/components/NavBar";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -8,7 +9,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { AiOutlineClose } from "react-icons/ai";
 
-import TopLines from "../components/TopLines";
+import Header from "@/components/Header";
+import TopLines from "@/components/TopLines";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -42,7 +44,7 @@ const modalBtnStyle = {
   textTransform: "uppercase",
 };
 
-function Advisory(props) {
+const Advisory: NextPage = () => {
   const data = {
     team: {
       stakeholders: [
@@ -185,7 +187,8 @@ function Advisory(props) {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Navbar />
+      <Header title={"Advisory"} />
+      <NavBar />
       <TopLines />
       <Modal
         open={open}
@@ -309,7 +312,7 @@ function Advisory(props) {
           <div className="self-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] text-2xl font-bold p-[25px] ml-18 max-md:ml-2.5">
             Stakeholder Team
           </div>
-          <div className="bg-amber-100 self-stretch flex grow flex-col pb-20 px-5 max-md:max-w-full">
+          <div className="bg-lightbisque self-stretch flex grow flex-col pb-20 px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
               <div
                 className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
@@ -361,7 +364,7 @@ function Advisory(props) {
             Technical Team
           </div>
         </div>
-        <div className="bg-amber-100 self-stretch flex mt-0 w-full flex-col pb-20 px-5 max-md:max-w-full">
+        <div className="bg-lightbisque self-stretch flex mt-0 w-full flex-col pb-20 px-5 max-md:max-w-full">
           <div
             className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
             style={{ marginTop: "-110px" }}
@@ -409,6 +412,6 @@ function Advisory(props) {
       </div>
     </>
   );
-}
+};
 
 export default Advisory;
