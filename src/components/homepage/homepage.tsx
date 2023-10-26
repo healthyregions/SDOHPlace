@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import NavBar from "./navbar";
 import Footer from "./footer";
 import Image from "next/image";
+import Link from "next/link";
 
 import styles from "./homepage.module.css";
 import mapWithPinLogo from "../../../public/logos/map-with-pin.svg";
@@ -17,7 +18,7 @@ import etcIcon from "../../../public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "../../../public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "../../../public/logos/community-toolkit-icon-enlarged.svg";
 import communityToolkitIconBlack from "../../../public/logos/community-toolkit-icon-black.svg";
-import sdohGraphic from "../../../public/logos/sdoh-graphic.svg";
+import sdohGraphic from "../../../public/images/sdohGraphic.svg";
 import line1 from "../../../public/logos/line1.svg";
 import line2 from "../../../public/logos/line2.svg";
 import line3 from "../../../public/logos/line3.svg";
@@ -38,31 +39,31 @@ const HomePage: NextPage = () => {
       id: "1",
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Green spaces may combat urban warming, purify air, offer recreation, and improve mental health by reducing stress and anxiety.",
     },
     {
       id: "2",
       svgIcon: educationIcon,
       title: "Education",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Improved access to education can help in reducing health disparities by increasing job opportunities and income.",
     },
     {
       id: "3",
       svgIcon: workplaceIcon,
       title: "Workplace",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "At work, exposure to toxins and exploitation detrimentally impacts health, especially among vulnerable groups.",
     },
     {
       id: "4",
       svgIcon: medicalIcon,
       title: "Medical",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
     },
     {
       id: "5",
       svgIcon: housingIcon,
       title: "Greenspaces",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals’ physical and mental health.",
     },
     {
       id: "6",
@@ -75,23 +76,23 @@ const HomePage: NextPage = () => {
   const newsItems = [
     {
       id: "1",
-      image: newsImage1,
-      title: "Fresh updates on User Centered Design Survey",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      image: newsImage3,
+      title: "Introducing the SDOH & Place Project",
+      text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place project in this quick news update.",
       url: "",
     },
     {
       id: "2",
       image: newsImage2,
-      title: "We're delighted to present you our advisory board",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      title: "Meet our Stakeholders!",
+      text: "One of the SDOH & Place project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
       url: "",
     },
     {
       id: "3",
-      image: newsImage3,
-      title: "Introducing the world to The SDOH & Place Project",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      image: newsImage1,
+      title: "Community Fellowship—Call for Applications! ",
+      text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
       url: "",
     },
   ];
@@ -263,12 +264,17 @@ const HomePage: NextPage = () => {
       <div className="w-full h-auto">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="flex flex-col px-[2.5%] gap-12">
-            <div className="flex flex-row justify-start gap-4">
-              <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
+            <div className="flex flex-row font-nunito justify-between gap-4">
+              <div className=" text-2xl-rfs font-normal leading-8">
                 News & Updates
               </div>
-              <div className="ml-auto text-darkorchid font-nunito text-[0.6875rem] uppercase font-bold leading-4 tracking-[0.03125rem] my-auto">
-                All News & Updates
+              <div className=" text-2xl-rfs font-normal leading-8">
+                <Link
+                  style={{ textTransform: "uppercase", color: "#7e1cc4" }}
+                  href="/blog"
+                >
+                  All News & Updates
+                </Link>
               </div>
             </div>
 
@@ -391,7 +397,7 @@ const HomePage: NextPage = () => {
             </div>
           </div>
 
-          <div className="relative mt-[-13%] self-center">
+          <div className="relative self-center">
             <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
           </div>
         </div>

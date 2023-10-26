@@ -39,6 +39,7 @@ module.exports = {
       "3xl": "1.953rem",
       "4xl": "2.441rem",
       "5xl": "3.052rem",
+      "6xl": "5rem",
       inherit: "inherit",
       "2xl-rfs": "clamp(1.125rem, 0.8vw + 0.5rem, 1.5rem)",
       "xl-rfs": "clamp(0.875rem, 0.8vw + 0.3rem, 1.125rem)",

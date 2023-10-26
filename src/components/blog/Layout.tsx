@@ -1,12 +1,14 @@
 import Head from "next/head";
 import NavBar from "../homepage/navbar";
+import TopLines from "../TopLines";
 
 type Props = {
   children: React.ReactNode;
 };
 export default function Layout({ children }: Props) {
   return (
-    <div className="root">
+    // <div className="root">
+    <>
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,10 +17,15 @@ export default function Layout({ children }: Props) {
         <meta name="theme-color" content="#fff" />
       </Head>
       <NavBar />
-      {/* <nav>
-       <Navigation />
-      </nav> */}
-      <main>{children}</main>
+      <TopLines />
+      <div className="flex flex-col">
+        <div className="self-center font-nunito flex w-full max-w-[1068px] flex-col max-md:max-w-full mt-[100px]">
+          <h1 className="font-fredoka mb-5" style={{ fontSize: "5rem" }}>
+            Project News
+          </h1>
+        </div>
+        <main>{children}</main>
+      </div>
       <style jsx>
         {`
           .root {
@@ -42,6 +49,6 @@ export default function Layout({ children }: Props) {
           }
         `}
       </style>
-    </div>
+    </>
   );
 }

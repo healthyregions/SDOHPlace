@@ -25,15 +25,15 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`absolute font-nunito left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
-        className={`max-w-[1240px] m-auto flex ${
+        className={`max-w-[1068px] m-auto flex ${
           nav ? "justify-end" : "justify-between"
-        } items-center p-4`}
+        } items-center pt-4 pb-4 pl-0 pr-0`}
       >
         <ul className="hidden sm:flex">
-          <li className="p-4 uppercase">
+          <li className="p-4 pl-0 uppercase">
             <Link href="/">Home</Link>
           </li>
           <li className="p-4 uppercase">

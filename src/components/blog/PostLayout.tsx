@@ -59,10 +59,10 @@ export default function PostLayout({
         author={authorName}
         description={description}
       />
-      <div className={"container prose"}>
+      <div className={"container prose font-nunito"}>
         <article>
           <header>
-            <h1>{title}</h1>
+            <h1>{title}eeee</h1>
             <div className={"metadata"}>
               <div>
                 <Date date={date} />
@@ -89,10 +89,10 @@ export default function PostLayout({
         {`
           .container {
             display: block;
-            max-width: 36rem;
+            max-width: 1068px;
             width: 100%;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             box-sizing: border-box;
             z-index: 0;
           }

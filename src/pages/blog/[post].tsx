@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
     },
   });
-  const mdxSource = await serialize(source);
+  const mdxSource = await serialize(content);
   return {
     props: {
       title: data.title,

@@ -13,9 +13,8 @@ import linkedinIcon from "../../../public/logos/linkedin-purple-icon.svg";
 import facebookIcon from "../../../public/logos/facebook-purple-icon.svg";
 import xIcon from "../../../public/logos/x-purple-icon.svg";
 import emailIcon from "../../../public/logos/email-icon.svg";
-import line1 from "../../../public/logos/line1.svg";
-import line2 from "../../../public/logos/line2.svg";
-import line3 from "../../../public/logos/line3.svg";
+
+import TopLines from "../TopLines";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -74,97 +73,81 @@ const Contact: NextPage = () => {
   return (
     <>
       <NavBar />
-      <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
-        <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
-          <Image
-            priority
-            src={line1}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-0 top-[2%] w-[11vw] max-md:w-[18vw] max-md:top-[5%] h-auto">
-          <Image
-            priority
-            src={line2}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-        <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={line3}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
-        </div>
-      </div>
-      <div className="w-full min-h-[33rem]">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1068px] mx-auto py-[5rem]">
-          <h1 className="text-almostblack pt-[5rem] font-fredoka text-2xl-rfs font-normal leading-8 ml mb-5">
+      <TopLines />
+      <div className="flex flex-col">
+        <div className="self-center font-nunito flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+          <h1 className="font-fredoka" style={{ fontSize: "5rem" }}>
             Contact Us
           </h1>
-          <div className="grid grid-flow-col font-nunito justify-start max-md:grid-flow-row max-md:grid-cols-2 gap-y-8 gap-x-4 max-md:justify-items-center max-md:items-start">
-            <p>Please connect with us!</p>
+          <div className="self-center w-full -ml-5 mt-20 max-md:max-w-full max-md:mt-10">
+            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+              <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
+                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
+                  Thank you for your interest. Please don’t hesitate to reach
+                  out to us if you need assistance or information regarding the
+                  Community Toolkit, Data Discovery Application, or The SDOH &
+                  Place Project in general. We value your input and welcome any
+                  comments you may have. Your feedback is essential in helping
+                  us improve and refine The SDOH & Place Project.
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-flow-col font-nunito justify-start items-center max-md:grid-flow-row max-md:grid-cols-2 gap-y-8 gap-x-4 max-md:justify-items-center max-md:items-start">
-            <Image
-              priority
-              src={emailIcon}
-              height={20}
-              alt="The SDOH & Place project logo"
-            />
+          <div className="flex mb-10 mt-10">
             <Link
-              href="mailto:mkolak@illinois.edu"
-              title="The SDOH & Place project logo"
-              style={{
-                fontSize: "1.2em",
-                color: `${fullConfig.theme.colors["darkorchid"]}`,
-              }}
+              className="mr-10"
+              href="https://github.com/healthyregions"
+              title="@heathyregions on GitHub"
             >
-              mkolak@illinois.edu
-            </Link>
-          </div>
-          <div className="flex">
-            <Link className="mr-10" href="https://github.com/healthyregions">
               <Image
                 priority
                 src={githubIcon}
                 height={36}
-                alt="The SDOH & Place project logo"
+                alt="@heathyregions on GitHub"
               />
             </Link>
-            <Link className="mr-10" href="https://github.com/healthyregions">
+            <Link
+              className="mr-10"
+              href="https://www.linkedin.com/groups/12857797/"
+              title="Follow us on LinkedIn"
+            >
               <Image
                 priority
                 src={linkedinIcon}
                 height={36}
-                alt="The SDOH & Place project logo"
+                alt="Follow us on LinkedIn"
               />
             </Link>
-            <Link className="mr-10" href="https://github.com/healthyregions">
+            <Link
+              className="mr-10"
+              href="https://www.facebook.com/HealthyRegions"
+              title="HealthyRegions on Facebook"
+            >
               <Image
                 priority
                 src={facebookIcon}
                 height={36}
-                alt="The SDOH & Place project logo"
+                alt="HealthyRegions on Facebook"
               />
             </Link>
-            <Link className="mr-10" href="https://github.com/healthyregions">
+            <Link
+              className="mr-10"
+              href="https://x.com/healthyregions"
+              title="@healthyregions on X"
+            >
               <Image
                 priority
                 src={xIcon}
                 height={36}
-                alt="The SDOH & Place project logo"
+                alt="@healthyregions on X"
               />
             </Link>
           </div>
         </div>
       </div>
-      <div className="w-full min-h-[33rem] bg-lightbisque">
+      <div className="w-full min-h-[20rem] bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1068px] mx-auto py-[5rem]">
-          <div className="text-almostblack pt-[5rem] font-nunito text-2xl-rfs font-normal leading-8 ml mb-5">
+          <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8 ml mb-5">
             Send us a Message
           </div>
           <div className="">

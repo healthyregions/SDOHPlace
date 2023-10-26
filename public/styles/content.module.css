@@ -1,5 +1,5 @@
 .content {
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Nunito", sans-serif;
   color: #222;
   font-weight: 200;
 }
@@ -30,7 +30,7 @@
   line-height: 1.25em;
 }
 
-.content h2::before {
+/* .content h2::before {
   position: absolute;
   margin-left: -1em;
   font-weight: 300;
@@ -38,7 +38,7 @@
   color: #9b9b9b;
   display: none;
   content: "#";
-}
+} */
 
 .content pre {
   display: block;
