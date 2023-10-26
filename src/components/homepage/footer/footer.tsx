@@ -184,34 +184,42 @@ const Footer = (): JSX.Element => {
             <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
 
             <div className="flex flex-row gap-5">
-              <div>
+              <Link
+                href="https://github.com/healthyregions"
+                title="@heathyregions on GitHub"
+              >
                 <Image
                   priority
                   src={githubIcon}
-                  alt="The SDOH & Place project logo"
+                  alt="@heathyregions on GitHub"
                 />
-              </div>
-              <div>
+              </Link>
+              <Link
+                href="https://www.linkedin.com/groups/12857797/"
+                title="Follow us on LinkedIn"
+              >
                 <Image
                   priority
                   src={linkedinIcon}
-                  alt="The SDOH & Place project logo"
+                  alt="Follow us on LinkedIn"
                 />
-              </div>
-              <div>
+              </Link>
+              <Link
+                href="https://www.facebook.com/HealthyRegions"
+                title="HealthyRegions on Facebook"
+              >
                 <Image
                   priority
                   src={facebookIcon}
-                  alt="The SDOH & Place project logo"
+                  alt="HealthyRegions on Facebook"
                 />
-              </div>
-              <div>
-                <Image
-                  priority
-                  src={xIcon}
-                  alt="The SDOH & Place project logo"
-                />
-              </div>
+              </Link>
+              <Link
+                href="https://x.com/healthyregions"
+                title="@healthyregions on X"
+              >
+                <Image priority src={xIcon} alt="@healthyregions on X" />
+              </Link>
             </div>
           </div>
 
@@ -220,13 +228,13 @@ const Footer = (): JSX.Element => {
               <Link href="/">Home</Link>
             </li>
             <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/">About</Link>
+              <Link href="/about">About</Link>
             </li>
             <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/">Advisory</Link>
+              <Link href="/advisory">Advisory</Link>
             </li>
             <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/">Contact Us</Link>
+              <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
 
