@@ -29,9 +29,12 @@ const CardWithImage = (props: Props): JSX.Element => {
       <div className="text-almostblack font-nunito text-xl-rfs max-w-[22.3125rem] leading-6 tracking-[0.03125rem] mt-[0.69rem]">
         <p>{props.text}</p>
       </div>
-      <div className="text-darkorchid font-nunito text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem]">
+      <a
+        href={props.url}
+        className="text-darkorchid font-nunito text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem]"
+      >
         Learn More
-      </div>
+      </a>
     </div>
   );
 };

@@ -25,9 +25,8 @@ import line3 from "@/public/logos/line3.svg";
 import line4 from "@/public/logos/line4.svg";
 import line5 from "@/public/logos/line5.svg";
 import line6 from "@/public/logos/line6.svg";
-import newsImage1 from "@/public/images/news-1.png";
-import newsImage2 from "@/public/images/news-2.png";
-import newsImage3 from "@/public/images/news-3.png";
+import newsImage1 from "@/public/images/news1.png";
+import newsImage2 from "@/public/images/news2.png";
 
 import ButtonWithIcon from "./buttonwithicon";
 import Card from "./card";
@@ -76,24 +75,24 @@ const HomePage: NextPage = () => {
   const newsItems = [
     {
       id: "1",
-      image: newsImage3,
+      image: newsImage1,
       title: "Introducing the SDOH & Place Project",
       text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place project in this quick news update.",
-      url: "",
+      url: "https://sdohplace.org/blog/introducing-the-sdoh-place-project",
     },
     {
       id: "2",
       image: newsImage2,
       title: "Meet our Stakeholders!",
       text: "One of the SDOH & Place project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
-      url: "",
+      url: "https://sdohplace.org/news/introducing-our-advisory-boards",
     },
     {
       id: "3",
-      image: newsImage1,
+      image: mapWithPinLogo,
       title: "Community Fellowship—Call for Applications! ",
       text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
-      url: "",
+      url: "https://sdohplace.org/news/community-fellowship-2024",
     },
   ];
 

@@ -8,7 +8,7 @@ type Props = {
 };
 export default function PostItem({ post }: Props) {
   return (
-    <Link href={"/blog/" + post.slug} legacyBehavior>
+    <Link href={"/news/" + post.slug} legacyBehavior>
       <a>
         <Date date={parseISO(post.date)} />
         <h2>{post.title}</h2>
@@ -21,7 +21,7 @@ export default function PostItem({ post }: Props) {
             }
             h2 {
               margin: 0;
-              font-size: "3.5rem";
+              font-size: 2rem;
               font-weight: 700;
               font-family: "Nunito";
             }

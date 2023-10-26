@@ -46,6 +46,7 @@ export default function PostList({ posts, tags, pagination }: Props) {
           margin: 0 auto;
           max-width: 1068px;
           width: 100%;
+          font-family: "Nunito Sans";
         }
         ul {
           margin: 0;

@@ -40,11 +40,12 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
         {`
           .container {
             margin: 0 auto;
-            max-width: 1200px;
+            max-width: 1068px;
             width: 100%;
             padding: 0 1.5rem;
             display: flex;
             flex-direction: column;
+            font-family: "Nunito Sans";
           }
           h1 {
             margin: 0 0 2rem;
