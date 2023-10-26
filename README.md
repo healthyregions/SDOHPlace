@@ -16,7 +16,7 @@ To create/edit/delete blog posts:
 
 Or
 
-- Switch to the `publish` branch and make direct edits to the `.mdx` files in `content/blog`
+- Switch to the `publish` branch and make direct edits to the `.mdx` files in `content/news`
 
 ## Branch Configuration
 

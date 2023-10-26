@@ -271,7 +271,7 @@ const HomePage: NextPage = () => {
               <div className=" text-2xl-rfs font-normal leading-8">
                 <Link
                   style={{ textTransform: "uppercase", color: "#7e1cc4" }}
-                  href="/blog"
+                  href="/news"
                 >
                   All News & Updates
                 </Link>

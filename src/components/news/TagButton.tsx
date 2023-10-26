@@ -8,8 +8,8 @@ export default function TagButton({ tag }: Props) {
   return (
     <>
       <Link
-        href={"/blog/tags/[[...slug]]"}
-        as={`/blog/tags/${tag.slug}`}
+        href={"/news/tags/[[...slug]]"}
+        as={`/news/tags/${tag.slug}`}
         legacyBehavior
       >
         <a>{tag.name}</a>
