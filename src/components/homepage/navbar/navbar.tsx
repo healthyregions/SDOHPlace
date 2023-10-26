@@ -25,30 +25,30 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`absolute left-0 top-0 w-full z-10 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`absolute font-nunito left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
-        className={`max-w-[1240px] m-auto flex ${
+        className={`max-w-[1068px] m-auto flex ${
           nav ? "justify-end" : "justify-between"
-        } items-center p-4`}
+        } items-center pt-4 pb-4 pl-0 pr-0`}
       >
         <ul className="hidden sm:flex">
-          <li className="p-4 uppercase">
+          <li className="p-4 pl-0 uppercase">
             <Link href="/">Home</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/">About</Link>
+            <Link href="/about">About</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/">Advisory</Link>
+            <Link href="/advisory">Advisory</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/">Contact Us</Link>
+            <Link href="/contact">Contact Us</Link>
           </li>
         </ul>
 
         {/* Mobile Button */}
-        <div onClick={handleNav} className="block sm:hidden z-10">
+        <div onClick={handleNav} className="block sm:hidden z-50">
           {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
 
@@ -64,13 +64,13 @@ const NavBar = (): JSX.Element => {
               <Link href="/">Home</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">About</Link>
+              <Link href="/about">About</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">Advisory</Link>
+              <Link href="/advisory">Advisory</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">Contact Us</Link>
+              <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>

@@ -1,15 +1,8 @@
 import type { NextPage } from "next";
 import NavBar from "./navbar";
+import Footer from "./footer";
 import Image from "next/image";
 import Link from "next/link";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import FormControl from "@mui/material/FormControl";
-import { withStyles, makeStyles, createStyles } from "@mui/styles";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { AiOutlineMail } from "react-icons/ai";
 
 import styles from "./homepage.module.css";
 import mapWithPinLogo from "../../../public/logos/map-with-pin.svg";
@@ -25,15 +18,13 @@ import etcIcon from "../../../public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "../../../public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "../../../public/logos/community-toolkit-icon-enlarged.svg";
 import communityToolkitIconBlack from "../../../public/logos/community-toolkit-icon-black.svg";
-import sdohGraphic from "../../../public/logos/sdoh-graphic.svg";
-import mapWithPinFooter from "../../../public/logos/map-with-pin-footer.svg";
-import theSDOHPlaceProjectFooter from "../../../public/logos/the-sdoh-place-project-footer.svg";
-import githubIcon from "../../../public/logos/github-purple-icon.svg";
-import linkedinIcon from "../../../public/logos/linkedin-purple-icon.svg";
-import facebookIcon from "../../../public/logos/facebook-purple-icon.svg";
-import xIcon from "../../../public/logos/x-purple-icon.svg";
-import sendIcon from "../../../public/logos/send-icon.svg";
-
+import sdohGraphic from "../../../public/images/sdohGraphic.svg";
+import line1 from "../../../public/logos/line1.svg";
+import line2 from "../../../public/logos/line2.svg";
+import line3 from "../../../public/logos/line3.svg";
+import line4 from "../../../public/logos/line4.svg";
+import line5 from "../../../public/logos/line5.svg";
+import line6 from "../../../public/logos/line6.svg";
 import newsImage1 from "../../../public/images/news-1.png";
 import newsImage2 from "../../../public/images/news-2.png";
 import newsImage3 from "../../../public/images/news-3.png";
@@ -48,31 +39,31 @@ const HomePage: NextPage = () => {
       id: "1",
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Green spaces may combat urban warming, purify air, offer recreation, and improve mental health by reducing stress and anxiety.",
     },
     {
       id: "2",
       svgIcon: educationIcon,
       title: "Education",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Improved access to education can help in reducing health disparities by increasing job opportunities and income.",
     },
     {
       id: "3",
       svgIcon: workplaceIcon,
       title: "Workplace",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "At work, exposure to toxins and exploitation detrimentally impacts health, especially among vulnerable groups.",
     },
     {
       id: "4",
       svgIcon: medicalIcon,
       title: "Medical",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
     },
     {
       id: "5",
       svgIcon: housingIcon,
       title: "Greenspaces",
-      text: "Factors like where people are born, live, learn, work, play, worship, & age that affect a range of health outcomes.",
+      text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals’ physical and mental health.",
     },
     {
       id: "6",
@@ -85,66 +76,84 @@ const HomePage: NextPage = () => {
   const newsItems = [
     {
       id: "1",
-      image: newsImage1,
-      title: "Fresh updates on User Centered Design Survey",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      image: newsImage3,
+      title: "Introducing the SDOH & Place Project",
+      text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place project in this quick news update.",
       url: "",
     },
     {
       id: "2",
       image: newsImage2,
-      title: "We're delighted to present you our advisory board",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      title: "Meet our Stakeholders!",
+      text: "One of the SDOH & Place project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
       url: "",
     },
     {
       id: "3",
-      image: newsImage3,
-      title: "Introducing the world to The SDOH & Place Project",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      image: newsImage1,
+      title: "Community Fellowship—Call for Applications! ",
+      text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
       url: "",
     },
   ];
 
-  const CssTextField = withStyles({
-    root: {
-      "& label.Mui-focused": {
-        color: "#7e1cc4",
-      },
-      "& label": {
-        color: "#CAC4D0",
-      },
-      "& .MuiInput-underline:after": {
-        borderBottomColor: "#7e1cc4",
-      },
-      "& .MuiOutlinedInput-root": {
-        "& fieldset": {
-          borderColor: "#CAC4D0",
-        },
-        "&.Mui-focused input": {
-          "--tw-ring-color": "none",
-          outline: "none",
-        },
-        "&:hover fieldset": {
-          borderColor: "#CAC4D0",
-        },
-        "&.Mui-focused fieldset": {
-          borderColor: "#7e1cc4",
-          outline: "none",
-        },
-      },
-      "& input": {
-        color: "#CAC4D0",
-      },
-    },
-  })(TextField);
-
   return (
     <>
       <NavBar />
-      <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] md:grid-flow-col md:grid-cols-[1fr_1fr] w-full h-screen">
+      <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
+        <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
+          <Image
+            priority
+            src={line1}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute right-0 top-[2%] w-[11vw] max-md:w-[18vw] max-md:top-[5%] h-auto">
+          <Image
+            priority
+            src={line2}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
+          <Image
+            priority
+            src={line3}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute right-0 bottom-0 w-[5vw] max-md:w-[8vw] h-auto">
+          <Image
+            priority
+            src={line4}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute left-[80%] bottom-0 w-[7vw] max-md:hidden h-auto">
+          <Image
+            priority
+            src={line5}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+        <div className="absolute left-[65%] bottom-0 w-[2vw] max-md:hidden h-auto">
+          <Image
+            priority
+            src={line6}
+            alt="The SDOH & Place project logo"
+            className="w-full h-full"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.5rem] md:grid-flow-col md:grid-cols-[1fr_1fr] w-full h-screen max-md:h-auto max-md:min-h-[60rem]">
         <div className="flex flex-col justify-center">
-          <div className="flex items-center justify-start mt-auto">
+          <div className="flex items-center justify-start sm:mt-auto max-md:pr-[15vw] max-md:pt-[10vw]">
             <div className="my-auto flex-shrink relative top-[-2%]">
               <Image
                 priority
@@ -161,7 +170,7 @@ const HomePage: NextPage = () => {
               />
             </div>
           </div>
-          <div className="self-center uppercase text-almostblack font-nunito text-[1.5rem] font-normal leading-8 tracking-[0.75rem] relative bottom-[-5%]">
+          <div className="self-center uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-[0.75rem] relative bottom-[-5%]">
             Coming Soon
           </div>
           <div className="max-md:hidden self-center text-center pr-[8%] mt-auto">
@@ -184,16 +193,16 @@ const HomePage: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 items-center justify-center">
-          <div className=" mx-auto max-w-[26.43rem] max-md:mt-auto">
-            <p className="text-gray font-nunito text-[1.5rem] font-normal leading-8">
+        <div className="flex flex-col gap-8 items-center justify-center px-[2.5%]">
+          <div className=" mx-auto max-w-[26.43rem] sm:max-md:mt-auto max-md:w-[22rem] text-justify">
+            <p className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
               A <span className="text-darkorchid font-bold">free platform</span>{" "}
               to discover and practice with place-based data for health equity,
               connecting the Social Determinants of Health to communities,
               researchers, policymakers, & health practitioners.
             </p>
           </div>
-          <div className="flex flex-row gap-4 justify-between mx-auto">
+          <div className="flex flex-row gap-4 justify-between flex-wrap mx-auto max-[440px]:flex-col max-[440px]:items-center">
             <div>
               <ButtonWithIcon
                 label={"Data Discovery"}
@@ -234,256 +243,168 @@ const HomePage: NextPage = () => {
         </div>
       </div>
 
-      <div className="w-full min-h-[33rem] bg-lightbisque">
-        <div className="text-almostblack pt-[5rem] font-nunito text-2xl-rfs font-normal leading-8 ml-[2.5%]">
-          Social Determinants of Health have a Spatial Footprint
-        </div>
-        <div className="pt-[5rem] grid grid-flow-col justify-around max-md:grid-flow-row max-md:grid-cols-2 gap-y-8 gap-x-4 max-md:justify-items-center max-md:items-start">
-          {sdohFactors.map((factor) => (
-            <Card
-              key={factor.id}
-              svgIcon={factor.svgIcon}
-              title={factor.title}
-              text={factor.text}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="w-full min-h-[45rem]">
-        <div className="flex flex-col my-[5rem] px-[2.5%] gap-10">
-          <div className="flex flex-row justify-start gap-4">
-            <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
-              News & Updates
-            </div>
-            <div className="ml-auto text-darkorchid font-nunito text-[0.6875rem] uppercase font-bold leading-4 tracking-[0.03125rem]">
-              All News & Updates
-            </div>
+      <div className="w-full h-auto bg-lightbisque">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
+          <div className="text-almostblack  font-nunito text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
+            Social Determinants of Health have a Spatial Footprint
           </div>
-
-          <div className="flex flex-row mt-[2.56rem] justify-between flex-wrap">
-            {newsItems.map((newsItem) => (
-              <CardWithImage
-                key={newsItem.id}
-                image={newsItem.image}
-                title={newsItem.title}
-                text={newsItem.text}
-                url={newsItem.url}
+          <div className="pt-[3rem] grid grid-flow-col justify-around max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
+            {sdohFactors.map((factor) => (
+              <Card
+                key={factor.id}
+                svgIcon={factor.svgIcon}
+                title={factor.title}
+                text={factor.text}
               />
             ))}
           </div>
         </div>
       </div>
 
-      <div className="w-full min-h-[16rem] bg-darkorchid grid grid-flow-row max-md:grid-rows-[1fr_1fr] md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
-        <div className="my-auto text-white font-nunito text-2xl-rfs font-normal leading-8 px-[5.5%]">
-          Brought to you by
-        </div>
-        <div className="grid grid-flow-col grid-cols-[1fr_1fr]">
-          <img
-            className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]"
-            alt="Herop light logo"
-            src="/logos/herop-light-logo.svg"
-          />
-          <img
-            className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]"
-            alt="University wordmark"
-            src="/logos/university-wordmark.svg"
-          />
+      <div className="w-full h-auto">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
+          <div className="flex flex-col px-[2.5%] gap-12">
+            <div className="flex flex-row font-nunito justify-between gap-4">
+              <div className=" text-2xl-rfs font-normal leading-8">
+                News & Updates
+              </div>
+              <div className=" text-2xl-rfs font-normal leading-8">
+                <Link
+                  style={{ textTransform: "uppercase", color: "#7e1cc4" }}
+                  href="/blog"
+                >
+                  All News & Updates
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between flex-wrap gap-12">
+              {newsItems.map((newsItem) => (
+                <CardWithImage
+                  key={newsItem.id}
+                  image={newsItem.image}
+                  title={newsItem.title}
+                  text={newsItem.text}
+                  url={newsItem.url}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col w-full min-h-[67.44rem] pt-[5rem] px-[2.5%] gap-14">
-        <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
-          Access Data & Resources on SDOH & Place
-        </div>
-
-        <div>
-          <div className="flex flex-row justify-between flex-wrap items-center max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#AAA_33%,#AAA_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#AAA_5%,#AAA_95%,white_95%)_1]">
-            <div className="flex flex-col gap-10 -order-1">
-              <div className="w-[3.5rem] h-[3.5rem]">
-                <Image
-                  priority
-                  src={dataDiscoveryIconEnlarged}
-                  alt="Data Discovery Enlarged icon"
-                />
-              </div>
-
-              <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
-                Data Discovery
-              </div>
-
-              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                Find free, high-quality SDOH Data by Topic and/or Location
-                within rural, suburban, or urban U.S. places
-              </div>
-
-              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] relative top-[-2%]">
-                Our data discovery platform makes it easier to discover SDOH
-                data according to...
-              </div>
-
-              <div className="flex flex-row gap-6 items-center">
-                <ButtonWithIcon
-                  svgIcon={dataDiscoveryIcon}
-                  label="Data Discovery"
-                  fillColor="neutralgray"
-                  labelColor="almostblack"
-                />
-
-                <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase">
-                  Coming Soon
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-10">
-              <div className="w-[3.5rem] h-[3.5rem]">
-                <Image
-                  priority
-                  src={communityToolkitIconEnlarged}
-                  alt="Data Practice Enlarged icon"
-                />
-              </div>
-
-              <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
-                Data Practice
-              </div>
-
-              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                Learn how to work with SDOH & Place Data to explore health
-                equity in your community & build your own app.
-              </div>
-
-              <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] relative top-[-2%]">
-                Our community toolkit ensures you have easy access to
-                harmonized...
-              </div>
-
-              <div className="flex flex-row gap-6 items-center">
-                <ButtonWithIcon
-                  svgIcon={communityToolkitIconBlack}
-                  label="Community Toolkit"
-                  fillColor="neutralgray"
-                  labelColor="almostblack"
-                />
-
-                <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase">
-                  Coming Soon
-                </div>
-              </div>
-            </div>
+      <div className="w-full h-auto bg-darkorchid">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-12 md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
+          <div className="my-auto text-white font-nunito text-2xl-rfs font-normal leading-8 px-[5.5%]">
+            Brought to you by
           </div>
-        </div>
-
-        <div className="px-[2.5%] relative mt-[-13%] self-center">
-          <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
-        </div>
-      </div>
-
-      <div className="w-full min-h-[33.625rem] bg-almostblack flex md:flex-row px-[2.5%] max-md:flex-col">
-        <div className="flex flex-col justify-center gap-[1.56rem] flex-[38.34]">
-          <div className="flex flex-row">
-            <div>
-              <Image
-                priority
-                src={mapWithPinFooter}
-                alt="The SDOH & Place project logo"
-              />
-            </div>
-
-            <div className="p-4">
-              <Image
-                priority
-                src={theSDOHPlaceProjectFooter}
-                alt="The SDOH & Place project logo"
-              />
-            </div>
-          </div>
-
-          <div className="max-w-[21.5625rem] text-white font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
-            The SDOH & PLACE Project&apos;s mission is to unravel the
-            application design process essential for developing web applications
-            centered on neighborhood health.
-          </div>
-
-          <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
-
-          <div className="flex flex-row gap-5">
-            <div>
-              <Image
-                priority
-                src={githubIcon}
-                alt="The SDOH & Place project logo"
-              />
-            </div>
-            <div>
-              <Image
-                priority
-                src={linkedinIcon}
-                alt="The SDOH & Place project logo"
-              />
-            </div>
-            <div>
-              <Image
-                priority
-                src={facebookIcon}
-                alt="The SDOH & Place project logo"
-              />
-            </div>
-            <div>
-              <Image priority src={xIcon} alt="The SDOH & Place project logo" />
-            </div>
-          </div>
-        </div>
-
-        <ul className="flex flex-col justify-center gap-5 items-start flex-[26.8]">
-          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-            <Link href="/">Home</Link>
-          </li>
-          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-            <Link href="/">About</Link>
-          </li>
-          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-            <Link href="/">Advisory</Link>
-          </li>
-          <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-            <Link href="/">Contact Us</Link>
-          </li>
-        </ul>
-
-        <div className="flex flex-col justify-center flex-[34.86] items-start">
-          <div className=" text-white font-nunito text-2xl-rfs leading-8 tracking-[0.03125rem]">
-            Sign up for our newsletter!
-          </div>
-          <div className=" text-lightsalmon font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
-            For all the latest and greatest
-          </div>
-          <div className="relative top-[1.25rem]">
-            <CssTextField
-              label="Email"
-              variant="outlined"
-              id="custom-css-outlined-input"
-              type="email"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      edge="end"
-                    ></IconButton>
-                    <Image
-                      priority
-                      src={sendIcon}
-                      alt="The SDOH & Place project logo"
-                    />
-                  </InputAdornment>
-                ),
-              }}
+          <div className="grid grid-flow-col grid-cols-[1fr_1fr]">
+            <img
+              className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]"
+              alt="Herop light logo"
+              src="/logos/herop-light-logo.svg"
+            />
+            <img
+              className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]"
+              alt="University wordmark"
+              src="/logos/university-wordmark.svg"
             />
           </div>
         </div>
       </div>
+
+      <div className="w-full h-auto px-[2.5%]">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] flex flex-col gap-12">
+          <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
+            Access Data & Resources on SDOH & Place
+          </div>
+
+          <div>
+            <div className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#AAA_33%,#AAA_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#AAA_5%,#AAA_95%,white_95%)_1]">
+              <div className="flex flex-col gap-8 -order-1">
+                <div className="w-[3.5rem] h-[3.5rem]">
+                  <Image
+                    priority
+                    src={dataDiscoveryIconEnlarged}
+                    alt="Data Discovery Enlarged icon"
+                  />
+                </div>
+
+                <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
+                  Data Discovery
+                </div>
+
+                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
+                  Find free, high-quality SDOH Data by Topic and/or Location
+                  within rural, suburban, or urban U.S. places
+                </div>
+
+                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] mt-[-1rem]">
+                  Our data discovery platform makes it easier to discover SDOH
+                  data according to...
+                </div>
+
+                <div className="flex flex-row gap-6 items-center">
+                  <ButtonWithIcon
+                    svgIcon={dataDiscoveryIcon}
+                    label="Data Discovery"
+                    fillColor="neutralgray"
+                    labelColor="almostblack"
+                  />
+
+                  <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
+                    Coming Soon
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-8">
+                <div className="w-[3.5rem] h-[3.5rem]">
+                  <Image
+                    priority
+                    src={communityToolkitIconEnlarged}
+                    alt="Data Practice Enlarged icon"
+                  />
+                </div>
+
+                <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
+                  Data Practice
+                </div>
+
+                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
+                  Learn how to work with SDOH & Place Data to explore health
+                  equity in your community & build your own app.
+                </div>
+
+                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] mt-[-1rem]">
+                  Our community toolkit ensures you have easy access to
+                  harmonized...
+                </div>
+
+                <div className="flex flex-row gap-6 items-center">
+                  <ButtonWithIcon
+                    svgIcon={communityToolkitIconBlack}
+                    label="Community Toolkit"
+                    fillColor="neutralgray"
+                    labelColor="almostblack"
+                  />
+
+                  <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
+                    Coming Soon
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative self-center">
+            <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 };

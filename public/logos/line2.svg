@@ -1,0 +1,13 @@
+<svg width="232" height="211" viewBox="0 0 232 211" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Line 15">
+<g id="Mask group">
+<mask id="mask0_316_42" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="19" y="0" width="227" height="205">
+<path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M245.058 69.7899L232.006 0L89.4772 26.6566L101.086 88.7292L19.3739 146.98L60.6499 204.881L239.438 77.4276L235.295 71.616L245.058 69.7899Z" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_316_42)">
+<path id="Line 10" d="M533.697 -222.518C533.697 -222.518 300.825 -76.5704 73.1124 164.383C-154.6 405.336 -9.63384 351.627 -230.075 590.458C-450.516 829.289 -661.024 966.026 -661.024 966.026" stroke="#FF9C77" stroke-width="8" stroke-dasharray="16 16"/>
+</g>
+</g>
+<circle id="Ellipse 1" cx="50.3959" cy="187.584" r="12" transform="rotate(79.4066 50.3959 187.584)" fill="#7E1CC4"/>
+</g>
+</svg>
