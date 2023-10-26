@@ -2,8 +2,13 @@
 import NavBar from "@/components/homepage/navbar";
 import * as React from "react";
 import Image from "next/image";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
-import sdohGraphic from "../../public/logos/sdoh-graphic.svg";
+import sdohGraphic from "../../../public/images/sdohGraphic.svg";
 import Footer from "@/components/homepage/footer";
 
 import TopLines from "../components/TopLines";
@@ -127,14 +132,31 @@ function About(props) {
           <div className="self-center w-full -ml-5 mt-20 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  {data.about}
+                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10 font-nunito">
+                  The SDOH & Place project provides access to spatially indexed
+                  and curated databases, specifically designed for conducting
+                  health equity research. We will achieve this goal by:
+                  <ol>
+                    <li>
+                      1. Developing and disseminating a toolkit on integrating
+                      User-Centered Design principles in place-based web
+                      applications.
+                    </li>
+                    <li>
+                      2. Creating an innovative product for place-based data
+                      discovery to link data needed for app development and
+                      related neighborhood health data exploration.
+                    </li>
+                  </ol>
+                  Our mission is to make the process of building web
+                  applications that support community health more accessible,
+                  enjoyable, and empowering
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="px-[2.5%] relative mt-[-13%] self-center">
+        <div className="px-[2.5%] relative self-center">
           <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
         </div>
         <div className="font-nunito self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[200px] mb-[400px] px-5 max-md:max-w-full max-md:mt-10">

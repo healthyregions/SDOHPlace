@@ -284,7 +284,7 @@ function Advisory(props) {
           <div className="self-center w-full -ml-5 mt-20 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
+                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10 font-nunito">
                   The Place project has an advisory board consisting of experts
                   from public, private, and academic sectors. Their primary
                   responsibility is to provide methodological guidance, offer
@@ -305,7 +305,7 @@ function Advisory(props) {
             </div>
           </div>
         </div>
-        <div className="self-stretch flex flex-col mt-44 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
+        <div className="font-nunito self-stretch flex flex-col mt-44 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] text-2xl font-bold p-[25px] ml-18 max-md:ml-2.5">
             Stakeholder Team
           </div>

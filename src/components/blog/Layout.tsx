@@ -20,8 +20,8 @@ export default function Layout({ children }: Props) {
       <TopLines />
       <div className="flex flex-col">
         <div className="self-center font-nunito flex w-full max-w-[1068px] flex-col max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka" style={{ fontSize: "5rem" }}>
-            News & Updates
+          <h1 className="font-fredoka mb-5" style={{ fontSize: "5rem" }}>
+            Project News
           </h1>
         </div>
         <main>{children}</main>
