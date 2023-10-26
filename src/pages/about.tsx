@@ -8,7 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import sdohGraphic from "../../../public/images/sdohGraphic.svg";
+import sdohGraphic from "../../public/images/sdohGraphic.svg";
 import Footer from "@/components/homepage/footer";
 
 import TopLines from "../components/TopLines";
