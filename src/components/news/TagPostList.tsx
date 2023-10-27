@@ -29,22 +29,23 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
         current={pagination.current}
         pages={pagination.pages}
         link={{
-          href: () => "/blog/tags/[[...slug]]",
+          href: () => "/news/tags/[[...slug]]",
           as: (page) =>
             page === 1
-              ? "/blog/tags/" + tag.slug
-              : `/blog/tags/${tag.slug}/${page}`,
+              ? "/news/tags/" + tag.slug
+              : `/news/tags/${tag.slug}/${page}`,
         }}
       />
       <style jsx>
         {`
           .container {
             margin: 0 auto;
-            max-width: 1200px;
+            max-width: 1068px;
             width: 100%;
             padding: 0 1.5rem;
             display: flex;
             flex-direction: column;
+            font-family: "Nunito Sans";
           }
           h1 {
             margin: 0 0 2rem;

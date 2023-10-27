@@ -6,7 +6,7 @@ import { fetchPostContent } from "../../lib/posts";
 import fs from "fs";
 import yaml from "js-yaml";
 import { parseISO } from "date-fns";
-import PostLayout from "../../components/blog/PostLayout";
+import PostLayout from "@/components/news/PostLayout";
 
 import InstagramEmbed from "react-instagram-embed";
 import YouTube from "react-youtube";
@@ -59,7 +59,7 @@ export default function Post({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchPostContent().map((it) => "/blog/" + it.slug);
+  const paths = fetchPostContent().map((it) => "/news/" + it.slug);
   return {
     paths,
     fallback: false,

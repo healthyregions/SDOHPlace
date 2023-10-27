@@ -6,24 +6,24 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 
-import footerLine1 from "../../../../public/logos/footer-line1.svg";
-import footerLine2 from "../../../../public/logos/footer-line2.svg";
-import footerLine3 from "../../../../public/logos/footer-line3.svg";
-import footerLine4 from "../../../../public/logos/footer-line4.svg";
-import footerLine5 from "../../../../public/logos/footer-line5.svg";
-import footerLine6 from "../../../../public/logos/footer-line6.svg";
-import mobileFooterLine1 from "../../../../public/logos/mobile-footer-line1.svg";
-import mobileFooterLine2 from "../../../../public/logos/mobile-footer-line2.svg";
-import mobileFooterLine3 from "../../../../public/logos/mobile-footer-line3.svg";
-import mobileFooterLine4 from "../../../../public/logos/mobile-footer-line4.svg";
-import mobileFooterLine5 from "../../../../public/logos/mobile-footer-line5.svg";
-import mapWithPinFooter from "../../../../public/logos/map-with-pin-footer.svg";
-import theSDOHPlaceProjectFooter from "../../../../public/logos/the-sdoh-place-project-footer.svg";
-import githubIcon from "../../../../public/logos/github-purple-icon.svg";
-import linkedinIcon from "../../../../public/logos/linkedin-purple-icon.svg";
-import facebookIcon from "../../../../public/logos/facebook-purple-icon.svg";
-import xIcon from "../../../../public/logos/x-purple-icon.svg";
-import sendIcon from "../../../../public/logos/send-icon.svg";
+import footerLine1 from "@/public/logos/footer-line1.svg";
+import footerLine2 from "@/public/logos/footer-line2.svg";
+import footerLine3 from "@/public/logos/footer-line3.svg";
+import footerLine4 from "@/public/logos/footer-line4.svg";
+import footerLine5 from "@/public/logos/footer-line5.svg";
+import footerLine6 from "@/public/logos/footer-line6.svg";
+import mobileFooterLine1 from "@/public/logos/mobile-footer-line1.svg";
+import mobileFooterLine2 from "@/public/logos/mobile-footer-line2.svg";
+import mobileFooterLine3 from "@/public/logos/mobile-footer-line3.svg";
+import mobileFooterLine4 from "@/public/logos/mobile-footer-line4.svg";
+import mobileFooterLine5 from "@/public/logos/mobile-footer-line5.svg";
+import mapWithPinFooter from "@/public/logos/map-with-pin-footer.svg";
+import theSDOHPlaceProjectFooter from "@/public/logos/the-sdoh-place-project-footer.svg";
+import githubIcon from "@/public/logos/github-purple-icon.svg";
+import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
+import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
+import xIcon from "@/public/logos/x-purple-icon.svg";
+import sendIcon from "@/public/logos/send-icon.svg";
 
 const Footer = (): JSX.Element => {
   const CssTextField = withStyles({

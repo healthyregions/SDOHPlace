@@ -17,10 +17,10 @@ export default function Navigation() {
             </Link>
           </li>
           <li>
-            <Link href="/blog" legacyBehavior>
+            <Link href="/news" legacyBehavior>
               <a
                 className={
-                  router.pathname.startsWith("/blog") ? "active" : null
+                  router.pathname.startsWith("/news") ? "active" : null
                 }
               >
                 blog

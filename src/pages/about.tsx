@@ -1,127 +1,121 @@
 "use client";
-import NavBar from "@/components/homepage/navbar";
+import type { NextPage } from "next";
+import NavBar from "@/components/NavBar";
 import * as React from "react";
 import Image from "next/image";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 
-import sdohGraphic from "../../public/images/sdohGraphic.svg";
+import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import Footer from "@/components/homepage/footer";
+import Header from "@/components/Header";
 
-import TopLines from "../components/TopLines";
+import TopLines from "@/components/TopLines";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
-function About(props) {
-  const data = {
-    about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                    sunt in culpa qui officia deserunt mollit anim id est laborum`,
-    team: [
-      {
-        name: "Marynia Kolak",
-        title: "Principal Investigator",
-        image: "../../images/df007028baf7b7ca9ffe91f5659363e7.png",
-        text: `Marynia is a health geographer & spatial data scientist integrating a 
-                        socio-ecological view of health, geographic data science, and a human-centered 
-                        design approach to investigate ...`,
-        link: "",
-      },
-      {
-        name: "Chengxiang Zhai",
-        title: "Co-Investigator",
-        image: "../../images/ff29d87381caf6b52758a79bd3be0677.png",
-        text: `ChengXiang Zhai is a Donald Biggar Willett Professor in 
-                        Engineering of the Department of Computer Science at the University 
-                        of Illinois at Urbana-Champaign, where he is also affiliated ...`,
-        link: "",
-      },
-      {
-        name: "José Alavez",
-        title: "Postdoctoral Scholar",
-        image: "../../images/c7abfd78a936d535ffaad9d2777f8985.png",
-        text: `José holds a Ph.D. in Geography from Concordia University (Montreal). 
-                        His research integrates diverse contemporary mapping theories and practices 
-                        to gain insights into human ...`,
-        link: "",
-      },
-      {
-        name: "Kamaria Barronville",
-        title: "Instructional Designer",
-        image: "../../images/d5afa2beb30bb9c60b8cd0c03584abcf.png",
-        text: `Kamaria is pursuing her doctoral degree in Urban Educational Leadership 
-                        at Morgan State University. Drawing on her interdisciplinary expertise, 
-                        Kamaria focuses on bridging ...`,
-        link: "",
-      },
-      {
-        name: "Shubham Kumar",
-        title: "Product Designer",
-        image: "../../images/1004ed3fea6fa62c54d452ac1900cecb.png",
-        text: `Shubham is a Product Designer at HEROP with a passion for collaborating with 
-                        diverse teams to achieve design goals. Prior to his role at the lab, he was 
-                        improving accessibility in education ...`,
-        link: "",
-      },
-      ,
-      {
-        name: "Adam Cox",
-        title: "DevOps Engineer",
-        image: "../../images/e08c6e557dd2e8598a790a7f780a97d4.png",
-        text: `Adam is a geospatial developer with a background in GIS and archaeology, 
-                        and a passion for open source software. Originally from southwestern Wisconsin, 
-                        he lives in New Orleans ...`,
-        link: "",
-      },
-      {
-        name: "Mukesh Chugani",
-        title: "Software Engineer",
-        image: "../../images/e923095a6e1793cdf59ea54945aff489.png",
-        text: `Mukesh received his Master of Computer Science from the University of Illinois 
-                        Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita 
-                        University. His expertise lies ...`,
-        link: "",
-      },
-      {
-        name: "Marc Astacio-Palmer",
-        title: "Research Coordinator",
-        image: "../../images/436ed95f8fde439f963ef26d08af8526.png",
-        text: `Marc received his Master of Science in Experimental Psychology from Nova Southeastern 
-                        University. His previous work was in the area of cognitive psychology, specifically, 
-                        on attention ...`,
-        link: "",
-      },
-      {
-        name: "Andre Vines",
-        title: "Graphic Designer",
-        image: "../../images/0284b52e965116e499f6bab5e087907b.png",
-        text: `Andre is a self employed branding designer and artist from Maryland who had a deep interest 
-                        in the field as early as middle school. He is passionate about creating designs that are visually ...`,
-        link: "",
-      },
-      {
-        name: "Ashwin Patil",
-        title: "Research Assistant",
-        image: "../../images/1f625887c8b13064dc458153f16295ca.png",
-        text: `Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, 
-                        graduating in Dec’23. Currently, he am working as a Graduate Research ...`,
-        link: "",
-      },
-    ],
+const About: NextPage = () => {
+  const people = {
+    marynia: {
+      name: "Marynia Kolak",
+      title: "Principal Investigator",
+      image: "../../images/df007028baf7b7ca9ffe91f5659363e7.png",
+      text: `Marynia is a health geographer & spatial data scientist integrating a 
+                      socio-ecological view of health, geographic data science, and a human-centered 
+                      design approach to investigate ...`,
+      link: "",
+    },
+    cheng: {
+      name: "Chengxiang Zhai",
+      title: "Co-Investigator",
+      image: "../../images/ff29d87381caf6b52758a79bd3be0677.png",
+      text: `ChengXiang Zhai is a Donald Biggar Willett Professor in 
+                      Engineering of the Department of Computer Science at the University 
+                      of Illinois at Urbana-Champaign, where he is also affiliated ...`,
+      link: "",
+    },
+    jose: {
+      name: "José Alavez",
+      title: "Postdoctoral Scholar",
+      image: "../../images/c7abfd78a936d535ffaad9d2777f8985.png",
+      text: `José holds a Ph.D. in Geography from Concordia University (Montreal). 
+                      His research integrates diverse contemporary mapping theories and practices 
+                      to gain insights into human ...`,
+      link: "",
+    },
+    kamaria: {
+      name: "Kamaria Barronville",
+      title: "Instructional Designer",
+      image: "../../images/d5afa2beb30bb9c60b8cd0c03584abcf.png",
+      text: `Kamaria is pursuing her doctoral degree in Urban Educational Leadership 
+                      at Morgan State University. Drawing on her interdisciplinary expertise, 
+                      Kamaria focuses on bridging ...`,
+      link: "",
+    },
+    shubham: {
+      name: "Shubham Kumar",
+      title: "Product Designer",
+      image: "../../images/1004ed3fea6fa62c54d452ac1900cecb.png",
+      text: `Shubham is a Product Designer at HEROP with a passion for collaborating with 
+                      diverse teams to achieve design goals. Prior to his role at the lab, he was 
+                      improving accessibility in education ...`,
+      link: "",
+    },
+    adam: {
+      name: "Adam Cox",
+      title: "DevOps Engineer",
+      image: "../../images/e08c6e557dd2e8598a790a7f780a97d4.png",
+      text: `Adam is a geospatial developer with a background in GIS and archaeology, 
+                      and a passion for open source software. Originally from southwestern Wisconsin, 
+                      he lives in New Orleans ...`,
+      link: "",
+    },
+    mukesh: {
+      name: "Mukesh Chugani",
+      title: "Software Engineer",
+      image: "../../images/e923095a6e1793cdf59ea54945aff489.png",
+      text: `Mukesh received his Master of Computer Science from the University of Illinois 
+                      Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita 
+                      University. His expertise lies ...`,
+      link: "",
+    },
+    marc: {
+      name: "Marc Astacio-Palmer",
+      title: "Research Coordinator",
+      image: "../../images/436ed95f8fde439f963ef26d08af8526.png",
+      text: `Marc received his Master of Science in Experimental Psychology from Nova Southeastern 
+                      University. His previous work was in the area of cognitive psychology, specifically, 
+                      on attention ...`,
+      link: "",
+    },
+    andre: {
+      name: "Andre Vines",
+      title: "Graphic Designer",
+      image: "../../images/0284b52e965116e499f6bab5e087907b.png",
+      text: `Andre is a self employed branding designer and artist from Maryland who had a deep interest 
+                      in the field as early as middle school. He is passionate about creating designs that are visually ...`,
+      link: "",
+    },
+    ashwin: {
+      name: "Ashwin Patil",
+      title: "Research Assistant",
+      image: "../../images/1f625887c8b13064dc458153f16295ca.png",
+      text: `Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, 
+                      graduating in Dec’23. Currently, he am working as a Graduate Research ...`,
+      link: "",
+    },
   };
+  const teamList = [];
+  Object.keys(people).map(function (id, keyIndex) {
+    const item = people[id];
+    item.id = id;
+    teamList.push(item);
+  });
 
   return (
     <>
+      <Header title={"About"} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col">
@@ -133,33 +127,44 @@ function About(props) {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10 font-nunito">
-                  The SDOH & Place project provides access to spatially indexed
-                  and curated databases, specifically designed for conducting
-                  health equity research. We will achieve this goal by:
-                  <ol>
+                  <p style={{ marginBottom: "10px" }}>
+                    The SDOH & Place project provides access to spatially
+                    indexed and curated databases, specifically designed for
+                    conducting health equity research. We will achieve this goal
+                    by:
+                  </p>
+                  <ol
+                    style={{
+                      paddingLeft: "25px",
+                      marginBottom: "10px",
+                      listStyle: "numbered",
+                    }}
+                  >
                     <li>
-                      1. Developing and disseminating a toolkit on integrating
+                      Developing and disseminating a toolkit on integrating
                       User-Centered Design principles in place-based web
                       applications.
                     </li>
                     <li>
-                      2. Creating an innovative product for place-based data
+                      Creating an innovative product for place-based data
                       discovery to link data needed for app development and
                       related neighborhood health data exploration.
                     </li>
                   </ol>
-                  Our mission is to make the process of building web
-                  applications that support community health more accessible,
-                  enjoyable, and empowering
+                  <p>
+                    Our mission is to make the process of building web
+                    applications that support community health by being more
+                    accessible, enjoyable, and empowering.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="px-[2.5%] relative self-center">
+        <div className="px-[2.5%] mt-[100px] relative self-center">
           <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
         </div>
-        <div className="font-nunito self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[200px] mb-[400px] px-5 max-md:max-w-full max-md:mt-10">
+        <div className="font-nunito self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[100px] mb-[200px] px-5 max-md:max-w-full max-md:mt-10">
           <div className="text-stone-900 text-2xl font-bold max-md:ml-2.5">
             Core Team
           </div>
@@ -191,14 +196,14 @@ function About(props) {
           </p>
         </div>
         <div className="self-stretch flex mt-0 w-full flex-col max-md:max-w-full">
-          <div className="bg-amber-100 self-stretch flex w-full flex-col px-5 pb-[100px] max-md:max-w-full">
+          <div className="bg-lightbisque self-stretch flex w-full flex-col px-5 pb-[100px] max-md:max-w-full">
             <div
               className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
               style={{ marginTop: "-110px" }}
             >
               <div className="self-center w-full max-md:max-w-full">
                 <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                  {data["team"].map((item, index) => (
+                  {teamList.map((item, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -248,6 +253,6 @@ function About(props) {
       </div>
     </>
   );
-}
+};
 
 export default About;

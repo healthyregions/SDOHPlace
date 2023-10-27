@@ -1,33 +1,32 @@
 import type { NextPage } from "next";
-import NavBar from "./navbar";
+import NavBar from "@/components/NavBar";
 import Footer from "./footer";
 import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./homepage.module.css";
-import mapWithPinLogo from "../../../public/logos/map-with-pin.svg";
-import theSDOHPlaceProjectLogo from "../../../public/logos/the-sdoh-place-project.svg";
-import dataDiscoveryIcon from "../../../public/logos/data-discovery-icon.svg";
-import communityToolkitIcon from "../../../public/logos/community-toolkit-icon.svg";
-import greenspacesIcon from "../../../public/logos/greenspaces.svg";
-import educationIcon from "../../../public/logos/education-icon.svg";
-import workplaceIcon from "../../../public/logos/workplace-icon.svg";
-import medicalIcon from "../../../public/logos/medical-icon.svg";
-import housingIcon from "../../../public/logos/housing-icon.svg";
-import etcIcon from "../../../public/logos/etc-icon.svg";
-import dataDiscoveryIconEnlarged from "../../../public/logos/data-discovery-icon-enlarged.svg";
-import communityToolkitIconEnlarged from "../../../public/logos/community-toolkit-icon-enlarged.svg";
-import communityToolkitIconBlack from "../../../public/logos/community-toolkit-icon-black.svg";
-import sdohGraphic from "../../../public/images/sdohGraphic.svg";
-import line1 from "../../../public/logos/line1.svg";
-import line2 from "../../../public/logos/line2.svg";
-import line3 from "../../../public/logos/line3.svg";
-import line4 from "../../../public/logos/line4.svg";
-import line5 from "../../../public/logos/line5.svg";
-import line6 from "../../../public/logos/line6.svg";
-import newsImage1 from "../../../public/images/news-1.png";
-import newsImage2 from "../../../public/images/news-2.png";
-import newsImage3 from "../../../public/images/news-3.png";
+import mapWithPinLogo from "@/public/logos/map-with-pin.svg";
+import theSDOHPlaceProjectLogo from "@/public/logos/the-sdoh-place-project.svg";
+import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
+import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
+import greenspacesIcon from "@/public/logos/greenspaces.svg";
+import educationIcon from "@/public/logos/education-icon.svg";
+import workplaceIcon from "@/public/logos/workplace-icon.svg";
+import medicalIcon from "@/public/logos/medical-icon.svg";
+import housingIcon from "@/public/logos/housing-icon.svg";
+import etcIcon from "@/public/logos/etc-icon.svg";
+import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
+import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
+import communityToolkitIconBlack from "@/public/logos/community-toolkit-icon-black.svg";
+import sdohGraphic from "@/public/images/sdohGraphic.svg";
+import line1 from "@/public/logos/line1.svg";
+import line2 from "@/public/logos/line2.svg";
+import line3 from "@/public/logos/line3.svg";
+import line4 from "@/public/logos/line4.svg";
+import line5 from "@/public/logos/line5.svg";
+import line6 from "@/public/logos/line6.svg";
+import newsImage1 from "@/public/images/news1.png";
+import newsImage2 from "@/public/images/news2.png";
 
 import ButtonWithIcon from "./buttonwithicon";
 import Card from "./card";
@@ -76,24 +75,24 @@ const HomePage: NextPage = () => {
   const newsItems = [
     {
       id: "1",
-      image: newsImage3,
+      image: newsImage1,
       title: "Introducing the SDOH & Place Project",
       text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place project in this quick news update.",
-      url: "",
+      url: "https://sdohplace.org/blog/introducing-the-sdoh-place-project",
     },
     {
       id: "2",
       image: newsImage2,
       title: "Meet our Stakeholders!",
       text: "One of the SDOH & Place project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
-      url: "",
+      url: "https://sdohplace.org/news/introducing-our-advisory-boards",
     },
     {
       id: "3",
-      image: newsImage1,
+      image: mapWithPinLogo,
       title: "Community Fellowship—Call for Applications! ",
       text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
-      url: "",
+      url: "https://sdohplace.org/news/community-fellowship-2024",
     },
   ];
 
@@ -271,7 +270,7 @@ const HomePage: NextPage = () => {
               <div className=" text-2xl-rfs font-normal leading-8">
                 <Link
                   style={{ textTransform: "uppercase", color: "#7e1cc4" }}
-                  href="/blog"
+                  href="/news"
                 >
                   All News & Updates
                 </Link>

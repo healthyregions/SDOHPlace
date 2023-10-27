@@ -1,10 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
-import Layout from "../../../components/blog/Layout";
-import BasicMeta from "../../../components/blog/meta/BasicMeta";
-import OpenGraphMeta from "../../../components/blog/meta/OpenGraphMeta";
-import TwitterCardMeta from "../../../components/blog/meta/TwitterCardMeta";
-import PostList from "../../../components/blog/PostList";
+import Layout from "@/components/news/Layout";
+import BasicMeta from "@/components/news/meta/BasicMeta";
+import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
+import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
+import PostList from "@/components/news/PostList";
 import config from "../../../lib/config";
 import { countPosts, listPostContent, PostContent } from "../../../lib/posts";
 import { listTags, TagContent } from "../../../lib/tags";
@@ -19,7 +19,7 @@ type Props = {
   };
 };
 export default function Page({ posts, tags, pagination, page }: Props) {
-  const url = `/blog/page/${page}`;
+  const url = `/news/page/${page}`;
   const title = "All posts";
   return (
     <Layout>
