@@ -3,121 +3,131 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
 import Image from "next/image";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { AiOutlineClose } from "react-icons/ai";
 
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import Footer from "@/components/homepage/footer";
 import Header from "@/components/Header";
-
 import TopLines from "@/components/TopLines";
+
+import people from "../../meta/people.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
+const modalBoxStyle = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "90%",
+  maxWidth: "1068px",
+  maxHeight: "100vh",
+  color: "white",
+  bgcolor: "#1e1e1e",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  paddingTop: "10px",
+  overflowY: "auto",
+};
+
+const modalBtnStyle = {
+  fontFamily: "nunito",
+  marginTop: "10px",
+  fontSize: "1em",
+  fontWeight: 700,
+  width: "unset",
+  color: `${fullConfig.theme.colors["darkorchid"]}`,
+  textTransform: "uppercase",
+};
+
 const About: NextPage = () => {
-  const people = {
-    marynia: {
-      name: "Marynia Kolak",
-      title: "Principal Investigator",
-      image: "../../images/df007028baf7b7ca9ffe91f5659363e7.png",
-      text: `Marynia is a health geographer & spatial data scientist integrating a 
-                      socio-ecological view of health, geographic data science, and a human-centered 
-                      design approach to investigate ...`,
-      link: "",
-    },
-    cheng: {
-      name: "Chengxiang Zhai",
-      title: "Co-Investigator",
-      image: "../../images/ff29d87381caf6b52758a79bd3be0677.png",
-      text: `ChengXiang Zhai is a Donald Biggar Willett Professor in 
-                      Engineering of the Department of Computer Science at the University 
-                      of Illinois at Urbana-Champaign, where he is also affiliated ...`,
-      link: "",
-    },
-    jose: {
-      name: "José Alavez",
-      title: "Postdoctoral Scholar",
-      image: "../../images/c7abfd78a936d535ffaad9d2777f8985.png",
-      text: `José holds a Ph.D. in Geography from Concordia University (Montreal). 
-                      His research integrates diverse contemporary mapping theories and practices 
-                      to gain insights into human ...`,
-      link: "",
-    },
-    kamaria: {
-      name: "Kamaria Barronville",
-      title: "Instructional Designer",
-      image: "../../images/d5afa2beb30bb9c60b8cd0c03584abcf.png",
-      text: `Kamaria is pursuing her doctoral degree in Urban Educational Leadership 
-                      at Morgan State University. Drawing on her interdisciplinary expertise, 
-                      Kamaria focuses on bridging ...`,
-      link: "",
-    },
-    shubham: {
-      name: "Shubham Kumar",
-      title: "Product Designer",
-      image: "../../images/1004ed3fea6fa62c54d452ac1900cecb.png",
-      text: `Shubham is a Product Designer at HEROP with a passion for collaborating with 
-                      diverse teams to achieve design goals. Prior to his role at the lab, he was 
-                      improving accessibility in education ...`,
-      link: "",
-    },
-    adam: {
-      name: "Adam Cox",
-      title: "DevOps Engineer",
-      image: "../../images/e08c6e557dd2e8598a790a7f780a97d4.png",
-      text: `Adam is a geospatial developer with a background in GIS and archaeology, 
-                      and a passion for open source software. Originally from southwestern Wisconsin, 
-                      he lives in New Orleans ...`,
-      link: "",
-    },
-    mukesh: {
-      name: "Mukesh Chugani",
-      title: "Software Engineer",
-      image: "../../images/e923095a6e1793cdf59ea54945aff489.png",
-      text: `Mukesh received his Master of Computer Science from the University of Illinois 
-                      Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita 
-                      University. His expertise lies ...`,
-      link: "",
-    },
-    marc: {
-      name: "Marc Astacio-Palmer",
-      title: "Research Coordinator",
-      image: "../../images/436ed95f8fde439f963ef26d08af8526.png",
-      text: `Marc received his Master of Science in Experimental Psychology from Nova Southeastern 
-                      University. His previous work was in the area of cognitive psychology, specifically, 
-                      on attention ...`,
-      link: "",
-    },
-    andre: {
-      name: "Andre Vines",
-      title: "Graphic Designer",
-      image: "../../images/0284b52e965116e499f6bab5e087907b.png",
-      text: `Andre is a self employed branding designer and artist from Maryland who had a deep interest 
-                      in the field as early as middle school. He is passionate about creating designs that are visually ...`,
-      link: "",
-    },
-    ashwin: {
-      name: "Ashwin Patil",
-      title: "Research Assistant",
-      image: "../../images/1f625887c8b13064dc458153f16295ca.png",
-      text: `Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, 
-                      graduating in Dec’23. Currently, he am working as a Graduate Research ...`,
-      link: "",
-    },
-  };
   const teamList = [];
   Object.keys(people).map(function (id, keyIndex) {
     const item = people[id];
     item.id = id;
-    teamList.push(item);
+    if (item.category.indexOf("core") >= 0) {
+      teamList.push(item);
+    }
   });
+  const [open, setOpen] = React.useState(false);
+  const [bio, setBio] = React.useState("marynia");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
       <Header title={"About"} />
       <NavBar />
       <TopLines />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalBoxStyle}>
+          <div>
+            <Button
+              sx={{
+                minWidth: "unset",
+                padding: 0,
+                float: "right",
+                marginBottom: "10px",
+              }}
+              onClick={handleClose}
+            >
+              <AiOutlineClose size={25} color="white" />
+            </Button>
+          </div>
+          <div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
+          <div className="self-center w-full mt-10 max-md:max-w-full">
+            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+              <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
+                <div className="flex flex-col max-md:mt-10">
+                  <img
+                    loading="lazy"
+                    srcSet={people[bio].image}
+                    className="aspect-[0.94] object-cover object-center w-full overflow-hidden"
+                  />
+                  <div className="text-2xl font-bold leading-[133.333%] mt-6">
+                    {people[bio].name}
+                  </div>
+                  <div className="text-lg font-medium leading-[177.778%] mt-2.5">
+                    {people[bio].affiliation}
+                  </div>
+                  {Object.keys(people[bio].links).map((id, index) => (
+                    <div
+                      key={index}
+                      className="text-lg font-medium leading-[177.778%] mt-2.5"
+                    >
+                      <a href={people[bio].links[id]}>{id}</a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col items-stretch w-9/12 ml-24 max-md:w-full max-md:ml-0">
+                <div className="text-lg font-medium leading-[177.778%] w-[848px] max-w-full max-md:mt-10">
+                  {people[bio].long.map((p, index) => (
+                    <div
+                      key={index}
+                      style={{ marginBottom: "10px" }}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-orange-300 w-full h-1 mt-10" />
+        </Box>
+      </Modal>
       <div className="flex flex-col">
         <div className="self-center font-nunito flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
           <h1 className="font-fredoka" style={{ fontSize: "5rem" }}>
@@ -229,12 +239,15 @@ const About: NextPage = () => {
                           <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
                             {item.text}
                           </div>
-                          <a
-                            href={item.link}
-                            className="text-purple-700 text-xs font-bold tracking-wide uppercase mt-9"
+                          <Button
+                            sx={modalBtnStyle}
+                            onClick={() => {
+                              setBio(item.id);
+                              handleOpen();
+                            }}
                           >
                             Read More
-                          </a>
+                          </Button>
                         </div>
                       </div>
                     </div>
