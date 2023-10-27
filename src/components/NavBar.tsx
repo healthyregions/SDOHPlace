@@ -37,10 +37,10 @@ const NavBar = (): JSX.Element => {
             <Link href="/">Home</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/about">About</Link>
+            <Link href="/advisory">Advisory</Link>
           </li>
           <li className="p-4 uppercase">
-            <Link href="/advisory">Advisory</Link>
+            <Link href="/about">About</Link>
           </li>
           <li className="p-4 uppercase">
             <Link href="/contact">Contact Us</Link>
@@ -64,10 +64,10 @@ const NavBar = (): JSX.Element => {
               <Link href="/">Home</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/about">About</Link>
+              <Link href="/advisory">Advisory</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/advisory">Advisory</Link>
+              <Link href="/about">About</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
               <Link href="/contact">Contact Us</Link>

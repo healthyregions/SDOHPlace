@@ -1,9 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../../components/blog/Layout";
-import BasicMeta from "../../../components/blog/meta/BasicMeta";
-import OpenGraphMeta from "../../../components/blog/meta/OpenGraphMeta";
-import TwitterCardMeta from "../../../components/blog/meta/TwitterCardMeta";
-import TagPostList from "../../../components/blog/TagPostList";
+import Layout from "@/components/news/Layout";
+import BasicMeta from "@/components/news/meta/BasicMeta";
+import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
+import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
+import TagPostList from "@/components/news/TagPostList";
 import config from "../../../lib/config";
 import { countPosts, listPostContent, PostContent } from "../../../lib/posts";
 import { getTag, listTags, TagContent } from "../../../lib/tags";
@@ -19,7 +19,7 @@ type Props = {
   };
 };
 export default function Index({ posts, tag, pagination, page }: Props) {
-  const url = `/blog/tags/${tag.name}` + (page ? `/${page}` : "");
+  const url = `/news/tags/${tag.name}` + (page ? `/${page}` : "");
   const title = tag.name;
   return (
     <Layout>

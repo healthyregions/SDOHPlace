@@ -28,8 +28,8 @@ export default function PostList({ posts, tags, pagination }: Props) {
           current={pagination.current}
           pages={pagination.pages}
           link={{
-            href: (page) => (page === 1 ? "/blog" : "/blog/page/[page]"),
-            as: (page) => (page === 1 ? null : "/blog/page/" + page),
+            href: (page) => (page === 1 ? "/news" : "/news/page/[page]"),
+            as: (page) => (page === 1 ? null : "/news/page/" + page),
           }}
         />
       </div>
@@ -46,6 +46,7 @@ export default function PostList({ posts, tags, pagination }: Props) {
           margin: 0 auto;
           max-width: 1068px;
           width: 100%;
+          font-family: "Nunito Sans";
         }
         ul {
           margin: 0;

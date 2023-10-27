@@ -6,7 +6,7 @@ type Props = {
 };
 export default function Tag({ tag }: Props) {
   return (
-    <Link href={"/blog/tags/[[...slug]]"} as={`/blog/tags/${tag.slug}`}>
+    <Link href={"/news/tags/[[...slug]]"} as={`/news/tags/${tag.slug}`}>
       {"#" + tag.name}
     </Link>
   );

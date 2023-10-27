@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../public/styles/content.module.css";
+import styles from "@/public/styles/content.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
 import Date from "./Date";
@@ -36,23 +36,23 @@ export default function PostLayout({
   return (
     <Layout>
       <BasicMeta
-        url={`/blog/${slug}`}
+        url={`/news/${slug}`}
         title={title}
         keywords={keywords}
         description={description}
       />
       <TwitterCardMeta
-        url={`/blog/${slug}`}
+        url={`/news/${slug}`}
         title={title}
         description={description}
       />
       <OpenGraphMeta
-        url={`/blog/${slug}`}
+        url={`/news/${slug}`}
         title={title}
         description={description}
       />
       <JsonLdMeta
-        url={`/blog/${slug}`}
+        url={`/news/${slug}`}
         title={title}
         keywords={keywords}
         date={date}
@@ -62,7 +62,7 @@ export default function PostLayout({
       <div className={"container prose font-nunito"}>
         <article>
           <header>
-            <h1>{title}eeee</h1>
+            <h1>{title}</h1>
             <div className={"metadata"}>
               <div>
                 <Date date={date} />
