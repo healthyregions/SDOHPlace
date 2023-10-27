@@ -40,6 +40,9 @@ const NavBar = (): JSX.Element => {
             <Link href="/advisory">Advisory</Link>
           </li>
           <li className="p-4 uppercase">
+            <Link href="/news">News</Link>
+          </li>
+          <li className="p-4 uppercase">
             <Link href="/about">About</Link>
           </li>
           <li className="p-4 uppercase">
@@ -65,6 +68,9 @@ const NavBar = (): JSX.Element => {
             </li>
             <li className="p-4 text-5xl uppercase">
               <Link href="/advisory">Advisory</Link>
+            </li>
+            <li className="p-4 text-5xl uppercase">
+              <Link href="/news">News</Link>
             </li>
             <li className="p-4 text-5xl uppercase">
               <Link href="/about">About</Link>
