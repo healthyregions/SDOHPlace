@@ -78,7 +78,7 @@ const HomePage: NextPage = () => {
       image: newsImage1,
       title: "Introducing the SDOH & Place Project",
       text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place project in this quick news update.",
-      url: "https://sdohplace.org/blog/introducing-the-sdoh-place-project",
+      url: "https://sdohplace.org/news/introducing-the-sdoh-place-project",
     },
     {
       id: "2",
