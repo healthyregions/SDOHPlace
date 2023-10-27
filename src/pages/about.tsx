@@ -16,99 +16,102 @@ import tailwindConfig from "tailwind.config.js";
 const fullConfig = resolveConfig(tailwindConfig);
 
 const About: NextPage = () => {
-  const data = {
-    team: [
-      {
-        name: "Marynia Kolak",
-        title: "Principal Investigator",
-        image: "../../images/df007028baf7b7ca9ffe91f5659363e7.png",
-        text: `Marynia is a health geographer & spatial data scientist integrating a 
-                        socio-ecological view of health, geographic data science, and a human-centered 
-                        design approach to investigate ...`,
-        link: "",
-      },
-      {
-        name: "Chengxiang Zhai",
-        title: "Co-Investigator",
-        image: "../../images/ff29d87381caf6b52758a79bd3be0677.png",
-        text: `ChengXiang Zhai is a Donald Biggar Willett Professor in 
-                        Engineering of the Department of Computer Science at the University 
-                        of Illinois at Urbana-Champaign, where he is also affiliated ...`,
-        link: "",
-      },
-      {
-        name: "José Alavez",
-        title: "Postdoctoral Scholar",
-        image: "../../images/c7abfd78a936d535ffaad9d2777f8985.png",
-        text: `José holds a Ph.D. in Geography from Concordia University (Montreal). 
-                        His research integrates diverse contemporary mapping theories and practices 
-                        to gain insights into human ...`,
-        link: "",
-      },
-      {
-        name: "Kamaria Barronville",
-        title: "Instructional Designer",
-        image: "../../images/d5afa2beb30bb9c60b8cd0c03584abcf.png",
-        text: `Kamaria is pursuing her doctoral degree in Urban Educational Leadership 
-                        at Morgan State University. Drawing on her interdisciplinary expertise, 
-                        Kamaria focuses on bridging ...`,
-        link: "",
-      },
-      {
-        name: "Shubham Kumar",
-        title: "Product Designer",
-        image: "../../images/1004ed3fea6fa62c54d452ac1900cecb.png",
-        text: `Shubham is a Product Designer at HEROP with a passion for collaborating with 
-                        diverse teams to achieve design goals. Prior to his role at the lab, he was 
-                        improving accessibility in education ...`,
-        link: "",
-      },
-      ,
-      {
-        name: "Adam Cox",
-        title: "DevOps Engineer",
-        image: "../../images/e08c6e557dd2e8598a790a7f780a97d4.png",
-        text: `Adam is a geospatial developer with a background in GIS and archaeology, 
-                        and a passion for open source software. Originally from southwestern Wisconsin, 
-                        he lives in New Orleans ...`,
-        link: "",
-      },
-      {
-        name: "Mukesh Chugani",
-        title: "Software Engineer",
-        image: "../../images/e923095a6e1793cdf59ea54945aff489.png",
-        text: `Mukesh received his Master of Computer Science from the University of Illinois 
-                        Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita 
-                        University. His expertise lies ...`,
-        link: "",
-      },
-      {
-        name: "Marc Astacio-Palmer",
-        title: "Research Coordinator",
-        image: "../../images/436ed95f8fde439f963ef26d08af8526.png",
-        text: `Marc received his Master of Science in Experimental Psychology from Nova Southeastern 
-                        University. His previous work was in the area of cognitive psychology, specifically, 
-                        on attention ...`,
-        link: "",
-      },
-      {
-        name: "Andre Vines",
-        title: "Graphic Designer",
-        image: "../../images/0284b52e965116e499f6bab5e087907b.png",
-        text: `Andre is a self employed branding designer and artist from Maryland who had a deep interest 
-                        in the field as early as middle school. He is passionate about creating designs that are visually ...`,
-        link: "",
-      },
-      {
-        name: "Ashwin Patil",
-        title: "Research Assistant",
-        image: "../../images/1f625887c8b13064dc458153f16295ca.png",
-        text: `Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, 
-                        graduating in Dec’23. Currently, he am working as a Graduate Research ...`,
-        link: "",
-      },
-    ],
+  const people = {
+    marynia: {
+      name: "Marynia Kolak",
+      title: "Principal Investigator",
+      image: "../../images/df007028baf7b7ca9ffe91f5659363e7.png",
+      text: `Marynia is a health geographer & spatial data scientist integrating a 
+                      socio-ecological view of health, geographic data science, and a human-centered 
+                      design approach to investigate ...`,
+      link: "",
+    },
+    cheng: {
+      name: "Chengxiang Zhai",
+      title: "Co-Investigator",
+      image: "../../images/ff29d87381caf6b52758a79bd3be0677.png",
+      text: `ChengXiang Zhai is a Donald Biggar Willett Professor in 
+                      Engineering of the Department of Computer Science at the University 
+                      of Illinois at Urbana-Champaign, where he is also affiliated ...`,
+      link: "",
+    },
+    jose: {
+      name: "José Alavez",
+      title: "Postdoctoral Scholar",
+      image: "../../images/c7abfd78a936d535ffaad9d2777f8985.png",
+      text: `José holds a Ph.D. in Geography from Concordia University (Montreal). 
+                      His research integrates diverse contemporary mapping theories and practices 
+                      to gain insights into human ...`,
+      link: "",
+    },
+    kamaria: {
+      name: "Kamaria Barronville",
+      title: "Instructional Designer",
+      image: "../../images/d5afa2beb30bb9c60b8cd0c03584abcf.png",
+      text: `Kamaria is pursuing her doctoral degree in Urban Educational Leadership 
+                      at Morgan State University. Drawing on her interdisciplinary expertise, 
+                      Kamaria focuses on bridging ...`,
+      link: "",
+    },
+    shubham: {
+      name: "Shubham Kumar",
+      title: "Product Designer",
+      image: "../../images/1004ed3fea6fa62c54d452ac1900cecb.png",
+      text: `Shubham is a Product Designer at HEROP with a passion for collaborating with 
+                      diverse teams to achieve design goals. Prior to his role at the lab, he was 
+                      improving accessibility in education ...`,
+      link: "",
+    },
+    adam: {
+      name: "Adam Cox",
+      title: "DevOps Engineer",
+      image: "../../images/e08c6e557dd2e8598a790a7f780a97d4.png",
+      text: `Adam is a geospatial developer with a background in GIS and archaeology, 
+                      and a passion for open source software. Originally from southwestern Wisconsin, 
+                      he lives in New Orleans ...`,
+      link: "",
+    },
+    mukesh: {
+      name: "Mukesh Chugani",
+      title: "Software Engineer",
+      image: "../../images/e923095a6e1793cdf59ea54945aff489.png",
+      text: `Mukesh received his Master of Computer Science from the University of Illinois 
+                      Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita 
+                      University. His expertise lies ...`,
+      link: "",
+    },
+    marc: {
+      name: "Marc Astacio-Palmer",
+      title: "Research Coordinator",
+      image: "../../images/436ed95f8fde439f963ef26d08af8526.png",
+      text: `Marc received his Master of Science in Experimental Psychology from Nova Southeastern 
+                      University. His previous work was in the area of cognitive psychology, specifically, 
+                      on attention ...`,
+      link: "",
+    },
+    andre: {
+      name: "Andre Vines",
+      title: "Graphic Designer",
+      image: "../../images/0284b52e965116e499f6bab5e087907b.png",
+      text: `Andre is a self employed branding designer and artist from Maryland who had a deep interest 
+                      in the field as early as middle school. He is passionate about creating designs that are visually ...`,
+      link: "",
+    },
+    ashwin: {
+      name: "Ashwin Patil",
+      title: "Research Assistant",
+      image: "../../images/1f625887c8b13064dc458153f16295ca.png",
+      text: `Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, 
+                      graduating in Dec’23. Currently, he am working as a Graduate Research ...`,
+      link: "",
+    },
   };
+  const teamList = [];
+  Object.keys(people).map(function (id, keyIndex) {
+    const item = people[id];
+    item.id = id;
+    teamList.push(item);
+  });
 
   return (
     <>
@@ -137,7 +140,7 @@ const About: NextPage = () => {
                       listStyle: "numbered",
                     }}
                   >
-                    <li style={{ padding: "unset" }}>
+                    <li>
                       Developing and disseminating a toolkit on integrating
                       User-Centered Design principles in place-based web
                       applications.
@@ -150,8 +153,8 @@ const About: NextPage = () => {
                   </ol>
                   <p>
                     Our mission is to make the process of building web
-                    applications that support community health more accessible,
-                    enjoyable, and empowering
+                    applications that support community health by being more
+                    accessible, enjoyable, and empowering.
                   </p>
                 </div>
               </div>
@@ -200,7 +203,7 @@ const About: NextPage = () => {
             >
               <div className="self-center w-full max-md:max-w-full">
                 <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                  {data["team"].map((item, index) => (
+                  {teamList.map((item, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
