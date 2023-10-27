@@ -228,10 +228,13 @@ const Footer = (): JSX.Element => {
               <Link href="/">Home</Link>
             </li>
             <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/about">About</Link>
+              <Link href="/advisory">Advisory</Link>
             </li>
             <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/advisory">Advisory</Link>
+              <Link href="/news">News</Link>
+            </li>
+            <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+              <Link href="/about">About</Link>
             </li>
             <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/contact">Contact Us</Link>
