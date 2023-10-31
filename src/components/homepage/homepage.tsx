@@ -3,6 +3,7 @@ import NavBar from "@/components/NavBar";
 import Footer from "./footer";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useRef } from "react";
 
 import styles from "./homepage.module.css";
 import mapWithPinLogo from "@/public/logos/map-with-pin.svg";
@@ -38,7 +39,7 @@ const HomePage: NextPage = () => {
       id: "1",
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
-      text: "Green spaces may combat urban warming, purify air, offer recreation, and improve mental health by reducing stress and anxiety.",
+      text: "Greenspaces may combat urban heat island effects, purify air, offer recreation, and improve mental health by reducing stress and anxiety.",
     },
     {
       id: "2",
@@ -61,7 +62,7 @@ const HomePage: NextPage = () => {
     {
       id: "5",
       svgIcon: housingIcon,
-      title: "Greenspaces",
+      title: "Housing",
       text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals’ physical and mental health.",
     },
     {
@@ -77,14 +78,14 @@ const HomePage: NextPage = () => {
       id: "1",
       image: newsImage1,
       title: "Introducing the SDOH & Place Project",
-      text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place project in this quick news update.",
+      text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place Project in this quick news update.",
       url: "https://sdohplace.org/news/introducing-the-sdoh-place-project",
     },
     {
       id: "2",
       image: newsImage2,
       title: "Meet our Stakeholders!",
-      text: "One of the SDOH & Place project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
+      text: "One of the SDOH & Place Project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
       url: "https://sdohplace.org/news/introducing-our-advisory-boards",
     },
     {
@@ -96,57 +97,36 @@ const HomePage: NextPage = () => {
     },
   ];
 
+  let comingSoonRef = useRef();
+
+  function scrollToComingSoon() {
+    document
+      .getElementById("coming-soon-section")
+      .scrollIntoView({ behavior: "smooth" });
+    // comingSoonRef?.current
+  }
+
   return (
     <>
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
         <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
-          <Image
-            priority
-            src={line1}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+          <Image priority src={line1} alt="" className="w-full h-full" />
         </div>
         <div className="absolute right-0 top-[2%] w-[11vw] max-md:w-[18vw] max-md:top-[5%] h-auto">
-          <Image
-            priority
-            src={line2}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+          <Image priority src={line2} alt="" className="w-full h-full" />
         </div>
         <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={line3}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+          <Image priority src={line3} alt="" className="w-full h-full" />
         </div>
         <div className="absolute right-0 bottom-0 w-[5vw] max-md:w-[8vw] h-auto">
-          <Image
-            priority
-            src={line4}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+          <Image priority src={line4} alt="" className="w-full h-full" />
         </div>
         <div className="absolute left-[80%] bottom-0 w-[7vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={line5}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+          <Image priority src={line5} alt="" className="w-full h-full" />
         </div>
         <div className="absolute left-[65%] bottom-0 w-[2vw] max-md:hidden h-auto">
-          <Image
-            priority
-            src={line6}
-            alt="The SDOH & Place project logo"
-            className="w-full h-full"
-          />
+          <Image priority src={line6} alt="" className="w-full h-full" />
         </div>
       </div>
 
@@ -157,7 +137,7 @@ const HomePage: NextPage = () => {
               <Image
                 priority
                 src={mapWithPinLogo}
-                alt="The SDOH & Place project logo"
+                alt="The SDOH & Place Project logo"
               />
             </div>
 
@@ -165,7 +145,7 @@ const HomePage: NextPage = () => {
               <Image
                 priority
                 src={theSDOHPlaceProjectLogo}
-                alt="The SDOH & Place project logo"
+                alt="The SDOH & Place Project logo"
               />
             </div>
           </div>
@@ -208,6 +188,7 @@ const HomePage: NextPage = () => {
                 svgIcon={dataDiscoveryIcon}
                 fillColor={"lightsalmon"}
                 labelColor={"almostblack"}
+                onClick={scrollToComingSoon}
               ></ButtonWithIcon>
             </div>
             <div>
@@ -216,6 +197,7 @@ const HomePage: NextPage = () => {
                 svgIcon={communityToolkitIcon}
                 fillColor={"darkorchid"}
                 labelColor={"white"}
+                onClick={scrollToComingSoon}
               ></ButtonWithIcon>
             </div>
             <div></div>
@@ -245,7 +227,7 @@ const HomePage: NextPage = () => {
       <div className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  font-nunito text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health have a Spatial Footprint
+            Social Determinants of Health Have a Spatial Footprint
           </div>
           <div className="pt-[3rem] grid grid-flow-col justify-around max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
             {sdohFactors.map((factor) => (
@@ -312,7 +294,7 @@ const HomePage: NextPage = () => {
         </div>
       </div>
 
-      <div className="w-full h-auto px-[2.5%]">
+      <div id="coming-soon-section" className="w-full h-auto px-[2.5%]">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] flex flex-col gap-12">
           <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
             Access Data & Resources on SDOH & Place
@@ -334,22 +316,18 @@ const HomePage: NextPage = () => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Find free, high-quality SDOH Data by Topic and/or Location
-                  within rural, suburban, or urban U.S. places
-                </div>
-
-                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] mt-[-1rem]">
-                  Our data discovery platform makes it easier to discover SDOH
-                  data according to...
+                  Enhance your health and equity initiatives with our toolkit.
+                  You will be able to create captivating spatial visualizations
+                  for community engagement using free and user-friendly tools.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
-                  <ButtonWithIcon
+                  {/* <ButtonWithIcon
                     svgIcon={dataDiscoveryIcon}
                     label="Data Discovery"
                     fillColor="neutralgray"
                     labelColor="almostblack"
-                  />
+                  /> */}
 
                   <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
                     Coming Soon
@@ -367,26 +345,22 @@ const HomePage: NextPage = () => {
                 </div>
 
                 <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
-                  Data Practice
+                  Community Toolkit
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Learn how to work with SDOH & Place Data to explore health
-                  equity in your community & build your own app.
-                </div>
-
-                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem] mt-[-1rem]">
-                  Our community toolkit ensures you have easy access to
-                  harmonized...
+                  Our data discovery platform provides access to spatially
+                  indexed and curated databases, specifically designed for
+                  conducting health equity research.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
-                  <ButtonWithIcon
+                  {/* <ButtonWithIcon
                     svgIcon={communityToolkitIconBlack}
                     label="Community Toolkit"
                     fillColor="neutralgray"
                     labelColor="almostblack"
-                  />
+                  /> */}
 
                   <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
                     Coming Soon
@@ -401,8 +375,6 @@ const HomePage: NextPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
       <Footer />
     </>
   );
