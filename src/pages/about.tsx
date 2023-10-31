@@ -95,6 +95,7 @@ const About: NextPage = () => {
                     loading="lazy"
                     srcSet={people[bio].image}
                     className="aspect-[0.94] object-cover object-center w-full overflow-hidden"
+                    alt={people[bio].name}
                   />
                   <div className="text-2xl font-bold leading-[133.333%] mt-6">
                     {people[bio].name}
@@ -107,7 +108,13 @@ const About: NextPage = () => {
                       key={index}
                       className="text-lg font-medium leading-[177.778%] mt-2.5"
                     >
-                      <a href={people[bio].links[id]}>{id}</a>
+                      <a
+                        href={people[bio].links[id]}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {id}
+                      </a>
                     </div>
                   ))}
                 </div>
@@ -138,7 +145,7 @@ const About: NextPage = () => {
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10 font-nunito">
                   <p style={{ marginBottom: "10px" }}>
-                    The SDOH & Place project provides access to spatially
+                    The SDOH & Place Project provides access to spatially
                     indexed and curated databases, specifically designed for
                     conducting health equity research. We will achieve this goal
                     by:
@@ -227,6 +234,7 @@ const About: NextPage = () => {
                             loading="lazy"
                             srcSet={item.image}
                             className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-lightsalmon shadow-[2px_4px_0px_0px_darkorchid]"
+                            alt={item.name}
                           />
                         </div>
                         <div className="flex grow flex-col font-nunito max-md:mt-10">

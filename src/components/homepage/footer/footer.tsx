@@ -67,7 +67,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={footerLine1}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -75,7 +75,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={footerLine2}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -83,7 +83,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={footerLine3}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -91,7 +91,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={footerLine4}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -99,7 +99,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={footerLine5}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -107,7 +107,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={footerLine6}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -117,7 +117,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={mobileFooterLine1}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -125,7 +125,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={mobileFooterLine2}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -133,7 +133,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={mobileFooterLine3}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -141,7 +141,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={mobileFooterLine4}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -149,7 +149,7 @@ const Footer = (): JSX.Element => {
             <Image
               priority
               src={mobileFooterLine5}
-              alt="The SDOH & Place project logo"
+              alt=""
               className="w-full h-full"
             />
           </div>
@@ -162,7 +162,7 @@ const Footer = (): JSX.Element => {
                 <Image
                   priority
                   src={mapWithPinFooter}
-                  alt="The SDOH & Place project logo"
+                  alt="The SDOH & Place Project logo"
                 />
               </div>
 
@@ -170,13 +170,13 @@ const Footer = (): JSX.Element => {
                 <Image
                   priority
                   src={theSDOHPlaceProjectFooter}
-                  alt="The SDOH & Place project logo"
+                  alt="The SDOH & Place Project logo"
                 />
               </div>
             </div>
 
             <div className="max-w-[21.5625rem] text-white font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
-              The SDOH & PLACE Project&apos;s mission is to unravel the
+              The SDOH & Place Project&apos;s mission is to unravel the
               application design process essential for developing web
               applications centered on neighborhood health.
             </div>
@@ -184,42 +184,50 @@ const Footer = (): JSX.Element => {
             <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
 
             <div className="flex flex-row gap-5">
-              <Link
+              <a
                 href="https://github.com/healthyregions"
                 title="@heathyregions on GitHub"
+                rel="noreferrer"
+                target="_blank"
               >
                 <Image
                   priority
                   src={githubIcon}
                   alt="@heathyregions on GitHub"
                 />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://www.linkedin.com/groups/12857797/"
                 title="Follow us on LinkedIn"
+                rel="noreferrer"
+                target="_blank"
               >
                 <Image
                   priority
                   src={linkedinIcon}
                   alt="Follow us on LinkedIn"
                 />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://www.facebook.com/HealthyRegions"
                 title="HealthyRegions on Facebook"
+                rel="noreferrer"
+                target="_blank"
               >
                 <Image
                   priority
                   src={facebookIcon}
                   alt="HealthyRegions on Facebook"
                 />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://x.com/healthyregions"
                 title="@healthyregions on X"
+                rel="noreferrer"
+                target="_blank"
               >
                 <Image priority src={xIcon} alt="@healthyregions on X" />
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -261,11 +269,7 @@ const Footer = (): JSX.Element => {
                         aria-label="toggle password visibility"
                         edge="end"
                       ></IconButton>
-                      <Image
-                        priority
-                        src={sendIcon}
-                        alt="The SDOH & Place project logo"
-                      />
+                      <Image priority src={sendIcon} alt="Subscribe" />
                     </InputAdornment>
                   ),
                 }}

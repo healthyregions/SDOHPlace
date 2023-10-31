@@ -10,6 +10,7 @@ interface Props {
   label: string;
   fillColor: string;
   labelColor: string;
+  onClick: any;
 }
 
 const ButtonWithIcon = (props: Props): JSX.Element => {
@@ -17,13 +18,8 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
     <div>
       <Button
         variant="contained"
-        startIcon={
-          <Image
-            priority
-            src={props.svgIcon}
-            alt="The SDOH & Place project logo"
-          />
-        }
+        startIcon={<Image priority src={props.svgIcon} alt={props.label} />}
+        onClick={props.onClick}
         sx={{
           height: "3rem",
           "@media (min-width: 768px)": {
