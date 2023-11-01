@@ -25,7 +25,7 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
           </li>
         ))}
       </ul>
-      <Pagination
+      {/* <Pagination
         current={pagination.current}
         pages={pagination.pages}
         link={{
@@ -35,7 +35,7 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
               ? "/news/tags/" + tag.slug
               : `/news/tags/${tag.slug}/${page}`,
         }}
-      />
+      /> */}
       <style jsx>
         {`
           .container {

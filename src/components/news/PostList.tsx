@@ -24,14 +24,14 @@ export default function PostList({ posts, tags, pagination }: Props) {
             </li>
           ))}
         </ul>
-        <Pagination
+        {/* <Pagination
           current={pagination.current}
           pages={pagination.pages}
           link={{
             href: (page) => (page === 1 ? "/news" : "/news/page/[page]"),
             as: (page) => (page === 1 ? null : "/news/page/" + page),
           }}
-        />
+        /> */}
       </div>
       <ul className={"categories"}>
         {tags.map((it, i) => (
