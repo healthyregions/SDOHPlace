@@ -116,7 +116,7 @@ const HomePage: NextPage = () => {
         <div className="absolute right-0 top-[2%] w-[11vw] max-md:w-[18vw] max-md:top-[5%] h-auto">
           <Image priority src={line2} alt="" className="w-full h-full" />
         </div>
-        <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
+        <div className="absolute right-0 top-[43%] w-[5vw] max-[1150px]:hidden h-auto">
           <Image priority src={line3} alt="" className="w-full h-full" />
         </div>
         <div className="absolute right-0 bottom-0 w-[5vw] max-md:w-[8vw] h-auto">
@@ -130,10 +130,10 @@ const HomePage: NextPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.5rem] md:grid-flow-col md:grid-cols-[1fr_1fr] w-full h-screen max-md:h-auto max-md:min-h-[60rem]">
-        <div className="flex flex-col justify-center">
-          <div className="flex items-center justify-start sm:mt-auto max-md:pr-[15vw] max-md:pt-[10vw]">
-            <div className="my-auto flex-shrink relative top-[-2%]">
+      <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:grid-cols-[1fr_1fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
+        <div className="flex flex-col justify-center px-[5%]">
+          <div className="flex items-center justify-start sm:mt-auto  max-md:pt-[10vw] min-[450px]:max-[768px]:pt-[15vw]">
+            <div className="my-auto flex-shrink relative top-[-2%] pr-6">
               <Image
                 priority
                 src={mapWithPinLogo}
@@ -141,18 +141,24 @@ const HomePage: NextPage = () => {
               />
             </div>
 
-            <div className="p-4">
+            <div className="p-4 flex flex-col justify-start md:pt-20 md:gap-20">
               <Image
                 priority
                 src={theSDOHPlaceProjectLogo}
                 alt="The SDOH & Place Project logo"
               />
+              <div className="max-md:hidden self-center uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] text-center">
+                Coming Soon
+              </div>
             </div>
           </div>
-          <div className="self-center uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-[0.75rem] relative bottom-[-5%]">
+          {/* <div className="self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
+            Coming Soon
+          </div> */}
+          <div className="md:hidden self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[45%]">
             Coming Soon
           </div>
-          <div className="max-md:hidden self-center text-center pr-[8%] mt-auto">
+          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
             <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
@@ -172,8 +178,8 @@ const HomePage: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-8 items-center justify-center px-[2.5%]">
-          <div className=" mx-auto max-w-[26.43rem] sm:max-md:mt-auto max-md:w-[22rem] text-justify">
+        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%] max-[460px]:mt-[5%]">
+          <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full text-justify">
             <p className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
               A <span className="text-darkorchid font-bold">free platform</span>{" "}
               to discover and practice with place-based data for health equity,
@@ -181,7 +187,7 @@ const HomePage: NextPage = () => {
               researchers, policymakers, & health practitioners.
             </p>
           </div>
-          <div className="flex flex-row gap-4 justify-between flex-wrap mx-auto max-[440px]:flex-col max-[440px]:items-center">
+          <div className="flex flex-row gap-4 justify-between flex-wrap mx-auto max-[460px]:flex-col max-[460px]:items-center">
             <div>
               <ButtonWithIcon
                 label={"Data Discovery"}
@@ -202,7 +208,7 @@ const HomePage: NextPage = () => {
             </div>
             <div></div>
           </div>
-          <div className="md:hidden self-center text-center mt-auto">
+          {/* <div className="md:hidden self-center text-center mt-[5%]">
             <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
@@ -220,6 +226,25 @@ const HomePage: NextPage = () => {
                 />
               </svg>
             </div>
+          </div> */}
+        </div>
+        <div className="md:hidden text-center mt-[5%]">
+          <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            Learn More
+          </div>
+          <div className="mx-auto w-[1.25rem] h-[1.25rem]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="15"
+              viewBox="0 0 18 15"
+              fill="none"
+            >
+              <path
+                d="M9 15L0.339745 0L17.6603 0L9 15Z"
+                className="fill-darkorchid"
+              />
+            </svg>
           </div>
         </div>
       </div>

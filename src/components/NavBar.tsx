@@ -32,7 +32,7 @@ const NavBar = (): JSX.Element => {
           nav ? "justify-end" : "justify-between"
         } items-center pt-4 pb-4 pl-0 pr-0`}
       >
-        <ul className="hidden sm:flex">
+        <ul className="hidden min-[768px]:flex">
           <li className="p-4 pl-0 uppercase">
             <Link href="/">Home</Link>
           </li>
@@ -51,13 +51,16 @@ const NavBar = (): JSX.Element => {
         </ul>
 
         {/* Mobile Button */}
-        <div onClick={handleNav} className="block sm:hidden z-50">
+        <div
+          onClick={handleNav}
+          className="block min-[768px]:hidden pl-[5%] z-50"
+        >
           {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
 
         {/* Mobile Menu */}
         <div
-          className={`sm:hidden absolute ${
+          className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 flex justify-center items-center w-full
           h-screen bg-darkorchid text-center ease-in duration-300`}
