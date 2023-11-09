@@ -7,6 +7,7 @@ import React, { useRef } from "react";
 
 import styles from "./homepage.module.css";
 import mapWithPinLogo from "@/public/logos/map-with-pin.svg";
+import heroLogo from "@/public/logos/hero-logo.svg";
 import theSDOHPlaceProjectLogo from "@/public/logos/the-sdoh-place-project.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
@@ -63,7 +64,7 @@ const HomePage: NextPage = () => {
       id: "5",
       svgIcon: housingIcon,
       title: "Housing",
-      text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals’ physical and mental health.",
+      text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals' physical and mental health.",
     },
     {
       id: "6",
@@ -119,7 +120,7 @@ const HomePage: NextPage = () => {
         <div className="absolute right-0 top-[43%] w-[5vw] max-[1150px]:hidden h-auto">
           <Image priority src={line3} alt="" className="w-full h-full" />
         </div>
-        <div className="absolute right-0 bottom-0 w-[5vw] max-md:w-[8vw] h-auto">
+        <div className="absolute right-0 bottom-0 w-[5vw] max-md:[8vw] max-md:hidden  h-auto">
           <Image priority src={line4} alt="" className="w-full h-full" />
         </div>
         <div className="absolute left-[80%] bottom-0 w-[7vw] max-md:hidden h-auto">
@@ -130,8 +131,8 @@ const HomePage: NextPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:grid-cols-[1fr_1fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
-        <div className="flex flex-col justify-center px-[5%]">
+      <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
+        {/* <div className="flex flex-col justify-center px-[5%]">
           <div className="flex items-center justify-start sm:mt-auto  max-md:pt-[10vw] min-[450px]:max-[768px]:pt-[15vw]">
             <div className="my-auto flex-shrink relative top-[-2%] pr-6">
               <Image
@@ -152,9 +153,9 @@ const HomePage: NextPage = () => {
               </div>
             </div>
           </div>
-          {/* <div className="self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
+          <div className="self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
             Coming Soon
-          </div> */}
+          </div>
           <div className="md:hidden self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[45%]">
             Coming Soon
           </div>
@@ -177,8 +178,37 @@ const HomePage: NextPage = () => {
               </svg>
             </div>
           </div>
+        </div> */}
+        <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
+          <div className="mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
+            <Image
+              priority
+              src={heroLogo}
+              alt="The SDOH & Place Project logo"
+            />
+          </div>
+          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
+            <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+              Learn More
+            </div>
+            <div className="mx-auto w-[1.25rem] h-[1.25rem]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="15"
+                viewBox="0 0 18 15"
+                fill="none"
+              >
+                <path
+                  d="M9 15L0.339745 0L17.6603 0L9 15Z"
+                  className="fill-darkorchid"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%] max-[460px]:mt-[5%]">
+
+        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full text-justify">
             <p className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
               A <span className="text-darkorchid font-bold">free platform</span>{" "}
@@ -187,7 +217,7 @@ const HomePage: NextPage = () => {
               researchers, policymakers, & health practitioners.
             </p>
           </div>
-          <div className="flex flex-row gap-4 justify-between flex-wrap mx-auto max-[460px]:flex-col max-[460px]:items-center">
+          <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
             <div>
               <ButtonWithIcon
                 label={"Data Discovery"}
@@ -206,7 +236,6 @@ const HomePage: NextPage = () => {
                 onClick={scrollToComingSoon}
               ></ButtonWithIcon>
             </div>
-            <div></div>
           </div>
           {/* <div className="md:hidden self-center text-center mt-[5%]">
             <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
@@ -228,8 +257,8 @@ const HomePage: NextPage = () => {
             </div>
           </div> */}
         </div>
-        <div className="md:hidden text-center mt-[5%]">
-          <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+        <div className="md:hidden text-center">
+          <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
             Learn More
           </div>
           <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -254,7 +283,7 @@ const HomePage: NextPage = () => {
           <div className="text-almostblack  font-nunito text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             Social Determinants of Health Have a Spatial Footprint
           </div>
-          <div className="pt-[3rem] grid grid-flow-col justify-around max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
+          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
             {sdohFactors.map((factor) => (
               <Card
                 key={factor.id}
@@ -274,7 +303,7 @@ const HomePage: NextPage = () => {
               <div className=" text-2xl-rfs font-normal leading-8">
                 News & Updates
               </div>
-              <div className=" text-2xl-rfs font-normal leading-8">
+              <div className=" text-2xl-rfs font-normal leading-8 text-end">
                 <Link
                   style={{ textTransform: "uppercase", color: "#7e1cc4" }}
                   href="/news"
@@ -284,7 +313,7 @@ const HomePage: NextPage = () => {
               </div>
             </div>
 
-            <div className="flex flex-row justify-between flex-wrap gap-12">
+            <div className="flex flex-row justify-between flex-wrap gap-12 max-[803px]:flex-col max-[803px]:items-center">
               {newsItems.map((newsItem) => (
                 <CardWithImage
                   key={newsItem.id}
