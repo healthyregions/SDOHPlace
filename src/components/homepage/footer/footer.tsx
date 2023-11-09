@@ -185,16 +185,12 @@ const Footer = (): JSX.Element => {
 
             <div className="flex flex-row gap-5">
               <a
-                href="https://github.com/healthyregions"
-                title="@heathyregions on GitHub"
+                href="https://github.com/healthyregions/SDOHPlace"
+                title="@sdohplace on GitHub"
                 rel="noreferrer"
                 target="_blank"
               >
-                <Image
-                  priority
-                  src={githubIcon}
-                  alt="@heathyregions on GitHub"
-                />
+                <Image priority src={githubIcon} alt="@sdohplace on GitHub" />
               </a>
               <a
                 href="https://www.linkedin.com/groups/12857797/"

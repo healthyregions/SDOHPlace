@@ -20,6 +20,8 @@ import etcIcon from "@/public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
 import communityToolkitIconBlack from "@/public/logos/community-toolkit-icon-black.svg";
+import heropLightLogo from "@/public/logos/herop-light-logo.svg";
+import universityWordmark from "@/public/logos/university-wordmark.svg";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
@@ -86,7 +88,7 @@ const HomePage: NextPage = () => {
       id: "2",
       image: newsImage2,
       title: "Meet our Stakeholders!",
-      text: "One of the SDOH & Place Project’s main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team’s stakeholder board! Learn how they help us make this project better.",
+      text: "One of the SDOH & Place Project's main features is teaching others how to integrate human-centered design in their projects. Meet the humans behind the SDOH & Place team's stakeholder board! Learn how they help us make this project better.",
       url: "https://sdohplace.org/news/introducing-our-advisory-boards",
     },
     {
@@ -281,7 +283,7 @@ const HomePage: NextPage = () => {
       <div className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  font-nunito text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health Have a Spatial Footprint
+            Social Determinants of Health
           </div>
           <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
             {sdohFactors.map((factor) => (
@@ -334,27 +336,35 @@ const HomePage: NextPage = () => {
             Brought to you by
           </div>
           <div className="grid grid-flow-col grid-cols-[1fr_1fr]">
-            <img
-              className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]"
-              alt="Herop light logo"
-              src="/logos/herop-light-logo.svg"
-            />
-            <img
-              className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]"
-              alt="University wordmark"
-              src="/logos/university-wordmark.svg"
-            />
+            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]">
+              <Link
+                href="http://www.healthyregions.org/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image alt="Herop light logo" src={heropLightLogo} />
+              </Link>
+            </div>
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+              <Link
+                href="https://illinois.edu/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image alt="University wordmark" src={universityWordmark} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="coming-soon-section" className="w-full h-auto px-[2.5%]">
+      <div id="coming-soon-section" className="w-full h-auto">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] flex flex-col gap-12">
-          <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
+          <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8 px-[2.5%]">
             Access Data & Resources on SDOH & Place
           </div>
 
-          <div>
+          <div className="px-[2.5%]">
             <div className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#AAA_33%,#AAA_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#AAA_5%,#AAA_95%,white_95%)_1]">
               <div className="flex flex-col gap-8 -order-1">
                 <div className="w-[3.5rem] h-[3.5rem]">
@@ -370,9 +380,9 @@ const HomePage: NextPage = () => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Enhance your health and equity initiatives with our toolkit.
-                  You will be able to create captivating spatial visualizations
-                  for community engagement using free and user-friendly tools.
+                  Our data discovery platform provides access to spatially
+                  indexed and curated databases, specifically designed for
+                  conducting health equity research.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -403,9 +413,10 @@ const HomePage: NextPage = () => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Our data discovery platform provides access to spatially
-                  indexed and curated databases, specifically designed for
-                  conducting health equity research.
+                  Enhance your health and equity initiatives with our toolkit.
+                  You will be able to create captivating spatial visualizations
+                  for community engagement using free and user-friendly tools
+                  including open-source GIS tools.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
