@@ -47,6 +47,9 @@ module.exports = {
       "base-rfs": "clamp(0.75rem, 0.9vw + 0.1rem, 1rem)",
       "1.5xl-rfs": "clamp(1.125rem, 1vw + 0.2rem, 1.25rem)",
     },
+    letterSpacing: {
+      rls: "clamp(0.5rem, 0.001vw + 0.5rem, 0.75rem)",
+    },
     corePlugins: {
       preflight: false,
     },

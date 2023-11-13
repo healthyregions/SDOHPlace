@@ -84,12 +84,13 @@ const Contact: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  Thank you for your interest. Please don’t hesitate to reach
-                  out to us if you need assistance or information regarding the
-                  Community Toolkit, Data Discovery Application, or The SDOH &
-                  Place Project in general. We value your input and welcome any
-                  comments you may have. Your feedback is essential in helping
-                  us improve and refine The SDOH & Place Project.
+                  Thank you for your interest. Please don&apos;t hesitate to
+                  reach out to us if you need assistance or information
+                  regarding the Community Toolkit, Data Discovery Application,
+                  or The SDOH & Place Project in general. We value your input
+                  and welcome any comments you may have. Your feedback is
+                  essential in helping us improve and refine The SDOH & Place
+                  Project.
                 </div>
               </div>
             </div>
@@ -97,14 +98,14 @@ const Contact: NextPage = () => {
           <div className="flex mb-10 mt-10">
             <Link
               className="mr-10"
-              href="https://github.com/healthyregions"
-              title="@heathyregions on GitHub"
+              href="https://github.com/healthyregions/SDOHPlace"
+              title="View code on GitHub"
             >
               <Image
                 priority
                 src={githubIcon}
                 height={36}
-                alt="@heathyregions on GitHub"
+                alt="View code on GitHub"
               />
             </Link>
             <Link
