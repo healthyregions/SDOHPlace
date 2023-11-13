@@ -163,7 +163,7 @@ const Contact: NextPage = () => {
                 name="contact"
                 method="POST"
                 data-netlify="true"
-                action="/contact-us/?success=true"
+                action="/contact?success=true"
               >
                 <input type="hidden" name="form-name" value="contact" />
                 <div className="flex justify-start mb-5">
