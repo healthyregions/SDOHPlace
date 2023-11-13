@@ -137,7 +137,7 @@ const Footer = (): JSX.Element => {
               className="w-full h-full"
             />
           </div>
-          <div className="absolute right-[30%] bottom-0 w-[12vw] md:hidden h-auto">
+          <div className="absolute right-[30%] bottom-0 w-[11vw] md:hidden h-auto">
             <Image
               priority
               src={mobileFooterLine4}
@@ -145,7 +145,7 @@ const Footer = (): JSX.Element => {
               className="w-full h-full"
             />
           </div>
-          <div className="absolute right-[60%] bottom-0 w-[6vw] md:hidden h-auto">
+          <div className="absolute right-[60%] bottom-0 w-[5vw] md:hidden h-auto">
             <Image
               priority
               src={mobileFooterLine5}
@@ -155,7 +155,7 @@ const Footer = (): JSX.Element => {
           </div>
         </div>
 
-        <div className="max-md:max-w-[87%] mx-auto py-[5rem] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
+        <div className="max-md:max-w-[87%] mx-auto pt-[5rem] pb-[4.5rem] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
           <div className="flex flex-col justify-center gap-[1.56rem] flex-[38.34]">
             <div className="flex flex-row">
               <div>
@@ -185,16 +185,12 @@ const Footer = (): JSX.Element => {
 
             <div className="flex flex-row gap-5">
               <a
-                href="https://github.com/healthyregions"
-                title="@heathyregions on GitHub"
+                href="https://github.com/healthyregions/SDOHPlace"
+                title="View code on GitHub"
                 rel="noreferrer"
                 target="_blank"
               >
-                <Image
-                  priority
-                  src={githubIcon}
-                  alt="@heathyregions on GitHub"
-                />
+                <Image priority src={githubIcon} alt="View code on GitHub" />
               </a>
               <a
                 href="https://www.linkedin.com/groups/12857797/"
