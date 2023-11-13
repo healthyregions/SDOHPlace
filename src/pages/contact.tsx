@@ -99,13 +99,13 @@ const Contact: NextPage = () => {
             <Link
               className="mr-10"
               href="https://github.com/healthyregions/SDOHPlace"
-              title="@sdohplace on GitHub"
+              title="View code on GitHub"
             >
               <Image
                 priority
                 src={githubIcon}
                 height={36}
-                alt="@sdohplace on GitHub"
+                alt="View code on GitHub"
               />
             </Link>
             <Link
