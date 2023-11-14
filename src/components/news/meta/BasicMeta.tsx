@@ -34,6 +34,11 @@ export default function BasicMeta({
       />
       {author ? <meta name="author" content={author} /> : null}
       <link rel="canonical" href={config.base_url + url} />
+      <script
+        defer
+        data-domain="sdohplace.org"
+        src="https://plausible.io/js/script.js"
+      ></script>
     </Head>
   );
 }

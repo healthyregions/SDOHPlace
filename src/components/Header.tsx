@@ -15,6 +15,11 @@ export default function Header({ title }) {
         src="https://identity.netlify.com/v1/netlify-identity-widget.js"
         async
       ></script>
+      <script
+        defer
+        data-domain="sdohplace.org"
+        src="https://plausible.io/js/script.js"
+      ></script>
     </Head>
   );
 }
