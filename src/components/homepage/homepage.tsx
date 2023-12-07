@@ -79,10 +79,10 @@ const HomePage: NextPage = () => {
   const newsItems = [
     {
       id: "1",
-      image: newsImage1,
-      title: "Introducing the SDOH & Place Project",
-      text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place Project in this quick news update.",
-      url: "https://sdohplace.org/news/introducing-the-sdoh-place-project",
+      image: mapWithPinLogo,
+      title: "Community Fellowship—Call for Applications! ",
+      text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
+      url: "https://sdohplace.org/news/community-fellowship-2024",
     },
     {
       id: "2",
@@ -93,10 +93,10 @@ const HomePage: NextPage = () => {
     },
     {
       id: "3",
-      image: mapWithPinLogo,
-      title: "Community Fellowship—Call for Applications! ",
-      text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
-      url: "https://sdohplace.org/news/community-fellowship-2024",
+      image: newsImage1,
+      title: "Introducing the SDOH & Place Project",
+      text: "What do we mean by SDOH? What will this project provide to the field of health equity? Learn more about the SDOH & Place Project in this quick news update.",
+      url: "https://sdohplace.org/news/introducing-the-sdoh-place-project",
     },
   ];
 
