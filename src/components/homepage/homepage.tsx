@@ -30,7 +30,8 @@ import line4 from "@/public/logos/line4.svg";
 import line5 from "@/public/logos/line5.svg";
 import line6 from "@/public/logos/line6.svg";
 import newsImage1 from "@/public/images/news1.png";
-import newsImage2 from "@/public/images/news2.png";
+import newsImage2 from "@/public/images/advisory-board-post-image.png";
+import newsImage3 from "@/public/images/fellowship-post-image.png";
 
 import ButtonWithIcon from "./buttonwithicon";
 import Card from "./card";
@@ -79,7 +80,7 @@ const HomePage: NextPage = () => {
   const newsItems = [
     {
       id: "1",
-      image: mapWithPinLogo,
+      image: newsImage3,
       title: "Community Fellowship—Call for Applications! ",
       text: "Have a project in mind that needs developing, but unsure where to start? Consider joining our funded community fellowship! Here we will teach you how to create your own data dashboard/data visualization in a Human-Centered Design framework!",
       url: "https://sdohplace.org/news/community-fellowship-2024",
