@@ -36,3 +36,30 @@ To contribute code to this repo:
 **_The `publish` branch should never be merged back into the `main` branch!_**
 
 We've chosen this setup to keep code development history on the main branch, and isolate all of the blog-authored commit activity to the publish branch.
+
+## Local Installation
+
+```
+git clone https://github.com/healthyregions/SDOHPlace && cd SDOHPlace
+yarn install
+yarn dev
+```
+
+View in browser at http://localhost:3000.
+
+To build and view the entire site locally, use
+
+```
+yarn build
+yarn start
+```
+
+### Local Decap Blog
+
+To access the blog backend locally for testing, it is best to use the [test backend](https://decapcms.org/docs/test-backend/) that Decap provides.
+
+In `public/admin/config.yml` change `name: git-gateway` to `name:test-repo`.
+
+Now, go to http://localhost:3000/admin/index.html.
+
+This backend does not have access to your file system, so you can create content and update collections configurations without affecting any local files. All content will be lost when you refresh the page.
