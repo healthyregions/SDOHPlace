@@ -96,13 +96,13 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: slug
-    summary: "{{title}}"
+    summary: "{{excerpt}}"
     fields:
-      - label: "Slug"
-        name: "slug"
-        widget: "string"
       - label: "Title"
         name: "title"
+        widget: "string"
+      - label: "Slug"
+        name: "slug"
         widget: "string"
       - label: "Publish Date"
         name: "date"
@@ -136,6 +136,17 @@ collections:
           displayFields:
             - "tags.*.name"
           valueField: "tags.*.slug"
+      - label: "Featured Image"
+        name: "thumbnail"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.png"
+        media_library:
+          config:
+            multiple: true
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "string"
       - label: "Body"
         name: "body"
         widget: "markdown"
