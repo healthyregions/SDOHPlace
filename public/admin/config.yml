@@ -140,7 +140,7 @@ collections:
         name: "thumbnail"
         widget: "image"
         choose_url: true
-        default: "/images/default.png"
+        default: "/images/default.jpg"
         media_library:
           config:
             multiple: true
