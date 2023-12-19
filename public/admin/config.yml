@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: publish
+  branch: main
 media_folder: public/images
 public_folder: /images
 publish_mode: editorial_workflow
@@ -98,11 +98,11 @@ collections:
     identifier_field: slug
     summary: "{{title}}"
     fields:
-      - label: "Slug"
-        name: "slug"
-        widget: "string"
       - label: "Title"
         name: "title"
+        widget: "string"
+      - label: "Slug"
+        name: "slug"
         widget: "string"
       - label: "Publish Date"
         name: "date"
@@ -136,6 +136,17 @@ collections:
           displayFields:
             - "tags.*.name"
           valueField: "tags.*.slug"
+      - label: "Featured Image"
+        name: "thumbnail"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.jpg"
+        media_library:
+          config:
+            multiple: true
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "string"
       - label: "Body"
         name: "body"
         widget: "markdown"
