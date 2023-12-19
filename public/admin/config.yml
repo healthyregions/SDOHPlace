@@ -141,9 +141,6 @@ collections:
         widget: "image"
         choose_url: true
         default: "/images/default.jpg"
-        media_library:
-          config:
-            multiple: true
       - label: "Excerpt"
         name: "excerpt"
         widget: "string"
