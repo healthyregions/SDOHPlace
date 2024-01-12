@@ -20,7 +20,7 @@ export default function Layout({ children }: Props) {
       <TopLines />
       <div className="flex flex-col">
         <div className="self-center flex w-full max-w-[1068px] flex-col max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka mb-5">Project News</h1>
+          <h1 className="font-fredoka mb-5 px-5">Project News</h1>
         </div>
         <main>{children}</main>
       </div>
