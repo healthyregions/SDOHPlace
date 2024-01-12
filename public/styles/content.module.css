@@ -93,6 +93,11 @@
   color: #ededed;
 }
 
+.content caption {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
 .content table {
   max-width: 100%;
   border-spacing: 0;
