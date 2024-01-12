@@ -38,7 +38,6 @@ const modalBoxStyle = {
 };
 
 const modalBtnStyle = {
-  fontFamily: "nunito",
   marginTop: "10px",
   fontSize: "1em",
   fontWeight: 700,
@@ -119,7 +118,7 @@ const About: NextPage = () => {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col items-stretch w-9/12 ml-24 max-md:w-full max-md:ml-0">
+              <div className="flex flex-col items-stretch w-9/12 max-md:w-full max-md:ml-0">
                 <div className="text-lg font-medium leading-[177.778%] w-[848px] max-w-full max-md:mt-10">
                   {people[bio].long.map((p, index) => (
                     <div
@@ -136,14 +135,12 @@ const About: NextPage = () => {
         </Box>
       </Modal>
       <div className="flex flex-col">
-        <div className="self-center font-nunito flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka" style={{ fontSize: "5rem" }}>
-            About
-          </h1>
-          <div className="self-center w-full -ml-5 mt-20 max-md:max-w-full max-md:mt-10">
+        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+          <h1 className="font-fredoka">About</h1>
+          <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10 font-nunito">
+                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   <p style={{ marginBottom: "10px" }}>
                     The SDOH & Place Project provides access to spatially
                     indexed and curated databases, specifically designed for
@@ -181,9 +178,9 @@ const About: NextPage = () => {
         <div className="px-[2.5%] mt-[100px] relative self-center">
           <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
         </div>
-        <div className="font-nunito self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[100px] mb-[200px] px-5 max-md:max-w-full max-md:mt-10">
-          <div className="text-stone-900 text-2xl font-bold max-md:ml-2.5">
-            Core Team
+        <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[100px] mb-[200px] px-5 max-md:max-w-full max-md:mt-10">
+          <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
+            <h2 className="font-fredoka">Core Team</h2>
           </div>
           <p className="text-stone-900 text-2xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Our team is based out of the University of Illinois at
@@ -213,7 +210,7 @@ const About: NextPage = () => {
           </p>
         </div>
         <div className="self-stretch flex mt-0 w-full flex-col max-md:max-w-full">
-          <div className="bg-lightbisque self-stretch flex w-full flex-col px-5 pb-[100px] max-md:max-w-full">
+          <div className="bg-lightbisque self-stretch flex w-full flex-col px-5 max-md:max-w-full">
             <div
               className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
               style={{ marginTop: "-110px" }}
@@ -237,7 +234,7 @@ const About: NextPage = () => {
                             alt={item.name}
                           />
                         </div>
-                        <div className="flex grow flex-col font-nunito max-md:mt-10">
+                        <div className="flex grow flex-col max-md:mt-10">
                           <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
                             {item.name}
                           </div>
@@ -265,7 +262,7 @@ const About: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="font-nunito text-stone-900 py-[50px] text-2xl leading-[133.333%] self-center ml-0 w-[1068px] max-w-[1068px] my-20 max-md:max-w-full max-md:mt-10">
+        <div className="text-stone-900 py-[50px] text-2xl leading-[133.333%] self-center ml-0 w-[1068px] max-w-[1068px] my-20 max-md:max-w-full max-md:mt-10">
           Spring 2023 research assistants supporting Place metadata
           harmonization and other activites included Elaina Katz, Sarthak Joshi,
           Augustyn Crane, and Jorge Corral.
