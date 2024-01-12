@@ -151,19 +151,19 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 src={theSDOHPlaceProjectLogo}
                 alt="The SDOH & Place Project logo"
               />
-              <div className="max-md:hidden self-center uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] text-center">
+              <div className="max-md:hidden self-center uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] text-center">
                 Coming Soon
               </div>
             </div>
           </div>
-          <div className="self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
+          <div className="self-start uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
             Coming Soon
           </div>
-          <div className="md:hidden self-start uppercase text-almostblack font-nunito text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[45%]">
+          <div className="md:hidden self-start uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[45%]">
             Coming Soon
           </div>
           <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -191,7 +191,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             />
           </div>
           <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -213,7 +213,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full text-justify">
-            <p className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8">
+            <p className="text-almostblack text-2xl-rfs font-normal leading-8">
               A <span className="text-darkorchid font-bold">free platform</span>{" "}
               to discover and practice with place-based data for health equity,
               connecting the Social Determinants of Health to communities,
@@ -241,7 +241,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </div>
           </div>
           {/* <div className="md:hidden self-center text-center mt-[5%]">
-            <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -261,7 +261,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div> */}
         </div>
         <div className="md:hidden text-center">
-          <div className="text-darkorchid text-center font-nunito-sans text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
+          <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
             Learn More
           </div>
           <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -283,7 +283,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
-          <div className="text-almostblack  font-nunito text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
+          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             Social Determinants of Health
           </div>
           <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
@@ -302,7 +302,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div className="w-full h-auto">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="flex flex-col px-[2.5%] gap-12">
-            <div className="flex flex-row font-nunito justify-between gap-4">
+            <div className="flex flex-row justify-between gap-4">
               <div className=" text-2xl-rfs font-normal leading-8">
                 News & Updates
               </div>
@@ -333,7 +333,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="w-full h-auto bg-darkorchid">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-12 md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
-          <div className="my-auto text-white font-nunito text-2xl-rfs font-normal leading-8 px-[5.5%]">
+          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%]">
             Brought to you by
           </div>
           <div className="grid grid-flow-col grid-cols-[1fr_1fr]">
@@ -361,7 +361,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div id="coming-soon-section" className="w-full h-auto">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] flex flex-col gap-12">
-          <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8 px-[2.5%]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
             Access Data & Resources on SDOH & Place
           </div>
 
@@ -376,11 +376,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </div>
 
-                <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
+                <div className="text-almostblack text-2xl-rfs font-bold leading-8">
                   Data Discovery
                 </div>
 
-                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
+                <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
                   Our data discovery platform provides access to spatially
                   indexed and curated databases, specifically designed for
                   conducting health equity research.
@@ -394,7 +394,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     labelColor="almostblack"
                   /> */}
 
-                  <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
+                  <div className="text-darkorchid text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
                     Coming Soon
                   </div>
                 </div>
@@ -409,11 +409,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </div>
 
-                <div className="text-almostblack font-nunito text-2xl-rfs font-bold leading-8">
+                <div className="text-almostblack text-2xl-rfs font-bold leading-8">
                   Community Toolkit
                 </div>
 
-                <div className="max-w-[34.0625rem] text-black font-nunito text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
+                <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
                   Enhance your health and equity initiatives with our toolkit.
                   You will be able to create captivating spatial visualizations
                   for community engagement using free and user-friendly tools
@@ -428,7 +428,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     labelColor="almostblack"
                   /> */}
 
-                  <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
+                  <div className="text-darkorchid text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
                     Coming Soon
                   </div>
                 </div>

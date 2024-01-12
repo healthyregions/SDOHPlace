@@ -32,7 +32,6 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           background: `${fullConfig.theme.colors[props.fillColor]}`,
           textTransform: "none",
           color: `${fullConfig.theme.colors[props.labelColor]}`,
-          fontFamily: "nunito",
           fontSize: "clamp(1.125rem, 1vw + 0.1rem, 1.25rem)",
           fontStyle: "normal",
           fontWeight: 700,

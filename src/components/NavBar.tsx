@@ -28,7 +28,7 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`absolute font-nunito left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
         className={`flex ${
@@ -37,47 +37,37 @@ const NavBar = (): JSX.Element => {
       >
         <ul className="hidden min-[768px]:flex pl-[2.5%]">
           <li
-            className={`${
-              router.pathname == "/"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 pl-0 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/" && "navbar-title-active"
+            }`}
           >
             <Link href="/">Home</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/advisory"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/advisory" && "navbar-title-active"
+            }`}
           >
             <Link href="/advisory">Advisory</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/news"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname.startsWith("/news") && "navbar-title-active"
+            }`}
           >
             <Link href="/news">News</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/about"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/about" && "navbar-title-active"
+            }`}
           >
             <Link href="/about">About</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/contact"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/contact" && "navbar-title-active"
+            }`}
           >
             <Link href="/contact">Contact Us</Link>
           </li>

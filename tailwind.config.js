@@ -23,9 +23,14 @@ module.exports = {
       },
       spacing: {},
       fontFamily: {
-        "nunito-sans": "'Nunito Sans'",
+        // sans is the default font applied by tailwind, so alias
+        // it to our custom font
+        sans: "Nunito",
+        // reset serif and mono fonts
+        serif: "serif",
+        mono: "mono",
+        // apply font-fredoka to all h* elements
         fredoka: "Fredoka",
-        nunito: "Nunito",
       },
       borderRadius: {
         "81xl": "100px",

@@ -34,7 +34,6 @@ const Contact: NextPage = () => {
     root: {
       "& label.Mui-focused": {
         color: "#49454F",
-        fontFamily: "nunito",
       },
       "& label": {
         color: "#49454F",
@@ -60,12 +59,10 @@ const Contact: NextPage = () => {
       },
       "& input": {
         color: `${fullConfig.theme.colors["almostblack"]}`,
-        fontFamily: "nunito",
         outline: "none",
       },
       "& textarea": {
         color: `${fullConfig.theme.colors["almostblack"]}`,
-        fontFamily: "nunito",
         outline: "none",
       },
     },
@@ -76,11 +73,9 @@ const Contact: NextPage = () => {
       <NavBar />
       <TopLines />
       <div className="flex flex-col">
-        <div className="self-center font-nunito flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka" style={{ fontSize: "5rem" }}>
-            Contact Us
-          </h1>
-          <div className="self-center w-full -ml-5 mt-20 max-md:max-w-full max-md:mt-10">
+        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+          <h1 className="font-fredoka">Contact Us</h1>
+          <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
@@ -149,12 +144,12 @@ const Contact: NextPage = () => {
       </div>
       <div className="w-full min-h-[20rem] bg-lightbisque">
         <div className="max-md:max-w-[87%] max-w-[1068px] mx-auto py-[5rem]">
-          <div className="text-almostblack font-nunito text-2xl-rfs font-normal leading-8 ml mb-5">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml mb-5">
             Send us a Message
           </div>
           <div className="">
             {(success && (
-              <p className="text-almostblack pt-[1rem] font-nunito">
+              <p className="text-almostblack pt-[1rem]">
                 Message received. Thank you!
               </p>
             )) || (
@@ -201,7 +196,6 @@ const Contact: NextPage = () => {
                       background: `${fullConfig.theme.colors["darkorchid"]}`,
                       textTransform: "none",
                       color: `${fullConfig.theme.colors["white"]}`,
-                      fontFamily: "nunito",
                       fontSize: "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
                       fontStyle: "normal",
                       fontWeight: 700,

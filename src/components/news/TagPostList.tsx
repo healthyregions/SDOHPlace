@@ -15,7 +15,7 @@ type Props = {
 export default function TagPostList({ posts, tag, pagination }: Props) {
   return (
     <div className={"container"}>
-      <h1>
+      <h1 className="font-fredoka">
         All posts / <span>{tag.name}</span>
       </h1>
       <ul>
@@ -45,7 +45,6 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
             padding: 0 1.5rem;
             display: flex;
             flex-direction: column;
-            font-family: "Nunito Sans";
           }
           h1 {
             margin: 0 0 2rem;

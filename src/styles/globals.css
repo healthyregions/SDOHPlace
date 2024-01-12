@@ -1,7 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+  font-size: 5em;
+}
+
+h2 {
+  font-size: 3em;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+h4 {
+  font-size: 1.5em;
+}
+
+h5 {
+  font-size: 1.25em;
+}
+
+.navbar-title {
+  @apply text-almostblack p-4 uppercase text-base font-bold tracking-[0.03125rem] leading-4;
+}
+
+.navbar-title-active {
+  @apply text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem];
+}

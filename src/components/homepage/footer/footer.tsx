@@ -175,7 +175,7 @@ const Footer = (): JSX.Element => {
               </div>
             </div>
 
-            <div className="max-w-[21.5625rem] text-white font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
+            <div className="max-w-[21.5625rem] text-white text-xl-rfs leading-6 tracking-[0.03125rem]">
               The SDOH & Place Project&apos;s mission is to unravel the
               application design process essential for developing web
               applications centered on neighborhood health.
@@ -228,28 +228,28 @@ const Footer = (): JSX.Element => {
           </div>
 
           <ul className="flex flex-col justify-center gap-5 items-start flex-[26.8]">
-            <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/">Home</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/advisory">Advisory</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/news">News</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/about">About</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center font-nunito text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
 
           <div className="flex flex-col justify-center flex-[34.86] items-start">
-            <div className=" text-white font-nunito text-2xl-rfs leading-8 tracking-[0.03125rem]">
+            <div className=" text-white text-2xl-rfs leading-8 tracking-[0.03125rem]">
               Sign up for our newsletter!
             </div>
-            <div className=" text-lightsalmon font-nunito text-xl-rfs leading-6 tracking-[0.03125rem]">
+            <div className=" text-lightsalmon text-xl-rfs leading-6 tracking-[0.03125rem]">
               For all the latest and greatest
             </div>
             <div className="relative mt-[1.25rem]">

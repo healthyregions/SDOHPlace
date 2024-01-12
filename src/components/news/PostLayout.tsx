@@ -59,10 +59,10 @@ export default function PostLayout({
         author={authorName}
         description={description}
       />
-      <div className={"container prose font-nunito"}>
+      <div className={"container"}>
         <article>
           <header>
-            <h1>{title}</h1>
+            <h1 className={"font-fredoka"}>{title}</h1>
             <div className={"metadata"}>
               <div>
                 <Date date={date} />
@@ -92,7 +92,7 @@ export default function PostLayout({
             max-width: 1068px;
             width: 100%;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0;
             box-sizing: border-box;
             z-index: 0;
           }
@@ -105,7 +105,7 @@ export default function PostLayout({
           }
           h1 {
             margin: 0 0 0.5rem;
-            font-size: 2.25rem;
+            font-size: 2.3rem;
           }
           .tag-list {
             list-style: none;
