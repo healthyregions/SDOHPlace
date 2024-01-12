@@ -17,13 +17,10 @@ export default function PostItem({ post }: Props) {
             a {
               color: #222;
               display: inline-block;
-              font-family: "Nunito";
             }
             h2 {
               margin: 0;
               font-size: 2rem;
-              font-weight: 700;
-              font-family: "Nunito";
             }
           `}
         </style>

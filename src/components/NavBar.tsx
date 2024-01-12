@@ -28,56 +28,44 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`absolute font-nunito left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
-        className={`flex ${
-          nav ? "justify-end" : "justify-between"
-        } items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
+        className={`flex justify-between items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
       >
         <ul className="hidden min-[768px]:flex pl-[2.5%]">
           <li
-            className={`${
-              router.pathname == "/"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 pl-0 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/" && "navbar-title-active"
+            }`}
           >
             <Link href="/">Home</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/advisory"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/advisory" && "navbar-title-active"
+            }`}
           >
             <Link href="/advisory">Advisory</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/news"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname.startsWith("/news") && "navbar-title-active"
+            }`}
           >
             <Link href="/news">News</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/about"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/about" && "navbar-title-active"
+            }`}
           >
             <Link href="/about">About</Link>
           </li>
           <li
-            className={`${
-              router.pathname == "/contact"
-                ? "text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem]"
-                : "text-almostblack"
-            } p-4 uppercase font-nunito text-base font-bold tracking-[0.03125rem] leading-4`}
+            className={`navbar-title ${
+              router.pathname == "/contact" && "navbar-title-active"
+            }`}
           >
             <Link href="/contact">Contact Us</Link>
           </li>
@@ -86,9 +74,9 @@ const NavBar = (): JSX.Element => {
         {/* Mobile Button */}
         <div
           onClick={handleNav}
-          className="block min-[768px]:hidden pl-[3%] z-50"
+          className="block min-[768px]:hidden pl-[25px] z-50"
         >
-          {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+          {nav ? <AiOutlineClose size={35} /> : <AiOutlineMenu size={35} />}
         </div>
 
         {/* Mobile Menu */}
