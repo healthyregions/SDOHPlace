@@ -387,15 +387,17 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
-                  {/* <ButtonWithIcon
-                    svgIcon={dataDiscoveryIcon}
-                    label="Data Discovery"
-                    fillColor="neutralgray"
-                    labelColor="almostblack"
-                  /> */}
-
-                  <div className="text-darkorchid text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
-                    Coming Soon
+                  <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
+                    <div>
+                      <ButtonWithIcon
+                        label={"Data Discovery"}
+                        svgIcon={dataDiscoveryIcon}
+                        fillColor={"lightsalmon"}
+                        labelColor={"almostblack"}
+                        onClick={scrollToComingSoon}
+                        disabled={true}
+                      ></ButtonWithIcon>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -421,15 +423,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
-                  {/* <ButtonWithIcon
-                    svgIcon={communityToolkitIconBlack}
-                    label="Community Toolkit"
-                    fillColor="neutralgray"
-                    labelColor="almostblack"
-                  /> */}
-
-                  <div className="text-darkorchid text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
-                    Coming Soon
+                  <div>
+                    <ButtonWithIcon
+                      label={"Community Toolkit"}
+                      svgIcon={communityToolkitIcon}
+                      fillColor={"darkorchid"}
+                      labelColor={"white"}
+                      onClick={scrollToComingSoon}
+                      disabled={true}
+                    ></ButtonWithIcon>
                   </div>
                 </div>
               </div>

@@ -182,7 +182,7 @@
       "Website": "https://evanthornberry.github.io/"
     },
     "long": [
-      "Evan Thornberry is the Geographic Information Systems (GIS) Librarian at the University of British Columbia (UBC) Library where he supports teaching, learning, and research with geospatial information and technology. In his work, he coordinates efforts to improve existing resources for maps, atlases, and geodata collections, as well as library services to better equip a large base of GIS users. Evan recently finished his work as a co-principal investigator for the Geodisy project which improves the discoverability of geospatial research data across Canada. Evan was also recently a co-principal investigator for a project to create an openly available interactive textbook for teaching geomatics for environmental management in collaboration with UBC's Faculty of Forestry. He is the Past-President of the <em>Western Association of Map Libraries</em> and an organizer of Maptime Vancouver. Previous to his role at UBC, Evan was the Reference and Geospatial Librarian for the <em>Norman B. Leventhal Map Center</em> at the Boston Public Library where in 2016-2017 he was the director of an NEH-funded project to build a spatial discovery layer for BPL's large public collection of historical maps."
+      "Evan Thornberry is the Head and Curator of the David Rumsey Map Center at Stanford University Library where he oversees the stewardship of a significant historical map collection. In this work he coordinates efforts to develop resources for maps, atlases, and other cartographic collections both digitally and physically, as well as library services to better equip a large base of historical map users. Previously, Evan was the Geographic Information Systems (GIS) Librarian at the University of British Columbia (UBC) Library where he supported teaching, learning, and research with geospatial information and technology. Evan was a co-principal investigator for the Geodisy project which improves the discoverability of geospatial research data across Canada. Evan was also recently a co-principal investigator for a project to create an openly available interactive textbook for teaching geomatics for environmental management in collaboration with UBC's Faculty of Forestry. He is the Past-President of the <em>Western Association of Map Libraries</em> and an organizer of Maptime Vancouver. Previous to his role at UBC, Evan was the Reference and Geospatial Librarian for the <em>Norman B. Leventhal Map Center</em> at the Boston Public Library where in 2016-2017 he was the director of an NEH-funded project to build a spatial discovery layer for BPL's large public collection of historical maps."
     ]
   },
   "jamelle": {
@@ -198,7 +198,7 @@
   },
   "malaika": {
     "name": "Malaika Simmons",
-    "affiliation": "NADPH of Minnesota",
+    "affiliation": "NADPH",
     "image": "../../images/9b68cb21e8356dba8758385834bf8ec5.png",
     "text": "Malaika Simmons, MSHE, is the Chief Operating Officer for the National Alliance against Disparities in Patient Health (NADPH), a data-driven, nonprofit health research organization. She uses her ...",
     "category": ["technical"],

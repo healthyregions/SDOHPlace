@@ -155,7 +155,7 @@ const Footer = (): JSX.Element => {
           </div>
         </div>
 
-        <div className="max-md:max-w-[87%] mx-auto pt-[5rem] pb-[4.5rem] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
+        <div className="max-md:max-w-[87%] mx-auto pt-[5rem] pb-[4.5rem] 2xl:max-w-[1536px] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
           <div className="flex flex-col justify-center gap-[1.56rem] flex-[38.34]">
             <div className="flex flex-row">
               <div>
