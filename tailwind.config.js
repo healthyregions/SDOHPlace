@@ -12,14 +12,15 @@ module.exports = {
     extend: {
       colors: {
         white: "#fff",
-        almostblack: "#1e1e1e",
-        lightsalmon: "#ff9c77",
-        black: "#000",
-        darkorchid: "#7e1cc4",
-        mediumpurple: "#b379dd",
-        lightbisque: "#ffe5c4",
+        // lightgray used to be called ms_on_surface (a mui holdover)
+        lightgray: "#CAC4D0",
         neutralgray: "#AAA",
-        m3_on_surface: "#CAC4D0",
+        darkgray: "#79747e",
+        almostblack: "#1e1e1e",
+        black: "#000",
+        salmonpink: "#ff9c77",
+        frenchviolet: "#7e1cc4",
+        lightbisque: "#ffe5c4",
       },
       spacing: {},
       fontFamily: {

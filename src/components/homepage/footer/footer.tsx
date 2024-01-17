@@ -25,36 +25,41 @@ import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
 import xIcon from "@/public/logos/x-purple-icon.svg";
 import sendIcon from "@/public/logos/send-icon.svg";
 
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config.js";
+
+const fullConfig = resolveConfig(tailwindConfig);
+
 const Footer = (): JSX.Element => {
   const CssTextField = withStyles({
     root: {
       "& label.Mui-focused": {
-        color: "#7e1cc4",
+        color: `${fullConfig.theme.colors["frenchviolet"]}`,
       },
       "& label": {
-        color: "#CAC4D0",
+        color: `${fullConfig.theme.colors["lightgray"]}`,
       },
       "& .MuiInput-underline:after": {
-        borderBottomColor: "#7e1cc4",
+        borderBottomColor: `${fullConfig.theme.colors["frenchviolet"]}`,
       },
       "& .MuiOutlinedInput-root": {
         "& fieldset": {
-          borderColor: "#CAC4D0",
+          borderColor: `${fullConfig.theme.colors["lightgray"]}`,
         },
         "&.Mui-focused input": {
           "--tw-ring-color": "none",
           outline: "none",
         },
         "&:hover fieldset": {
-          borderColor: "#CAC4D0",
+          borderColor: `${fullConfig.theme.colors["lightgray"]}`,
         },
         "&.Mui-focused fieldset": {
-          borderColor: "#7e1cc4",
+          borderColor: `${fullConfig.theme.colors["frenchviolet"]}`,
           outline: "none",
         },
       },
       "& input": {
-        color: "#CAC4D0",
+        color: `${fullConfig.theme.colors["lightgray"]}`,
       },
     },
   })(TextField);
@@ -228,19 +233,19 @@ const Footer = (): JSX.Element => {
           </div>
 
           <ul className="flex flex-col justify-center gap-5 items-start flex-[26.8]">
-            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/">Home</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/advisory">Advisory</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/news">News</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/about">About</Link>
             </li>
-            <li className="uppercase text-lightsalmon text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
               <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
@@ -249,7 +254,7 @@ const Footer = (): JSX.Element => {
             <div className=" text-white text-2xl-rfs leading-8 tracking-[0.03125rem]">
               Sign up for our newsletter!
             </div>
-            <div className=" text-lightsalmon text-xl-rfs leading-6 tracking-[0.03125rem]">
+            <div className=" text-salmonpink text-xl-rfs leading-6 tracking-[0.03125rem]">
               For all the latest and greatest
             </div>
             <div className="relative mt-[1.25rem]">

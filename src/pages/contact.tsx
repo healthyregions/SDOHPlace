@@ -33,36 +33,39 @@ const Contact: NextPage = () => {
   const CssTextField = withStyles({
     root: {
       "& label.Mui-focused": {
-        color: "#49454F",
+        color: `${fullConfig.theme.colors["darkgray"]}`,
       },
       "& label": {
-        color: "#49454F",
+        color: `${fullConfig.theme.colors["darkgray"]}`,
       },
       "& .MuiInput-underline:after": {
-        borderBottomColor: "#79747E",
+        borderBottomColor: `${fullConfig.theme.colors["darkgray"]}`,
       },
       "& .MuiOutlinedInput-root": {
         "& fieldset": {
-          borderColor: "#CAC4D0",
+          borderColor: `${fullConfig.theme.colors["darkgray"]}`,
         },
         "&.Mui-focused input": {
-          "--tw-ring-color": "#79747E",
+          "--tw-ring-color": "none",
+          outline: "none",
+        },
+        "&.Mui-focused textarea": {
+          "--tw-ring-color": "none",
           outline: "none",
         },
         "&:hover fieldset": {
-          borderColor: "#CAC4D0",
+          borderColor: `${fullConfig.theme.colors["darkgray"]}`,
         },
         "&.Mui-focused fieldset": {
-          borderColor: "#79747E",
+          borderColor: `${fullConfig.theme.colors["darkgray"]}`,
           outline: "none",
         },
       },
       "& input": {
-        color: `${fullConfig.theme.colors["almostblack"]}`,
-        outline: "none",
+        color: `${fullConfig.theme.colors["darkgray"]}`,
       },
       "& textarea": {
-        color: `${fullConfig.theme.colors["almostblack"]}`,
+        color: `${fullConfig.theme.colors["darkgray"]}`,
         outline: "none",
       },
     },
@@ -193,7 +196,7 @@ const Contact: NextPage = () => {
                       height: "2.5rem",
                       width: "6em",
                       borderRadius: "6.25rem",
-                      background: `${fullConfig.theme.colors["darkorchid"]}`,
+                      background: `${fullConfig.theme.colors["frenchviolet"]}`,
                       textTransform: "none",
                       color: `${fullConfig.theme.colors["white"]}`,
                       fontSize: "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
@@ -212,10 +215,10 @@ const Contact: NextPage = () => {
                     sx={{
                       height: "2.5rem",
                       borderRadius: "6.25rem",
-                      borderColor: `${fullConfig.theme.colors["darkorchid"]}`,
+                      borderColor: `${fullConfig.theme.colors["frenchviolet"]}`,
                       background: 'none',
                       textTransform: "none",
-                      color: `${fullConfig.theme.colors["darkorchid"]}`,
+                      color: `${fullConfig.theme.colors["frenchviolet"]}`,
                       fontFamily: "nunito",
                       fontSize: "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
                       fontStyle: "normal",

@@ -28,8 +28,8 @@ const modalBoxStyle = {
   width: "90%",
   maxWidth: "1068px",
   maxHeight: "100vh",
-  color: "white",
-  bgcolor: "#1e1e1e",
+  color: `${fullConfig.theme.colors["white"]}`,
+  bgcolor: `${fullConfig.theme.colors["almostblack"]}`,
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
@@ -42,7 +42,7 @@ const modalBtnStyle = {
   fontSize: "1em",
   fontWeight: 700,
   width: "unset",
-  color: `${fullConfig.theme.colors["darkorchid"]}`,
+  color: `${fullConfig.theme.colors["frenchviolet"]}`,
   textTransform: "uppercase",
 };
 
@@ -230,7 +230,7 @@ const About: NextPage = () => {
                           <img
                             loading="lazy"
                             srcSet={item.image}
-                            className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-lightsalmon shadow-[2px_4px_0px_0px_darkorchid]"
+                            className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
                             alt={item.name}
                           />
                         </div>
