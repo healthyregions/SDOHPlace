@@ -2,7 +2,7 @@
   "hassanatu": {
     "name": "Hassanatu Blake",
     "affiliation": "NACCHO",
-    "image": "../../images/950782b72cb224fe4c5412d29ac8232b.png",
+    "image": "../../images/headshot-hb.png",
     "text": "Hassanatu Blake has a diverse perspective to public health with over 15 years of experience working across multiple sectors intersecting with public health. Currently, Hassanatu is the Director of ...",
     "category": ["stakeholder"],
     "links": {
@@ -17,7 +17,7 @@
   "german": {
     "name": "Germán Cadenas",
     "affiliation": "Rutgers University",
-    "image": "../../images/a21bdb2d31a8ee99bfbec48165ca6a41.png",
+    "image": "../../images/headshot-gc.png",
     "text": "Dr. Germán A. Cadenas (he/his/el) is an Assistant Professor of Counseling Psychology at Lehigh University. He is a formerly undocumented immigrant from Latin America. As a ...",
     "category": ["stakeholder"],
     "links": {},
@@ -30,7 +30,7 @@
   "amena": {
     "name": "Amena Karim",
     "affiliation": "Community & UniteUs",
-    "image": "../../images/4f87fe19d34b2b18b068c93bf367e462.png",
+    "image": "../../images/headshot-ak.png",
     "text": "Amena Karim has spent her career serving marginalized communities for more than 20 years. She is a multi-award-winning health equity advocate, keynote speaker, and mayoral-appointed ...",
     "category": ["stakeholder"],
     "links": {
@@ -43,7 +43,7 @@
   "julia": {
     "name": "Julia Koschinsky",
     "affiliation": "University of Chicago",
-    "image": "../../images/dda955f3e323fa54c0d72c1d04af7607.png",
+    "image": "../../images/headshot-jk.png",
     "text": "Dr. Julia Koschinsky is currently working on projects to integrate spatial data science with scientific reasoning to critically solve spatial data problems and avoid common cognitive and statistical ...",
     "category": ["stakeholder"],
     "links": {
@@ -56,7 +56,7 @@
   "qinyun": {
     "name": "Qinyun Lin",
     "affiliation": "University of Gothenburg",
-    "image": "../../images/31845248dd143077e100945096102d03.png",
+    "image": "../../images/headshot-ql.png",
     "text": "Dr. Qinyun Lin is a Senior Lecturer in the School of Public Health and Community Medicine, Institute of Medicine, University of Gothenburg. Most broadly, she is a methodologist ...",
     "category": ["stakeholder"],
     "links": {
@@ -69,7 +69,7 @@
   "aresha": {
     "name": "Aresha Martinez-Cardoso",
     "affiliation": "University of Chicago",
-    "image": "../../images/9fe97ddb552718b679f561d7d2111022.png",
+    "image": "../../images/headshot-am.png",
     "text": "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research integrates theoretical ...",
     "category": ["stakeholder"],
     "links": {
@@ -82,7 +82,7 @@
   "imelda": {
     "name": "Imelda Moise",
     "affiliation": "University of Miami",
-    "image": "../../images/919c7fedcaca7fe6e9fe49c0ddb28233.png",
+    "image": "../../images/headshot-im.png",
     "text": "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally ...",
     "category": ["stakeholder"],
     "links": {
@@ -95,7 +95,7 @@
   "norma": {
     "name": "Norma Padrón",
     "affiliation": "EmpiricaLabs",
-    "image": "../../images/98f681aa0bc687b1789df5fbb48a8383.png",
+    "image": "../../images/headshot-np.png",
     "text": "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of EmpiricaLab, a company specializing in peer–to–peer training within healthcare organizations to accelerate ...",
     "category": ["stakeholder"],
     "links": {
@@ -109,7 +109,7 @@
   "sue": {
     "name": "Sue Polis",
     "affiliation": "National League of Cities",
-    "image": "../../images/1c5edc748e1ab9c4125afced062ba90e.png",
+    "image": "../../images/headshot-sp.png",
     "text": "Sue Pechilio Polis directs the health and well-being portfolio for NLC as part of the Institute for Youth, Education and Families. The portfolio includes the conceptualization ...",
     "category": ["stakeholder"],
     "links": {
@@ -123,7 +123,7 @@
   "ericL": {
     "name": "Eric Larson",
     "affiliation": "University of Minnesota",
-    "image": "../../images/2ccd3af25538cfcc91248f143d7c43e2.png",
+    "image": "../../images/headshot-el.png",
     "text": "Eric Larson is a librarian (MLIS, University of Wisconsin-Madison), web architect, user-experience analyst, and senior application developer with over 17 years experience building ...",
     "category": ["technical"],
     "links": {
@@ -136,7 +136,7 @@
   "stuart": {
     "name": "Stuart Lynn",
     "affiliation": "University of Chicago",
-    "image": "../../images/bed8b60a53ee42e06da982ec82698e23.png",
+    "image": "../../images/headshot-sl.png",
     "text": "Stuart Lynn is a developer, data scientist and tinkerer whose interests involve widening the participation in scientific discussion and inquiry to non-traditional communities through the ...",
     "category": ["technical"],
     "links": {
@@ -149,7 +149,7 @@
   "karen": {
     "name": "Karen Majewicz",
     "affiliation": "University of Minnesota",
-    "image": "../../images/8a32d07eafda96ce7048151e4d4fe56c.png",
+    "image": "../../images/headshot-km.png",
     "text": "Karen Majewicz is the Geospatial Product Manager at the University of Minnesota Libraries, where she guides application development, develops metadata workflows, and curates ...",
     "category": ["technical"],
     "links": {
@@ -162,7 +162,7 @@
   "ericP": {
     "name": "Eric Polley",
     "affiliation": "University of Chicago",
-    "image": "../../images/eric-polley.png",
+    "image": "../../images/headshot-ep.png",
     "text": "Dr. Eric Polley is an Associate Professor in the Department of Public Health Sciences at The University of Chicago where he is the director of the Biostatistics Laboratory and the faculty ...",
     "category": ["technical"],
     "links": {
@@ -175,7 +175,7 @@
   "evan": {
     "name": "Evan Thornberry",
     "affiliation": "University of British Columbia",
-    "image": "../../images/c5cc87e8890dfa43ab9ae9449e061a37.png",
+    "image": "../../images/headshot-et.png",
     "text": "Evan Thornberry is the Geographic Information Systems (GIS) Librarian at the University of British Columbia (UBC) Library where he supports teaching, learning, and research with ...",
     "category": ["technical"],
     "links": {
@@ -188,7 +188,7 @@
   "jamelle": {
     "name": "Jamelle Watson-Daniels",
     "affiliation": "Harvard University",
-    "image": "../../images/bd9d32f2079d023af0ed25a15cde5bb8.png",
+    "image": "../../images/headshot-jw.png",
     "text": "Jamelle Watson-Daniels is a PhD Candidate at Harvard's John A. Paulson School of Engineering and Applied Sciences. She is a Ford Foundation Pre-doctoral Fellow and NSF Graduate ...",
     "category": ["technical"],
     "links": {},
@@ -199,7 +199,7 @@
   "malaika": {
     "name": "Malaika Simmons",
     "affiliation": "NADPH",
-    "image": "../../images/9b68cb21e8356dba8758385834bf8ec5.png",
+    "image": "../../images/headshot-ms.png",
     "text": "Malaika Simmons, MSHE, is the Chief Operating Officer for the National Alliance against Disparities in Patient Health (NADPH), a data-driven, nonprofit health research organization. She uses her ...",
     "category": ["technical"],
     "links": {},
@@ -210,7 +210,7 @@
   "marynia": {
     "name": "Marynia Kolak",
     "title": "Principal Investigator",
-    "image": "../../images/df007028baf7b7ca9ffe91f5659363e7.png",
+    "image": "../../images/headshot-mk.png",
     "text": "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate ...",
     "links": {
       "Twitter": "https://twitter.com/MaryniaKolak",
@@ -226,7 +226,7 @@
     "name": "ChengXiang Zhai",
     "title": "Co-Investigator",
     "affiliation": "University of Illinois",
-    "image": "../../images/ff29d87381caf6b52758a79bd3be0677.png",
+    "image": "../../images/headshot-cz.png",
     "text": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
     "links": {
       "Profile": "https://czhai.cs.illinois.edu/"
@@ -239,7 +239,7 @@
   "jose": {
     "name": "José Alavez",
     "title": "Postdoctoral Scholar",
-    "image": "../../images/c7abfd78a936d535ffaad9d2777f8985.png",
+    "image": "../../images/headshot-ja.png",
     "text": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human ...",
     "links": {},
     "category": ["core"],
@@ -250,7 +250,7 @@
   "kamaria": {
     "name": "Kamaria Barronville",
     "title": "Instructional Designer",
-    "image": "../../images/d5afa2beb30bb9c60b8cd0c03584abcf.png",
+    "image": "../../images/headshot-kb.png",
     "text": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging ...",
     "links": {},
     "category": ["core"],
@@ -261,7 +261,7 @@
   "shubham": {
     "name": "Shubham Kumar",
     "title": "Product Designer",
-    "image": "../../images/1004ed3fea6fa62c54d452ac1900cecb.png",
+    "image": "../../images/headshot-sk.png",
     "text": "Shubham is a Product Designer at HeRoP with a passion for collaborating with diverse teams to achieve design goals. Prior to his role at the lab, he was improving accessibility in education ...",
     "links": {},
     "category": ["core"],
@@ -272,7 +272,7 @@
   "adam": {
     "name": "Adam Cox",
     "title": "Software Engineer",
-    "image": "../../images/e08c6e557dd2e8598a790a7f780a97d4.png",
+    "image": "../../images/headshot-ac.png",
     "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans ...",
     "links": {
       "LinkedIn": "https://www.linkedin.com/in/mradamcox/",
@@ -286,7 +286,7 @@
   "mukesh": {
     "name": "Mukesh Chugani",
     "title": "Software Engineer",
-    "image": "../../images/e923095a6e1793cdf59ea54945aff489.png",
+    "image": "../../images/headshot-mc.png",
     "text": "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University. His expertise lies ...",
     "links": {},
     "category": ["core"],
@@ -297,7 +297,7 @@
   "marc": {
     "name": "Marc Astacio-Palmer",
     "title": "Research Coordinator",
-    "image": "../../images/436ed95f8fde439f963ef26d08af8526.png",
+    "image": "../../images/headshot-ma.png",
     "text": "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention ...",
     "links": {
       "LinkedIn": "https://www.linkedin.com/in/marcastacio/"
@@ -310,7 +310,7 @@
   "andre": {
     "name": "Andre Vines",
     "title": "Graphic Designer",
-    "image": "../../images/0284b52e965116e499f6bab5e087907b.png",
+    "image": "../../images/headshot-av.png",
     "text": "Andre is a self employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually ...",
     "links": {},
     "category": ["core"],
@@ -321,7 +321,7 @@
   "ashwin": {
     "name": "Ashwin Patil",
     "title": "Research Assistant",
-    "image": "../../images/1f625887c8b13064dc458153f16295ca.png",
+    "image": "../../images/headshot-ap.png",
     "text": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. Currently, he is working as a Graduate Research ...",
     "links": {},
     "category": ["core"],
