@@ -15,7 +15,7 @@ const NavBar = (): JSX.Element => {
   useEffect(() => {
     const changeBackgroundColor = () => {
       if (window.scrollY >= 90) {
-        setNavBackgroundColor("lightsalmon");
+        setNavBackgroundColor("salmonpink");
       } else {
         setNavBackgroundColor("transparent");
       }
@@ -84,7 +84,7 @@ const NavBar = (): JSX.Element => {
           className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 flex justify-center items-center w-full
-          h-screen bg-darkorchid text-center ease-in duration-300`}
+          h-screen bg-frenchviolet text-center ease-in duration-300`}
         >
           <ul>
             <li className="p-4 text-5xl uppercase">

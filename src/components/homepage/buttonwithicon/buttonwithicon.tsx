@@ -34,13 +34,14 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           background: `${fullConfig.theme.colors[props.fillColor]}`,
           textTransform: "none",
           color: `${fullConfig.theme.colors[props.labelColor]}`,
+          fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
           fontSize: "clamp(1.125rem, 1vw + 0.1rem, 1.25rem)",
           fontStyle: "normal",
           fontWeight: 700,
           lineHeight: "1.5rem",
           letterSpacing: "0.00938rem",
-          '&:hover': {
-            boxShadow: '3px 3px 5px rgba(0, 0, 0, 0.3)',
+          "&:hover": {
+            boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
             backgroundColor: `${fullConfig.theme.colors[props.fillColor]}`,
             color: `${fullConfig.theme.colors[props.labelColor]}`,
           },

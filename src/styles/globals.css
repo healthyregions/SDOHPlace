@@ -31,5 +31,5 @@ h5 {
 }
 
 .navbar-title-active {
-  @apply text-darkorchid before:content-[''] before:border-l-[0.25rem] before:border-darkorchid before:pr-[0.5rem];
+  @apply text-frenchviolet before:content-[''] before:border-l-[0.25rem] before:border-frenchviolet before:pr-[0.5rem];
 }
