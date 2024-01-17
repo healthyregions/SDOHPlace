@@ -37,6 +37,11 @@ import CardWithImage from "@/components/homepage/cardwithimage/cardwithimage";
 import Footer from "@/components/homepage/footer";
 import Card from "@/components/homepage/card";
 
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config.js";
+
+const fullConfig = resolveConfig(tailwindConfig);
+
 interface HomePageProps {
   newsItem: PostData[];
 }
@@ -163,7 +168,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             Coming Soon
           </div>
           <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -176,7 +181,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               >
                 <path
                   d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-darkorchid"
+                  className="fill-frenchviolet"
                 />
               </svg>
             </div>
@@ -191,7 +196,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             />
           </div>
           <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -204,7 +209,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               >
                 <path
                   d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-darkorchid"
+                  className="fill-frenchviolet"
                 />
               </svg>
             </div>
@@ -214,7 +219,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full text-justify">
             <p className="text-almostblack text-2xl-rfs font-normal leading-8">
-              A <span className="text-darkorchid font-bold">free platform</span>{" "}
+              A{" "}
+              <span className="text-frenchviolet font-bold">free platform</span>{" "}
               to discover and practice with place-based data for health equity,
               connecting the Social Determinants of Health to communities,
               researchers, policymakers, & health practitioners.
@@ -225,7 +231,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               <ButtonWithIcon
                 label={"Data Discovery"}
                 svgIcon={dataDiscoveryIcon}
-                fillColor={"lightsalmon"}
+                fillColor={"salmonpink"}
                 labelColor={"almostblack"}
                 onClick={scrollToComingSoon}
               ></ButtonWithIcon>
@@ -234,14 +240,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               <ButtonWithIcon
                 label={"Community Toolkit"}
                 svgIcon={communityToolkitIcon}
-                fillColor={"darkorchid"}
+                fillColor={"frenchviolet"}
                 labelColor={"white"}
                 onClick={scrollToComingSoon}
               ></ButtonWithIcon>
             </div>
           </div>
           {/* <div className="md:hidden self-center text-center mt-[5%]">
-            <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -254,14 +260,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               >
                 <path
                   d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-darkorchid"
+                  className="fill-frenchviolet"
                 />
               </svg>
             </div>
           </div> */}
         </div>
         <div className="md:hidden text-center">
-          <div className="text-darkorchid text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
+          <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
             Learn More
           </div>
           <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -274,7 +280,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             >
               <path
                 d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                className="fill-darkorchid"
+                className="fill-frenchviolet"
               />
             </svg>
           </div>
@@ -308,7 +314,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </div>
               <div className=" text-2xl-rfs font-normal leading-8 text-end">
                 <Link
-                  style={{ textTransform: "uppercase", color: "#7e1cc4" }}
+                  style={{
+                    textTransform: "uppercase",
+                    color: `${fullConfig.theme.colors["frenchviolet"]}`,
+                  }}
                   href="/news"
                 >
                   All News & Updates
@@ -331,7 +340,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto bg-darkorchid">
+      <div className="w-full h-auto bg-frenchviolet">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-12 md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
           <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%]">
             Brought to you by
@@ -387,12 +396,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
-                  <div className="text-darkorchid font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
+                  <div className="text-frenchviolet font-nunito text-base-rfs leading-8 tracking-[0.25rem] uppercase text-center">
                     <div>
                       <ButtonWithIcon
                         label={"Data Discovery"}
                         svgIcon={dataDiscoveryIcon}
-                        fillColor={"lightsalmon"}
+                        fillColor={"salmonpink"}
                         labelColor={"almostblack"}
                         onClick={scrollToComingSoon}
                         disabled={true}
@@ -427,7 +436,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     <ButtonWithIcon
                       label={"Community Toolkit"}
                       svgIcon={communityToolkitIcon}
-                      fillColor={"darkorchid"}
+                      fillColor={"frenchviolet"}
                       labelColor={"white"}
                       onClick={scrollToComingSoon}
                       disabled={true}

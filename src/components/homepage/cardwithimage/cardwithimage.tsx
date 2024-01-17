@@ -15,7 +15,7 @@ interface Props {
 const CardWithImage = (props: Props): JSX.Element => {
   return (
     <div className="flex flex-col items-start">
-      <div className="h-[12.9375rem] w-[22.3125rem] relative border-4 border-solid border-lightsalmon shadow-[2px_4px_0px_0px_darkorchid] max-sm:h-[14rem] max-sm:w-[20rem]">
+      <div className="h-[12.9375rem] w-[22.3125rem] relative border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet] max-sm:h-[14rem] max-sm:w-[20rem]">
         <Link href={props.url}>
           <Image
             priority
@@ -34,7 +34,7 @@ const CardWithImage = (props: Props): JSX.Element => {
       </div>
       <a
         href={props.url}
-        className="text-darkorchid text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem]"
+        className="text-frenchviolet text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem]"
       >
         Learn More
       </a>
