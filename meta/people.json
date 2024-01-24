@@ -307,6 +307,19 @@
       "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory. He is interested in open science, and how our environment shapes our cognition. Astacio leads day-to-day operations of multiple projects at HeRoP, guides communications & community engagement, and collaborates on how affect may influence user-experience and decision-making."
     ]
   },
+  "catherine": {
+    "name": "Catherine Discenza",
+    "title": "Masters Student",
+    "image": "../../images/headshot-cd.png",
+    "text": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
+    },
+    "category": ["core"],
+    "long": [
+      "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors."
+    ]
+  },
   "andre": {
     "name": "Andre Vines",
     "title": "Graphic Designer",
