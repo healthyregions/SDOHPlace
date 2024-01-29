@@ -2,7 +2,7 @@
 
 A repository for the landing page and the community toolkit of the SDOH & Place Project.
 
-## Decap CMS Implementation
+## Decap CMS Blog Implementation
 
 We have integrated a [Decap CMS](https://decapcms.org/) blog into this site, which is managed through Netlify. Features of this integration include:
 
@@ -53,6 +53,14 @@ To build and view the entire site locally, use
 yarn build
 yarn start
 ```
+
+### Environment Variables
+
+```
+cp .env.local.example .env
+```
+
+If you are running Solr locally, the default value should be sufficient. Otherwis, set `NEXT_PUBLIC_SOLR_URL` to `http://<your solr installation>/solr/blacklight-core`.
 
 ### Local Decap Blog
 
