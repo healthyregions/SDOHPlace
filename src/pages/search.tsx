@@ -2,25 +2,20 @@
 import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
-import Image from "next/image";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { AiOutlineClose } from "react-icons/ai";
 import { useState, useEffect } from "react";
 
-import sdohGraphic from "@/public/images/sdohGraphic.svg";
-import Footer from "@/components/homepage/footer";
 import Header from "@/components/Header";
 import TopLines from "@/components/TopLines";
 import { SearchResults, getResults } from "@/components/SearchResults";
-
-import people from "../../meta/people.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 
 const fullConfig = resolveConfig(tailwindConfig);
+
+const solrUrl = process.env.NEXT_PUBLIC_SOLR_URL;
 
 const modalBoxStyle = {
   position: "absolute" as "absolute",
@@ -50,7 +45,6 @@ const fetchResults = async function (url) {
     throw new Error("Failed to fetch data");
   }
   console.log(res);
-  console.log("sdfasdf");
   let results = res.json();
   return results;
 };
@@ -91,7 +85,7 @@ const Search: NextPage = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8983/solr/blacklight-core/select?q=*:*&rows=100")
+    fetch(solrUrl + "/select?q=*:*&rows=100")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -99,7 +93,30 @@ const Search: NextPage = () => {
       });
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <>
+        <Header title={"Data Discovery"} />
+        <NavBar />
+        <TopLines />
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalBoxStyle}>
+            <div>How to Search</div>
+            <div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
+            <div className="self-center w-full mt-10 max-md:max-w-full">
+              modal something
+            </div>
+            <div className="bg-orange-300 w-full h-1 mt-10" />
+          </Box>
+        </Modal>
+        <div className="flex flex-col">Loading...</div>
+      </>
+    );
   if (!data) return <p>No profile data</p>;
 
   console.log(data.response.docs);
