@@ -21,6 +21,7 @@ import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-
 import communityToolkitIconBlack from "@/public/logos/community-toolkit-icon-black.svg";
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
+import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
@@ -345,14 +346,17 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%]">
             Brought to you by
           </div>
-          <div className="grid grid-flow-col grid-cols-[1fr_1fr]">
+          <div className="grid grid-flow-col grid-cols-[1fr_1fr] items-center">
             <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]">
               <Link
                 href="http://www.healthyregions.org/"
                 target="_blank"
                 rel="noreferrer"
               >
-                <Image alt="Herop light logo" src={heropLightLogo} />
+                <Image
+                  alt="Healthy Regions & Policies Lab"
+                  src={heropLightLogo}
+                />
               </Link>
             </div>
             <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
@@ -361,7 +365,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Image alt="University wordmark" src={universityWordmark} />
+                <Image alt="University of Illinois" src={universityWordmark} />
+              </Link>
+            </div>
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+              <Link
+                href="https://spatial.uchicago.edu/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image alt="Center for Spatial Data Science" src={csdsLogo} />
               </Link>
             </div>
           </div>
