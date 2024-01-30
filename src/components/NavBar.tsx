@@ -76,7 +76,11 @@ const NavBar = (): JSX.Element => {
           onClick={handleNav}
           className="block min-[768px]:hidden pl-[25px] z-50"
         >
-          {nav ? <AiOutlineClose size={35} /> : <AiOutlineMenu size={35} />}
+          {nav ? (
+            <AiOutlineClose size={35} color={"white"} />
+          ) : (
+            <AiOutlineMenu size={35} />
+          )}
         </div>
 
         {/* Mobile Menu */}
@@ -84,7 +88,7 @@ const NavBar = (): JSX.Element => {
           className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 flex justify-center items-center w-full
-          h-screen bg-frenchviolet text-center ease-in duration-300`}
+          h-screen bg-frenchviolet text-white text-center ease-in duration-300`}
         >
           <ul>
             <li className="p-4 text-5xl uppercase">
