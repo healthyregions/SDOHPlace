@@ -1,0 +1,75 @@
+{
+    "spatial_resolution": {
+        "label": "Spatial Resolution",
+        "uri": "sdoh_spatial_resolution_sm",
+        "data_type": "string",
+        "multiple": true,
+        "obligation": "required",
+        "controlled": true,
+        "controlled_options": [
+            "City",
+            "County",
+            "State",
+            "Census Tract",
+            "Census Block",
+            "Census Block Group",
+            "Zip Code Tabulation Area (ZCTA)"
+        ],
+        "schema": "SDOH Place",
+        "display_group": "SDOH Place Project",
+        "slug": "spatial-resolution",
+        "widget": "select.html"
+    },
+    "spatial_resolution_note": {
+        "label": "Spatial Resolution Note",
+        "uri": "sdoh_spatial_resolution_note_s",
+        "data_type": "string",
+        "multiple": false,
+        "obligation": "optional",
+        "controlled": false,
+        "controlled_options": [],
+        "schema": "SDOH Place",
+        "display_group": "SDOH Place Project",
+        "slug": "spatial-resolution-note",
+        "widget": "text-simple.html"
+    },
+    "methods_variables": {
+        "label": "Methods Variables",
+        "uri": "sdoh_methods_variables_sm",
+        "data_type": "string",
+        "multiple": true,
+        "obligation": "suggested",
+        "controlled": false,
+        "controlled_options": [],
+        "schema": "SDOH Place",
+        "display_group": "SDOH Place Project",
+        "slug": "methods-variables",
+        "widget": "text-area.html"
+    },
+    "data_variables": {
+        "label": "Data Variables",
+        "uri": "sdoh_data_variables_sm",
+        "data_type": "string",
+        "multiple": true,
+        "obligation": "suggested",
+        "controlled": false,
+        "controlled_options": [],
+        "schema": "SDOH Place",
+        "display_group": "SDOH Place Project",
+        "slug": "spatial-resolution",
+        "widget": "text-area.html"
+    },
+    "data_usage_notes": {
+        "label": "Data Usage Notes",
+        "uri": "sdoh_data_usage_notes_s",
+        "data_type": "string",
+        "multiple": false,
+        "obligation": "optional",
+        "controlled": false,
+        "controlled_options": [],
+        "schema": "SDOH Place",
+        "display_group": "SDOH Place Project",
+        "slug": "data-usage-notes",
+        "widget": "text-area.html"
+    }
+}
