@@ -18,7 +18,7 @@ import { SearchResults, getResults } from "@/components/SearchResults";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import { Grid } from "@mui/material";
-import ParentList from "./parentList";
+import ParentList from "../../components/search/parentList";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
