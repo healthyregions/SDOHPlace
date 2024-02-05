@@ -6,12 +6,16 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 
+import  { initSolrObject, generateSolrParentList } from "../../../meta/helper/solrObjects";
+
 import Header from "@/components/Header";
 import TopLines from "@/components/TopLines";
 import { SearchResults, getResults } from "@/components/SearchResults";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
+import { Grid } from "@mui/material";
+import ParentList from "./parentList";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -33,6 +37,9 @@ const modalBoxStyle = {
   paddingTop: "10px",
   overflowY: "auto",
 };
+const sideBarStyle = {
+
+}
 
 interface SearchPageProps {
   results: SearchResults[];
@@ -119,45 +126,63 @@ const Search: NextPage = () => {
     );
   if (!data) return <p>No profile data</p>;
 
-  console.log(data.response.docs);
+  console.log("rawSolr ", data.response.docs);
+  
+  // test issue 74 and issue 75
+  const solrObjectResults = [];
+  data.response.docs.map((doc, index) => {
+    solrObjectResults.push(initSolrObject(doc));
+  });
+  console.log("transferred list ", solrObjectResults);
 
   return (
-    <>
-      <Header title={"Data Discovery"} />
-      <NavBar />
-      <TopLines />
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={modalBoxStyle}>
-          <div>How to Search</div>
-          <div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
-          <div className="self-center w-full mt-10 max-md:max-w-full">
-            modal something
-          </div>
-          <div className="bg-orange-300 w-full h-1 mt-10" />
-        </Box>
-      </Modal>
-      <div className="flex flex-col">
-        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Data Discovery</h1>
-          <div>
-            {data.response.docs.map((doc, index) => (
-              <div
-                key={index}
-                className="text-lg font-medium leading-[177.778%] mt-2.5"
-              >
-                {doc.dct_title_s}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
+		<>
+			<Header title={"Data Discovery"} />
+			<NavBar />
+			<TopLines />
+			<Modal
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Box sx={modalBoxStyle}>
+					<div>How to Search</div>
+					<div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
+					<div className="self-center w-full mt-10 max-md:max-w-full">
+						modal something
+					</div>
+					<div className="bg-orange-300 w-full h-1 mt-10" />
+				</Box>
+			</Modal>
+			<div className="flex flex-col">
+				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+					<h1 className="font-fredoka">Data Discovery</h1>
+					<Grid container spacing={4}>
+						<Grid item xs={6}>
+							<ParentList
+								solrParents={generateSolrParentList(
+									solrObjectResults
+								)}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<h3>All Item List</h3>
+							{data.response.docs.map((doc, index) => (
+								<div
+									key={index}
+									className="text-lg font-medium leading-[177.778%] mt-2.5"
+								>
+									{doc.dct_title_s}
+								</div>
+							))}
+						</Grid>
+					</Grid>
+				</div>
+			</div>
+		</>
   );
 };
 
 export default Search;
+
