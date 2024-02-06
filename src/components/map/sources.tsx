@@ -18,4 +18,12 @@ export const sources = {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/bg-2018.pmtiles",
   },
+  zcta: {
+    type: "vector",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/zcta-2018.pmtiles",
+  },
+  place: {
+    type: "vector",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/place-2018.pmtiles",
+  },
 };
