@@ -50,6 +50,7 @@
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "2.0.13",
     "@mui/core": "^5.0.0-alpha.54",
+    "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.14.13",
     "@mui/styles": "^5.14.14",
     "@next/font": "13.1.0",
