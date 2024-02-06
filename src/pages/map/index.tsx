@@ -15,7 +15,7 @@ import { LayerSpecification, FilterSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
 
-import { stateSelectable, displayLayers } from "../../components/map/layers";
+import { stateInteractive, displayLayers } from "../../components/map/layers";
 import { sources } from "../../components/map/sources";
 
 // Use LineLayers for the default display of boundary features.
@@ -87,12 +87,11 @@ const MapPage: NextPage = () => {
     id: "state-highlighted",
     source: "state",
     "source-layer": "state-2018",
-    type: "fill",
+    type: "line",
     paint: {
-      "fill-color": "#6e599f",
-      "fill-opacity": 0.75,
+      "line-color": "#8e0850",
+      "line-width": 3,
     },
-    // filter: filterState
   };
 
   const onLoad = () => {
@@ -104,11 +103,12 @@ const MapPage: NextPage = () => {
     // add these layers before the "Ocean labels" layer (which is already present
     // in the default mapstyle). This allows labels to overlap the boundaries.
     displayLayers.forEach((lyr) => {
-      mapRef.current.getMap().addLayer(lyr, "Ocean labels");
+      const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+      mapRef.current.getMap().addLayer(lyr, addBefore);
     });
 
     // add selectable state layer to the map (this is linked to 'interactiveLayerIds' in the Map object)
-    mapRef.current.getMap().addLayer(stateSelectable, "Ocean labels");
+    mapRef.current.getMap().addLayer(stateInteractive, "Ocean labels");
   };
 
   return (
@@ -129,7 +129,7 @@ const MapPage: NextPage = () => {
         onMouseMove={onHover}
         onClick={onClick}
         onLoad={onLoad}
-        interactiveLayerIds={["state-selectable"]}
+        interactiveLayerIds={["state-interactive"]}
       >
         {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
         <Layer {...hlStateLyr} beforeId="Ocean labels" filter={filterState} />
