@@ -19,6 +19,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import { Grid } from "@mui/material";
 import ParentList from "../../components/search/parentList";
+import SearchArea from "@/components/search/searchArea";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -99,8 +100,8 @@ const Search: NextPage = () => {
 			.then((data) => {
 				setData(data);
 				setLoading(false);
-				
-        console.log("rawSolr ", data.response.docs);
+
+				console.log("rawSolr ", data.response.docs);
 
 				// test issue 74 and issue 75
 				const solrObjectResults = [];
@@ -108,7 +109,7 @@ const Search: NextPage = () => {
 					solrObjectResults.push(initSolrObject(doc));
 				});
 				setSolrObjectResults(solrObjectResults);
-        console.log("solrObjectResults ", solrObjectResults);
+				console.log("solrObjectResults ", solrObjectResults);
 			});
 	}, []);
 
@@ -181,6 +182,11 @@ const Search: NextPage = () => {
 							))}
 						</Grid>
 					</Grid>
+				</div>
+			</div>
+			<div className="flex flex-col">
+				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+					<SearchArea />
 				</div>
 			</div>
 		</>
