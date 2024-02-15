@@ -2,13 +2,9 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
-import styles from "./homepage.module.css";
-import mapWithPinLogo from "@/public/logos/map-with-pin.svg";
-import heroLogo from "@/public/logos/hero-logo.svg";
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
-import theSDOHPlaceProjectLogo from "@/public/logos/the-sdoh-place-project.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
@@ -19,7 +15,6 @@ import housingIcon from "@/public/logos/housing-icon.svg";
 import etcIcon from "@/public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
-import communityToolkitIconBlack from "@/public/logos/community-toolkit-icon-black.svg";
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
 import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
@@ -107,13 +102,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     },
   ];
 
-  let comingSoonRef = useRef();
-
   function scrollToComingSoon() {
     document
       .getElementById("coming-soon-section")
       .scrollIntoView({ behavior: "smooth" });
-    // comingSoonRef?.current
   }
 
   return (
@@ -142,53 +134,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
-        {/* <div className="flex flex-col justify-center px-[5%]">
-          <div className="flex items-center justify-start sm:mt-auto  max-md:pt-[10vw] min-[450px]:max-[768px]:pt-[15vw]">
-            <div className="my-auto flex-shrink relative top-[-2%] pr-6">
-              <Image
-                priority
-                src={mapWithPinLogo}
-                alt="The SDOH & Place Project logo"
-              />
-            </div>
-
-            <div className="p-4 flex flex-col justify-start md:pt-20 md:gap-20">
-              <Image
-                priority
-                src={theSDOHPlaceProjectLogo}
-                alt="The SDOH & Place Project logo"
-              />
-              <div className="max-md:hidden self-center uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] text-center">
-                Coming Soon
-              </div>
-            </div>
-          </div>
-          <div className="self-start uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
-            Coming Soon
-          </div>
-          <div className="md:hidden self-start uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[45%]">
-            Coming Soon
-          </div>
-          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
-              Learn More
-            </div>
-            <div className="mx-auto w-[1.25rem] h-[1.25rem]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="15"
-                viewBox="0 0 18 15"
-                fill="none"
-              >
-                <path
-                  d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-frenchviolet"
-                />
-              </svg>
-            </div>
-          </div>
-        </div> */}
         <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
           <div className="mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
@@ -248,25 +193,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               ></ButtonWithIcon>
             </div>
           </div>
-          {/* <div className="md:hidden self-center text-center mt-[5%]">
-            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
-              Learn More
-            </div>
-            <div className="mx-auto w-[1.25rem] h-[1.25rem]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="15"
-                viewBox="0 0 18 15"
-                fill="none"
-              >
-                <path
-                  d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-frenchviolet"
-                />
-              </svg>
-            </div>
-          </div> */}
         </div>
         <div className="md:hidden text-center">
           <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
