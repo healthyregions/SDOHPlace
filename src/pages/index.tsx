@@ -7,6 +7,7 @@ import React, { useRef, useState } from "react";
 import styles from "./homepage.module.css";
 import mapWithPinLogo from "@/public/logos/map-with-pin.svg";
 import heroLogo from "@/public/logos/hero-logo.svg";
+import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import theSDOHPlaceProjectLogo from "@/public/logos/the-sdoh-place-project.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
@@ -192,7 +193,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
-              src={heroLogo}
+              src={mainLogo}
               alt="The SDOH & Place Project logo"
             />
           </div>
@@ -399,7 +400,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="text-almostblack text-2xl-rfs font-bold leading-8">
-                  Data Discovery
+                  Data Discovery{" "}
+                  <em style={{ color: "grey" }}> &mdash; coming soon!</em>
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
@@ -451,8 +453,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                       svgIcon={communityToolkitIcon}
                       fillColor={"frenchviolet"}
                       labelColor={"white"}
-                      onClick={scrollToComingSoon}
-                      disabled={true}
+                      onClick={() => {
+                        window.location.href = "https://toolkit.sdohplace.org";
+                      }}
                     ></ButtonWithIcon>
                   </div>
                 </div>
