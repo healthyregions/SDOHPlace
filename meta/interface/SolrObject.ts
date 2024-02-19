@@ -20,6 +20,6 @@ export interface SolrObject {
   modified: string;
   access_rights: string;
   resource_class: string;
-  meta: any;
+  meta: {};
   parents?: string[];
 }

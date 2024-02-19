@@ -24,41 +24,52 @@ export default function ParentList({
 		return (
 			<div>
 				<h3>Parent List</h3>
-				{solrParents.map((solrParent, index) => {
-					return (
-						<Accordion
-							key={solrParent.id}
-							expanded={expanded === solrParent.id}
-							onChange={handleChange(solrParent.id)}
-						>
-							<AccordionSummary
-								expandIcon={<ExpandMoreIcon />}
-								aria-controls={`${solrParent.id}bh-content`}
-								id={`${solrParent.id}bh-header`}
+				{solrParents.length === 0 ? (
+					<div>No parent found</div>
+				) : (
+					solrParents.map((solrParent, index) => {
+						return (
+							<Accordion
+								key={solrParent.id}
+								expanded={expanded === solrParent.id}
+								onChange={handleChange(solrParent.id)}
 							>
-								<Typography sx={{ color: "text.primary" }}>
-									{solrParent.title}
-								</Typography>
-							</AccordionSummary>
-							<AccordionDetails>
-								<List>
-									<ListItem>
-										Created by: {solrParent.creator}
-									</ListItem>
-									<ListItem>
-										Description: {solrParent.description}
-									</ListItem>
-									<ListItem>
-										Years:{" "}
-										{Array.from(solrParent.years).join(
-											", "
-										)}
-									</ListItem>
-								</List>
-							</AccordionDetails>
-						</Accordion>
-					);
-				})}
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls={`${solrParent.id}bh-content`}
+									id={`${solrParent.id}bh-header`}
+								>
+									<Typography sx={{ color: "text.primary" }}>
+										{solrParent.title}
+									</Typography>
+								</AccordionSummary>
+								<AccordionDetails>
+									<List>
+										<ListItem>
+											Created by: {solrParent.creator}
+										</ListItem>
+										<ListItem>
+											Description:{" "}
+											{solrParent.description}
+										</ListItem>
+										<ListItem>
+											Years:{" "}
+											{Array.from(solrParent.years).join(
+												", "
+											)}
+										</ListItem>
+										<ListItem>
+											Metadata:{" "}
+											{Object.values(solrParent.meta).join(
+												", "
+											)}
+										</ListItem>
+									</List>
+								</AccordionDetails>
+							</Accordion>
+						);
+					})
+				)}
 			</div>
 		);
 	else {
