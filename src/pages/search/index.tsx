@@ -6,20 +6,16 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 
-import {
-	initSolrObject,
-	generateSolrParentList,
-} from "../../../meta/helper/solrObjects";
-
 import Header from "@/components/Header";
 import TopLines from "@/components/TopLines";
-import { SearchResults, getResults } from "@/components/SearchResults";
+import { SearchResults} from "@/components/SearchResults";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import { Grid } from "@mui/material";
-import ParentList from "../../components/search/parentList";
 import SearchArea from "@/components/search/searchArea";
+import { initSolrObject } from "meta/helper/solrObjects";
+import { SolrObject } from "meta/interface/SolrObject";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -91,7 +87,7 @@ const Search: NextPage = () => {
 	const handleClose = () => setOpen(false);
 
 	const [data, setData] = useState(null);
-	const [solrObjectResults, setSolrObjectResults] = useState([]);
+	const [solrObjectResults, setSolrObjectResults] = useState([] as SolrObject[]);
 	const [isLoading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -99,17 +95,13 @@ const Search: NextPage = () => {
 			.then((res) => res.json())
 			.then((data) => {
 				setData(data);
-				setLoading(false);
-
 				console.log("rawSolr ", data.response.docs);
-
-				// test issue 74 and issue 75
 				const solrObjectResults = [];
 				data.response.docs.map((doc, index) => {
 					solrObjectResults.push(initSolrObject(doc));
 				});
 				setSolrObjectResults(solrObjectResults);
-				console.log("solrObjectResults ", solrObjectResults);
+				setLoading(false);
 			});
 	}, []);
 
@@ -162,13 +154,9 @@ const Search: NextPage = () => {
 			<div className="flex flex-col">
 				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
 					<h1 className="font-fredoka">Data Discovery</h1>
-					<Grid container spacing={4}>
+					<Grid container mt={4}>
 						<Grid item xs={6}>
-							<ParentList
-								solrParents={generateSolrParentList(
-									solrObjectResults
-								)}
-							/>
+							<SearchArea results={solrObjectResults}/>
 						</Grid>
 						<Grid item xs={6}>
 							<h3>All Item List</h3>
@@ -182,11 +170,6 @@ const Search: NextPage = () => {
 							))}
 						</Grid>
 					</Grid>
-				</div>
-			</div>
-			<div className="flex flex-col">
-				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-					<SearchArea />
 				</div>
 			</div>
 		</>

@@ -1,5 +1,5 @@
 import { SolrObject } from "../interface/SolrObject";
-import { SolrParent } from "../interface/SolrParent";
+import { SolrParent } from '../interface/SolrParent';
 import aardvark_json from "../../src/pages/search/_metadata/aardvark_schema.json";
 import sdoh_json from "../../src/pages/search/_metadata/sdohplace_schema.json";
 import { AardvarkSdohSchemaMatch, findFirstSentence } from "./util";
@@ -45,19 +45,23 @@ const initSolrObject = (rawSolrObject: any): SolrObject => {
  */
 const generateSolrParentList = (solrObjects: SolrObject[]): SolrParent[] => {
 	let result = [] as SolrParent[];
-
 	solrObjects
 		.filter((solrObject) => !solrObject.parents)
 		.forEach((parentObject) => {
 			let solrParent = {} as SolrParent;
 			solrParent.id = parentObject.id;
-			solrParent.title = parentObject.title;
+			solrParent.title = parentObject.title? parentObject.title : "";
 			solrParent.creator = parentObject.meta["creator"]
 				? parentObject.meta["creator"][0]
-				: undefined;
+				: "";
 			solrParent.description = parentObject.meta["description"]
 				? findFirstSentence(parentObject.meta["description"][0])
-				: undefined;
+				: "";
+			solrParent.meta = parentObject.meta? parentObject.meta : {};
+			solrParent.metadata_version = parentObject.metadata_version? parentObject.metadata_version : "";
+			solrParent.modified = parentObject.modified? parentObject.modified : "";
+			solrParent.access_rights = parentObject.access_rights? parentObject.access_rights : "";
+			solrParent.resource_class = parentObject.resource_class? parentObject.resource_class : "";
 			solrParent.years = new Set([]);
 			result.push(solrParent);
 		});
