@@ -1,46 +1,44 @@
-import { Filter } from '@mui/icons-material';
-
 /**
  * A list of filter items that discover page will need
  */
 export default interface FilterObject {
 	year: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	spatial_coverage: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	resource_class: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	resource_type: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	format: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	subject: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	theme: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	creator: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	publisher: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	provider: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	spatial_resolution: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	methods_variables: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 	data_variables: {
-		[key: string]: number;
+		[key: string]: { number: number; checked: boolean };
 	};
 }

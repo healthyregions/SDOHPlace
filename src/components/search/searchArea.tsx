@@ -26,7 +26,7 @@ import {
 	runningFilter,
 } from "./helper/FilterHelpMethods";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CheckBoxObject, { CheckBoxList } from "./interface/CheckboxObject";
+import CheckBoxObject from "./interface/CheckboxObject";
 
 export default function SearchArea({
 	results,
@@ -41,7 +41,7 @@ export default function SearchArea({
 	const [queryData, setQueryData] = useState<SearchObject>({
 		userInput: "",
 	});
-	const [checkboxes, setCheckboxes] = useState({} as CheckBoxList);
+	const [checkboxes, setCheckboxes] = useState([]);
 	const [options, setOptions] = useState([]);
 	const [userInput, setUserInput] = useState("");
 	const [currentFilter, setCurrentFilter] = useState({
@@ -55,14 +55,13 @@ export default function SearchArea({
 		creator: {},
 		publisher: {},
 		provider: {},
-		spatial_resolution: {},
+		spatial_coverage: {},
 		methods_variables: {},
 		data_variables: {},
 	} as unknown as FilterObject);
 
 	let searchQueryBuilder = new SolrQueryBuilder();
 	let suggestResultBuilder = new SuggestedResult();
-
 
 	const handleSearch = async (value) => {
 		searchQueryBuilder
@@ -136,30 +135,29 @@ export default function SearchArea({
 		suggestResultBuilder.setResultTerms(JSON.stringify(results));
 	};
 
-	const handleFilter = (value) => (event) => {
-		const newCheckboxes = checkboxes;
-		if (!newCheckboxes[JSON.stringify(value)]) {
-			newCheckboxes[JSON.stringify(value)] = {
-				label: value,
+	const handleFilter = (attr, value) => (event) => {
+		const newCheckboxes = [...checkboxes];
+		if (!newCheckboxes.find((c) => c.value === value && c.attribute === attr)) {
+			newCheckboxes.push({
+				attribute: attr,
 				value: value,
 				checked: event.target.checked,
-			};
+			});
 		}
-		newCheckboxes[JSON.stringify(value)].checked = event.target.checked;
-		console.log("newCheckboxes", newCheckboxes);
-		setFetchResults(
-			runningFilter({
-				checkBoxStatus: newCheckboxes,
-				originalResult: originalResults,
-			})
+		newCheckboxes.find(
+			(c) => c.value === value && c.attribute === attr
+		).checked = event.target.checked;
+		const newResults = runningFilter(
+			newCheckboxes,originalResults
 		);
-		console.log("checkboxes", checkboxes);
-		//setCurrentFilter(generateFilter(fetchResults));
+		setCheckboxes(newCheckboxes);
+		setFetchResults(newResults);
+		setCurrentFilter(generateFilter(newResults, newCheckboxes));
 	};
 
 	useEffect(() => {
 		//Only run once
-		const generateFilterFromCurrentResults = generateFilter(fetchResults);
+		const generateFilterFromCurrentResults = generateFilter(fetchResults, checkboxes);
 		setCurrentFilter(generateFilterFromCurrentResults);
 	}, []);
 
@@ -232,15 +230,25 @@ export default function SearchArea({
 										(s) => {
 											return (
 												<div key={s}>
-													<Typography>
+													<span>
 														{s}:
-														{currentFilter.year[s]}
-													</Typography>
+														{
+															currentFilter.year[
+																s
+															].number
+														}
+													</span>
 													<Checkbox
+														checked={
+															currentFilter.year[
+																s
+															].checked
+														}
 														value={{ year: s }}
-														onChange={handleFilter({
-															year: s,
-														})}
+														onChange={handleFilter(
+															"year",
+															s
+														)}
 													/>
 												</div>
 											);
@@ -251,25 +259,40 @@ export default function SearchArea({
 							<Accordion>
 								<AccordionSummary
 									expandIcon={<ArrowDropDownIcon />}
-									aria-controls="year-content"
-									id="year-header"
+									aria-controls="creator-content"
+									id="creator-header"
 								>
-									<Typography>Subject</Typography>
+									<Typography>Creator</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									{Object.keys(
-										currentFilter.subject
-									).map((s) => {
-										return (
-											<Typography key={s}>
-												{s}:
-												{
-													currentFilter
-														.subject[s]
-												}
-											</Typography>
-										);
-									})}
+									{Object.keys(currentFilter.creator).map(
+										(s) => {
+											return (
+												<div key={s}>
+													<span>
+														{s}:
+														{
+															currentFilter
+																.creator[s]
+																.number
+														}
+													</span>
+													<Checkbox
+														checked={
+															currentFilter
+																.creator[s]
+																.checked
+														}
+														value={{ creator: s }}
+														onChange={handleFilter(
+															"creator",
+															s
+														)}
+													/>
+												</div>
+											);
+										}
+									)}
 								</AccordionDetails>
 							</Accordion>
 							<Accordion>
@@ -289,19 +312,39 @@ export default function SearchArea({
 										},
 									}}
 								>
-									{Object.keys(
-										currentFilter.spatial_coverage
-									).map((s) => {
-										return (
-											<Typography key={s}>
-												{s}:
-												{
-													currentFilter
-														.spatial_coverage[s]
-												}
-											</Typography>
-										);
-									})}
+									{Object.keys(currentFilter.spatial_coverage).map(
+										(s) => {
+											return (
+												<div key={s}>
+													<span>
+														{s}:
+														{
+															currentFilter
+																.spatial_coverage[
+																s
+															].number
+														}
+													</span>
+													<Checkbox
+														checked={
+															currentFilter
+																.spatial_coverage[
+																s
+															].checked
+														}
+														value={{
+															spatial_coverage:
+																s,
+														}}
+														onChange={handleFilter(
+															"spatial_coverage",
+															s
+														)}
+													/>
+												</div>
+											);
+										}
+									)}
 								</AccordionDetails>
 							</Accordion>
 						</Grid>

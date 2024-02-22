@@ -1,8 +1,11 @@
 import { SolrParent } from "meta/interface/SolrParent";
 import FilterObject from "../interface/FilterObject";
-import CheckBoxObject, { CheckBoxList } from "../interface/CheckboxObject";
+import CheckBoxObject from "../interface/CheckboxObject";
 
-export const generateFilter = (fetchResults) => {
+export const generateFilter = (
+	fetchResults: SolrParent[],
+	checkBoxes: CheckBoxObject[]
+) => {
 	let currentFilter = {
 		year: {},
 		resource_class: {},
@@ -21,13 +24,47 @@ export const generateFilter = (fetchResults) => {
 	fetchResults.forEach((result) => {
 		result.year.forEach((year) => {
 			if (currentFilter.year[year]) {
-				currentFilter.year[year] += 1;
-			} else currentFilter.year[year] = 1;
+				currentFilter.year[year].number += 1;
+			} else currentFilter.year[year] = { number: 1, checked: false };
+			if (
+				checkBoxes.length > 0 &&
+				checkBoxes.find(
+					(c) => c.value === year && c.attribute === "year"
+				) !== undefined &&
+				checkBoxes.find(
+					(c) => c.value === year && c.attribute === "year"
+				).checked
+			) {
+				currentFilter.year[year].checked = true;
+			} else {
+				currentFilter.year[year].checked = false;
+			}
 		});
 		result.resource_class.forEach((resource_class) => {
 			if (currentFilter.resource_class[resource_class]) {
-				currentFilter.resource_class[resource_class] += 1;
-			} else currentFilter.resource_class[resource_class] = 1;
+				currentFilter.resource_class[resource_class].number += 1;
+			} else
+				currentFilter.resource_class[resource_class] = {
+					number: 1,
+					checked: false,
+				};
+			if (
+				checkBoxes.length > 0 &&
+				checkBoxes.find(
+					(c) =>
+						c.value === resource_class &&
+						c.attribute === "resource_class"
+				) !== undefined &&
+				checkBoxes.find(
+					(c) =>
+						c.value === resource_class &&
+						c.attribute === "resource_class"
+				).checked
+			) {
+				currentFilter.resource_class[resource_class].checked = true;
+			} else {
+				currentFilter.resource_class[resource_class].checked = false;
+			}
 		});
 		// other attributes are in meta
 		if (result.meta) {
@@ -46,17 +83,60 @@ export const generateFilter = (fetchResults) => {
 					key === "data_variables"
 				) {
 					if (Array.isArray(result.meta[key])) {
-						result.meta[key].forEach((meta) => {
-							if (currentFilter[key].hasOwnProperty(meta)) {
-								currentFilter[key][meta] += 1;
-							} else currentFilter[key][meta] = 1;
+						(result.meta[key] as string[]).forEach((metaData) => {
+							if (currentFilter[key][metaData]) {
+								currentFilter[key][metaData].number += 1;
+							} else
+								currentFilter[key][metaData] = {
+									number: 1,
+									checked: false,
+								};
+
+							if (
+								checkBoxes.length > 0 &&
+								checkBoxes.find(
+									(c) =>
+										c.value === metaData &&
+										c.attribute === key
+								) !== undefined &&
+								checkBoxes.find(
+									(c) =>
+										c.value === metaData &&
+										c.attribute === key
+								).checked
+							) {
+								currentFilter[key][metaData].checked = true;
+							} else {
+								currentFilter[key][metaData].checked = false;
+							}
 						});
-					} else {
+					} else if (typeof result.meta[key] === "string") {
+						const metaString = result.meta[key] as string; // Type assertion
+						if (currentFilter[key].hasOwnProperty(metaString)) {
+							currentFilter[key][metaString].number += 1;
+						} else
+							currentFilter[key][metaString] = {
+								number: 1,
+								checked: false,
+							};
+
 						if (
-							currentFilter[key].hasOwnProperty(result.meta[key])
+							checkBoxes.length > 0 &&
+							checkBoxes.find(
+								(c) =>
+									c.value === metaString &&
+									c.attribute === key
+							) !== undefined &&
+							checkBoxes.find(
+								(c) =>
+									c.value === metaString &&
+									c.attribute === key
+							).checked
 						) {
-							currentFilter[key][result.meta[key]] += 1;
-						} else currentFilter[key][result.meta[key]] = 1;
+							currentFilter[key][metaString].checked = true;
+						} else {
+							currentFilter[key][metaString].checked = false;
+						}
 					}
 				}
 			});
@@ -71,7 +151,7 @@ export const filterResults = (fetchedResults, key, value) => {
 		if (result[key] !== undefined) {
 			if (result[key].includes(value)) {
 				filteredResults.push(result);
-			} 
+			}
 		} else if (result.meta) {
 			if (Array.isArray(result.meta[key])) {
 				result.meta[key].forEach((meta) => {
@@ -100,24 +180,24 @@ export const filterResults = (fetchedResults, key, value) => {
 ]
  * checkBoxes here means user have used it, otherwise default value is unchecked, so only search 'true' value
  */
-export const runningFilter = ({
-	checkBoxStatus,
-	originalResult,
-}: {
-	checkBoxStatus: CheckBoxList;
-	originalResult: SolrParent[];
-}) => {
-	let fetchedResults = Object.values(checkBoxStatus).find(c=>c.checked === true)? []:originalResult;
-	Object.values(checkBoxStatus).forEach((checkBox) => {
+export const runningFilter = (
+	checkBoxStatus: CheckBoxObject[],
+	originalResult: SolrParent[]
+) => {
+	if (checkBoxStatus.find((c) => c.checked === true) === undefined)
+		return originalResult;
+	let fetchedResults = checkBoxStatus.find((c) => c.checked === true)
+		? []
+		: originalResult;
+	checkBoxStatus.forEach((checkBox) => {
 		if (checkBox.checked) {
-			const attr = Object.keys(checkBox.value)[0];
-			const value = checkBox.value[attr];
-			filterResults(originalResult, attr, value).forEach((result) => {
-				fetchedResults.push(result);
-			});
+			const attr = checkBox.attribute;
+			const value = checkBox.value;
+			if (fetchedResults.length === 0)
+				fetchedResults = filterResults(originalResult, attr, value);
+			else fetchedResults = filterResults(fetchedResults, attr, value);
 		}
 	});
-    console.log("afterFilterOperation:", fetchedResults);
 	return Array.from(new Set(fetchedResults.map((a) => a.id))).map((id) => {
 		return fetchedResults.find((a) => a.id === id);
 	});
