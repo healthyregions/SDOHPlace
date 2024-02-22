@@ -55,7 +55,6 @@ export default function SearchArea({
 		creator: {},
 		publisher: {},
 		provider: {},
-		spatial_coverage: {},
 		methods_variables: {},
 		data_variables: {},
 	} as unknown as FilterObject);
