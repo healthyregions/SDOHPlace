@@ -155,10 +155,10 @@ const Search: NextPage = () => {
 				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
 					<h1 className="font-fredoka">Data Discovery</h1>
 					<Grid container mt={4}>
-						<Grid item xs={6}>
+						<Grid item xs={12}>
 							<SearchArea results={solrObjectResults}/>
 						</Grid>
-						<Grid item xs={6}>
+						{/* <Grid item xs={6}>
 							<h3>All Item List</h3>
 							{data.response.docs.map((doc, index) => (
 								<div
@@ -168,7 +168,7 @@ const Search: NextPage = () => {
 									{doc.dct_title_s}
 								</div>
 							))}
-						</Grid>
+						</Grid> */}
 					</Grid>
 				</div>
 			</div>

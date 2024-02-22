@@ -18,8 +18,8 @@ export interface SolrObject {
   title: string;
   metadata_version: string;
   modified: string;
-  access_rights: string;
-  resource_class: string;
-  meta: {};
+  access_rights: string[];
+  resource_class:string [];
+  meta: {[key: string]: string | string[]};
   parents?: string[];
 }

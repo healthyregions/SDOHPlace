@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // can be replaced 
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { SolrParent } from "../../../meta/interface/SolrParent";
-import { List, ListItem } from "@mui/material";
+import { Divider, List, ListItem } from "@mui/material";
 
 export default function ParentList({
 	solrParents,
@@ -53,14 +53,14 @@ export default function ParentList({
 											{solrParent.description}
 										</ListItem>
 										<ListItem>
-											Years:{" "}
-											{Array.from(solrParent.years).join(
+											Year:{" "}
+											{Array.from(solrParent.year).join(
 												", "
 											)}
 										</ListItem>
 										<ListItem>
-											Metadata:{" "}
-											{Object.values(solrParent.meta).join(
+											Years:{" "}
+											{Array.from(solrParent.years).join(
 												", "
 											)}
 										</ListItem>

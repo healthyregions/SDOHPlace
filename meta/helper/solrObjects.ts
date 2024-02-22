@@ -1,5 +1,5 @@
 import { SolrObject } from "../interface/SolrObject";
-import { SolrParent } from '../interface/SolrParent';
+import { SolrParent } from "../interface/SolrParent";
 import aardvark_json from "../../src/pages/search/_metadata/aardvark_schema.json";
 import sdoh_json from "../../src/pages/search/_metadata/sdohplace_schema.json";
 import { AardvarkSdohSchemaMatch, findFirstSentence } from "./util";
@@ -50,19 +50,34 @@ const generateSolrParentList = (solrObjects: SolrObject[]): SolrParent[] => {
 		.forEach((parentObject) => {
 			let solrParent = {} as SolrParent;
 			solrParent.id = parentObject.id;
-			solrParent.title = parentObject.title? parentObject.title : "";
+			solrParent.title = parentObject.title ? parentObject.title : "";
 			solrParent.creator = parentObject.meta["creator"]
-				? parentObject.meta["creator"][0]
-				: "";
+				? typeof parentObject.meta["creator"] === "string"
+					? [parentObject.meta["creator"]]
+					: parentObject.meta["creator"]
+				: [];
 			solrParent.description = parentObject.meta["description"]
 				? findFirstSentence(parentObject.meta["description"][0])
 				: "";
-			solrParent.meta = parentObject.meta? parentObject.meta : {};
-			solrParent.metadata_version = parentObject.metadata_version? parentObject.metadata_version : "";
-			solrParent.modified = parentObject.modified? parentObject.modified : "";
-			solrParent.access_rights = parentObject.access_rights? parentObject.access_rights : "";
-			solrParent.resource_class = parentObject.resource_class? parentObject.resource_class : "";
+			solrParent.meta = parentObject.meta ? parentObject.meta : {};
+			solrParent.metadata_version = parentObject.metadata_version
+				? parentObject.metadata_version
+				: "";
+			solrParent.modified = parentObject.modified
+				? parentObject.modified
+				: "";
+			solrParent.access_rights = parentObject.access_rights
+				? parentObject.access_rights
+				: [];
+			solrParent.resource_class = parentObject.resource_class
+				? parentObject.resource_class
+				: [];
 			solrParent.years = new Set([]);
+			solrParent.year = parentObject.meta["index_year"]
+				? typeof parentObject.meta["index_year"] === "string"
+					? [parentObject.meta["index_year"]]
+					: parentObject.meta["index_year"].map((year) => { return year.toString()})
+				: [];
 			result.push(solrParent);
 		});
 	solrObjects
@@ -72,7 +87,14 @@ const generateSolrParentList = (solrObjects: SolrObject[]): SolrParent[] => {
 				result
 					.filter((solrParent) => parentTitle === solrParent.id)
 					.forEach((solrParent) => {
-						solrParent.years.add(childObject.meta["date_issued"]);
+						childObject.meta["date_issued"]
+							? solrParent.years.add(
+									typeof childObject.meta["date_issued"] ===
+										"string"
+										? childObject.meta["date_issued"]
+										: childObject.meta["date_issued"][0]
+							  )
+							: null;
 					});
 			});
 		});

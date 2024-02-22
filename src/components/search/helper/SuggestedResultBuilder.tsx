@@ -25,11 +25,19 @@ export default class SuggestedResultBuilder {
 	private getTermsFromTermResult(response_json: TermResult): string[] {
 		let result = [] as string[];
 		if (!this.suggestInput) return result;
-		response_json.suggest[this.suggester][
-			this.suggestInput
-		].suggestions.forEach((res) => {
-			result.push(res["term"]);
-		});
+		const suggestions =
+			response_json.suggest[this.suggester][this.suggestInput]
+				.suggestions;
+		if (suggestions.length === 0) return result;
+		if (suggestions.every((res) => res.weight < 1)) {
+			// if all terms have weight <, use first term that larger than 0.5
+			if(suggestions[0].weight>0.5) result.push(suggestions[0]["term"]);
+		} else {
+			suggestions.forEach((res) => {
+				// if multiple terms are suggested, use only weight = 1 term
+				if (res.weight === 1) result.push(res["term"]);
+			});
+		}
 		return result;
 	}
 }

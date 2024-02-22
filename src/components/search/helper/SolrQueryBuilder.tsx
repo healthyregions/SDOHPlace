@@ -70,7 +70,7 @@ export default class SolrQueryBuilder {
 		return this.setQuery(contentQuery);
 	}
 	public generalQuery(searchTerm: string) {
-		const generalQuery = `select?q=${this.escapeQueryChars(searchTerm)}`;
+		const generalQuery = `select?q=${this.escapeQueryChars(searchTerm)}&rows=1000`; //add rows to remove pagination
 		return this.setQuery(generalQuery);
 	}
 
