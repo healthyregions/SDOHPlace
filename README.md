@@ -2,7 +2,7 @@
 
 A repository for the landing page and the community toolkit of the SDOH & Place Project.
 
-## Decap CMS Implementation
+## Blog: Decap CMS Implementation
 
 We have integrated a [Decap CMS](https://decapcms.org/) blog into this site, which is managed through Netlify. Features of this integration include:
 
@@ -17,6 +17,12 @@ To create/edit/delete blog posts:
 Or
 
 - Switch to the `publish` branch and make direct edits to the `.mdx` files in `content/news`
+
+### Tips for Writing Blog Posts
+
+- Each post should have at least one tag.
+- Don't use `<` or `>` in the text of a post. If you need those characters, use `&lt;` (lt = "less than") and `&gt;` (gt = "greater than").
+    - The reason for this is that markdown can support inclusion of HTML elements, which look like `<element-name>`. If `<>` are found outside of a valid HTML element, they will cause an error.
 
 ## Branch Configuration
 
