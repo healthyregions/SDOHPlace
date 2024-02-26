@@ -58,7 +58,7 @@ const Advisory: NextPage = () => {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Header title={"Advisory"} />
+      <Header title={"Fellows"} />
       <NavBar />
       <TopLines />
       <Modal
