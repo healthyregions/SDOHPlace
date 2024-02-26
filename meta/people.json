@@ -341,5 +341,154 @@
     "long": [
       "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. Currently, he is working as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project."
     ]
+  },
+  "alex": {
+    "name": "Alex Michels",
+    "title": "PhD Student",
+    "image": "../../images/headshot-am.jpeg",
+    "text": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at the CyberGIS Center for Advanced Digital and Spatial Studies and will be on the job market in Fall 2024.",
+      "Alex is passionate about access & cyberGIS meaning: (1) using cyberGIS to explore, model, and analyze spatial patterns and systems of inaccessibility and inequity and (2) making cyberGIS tools and technology accessible to all. His work in analysis and modeling includes Spatial Agent-Based Models (SABMs) for public health and the WhereCOVID-19 Spatial Accessibility Explorer for rapidly measuring spatial accessibility during the COVID-19 pandemic. His work on FAIR (Findable, Accessible, Interoperable, and Reproducible) computing in the geosciences includes contributions to CyberGISX, CyberGIS-Jupyter for Water (CJW), and CyberGIS-Compute."
+    ]
+  },
+  "amy": {
+    "name": "Amy Kryston",
+    "title": "Senior Analyst",
+    "image": "../../images/headshot-ak.jpeg",
+    "text": "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists in the evaluation of community health worker (CHW) integration into federally qualified health centers and retrospective evaluation of CHW programming during the COVID-19 pandemic. She also provides technical support to North Carolina community-based organizations and health departments and leads the evaluation of community health needs assessment with the City of Montgomery, Alabama. Amy holds a Bachelor of Science in Civil Engineering from Gonzaga University, a Master of Science in Civil and Environmental Engineering and Earth Sciences from the University of Notre Dame, a Master of Public Health from the University of North Carolina, Chapel Hill (UNC).",
+      "Prior to her current role, Amy conducted research on remotely sensed early detection of cholera outbreaks in Bangladesh and transboundary water policy of the Ganges River under multiple potential climate futures. At UNC, she received the University’s inaugural Environmental Graduate Research Scholarship for her work on access to safe sanitation in the United States. Amy continues to work the UNC Gillings School of Global Public Health Humanitarian Health Initiative as the program coordinator and as a technical advisor for community health and water and sanitation in Nicaragua. She is a co-founder and the current president of Switchback Gear Collective, a North Carolina non-profit organization working to advance outdoor equity."
+    ]
+  },
+  "beth": {
+    "name": "Beth Beyer",
+    "title": "",
+    "image": "../../images/missing-headshot.png",
+    "text": "",
+    "links": {},
+    "category": ["fellow"],
+    "long": []
+  },
+  "jessica": {
+    "name": "Jessica Davis",
+    "title": "Postdoctoral Scholar",
+    "image": "../../images/headshot-jd.jpeg",
+    "text": "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for diverse populations of newborns and their families through her time as a nurse and lactation consultant at UPMC Children’s Hospital of Pittsburgh, UPMC Magee Women’s Hospital, Midwife Center for Birth and Women’s Health, and the Pacify tele-lactation network. In addition to her clinical work, she was a peer lactation mentor with La Leche League, serves as a board member to the Mid-Atlantic Mother’s Milk Bank, and has recently joined the editorial board at the Journal for Perinatal and Neonatal Nursing. She is interested in building a program of clinical research that utilizes lactation and perinatal support interventions to enhance health equity for families impacted by fetal and/or infant diagnosis of a congenital heart defect."
+    ]
+  },
+  "joseph": {
+    "name": "Joseph Braimah",
+    "title": "",
+    "image": "../../images/missing-headshot.png",
+    "text": "",
+    "links": {},
+    "category": ["fellow"],
+    "long": []
+  },
+  "kennedy": {
+    "name": "Kennedy Patterson",
+    "title": "",
+    "image": "../../images/missing-headshot.png",
+    "text": "",
+    "links": {},
+    "category": ["fellow"],
+    "long": []
+  },
+  "latrice": {
+    "name": "Latrice Landry",
+    "title": "",
+    "image": "../../images/missing-headshot.png",
+    "text": "",
+    "links": {},
+    "category": ["fellow"],
+    "long": []
+  },
+  "madeline": {
+    "name": "Madeline Smith-Johnson",
+    "title": "Ph.D. Candidate",
+    "image": "../../images/headshot-msj.jpeg",
+    "text": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of transgender adults in the United States. They hold a Master of Philosophy in Sociology from the University of Cambridge and a Master of Arts in Sociology from Rice University. Madeline is committed to building comprehensive and creative measures of multilevel gendered stigma to specify stigma’s impact on population health. Their research interests include LGBTQ+ population health, structural sexism, the relationship between state policies and health disparities, healthcare access and delivery, survey measurement of LGBTQ+ identity, and data visualization."
+    ]
+  },
+  "makiya": {
+    "name": "Makiya Thomas",
+    "title": "DEI Specialist",
+    "image": "../../images/headshot-mt.jpeg",
+    "text": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending Eastern Illinois University. Makiya has also served in the Illinois Army National Guard for the past 9 years. While in the Army, she’s served as a Platoon Leader, Operations Officer in Charge while being deployed, and currently serves as a Headquarters Commander. Makiya currently works as a DEI Specialist for the Public Health District of Champaign where she lives with her beauty baby boy named Judah."
+    ]
+  },
+  "peter": {
+    "name": "Peter Chen",
+    "title": "Assistant Professor",
+    "image": "../../images/headshot-pc.jpeg",
+    "text": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests...",
+    "links": {},
+    "category": ["fellow"],
+    "long": ["Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests are focused on Geographic Information Systems (GIS) and community health. He employs both a data-driven approach and a mixed-methods approach to unveil socioeconomic and health inequities resulting from the unequal distribution of health resources. His topical area is food access, evaluating whether community members can perceive and utilize healthy, affordable food provisioning from both place-based and people-based perspectives. This research theme is substantiated using GIS modeling, big data analytics, AI-based food image recognition, and community surveys."]
+  },
+  "sarahn": {
+    "name": "Sarah Nelson",
+    "title": "",
+    "image": "../../images/missing-headshot.png",
+    "text": "",
+    "links": {},
+    "category": ["fellow"],
+    "long": []
+  },
+  "sarahs": {
+    "name": "Sarah Scott",
+    "title": "Graduate Student Researcher",
+    "image": "../../images/headshot-ss.jpeg",
+    "text": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in...",
+    "links": {},
+    "category": ["fellow"],
+    "long": ["Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in Epidemiology at the University of Pittsburgh School of Public Health. Ms. Scott utilizes mixed methods to explore the intersection of gender-based violence, social determinants of health, and women’s health. Her research interests include community-based participatory methods, intimate partner violence, economic abuse, mental health, and reproductive and sexual health. She received a Bachelor of Arts in Psychology from Pepperdine University and a Master of Public Health in Behavioral & Community Health Sciences from the University of Pittsburgh School of Public Health."]
+  },
+  "sonia": {
+    "name": "Sonia Saxon",
+    "title": "",
+    "image": "../../images/missing-headshot.png",
+    "text": "",
+    "links": {},
+    "category": ["fellow"],
+    "long": []
+  },
+  "tyler": {
+    "name": "Tyler Gorham",
+    "title": "Data Scientist",
+    "image": "../../images/headshot-tg.jpeg",
+    "text": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as...",
+    "links": {},
+    "category": ["fellow"],
+    "long": ["Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as a Data Scientist at Nationwide Children’s Hospital, his work spans spatial data science, clinical prediction model development, and public health research."]
+  },
+  "wei": {
+    "name": "Wei Tu",
+    "title": "Professor",
+    "image": "../../images/headshot-wt.jpeg",
+    "text": "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics (INLA). Dr. Tu’s research...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics (INLA). Dr. Tu’s research focuses on how and to what extent place and space influenced health outcomes, particularly the impacts of social determinants on maternal and child health. Dr. Tu uses a variety of statistical models and Geographic Information Systems to analyze and visualize geospatial health data, with an overarching goal of reducing health disparity, promoting community health, and improving population health."
+    ]
   }
 }
