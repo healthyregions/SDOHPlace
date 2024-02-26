@@ -1,5 +1,6 @@
 "use client";
 import type { NextPage } from "next";
+import Link from "next/link";
 import Footer from "@/components/homepage/footer";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
@@ -137,8 +138,13 @@ const Advisory: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  The Place Project is proud to have the following participants
-                  in our Community Fellows program.
+                  We proudly present the SDOH & Place 2024 Cohort of Fellows.
+                  These Fellows will contribute to the design and content of the{" "}
+                  <Link href="https://toolkit.sdohplace.org">
+                    Community Toolkit
+                  </Link>{" "}
+                  through their feedback and development of a SDOH & place-based
+                  pilot project.
                 </div>
               </div>
             </div>
