@@ -1,13 +1,19 @@
 import { SolrParent } from "meta/interface/SolrParent";
 import FilterObject from "../interface/FilterObject";
 import CheckBoxObject from "../interface/CheckboxObject";
+import SolrQueryBuilder from "./SolrQueryBuilder";
+import { generateSolrParentList } from "meta/helper/solrObjects";
 
+/**
+ * for attribute name, using the same key as solr schema
+ * Matching needs to use the same attribute name as the solr schema
+ */
 export const generateFilter = (
 	fetchResults: SolrParent[],
 	checkBoxes: CheckBoxObject[]
 ) => {
 	let currentFilter = {
-		year: {},
+		index_year: {},
 		resource_class: {},
 		resource_type: {},
 		spatial_coverage: {},
@@ -23,21 +29,21 @@ export const generateFilter = (
 	} as unknown as FilterObject;
 	fetchResults.forEach((result) => {
 		result.year.forEach((year) => {
-			if (currentFilter.year[year]) {
-				currentFilter.year[year].number += 1;
-			} else currentFilter.year[year] = { number: 1, checked: false };
+			if (currentFilter.index_year[year]) {
+				currentFilter.index_year[year].number += 1;
+			} else currentFilter.index_year[year] = { number: 1, checked: false };
 			if (
 				checkBoxes.length > 0 &&
 				checkBoxes.find(
-					(c) => c.value === year && c.attribute === "year"
+					(c) => c.value === year && c.attribute === "index_year"
 				) !== undefined &&
 				checkBoxes.find(
-					(c) => c.value === year && c.attribute === "year"
+					(c) => c.value === year && c.attribute === "index_year"
 				).checked
 			) {
-				currentFilter.year[year].checked = true;
+				currentFilter.index_year[year].checked = true;
 			} else {
-				currentFilter.year[year].checked = false;
+				currentFilter.index_year[year].checked = false;
 			}
 		});
 		result.resource_class.forEach((resource_class) => {
@@ -183,22 +189,38 @@ export const filterResults = (fetchedResults, key, value) => {
 export const runningFilter = (
 	checkBoxStatus: CheckBoxObject[],
 	originalResult: SolrParent[]
-) => {
-	if (checkBoxStatus.find((c) => c.checked === true) === undefined)
-		return originalResult;
-	let fetchedResults = checkBoxStatus.find((c) => c.checked === true)
-		? []
-		: originalResult;
+): Promise<SolrParent[]> => {
+	if (checkBoxStatus.find((c) => c.checked === true) === undefined) {
+		return Promise.resolve(originalResult);
+	}
+
+	let filterQueryBuilder = new SolrQueryBuilder();
+	let filters: { attribute: string; value: string }[] = [];
 	checkBoxStatus.forEach((checkBox) => {
 		if (checkBox.checked) {
-			const attr = checkBox.attribute;
+			const attribute = checkBox.attribute;
 			const value = checkBox.value;
-			if (fetchedResults.length === 0)
-				fetchedResults = filterResults(originalResult, attr, value);
-			else fetchedResults = filterResults(fetchedResults, attr, value);
+			filters.push({ attribute, value });
 		}
 	});
-	return Array.from(new Set(fetchedResults.map((a) => a.id))).map((id) => {
-		return fetchedResults.find((a) => a.id === id);
+	filterQueryBuilder.filterQuery(filters);
+
+	// Return a promise that resolves with the filtered result
+	return new Promise((resolve, reject) => {
+		filterQueryBuilder
+			.fetchResult()
+			.then((result) => {
+				console.log("filtered result", result);
+				const filteredParentList = generateSolrParentList(result);
+				// find overlap between originalResult and filteredParentList
+				const overlap = originalResult.filter((parent) =>
+					filteredParentList.find(
+						(filteredParent) => filteredParent.id === parent.id
+					)
+				);
+				console.log("overlap", overlap);
+				resolve(overlap);
+			})
+			.catch(reject);
 	});
 };

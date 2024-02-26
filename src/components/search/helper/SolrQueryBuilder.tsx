@@ -1,6 +1,7 @@
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
-
+import aardvark_json from "../../../pages/search/_metadata/aardvark_schema.json";
+import sdoh_json from "../../../pages/search/_metadata/sdohplace_schema.json";
 export default class SolrQueryBuilder {
 	private query: QueryObject = {
 		solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -10,13 +11,13 @@ export default class SolrQueryBuilder {
 	// Method to set the basic query string. Don't call this. Call individual query methods instead.
 	// TODO: if our query will have more syntax, move the select part to individual query methods
 	setQuery(queryString: string): SolrQueryBuilder {
+		console.log("queryString", queryString);
 		this.query.query = `${this.query.solrUrl}/${queryString}`;
 		return this;
 	}
 
 	public fetchResult(): Promise<SolrObject[]> {
 		return new Promise((resolve, reject) => {
-			console.log("fetching query:", this.query.query)
 			fetch(this.query.query)
 				.then((res) => res.json())
 				.then((response) => {
@@ -50,15 +51,10 @@ export default class SolrQueryBuilder {
 		});
 		return result;
 	}
-	escapeQueryChars(input: string): string {
-		if (!input) return "*";
-		return input.replace(/[-!(){}[\]^"~:*?\\]/g, "\\$&");
-	}
 
 	/**
 	 * Search Methods based on Solr syntax. Not all methods are used in the search component
 	 * */
-
 	public suggestQuery(searchTerm: string): SolrQueryBuilder {
 		const suggestQuery = `suggest?q=${this.escapeQueryChars(searchTerm)}`;
 		return this.setQuery(suggestQuery);
@@ -69,9 +65,45 @@ export default class SolrQueryBuilder {
 		)}"`;
 		return this.setQuery(contentQuery);
 	}
-	public generalQuery(searchTerm: string) {
-		const generalQuery = `select?q=${this.escapeQueryChars(searchTerm)}&rows=1000`; //add rows to remove pagination
+	public generalQuery(searchTerm: string): SolrQueryBuilder {
+		const generalQuery = `select?q=${this.escapeQueryChars(
+			searchTerm
+		)}&rows=1000`; //add rows to remove pagination
 		return this.setQuery(generalQuery);
+	}
+	public filterQuery(
+		searchTerms: { attribute: string; value: string }[]
+	): SolrQueryBuilder {
+		let filterQuery = `select?fq=`;
+		searchTerms.forEach((term) => {
+			term["attribute"] = this.findSolrAttribute(
+				term["attribute"]
+			);
+
+			// filterQuery += `${term["attribute"]}:${this.escapeQueryChars(
+			// 	term["value"]
+			// )} AND `;
+			filterQuery += `${term["attribute"]}:(${this.escapeQueryChars(
+				term["value"]
+			)} OR "${this.escapeQueryChars(term["value"])}") AND `;
+		});
+		filterQuery = filterQuery.slice(0, -5); //remove the last AND
+		filterQuery = filterQuery += "&rows=1000";
+		return this.setQuery(filterQuery);
+	}
+
+	/** Helper Functions
+	 */
+	escapeQueryChars(input: string): string {
+		if (!input) return "*";
+		return input.replace(/[-!(){}[\]^"~:*?\\]/g, "\\$&");
+	}
+	findSolrAttribute(key) {
+		return Object.keys(aardvark_json).find((e) => e === key)
+			? aardvark_json[key]["uri"]
+			: Object.keys(sdoh_json).find((e) => e === key)
+			? sdoh_json[key]["uri"]
+			: key;
 	}
 
 	// UNCOMMENT THE FOLLOWING METHODS IF NEEDED

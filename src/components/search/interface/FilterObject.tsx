@@ -2,7 +2,7 @@
  * A list of filter items that discover page will need
  */
 export default interface FilterObject {
-	year: {
+	index_year: {
 		[key: string]: { number: number; checked: boolean };
 	};
 	spatial_coverage: {

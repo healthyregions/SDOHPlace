@@ -26,7 +26,6 @@ import {
 	runningFilter,
 } from "./helper/FilterHelpMethods";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CheckBoxObject from "./interface/CheckboxObject";
 
 export default function SearchArea({
 	results,
@@ -45,7 +44,7 @@ export default function SearchArea({
 	const [options, setOptions] = useState([]);
 	const [userInput, setUserInput] = useState("");
 	const [currentFilter, setCurrentFilter] = useState({
-		year: {},
+		index_year: {},
 		resource_class: {},
 		resource_type: {},
 		spatial_coverage: {},
@@ -94,7 +93,6 @@ export default function SearchArea({
 						setFetchResults(generateSolrParentList(result));
 					});
 				}
-
 				setOriginalResults(fetchResults);
 			})
 			.catch((error) => {
@@ -136,7 +134,12 @@ export default function SearchArea({
 
 	const handleFilter = (attr, value) => (event) => {
 		const newCheckboxes = [...checkboxes];
-		if (!newCheckboxes.find((c) => c.value === value && c.attribute === attr)) {
+
+		if (
+			!newCheckboxes.find(
+				(c) => c.value === value && c.attribute === attr
+			)
+		) {
 			newCheckboxes.push({
 				attribute: attr,
 				value: value,
@@ -146,18 +149,22 @@ export default function SearchArea({
 		newCheckboxes.find(
 			(c) => c.value === value && c.attribute === attr
 		).checked = event.target.checked;
-		const newResults = runningFilter(
-			newCheckboxes,originalResults
-		);
+
+		runningFilter(newCheckboxes, originalResults).then((newResults) => {
+			setFetchResults(newResults);
+			setCurrentFilter(generateFilter(newResults, newCheckboxes));
+		});
 		setCheckboxes(newCheckboxes);
-		setFetchResults(newResults);
-		setCurrentFilter(generateFilter(newResults, newCheckboxes));
 	};
 
 	useEffect(() => {
 		//Only run once
-		const generateFilterFromCurrentResults = generateFilter(fetchResults, checkboxes);
+		const generateFilterFromCurrentResults = generateFilter(
+			fetchResults,
+			checkboxes
+		);
 		setCurrentFilter(generateFilterFromCurrentResults);
+		console.log("currentFilter", generateFilterFromCurrentResults);
 	}, []);
 
 	return (
@@ -215,6 +222,7 @@ export default function SearchArea({
 					</Grid>
 					<Divider />
 					<Grid container className="search_filter_container">
+						{/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
 						<Grid item xs={12}>
 							<Accordion>
 								<AccordionSummary
@@ -225,27 +233,29 @@ export default function SearchArea({
 									<Typography>Year</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									{Object.keys(currentFilter.year).map(
+									{Object.keys(currentFilter.index_year).map(
 										(s) => {
 											return (
 												<div key={s}>
 													<span>
 														{s}:
 														{
-															currentFilter.year[
-																s
-															].number
+															currentFilter
+																.index_year[s]
+																.number
 														}
 													</span>
 													<Checkbox
 														checked={
-															currentFilter.year[
-																s
-															].checked
+															currentFilter
+																.index_year[s]
+																.checked
 														}
-														value={{ year: s }}
+														value={{
+															index_year: s,
+														}}
 														onChange={handleFilter(
-															"year",
+															"index_year",
 															s
 														)}
 													/>
@@ -311,39 +321,36 @@ export default function SearchArea({
 										},
 									}}
 								>
-									{Object.keys(currentFilter.spatial_coverage).map(
-										(s) => {
-											return (
-												<div key={s}>
-													<span>
-														{s}:
-														{
-															currentFilter
-																.spatial_coverage[
-																s
-															].number
-														}
-													</span>
-													<Checkbox
-														checked={
-															currentFilter
-																.spatial_coverage[
-																s
-															].checked
-														}
-														value={{
-															spatial_coverage:
-																s,
-														}}
-														onChange={handleFilter(
-															"spatial_coverage",
-															s
-														)}
-													/>
-												</div>
-											);
-										}
-									)}
+									{Object.keys(
+										currentFilter.spatial_coverage
+									).map((s) => {
+										return (
+											<div key={s}>
+												<span>
+													{s}:
+													{
+														currentFilter
+															.spatial_coverage[s]
+															.number
+													}
+												</span>
+												<Checkbox
+													checked={
+														currentFilter
+															.spatial_coverage[s]
+															.checked
+													}
+													value={{
+														spatial_coverage: s,
+													}}
+													onChange={handleFilter(
+														"spatial_coverage",
+														s
+													)}
+												/>
+											</div>
+										);
+									})}
 								</AccordionDetails>
 							</Accordion>
 						</Grid>
