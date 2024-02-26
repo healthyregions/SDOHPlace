@@ -31,7 +31,7 @@ export default function PostLayout({
   description = "",
   children,
 }: Props) {
-  const keywords = tags.map((it) => getTag(it).name);
+  const keywords = tags ? tags.map((it) => getTag(it).name) : [];
   const authorName = getAuthor(author).name;
   return (
     <Layout>
@@ -74,11 +74,12 @@ export default function PostLayout({
           </header>
           <div className={styles.content}>{children}</div>
           <ul className={"tag-list"}>
-            {tags.map((it, i) => (
-              <li key={i}>
-                <TagButton tag={getTag(it)} />
-              </li>
-            ))}
+            {tags &&
+              tags.map((it, i) => (
+                <li key={i}>
+                  <TagButton tag={getTag(it)} />
+                </li>
+              ))}
           </ul>
         </article>
         <footer>
