@@ -6,6 +6,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* override the tailwind defaults to get bullets and numbers back on lists in blog posts.*/
+article ul {
+  list-style: disc;
+}
+article ol {
+  list-style: decimal;
+}
+
 h1 {
   font-size: 5em;
 }
