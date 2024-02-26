@@ -442,7 +442,9 @@
     "text": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests are focused on Geographic Information Systems (GIS) and community health. He employs both a data-driven approach and a mixed-methods approach to unveil socioeconomic and health inequities resulting from the unequal distribution of health resources. His topical area is food access, evaluating whether community members can perceive and utilize healthy, affordable food provisioning from both place-based and people-based perspectives. This research theme is substantiated using GIS modeling, big data analytics, AI-based food image recognition, and community surveys."]
+    "long": [
+      "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests are focused on Geographic Information Systems (GIS) and community health. He employs both a data-driven approach and a mixed-methods approach to unveil socioeconomic and health inequities resulting from the unequal distribution of health resources. His topical area is food access, evaluating whether community members can perceive and utilize healthy, affordable food provisioning from both place-based and people-based perspectives. This research theme is substantiated using GIS modeling, big data analytics, AI-based food image recognition, and community surveys."
+    ]
   },
   "sarahn": {
     "name": "Sarah Nelson",
@@ -460,7 +462,9 @@
     "text": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in Epidemiology at the University of Pittsburgh School of Public Health. Ms. Scott utilizes mixed methods to explore the intersection of gender-based violence, social determinants of health, and women’s health. Her research interests include community-based participatory methods, intimate partner violence, economic abuse, mental health, and reproductive and sexual health. She received a Bachelor of Arts in Psychology from Pepperdine University and a Master of Public Health in Behavioral & Community Health Sciences from the University of Pittsburgh School of Public Health."]
+    "long": [
+      "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in Epidemiology at the University of Pittsburgh School of Public Health. Ms. Scott utilizes mixed methods to explore the intersection of gender-based violence, social determinants of health, and women’s health. Her research interests include community-based participatory methods, intimate partner violence, economic abuse, mental health, and reproductive and sexual health. She received a Bachelor of Arts in Psychology from Pepperdine University and a Master of Public Health in Behavioral & Community Health Sciences from the University of Pittsburgh School of Public Health."
+    ]
   },
   "sonia": {
     "name": "Sonia Saxon",
@@ -478,7 +482,9 @@
     "text": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as a Data Scientist at Nationwide Children’s Hospital, his work spans spatial data science, clinical prediction model development, and public health research."]
+    "long": [
+      "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as a Data Scientist at Nationwide Children’s Hospital, his work spans spatial data science, clinical prediction model development, and public health research."
+    ]
   },
   "wei": {
     "name": "Wei Tu",
