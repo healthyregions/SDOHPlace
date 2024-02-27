@@ -4,6 +4,14 @@ import SolrQueryBuilder from "./SolrQueryBuilder";
 import { filterParentList } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 
+// attributes that are not in meta as a SolrObject. All attributes here needs to be part of filter
+const topLevelList = [
+	"index_year",
+	"resource_class",
+	"resource_type",
+	"creator",
+];
+
 /**
  * for attribute name, using the same key as solr schema
  * Matching needs to use the same attribute name as the solr schema
@@ -16,65 +24,42 @@ export const generateFilter = (
 	let currentFilter = {} as unknown as FilterObject;
 	filterList.map((filter) => {
 		currentFilter[filter] = {};
-	}) ;
+	});
 	fetchResults.forEach((result) => {
-		if (result.index_year)
-			result.index_year.forEach((year) => {
-				if (currentFilter.index_year[year]) {
-					currentFilter.index_year[year].number += 1;
-				} else
-					currentFilter.index_year[year] = {
-						number: 1,
-						checked: false,
-					};
-				if (
-					checkBoxes.length > 0 &&
-					checkBoxes.find(
-						(c) => c.value === year && c.attribute === "index_year"
-					) !== undefined &&
-					checkBoxes.find(
-						(c) => c.value === year && c.attribute === "index_year"
-					).checked
-				) {
-					currentFilter.index_year[year].checked = true;
-				} else {
-					currentFilter.index_year[year].checked = false;
-				}
-			});
-		if (result.resource_class)
-			result.resource_class.forEach((resource_class) => {
-				if (currentFilter.resource_class[resource_class]) {
-					currentFilter.resource_class[resource_class].number += 1;
-				} else
-					currentFilter.resource_class[resource_class] = {
-						number: 1,
-						checked: false,
-					};
-				if (
-					checkBoxes.length > 0 &&
-					checkBoxes.find(
-						(c) =>
-							c.value === resource_class &&
-							c.attribute === "resource_class"
-					) !== undefined &&
-					checkBoxes.find(
-						(c) =>
-							c.value === resource_class &&
-							c.attribute === "resource_class"
-					).checked
-				) {
-					currentFilter.resource_class[resource_class].checked = true;
-				} else {
-					currentFilter.resource_class[resource_class].checked =
-						false;
-				}
-			});
+		topLevelList.forEach((attribute) => {
+			if (result[attribute]) {
+				if (!Array.isArray(result[attribute]))
+					result[attribute] = [result[attribute]];
+				(result[attribute] as string[]).forEach((attr) => {
+					if (
+						currentFilter[attribute][attr]
+					) {
+						currentFilter[attribute][attr].number += 1;
+					} else
+						currentFilter[attribute][attr] = {
+							number: 1,
+							checked: false,
+						};
+					if (
+						checkBoxes.length > 0 &&
+						checkBoxes.find(
+							(c) => c.value === attr && c.attribute === attribute
+						) !== undefined &&
+						checkBoxes.find(
+							(c) => c.value === attr && c.attribute === attribute
+						).checked
+					) {
+						currentFilter[attribute][attr].checked = true;
+					} else {
+						currentFilter[attribute][attr].checked = false;
+					}
+				});
+			}
+		});
 		// other attributes are in meta
 		if (result.meta) {
 			Object.keys(result.meta).forEach((key) => {
-				if (
-					filterList.includes(key)
-				) {
+				if (filterList.includes(key) && !topLevelList.includes(key)) {
 					if (Array.isArray(result.meta[key])) {
 						(result.meta[key] as string[]).forEach((metaData) => {
 							// if a term appears multiple times within a attributes, only count onces as GeoBlacklight currently doing

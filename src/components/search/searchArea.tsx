@@ -10,6 +10,8 @@ import {
 	Checkbox,
 	Divider,
 	Grid,
+	IconButton,
+	InputAdornment,
 	Switch,
 	Typography,
 } from "@mui/material";
@@ -58,7 +60,9 @@ export default function SearchArea({
 			[filter.attribute]: {},
 		};
 	});
-	const [currentFilter, setCurrentFilter] = useState(constructFilter as unknown as FilterObject);
+	const [currentFilter, setCurrentFilter] = useState(
+		constructFilter as unknown as FilterObject
+	);
 
 	let searchQueryBuilder = new SolrQueryBuilder();
 	let suggestResultBuilder = new SuggestedResult();
@@ -68,11 +72,51 @@ export default function SearchArea({
 			.fetchResult()
 			.then((result) => {
 				processResults(result, value);
-				searchQueryBuilder.contentQuery(value);
-				searchQueryBuilder.fetchResult().then((result) => {
-					setFetchResults(filterParentList(result));
-				});
-				setOriginalResults(fetchResults);
+				// if multiple terms are returned, we get all weight = 1 terms (this is done in SuggestionsResultBuilder), then aggregate the results for all terms
+				if (suggestResultBuilder.getTerms().length > 0) {
+					const multipleResults = [] as SolrObject[];
+					suggestResultBuilder.getTerms().forEach((term) => {
+						searchQueryBuilder.generalQuery(term);
+						searchQueryBuilder.fetchResult().then((result) => {
+							generateSolrParentList(result).forEach((parent) => {
+								multipleResults.push(parent);
+							});
+							// remove duplicates by id
+							const newResults = Array.from(
+								new Set(multipleResults.map((a) => a.id))
+							).map((id) => {
+								return multipleResults.find((a) => a.id === id);
+							});
+							setCurrentFilter(
+								generateFilter(
+									newResults,
+									checkboxes,
+									filterAttributeList.map(
+										(filter) => filter.attribute
+									)
+								)
+							);
+							setOriginalResults(newResults);
+							setFetchResults(newResults);
+						});
+					});
+				} else {
+					searchQueryBuilder.generalQuery(value);
+					searchQueryBuilder.fetchResult().then((result) => {
+						const newResults = generateSolrParentList(result);
+						setCurrentFilter(
+							generateFilter(
+								newResults,
+								checkboxes,
+								filterAttributeList.map(
+									(filter) => filter.attribute
+								)
+							)
+						);
+						setOriginalResults(newResults);
+						setFetchResults(newResults);
+					});
+				}
 			})
 			.catch((error) => {
 				console.error("Error fetching result:", error);
@@ -130,13 +174,24 @@ export default function SearchArea({
 
 		runningFilter(newCheckboxes, originalResults).then((newResults) => {
 			setFetchResults(newResults);
-			setCurrentFilter(generateFilter(newResults, newCheckboxes, filterAttributeList.map((filter) => filter.attribute)));
+			setCurrentFilter(
+				generateFilter(
+					newResults,
+					newCheckboxes,
+					filterAttributeList.map((filter) => filter.attribute)
+				)
+			);
 		});
 		setCheckboxes(newCheckboxes);
 	};
 
 	useEffect(() => {
-		//Only run once
+		console.log(
+			"all parent objects:",
+			fetchResults,
+			"their raw results:",
+			results
+		);
 		const generateFilterFromCurrentResults = generateFilter(
 			fetchResults,
 			checkboxes,
@@ -183,6 +238,10 @@ export default function SearchArea({
 									{s}:{currentFilter[attributeName][s].number}
 								</span>
 								<Checkbox
+									sx={{
+										display:
+											s.length > 0 ? "inline" : "none",
+									}}
 									checked={
 										currentFilter[attributeName][s].checked
 									}
@@ -229,6 +288,7 @@ export default function SearchArea({
 											fullWidth
 											InputProps={{
 												...params.InputProps,
+												endAdornment: null,
 												type: "search",
 											}}
 										/>
@@ -265,7 +325,10 @@ export default function SearchArea({
 				</Grid>
 			</Grid>
 			<Grid item xs={8}>
-				<ParentList solrParents={fetchResults} />
+				<ParentList
+					solrParents={fetchResults}
+					filterAttributeList={filterAttributeList}
+				/>
 			</Grid>
 		</Grid>
 	);
