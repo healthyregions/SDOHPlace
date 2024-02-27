@@ -8,7 +8,6 @@ import { SolrObject } from "meta/interface/SolrObject";
 const topLevelList = [
 	"index_year",
 	"resource_class",
-	"resource_type",
 	"creator",
 ];
 
@@ -28,32 +27,34 @@ export const generateFilter = (
 	fetchResults.forEach((result) => {
 		topLevelList.forEach((attribute) => {
 			if (result[attribute]) {
-				if (!Array.isArray(result[attribute]))
-					result[attribute] = [result[attribute]];
-				(result[attribute] as string[]).forEach((attr) => {
-					if (
-						currentFilter[attribute][attr]
-					) {
-						currentFilter[attribute][attr].number += 1;
-					} else
-						currentFilter[attribute][attr] = {
-							number: 1,
-							checked: false,
-						};
-					if (
-						checkBoxes.length > 0 &&
-						checkBoxes.find(
-							(c) => c.value === attr && c.attribute === attribute
-						) !== undefined &&
-						checkBoxes.find(
-							(c) => c.value === attr && c.attribute === attribute
-						).checked
-					) {
-						currentFilter[attribute][attr].checked = true;
-					} else {
-						currentFilter[attribute][attr].checked = false;
-					}
-				});
+					if (!Array.isArray(result[attribute]))
+						result[attribute] = [result[attribute]];
+					(result[attribute] as string[]).forEach((attr) => {
+						if (currentFilter[attribute][attr]) {
+							currentFilter[attribute][attr].number += 1;
+						} else
+							currentFilter[attribute][attr] = {
+								number: 1,
+								checked: false,
+							};
+						if (
+							checkBoxes.length > 0 &&
+							checkBoxes.find(
+								(c) =>
+									c.value === attr &&
+									c.attribute === attribute
+							) !== undefined &&
+							checkBoxes.find(
+								(c) =>
+									c.value === attr &&
+									c.attribute === attribute
+							).checked
+						) {
+							currentFilter[attribute][attr].checked = true;
+						} else {
+							currentFilter[attribute][attr].checked = false;
+						}
+					});
 			}
 		});
 		// other attributes are in meta
@@ -68,7 +69,7 @@ export const generateFilter = (
 									number: 1,
 									checked: false,
 								};
-
+							else currentFilter[key][metaData].number += 1;
 							if (
 								checkBoxes.length > 0 &&
 								checkBoxes.find(
