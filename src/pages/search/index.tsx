@@ -121,7 +121,7 @@ const Search: NextPage = () => {
 						<div>How to Search</div>
 						<div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
 						<div className="self-center w-full mt-10 max-md:max-w-full">
-							modal something
+							page loading...
 						</div>
 						<div className="bg-orange-300 w-full h-1 mt-10" />
 					</Box>
@@ -136,7 +136,7 @@ const Search: NextPage = () => {
 			<Header title={"Data Discovery"} />
 			<NavBar />
 			<TopLines />
-			<Modal
+			{/* <Modal
 				open={open}
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
@@ -150,13 +150,70 @@ const Search: NextPage = () => {
 					</div>
 					<div className="bg-orange-300 w-full h-1 mt-10" />
 				</Box>
-			</Modal>
+			</Modal> */}
 			<div className="flex flex-col">
 				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
 					<h1 className="font-fredoka">Data Discovery</h1>
 					<Grid container mt={4}>
 						<Grid item xs={12}>
-							<SearchArea results={solrObjectResults}/>
+							<SearchArea
+								results={solrObjectResults}
+								filterAttributeList={[
+									{
+										attribute: "index_year",
+										displayName: "Year",
+									},
+									// Temporarily removed Place, will develop a special way to handle this
+									// {
+									// 	attribute: "spatial_coverage",
+									// 	displayName: "Place",
+									// },
+									{
+										attribute: "resource_class",
+										displayName: "Resource Class",
+									},
+									{
+										attribute: "resource_type",
+										displayName: "Resource Type",
+									},
+									{
+										attribute: "format",
+										displayName: "Format",
+									},
+									{
+										attribute: "subject",
+										displayName: "Subject",
+									},
+									{
+										attribute: "theme",
+										displayName: "Theme",
+									},
+									{
+										attribute: "creator",
+										displayName: "Creator",
+									},
+									{
+										attribute: "publisher",
+										displayName: "Publisher",
+									},
+									{
+										attribute: "provider",
+										displayName: "Provider",
+									},
+									{
+										attribute: "spatial_resolution",
+										displayName: "Spatial Resolution",
+									},
+									{
+										attribute: "methods_variables",
+										displayName: "Methods Variables",
+									},
+									{
+										attribute: "data_variables",
+										displayName: "Data Variables",
+									},
+								]}
+							/>
 						</Grid>
 						{/* <Grid item xs={6}>
 							<h3>All Item List</h3>

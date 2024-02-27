@@ -54,15 +54,19 @@ export default function ParentList({
 										</ListItem>
 										<ListItem>
 											Year:{" "}
-											{solrParent.index_year.join(
-												", "
-											)}
+											{solrParent.index_year.join(", ")}
 										</ListItem>
 										<ListItem>
 											Years:{" "}
 											{Array.from(solrParent.years).join(
 												", "
 											)}
+										</ListItem>
+										<ListItem>
+											Resource Class:{" "}
+											 {solrParent.resource_class !== undefined ?? Array.from(
+												solrParent.resource_class
+											).join(", ")}
 										</ListItem>
 									</List>
 								</AccordionDetails>

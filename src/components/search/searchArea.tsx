@@ -13,6 +13,7 @@ import {
 	Switch,
 	Typography,
 } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { SearchObject } from "./interface/SearchObject";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
@@ -29,12 +30,17 @@ import {
 	runningFilter,
 	updateFilter,
 } from "./helper/FilterHelpMethods";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { fi } from "date-fns/locale";
 
 export default function SearchArea({
 	results,
+	filterAttributeList,
 }: {
 	results: SolrObject[];
+	filterAttributeList: {
+		attribute: string;
+		displayName: string;
+	}[];
 }): JSX.Element {
 	const [fetchResults, setFetchResults] = useState<SolrObject[]>(
 		generateSolrParentList(results)
@@ -47,20 +53,12 @@ export default function SearchArea({
 	const [checkboxes, setCheckboxes] = useState([]);
 	const [options, setOptions] = useState([]);
 	const [userInput, setUserInput] = useState("");
-	const [currentFilter, setCurrentFilter] = useState({
-		index_year: {},
-		resource_class: {},
-		resource_type: {},
-		spatial_coverage: {},
-		format: {},
-		subject: {},
-		theme: {},
-		creator: {},
-		publisher: {},
-		provider: {},
-		methods_variables: {},
-		data_variables: {},
-	} as unknown as FilterObject);
+	const constructFilter = filterAttributeList.map((filter) => {
+		return {
+			[filter.attribute]: {},
+		};
+	});
+	const [currentFilter, setCurrentFilter] = useState(constructFilter as unknown as FilterObject);
 
 	let searchQueryBuilder = new SolrQueryBuilder();
 	let suggestResultBuilder = new SuggestedResult();
@@ -70,9 +68,9 @@ export default function SearchArea({
 			.fetchResult()
 			.then((result) => {
 				processResults(result, value);
-				searchQueryBuilder.generalQuery(value);
+				searchQueryBuilder.contentQuery(value);
 				searchQueryBuilder.fetchResult().then((result) => {
-					setFetchResults(generateSolrParentList(result));
+					setFetchResults(filterParentList(result));
 				});
 				setOriginalResults(fetchResults);
 			})
@@ -132,7 +130,7 @@ export default function SearchArea({
 
 		runningFilter(newCheckboxes, originalResults).then((newResults) => {
 			setFetchResults(newResults);
-			setCurrentFilter(generateFilter(newResults, newCheckboxes));
+			setCurrentFilter(generateFilter(newResults, newCheckboxes, filterAttributeList.map((filter) => filter.attribute)));
 		});
 		setCheckboxes(newCheckboxes);
 	};
@@ -141,208 +139,134 @@ export default function SearchArea({
 		//Only run once
 		const generateFilterFromCurrentResults = generateFilter(
 			fetchResults,
-			checkboxes
+			checkboxes,
+			filterAttributeList.map((filter) => filter.attribute)
 		);
 		setCurrentFilter(generateFilterFromCurrentResults);
-		console.log("currentFilter", generateFilterFromCurrentResults);
 	}, []);
 
-	return (
-		<div className="flex flex-col">
-			<Grid container spacing={2}>
-				<Grid container xs={4}>
-					<Grid container className="search_box_container">
-						<form id="search-form" onSubmit={handleSubmit}>
-							<Grid container alignItems="center">
-								<Grid item xs={9}>
-									<Autocomplete
-										freeSolo
-										disableClearable
-										options={options}
-										onInputChange={(event, value) => {
-											if (event.type === "change") {
-												setUserInput(value);
-												handleUserInputChange(
-													event,
-													value
-												);
-											}
-										}}
-										onChange={(event, value) => {
-											setUserInput(value);
-											handleDropdownSelect(event, value);
-										}}
-										sx={{ minWidth: 250 }}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												label="Search input"
-												variant="outlined"
-												fullWidth
-												InputProps={{
-													...params.InputProps,
-													type: "search",
-												}}
-											/>
-										)}
-									/>
-								</Grid>
-								<Grid item xs={3}>
-									<Button
-										type="submit"
-										variant="contained"
-										color="primary"
-										fullWidth
-									>
-										Search
-									</Button>
-								</Grid>
-							</Grid>
-						</form>
-					</Grid>
-					<Divider />
-					<Grid container className="search_filter_container">
-						{/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
-						<Grid item xs={12}>
-							<Accordion>
-								<AccordionSummary
-									expandIcon={<ArrowDropDownIcon />}
-									aria-controls="year-content"
-									id="year-header"
-								>
-									<Typography>Year</Typography>
-								</AccordionSummary>
-								<AccordionDetails>
-									{Object.keys(currentFilter.index_year).map(
-										(s) => {
-											return (
-												<div key={s}>
-													<span>
-														{s}:
-														{
-															currentFilter
-																.index_year[s]
-																.number
-														}
-													</span>
-													<Checkbox
-														checked={
-															currentFilter
-																.index_year[s]
-																.checked
-														}
-														value={{
-															index_year: s,
-														}}
-														onChange={handleFilter(
-															"index_year",
-															s
-														)}
-													/>
-												</div>
-											);
-										}
-									)}
-								</AccordionDetails>
-							</Accordion>
-							<Accordion>
-								<AccordionSummary
-									expandIcon={<ArrowDropDownIcon />}
-									aria-controls="creator-content"
-									id="creator-header"
-								>
-									<Typography>Creator</Typography>
-								</AccordionSummary>
-								<AccordionDetails>
-									{Object.keys(currentFilter.creator).map(
-										(s) => {
-											return (
-												<div key={s}>
-													<span>
-														{s}:
-														{
-															currentFilter
-																.creator[s]
-																.number
-														}
-													</span>
-													<Checkbox
-														checked={
-															currentFilter
-																.creator[s]
-																.checked
-														}
-														value={{ creator: s }}
-														onChange={handleFilter(
-															"creator",
-															s
-														)}
-													/>
-												</div>
-											);
-										}
-									)}
-								</AccordionDetails>
-							</Accordion>
-							<Accordion>
-								{/* Note: Spacial Coverage are too long for initial display, need to add 'more' function later */}
-								<AccordionSummary
-									expandIcon={<ArrowDropDownIcon />}
-									aria-controls="spatial_coverage-content"
-									id="spatial_coverage-header"
-								>
-									<Typography>Spatial Coverage</Typography>
-								</AccordionSummary>
-								<AccordionDetails
-									sx={{
-										"&.MuiAccordionDetails-root": {
-											overflowY: "scroll",
-											maxHeight: "20em",
-										},
+	/** Components */
+	function FilterAccordion({
+		key,
+		currentCheckboxes,
+		currentFilter,
+		attributeName,
+		displayName,
+	}) {
+		return currentFilter.hasOwnProperty(attributeName) ? (
+			<Accordion defaultExpanded={false} key={key}>
+				<AccordionSummary
+					expandIcon={<ArrowDropDownIcon />}
+					aria-controls="year-content"
+					id="year-header"
+				>
+					<Typography
+						sx={{
+							color:
+								currentCheckboxes.find(
+									(e) =>
+										e.attribute === attributeName &&
+										e.checked
+								) === undefined
+									? "black"
+									: "green",
+						}}
+					>
+						{displayName}
+					</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					{Object.keys(currentFilter[attributeName]).map((s) => {
+						return (
+							<div key={s}>
+								<span>
+									{s}:{currentFilter[attributeName][s].number}
+								</span>
+								<Checkbox
+									checked={
+										currentFilter[attributeName][s].checked
+									}
+									value={{
+										[attributeName]: s,
 									}}
+									onChange={handleFilter(attributeName, s)}
+								/>
+							</div>
+						);
+					})}
+				</AccordionDetails>
+			</Accordion>
+		) : null;
+	}
+
+	return (
+		<Grid container spacing={2}>
+			<Grid container xs={4}>
+				<Grid container className="search_box_container">
+					<form id="search-form" onSubmit={handleSubmit}>
+						<Grid container alignItems="center">
+							<Grid item xs={9}>
+								<Autocomplete
+									freeSolo
+									disableClearable
+									options={options}
+									onInputChange={(event, value) => {
+										if (event.type === "change") {
+											setUserInput(value);
+											handleUserInputChange(event, value);
+										}
+									}}
+									onChange={(event, value) => {
+										setUserInput(value);
+										handleDropdownSelect(event, value);
+									}}
+									sx={{ minWidth: 250 }}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="Search input"
+											variant="outlined"
+											fullWidth
+											InputProps={{
+												...params.InputProps,
+												type: "search",
+											}}
+										/>
+									)}
+								/>
+							</Grid>
+							<Grid item xs={3}>
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									fullWidth
 								>
-									{Object.keys(
-										currentFilter.spatial_coverage
-									).map((s) => {
-										return (
-											<div key={s}>
-												<span>
-													{s}:
-													{
-														currentFilter
-															.spatial_coverage[s]
-															.number
-													}
-												</span>
-												<Checkbox
-													checked={
-														currentFilter
-															.spatial_coverage[s]
-															.checked
-													}
-													value={{
-														spatial_coverage: s,
-													}}
-													onChange={handleFilter(
-														"spatial_coverage",
-														s
-													)}
-												/>
-											</div>
-										);
-									})}
-								</AccordionDetails>
-							</Accordion>
+									Search
+								</Button>
+							</Grid>
 						</Grid>
-					</Grid>
+					</form>
 				</Grid>
-				<Grid item xs={8}>
-					<ParentList solrParents={fetchResults} />
+				<Divider />
+				<Grid container className="search_filter_container">
+					{/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
+					<Grid item xs={12}>
+						{filterAttributeList.map((filter, index) => (
+							<FilterAccordion
+								key={index}
+								currentCheckboxes={checkboxes}
+								currentFilter={currentFilter}
+								attributeName={filter.attribute}
+								displayName={filter.displayName}
+							/>
+						))}
+					</Grid>
 				</Grid>
 			</Grid>
-		</div>
+			<Grid item xs={8}>
+				<ParentList solrParents={fetchResults} />
+			</Grid>
+		</Grid>
 	);
-}
-function filterSolrParentList(result: SolrObject[]) {
-	throw new Error("Function not implemented.");
 }

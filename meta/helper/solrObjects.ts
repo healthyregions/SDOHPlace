@@ -16,8 +16,8 @@ const initSolrObject = (rawSolrObject: any): SolrObject => {
 	result.title = rawSolrObject.dct_title_s;
 	result.metadata_version = rawSolrObject.gbl_mdVersion_s;
 	result.modified = rawSolrObject.gbl_mdModified_dt;
-	result.access_rights = rawSolrObject.gbl_mdAccessRights_s;
-	result.resource_class = rawSolrObject.gbl_resourceClass_s;
+	result.access_rights = rawSolrObject.dct_accessRights_s;
+	result.resource_class = rawSolrObject.gbl_resourceClass_sm;
 	result.description = rawSolrObject.dct_description_sm
 				? findFirstSentence(rawSolrObject.dct_description_sm[0])
 				: "";
@@ -41,8 +41,12 @@ const initSolrObject = (rawSolrObject: any): SolrObject => {
 			key !== "dct_title_s" &&
 			key !== "gbl_mdVersion_s" &&
 			key !== "gbl_mdModified_dt" &&
-			key !== "gbl_mdAccessRights_s" &&
-			key !== "gbl_resourceClass_s"
+			key !== "dct_accessRights_s" &&
+			key !== "gbl_resourceClass_sm" &&
+			key !== "dct_description_sm" &&
+			key !== "dct_creator_sm" &&
+			key !== "gbl_indexYear_im" &&
+			key !== "dct_isVersionOf_sm"
 		) {
 			result.meta[
 				AardvarkSdohSchemaMatch(key, aardvark_json, sdoh_json)

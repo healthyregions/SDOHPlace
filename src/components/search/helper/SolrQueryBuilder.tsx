@@ -2,7 +2,7 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import aardvark_json from "../../../pages/search/_metadata/aardvark_schema.json";
 import sdoh_json from "../../../pages/search/_metadata/sdohplace_schema.json";
-import { AardvarkSdohSchemaMatch } from "meta/helper/util";
+import { findSolrAttribute } from "meta/helper/util";
 export default class SolrQueryBuilder {
 	private query: QueryObject = {
 		solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -12,8 +12,8 @@ export default class SolrQueryBuilder {
 	// Method to set the basic query string. Don't call this. Call individual query methods instead.
 	// TODO: if our query will have more syntax, move the select part to individual query methods
 	setQuery(queryString: string): SolrQueryBuilder {
-		console.log("queryString", queryString);
 		this.query.query = `${this.query.solrUrl}/${queryString}`;
+		console.log("sending query:", this.query.query);
 		return this;
 	}
 
@@ -57,30 +57,29 @@ export default class SolrQueryBuilder {
 	 * Search Methods based on Solr syntax. Not all methods are used in the search component
 	 * */
 	public suggestQuery(searchTerm: string): SolrQueryBuilder {
-		const suggestQuery = `suggest?q=${this.escapeQueryChars(searchTerm)}`;
+		const suggestQuery = `suggest?q=${encodeURIComponent(searchTerm)}`;
 		return this.setQuery(suggestQuery);
 	}
 	public contentQuery(searchTerm: string): SolrQueryBuilder {
-		const contentQuery = `select?q=content:"${this.escapeQueryChars(
+		const contentQuery = `select?q=content:"${encodeURIComponent(
 			searchTerm
 		)}"`;
 		return this.setQuery(contentQuery);
 	}
 	public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
 		let generalQuery = "select?q=";
-		console.log("terms", searchTerms);
-		if(typeof searchTerms === 'string'){
-		  generalQuery += `${this.escapeQueryChars(
-				AardvarkSdohSchemaMatch(searchTerms, aardvark_json, sdoh_json)
+		if (typeof searchTerms === "string") {
+			generalQuery += `${encodeURIComponent(
+				findSolrAttribute(searchTerms, aardvark_json, sdoh_json)
 			)}&rows=1000`; //add rows to remove pagination
-		}else{
-		  searchTerms.forEach((term) => {
-			  generalQuery += `${this.escapeQueryChars(
-				AardvarkSdohSchemaMatch(term, aardvark_json, sdoh_json)
-			)} OR `;
-		  });
-		  generalQuery = generalQuery.slice(0, -4); //remove the last OR
-		  generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
+		} else {
+			searchTerms.forEach((term) => {
+				generalQuery += `${encodeURIComponent(
+					findSolrAttribute(term, aardvark_json, sdoh_json)
+				)} OR `;
+			});
+			generalQuery = generalQuery.slice(0, -4); //remove the last OR
+			generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
 		}
 		return this.setQuery(generalQuery);
 	}
@@ -90,29 +89,23 @@ export default class SolrQueryBuilder {
 	): SolrQueryBuilder {
 		let filterQuery = `select?fq=`;
 		searchTerms.forEach((term) => {
-			term["attribute"] = AardvarkSdohSchemaMatch(
-				term["attribute"], aardvark_json, sdoh_json
+			term["attribute"] = findSolrAttribute(
+				term["attribute"],
+				aardvark_json,
+				sdoh_json
 			);
-			filterQuery += `${term["attribute"]}:(${this.escapeQueryChars(
+			filterQuery += `${term["attribute"]}:(${encodeURIComponent(
 				term["value"]
-			)} OR "${this.escapeQueryChars(term["value"])}") AND `;
+			)} OR "${encodeURIComponent(term["value"])}") AND `;
 		});
 		filterQuery = filterQuery.slice(0, -5); //remove the last AND
 		filterQuery = filterQuery += "&rows=1000";
 		return this.setQuery(filterQuery);
 	}
 
-	/** Helper Functions
-	 */
-	escapeQueryChars(input: string): string {
-		if (!input) return "*";
-		return input.replace(/[-!(){}[\]^"~:*?\\]/g, "\\$&");
-	}
-	
-
 	// UNCOMMENT THE FOLLOWING METHODS IF NEEDED
 	// public wildcardQuery(field: string, searchTerm: string): SolrQueryBuilder {
-	// 	const wildcardQuery = `select?q=${field}:${this.escapeQueryChars(searchTerm)}*`;
+	// 	const wildcardQuery = `select?q=${field}:${this.encodeURIComponent(searchTerm)}*`;
 	// 	return this.setQuery(wildcardQuery);
 	// }
 	// public regexQuery(field: string, regex: string): SolrQueryBuilder {

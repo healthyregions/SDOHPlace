@@ -17,7 +17,6 @@ export default class SuggestedResultBuilder {
 	}
 	setResultTerms(result: string): void {
 		this.result = JSON.parse(result) as TermResult;
-		console.log("setResultTerms", this.result);
 		this.term = this.getTermsFromTermResult(this.result);
 	}
 

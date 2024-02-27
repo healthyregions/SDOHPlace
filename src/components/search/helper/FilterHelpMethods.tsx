@@ -1,32 +1,22 @@
-import { SolrParent } from "meta/interface/SolrParent";
 import FilterObject from "../interface/FilterObject";
 import CheckBoxObject from "../interface/CheckboxObject";
 import SolrQueryBuilder from "./SolrQueryBuilder";
-import { generateSolrParentList } from "meta/helper/solrObjects";
+import { filterParentList } from "meta/helper/solrObjects";
+import { SolrObject } from "meta/interface/SolrObject";
 
 /**
  * for attribute name, using the same key as solr schema
  * Matching needs to use the same attribute name as the solr schema
  */
 export const generateFilter = (
-	fetchResults: SolrParent[],
-	checkBoxes: CheckBoxObject[]
+	fetchResults: SolrObject[],
+	checkBoxes: CheckBoxObject[],
+	filterList: string[]
 ) => {
-	let currentFilter = {
-		index_year: {},
-		resource_class: {},
-		resource_type: {},
-		spatial_coverage: {},
-		format: {},
-		subject: {},
-		theme: {},
-		creator: {},
-		publisher: {},
-		provider: {},
-		spatial_resolution: {},
-		methods_variables: {},
-		data_variables: {},
-	} as unknown as FilterObject;
+	let currentFilter = {} as unknown as FilterObject;
+	filterList.map((filter) => {
+		currentFilter[filter] = {};
+	}) ;
 	fetchResults.forEach((result) => {
 		if (result.index_year)
 			result.index_year.forEach((year) => {
@@ -83,23 +73,12 @@ export const generateFilter = (
 		if (result.meta) {
 			Object.keys(result.meta).forEach((key) => {
 				if (
-					key === "resource_type" ||
-					key === "spatial_coverage" ||
-					key === "format" ||
-					key === "subject" ||
-					key === "theme" ||
-					key === "creator" ||
-					key === "publisher" ||
-					key === "provider" ||
-					key === "spatial_resolution" ||
-					key === "methods_variables" ||
-					key === "data_variables"
+					filterList.includes(key)
 				) {
 					if (Array.isArray(result.meta[key])) {
 						(result.meta[key] as string[]).forEach((metaData) => {
-							if (currentFilter[key][metaData]) {
-								currentFilter[key][metaData].number += 1;
-							} else
+							// if a term appears multiple times within a attributes, only count onces as GeoBlacklight currently doing
+							if (!currentFilter[key][metaData])
 								currentFilter[key][metaData] = {
 									number: 1,
 									checked: false,
@@ -166,7 +145,7 @@ export const updateFilter = (
 ) => {
 	currentFilter[attribute][value].checked = checked;
 	return currentFilter;
-}
+};
 
 export const filterResults = (fetchedResults, key, value) => {
 	let filteredResults = [];
@@ -205,8 +184,8 @@ export const filterResults = (fetchedResults, key, value) => {
  */
 export const runningFilter = (
 	checkBoxStatus: CheckBoxObject[],
-	originalResult: SolrParent[]
-): Promise<SolrParent[]> => {
+	originalResult: SolrObject[]
+): Promise<SolrObject[]> => {
 	if (checkBoxStatus.find((c) => c.checked === true) === undefined) {
 		return Promise.resolve(originalResult);
 	}
@@ -227,15 +206,13 @@ export const runningFilter = (
 		filterQueryBuilder
 			.fetchResult()
 			.then((result) => {
-				console.log("filtered result", result);
-				const filteredParentList = generateSolrParentList(result);
+				const filteredParentList = filterParentList(result);
 				// find overlap between originalResult and filteredParentList
 				const overlap = originalResult.filter((parent) =>
 					filteredParentList.find(
 						(filteredParent) => filteredParent.id === parent.id
 					)
 				);
-				console.log("overlap", overlap);
 				resolve(overlap);
 			})
 			.catch(reject);
