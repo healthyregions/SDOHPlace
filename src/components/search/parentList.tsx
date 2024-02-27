@@ -4,13 +4,13 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // can be replaced by our svg icon
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { SolrParent } from "../../../meta/interface/SolrParent";
 import { Divider, List, ListItem } from "@mui/material";
+import { SolrObject } from "meta/interface/SolrObject";
 
 export default function ParentList({
 	solrParents,
 }: {
-	solrParents: SolrParent[];
+	solrParents: SolrObject[];
 }): JSX.Element {
 	const [expanded, setExpanded] = React.useState<string | false>(false);
 
@@ -54,7 +54,7 @@ export default function ParentList({
 										</ListItem>
 										<ListItem>
 											Year:{" "}
-											{Array.from(solrParent.year).join(
+											{solrParent.index_year.join(
 												", "
 											)}
 										</ListItem>

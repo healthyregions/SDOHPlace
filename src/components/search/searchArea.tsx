@@ -17,13 +17,17 @@ import { SearchObject } from "./interface/SearchObject";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import ParentList from "./parentList";
-import { generateSolrParentList } from "meta/helper/solrObjects";
-import { SolrParent } from "meta/interface/SolrParent";
+import {
+	filterParentList,
+	generateSolrParentList,
+} from "meta/helper/solrObjects";
+// import { SolrParent } from "meta/interface/SolrParent";
 import FilterObject from "./interface/FilterObject";
 import {
 	generateFilter,
 	filterResults,
 	runningFilter,
+	updateFilter,
 } from "./helper/FilterHelpMethods";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
@@ -32,11 +36,11 @@ export default function SearchArea({
 }: {
 	results: SolrObject[];
 }): JSX.Element {
-	const [fetchResults, setFetchResults] = useState<SolrParent[]>(
+	const [fetchResults, setFetchResults] = useState<SolrObject[]>(
 		generateSolrParentList(results)
 	);
 	const [originalResults, setOriginalResults] =
-		useState<SolrParent[]>(fetchResults);
+		useState<SolrObject[]>(fetchResults);
 	const [queryData, setQueryData] = useState<SearchObject>({
 		userInput: "",
 	});
@@ -66,33 +70,10 @@ export default function SearchArea({
 			.fetchResult()
 			.then((result) => {
 				processResults(result, value);
-
-				if (suggestResultBuilder.getTerms().length > 0) {
-					const multipleResults = [] as SolrParent[];
-					suggestResultBuilder.getTerms().forEach((term) => {
-						searchQueryBuilder.generalQuery(term);
-						searchQueryBuilder.fetchResult().then((result) => {
-							generateSolrParentList(result).forEach((parent) => {
-								multipleResults.push(parent);
-							});
-							// remove duplicates by id
-							setFetchResults(
-								Array.from(
-									new Set(multipleResults.map((a) => a.id))
-								).map((id) => {
-									return multipleResults.find(
-										(a) => a.id === id
-									);
-								})
-							);
-						});
-					});
-				} else {
-					searchQueryBuilder.generalQuery(value);
-					searchQueryBuilder.fetchResult().then((result) => {
-						setFetchResults(generateSolrParentList(result));
-					});
-				}
+				searchQueryBuilder.generalQuery(value);
+				searchQueryBuilder.fetchResult().then((result) => {
+					setFetchResults(generateSolrParentList(result));
+				});
 				setOriginalResults(fetchResults);
 			})
 			.catch((error) => {
@@ -134,7 +115,6 @@ export default function SearchArea({
 
 	const handleFilter = (attr, value) => (event) => {
 		const newCheckboxes = [...checkboxes];
-
 		if (
 			!newCheckboxes.find(
 				(c) => c.value === value && c.attribute === attr
@@ -362,4 +342,7 @@ export default function SearchArea({
 			</Grid>
 		</div>
 	);
+}
+function filterSolrParentList(result: SolrObject[]) {
+	throw new Error("Function not implemented.");
 }

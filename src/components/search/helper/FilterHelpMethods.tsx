@@ -28,50 +28,57 @@ export const generateFilter = (
 		data_variables: {},
 	} as unknown as FilterObject;
 	fetchResults.forEach((result) => {
-		result.year.forEach((year) => {
-			if (currentFilter.index_year[year]) {
-				currentFilter.index_year[year].number += 1;
-			} else currentFilter.index_year[year] = { number: 1, checked: false };
-			if (
-				checkBoxes.length > 0 &&
-				checkBoxes.find(
-					(c) => c.value === year && c.attribute === "index_year"
-				) !== undefined &&
-				checkBoxes.find(
-					(c) => c.value === year && c.attribute === "index_year"
-				).checked
-			) {
-				currentFilter.index_year[year].checked = true;
-			} else {
-				currentFilter.index_year[year].checked = false;
-			}
-		});
-		result.resource_class.forEach((resource_class) => {
-			if (currentFilter.resource_class[resource_class]) {
-				currentFilter.resource_class[resource_class].number += 1;
-			} else
-				currentFilter.resource_class[resource_class] = {
-					number: 1,
-					checked: false,
-				};
-			if (
-				checkBoxes.length > 0 &&
-				checkBoxes.find(
-					(c) =>
-						c.value === resource_class &&
-						c.attribute === "resource_class"
-				) !== undefined &&
-				checkBoxes.find(
-					(c) =>
-						c.value === resource_class &&
-						c.attribute === "resource_class"
-				).checked
-			) {
-				currentFilter.resource_class[resource_class].checked = true;
-			} else {
-				currentFilter.resource_class[resource_class].checked = false;
-			}
-		});
+		if (result.index_year)
+			result.index_year.forEach((year) => {
+				if (currentFilter.index_year[year]) {
+					currentFilter.index_year[year].number += 1;
+				} else
+					currentFilter.index_year[year] = {
+						number: 1,
+						checked: false,
+					};
+				if (
+					checkBoxes.length > 0 &&
+					checkBoxes.find(
+						(c) => c.value === year && c.attribute === "index_year"
+					) !== undefined &&
+					checkBoxes.find(
+						(c) => c.value === year && c.attribute === "index_year"
+					).checked
+				) {
+					currentFilter.index_year[year].checked = true;
+				} else {
+					currentFilter.index_year[year].checked = false;
+				}
+			});
+		if (result.resource_class)
+			result.resource_class.forEach((resource_class) => {
+				if (currentFilter.resource_class[resource_class]) {
+					currentFilter.resource_class[resource_class].number += 1;
+				} else
+					currentFilter.resource_class[resource_class] = {
+						number: 1,
+						checked: false,
+					};
+				if (
+					checkBoxes.length > 0 &&
+					checkBoxes.find(
+						(c) =>
+							c.value === resource_class &&
+							c.attribute === "resource_class"
+					) !== undefined &&
+					checkBoxes.find(
+						(c) =>
+							c.value === resource_class &&
+							c.attribute === "resource_class"
+					).checked
+				) {
+					currentFilter.resource_class[resource_class].checked = true;
+				} else {
+					currentFilter.resource_class[resource_class].checked =
+						false;
+				}
+			});
 		// other attributes are in meta
 		if (result.meta) {
 			Object.keys(result.meta).forEach((key) => {
@@ -150,6 +157,16 @@ export const generateFilter = (
 	});
 	return currentFilter;
 };
+
+export const updateFilter = (
+	currentFilter: FilterObject,
+	attribute: string,
+	value: string,
+	checked: boolean
+) => {
+	currentFilter[attribute][value].checked = checked;
+	return currentFilter;
+}
 
 export const filterResults = (fetchedResults, key, value) => {
 	let filteredResults = [];

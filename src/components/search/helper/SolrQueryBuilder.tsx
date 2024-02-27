@@ -2,6 +2,7 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import aardvark_json from "../../../pages/search/_metadata/aardvark_schema.json";
 import sdoh_json from "../../../pages/search/_metadata/sdohplace_schema.json";
+import { AardvarkSdohSchemaMatch } from "meta/helper/util";
 export default class SolrQueryBuilder {
 	private query: QueryObject = {
 		solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -65,24 +66,33 @@ export default class SolrQueryBuilder {
 		)}"`;
 		return this.setQuery(contentQuery);
 	}
-	public generalQuery(searchTerm: string): SolrQueryBuilder {
-		const generalQuery = `select?q=${this.escapeQueryChars(
-			searchTerm
-		)}&rows=1000`; //add rows to remove pagination
+	public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
+		let generalQuery = "select?q=";
+		console.log("terms", searchTerms);
+		if(typeof searchTerms === 'string'){
+		  generalQuery += `${this.escapeQueryChars(
+				AardvarkSdohSchemaMatch(searchTerms, aardvark_json, sdoh_json)
+			)}&rows=1000`; //add rows to remove pagination
+		}else{
+		  searchTerms.forEach((term) => {
+			  generalQuery += `${this.escapeQueryChars(
+				AardvarkSdohSchemaMatch(term, aardvark_json, sdoh_json)
+			)} OR `;
+		  });
+		  generalQuery = generalQuery.slice(0, -4); //remove the last OR
+		  generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
+		}
 		return this.setQuery(generalQuery);
 	}
+
 	public filterQuery(
 		searchTerms: { attribute: string; value: string }[]
 	): SolrQueryBuilder {
 		let filterQuery = `select?fq=`;
 		searchTerms.forEach((term) => {
-			term["attribute"] = this.findSolrAttribute(
-				term["attribute"]
+			term["attribute"] = AardvarkSdohSchemaMatch(
+				term["attribute"], aardvark_json, sdoh_json
 			);
-
-			// filterQuery += `${term["attribute"]}:${this.escapeQueryChars(
-			// 	term["value"]
-			// )} AND `;
 			filterQuery += `${term["attribute"]}:(${this.escapeQueryChars(
 				term["value"]
 			)} OR "${this.escapeQueryChars(term["value"])}") AND `;
@@ -98,13 +108,7 @@ export default class SolrQueryBuilder {
 		if (!input) return "*";
 		return input.replace(/[-!(){}[\]^"~:*?\\]/g, "\\$&");
 	}
-	findSolrAttribute(key) {
-		return Object.keys(aardvark_json).find((e) => e === key)
-			? aardvark_json[key]["uri"]
-			: Object.keys(sdoh_json).find((e) => e === key)
-			? sdoh_json[key]["uri"]
-			: key;
-	}
+	
 
 	// UNCOMMENT THE FOLLOWING METHODS IF NEEDED
 	// public wildcardQuery(field: string, searchTerm: string): SolrQueryBuilder {

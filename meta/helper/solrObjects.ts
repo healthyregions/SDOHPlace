@@ -1,5 +1,5 @@
 import { SolrObject } from "../interface/SolrObject";
-import { SolrParent } from "../interface/SolrParent";
+// import { SolrParent } from "../interface/SolrParent";
 import aardvark_json from "../../src/pages/search/_metadata/aardvark_schema.json";
 import sdoh_json from "../../src/pages/search/_metadata/sdohplace_schema.json";
 import { AardvarkSdohSchemaMatch, findFirstSentence } from "./util";
@@ -18,8 +18,22 @@ const initSolrObject = (rawSolrObject: any): SolrObject => {
 	result.modified = rawSolrObject.gbl_mdModified_dt;
 	result.access_rights = rawSolrObject.gbl_mdAccessRights_s;
 	result.resource_class = rawSolrObject.gbl_resourceClass_s;
+	result.description = rawSolrObject.dct_description_sm
+				? findFirstSentence(rawSolrObject.dct_description_sm[0])
+				: "";
+	result.creator = rawSolrObject.dct_creator_sm
+				? typeof rawSolrObject.dct_creator_sm === "string"
+					? [rawSolrObject.dct_creator_sm]
+					: rawSolrObject.dct_creator_sm
+				: [];
+	result.index_year = rawSolrObject.gbl_indexYear_im
+				? typeof rawSolrObject.gbl_indexYear_im === "string"
+					? [rawSolrObject.gbl_indexYear_im]
+					: rawSolrObject.gbl_indexYear_im.map((year) => { return year.toString()})
+				: [];
 	result.meta = {};
-	if (rawSolrObject.dct_isVersionOf_sm)
+	result.years = new Set();
+	if (rawSolrObject.dct_isVersionOf_sm) // child object only
 		result.parents = rawSolrObject.dct_isVersionOf_sm;
 	Object.keys(rawSolrObject).forEach((key) => {
 		if (
@@ -43,48 +57,13 @@ const initSolrObject = (rawSolrObject: any): SolrObject => {
  * @param solrObjects a list of transformed solr objects using initSolrObject
  * @returns a list of solrParent objects to create parent resource list
  */
-const generateSolrParentList = (solrObjects: SolrObject[]): SolrParent[] => {
-	let result = [] as SolrParent[];
-	solrObjects
-		.filter((solrObject) => !solrObject.parents)
-		.forEach((parentObject) => {
-			let solrParent = {} as SolrParent;
-			solrParent.id = parentObject.id;
-			solrParent.title = parentObject.title ? parentObject.title : "";
-			solrParent.creator = parentObject.meta["creator"]
-				? typeof parentObject.meta["creator"] === "string"
-					? [parentObject.meta["creator"]]
-					: parentObject.meta["creator"]
-				: [];
-			solrParent.description = parentObject.meta["description"]
-				? findFirstSentence(parentObject.meta["description"][0])
-				: "";
-			solrParent.meta = parentObject.meta ? parentObject.meta : {};
-			solrParent.metadata_version = parentObject.metadata_version
-				? parentObject.metadata_version
-				: "";
-			solrParent.modified = parentObject.modified
-				? parentObject.modified
-				: "";
-			solrParent.access_rights = parentObject.access_rights
-				? parentObject.access_rights
-				: [];
-			solrParent.resource_class = parentObject.resource_class
-				? parentObject.resource_class
-				: [];
-			solrParent.years = new Set([]);
-			solrParent.year = parentObject.meta["index_year"]
-				? typeof parentObject.meta["index_year"] === "string"
-					? [parentObject.meta["index_year"]]
-					: parentObject.meta["index_year"].map((year) => { return year.toString()})
-				: [];
-			result.push(solrParent);
-		});
+const generateSolrParentList = (solrObjects: SolrObject[]): SolrObject[] => {
+	let result = new Set<SolrObject>();
 	solrObjects
 		.filter((solrObject) => solrObject.parents)
 		.forEach((childObject) => {
 			childObject.parents.forEach((parentTitle) => {
-				result
+				solrObjects
 					.filter((solrParent) => parentTitle === solrParent.id)
 					.forEach((solrParent) => {
 						childObject.meta["date_issued"]
@@ -95,11 +74,24 @@ const generateSolrParentList = (solrObjects: SolrObject[]): SolrParent[] => {
 										: childObject.meta["date_issued"][0]
 							  )
 							: null;
+						result.add(solrParent);
 					});
 			});
 		});
-
-	return result;
+	solrObjects.filter((solrObject) => !solrObject.parents).forEach((solrObject) => {
+		result.add(solrObject);
+	});
+	return Array.from(result);
 };
 
-export { initSolrObject, generateSolrParentList };
+/**
+ * Use this function to derive the parent object from a list of solr objects. 
+ * Note this is not equal to generateSolrParentList, thus won't have 'years' accumulated from child object.
+ * 
+ * This function should be called to derive the parent result from Solr response.
+ */
+const filterParentList = (solrObjects: SolrObject[]): SolrObject[] => {
+	return solrObjects.filter((solrObject) => !solrObject.parents);
+}	
+
+export { initSolrObject, generateSolrParentList, filterParentList };
