@@ -14,12 +14,16 @@
  * }
  */
 export interface SolrObject {
-  id: string;
+ id: string;
   title: string;
+  creator: string[];
+  description: string;
+  index_year: string[]; //this is the year attribute of the original SolrObject
   metadata_version: string;
   modified: string;
-  access_rights: string;
-  resource_class: string;
-  meta: {};
+  access_rights: string[];
+  resource_class: string[];
+  meta: {[key: string]: string | string[]};
+  years: Set<string>;
   parents?: string[];
 }

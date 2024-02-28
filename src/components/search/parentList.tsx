@@ -4,13 +4,18 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // can be replaced by our svg icon
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { SolrParent } from "../../../meta/interface/SolrParent";
-import { List, ListItem } from "@mui/material";
+import { Divider, List, ListItem } from "@mui/material";
+import { SolrObject } from "meta/interface/SolrObject";
 
 export default function ParentList({
 	solrParents,
+	filterAttributeList,
 }: {
-	solrParents: SolrParent[];
+	solrParents: SolrObject[];
+	filterAttributeList: {
+		attribute: string;
+		displayName: string;
+	}[];
 }): JSX.Element {
 	const [expanded, setExpanded] = React.useState<string | false>(false);
 
@@ -30,7 +35,7 @@ export default function ParentList({
 					solrParents.map((solrParent, index) => {
 						return (
 							<Accordion
-								key={solrParent.id}
+								key={index}
 								expanded={expanded === solrParent.id}
 								onChange={handleChange(solrParent.id)}
 							>
@@ -44,27 +49,40 @@ export default function ParentList({
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<List>
-										<ListItem>
-											Created by: {solrParent.creator}
-										</ListItem>
-										<ListItem>
-											Description:{" "}
-											{solrParent.description}
-										</ListItem>
-										<ListItem>
-											Years:{" "}
-											{Array.from(solrParent.years).join(
-												", "
-											)}
-										</ListItem>
-										<ListItem>
-											Metadata:{" "}
-											{Object.values(solrParent.meta).join(
-												", "
-											)}
-										</ListItem>
-									</List>
+									{filterAttributeList.map((filter, index) =>
+										solrParent[filter.attribute] ? (
+											<List key={index}>
+												<ListItem>
+													{filter.displayName}:{" "}
+													{solrParent[
+														filter.attribute
+													].join(", ")}
+												</ListItem>
+											</List>
+										) : solrParent.meta[
+												filter.attribute
+										  ] ? (
+											<List key={index}>
+												<ListItem>
+													{filter.displayName}:{" "}
+													{typeof solrParent.meta[
+														filter.attribute
+													] === "string"
+														? solrParent.meta[
+																filter.attribute
+														  ]
+														: (
+																solrParent.meta[
+																	filter
+																		.attribute
+																] as string[]
+														  ).join(", ")}
+												</ListItem>
+											</List>
+										) : (
+											<></>
+										)
+									)}
 								</AccordionDetails>
 							</Accordion>
 						);

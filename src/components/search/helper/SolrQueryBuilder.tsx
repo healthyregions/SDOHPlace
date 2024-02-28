@@ -1,6 +1,8 @@
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
-
+import aardvark_json from "../../../pages/search/_metadata/aardvark_schema.json";
+import sdoh_json from "../../../pages/search/_metadata/sdohplace_schema.json";
+import { findSolrAttribute } from "meta/helper/util";
 export default class SolrQueryBuilder {
 	private query: QueryObject = {
 		solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -11,12 +13,12 @@ export default class SolrQueryBuilder {
 	// TODO: if our query will have more syntax, move the select part to individual query methods
 	setQuery(queryString: string): SolrQueryBuilder {
 		this.query.query = `${this.query.solrUrl}/${queryString}`;
+		console.log("sending query:", this.query.query);
 		return this;
 	}
 
 	public fetchResult(): Promise<SolrObject[]> {
 		return new Promise((resolve, reject) => {
-			console.log("fetching query:", this.query.query)
 			fetch(this.query.query)
 				.then((res) => res.json())
 				.then((response) => {
@@ -50,129 +52,56 @@ export default class SolrQueryBuilder {
 		});
 		return result;
 	}
-	escapeQueryChars(input: string): string {
-		if (!input) return "*";
-		return input.replace(/[-!(){}[\]^"~:*?\\]/g, "\\$&");
-	}
 
 	/**
 	 * Search Methods based on Solr syntax. Not all methods are used in the search component
 	 * */
-
 	public suggestQuery(searchTerm: string): SolrQueryBuilder {
-		const suggestQuery = `suggest?q=${this.escapeQueryChars(searchTerm)}`;
+		const suggestQuery = `suggest?q=${encodeURIComponent(searchTerm)}`;
 		return this.setQuery(suggestQuery);
 	}
 	public contentQuery(searchTerm: string): SolrQueryBuilder {
-		const contentQuery = `select?q=content:"${this.escapeQueryChars(
+		const contentQuery = `select?q=content:"${encodeURIComponent(
 			searchTerm
 		)}"`;
 		return this.setQuery(contentQuery);
 	}
-	public generalQuery(searchTerm: string) {
-		const generalQuery = `select?q=${this.escapeQueryChars(searchTerm)}`;
+	public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
+		let generalQuery = "select?q=";
+		if (typeof searchTerms === "string") {
+			generalQuery += `${encodeURIComponent(
+				findSolrAttribute(searchTerms, aardvark_json, sdoh_json)
+			)}&rows=1000`; //add rows to remove pagination
+		} else {
+			searchTerms.forEach((term) => {
+				generalQuery += `${encodeURIComponent(
+					findSolrAttribute(term, aardvark_json, sdoh_json)
+				)} OR `;
+			});
+			generalQuery = generalQuery.slice(0, -4); //remove the last OR
+			generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
+		}
 		return this.setQuery(generalQuery);
 	}
 
-	// UNCOMMENT THE FOLLOWING METHODS IF NEEDED
-	// public wildcardQuery(field: string, searchTerm: string): SolrQueryBuilder {
-	// 	const wildcardQuery = `select?q=${field}:${this.escapeQueryChars(searchTerm)}*`;
-	// 	return this.setQuery(wildcardQuery);
-	// }
-	// public regexQuery(field: string, regex: string): SolrQueryBuilder {
-	// 	const regexQuery = `select?q=${field}:${regex}`;
-	// 	return this.setQuery(regexQuery);
-	// }
-	// public fieldQuery(field: string, queryTerms: string): SolrQueryBuilder {
-	// 	const fieldQuery = `select?q=${field}:${queryTerms}`;
-	// 	return this.setQuery(fieldQuery);
-	// }
-	// public rangeQuery(
-	// 	field: string,
-	// 	startDate: string,
-	// 	endDate: string
-	// ): SolrQueryBuilder {
-	// 	const rangeQuery = `select?q=${field}:[${startDate} TO ${endDate}]`;
-	// 	return this.setQuery(rangeQuery);
-	// }
-	// public fuzzyQuery(
-	// 	field: string,
-	// 	queryTerms: string,
-	// 	fuzziness: number
-	// ): SolrQueryBuilder {
-	// 	const fuzzyQuery = `select?q=${field}:${queryTerms}~${fuzziness}`;
-	// 	return this.setQuery(fuzzyQuery);
-	// }
-	// public boostQuery(
-	// 	field: string,
-	// 	queryTerms: string,
-	// 	boost: number
-	// ): SolrQueryBuilder {
-	// 	const boostQuery = `select?q=${field}:${queryTerms}^${boost}`;
-	// 	return this.setQuery(boostQuery);
-	// }
-	// public booleanQuery(
-	// 	queryTerms: string,
-	// 	operator: "AND" | "OR" | "NOT",
-	// 	otherQueryTerms: string
-	// ): SolrQueryBuilder {
-	// 	const booleanQuery = `select?q=${queryTerms} ${operator} ${otherQueryTerms}`;
-	// 	return this.setQuery(booleanQuery);
-	// }
-	// public proximityQuery(
-	// 	field: string,
-	// 	queryTerms: string,
-	// 	proximity: number
-	// ): SolrQueryBuilder {
-	// 	const proximityQuery = `select?q=${field}:${queryTerms}~${proximity}`;
-	// 	return this.setQuery(proximityQuery);
-	// }
-	// public phraseQuery(field: string, queryTerms: string): SolrQueryBuilder {
-	// 	const phraseQuery = `select?q=${field}:"${queryTerms}"`;
-	// 	return this.setQuery(phraseQuery);
-	// }
-	// public functionQuery(func: string, field: string): SolrQueryBuilder {
-	// 	const functionQuery = `select?q=${func}(${field})`;
-	// 	return this.setQuery(functionQuery);
-	// }
-	// public joinQuery(
-	// 	field1: string,
-	// 	queryTerms1: string,
-	// 	field2: string,
-	// 	queryTerms2: string
-	// ): SolrQueryBuilder {
-	// 	const joinQuery = `select?q=${field1}:${queryTerms1} JOIN ${field2}:${queryTerms2}`;
-	// 	return this.setQuery(joinQuery);
-	// }
-	// public prefixQuery(field: string, queryTerms: string): SolrQueryBuilder {
-	// 	const prefixQuery = `select?q=${field}:${queryTerms}*`;
-	// 	return this.setQuery(prefixQuery);
-	// }
-	// public moreLikeThisQuery(
-	// 	field: string,
-	// 	queryTerms: string
-	// ): SolrQueryBuilder {
-	// 	const mltQuery = `select?q=mlt:${field}:${queryTerms}`;
-	// 	return this.setQuery(mltQuery);
-	// }
-	// public geospatialQuery(
-	// 	field: string,
-	// 	queryTerms: string,
-	// 	distance: string,
-	// 	latitude: number,
-	// 	longitude: number
-	// ): SolrQueryBuilder {
-	// 	const geospatialQuery = `select?q=${field}:${queryTerms} WITHIN ${distance} OF ${latitude},${longitude}`;
-	// 	return this.setQuery(geospatialQuery);
-	// }
-	// public termRangeQuery(
-	// 	field: string,
-	// 	startTerm: string,
-	// 	endTerm: string
-	// ): SolrQueryBuilder {
-	// 	const termRangeQuery = `select?q=${field}:[${startTerm} TO ${endTerm}]`;
-	// 	return this.setQuery(termRangeQuery);
-	// }
+	public filterQuery(
+		searchTerms: { attribute: string; value: string }[]
+	): SolrQueryBuilder {
+		let filterQuery = `select?fq=`;
+		searchTerms.forEach((term) => {
+			term["attribute"] = findSolrAttribute(
+				term["attribute"],
+				aardvark_json,
+				sdoh_json
+			);
+			filterQuery += `${term["attribute"]}:(${encodeURIComponent(
+				term["value"]
+			)} OR "${encodeURIComponent(term["value"])}") AND `;
+		});
+		filterQuery = filterQuery.slice(0, -5); //remove the last AND
+		filterQuery = filterQuery += "&rows=1000";
+		return this.setQuery(filterQuery);
+	}
 
 	// If we need to add sorting
 	public addSort(

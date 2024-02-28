@@ -39,3 +39,18 @@ export function AardvarkSdohSchemaMatch(
 		return result;
 	} else return rawSolrKey;
 }
+
+/**
+ * Opposite of AardvarkSdohSchemaMatch
+ * @param json_key the key to be found in the aardvark or sdoh schema
+ * @param aardvark_json 
+ * @param sdoh_json 
+ * @returns the raw attribute name that should be put to solr query
+ */
+export function findSolrAttribute(json_key: string, aardvark_json: {}, sdoh_json: {}): string {
+		return Object.keys(aardvark_json).find((e) => e === json_key)
+			? aardvark_json[json_key]["uri"]
+			: Object.keys(sdoh_json).find((e) => e === json_key)
+			? sdoh_json[json_key]["uri"]
+			: json_key;
+	}
