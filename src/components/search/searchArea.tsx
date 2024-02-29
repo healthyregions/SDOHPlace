@@ -10,9 +10,6 @@ import {
 	Checkbox,
 	Divider,
 	Grid,
-	IconButton,
-	InputAdornment,
-	Switch,
 	Typography,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -20,19 +17,12 @@ import { SearchObject } from "./interface/SearchObject";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import ParentList from "./parentList";
-import {
-	filterParentList,
-	generateSolrParentList,
-} from "meta/helper/solrObjects";
-// import { SolrParent } from "meta/interface/SolrParent";
+import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import {
 	generateFilter,
-	filterResults,
-	runningFilter,
-	updateFilter,
+	runningFilter
 } from "./helper/FilterHelpMethods";
-import { fi } from "date-fns/locale";
 
 export default function SearchArea({
 	results,
@@ -48,10 +38,12 @@ export default function SearchArea({
 		generateSolrParentList(results)
 	);
 	const [originalResults, setOriginalResults] =
-		useState<SolrObject[]>(fetchResults);
+		useState<SolrObject[]>(fetchResults); // last step, probably move this to memory in the future
+	const [allResults, setAllResults] = useState<SolrObject[]>(fetchResults); // the initial results
 	const [queryData, setQueryData] = useState<SearchObject>({
 		userInput: "",
 	});
+	const [autocompleteKey, setAutocompleteKey] = useState(0); // force autocomplete to re-render when user clicks on clear results
 	const [checkboxes, setCheckboxes] = useState([]);
 	const [options, setOptions] = useState([]);
 	const [userInput, setUserInput] = useState("");
@@ -128,16 +120,20 @@ export default function SearchArea({
 			...queryData,
 			userInput: value,
 		});
-		searchQueryBuilder.suggestQuery(value);
-		searchQueryBuilder
-			.fetchResult()
-			.then((result) => {
-				processResults(result, value);
-				setOptions(suggestResultBuilder.getTerms());
-			})
-			.catch((error) => {
-				console.error("Error fetching result:", error);
-			});
+		if (value !== "") {
+			searchQueryBuilder.suggestQuery(value);
+			searchQueryBuilder
+				.fetchResult()
+				.then((result) => {
+					processResults(result, value);
+					setOptions(suggestResultBuilder.getTerms());
+				})
+				.catch((error) => {
+					console.error("Error fetching result:", error);
+				});
+		} else {
+			handleReset();
+		}
 	};
 
 	const handleSubmit = (event) => {
@@ -154,7 +150,18 @@ export default function SearchArea({
 		suggestResultBuilder.setSuggestInput(value);
 		suggestResultBuilder.setResultTerms(JSON.stringify(results));
 	};
-
+	const handleReset = () => {
+		setAutocompleteKey(autocompleteKey + 1);
+		setCheckboxes([]);
+		setCurrentFilter(
+			generateFilter(
+				allResults,
+				[],
+				filterAttributeList.map((filter) => filter.attribute)
+			)
+		);
+		setFetchResults(allResults);
+	};
 	const handleFilter = (attr, value) => (event) => {
 		const newCheckboxes = [...checkboxes];
 		if (
@@ -186,17 +193,15 @@ export default function SearchArea({
 	};
 
 	useEffect(() => {
-		console.log(
-			"all parent objects:",
-			fetchResults,
-			"their raw results:",
-			results
-		);
 		const generateFilterFromCurrentResults = generateFilter(
 			fetchResults,
 			checkboxes,
 			filterAttributeList.map((filter) => filter.attribute)
 		);
+		// if (clearInput) {
+		// 	setUserInput("");
+		// 	setClearInput(false);
+		// }
 		setCurrentFilter(generateFilterFromCurrentResults);
 	}, []);
 
@@ -266,17 +271,19 @@ export default function SearchArea({
 						<Grid container alignItems="center">
 							<Grid item xs={9}>
 								<Autocomplete
+									key={autocompleteKey}
 									freeSolo
-									disableClearable
 									options={options}
-									onInputChange={(event, value) => {
-										if (event.type === "change") {
+									onInputChange={(event, value, reason) => {
+										if (event && event.type === "change") {
+
 											setUserInput(value);
 											handleUserInputChange(event, value);
 										}
 									}}
 									onChange={(event, value) => {
-										setUserInput(value);
+
+		setUserInput(value);
 										handleDropdownSelect(event, value);
 									}}
 									sx={{ minWidth: 250 }}
@@ -310,6 +317,21 @@ export default function SearchArea({
 				</Grid>
 				<Divider />
 				<Grid container className="search_filter_container">
+					{checkboxes.find((c) => c.checked) !== undefined ? (
+						<Grid item xs={12}>
+							<Button
+								variant="contained"
+								color="primary"
+								fullWidth
+								onClick={() => {
+									handleReset();
+								}}
+							>
+								Start Over
+							</Button>
+						</Grid>
+					) : null}
+
 					{/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
 					<Grid item xs={12}>
 						{filterAttributeList.map((filter, index) => (
