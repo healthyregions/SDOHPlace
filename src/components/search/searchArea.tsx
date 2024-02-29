@@ -7,12 +7,14 @@ import {
 	AccordionDetails,
 	AccordionSummary,
 	Autocomplete,
+	Box,
 	Checkbox,
 	Divider,
 	Grid,
 	Typography,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CloseIcon from "@mui/icons-material/Close";
 import { SearchObject } from "./interface/SearchObject";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
@@ -23,6 +25,7 @@ import {
 	generateFilter,
 	runningFilter
 } from "./helper/FilterHelpMethods";
+import CheckBoxObject from "./interface/CheckboxObject";
 
 export default function SearchArea({
 	results,
@@ -262,7 +265,25 @@ export default function SearchArea({
 			</Accordion>
 		) : null;
 	}
-
+	function filterStatusButton(c: CheckBoxObject) {
+		return (
+			<Button
+				key={c.value}
+				sx={{margin: "0.5em"}}
+				variant="outlined"
+				color="success"
+				endIcon={<CloseIcon />}
+				onClick={() => {
+					const cancelEvent = {
+						target: { checked: false },
+					};
+					handleFilter(c.attribute, c.value)(cancelEvent);
+				}}
+			>
+				{c.attribute}:{c.value}
+			</Button>
+		);
+	}
 	return (
 		<Grid container spacing={2}>
 			<Grid container xs={4}>
@@ -347,6 +368,11 @@ export default function SearchArea({
 				</Grid>
 			</Grid>
 			<Grid item xs={8}>
+				<Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+					{checkboxes
+						.filter((c) => c.checked === true)
+						.map((c) => filterStatusButton(c))}
+				</Box>
 				<ParentList
 					solrParents={fetchResults}
 					filterAttributeList={filterAttributeList}
