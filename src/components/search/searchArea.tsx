@@ -10,9 +10,6 @@ import {
 	Checkbox,
 	Divider,
 	Grid,
-	IconButton,
-	InputAdornment,
-	Switch,
 	Typography,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -21,13 +18,10 @@ import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import ParentList from "./parentList";
 import { generateSolrParentList } from "meta/helper/solrObjects";
-// import { SolrParent } from "meta/interface/SolrParent";
 import FilterObject from "./interface/FilterObject";
 import {
 	generateFilter,
-	filterResults,
-	runningFilter,
-	updateFilter,
+	runningFilter
 } from "./helper/FilterHelpMethods";
 
 export default function SearchArea({
@@ -330,22 +324,10 @@ export default function SearchArea({
 								color="primary"
 								fullWidth
 								onClick={() => {
-									// setAutocompleteKey(autocompleteKey + 1);
-									// setCheckboxes([]);
-									// setCurrentFilter(
-									// 	generateFilter(
-									// 		allResults,
-									// 		[],
-									// 		filterAttributeList.map(
-									// 			(filter) => filter.attribute
-									// 		)
-									// 	)
-									// );
-									// setFetchResults(allResults);
 									handleReset();
 								}}
 							>
-								Clear Results
+								Start Over
 							</Button>
 						</Grid>
 					) : null}
