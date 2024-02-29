@@ -122,21 +122,24 @@ export default function SearchArea({
 	};
 
 	const handleUserInputChange = async (event, value) => {
-		setUserInput(value);
 		setQueryData({
 			...queryData,
 			userInput: value,
 		});
-		searchQueryBuilder.suggestQuery(value);
-		searchQueryBuilder
-			.fetchResult()
-			.then((result) => {
-				processResults(result, value);
-				setOptions(suggestResultBuilder.getTerms());
-			})
-			.catch((error) => {
-				console.error("Error fetching result:", error);
-			});
+		if (value !== "") {
+			searchQueryBuilder.suggestQuery(value);
+			searchQueryBuilder
+				.fetchResult()
+				.then((result) => {
+					processResults(result, value);
+					setOptions(suggestResultBuilder.getTerms());
+				})
+				.catch((error) => {
+					console.error("Error fetching result:", error);
+				});
+		} else {
+			handleReset();
+		}
 	};
 
 	const handleSubmit = (event) => {
@@ -145,7 +148,6 @@ export default function SearchArea({
 		handleSearch(userInput);
 	};
 	const handleDropdownSelect = (event, value) => {
-		setUserInput(value);
 		searchQueryBuilder.suggestQuery(value);
 		handleSearch(value);
 	};
@@ -154,7 +156,18 @@ export default function SearchArea({
 		suggestResultBuilder.setSuggestInput(value);
 		suggestResultBuilder.setResultTerms(JSON.stringify(results));
 	};
-
+	const handleReset = () => {
+		setAutocompleteKey(autocompleteKey + 1);
+		setCheckboxes([]);
+		setCurrentFilter(
+			generateFilter(
+				allResults,
+				[],
+				filterAttributeList.map((filter) => filter.attribute)
+			)
+		);
+		setFetchResults(allResults);
+	};
 	const handleFilter = (attr, value) => (event) => {
 		const newCheckboxes = [...checkboxes];
 		if (
@@ -267,12 +280,16 @@ export default function SearchArea({
 									key={autocompleteKey}
 									freeSolo
 									options={options}
-									onInputChange={(event, value) => {
+									onInputChange={(event, value, reason) => {
 										if (event && event.type === "change") {
+
+											setUserInput(value);
 											handleUserInputChange(event, value);
 										}
 									}}
 									onChange={(event, value) => {
+
+		setUserInput(value);
 										handleDropdownSelect(event, value);
 									}}
 									sx={{ minWidth: 250 }}
@@ -313,18 +330,19 @@ export default function SearchArea({
 								color="primary"
 								fullWidth
 								onClick={() => {
-									setAutocompleteKey(autocompleteKey + 1);
-									setCheckboxes([]);
-									setCurrentFilter(
-										generateFilter(
-											allResults,
-											[],
-											filterAttributeList.map(
-												(filter) => filter.attribute
-											)
-										)
-									);
-									setFetchResults(allResults);
+									// setAutocompleteKey(autocompleteKey + 1);
+									// setCheckboxes([]);
+									// setCurrentFilter(
+									// 	generateFilter(
+									// 		allResults,
+									// 		[],
+									// 		filterAttributeList.map(
+									// 			(filter) => filter.attribute
+									// 		)
+									// 	)
+									// );
+									// setFetchResults(allResults);
+									handleReset();
 								}}
 							>
 								Clear Results
