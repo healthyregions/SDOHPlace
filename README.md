@@ -22,7 +22,7 @@ Or
 
 - Each post should have at least one tag.
 - Don't use `<` or `>` in the text of a post. If you need those characters, use `&lt;` (lt = "less than") and `&gt;` (gt = "greater than").
-    - The reason for this is that markdown can support inclusion of HTML elements, which look like `<element-name>`. If `<>` are found outside of a valid HTML element, they will cause an error.
+  - The reason for this is that markdown can support inclusion of HTML elements, which look like `<element-name>`. If `<>` are found outside of a valid HTML element, they will cause an error.
 
 ## Branch Configuration
 
