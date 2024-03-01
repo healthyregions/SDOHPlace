@@ -138,13 +138,20 @@ const Advisory: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  We proudly present the SDOH & Place 2024 Cohort of Fellows.
-                  These Fellows will contribute to the design and content of the{" "}
-                  <Link href="https://toolkit.sdohplace.org">
-                    Community Toolkit
+                  The{" "}
+                  <Link
+                    className="text-link"
+                    href="https://sdohplace.org/news/community-fellowship-2024"
+                  >
+                    SDOH & Place Fellowship Program
                   </Link>{" "}
-                  through their feedback and development of a SDOH & place-based
-                  pilot project.
+                  launched in 2024 to support public health, geography, & health
+                  equity leaders learn how to develop a social determinants of
+                  health (SDOH) place-based visualization (e.g., asset map,
+                  story map, thematic map, or dashboard) based on a
+                  human-centered design (HCD) framework and participatory design
+                  principles. Program Ambassadors additionally contribute to the
+                  SDOH & Place community toolkit&apos;s design and development.
                 </div>
               </div>
             </div>
@@ -152,7 +159,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Community Fellows</h2>
+            <h2 className="font-fredoka">2024 Fellow Cohort</h2>
           </div>
           <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">

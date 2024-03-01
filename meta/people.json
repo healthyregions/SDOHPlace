@@ -344,12 +344,14 @@
   },
   "beth": {
     "name": "Beth Beyer",
-    "title": "Executive Director, The Technology Alliance",
+    "title": "Executive Director",
     "image": "../../images/headshot-bb.jpeg",
     "text": "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and extend educational opportunities. As the executive director of...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and extend educational opportunities. As the executive director of The Technology Alliance, a small nonprofit organization whose mission is to “open new worlds through technology,” Beth actively directs projects and pursues partnerships with organizations, schools, and community members. Beth's work in collaboration with the Erikson Institute for Early Childhood Development in inner-city Chicago Public Schools earned her recognition and a 3-year Kellogg Foundation Leadership Fellowship program. During her Masters in Learning Sciences at Northwestern University, her research focused on using GIS technologies, including ArcView GIS, Google Earth Engine, Google My Maps, and mapping software prototypes under development. Her thesis explored the use of coloration in mapping and cognitive understanding of how maps work. Recently, she was nominated and accepted into the Alliance for Leadership Fellows, an organization that brings graduates of leadership fellowships together to further their development and work collaboratively to \"increase knowledge and skills that lead to equitable and sustainable flourishing within human communities.\" Beth is currently working on developing and reviewing the Climate Action Plan for People and Nature (CAPN) in collaboration with the Chicago Wilderness Alliance (CWA). This effort brings together community partners, including the Field Museum, The Nature Conservancy (TNC), Peggy Notebaert Nature Museum, The Technology Alliance, and more to ensure the success of people and nature. She co-taught a high school seminar on Environmental Justice, where she highlighted the importance of prioritizing communities struggling with air and water quality in future climate planning. Her current SDOH and Place project, HEAT (Hope, Education, and ArT), aims to highlight and celebrate art co-created in these communities to build community, connect with nature, and promote healing."]
+    "long": [
+      "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and extend educational opportunities. As the executive director of The Technology Alliance, a small nonprofit organization whose mission is to “open new worlds through technology,” Beth actively directs projects and pursues partnerships with organizations, schools, and community members. Beth's work in collaboration with the Erikson Institute for Early Childhood Development in inner-city Chicago Public Schools earned her recognition and a 3-year Kellogg Foundation Leadership Fellowship program. During her Masters in Learning Sciences at Northwestern University, her research focused on using GIS technologies, including ArcView GIS, Google Earth Engine, Google My Maps, and mapping software prototypes under development. Her thesis explored the use of coloration in mapping and cognitive understanding of how maps work. Recently, she was nominated and accepted into the Alliance for Leadership Fellows, an organization that brings graduates of leadership fellowships together to further their development and work collaboratively to \"increase knowledge and skills that lead to equitable and sustainable flourishing within human communities.\" Beth is currently working on developing and reviewing the Climate Action Plan for People and Nature (CAPN) in collaboration with the Chicago Wilderness Alliance (CWA). This effort brings together community partners, including the Field Museum, The Nature Conservancy (TNC), Peggy Notebaert Nature Museum, The Technology Alliance, and more to ensure the success of people and nature. She co-taught a high school seminar on Environmental Justice, where she highlighted the importance of prioritizing communities struggling with air and water quality in future climate planning. Her current SDOH and Place project, HEAT (Hope, Education, and ArT), aims to highlight and celebrate art co-created in these communities to build community, connect with nature, and promote healing."
+    ]
   },
   "joseph": {
     "name": "Joseph Braimah",
@@ -416,7 +418,7 @@
   },
   "alex": {
     "name": "Alex Michels",
-    "title": "PhD Student",
+    "title": "Graduate Student",
     "image": "../../images/headshot-am.jpeg",
     "text": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at...",
     "links": {},
@@ -433,17 +435,21 @@
     "text": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities and populations that have experienced being underserved in health care and policy, emphasizing community engagement and collaboration in research and teaching, and community- and participant-led research priorities in choosing and designing research projects.",
-    "Previously, she has also worked with Indigenous-led health organizations to understand links between mental health and colonialism, as well as barriers that Indigenous clients of health care organizations experience in an urban setting, and the roles of these organizations in opening health care spaces to Indigenous community members in the city."]
+    "long": [
+      "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities and populations that have experienced being underserved in health care and policy, emphasizing community engagement and collaboration in research and teaching, and community- and participant-led research priorities in choosing and designing research projects.",
+      "Previously, she has also worked with Indigenous-led health organizations to understand links between mental health and colonialism, as well as barriers that Indigenous clients of health care organizations experience in an urban setting, and the roles of these organizations in opening health care spaces to Indigenous community members in the city."
+    ]
   },
   "kennedy": {
     "name": "Kennedy Patterson",
-    "title": "Master’s Student: University of Chicago",
+    "title": "Graduate Student",
     "image": "../../images/headshot-kp.jpeg",
     "text": "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” Lab under the direction of Dr. Robert Vargas, where she...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” Lab under the direction of Dr. Robert Vargas, where she digitalizes, cleans, and analyzes archival records of Chicago homicides, in pursuit of curating the first analysis of Chicago homicides from 1940-1964. Furthermore, as a SDOH & Place Fellow, she aims to illuminate the racialization and gendering of unhoused deaths to draw awareness to violence endured by unhoused Black women. Prior to attending the University of Chicago, Kennedy graduated from the University of Washington as a McNair scholar with a Bachelor of Arts in Medical Anthropology & Global Health- Honors, in addition to Gender, Women's, & Sexuality studies. Kennedy is also a 2023 Fulbright recipient and was awarded the 2022 \"Outstanding Research and Presentation\" Award at the National Diversity in STEM Research Conference in San Juan, Puerto Rico, for her work in \"How do Black Women Thrive Utilizing Social Services within the Greater Seattle Area\". Within this project, she uncovers (1) how social services have been socially constructed to sustain the experience of vulnerability within the Black community, and (2) highlights that through various levels of gratitude, Black women find spiritual peace and grow new resilience to systemic challenges. Following her Master’s degree, Kennedy will be receiving her PhD in Sociology at Northwestern University. "]
+    "long": [
+      "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” Lab under the direction of Dr. Robert Vargas, where she digitalizes, cleans, and analyzes archival records of Chicago homicides, in pursuit of curating the first analysis of Chicago homicides from 1940-1964. Furthermore, as a SDOH & Place Fellow, she aims to illuminate the racialization and gendering of unhoused deaths to draw awareness to violence endured by unhoused Black women. Prior to attending the University of Chicago, Kennedy graduated from the University of Washington as a McNair scholar with a Bachelor of Arts in Medical Anthropology & Global Health- Honors, in addition to Gender, Women's, & Sexuality studies. Kennedy is also a 2023 Fulbright recipient and was awarded the 2022 \"Outstanding Research and Presentation\" Award at the National Diversity in STEM Research Conference in San Juan, Puerto Rico, for her work in \"How do Black Women Thrive Utilizing Social Services within the Greater Seattle Area\". Within this project, she uncovers (1) how social services have been socially constructed to sustain the experience of vulnerability within the Black community, and (2) highlights that through various levels of gratitude, Black women find spiritual peace and grow new resilience to systemic challenges. Following her Master’s degree, Kennedy will be receiving her PhD in Sociology at Northwestern University. "
+    ]
   },
   "sonia": {
     "name": "Sonia Saxon",
@@ -452,11 +458,13 @@
     "text": "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with the grassroots organizations Neighbors for Environmental Justice and...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with the grassroots organizations Neighbors for Environmental Justice and Chicago’s Coalition to End Sacrifice Zones. She is also pursuing a PhD in Anthropology and a Master’s in Public Health from the Environmental and Occupational Health Science division at the University of Illinois Chicago. Her research interrogates the power structures behind whose voices are heard and what types of data are considered valid in policy-level engagements with environmental justice issues. The focus on making information about health risks actionable and more widely accessible to the public guides her work. She uses air monitoring data, qualitative methods, and ethnography to highlight the importance of “lived experiences” when assessing environmental hazards and determining which communities are disproportionately burdened by pollution."]
+    "long": [
+      "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with the grassroots organizations Neighbors for Environmental Justice and Chicago’s Coalition to End Sacrifice Zones. She is also pursuing a PhD in Anthropology and a Master’s in Public Health from the Environmental and Occupational Health Science division at the University of Illinois Chicago. Her research interrogates the power structures behind whose voices are heard and what types of data are considered valid in policy-level engagements with environmental justice issues. The focus on making information about health risks actionable and more widely accessible to the public guides her work. She uses air monitoring data, qualitative methods, and ethnography to highlight the importance of “lived experiences” when assessing environmental hazards and determining which communities are disproportionately burdened by pollution."
+    ]
   },
   "sarahs": {
     "name": "Sarah Scott",
-    "title": "Graduate Student Researcher",
+    "title": "Graduate Student",
     "image": "../../images/headshot-ss.jpeg",
     "text": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in...",
     "links": {},
@@ -467,7 +475,7 @@
   },
   "madeline": {
     "name": "Madeline Smith-Johnson",
-    "title": "Ph.D. Candidate",
+    "title": "Graduate Candidate",
     "image": "../../images/headshot-msj.jpeg",
     "text": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of...",
     "links": {},
