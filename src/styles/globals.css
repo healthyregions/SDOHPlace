@@ -34,6 +34,10 @@ h5 {
   font-size: 1.25em;
 }
 
+a.text-link {
+  @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600;
+}
+
 .navbar-title {
   @apply text-almostblack p-4 uppercase text-base font-bold tracking-[0.03125rem] leading-4;
 }

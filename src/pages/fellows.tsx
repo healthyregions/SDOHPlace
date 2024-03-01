@@ -139,7 +139,10 @@ const Advisory: NextPage = () => {
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   The{" "}
-                  <Link href="https://sdohplace.org/news/community-fellowship-2024">
+                  <Link
+                    className="text-link"
+                    href="https://sdohplace.org/news/community-fellowship-2024"
+                  >
                     SDOH & Place Fellowship Program
                   </Link>{" "}
                   launched in 2024 to support public health, geography, & health
@@ -156,7 +159,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">2024 Program Ambassadors</h2>
+            <h2 className="font-fredoka">2024 Fellow Cohort</h2>
           </div>
           <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
