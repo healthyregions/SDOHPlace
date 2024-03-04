@@ -23,12 +23,15 @@ import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import CheckBoxObject from "./interface/CheckboxObject";
+import MapArea from "../map/mapArea";
 
 export default function SearchArea({
   results,
+  isLoading,
   filterAttributeList,
 }: {
   results: SolrObject[];
+  isLoading: boolean;
   filterAttributeList: {
     attribute: string;
     displayName: string;
@@ -184,6 +187,8 @@ export default function SearchArea({
     setCheckboxes(newCheckboxes);
   };
 
+  console.log("isloding?" + isLoading);
+
   useEffect(() => {
     const generateFilterFromCurrentResults = generateFilter(
       fetchResults,
@@ -269,97 +274,94 @@ export default function SearchArea({
     );
   }
   return (
-    <Grid container spacing={2}>
-      <Grid container xs={4}>
-        <Grid container className="search_box_container">
-          <form id="search-form" onSubmit={handleSubmit}>
-            <Grid container alignItems="center">
-              <Grid item xs={9}>
-                <Autocomplete
-                  key={autocompleteKey}
-                  freeSolo
-                  options={options}
-                  onInputChange={(event, value, reason) => {
-                    if (event && event.type === "change") {
-                      setUserInput(value);
-                      handleUserInputChange(event, value);
-                    }
-                  }}
-                  onChange={(event, value) => {
+    <>
+      <Grid container className="search_box_container">
+        <form id="search-form" onSubmit={handleSubmit}>
+          <Grid container alignItems="center">
+            <Grid item xs={9}>
+              <Autocomplete
+                key={autocompleteKey}
+                freeSolo
+                options={options}
+                onInputChange={(event, value, reason) => {
+                  if (event && event.type === "change") {
                     setUserInput(value);
-                    handleDropdownSelect(event, value);
-                  }}
-                  sx={{ minWidth: 250 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Search input"
-                      variant="outlined"
-                      fullWidth
-                      InputProps={{
-                        ...params.InputProps,
-                        endAdornment: null,
-                        type: "search",
-                      }}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Search
-                </Button>
-              </Grid>
+                    handleUserInputChange(event, value);
+                  }
+                }}
+                onChange={(event, value) => {
+                  setUserInput(value);
+                  handleDropdownSelect(event, value);
+                }}
+                sx={{ minWidth: 250 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search input"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: null,
+                      type: "search",
+                    }}
+                  />
+                )}
+              />
             </Grid>
-          </form>
-        </Grid>
-        <Divider />
-        <Grid container className="search_filter_container">
-          {checkboxes.find((c) => c.checked) !== undefined ? (
-            <Grid item xs={12}>
+            <Grid item xs={3}>
               <Button
+                type="submit"
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={() => {
-                  handleReset();
-                }}
               >
-                Start Over
+                Search
               </Button>
             </Grid>
-          ) : null}
-
-          {/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
-          <Grid item xs={12}>
-            {filterAttributeList.map((filter, index) => (
-              <FilterAccordion
-                key={index}
-                currentCheckboxes={checkboxes}
-                currentFilter={currentFilter}
-                attributeName={filter.attribute}
-                displayName={filter.displayName}
-              />
-            ))}
           </Grid>
+        </form>
+      </Grid>
+      <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+        {checkboxes
+          .filter((c) => c.checked === true)
+          .map((c) => filterStatusButton(c))}
+      </Box>
+      <ParentList
+        solrParents={fetchResults}
+        filterAttributeList={filterAttributeList}
+      />
+      <Divider />
+      <Grid container className="search_filter_container">
+        {checkboxes.find((c) => c.checked) !== undefined ? (
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => {
+                handleReset();
+              }}
+            >
+              Start Over
+            </Button>
+          </Grid>
+        ) : null}
+
+        {/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
+        <Grid item xs={12}>
+          <h3>Filters</h3>
+          {filterAttributeList.map((filter, index) => (
+            <FilterAccordion
+              key={index}
+              currentCheckboxes={checkboxes}
+              currentFilter={currentFilter}
+              attributeName={filter.attribute}
+              displayName={filter.displayName}
+            />
+          ))}
         </Grid>
       </Grid>
-      <Grid item xs={8}>
-        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          {checkboxes
-            .filter((c) => c.checked === true)
-            .map((c) => filterStatusButton(c))}
-        </Box>
-        <ParentList
-          solrParents={fetchResults}
-          filterAttributeList={filterAttributeList}
-        />
-      </Grid>
-    </Grid>
+    </>
   );
 }
