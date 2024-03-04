@@ -579,7 +579,7 @@
     "slug": "references",
     "widget": "references.html"
   },
-  "wxs_indentifier": {
+  "wxs_identifier": {
     "label": "WxS Identifier",
     "uri": "gbl_wxsIdentifier_s",
     "data_type": "string",
@@ -589,7 +589,7 @@
     "controlled_options": [],
     "schema": "Aardvark",
     "display_group": "Links",
-    "slug": "wxs-indentifier",
+    "slug": "wxs-identifier",
     "widget": "text-simple.html"
   },
   "id": {
