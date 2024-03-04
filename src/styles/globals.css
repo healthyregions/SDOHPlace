@@ -38,6 +38,16 @@ a.text-link {
   @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600;
 }
 
+b,
+strong {
+  @apply font-bold;
+}
+
+i,
+em {
+  @apply italic;
+}
+
 .navbar-title {
   @apply text-almostblack p-4 uppercase text-base font-bold tracking-[0.03125rem] leading-4;
 }
