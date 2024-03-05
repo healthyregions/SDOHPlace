@@ -31,7 +31,7 @@ const NavBar = (): JSX.Element => {
       className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
-        className={`flex justify-between items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
+        className={`flex justify-between items-center 2xl:max-w-[1536px] mt-8 pl-0 pr-0 mx-auto`}
       >
         <ul className="hidden min-[768px]:flex pl-[2.5%]">
           <li
