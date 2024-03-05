@@ -5,6 +5,7 @@ import * as React from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
+import useSWR from "swr";
 
 import Header from "@/components/Header";
 import TopLines from "@/components/TopLines";
@@ -85,21 +86,26 @@ const Search: NextPage = () => {
 	const [open, setOpen] = React.useState(true);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
-
-	const [data, setData] = useState(null);
+	const [allResults, setAllResults] = useState([]);
 	const [solrObjectResults, setSolrObjectResults] = useState([] as SolrObject[]);
 	const [isLoading, setLoading] = useState(true);
-
+	const [allSchema, setAllSchema] = useState({});
+	
 	useEffect(() => {
+		fetch("/api/metadata")
+			.then((response) => response.json())
+			.then((data) => setAllSchema(data))
+			.catch((error) => console.error("Error fetching metadata:", error));
 		fetch(solrUrl + "/select?q=*:*&rows=100")
 			.then((res) => res.json())
-			.then((data) => {
-				setData(data);
-				console.log("rawSolr ", data.response.docs);
+			.then((d) => {
+				setAllResults(d);
+				console.log("rawSolr ", d.response.docs);
 				const solrObjectResults = [];
-				data.response.docs.map((doc, index) => {
-					solrObjectResults.push(initSolrObject(doc));
+				d.response.docs.map((doc, index) => {
+					solrObjectResults.push(initSolrObject(doc, allSchema));
 				});
+				console.log("solrObjectResults ", solrObjectResults);
 				setSolrObjectResults(solrObjectResults);
 				setLoading(false);
 			});
@@ -129,7 +135,6 @@ const Search: NextPage = () => {
 				<div className="flex flex-col">Loading...</div>
 			</>
 		);
-	if (!data) return <p>No profile data</p>;
 
 	return (
 		<>
@@ -213,6 +218,7 @@ const Search: NextPage = () => {
 										displayName: "Data Variables",
 									},
 								]}
+								schema={allSchema}
 							/>
 						</Grid>
 						{/* <Grid item xs={6}>

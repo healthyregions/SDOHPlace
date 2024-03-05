@@ -30,12 +30,14 @@ import CheckBoxObject from "./interface/CheckboxObject";
 export default function SearchArea({
 	results,
 	filterAttributeList,
+	schema
 }: {
 	results: SolrObject[];
 	filterAttributeList: {
 		attribute: string;
 		displayName: string;
 	}[];
+	schema: {}
 }): JSX.Element {
 	const [fetchResults, setFetchResults] = useState<SolrObject[]>(
 		generateSolrParentList(results)
@@ -60,6 +62,7 @@ export default function SearchArea({
 	);
 
 	let searchQueryBuilder = new SolrQueryBuilder();
+	searchQueryBuilder.setSchema(schema);
 	let suggestResultBuilder = new SuggestedResult();
 
 	const handleSearch = async (value) => {
@@ -182,7 +185,7 @@ export default function SearchArea({
 			(c) => c.value === value && c.attribute === attr
 		).checked = event.target.checked;
 
-		runningFilter(newCheckboxes, originalResults).then((newResults) => {
+		runningFilter(newCheckboxes, originalResults, schema).then((newResults) => {
 			setFetchResults(newResults);
 			setCurrentFilter(
 				generateFilter(

@@ -170,13 +170,15 @@ export const filterResults = (fetchedResults, key, value) => {
  */
 export const runningFilter = (
 	checkBoxStatus: CheckBoxObject[],
-	originalResult: SolrObject[]
+	originalResult: SolrObject[],
+	schema_json: {}
 ): Promise<SolrObject[]> => {
 	if (checkBoxStatus.find((c) => c.checked === true) === undefined) {
 		return Promise.resolve(originalResult);
 	}
 
 	let filterQueryBuilder = new SolrQueryBuilder();
+	filterQueryBuilder.setSchema(schema_json);
 	let filters: { attribute: string; value: string }[] = [];
 	checkBoxStatus.forEach((checkBox) => {
 		if (checkBox.checked) {
