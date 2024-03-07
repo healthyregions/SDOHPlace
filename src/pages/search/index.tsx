@@ -51,15 +51,11 @@ const Search: NextPage = () => {
 	const [allSchema, setAllSchema] = useState({});
 
 	useEffect(() => {
-		fetch("/api/metadata")
-			.then((response) => response.json())
-			.then((data) => setAllSchema(data))
-			.catch((error) => console.error("Error fetching metadata:", error));
 		fetch(solrUrl + "/select?q=*:*&rows=100")
 			.then((res) => res.json())
 			.then((data) => {
 				setData(data);
-				fetch("/api/metadata")
+				fetch("/api/schema")
 					.then((response) => response.json())
 					.then((schemaData) => {
 						setAllSchema(schemaData);
