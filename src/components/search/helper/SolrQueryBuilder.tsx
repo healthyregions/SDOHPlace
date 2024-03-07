@@ -35,13 +35,13 @@ export default class SolrQueryBuilder {
 		});
 	}
 
-	/**
-	 * Based on the response from solr, return a list of SolrObjects as the search result.
-	 * @param response_json object of the response from solr
-	 * @returns a list of SolrObjects as the search result. If no result, return empty list.
-	 */
-	getSearchResult(response_json: {}): any {
-		let result = [] as SolrObject[];
+  /**
+   * Based on the response from solr, return a list of SolrObjects as the search result.
+   * @param response_json object of the response from solr
+   * @returns a list of SolrObjects as the search result. If no result, return empty list.
+   */
+  getSearchResult(response_json: {}): any {
+    let result = [] as SolrObject[];
 
 		//if return suggest
 		if (response_json["suggest"]) return response_json;
@@ -105,15 +105,15 @@ export default class SolrQueryBuilder {
 		return this.setQuery(filterQuery);
 	}
 
-	// If we need to add sorting
-	public addSort(
-		field: string,
-		order: "asc" | "desc" = "asc"
-	): SolrQueryBuilder {
-		if (!this.query.sort) {
-			this.query.sort = [];
-		}
-		this.query.sort.push(`${field} ${order}`);
-		return this;
-	}
+  // If we need to add sorting
+  public addSort(
+    field: string,
+    order: "asc" | "desc" = "asc"
+  ): SolrQueryBuilder {
+    if (!this.query.sort) {
+      this.query.sort = [];
+    }
+    this.query.sort.push(`${field} ${order}`);
+    return this;
+  }
 }

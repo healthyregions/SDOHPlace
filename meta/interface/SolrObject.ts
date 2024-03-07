@@ -14,7 +14,7 @@
  * }
  */
 export interface SolrObject {
- id: string;
+  id: string;
   title: string;
   creator: string[];
   description: string;
@@ -23,7 +23,7 @@ export interface SolrObject {
   modified: string;
   access_rights: string[];
   resource_class: string[];
-  meta: {[key: string]: string | string[]};
+  meta: { [key: string]: string | string[] };
   years: Set<string>;
   parents?: string[];
 }

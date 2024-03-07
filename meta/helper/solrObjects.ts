@@ -60,41 +60,42 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
  * @returns a list of solrParent objects to create parent resource list
  */
 const generateSolrParentList = (solrObjects: SolrObject[]): SolrObject[] => {
-	let result = new Set<SolrObject>();
-	solrObjects
-		.filter((solrObject) => solrObject.parents)
-		.forEach((childObject) => {
-			childObject.parents.forEach((parentTitle) => {
-				solrObjects
-					.filter((solrParent) => parentTitle === solrParent.id)
-					.forEach((solrParent) => {
-						childObject.meta["date_issued"]
-							? solrParent.years.add(
-									typeof childObject.meta["date_issued"] ===
-										"string"
-										? childObject.meta["date_issued"]
-										: childObject.meta["date_issued"][0]
-							  )
-							: null;
-						result.add(solrParent);
-					});
-			});
-		});
-	solrObjects.filter((solrObject) => !solrObject.parents).forEach((solrObject) => {
-		result.add(solrObject);
-	});
-	return Array.from(result);
+  let result = new Set<SolrObject>();
+  solrObjects
+    .filter((solrObject) => solrObject.parents)
+    .forEach((childObject) => {
+      childObject.parents.forEach((parentTitle) => {
+        solrObjects
+          .filter((solrParent) => parentTitle === solrParent.id)
+          .forEach((solrParent) => {
+            childObject.meta["date_issued"]
+              ? solrParent.years.add(
+                  typeof childObject.meta["date_issued"] === "string"
+                    ? childObject.meta["date_issued"]
+                    : childObject.meta["date_issued"][0]
+                )
+              : null;
+            result.add(solrParent);
+          });
+      });
+    });
+  solrObjects
+    .filter((solrObject) => !solrObject.parents)
+    .forEach((solrObject) => {
+      result.add(solrObject);
+    });
+  return Array.from(result);
 };
 
 /**
- * Use this function to derive the parent object from a list of solr objects. 
+ * Use this function to derive the parent object from a list of solr objects.
  * Note this is not equal to generateSolrParentList, thus won't have 'years' accumulated from child object.
- * 
+ *
  * This function should be called to derive the parent result from Solr response.
  */
 const filterParentList = (solrObjects: SolrObject[]): SolrObject[] => {
-	return solrObjects.filter((solrObject) => !solrObject.parents);
-}	
+  return solrObjects.filter((solrObject) => !solrObject.parents);
+};
 
 export { initSolrObject, generateSolrParentList, filterParentList };
 
