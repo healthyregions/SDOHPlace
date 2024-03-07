@@ -15,16 +15,16 @@ type Props = {
 };
 export default function PostList({ posts, tags, pagination }: Props) {
   return (
-    <div className={"container"}>
-      <div className={"posts"}>
-        <ul className={"post-list"}>
-          {posts.map((it, i) => (
-            <li key={i}>
-              <PostItem post={it} />
-            </li>
-          ))}
-        </ul>
-        {/* <Pagination
+		<div className="container px-5">
+			<div className={"posts"}>
+				<ul className={"post-list"}>
+					{posts.map((it, i) => (
+						<li key={i}>
+							<PostItem post={it} />
+						</li>
+					))}
+				</ul>
+				{/* <Pagination
           current={pagination.current}
           pages={pagination.pages}
           link={{
@@ -32,52 +32,52 @@ export default function PostList({ posts, tags, pagination }: Props) {
             as: (page) => (page === 1 ? null : "/news/page/" + page),
           }}
         /> */}
-      </div>
-      <ul className={"categories"}>
-        {tags.map((it, i) => (
-          <li key={i}>
-            <TagLink tag={it} />
-          </li>
-        ))}
-      </ul>
-      <style jsx>{`
-        .container {
-          display: flex;
-          margin: 0 auto;
-          max-width: 1068px;
-          width: 100%;
-        }
-        ul {
-          margin: 0;
-          padding: 0;
-        }
-        li {
-          list-style: none;
-        }
-        .posts {
-          display: flex;
-          flex-direction: column;
-          flex: 1 1 auto;
-        }
-        .posts li {
-          margin-bottom: 1.5rem;
-        }
-        .post-list {
-          flex: 1 0 auto;
-        }
-        .categories {
-          display: none;
-        }
-        .categories li {
-          margin-bottom: 0.75em;
-        }
+			</div>
+			<ul className={"categories"}>
+				{tags.map((it, i) => (
+					<li key={i}>
+						<TagLink tag={it} />
+					</li>
+				))}
+			</ul>
+			<style jsx>{`
+				.container {
+					display: flex;
+					margin: 0 auto;
+					max-width: 1068px;
+					width: 100%;
+				}
+				ul {
+					margin: 0;
+					padding: 0;
+				}
+				li {
+					list-style: none;
+				}
+				.posts {
+					display: flex;
+					flex-direction: column;
+					flex: 1 1 auto;
+				}
+				.posts li {
+					margin-bottom: 1.5rem;
+				}
+				.post-list {
+					flex: 1 0 auto;
+				}
+				.categories {
+					display: none;
+				}
+				.categories li {
+					margin-bottom: 0.75em;
+				}
 
-        @media (min-width: 769px) {
-          .categories {
-            display: block;
-          }
-        }
-      `}</style>
-    </div>
+				@media (min-width: 769px) {
+					.categories {
+						display: block;
+					}
+				}
+			`}</style>
+		</div>
   );
 }
