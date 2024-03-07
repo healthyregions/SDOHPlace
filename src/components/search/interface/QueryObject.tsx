@@ -4,8 +4,8 @@
  *
  */
 interface QueryObject {
-	solrUrl: string;
-	query: string;
-	sort?: string[];
-	schema_json: {};
+  solrUrl: string;
+  query: string;
+  sort?: string[];
+  schema_json: {};
 }

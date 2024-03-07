@@ -26,8 +26,9 @@ export default function ParentList({
 	}[];
 }): JSX.Element {
 	const [expanded, setExpanded] = React.useState<string | false>(false);
-	const [selectedRecord, setSelectedRecord] =
-		React.useState<SolrObject | null>(null);
+	const [selectedRecord, setSelectedRecord] = React.useState<SolrObject | null>(
+		null
+	);
 	const [open, setOpen] = React.useState(false);
 
 	const toggleDrawer = (newOpen: boolean) => () => {
@@ -35,8 +36,7 @@ export default function ParentList({
 	};
 
 	const handleChange =
-		(panel: string) =>
-		(event: React.SyntheticEvent, isExpanded: boolean) => {
+		(panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
 			setExpanded(isExpanded ? panel : false);
 			setSelectedRecord(
 				selectedRecord && selectedRecord.id === panel
@@ -70,13 +70,9 @@ export default function ParentList({
 										{solrParent.title}
 									</Typography>
 								</AccordionSummary>
-								<AccordionDetails
-									style={{ marginRight: "100px" }}
-								>
+								<AccordionDetails style={{ marginRight: "100px" }}>
 									{solrParent.index_year.join(", ")}
-									<Button onClick={toggleDrawer(true)}>
-										More Info
-									</Button>
+									<Button onClick={toggleDrawer(true)}>More Info</Button>
 								</AccordionDetails>
 							</Accordion>
 						);
@@ -102,25 +98,17 @@ export default function ParentList({
 								<List key={index}>
 									<ListItem>
 										{filter.displayName}:{" "}
-										{selectedRecord[filter.attribute].join(
-											", "
-										)}
+										{selectedRecord[filter.attribute].join(", ")}
 									</ListItem>
 								</List>
 							) : selectedRecord.meta[filter.attribute] ? (
 								<List key={index}>
 									<ListItem>
 										{filter.displayName}:{" "}
-										{typeof selectedRecord.meta[
-											filter.attribute
-										] === "string"
-											? selectedRecord.meta[
-													filter.attribute
-											  ]
+										{typeof selectedRecord.meta[filter.attribute] === "string"
+											? selectedRecord.meta[filter.attribute]
 											: (
-													selectedRecord.meta[
-														filter.attribute
-													] as string[]
+													selectedRecord.meta[filter.attribute] as string[]
 											  ).join(", ")}
 									</ListItem>
 								</List>

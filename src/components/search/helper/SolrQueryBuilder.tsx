@@ -64,9 +64,7 @@ export default class SolrQueryBuilder {
 		return this.setQuery(suggestQuery);
 	}
 	public contentQuery(searchTerm: string): SolrQueryBuilder {
-		const contentQuery = `select?q=content:"${encodeURIComponent(
-			searchTerm
-		)}"`;
+		const contentQuery = `select?q=content:"${encodeURIComponent(searchTerm)}"`;
 		return this.setQuery(contentQuery);
 	}
 	public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {

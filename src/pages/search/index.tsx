@@ -61,16 +61,12 @@ const Search: NextPage = () => {
 						setAllSchema(schemaData);
 						const solrObjectResults = [];
 						data.response.docs.map((doc, index) => {
-							solrObjectResults.push(
-								initSolrObject(doc, schemaData)
-							);
+							solrObjectResults.push(initSolrObject(doc, schemaData));
 						});
 						setSolrObjectResults(solrObjectResults);
 						setLoading(false);
 					})
-					.catch((error) =>
-						console.error("Error fetching metadata:", error)
-					);
+					.catch((error) => console.error("Error fetching metadata:", error));
 			});
 	}, []);
 
@@ -100,12 +96,7 @@ const Search: NextPage = () => {
 				</div>
 				<div className="self-center flex w-full flex-col max-md:max-w-full">
 					<Grid container height={"calc(100vh - 172px)"}>
-						<Grid
-							item
-							height={"100%"}
-							sx={{ overflow: "scroll" }}
-							xs={3}
-						>
+						<Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
 							{isLoading ? (
 								<span>Loading...</span>
 							) : (
