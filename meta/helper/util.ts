@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 /**
  *
  * @param paragraph
@@ -18,7 +16,7 @@ export function findFirstSentence(paragraph: string): string | undefined {
 /**
  * Find the matched key name for metadata field of the SolrObject
  * @param rawSolrKey: raw key passed from solr
- * @returns: the key that matches the aardvark or sdoh schema (aardvark first), otherwise return the raw key
+ * @returns: the key that matches the metadata in the schema folder, otherwise return the raw key
  */
 export function schemaMatch(rawSolrKey: string, schema_json: {}): string {
 	let result = Object.keys(schema_json).find(
@@ -31,7 +29,7 @@ export function schemaMatch(rawSolrKey: string, schema_json: {}): string {
 
 /**
  * Opposite of schemaMatch
- * @param json_key the key to be found in the aardvark or sdoh schema
+ * @param json_key the key to be found in the schema folder
  * @returns the raw attribute name that should be put to solr query
  */
 export function findSolrAttribute(json_key: string, schema_json: {}): string {
