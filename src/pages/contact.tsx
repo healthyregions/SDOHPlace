@@ -71,145 +71,161 @@ const Contact: NextPage = () => {
     },
   })(TextField);
   return (
-    <>
-      <Header title={"Contact Us"} />
-      <NavBar />
-      <TopLines />
-      <div className="flex flex-col">
-        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Contact Us</h1>
-          <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
-            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  Thank you for your interest. Please don&apos;t hesitate to
-                  reach out to us if you need assistance or information
-                  regarding the Community Toolkit, Data Discovery Application,
-                  or The SDOH & Place Project in general. We value your input
-                  and welcome any comments you may have. Your feedback is
-                  essential in helping us improve and refine The SDOH & Place
-                  Project.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex mb-10 mt-10">
-            <Link
-              className="mr-10"
-              href="https://github.com/healthyregions/SDOHPlace"
-              title="View code on GitHub"
-            >
-              <Image
-                priority
-                src={githubIcon}
-                height={36}
-                alt="View code on GitHub"
-              />
-            </Link>
-            <Link
-              className="mr-10"
-              href="https://www.linkedin.com/groups/12857797/"
-              title="Follow us on LinkedIn"
-            >
-              <Image
-                priority
-                src={linkedinIcon}
-                height={36}
-                alt="Follow us on LinkedIn"
-              />
-            </Link>
-            <Link
-              className="mr-10"
-              href="https://www.facebook.com/HealthyRegions"
-              title="HealthyRegions on Facebook"
-            >
-              <Image
-                priority
-                src={facebookIcon}
-                height={36}
-                alt="HealthyRegions on Facebook"
-              />
-            </Link>
-            <Link
-              className="mr-10"
-              href="https://x.com/healthyregions"
-              title="@healthyregions on X"
-            >
-              <Image
-                priority
-                src={xIcon}
-                height={36}
-                alt="@healthyregions on X"
-              />
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="w-full min-h-[20rem] bg-lightbisque">
-        <div className="max-md:max-w-[87%] max-w-[1068px] mx-auto py-[5rem]">
-          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml mb-5">
-            Send us a Message
-          </div>
-          <div className="">
-            {(success && (
-              <p className="text-almostblack pt-[1rem]">
-                Message received. Thank you!
-              </p>
-            )) || (
-              <form
-                className="w-full"
-                name="contact"
-                method="POST"
-                data-netlify="true"
-                action="/contact?success=true"
-              >
-                <input type="hidden" name="form-name" value="contact" />
-                <div className="flex justify-start mb-5">
-                  <CssTextField
-                    label="Name"
-                    name="name"
-                    focused
-                    sx={{
-                      marginRight: "20px",
-                    }}
-                  />
-                  <CssTextField label="Email" name="email" focused />
-                </div>
-                <div className="w-full mb-5">
-                  <CssTextField
-                    id="outlined-multiline-flexible"
-                    label="Message"
-                    name="message"
-                    minRows={4}
-                    focused
-                    multiline
-                    sx={{
-                      width: "100%",
-                    }}
-                  />
-                </div>
-                <div className="mb-5">
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{
-                      height: "2.5rem",
-                      width: "6em",
-                      borderRadius: "6.25rem",
-                      background: `${fullConfig.theme.colors["frenchviolet"]}`,
-                      textTransform: "none",
-                      color: `${fullConfig.theme.colors["white"]}`,
-                      fontSize: "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
-                      fontStyle: "normal",
-                      fontWeight: 700,
-                      lineHeight: "1.5rem",
-                      letterSpacing: "0.00938rem",
-                      marginRight: "20px",
-                    }}
-                  >
-                    Send
-                  </Button>
-                  {/* <Button
+		<>
+			<Header title={"Contact Us"} />
+			<NavBar />
+			<TopLines />
+			<div className="flex flex-col">
+				<div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+					<h1 className="font-fredoka">Contact Us</h1>
+					<div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
+						<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+							<div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
+								<div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
+									Thank you for your interest. Please
+									don&apos;t hesitate to reach out to us if
+									you need assistance or information regarding
+									the Community Toolkit, Data Discovery
+									Application, or The SDOH & Place Project in
+									general. We value your input and welcome any
+									comments you may have. Your feedback is
+									essential in helping us improve and refine
+									The SDOH & Place Project.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="flex mb-10 mt-10">
+						<Link
+							className="mr-10"
+							href="https://github.com/healthyregions/SDOHPlace"
+							title="View code on GitHub"
+							target="_blank"
+						>
+							<Image
+								priority
+								src={githubIcon}
+								height={36}
+								alt="View code on GitHub"
+							/>
+						</Link>
+						<Link
+							className="mr-10"
+							href="https://www.linkedin.com/groups/12857797/"
+							title="Follow us on LinkedIn"
+							target="_blank"
+						>
+							<Image
+								priority
+								src={linkedinIcon}
+								height={36}
+								alt="Follow us on LinkedIn"
+							/>
+						</Link>
+						<Link
+							className="mr-10"
+							href="https://www.facebook.com/HealthyRegions"
+							title="HealthyRegions on Facebook"
+							target="_blank"
+						>
+							<Image
+								priority
+								src={facebookIcon}
+								height={36}
+								alt="HealthyRegions on Facebook"
+							/>
+						</Link>
+						<Link
+							className="mr-10"
+							href="https://x.com/healthyregions"
+							title="@healthyregions on X"
+							target="_blank"
+						>
+							<Image
+								priority
+								src={xIcon}
+								height={36}
+								alt="@healthyregions on X"
+							/>
+						</Link>
+					</div>
+				</div>
+			</div>
+			<div className="w-full min-h-[20rem] bg-lightbisque">
+				<div className="max-md:max-w-[87%] max-w-[1068px] mx-auto py-[5rem]">
+					<div className="text-almostblack text-2xl-rfs font-normal leading-8 ml mb-5">
+						Send us a Message
+					</div>
+					<div className="">
+						{(success && (
+							<p className="text-almostblack pt-[1rem]">
+								Message received. Thank you!
+							</p>
+						)) || (
+							<form
+								className="w-full"
+								name="contact"
+								method="POST"
+								data-netlify="true"
+								action="/contact?success=true"
+							>
+								<input
+									type="hidden"
+									name="form-name"
+									value="contact"
+								/>
+								<div className="flex justify-start mb-5">
+									<CssTextField
+										label="Name"
+										name="name"
+										focused
+										sx={{
+											marginRight: "20px",
+										}}
+									/>
+									<CssTextField
+										label="Email"
+										name="email"
+										focused
+									/>
+								</div>
+								<div className="w-full mb-5">
+									<CssTextField
+										id="outlined-multiline-flexible"
+										label="Message"
+										name="message"
+										minRows={4}
+										focused
+										multiline
+										sx={{
+											width: "100%",
+										}}
+									/>
+								</div>
+								<div className="mb-5">
+									<Button
+										variant="contained"
+										type="submit"
+										sx={{
+											height: "2.5rem",
+											width: "6em",
+											borderRadius: "6.25rem",
+											background: `${fullConfig.theme.colors["frenchviolet"]}`,
+											textTransform: "none",
+											color: `${fullConfig.theme.colors["white"]}`,
+											fontSize:
+												"clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
+											fontStyle: "normal",
+											fontWeight: 400,
+											lineHeight: "1.5rem",
+											letterSpacing: "0.00938rem",
+											marginRight: "20px",
+                      fontFamily: "nunito",
+										}}
+									>
+										Send
+									</Button>
+									{/* <Button
                     variant="outlined"
                     onClick={handleClear}
                     sx={{
@@ -227,14 +243,14 @@ const Contact: NextPage = () => {
                       letterSpacing: "0.00938rem",
                     }}
                   >Clear</Button> */}
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </>
+								</div>
+							</form>
+						)}
+					</div>
+				</div>
+			</div>
+			<Footer />
+		</>
   );
 };
 
