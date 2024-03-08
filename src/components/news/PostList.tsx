@@ -15,7 +15,7 @@ type Props = {
 };
 export default function PostList({ posts, tags, pagination }: Props) {
   return (
-    <div className={"container"}>
+    <div className="container px-5">
       <div className={"posts"}>
         <ul className={"post-list"}>
           {posts.map((it, i) => (

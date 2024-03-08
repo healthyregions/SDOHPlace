@@ -269,12 +269,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-12 md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
-          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%]">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
+          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
             Brought to you by
           </div>
-          <div className="grid grid-flow-col grid-cols-[1fr_1fr] items-center">
-            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]">
+          <div className="flex flex-col md:grid md:grid-flow-col md:grid-cols-[1fr_1fr] items-center">
+            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem] max-md:mb-[2rem]">
               <Link
                 href="http://www.healthyregions.org/"
                 target="_blank"
@@ -286,7 +286,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 />
               </Link>
             </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
               <Link
                 href="https://illinois.edu/"
                 target="_blank"
@@ -295,7 +295,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 <Image alt="University of Illinois" src={universityWordmark} />
               </Link>
             </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
               <Link
                 href="https://spatial.uchicago.edu/"
                 target="_blank"
