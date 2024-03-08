@@ -1,12 +1,11 @@
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
-import aardvark_json from "../../../pages/search/_metadata/aardvark_schema.json";
-import sdoh_json from "../../../pages/search/_metadata/sdohplace_schema.json";
 import { findSolrAttribute } from "meta/helper/util";
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
     query: "",
+    schema_json: {},
   };
 
   // Method to set the basic query string. Don't call this. Call individual query methods instead.
@@ -14,6 +13,10 @@ export default class SolrQueryBuilder {
   setQuery(queryString: string): SolrQueryBuilder {
     this.query.query = `${this.query.solrUrl}/${queryString}`;
     console.log("sending query:", this.query.query);
+    return this;
+  }
+  setSchema(schema: {}): SolrQueryBuilder {
+    this.query.schema_json = schema;
     return this;
   }
 
@@ -48,7 +51,7 @@ export default class SolrQueryBuilder {
         ? response_json["response"].docs
         : [];
     rawSolrObjects.forEach((rawSolrObject) => {
-      result.push(initSolrObject(rawSolrObject));
+      result.push(initSolrObject(rawSolrObject, this.query.schema_json));
     });
     return result;
   }
@@ -68,12 +71,12 @@ export default class SolrQueryBuilder {
     let generalQuery = "select?q=";
     if (typeof searchTerms === "string") {
       generalQuery += `${encodeURIComponent(
-        findSolrAttribute(searchTerms, aardvark_json, sdoh_json)
+        findSolrAttribute(searchTerms, this.query.schema_json)
       )}&rows=1000`; //add rows to remove pagination
     } else {
       searchTerms.forEach((term) => {
         generalQuery += `${encodeURIComponent(
-          findSolrAttribute(term, aardvark_json, sdoh_json)
+          findSolrAttribute(term, this.query.schema_json)
         )} OR `;
       });
       generalQuery = generalQuery.slice(0, -4); //remove the last OR
@@ -89,8 +92,7 @@ export default class SolrQueryBuilder {
     searchTerms.forEach((term) => {
       term["attribute"] = findSolrAttribute(
         term["attribute"],
-        aardvark_json,
-        sdoh_json
+        this.query.schema_json
       );
       filterQuery += `${term["attribute"]}:(${encodeURIComponent(
         term["value"]

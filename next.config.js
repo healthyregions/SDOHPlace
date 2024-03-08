@@ -2,7 +2,7 @@
 module.exports = {
   reactStrictMode: true,
   swcMinify: true,
-  pageExtensions: ["tsx"],
+  pageExtensions: ["tsx", "ts"],
   images: {
     unoptimized: true,
   },

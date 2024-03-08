@@ -84,6 +84,13 @@ export default function ParentList({
           onClose={toggleDrawer(false)}
           anchor={"bottom"}
         >
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={toggleDrawer(false)}
+          >
+            Back to Results
+          </Button>
           <h3>{selectedRecord && selectedRecord.title}</h3>
           {selectedRecord &&
             filterAttributeList.map((filter, index) =>

@@ -1,8 +1,6 @@
 import { SolrObject } from "../interface/SolrObject";
 // import { SolrParent } from "../interface/SolrParent";
-import aardvark_json from "../../src/pages/search/_metadata/aardvark_schema.json";
-import sdoh_json from "../../src/pages/search/_metadata/sdohplace_schema.json";
-import { AardvarkSdohSchemaMatch, findFirstSentence } from "./util";
+import { findFirstSentence, schemaMatch } from "./util";
 
 /**
  *
@@ -10,7 +8,7 @@ import { AardvarkSdohSchemaMatch, findFirstSentence } from "./util";
  * @param matchingRule
  * @returns
  */
-const initSolrObject = (rawSolrObject: any): SolrObject => {
+const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
   let result = {} as SolrObject;
   result.id = rawSolrObject.id;
   result.title = rawSolrObject.dct_title_s;
@@ -51,8 +49,7 @@ const initSolrObject = (rawSolrObject: any): SolrObject => {
       key !== "gbl_indexYear_im" &&
       key !== "dct_isVersionOf_sm"
     ) {
-      result.meta[AardvarkSdohSchemaMatch(key, aardvark_json, sdoh_json)] =
-        rawSolrObject[key];
+      result.meta[schemaMatch(key, schema)] = rawSolrObject[key];
     }
   });
   return result;

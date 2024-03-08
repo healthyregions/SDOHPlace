@@ -23,12 +23,12 @@ import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import CheckBoxObject from "./interface/CheckboxObject";
-import MapArea from "../map/mapArea";
 
 export default function SearchArea({
   results,
   isLoading,
   filterAttributeList,
+  schema,
 }: {
   results: SolrObject[];
   isLoading: boolean;
@@ -36,6 +36,7 @@ export default function SearchArea({
     attribute: string;
     displayName: string;
   }[];
+  schema: {};
 }): JSX.Element {
   const [fetchResults, setFetchResults] = useState<SolrObject[]>(
     generateSolrParentList(results)
@@ -60,6 +61,7 @@ export default function SearchArea({
   );
 
   let searchQueryBuilder = new SolrQueryBuilder();
+  searchQueryBuilder.setSchema(schema);
   let suggestResultBuilder = new SuggestedResult();
 
   const handleSearch = async (value) => {
@@ -82,13 +84,12 @@ export default function SearchArea({
               ).map((id) => {
                 return multipleResults.find((a) => a.id === id);
               });
-              setCurrentFilter(
-                generateFilter(
-                  newResults,
-                  checkboxes,
-                  filterAttributeList.map((filter) => filter.attribute)
-                )
+              const newFilter = generateFilter(
+                newResults,
+                checkboxes,
+                filterAttributeList.map((filter) => filter.attribute)
               );
+              setCurrentFilter(newFilter);
               setOriginalResults(newResults);
               setFetchResults(newResults);
             });
@@ -174,7 +175,7 @@ export default function SearchArea({
       (c) => c.value === value && c.attribute === attr
     ).checked = event.target.checked;
 
-    runningFilter(newCheckboxes, originalResults).then((newResults) => {
+    runningFilter(newCheckboxes, originalResults, schema).then((newResults) => {
       setFetchResults(newResults);
       setCurrentFilter(
         generateFilter(
@@ -195,10 +196,6 @@ export default function SearchArea({
       checkboxes,
       filterAttributeList.map((filter) => filter.attribute)
     );
-    // if (clearInput) {
-    // 	setUserInput("");
-    // 	setClearInput(false);
-    // }
     setCurrentFilter(generateFilterFromCurrentResults);
   }, []);
 

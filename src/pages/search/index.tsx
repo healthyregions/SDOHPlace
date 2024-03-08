@@ -2,8 +2,6 @@
 import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 
 import Header from "@/components/Header";
@@ -45,24 +43,30 @@ const Search: NextPage = () => {
   const handleClose = () => setOpen(false);
 
   const [data, setData] = useState(null);
+  const [allResults, setAllResults] = useState([]);
   const [solrObjectResults, setSolrObjectResults] = useState(
     [] as SolrObject[]
   );
   const [isLoading, setLoading] = useState(true);
+  const [allSchema, setAllSchema] = useState({});
 
   useEffect(() => {
     fetch(solrUrl + "/select?q=*:*&rows=100")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        console.log("rawSolr ", data.response.docs);
-        const solrObjectResults = [];
-        data.response.docs.map((doc, index) => {
-          solrObjectResults.push(initSolrObject(doc));
-        });
-        setSolrObjectResults(solrObjectResults);
-        console.log("fetched");
-        setLoading(false);
+        fetch("/api/schema")
+          .then((response) => response.json())
+          .then((schemaData) => {
+            setAllSchema(schemaData);
+            const solrObjectResults = [];
+            data.response.docs.map((doc, index) => {
+              solrObjectResults.push(initSolrObject(doc, schemaData));
+            });
+            setSolrObjectResults(solrObjectResults);
+            setLoading(false);
+          })
+          .catch((error) => console.error("Error fetching metadata:", error));
       });
   }, []);
 
@@ -154,6 +158,7 @@ const Search: NextPage = () => {
                       displayName: "Data Variables",
                     },
                   ]}
+                  schema={allSchema}
                 />
               )}
             </Grid>
