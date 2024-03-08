@@ -333,6 +333,20 @@
       "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads dev-ops and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement."
     ]
   },
+  "pengyin": {
+    "name": "Pengyin Shan",
+    "title": "Research Software Engineer",
+    "image": "../../images/headshot-ps.png",
+    "text": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/pengyinshan/",
+      "GitHub": "https://github.com/pengyin-shan"
+    },
+    "category": ["core"],
+    "long": [
+      "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize and utilize unstructured, complex, and multilingual datasets. She has a B.S. in Computer Science Engineering and an M.B.A. degree."
+    ]
+  },
   "mukesh": {
     "name": "Mukesh Chugani",
     "title": "Software Engineer",
