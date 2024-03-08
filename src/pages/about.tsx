@@ -277,7 +277,7 @@ const About: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[100px] px-5 max-md:max-w-full max-md:mt-10">
+        <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[100px] mb-[120px] px-5 max-md:max-w-full max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
             <h2 className="font-fredoka">Past Team Members</h2>
           </div>

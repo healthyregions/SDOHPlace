@@ -70,7 +70,7 @@
     "name": "Aresha Martinez-Cardoso",
     "affiliation": "University of Chicago",
     "image": "../../images/headshot-am.png",
-    "text": "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research integrates theoretical ...",
+    "text": "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research ...",
     "category": ["stakeholder"],
     "links": {
       "Embodying Race(ism)": "https://voices.uchicago.edu/areshamc/"
@@ -83,7 +83,7 @@
     "name": "Imelda Moise",
     "affiliation": "University of Miami",
     "image": "../../images/headshot-im.png",
-    "text": "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally ...",
+    "text": "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally responsive research and ...",
     "category": ["stakeholder"],
     "links": {
       "Profile": "https://people.miami.edu/profile/55439772df280bf89e5f82f2a69c214f"
@@ -96,13 +96,13 @@
     "name": "Norma Padrón",
     "affiliation": "EmpiricaLabs",
     "image": "../../images/headshot-np.png",
-    "text": "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of EmpiricaLab, a company specializing in peer–to–peer training within healthcare organizations to accelerate ...",
+    "text": "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of EmpiricaLab, a company specializing in peer–to–peer training within healthcare organizations ...",
     "category": ["stakeholder"],
     "links": {
       "Google Scholar": "https://scholar.google.com/citations?user=kNS54pUAAAAJ&hl=en"
     },
     "long": [
-      "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of <em>EmpiricaLab</em>, a company specializing in peer–to–peer training within healthcare organizations to accelerate their digital transformation. Her career in healthcare spans over a decade, with leadership roles across academia, nonprofits, and the private sector. She built her expertise in data and technology teams at healthcare organizations, including the <em>Mount Sinai Health System</em>, <em>Thomas Jefferson Health</em>, the <em>American Hospital Association</em> and new ventures at Anthem Digital. Her teams have leveraged data analytics and technology to improve digital health products for patients and providers, design value-based care models, and quality and performance measurement and training for hospital systems across the country.",
+      "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of <em>EmpiricaLab</em>, a company specializing in peer-to-peer training within healthcare organizations to accelerate their digital transformation. Her career in healthcare spans over a decade, with leadership roles across academia, nonprofits, and the private sector. She built her expertise in data and technology teams at healthcare organizations, including the <em>Mount Sinai Health System</em>, <em>Thomas Jefferson Health</em>, the <em>American Hospital Association</em> and new ventures at Anthem Digital. Her teams have leveraged data analytics and technology to improve digital health products for patients and providers, design value-based care models, and quality and performance measurement and training for hospital systems across the country.",
       "In addition to her work in health economics and analytics, Norma has held board positions on STEM education and technology initiatives. She served as chair of the industry advisory board for an NSF Industry-University Cooperative Research Center (IURC) focused on improving healthcare through organizational transformation. She earned a PhD in health policy and management from Yale University, as well as an MS in Economics from Duke University. She also holds a master's degree in public health from Universitat Pompeu Fabra in Barcelona, Spain, and a bachelor's degree in Economics and Math from the University of Texas at Rio Grande Valley."
     ]
   },
@@ -189,7 +189,7 @@
     "name": "Jamelle Watson-Daniels",
     "affiliation": "Harvard University",
     "image": "../../images/headshot-jw.png",
-    "text": "Jamelle Watson-Daniels is a PhD Candidate at Harvard's John A. Paulson School of Engineering and Applied Sciences. She is a Ford Foundation Pre-doctoral Fellow and NSF Graduate ...",
+    "text": "Jamelle Watson-Daniels is a PhD Candidate at Harvard's John A. Paulson School of Engineering and Applied Sciences. She is a Ford Foundation Pre-doctoral Fellow ...",
     "category": ["technical"],
     "links": {},
     "long": [
@@ -211,7 +211,7 @@
     "name": "Marynia Kolak",
     "title": "Principal Investigator",
     "image": "../../images/headshot-mk.png",
-    "text": "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate ...",
+    "text": "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate regional and ...",
     "links": {
       "Twitter": "https://twitter.com/MaryniaKolak",
       "LinkedIn": "https://www.linkedin.com/in/maryniakolak",
@@ -240,7 +240,7 @@
     "name": "José Alavez",
     "title": "Postdoctoral Scholar",
     "image": "../../images/headshot-ja.png",
-    "text": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human ...",
+    "text": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives ...",
     "links": {},
     "category": ["core"],
     "long": [
@@ -251,7 +251,7 @@
     "name": "Kamaria Barronville",
     "title": "Instructional Designer",
     "image": "../../images/headshot-kb.png",
-    "text": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging ...",
+    "text": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
     "links": {},
     "category": ["core"],
     "long": [
@@ -269,11 +269,61 @@
       "Shubham is a UX Designer at HeRoP with a passion for collaborating with diverse teams to achieve design goals. Prior to his role at the lab, Shubham was improving accessibility in education with the Board of Trustees at the University of Illinois. He has a master’s degree in Information Management from the University of Illinois Urbana-Champaign and a bachelor’s degree in Information Science from PES University. In his leisure time, Shubham volunteers as a Product Lead at <a href='https://greenstand.org/' target='_blank'>Greenstand</a>, a non-profit addressing poverty and climate change through technology. He also loves going out for bike rides, recognizing the benefits it brings to both his well-being and the Earth."
     ]
   },
+  "marc": {
+    "name": "Marc Astacio-Palmer",
+    "title": "Research Coordinator",
+    "image": "../../images/headshot-ma.png",
+    "text": "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/marcastacio/"
+    },
+    "category": ["core"],
+    "long": [
+      "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory. He is interested in open science, and how our environment shapes our cognition. Astacio leads day-to-day operations of multiple projects at HeRoP, guides communications & community engagement, and collaborates on how affect may influence user-experience and decision-making."
+    ]
+  },
+  "mandela": {
+    "name": "Mandela Gadri",
+    "title": "PhD Student",
+    "image": "../../images/headshot-mg.png",
+    "text": "Ph.D. student Mandela Gadri has a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana, and an MS in community and regional planning from Iowa State University ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
+    },
+    "category": ["core"],
+    "long": [
+      "Ph.D. student Mandela Gadri has a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana, and an MS in community and regional planning from Iowa State University. He also has a certificate in GIS and worked as a planner with the city of Cedar Rapids, Iowa prior to joining UIUC. Mandela is interested in GIS and transport poverty."
+    ]
+  },
+  "catherine": {
+    "name": "Catherine Discenza",
+    "title": "Graduate Research Assistant",
+    "image": "../../images/headshot-cd.png",
+    "text": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
+    },
+    "category": ["core"],
+    "long": [
+      "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors."
+    ]
+  },
+  "andre": {
+    "name": "Andre Vines",
+    "title": "Graphic Designer",
+    "image": "../../images/headshot-av.png",
+    "text": "Andre is a self employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet ...",
+    "links": {},
+    "category": ["core"],
+    "long": [
+      "Andre is a self-employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet highly functional. He also enjoys helping people do what they love by connecting them with others through branding and art."
+    ]
+  },
   "adam": {
     "name": "Adam Cox",
     "title": "Software Engineer",
     "image": "../../images/headshot-ac.png",
-    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans ...",
+    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orlean, Louisiana ...",
     "links": {
       "LinkedIn": "https://www.linkedin.com/in/mradamcox/",
       "GitHub": "https://github.com/mradamcox"
@@ -287,66 +337,29 @@
     "name": "Mukesh Chugani",
     "title": "Software Engineer",
     "image": "../../images/headshot-mc.png",
-    "text": "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University. His expertise lies ...",
+    "text": "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University ...",
     "links": {},
-    "category": ["core"],
+    "category": ["past-core"],
     "long": [
       "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University. His expertise lies in data visualization, dashboarding and machine learning. He is passionate about creating impactful user experiences and leveraging front-end technologies to bridge the gap between data analysis and user interaction. At HeRoP, he leads front-end engineering and data-viz development with a spatial twist."
-    ]
-  },
-  "marc": {
-    "name": "Marc Astacio-Palmer",
-    "title": "Research Coordinator",
-    "image": "../../images/headshot-ma.png",
-    "text": "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention ...",
-    "links": {
-      "LinkedIn": "https://www.linkedin.com/in/marcastacio/"
-    },
-    "category": ["core"],
-    "long": [
-      "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory. He is interested in open science, and how our environment shapes our cognition. Astacio leads day-to-day operations of multiple projects at HeRoP, guides communications & community engagement, and collaborates on how affect may influence user-experience and decision-making."
-    ]
-  },
-  "catherine": {
-    "name": "Catherine Discenza",
-    "title": "Graduate Research Assistant",
-    "image": "../../images/headshot-cd.png",
-    "text": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection ...",
-    "links": {
-      "LinkedIn": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
-    },
-    "category": ["core"],
-    "long": [
-      "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors."
-    ]
-  },
-  "andre": {
-    "name": "Andre Vines",
-    "title": "Graphic Designer",
-    "image": "../../images/headshot-av.png",
-    "text": "Andre is a self employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually ...",
-    "links": {},
-    "category": ["core"],
-    "long": [
-      "Andre is a self-employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet highly functional. He also enjoys helping people do what they love by connecting them with others through branding and art."
     ]
   },
   "ashwin": {
     "name": "Ashwin Patil",
     "title": "Research Assistant",
     "image": "../../images/headshot-ap.png",
-    "text": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. Currently, he is working as a Graduate Research ...",
+    "text": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai ...",
     "links": {},
-    "category": ["core"],
+    "category": ["past-core"],
     "long": [
-      "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. Currently, he is working as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project."
+      "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project."
     ]
   },
   "beth": {
     "name": "Beth Beyer",
     "title": "Executive Director",
     "image": "../../images/headshot-bb.jpeg",
-    "text": "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and extend educational opportunities. As the executive director of...",
+    "text": "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -357,16 +370,18 @@
     "name": "Joseph Braimah",
     "title": "Assistant Professor",
     "image": "../../images/headshot-jb.jpeg",
-    "text": "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary research interest that focuses broadly on...",
+    "text": "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary ...",
     "links": {},
     "category": ["fellow"],
-    "long": ["Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary research interest that focuses broadly on the health and wellbeing of marginalized and structurally exposed populations in the global north and global south. He draws on multiple research methodologies and theoretical perspectives in his research projects. His work largely revolves around Aging and Health, Global Health, Social Determinants of Health, Community Health Systems, and Community-based Participatory Research. Prior to joining St. Lawrence University, Dr. Braimah was an Inclusive Excellence Postdoctoral Fellow with the Department of Health and Society at the University of Toronto Scarborough. He earned his Ph.D. in Geography from Queen’s University, Kingston, Canada."]
+    "long": [
+      "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary research interest that focuses broadly on the health and wellbeing of marginalized and structurally exposed populations in the global north and global south. He draws on multiple research methodologies and theoretical perspectives in his research projects. His work largely revolves around Aging and Health, Global Health, Social Determinants of Health, Community Health Systems, and Community-based Participatory Research. Prior to joining St. Lawrence University, Dr. Braimah was an Inclusive Excellence Postdoctoral Fellow with the Department of Health and Society at the University of Toronto Scarborough. He earned his Ph.D. in Geography from Queen’s University, Kingston, Canada."
+    ]
   },
   "peter": {
     "name": "Peter Chen",
     "title": "Assistant Professor",
     "image": "../../images/headshot-pc.jpeg",
-    "text": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests...",
+    "text": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -377,7 +392,7 @@
     "name": "Jessica Davis",
     "title": "Postdoctoral Scholar",
     "image": "../../images/headshot-jd.jpeg",
-    "text": "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for...",
+    "text": "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -388,7 +403,7 @@
     "name": "Tyler Gorham",
     "title": "Data Scientist",
     "image": "../../images/headshot-tg.jpeg",
-    "text": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as...",
+    "text": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -399,7 +414,7 @@
     "name": "Amy Kryston",
     "title": "Senior Analyst",
     "image": "../../images/headshot-ak.jpeg",
-    "text": "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists...",
+    "text": "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -420,7 +435,7 @@
     "name": "Alex Michels",
     "title": "Graduate Student",
     "image": "../../images/headshot-am.jpeg",
-    "text": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at...",
+    "text": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -432,7 +447,7 @@
     "name": "Sarah Nelson",
     "title": "Assistant Professor",
     "image": "../../images/headshot-sn.jpeg",
-    "text": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities...",
+    "text": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -444,7 +459,7 @@
     "name": "Kennedy Patterson",
     "title": "Graduate Student",
     "image": "../../images/headshot-kp.jpeg",
-    "text": "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” Lab under the direction of Dr. Robert Vargas, where she...",
+    "text": "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -455,7 +470,7 @@
     "name": "Sonia Saxon",
     "title": "Organizer and Graduate Student ",
     "image": "../../images/headshot-sms.jpeg",
-    "text": "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with the grassroots organizations Neighbors for Environmental Justice and...",
+    "text": "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -466,7 +481,7 @@
     "name": "Sarah Scott",
     "title": "Graduate Student",
     "image": "../../images/headshot-ss.jpeg",
-    "text": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in...",
+    "text": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -477,7 +492,7 @@
     "name": "Madeline Smith-Johnson",
     "title": "Graduate Candidate",
     "image": "../../images/headshot-msj.jpeg",
-    "text": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of...",
+    "text": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -488,7 +503,7 @@
     "name": "Makiya Thomas",
     "title": "DEI Specialist",
     "image": "../../images/headshot-mt.jpeg",
-    "text": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending...",
+    "text": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending ...",
     "links": {},
     "category": ["fellow"],
     "long": [
@@ -499,7 +514,7 @@
     "name": "Wei Tu",
     "title": "Professor",
     "image": "../../images/headshot-wt.jpeg",
-    "text": "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics (INLA). Dr. Tu’s research...",
+    "text": "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics ...",
     "links": {},
     "category": ["fellow"],
     "long": [
