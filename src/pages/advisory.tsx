@@ -14,6 +14,8 @@ import people from "../../meta/people.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
+import { makeStyles } from "@mui/styles";
+import { Typography } from "@mui/material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -34,16 +36,15 @@ const modalBoxStyle = {
   overflowY: "auto",
 };
 
-const modalBtnStyle = {
-  marginTop: "10px",
-  fontSize: "1em",
-  fontWeight: 700,
-  width: "unset",
-  color: `${fullConfig.theme.colors["frenchviolet"]}`,
-  textTransform: "uppercase",
-};
+const useStyles = makeStyles(() => ({
+  modalBtnStyle: {
+    marginTop: "10px",
+    cursor: "pointer",
+  },
+}));
 
 const Advisory: NextPage = () => {
+  const classes = useStyles();
   const stakeholderList = [];
   const technicalList = [];
   Object.keys(people).map(function (id, keyIndex) {
@@ -111,7 +112,13 @@ const Advisory: NextPage = () => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        {id}
+                        <Typography
+                          sx={{
+                            color: fullConfig.theme.colors["salmonpink"],
+                          }}
+                        >
+                          {id}
+                        </Typography>
                       </a>
                     </div>
                   ))}
@@ -123,7 +130,9 @@ const Advisory: NextPage = () => {
                     <div
                       key={index}
                       style={{ marginBottom: "10px" }}
-                      dangerouslySetInnerHTML={{ __html: p }}
+                      dangerouslySetInnerHTML={{
+                        __html: p,
+                      }}
                     />
                   ))}
                 </div>
@@ -180,7 +189,9 @@ const Advisory: NextPage = () => {
                         <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
                           <div
                             className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
-                            style={{ paddingRight: "100px" }}
+                            style={{
+                              paddingRight: "100px",
+                            }}
                           >
                             <img
                               loading="lazy"
@@ -199,15 +210,15 @@ const Advisory: NextPage = () => {
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
                               {item.text}
                             </div>
-                            <Button
-                              sx={modalBtnStyle}
+                            <div
+                              className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
                               onClick={() => {
                                 setBio(item.id);
                                 handleOpen();
                               }}
                             >
                               Read More
-                            </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -238,7 +249,9 @@ const Advisory: NextPage = () => {
                     <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
                       <div
                         className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
-                        style={{ paddingRight: "100px" }}
+                        style={{
+                          paddingRight: "100px",
+                        }}
                       >
                         <img
                           loading="lazy"
@@ -257,15 +270,15 @@ const Advisory: NextPage = () => {
                         <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
                           {item.text}
                         </div>
-                        <Button
-                          sx={modalBtnStyle}
+                        <div
+                          className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
                           onClick={() => {
                             setBio(item.id);
                             handleOpen();
                           }}
                         >
                           Read More
-                        </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
