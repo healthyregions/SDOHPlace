@@ -148,11 +148,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               alt="The SDOH & Place Project logo"
             />
           </div>
-          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
+          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto" 
+              style={{ cursor: "pointer" }}
+              onClick={learnMoreClick}>
             <div
               className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase"
-              style={{ cursor: "pointer" }}
-              onClick={learnMoreClick}
             >
               Learn More
             </div>
