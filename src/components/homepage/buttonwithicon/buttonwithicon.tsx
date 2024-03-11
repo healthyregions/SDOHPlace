@@ -12,6 +12,7 @@ interface Props {
   labelColor: string;
   onClick: any;
   disabled?: boolean;
+  iconOpacity?: number;
 }
 
 const ButtonWithIcon = (props: Props): JSX.Element => {
@@ -19,7 +20,8 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
     <div>
       <Button
         variant="contained"
-        startIcon={<Image priority src={props.svgIcon} alt={props.label} />}
+        startIcon={<Image priority src={props.svgIcon} alt={props.label} style={{
+          opacity: props.iconOpacity? props.iconOpacity:1}}/>}
         onClick={props.onClick}
         disabled={props.disabled}
         sx={{
