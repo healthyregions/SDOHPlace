@@ -36,6 +36,7 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
+import { Box } from "@mui/material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -63,6 +64,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 };
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
+  const learnMoreRef = React.useRef(null);
   const sdohFactors = [
     {
       id: "1",
@@ -108,6 +110,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       .scrollIntoView({ behavior: "smooth" });
   }
 
+  const learnMoreClick = () => {
+    learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <>
       <Header title={null} />
@@ -143,7 +149,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             />
           </div>
           <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div
+              className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase"
+              style={{ cursor: "pointer" }}
+              onClick={learnMoreClick}
+            >
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -164,7 +174,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
 
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
-          <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full text-justify">
+          <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-2xl-rfs font-normal leading-8">
               A{" "}
               <span className="text-frenchviolet font-bold">free platform</span>{" "}
@@ -215,7 +225,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto bg-lightbisque">
+      <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             Social Determinants of Health
@@ -245,6 +255,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   style={{
                     textTransform: "uppercase",
                     color: `${fullConfig.theme.colors["frenchviolet"]}`,
+                    fontSize: "1rem",
+                    fontWeight: 700,
                   }}
                   href="/news"
                 >
@@ -309,13 +321,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div id="coming-soon-section" className="w-full h-auto">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] flex flex-col gap-12">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto pt-[5rem] pb-[4rem] flex flex-col gap-12">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
-            Access Data & Resources on SDOH & Place
+            Access Data & Resources
           </div>
 
           <div className="px-[2.5%]">
-            <div className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#AAA_33%,#AAA_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#AAA_5%,#AAA_95%,white_95%)_1]">
+            <div style={{marginBottom: "2rem"}} className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]">
               <div className="flex flex-col gap-8 -order-1">
                 <div className="w-[3.5rem] h-[3.5rem]">
                   <Image
@@ -325,8 +337,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </div>
 
-                <div className="text-almostblack text-2xl-rfs font-bold leading-8">
-                  Data Discovery{" "}
+                <div className="text-almostblack text-2xl-rfs leading-8">
+                  <b>Data Discovery </b>
                   <em style={{ color: "grey" }}> &mdash; coming soon!</em>
                 </div>
 
@@ -346,6 +358,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         labelColor={"almostblack"}
                         onClick={scrollToComingSoon}
                         disabled={true}
+                        iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>
                   </div>
