@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // can be replaced by our svg icon
@@ -116,6 +117,13 @@ export default function ParentList({
                 <></>
               )
             )}
+          {selectedRecord && (
+            <Link
+              href={"http://metadata.sdohplace.org/record/" + selectedRecord.id}
+            >
+              full record
+            </Link>
+          )}
         </Drawer>
       </>
     );
