@@ -1,5 +1,6 @@
 "use client";
 import type { NextPage } from "next";
+import { GetStaticProps } from "next";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
 import { useState, useEffect } from "react";
@@ -14,6 +15,7 @@ import SearchArea from "@/components/search/searchArea";
 import MapArea from "@/components/map/mapArea";
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
+import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -37,7 +39,20 @@ const modalBoxStyle = {
 };
 const sideBarStyle = {};
 
-const Search: NextPage = () => {
+interface SearchPageProps {
+  schema: SchemaObject;
+}
+
+export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
+  let schema = getSchema();
+  return {
+    props: {
+      schema,
+    },
+  };
+};
+
+const Search: NextPage<SearchPageProps> = ({ schema }) => {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -48,25 +63,18 @@ const Search: NextPage = () => {
     [] as SolrObject[]
   );
   const [isLoading, setLoading] = useState(true);
-  const [allSchema, setAllSchema] = useState({});
 
   useEffect(() => {
     fetch(solrUrl + "/select?q=*:*&rows=100")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        fetch("/api/schema")
-          .then((response) => response.json())
-          .then((schemaData) => {
-            setAllSchema(schemaData);
-            const solrObjectResults = [];
-            data.response.docs.map((doc, index) => {
-              solrObjectResults.push(initSolrObject(doc, schemaData));
-            });
-            setSolrObjectResults(solrObjectResults);
-            setLoading(false);
-          })
-          .catch((error) => console.error("Error fetching metadata:", error));
+        const solrObjectResults = [];
+        data.response.docs.map((doc, index) => {
+          solrObjectResults.push(initSolrObject(doc, schema));
+        });
+        setSolrObjectResults(solrObjectResults);
+        setLoading(false);
       });
   }, []);
 
@@ -158,7 +166,7 @@ const Search: NextPage = () => {
                       displayName: "Data Variables",
                     },
                   ]}
-                  schema={allSchema}
+                  schema={schema}
                 />
               )}
             </Grid>
