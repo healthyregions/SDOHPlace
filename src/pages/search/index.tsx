@@ -3,6 +3,8 @@ import type { NextPage } from "next";
 import { GetStaticProps } from "next";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 
 import Header from "@/components/Header";
@@ -83,21 +85,22 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
       <Header title={"Data Discovery"} />
       <NavBar />
       <TopLines />
-      {/* <Modal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<Box sx={modalBoxStyle}>
-					<div>How to Search</div>
-					<div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
-					<div className="self-center w-full mt-10 max-md:max-w-full">
-						modal something
-					</div>
-					<div className="bg-orange-300 w-full h-1 mt-10" />
-				</Box>
-			</Modal> */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalBoxStyle}>
+          <h2>How to Search</h2>
+          <div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
+          <div className="self-center w-full mt-10 max-md:max-w-full">
+            This could be an introductory message/splash page. Or we could
+            remove it.
+          </div>
+          <div className="bg-orange-300 w-full h-1 mt-10" />
+        </Box>
+      </Modal>
       <div className="flex flex-col">
         <div className="self-center flex w-full 2xl:max-w-[1536px] flex-col max-md:max-w-full mt-[100px] pl-[2.5%]">
           <h1 style={{ fontSize: "3em" }}>Data Discovery</h1>
