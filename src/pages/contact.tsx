@@ -98,6 +98,7 @@ const Contact: NextPage = () => {
               className="mr-10"
               href="https://github.com/healthyregions/SDOHPlace"
               title="View code on GitHub"
+              target="_blank"
             >
               <Image
                 priority
@@ -110,6 +111,7 @@ const Contact: NextPage = () => {
               className="mr-10"
               href="https://www.linkedin.com/groups/12857797/"
               title="Follow us on LinkedIn"
+              target="_blank"
             >
               <Image
                 priority
@@ -122,6 +124,7 @@ const Contact: NextPage = () => {
               className="mr-10"
               href="https://www.facebook.com/HealthyRegions"
               title="HealthyRegions on Facebook"
+              target="_blank"
             >
               <Image
                 priority
@@ -134,6 +137,7 @@ const Contact: NextPage = () => {
               className="mr-10"
               href="https://x.com/healthyregions"
               title="@healthyregions on X"
+              target="_blank"
             >
               <Image
                 priority
@@ -201,10 +205,11 @@ const Contact: NextPage = () => {
                       color: `${fullConfig.theme.colors["white"]}`,
                       fontSize: "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
                       fontStyle: "normal",
-                      fontWeight: 700,
+                      fontWeight: 400,
                       lineHeight: "1.5rem",
                       letterSpacing: "0.00938rem",
                       marginRight: "20px",
+                      fontFamily: "nunito",
                     }}
                   >
                     Send

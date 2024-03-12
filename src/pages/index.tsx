@@ -2,12 +2,9 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
-import styles from "./homepage.module.css";
-import mapWithPinLogo from "@/public/logos/map-with-pin.svg";
-import heroLogo from "@/public/logos/hero-logo.svg";
-import theSDOHPlaceProjectLogo from "@/public/logos/the-sdoh-place-project.svg";
+import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
@@ -18,7 +15,6 @@ import housingIcon from "@/public/logos/housing-icon.svg";
 import etcIcon from "@/public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
-import communityToolkitIconBlack from "@/public/logos/community-toolkit-icon-black.svg";
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
 import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
@@ -40,6 +36,7 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
+import { Box } from "@mui/material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -67,6 +64,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 };
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
+  const learnMoreRef = React.useRef(null);
   const sdohFactors = [
     {
       id: "1",
@@ -106,14 +104,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     },
   ];
 
-  let comingSoonRef = useRef();
-
   function scrollToComingSoon() {
     document
       .getElementById("coming-soon-section")
       .scrollIntoView({ behavior: "smooth" });
-    // comingSoonRef?.current
   }
+
+  const learnMoreClick = () => {
+    learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <>
@@ -141,62 +140,19 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
-        {/* <div className="flex flex-col justify-center px-[5%]">
-          <div className="flex items-center justify-start sm:mt-auto  max-md:pt-[10vw] min-[450px]:max-[768px]:pt-[15vw]">
-            <div className="my-auto flex-shrink relative top-[-2%] pr-6">
-              <Image
-                priority
-                src={mapWithPinLogo}
-                alt="The SDOH & Place Project logo"
-              />
-            </div>
-
-            <div className="p-4 flex flex-col justify-start md:pt-20 md:gap-20">
-              <Image
-                priority
-                src={theSDOHPlaceProjectLogo}
-                alt="The SDOH & Place Project logo"
-              />
-              <div className="max-md:hidden self-center uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] text-center">
-                Coming Soon
-              </div>
-            </div>
-          </div>
-          <div className="self-start uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[56%]">
-            Coming Soon
-          </div>
-          <div className="md:hidden self-start uppercase text-almostblack text-xl-rfs font-normal leading-8 tracking-rls relative bottom-[-5%] pl-[45%]">
-            Coming Soon
-          </div>
-          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
-            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
-              Learn More
-            </div>
-            <div className="mx-auto w-[1.25rem] h-[1.25rem]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="15"
-                viewBox="0 0 18 15"
-                fill="none"
-              >
-                <path
-                  d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-frenchviolet"
-                />
-              </svg>
-            </div>
-          </div>
-        </div> */}
         <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
           <div className="mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
-              src={heroLogo}
+              src={mainLogo}
               alt="The SDOH & Place Project logo"
             />
           </div>
-          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto">
+          <div
+            className="max-md:hidden self-end text-center pr-[20%] mt-auto"
+            style={{ cursor: "pointer" }}
+            onClick={learnMoreClick}
+          >
             <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
@@ -218,7 +174,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
 
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
-          <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full text-justify">
+          <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-2xl-rfs font-normal leading-8">
               A{" "}
               <span className="text-frenchviolet font-bold">free platform</span>{" "}
@@ -247,25 +203,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               ></ButtonWithIcon>
             </div>
           </div>
-          {/* <div className="md:hidden self-center text-center mt-[5%]">
-            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
-              Learn More
-            </div>
-            <div className="mx-auto w-[1.25rem] h-[1.25rem]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="15"
-                viewBox="0 0 18 15"
-                fill="none"
-              >
-                <path
-                  d="M9 15L0.339745 0L17.6603 0L9 15Z"
-                  className="fill-frenchviolet"
-                />
-              </svg>
-            </div>
-          </div> */}
         </div>
         <div className="md:hidden text-center">
           <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
@@ -288,7 +225,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto bg-lightbisque">
+      <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             Social Determinants of Health
@@ -318,6 +255,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   style={{
                     textTransform: "uppercase",
                     color: `${fullConfig.theme.colors["frenchviolet"]}`,
+                    fontSize: "1rem",
+                    fontWeight: 700,
                   }}
                   href="/news"
                 >
@@ -342,12 +281,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-12 md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
-          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%]">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
+          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
             Brought to you by
           </div>
-          <div className="grid grid-flow-col grid-cols-[1fr_1fr] items-center">
-            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem]">
+          <div className="flex flex-col md:grid md:grid-flow-col md:grid-cols-[1fr_1fr] items-center">
+            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem] max-md:mb-[2rem]">
               <Link
                 href="http://www.healthyregions.org/"
                 target="_blank"
@@ -359,7 +298,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 />
               </Link>
             </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
               <Link
                 href="https://illinois.edu/"
                 target="_blank"
@@ -368,7 +307,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 <Image alt="University of Illinois" src={universityWordmark} />
               </Link>
             </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
               <Link
                 href="https://spatial.uchicago.edu/"
                 target="_blank"
@@ -382,13 +321,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div id="coming-soon-section" className="w-full h-auto">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] flex flex-col gap-12">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto pt-[5rem] pb-[4rem] flex flex-col gap-12">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
-            Access Data & Resources on SDOH & Place
+            Access Data & Resources
           </div>
 
           <div className="px-[2.5%]">
-            <div className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#AAA_33%,#AAA_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#AAA_5%,#AAA_95%,white_95%)_1]">
+            <div
+              style={{ marginBottom: "2rem" }}
+              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
+            >
               <div className="flex flex-col gap-8 -order-1">
                 <div className="w-[3.5rem] h-[3.5rem]">
                   <Image
@@ -398,8 +340,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </div>
 
-                <div className="text-almostblack text-2xl-rfs font-bold leading-8">
-                  Data Discovery
+                <div className="text-almostblack text-2xl-rfs leading-8">
+                  <b>Data Discovery </b>
+                  <em style={{ color: "grey" }}> &mdash; coming soon!</em>
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
@@ -418,6 +361,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         labelColor={"almostblack"}
                         onClick={scrollToComingSoon}
                         disabled={true}
+                        iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>
                   </div>
@@ -451,8 +395,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                       svgIcon={communityToolkitIcon}
                       fillColor={"frenchviolet"}
                       labelColor={"white"}
-                      onClick={scrollToComingSoon}
-                      disabled={true}
+                      onClick={() => {
+                        window.location.href = "https://toolkit.sdohplace.org";
+                      }}
                     ></ButtonWithIcon>
                   </div>
                 </div>

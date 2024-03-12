@@ -3,6 +3,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
+import { Box } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  mobileHamburgerMenu: {
+    fontSize: "1.5rem",
+  },
+}));
 
 const NavBar = (): JSX.Element => {
   const [nav, setNav] = useState(false);
@@ -20,11 +28,11 @@ const NavBar = (): JSX.Element => {
         setNavBackgroundColor("transparent");
       }
     };
-
     window.addEventListener("scroll", changeBackgroundColor);
   }, []);
 
   const router = useRouter();
+  const classes = useStyles();
 
   return (
     <div
@@ -76,7 +84,11 @@ const NavBar = (): JSX.Element => {
           onClick={handleNav}
           className="block min-[768px]:hidden pl-[25px] z-50"
         >
-          {nav ? <AiOutlineClose size={35} /> : <AiOutlineMenu size={35} />}
+          {nav ? (
+            <AiOutlineClose size={35} color={"white"} />
+          ) : (
+            <AiOutlineMenu size={35} />
+          )}
         </div>
 
         {/* Mobile Menu */}
@@ -84,23 +96,39 @@ const NavBar = (): JSX.Element => {
           className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 flex justify-center items-center w-full
-          h-screen bg-frenchviolet text-center ease-in duration-300`}
+          h-screen bg-frenchviolet text-white text-center ease-in duration-300 `}
         >
           <ul>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/">Home</Link>
+              <Link className={`${classes.mobileHamburgerMenu}`} href="/">
+                Home
+              </Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/advisory">Advisory</Link>
+              <Link
+                className={`${classes.mobileHamburgerMenu}`}
+                href="/advisory"
+              >
+                Advisory
+              </Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/news">News</Link>
+              <Link className={`${classes.mobileHamburgerMenu}`} href="/news">
+                News
+              </Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/about">About</Link>
+              <Link className={`${classes.mobileHamburgerMenu}`} href="/about">
+                About
+              </Link>
             </li>
             <li className="p-4 text-5xl uppercase">
-              <Link href="/contact">Contact Us</Link>
+              <Link
+                className={`${classes.mobileHamburgerMenu}`}
+                href="/contact"
+              >
+                Contact Us
+              </Link>
             </li>
           </ul>
         </div>

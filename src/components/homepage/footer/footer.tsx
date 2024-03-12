@@ -249,7 +249,7 @@ const Footer = (): JSX.Element => {
               <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
-
+          {/*           
           <div className="flex flex-col justify-center flex-[34.86] items-start">
             <div className=" text-white text-2xl-rfs leading-8 tracking-[0.03125rem]">
               Sign up for our newsletter!
@@ -277,6 +277,7 @@ const Footer = (): JSX.Element => {
               />
             </div>
           </div>
+          */}
         </div>
       </div>
     </>

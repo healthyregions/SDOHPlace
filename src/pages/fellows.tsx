@@ -1,5 +1,6 @@
 "use client";
 import type { NextPage } from "next";
+import Link from "next/link";
 import Footer from "@/components/homepage/footer";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
@@ -14,8 +15,6 @@ import people from "../../meta/people.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { makeStyles } from "@mui/styles";
-import { Typography } from "@mui/material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -36,24 +35,22 @@ const modalBoxStyle = {
   overflowY: "auto",
 };
 
-const useStyles = makeStyles(() => ({
-  modalBtnStyle: {
-    marginTop: "10px",
-    cursor: "pointer",
-  },
-}));
+const modalBtnStyle = {
+  marginTop: "10px",
+  fontSize: "1em",
+  fontWeight: 700,
+  width: "unset",
+  color: `${fullConfig.theme.colors["frenchviolet"]}`,
+  textTransform: "uppercase",
+};
 
 const Advisory: NextPage = () => {
-  const classes = useStyles();
-  const stakeholderList = [];
-  const technicalList = [];
+  const fellowsList = [];
   Object.keys(people).map(function (id, keyIndex) {
     const item = people[id];
     item.id = id;
-    if (item.category.indexOf("stakeholder") >= 0) {
-      stakeholderList.push(item);
-    } else if (item.category.indexOf("technical") >= 0) {
-      technicalList.push(item);
+    if (item.category.indexOf("fellow") >= 0) {
+      fellowsList.push(item);
     }
   });
   const [open, setOpen] = React.useState(false);
@@ -62,7 +59,7 @@ const Advisory: NextPage = () => {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Header title={"Advisory"} />
+      <Header title={"Fellowship Program"} />
       <NavBar />
       <TopLines />
       <Modal
@@ -112,13 +109,7 @@ const Advisory: NextPage = () => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <Typography
-                          sx={{
-                            color: fullConfig.theme.colors["salmonpink"],
-                          }}
-                        >
-                          {id}
-                        </Typography>
+                        {id}
                       </a>
                     </div>
                   ))}
@@ -130,9 +121,7 @@ const Advisory: NextPage = () => {
                     <div
                       key={index}
                       style={{ marginBottom: "10px" }}
-                      dangerouslySetInnerHTML={{
-                        __html: p,
-                      }}
+                      dangerouslySetInnerHTML={{ __html: p }}
                     />
                   ))}
                 </div>
@@ -144,26 +133,25 @@ const Advisory: NextPage = () => {
       </Modal>
       <div className="flex flex-col">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Advisory</h1>
+          <h1 className="font-fredoka">Fellowship Program</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  The Place Project has an advisory board consisting of experts
-                  from public, private, and academic sectors. Their primary
-                  responsibility is to provide methodological guidance, offer
-                  critical and technical insights, and ensure that the Place
-                  project aligns with the requirements of communities in the
-                  United States that are disproportionately affected by health,
-                  spatial, and racial disparities.
-                  <br />
-                  <br />
-                  The members of the Place Project advisory board combine vast
-                  experience in designing complex engineering and scientific
-                  solutions for both non-profit and academic settings, as well
-                  as a proven track record in conducting community-based
-                  research and outreach programs with minority and segregated
-                  communities.
+                  The{" "}
+                  <Link
+                    className="text-link"
+                    href="https://sdohplace.org/news/community-fellowship-2024"
+                  >
+                    SDOH & Place Fellowship Program
+                  </Link>{" "}
+                  launched in 2024 to support public health, geography, & health
+                  equity leaders learn how to develop a social determinants of
+                  health (SDOH) place-based visualization (e.g., asset map,
+                  story map, thematic map, or dashboard) based on a
+                  human-centered design (HCD) framework and participatory design
+                  principles. Program Ambassadors additionally contribute to the
+                  SDOH & Place community toolkit&apos;s design and development.
                 </div>
               </div>
             </div>
@@ -171,7 +159,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Stakeholder Team</h2>
+            <h2 className="font-fredoka">2024 Fellow Cohort</h2>
           </div>
           <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
@@ -181,7 +169,7 @@ const Advisory: NextPage = () => {
               >
                 <div className="self-center w-full max-md:max-w-full">
                   <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                    {stakeholderList.map((item, index) => (
+                    {fellowsList.map((item, index) => (
                       <div
                         key={index}
                         className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -189,9 +177,7 @@ const Advisory: NextPage = () => {
                         <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
                           <div
                             className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
-                            style={{
-                              paddingRight: "100px",
-                            }}
+                            style={{ paddingRight: "100px" }}
                           >
                             <img
                               loading="lazy"
@@ -205,84 +191,28 @@ const Advisory: NextPage = () => {
                               {item.name}
                             </div>
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
-                              {item.affiliation}
+                              {item.title}
                             </div>
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
                               {item.text}
                             </div>
-                            <div
-                              className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
-                              onClick={() => {
-                                setBio(item.id);
-                                handleOpen();
-                              }}
-                            >
-                              Read More
-                            </div>
+                            {item.long.length > 0 && (
+                              <Button
+                                sx={modalBtnStyle}
+                                onClick={() => {
+                                  setBio(item.id);
+                                  handleOpen();
+                                }}
+                              >
+                                Read More
+                              </Button>
+                            )}
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
-          <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Technical Team</h2>
-          </div>
-        </div>
-        <div className="bg-lightbisque self-stretch flex mt-0 w-full flex-col px-5 max-md:max-w-full">
-          <div
-            className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
-            style={{ marginTop: "-110px" }}
-          >
-            <div className="self-center w-full max-md:max-w-full">
-              <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                {technicalList.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
-                  >
-                    <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
-                      <div
-                        className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
-                        style={{
-                          paddingRight: "100px",
-                        }}
-                      >
-                        <img
-                          loading="lazy"
-                          srcSet={item.image}
-                          className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
-                          alt={item.name}
-                        />
-                      </div>
-                      <div className="flex grow flex-col max-md:mt-10">
-                        <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
-                          {item.name}
-                        </div>
-                        <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
-                          {item.affiliation}
-                        </div>
-                        <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                          {item.text}
-                        </div>
-                        <div
-                          className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
-                          onClick={() => {
-                            setBio(item.id);
-                            handleOpen();
-                          }}
-                        >
-                          Read More
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
