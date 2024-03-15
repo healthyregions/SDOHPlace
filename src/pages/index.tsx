@@ -18,6 +18,8 @@ import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
 import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
+import ncsaLogo from "@/public/logos/NCSA logo.svg";
+import scdLogo from "@/public/logos/SCD Logo.png";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
@@ -100,7 +102,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "6",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: " ",
+      text: "", // "Discover more Social Determinants of Health" after the link is ready
+      link: ""  // Add link after the link is ready
     },
   ];
 
@@ -237,6 +240,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 svgIcon={factor.svgIcon}
                 title={factor.title}
                 text={factor.text}
+                link={factor.link? factor.link : ""}
               />
             ))}
           </div>
@@ -314,6 +318,24 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 rel="noreferrer"
               >
                 <Image alt="Center for Spatial Data Science" src={csdsLogo} />
+              </Link>
+            </div>
+            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+              <Link
+                href="https://www.ncsa.illinois.edu/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image alt="National Center for Supercomputing Applications" src={ncsaLogo} />
+              </Link>
+            </div>
+             <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem]">
+              <Link
+                href="https://designcenter.illinois.edu/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image alt="Siebel Center for Design" src={scdLogo} />
               </Link>
             </div>
           </div>
