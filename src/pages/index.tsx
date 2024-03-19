@@ -18,6 +18,8 @@ import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
 import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
+import ncsaLogo from "@/public/logos/ncsa-logo.svg";
+import scdLogo from "@/public/logos/scd-logo.png";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
@@ -36,7 +38,8 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -62,6 +65,33 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
     },
   };
 };
+const useStyles = makeStyles({
+  imageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: 'contain',
+    "@media (max-width: 959px)": {
+       width: "80%",
+       height: "80%",
+    },
+  },
+  // For siebel center for design logo only because it is a large png file, not an svg
+  // Could update this later if the logo is updated to an svg
+  largeImage: {
+    width: "80%",
+    height: "80%",
+    objectFit: 'contain',
+    "@media (max-width: 959px)": {
+       width: "60%",
+       height: "60%",
+    },
+  }
+});
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -100,7 +130,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "6",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: " ",
+      text: "", // "Discover more Social Determinants of Health" after the link is ready
+      link: "", // Add link after the link is ready
     },
   ];
 
@@ -113,7 +144,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreClick = () => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
+  const classes = useStyles();
   return (
     <>
       <Header title={null} />
@@ -148,12 +179,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               alt="The SDOH & Place Project logo"
             />
           </div>
-          <div className="max-md:hidden self-end text-center pr-[20%] mt-auto" 
-              style={{ cursor: "pointer" }}
-              onClick={learnMoreClick}>
-            <div
-              className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase"
-            >
+          <div
+            className="max-md:hidden self-end text-center pr-[20%] mt-auto"
+            style={{ cursor: "pointer" }}
+            onClick={learnMoreClick}
+          >
+            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -237,6 +268,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 svgIcon={factor.svgIcon}
                 title={factor.title}
                 text={factor.text}
+                link={factor.link ? factor.link : ""}
               />
             ))}
           </div>
@@ -281,41 +313,78 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_4fr] text-start">
           <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
             Brought to you by
           </div>
-          <div className="flex flex-col md:grid md:grid-flow-col md:grid-cols-[1fr_1fr] items-center">
-            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem] max-md:mb-[2rem]">
-              <Link
-                href="http://www.healthyregions.org/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image
-                  alt="Healthy Regions & Policies Lab"
-                  src={heropLightLogo}
-                />
-              </Link>
-            </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
-              <Link
-                href="https://illinois.edu/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image alt="University of Illinois" src={universityWordmark} />
-              </Link>
-            </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
-              <Link
-                href="https://spatial.uchicago.edu/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image alt="Center for Spatial Data Science" src={csdsLogo} />
-              </Link>
-            </div>
+          <div className={classes.imageContainer}>
+            <Grid container spacing={2} className="flex justify-between">
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="http://www.healthyregions.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="Healthy Regions & Policies Lab"
+                    src={heropLightLogo}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://illinois.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="University of Illinois"
+                    src={universityWordmark}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://spatial.uchicago.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="Center for Spatial Data Science"
+                    src={csdsLogo}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://www.ncsa.illinois.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="National Center for Supercomputing Applications"
+                    src={ncsaLogo}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://designcenter.illinois.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    className={`${classes.image} ${classes.largeImage}`}
+                    alt="Siebel Center for Design"
+                    src={scdLogo}
+                  />
+                </Link>
+              </Grid>
+            </Grid>
           </div>
         </div>
       </div>
@@ -327,7 +396,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div>
 
           <div className="px-[2.5%]">
-            <div style={{marginBottom: "2rem"}} className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]">
+            <div
+              style={{ marginBottom: "2rem" }}
+              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
+            >
               <div className="flex flex-col gap-8 -order-1">
                 <div className="w-[3.5rem] h-[3.5rem]">
                   <Image

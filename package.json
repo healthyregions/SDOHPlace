@@ -45,12 +45,13 @@
     "export": "npm run build && next export"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
+    "@emotion/react": "^11.11.4",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "2.0.13",
     "@mui/core": "^5.0.0-alpha.54",
-    "@mui/material": "^5.14.13",
+    "@mui/icons-material": "^5.15.13",
+    "@mui/material": "^5.15.13",
     "@mui/styles": "^5.14.14",
     "@next/font": "13.1.0",
     "@svgr/webpack": "^8.1.0",
