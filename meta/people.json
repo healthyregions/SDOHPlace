@@ -323,19 +323,19 @@
     "name": "Adam Cox",
     "title": "Software Engineer",
     "image": "../../images/headshot-ac.png",
-    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orlean, Louisiana ...",
+    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana ...",
     "links": {
       "LinkedIn": "https://www.linkedin.com/in/mradamcox/",
       "GitHub": "https://github.com/mradamcox"
     },
     "category": ["core"],
     "long": [
-      "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads dev-ops and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement."
+      "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads engineering and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement."
     ]
   },
   "pengyin": {
     "name": "Pengyin Shan",
-    "title": "Research Software Engineer",
+    "title": "Software Engineer",
     "image": "../../images/headshot-ps.png",
     "text": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
     "links": {

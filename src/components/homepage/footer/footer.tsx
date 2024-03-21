@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { withStyles } from "@mui/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
+import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 
 import footerLine1 from "@/public/logos/footer-line1.svg";
 import footerLine2 from "@/public/logos/footer-line2.svg";
@@ -17,20 +16,31 @@ import mobileFooterLine2 from "@/public/logos/mobile-footer-line2.svg";
 import mobileFooterLine3 from "@/public/logos/mobile-footer-line3.svg";
 import mobileFooterLine4 from "@/public/logos/mobile-footer-line4.svg";
 import mobileFooterLine5 from "@/public/logos/mobile-footer-line5.svg";
-import mapWithPinFooter from "@/public/logos/map-with-pin-footer.svg";
 import theSDOHPlaceProjectFooter from "@/public/logos/the-sdoh-place-project-footer.svg";
 import githubIcon from "@/public/logos/github-purple-icon.svg";
 import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
 import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
 import xIcon from "@/public/logos/x-purple-icon.svg";
-import sendIcon from "@/public/logos/send-icon.svg";
-
+import newsIcon from "@/public/logos/news.svg";
+import chevronRight from "@/public/logos/chevron-right.svg";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 
 const fullConfig = resolveConfig(tailwindConfig);
-
+const useStyles = makeStyles((theme) => ({
+  marginAutoDesktop: {
+    "@media (min-width: 960px)": {
+      margin: "0 auto",
+    },
+  },
+  marginAutoDesktopAhead: {
+    "@media (min-width: 960px)": {
+      margin: "-10rem auto 0 auto",
+    },
+  },
+}));
 const Footer = (): JSX.Element => {
+  const classes = useStyles();
   const CssTextField = withStyles({
     root: {
       "& label.Mui-focused": {
@@ -66,8 +76,8 @@ const Footer = (): JSX.Element => {
 
   return (
     <>
-      <div className="w-full min-h-[33.625rem] max-md:min-h-[55rem] bg-almostblack z-10">
-        <div className="w-full min-h-[33.625rem] max-md:min-h-[55rem] px-[2.5%] z-20 absolute">
+      <div className="w-full min-h-[33.625rem] max-md:min-h-[62rem] bg-almostblack z-10">
+        <div className="w-full min-h-[33.625rem] max-md:min-h-[62rem] px-[2.5%] z-20 absolute">
           <div className="absolute left-[63%] top-[-3.5%] w-[7.5vw] max-md:hidden h-auto">
             <Image
               priority
@@ -160,18 +170,10 @@ const Footer = (): JSX.Element => {
           </div>
         </div>
 
-        <div className="max-md:max-w-[87%] mx-auto pt-[5rem] pb-[4.5rem] 2xl:max-w-[1536px] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
-          <div className="flex flex-col justify-center gap-[1.56rem] flex-[38.34]">
+        <div className="max-md:max-w-[66.66%] mx-auto pt-[5rem] pb-[1rem] 2xl:max-w-[1536px] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
+          <div className="flex flex-col justify-center gap-[1.56rem] flex-[33.33]">
             <div className="flex flex-row">
-              <div>
-                <Image
-                  priority
-                  src={mapWithPinFooter}
-                  alt="The SDOH & Place Project logo"
-                />
-              </div>
-
-              <div className="p-4 relative mt-[-3%]">
+              <div className="py-4 relative mt-[-3%]">
                 <Image
                   priority
                   src={theSDOHPlaceProjectFooter}
@@ -179,7 +181,10 @@ const Footer = (): JSX.Element => {
                 />
               </div>
             </div>
-
+          </div>
+        </div>
+        <div className="max-md:max-w-[66.66%] mx-auto pt-[0] pb-[4.5rem] 2xl:max-w-[1536px] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
+          <div className="flex flex-col justify-center gap-[1.56rem] flex-[33.33]">
             <div className="max-w-[21.5625rem] text-white text-xl-rfs leading-6 tracking-[0.03125rem]">
               The SDOH & Place Project&apos;s mission is to unravel the
               application design process essential for developing web
@@ -231,24 +236,46 @@ const Footer = (): JSX.Element => {
               </a>
             </div>
           </div>
-
-          <ul className="flex flex-col justify-center gap-5 items-start flex-[26.8]">
-            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/advisory">Advisory</Link>
-            </li>
-            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/news">News</Link>
-            </li>
-            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/about">About</Link>
-            </li>
-            <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-              <Link href="/contact">Contact Us</Link>
-            </li>
-          </ul>
+          <div className="flex flex-col justify-center gap-[1.56rem] flex-[33.33]">
+            <ul
+              className={`${classes.marginAutoDesktop} flex flex-col justify-center gap-5 items-start`}
+            >
+              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+                <Link href="/">Home</Link>
+              </li>
+              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+                <Link href="/advisory">Advisory</Link>
+              </li>
+              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+                <Link href="/news">News</Link>
+              </li>
+              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+                <Link href="/about">About</Link>
+              </li>
+              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
+                <Link href="/contact">Contact Us</Link>
+              </li>
+            </ul>
+          </div>
+          <div className={`${classes.marginAutoDesktopAhead} flex flex-row justify-center flex-[33.33]`}>
+            <div
+              className={`flex flex-col gap-[.5rem] justify-center max-w-[21.5625rem] `}
+            >
+              <h3 className="text-white">Stay updated</h3>
+              <h5 className="text-gray-500">For all the latest and greatest</h5>
+              <ButtonWithIcon
+                label={"NEWS"}
+                svgIcon={newsIcon}
+                endIcon={chevronRight}
+                borderRadius={"1rem"}
+                width={"100%"}
+                justifyContent="space-between"
+                fillColor={"smokegray"}
+                labelColor={"salmonpink"}
+                onClick={() => {window.location.href = "/news";}}
+              ></ButtonWithIcon>
+            </div>
+          </div>
           {/*           
           <div className="flex flex-col justify-center flex-[34.86] items-start">
             <div className=" text-white text-2xl-rfs leading-8 tracking-[0.03125rem]">

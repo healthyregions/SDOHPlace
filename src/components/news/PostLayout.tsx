@@ -12,6 +12,7 @@ import TagButton from "./TagButton";
 import { getAuthor } from "../../lib/authors";
 import { getTag } from "../../lib/tags";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import Footer from "../homepage/footer";
 
 type Props = {
   title: string;

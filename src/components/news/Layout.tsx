@@ -1,6 +1,7 @@
 import Head from "next/head";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
+import Footer from "../homepage/footer";
 
 type Props = {
   children: React.ReactNode;
@@ -18,12 +19,13 @@ export default function Layout({ children }: Props) {
       </Head>
       <NavBar />
       <TopLines />
-      <div className="flex flex-col">
+      <div className="flex flex-col py-[5rem]">
         <div className="self-center flex w-full max-w-[1068px] flex-col max-md:max-w-full mt-[100px]">
           <h1 className="font-fredoka mb-5 px-5">Project News</h1>
         </div>
         <main>{children}</main>
       </div>
+      <Footer />
       <style jsx>
         {`
           .root {
