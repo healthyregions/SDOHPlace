@@ -206,7 +206,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
-            <p className="text-almostblack text-2xl-rfs font-normal leading-8">
+            <p className="text-almostblack text-xl font-normal leading-8">
               A{" "}
               <span className="text-frenchviolet font-bold">free platform</span>{" "}
               to discover and practice with place-based data for health equity,
