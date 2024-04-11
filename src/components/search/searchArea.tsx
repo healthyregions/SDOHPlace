@@ -25,7 +25,7 @@ import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
 import { displayLayers } from "../map/helper/layers";
 
-import CheckBoxObject from "../../../../place-discovery/src/components/search/interface/CheckboxObject";
+import CheckBoxObject from "../search/interface/CheckboxObject";
 
 export default function SearchArea({
   results,
