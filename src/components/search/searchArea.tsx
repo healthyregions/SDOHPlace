@@ -22,7 +22,10 @@ import ParentList from "./parentList";
 import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
-import CheckBoxObject from "./interface/CheckboxObject";
+import MapArea from "../map/mapArea";
+import { displayLayers } from "../map/helper/layers";
+
+import CheckBoxObject from "../search/interface/CheckboxObject";
 
 export default function SearchArea({
   results,
@@ -49,8 +52,21 @@ export default function SearchArea({
   });
   const [autocompleteKey, setAutocompleteKey] = useState(0); // force autocomplete to re-render when user clicks on clear results
   const [checkboxes, setCheckboxes] = useState([]);
+  
+  let tempSRChecboxes = new Set<CheckBoxObject>();
+  // NOTE: state and county checkboxes are not there because we assume that state and county layer are always there. Remove the if statement if we want to include them
+    displayLayers.forEach((layer) => {
+      if(layer.id !== 'state-2018' && layer.id !== 'county-2018')
+      tempSRChecboxes.add({
+        attribute: "special_resolution",
+        value: layer.source,
+        checked: false,
+      });
+    });
+  const [sRCheckboxes, setSRCheckboxes] = useState(new Set<CheckBoxObject>(tempSRChecboxes)); // Special Resolution checkboxes
   const [options, setOptions] = useState([]);
   const [userInput, setUserInput] = useState("");
+  const [resetStatus, setResetStatus] = useState(true);
   const constructFilter = filterAttributeList.map((filter) => {
     return {
       [filter.attribute]: {},
@@ -161,8 +177,10 @@ export default function SearchArea({
       )
     );
     setFetchResults(allResults);
+    setResetStatus(true);
   };
   const handleFilter = (attr, value) => (event) => {
+    setResetStatus(!resetStatus);
     const newCheckboxes = [...checkboxes];
     if (!newCheckboxes.find((c) => c.value === value && c.attribute === attr)) {
       newCheckboxes.push({
@@ -188,8 +206,6 @@ export default function SearchArea({
     setCheckboxes(newCheckboxes);
   };
 
-  console.log("isloding?" + isLoading);
-
   useEffect(() => {
     const generateFilterFromCurrentResults = generateFilter(
       fetchResults,
@@ -197,7 +213,7 @@ export default function SearchArea({
       filterAttributeList.map((filter) => filter.attribute)
     );
     setCurrentFilter(generateFilterFromCurrentResults);
-  }, []);
+  }, [sRCheckboxes]);
 
   /** Components */
   function FilterAccordion({
@@ -270,95 +286,145 @@ export default function SearchArea({
       </Button>
     );
   }
+
+  const handleSRSelectionChange = (event) => {
+    const { value, checked } = event.target;
+
+    // Create a new Set with updated checkboxes
+      const updatedSet = new Set(
+        Array.from(sRCheckboxes).map((obj) => {
+          if (obj.value === value) {
+            // Update the checkbox's checked property
+            return { ...obj, checked: checked };
+          }
+          return obj;
+        })
+      );
+    // Update the state with the new Set and log the updated state
+  setSRCheckboxes(updatedSet);
+
+    // Update another state (resetStatus)
+    setResetStatus(!resetStatus);
+  };
+
   return (
-    <>
-      <Grid container className="search_box_container">
-        <form id="search-form" onSubmit={handleSubmit}>
-          <Grid container alignItems="center">
-            <Grid item xs={9}>
-              <Autocomplete
-                key={autocompleteKey}
-                freeSolo
-                options={options}
-                onInputChange={(event, value, reason) => {
-                  if (event && event.type === "change") {
+    <Grid container height={"calc(100vh - 172px)"}>
+      <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
+        <Grid item xs={12} sx={{background: "aqua"}}>
+            <h5>Spacial Resolution Select</h5>
+            {Array.from(sRCheckboxes).map((checkbox, index) => (
+              <span key={index}>
+                <span>{checkbox.value}</span>
+                <Checkbox
+                  checked={checkbox.checked}
+                  value={checkbox.value}
+                  onChange={handleSRSelectionChange}
+                />
+              </span>
+            ))}
+          </Grid>
+        <Grid container className="search_box_container">
+          <form id="search-form" onSubmit={handleSubmit}>
+            <Grid container alignItems="center">
+              <Grid item xs={9}>
+                <Autocomplete
+                  key={autocompleteKey}
+                  freeSolo
+                  options={options}
+                  onInputChange={(event, value, reason) => {
+                    if (event && event.type === "change") {
+                      setUserInput(value);
+                      handleUserInputChange(event, value);
+                    }
+                  }}
+                  onChange={(event, value) => {
                     setUserInput(value);
-                    handleUserInputChange(event, value);
-                  }
-                }}
-                onChange={(event, value) => {
-                  setUserInput(value);
-                  handleDropdownSelect(event, value);
-                }}
-                sx={{ minWidth: 250 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search input"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: null,
-                      type: "search",
-                    }}
-                  />
-                )}
-              />
+                    handleDropdownSelect(event, value);
+                  }}
+                  sx={{ minWidth: 250 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search input"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: null,
+                        type: "search",
+                      }}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Search
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
+          </form>
+        </Grid>
+        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+          {checkboxes
+            .filter((c) => c.checked === true)
+            .map((c) => filterStatusButton(c))}
+        </Box>
+        <ParentList
+          solrParents={fetchResults}
+          filterAttributeList={filterAttributeList}
+        />
+        <Divider />
+        <Grid container className="search_filter_container">
+          {checkboxes.find((c) => c.checked) !== undefined ||
+          (userInput && userInput.length > 0) ? (
+            <Grid item xs={12}>
               <Button
-                type="submit"
                 variant="contained"
                 color="primary"
                 fullWidth
+                onClick={() => {
+                  handleReset();
+                }}
               >
-                Search
+                Start Over
               </Button>
             </Grid>
-          </Grid>
-        </form>
-      </Grid>
-      <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-        {checkboxes
-          .filter((c) => c.checked === true)
-          .map((c) => filterStatusButton(c))}
-      </Box>
-      <ParentList
-        solrParents={fetchResults}
-        filterAttributeList={filterAttributeList}
-      />
-      <Divider />
-      <Grid container className="search_filter_container">
-        {checkboxes.find((c) => c.checked) !== undefined ? (
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={() => {
-                handleReset();
-              }}
-            >
-              Start Over
-            </Button>
-          </Grid>
-        ) : null}
+          ) : null}
 
-        {/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
-        <Grid item xs={12}>
-          <h3>Filters</h3>
-          {filterAttributeList.map((filter, index) => (
-            <FilterAccordion
-              key={index}
-              currentCheckboxes={checkboxes}
-              currentFilter={currentFilter}
-              attributeName={filter.attribute}
-              displayName={filter.displayName}
-            />
-          ))}
+          {/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
+          <Grid item xs={12}>
+            <h3>Filter Based on Search Result</h3>
+            {filterAttributeList.map((filter, index) => (
+              <FilterAccordion
+                key={index}
+                currentCheckboxes={checkboxes}
+                currentFilter={currentFilter}
+                attributeName={filter.attribute}
+                displayName={filter.displayName}
+              />
+            ))}
+          </Grid>
         </Grid>
       </Grid>
-    </>
+      <Grid item xs={9}>
+        {fetchResults.length > 0 ? (
+          <MapArea
+            searchResult={fetchResults}
+            resetStatus={resetStatus}
+            srChecked={sRCheckboxes}
+          />
+        ) : isLoading ? (
+          <h1>Loading map...</h1>
+        ) : (
+          <h1>No results.</h1>
+        )}
+      </Grid>
+    </Grid>
   );
 }

@@ -1,30 +1,12 @@
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { SolrObject } from "meta/interface/SolrObject";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Autocomplete,
-  Box,
-  Checkbox,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState, useCallback, useMemo, useRef, use } from "react";
 
 ("use client");
-import type { NextPage } from "next";
 import {
   Map,
   MapRef,
   useMap,
   MapLayerMouseEvent,
   Popup,
-  Source,
   Layer,
   LngLatBoundsLike,
 } from "react-map-gl/maplibre";
@@ -32,12 +14,22 @@ import maplibregl from "maplibre-gl";
 import { LayerSpecification, FilterSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
+import layer_match from "../../../meta/_metadata/layer_match.json";
+import { SolrObject } from "meta/interface/SolrObject";
 
 import {
-  stateInteractive,
   displayLayers,
+  interactiveLayers,
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
+
+import getCountyGeo from "./helper/countyLocation";
+import CheckBoxObject from "../search/interface/CheckboxObject";
+
+// Define interface for map object
+interface CustomMap extends maplibregl.Map {
+  _popup?: maplibregl.Popup | null;
+}
 
 const statesBounds: LngLatBoundsLike = [-125.3321, 23.8991, -65.7421, 49.4325];
 const alaskaBounds: LngLatBoundsLike = [
@@ -95,16 +87,239 @@ function NavigateButton({
   );
 }
 
-export default function MapArea(): JSX.Element {
+/**
+ * @param searchResult: SolrObject[] is the list of search result
+ * @param resetStatus: boolean is the status of 'initial' or 'reset' of the map. If it is 'reset', the map will only show state and county layers
+ * @param srChecked: CheckBoxObject[] is the list of spatial checkbox resolution checked by the user
+ * @returns
+ */
+export default function MapArea({
+  searchResult,
+  resetStatus,
+  srChecked,
+}: {
+  searchResult: SolrObject[];
+  resetStatus: boolean;
+  srChecked: Set<CheckBoxObject>;
+}): JSX.Element {
+  const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
+    LayerSpecification[]
+  >([]);
+  const [currentInteractiveLayers, setCurrentInteractiveLayers] = useState<
+    LayerSpecification[]
+  >([]);
+  const [currentResults, setCurrentResults] =
+    useState<SolrObject[]>(searchResult);
+  const [hoverInfo, setHoverInfo] = useState(null);
+
+  const mapRef = useRef<MapRef>();
+  const [mapLoaded, setMapLoaded] = useState(false);
   useEffect(() => {
     let protocol = new Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
     return () => {
       maplibregl.removeProtocol("pmtiles");
     };
-  }, []);
+  });
+  useEffect(() => {
+    if (mapRef.current && mapLoaded) {
+      const map = mapRef.current.getMap() as CustomMap;
+      if (map.isStyleLoaded()) {
+        // remove all sdoh layers. Current I use '-' to identify sdoh layers. We may need to discuss a better way to identify sdoh layers
+        map.getStyle().layers.forEach((lyr) => {
+          if (lyr.id.indexOf("-") !== -1) map.removeLayer(lyr.id);
+        });
+        // remove all sdoh sources
+        Object.keys(map.getStyle().sources).forEach((src) => {
+          if (["state", "county", "tract", "bg", "zcta", "place"].includes(src))
+            map.removeSource(src);
+        });
+        // note state and county will always be added in later steps
+      }
 
-  const [hoverInfo, setHoverInfo] = useState(null);
+      let selectDisplayLayers = new Array<LayerSpecification>();
+      // get all needed interactive layers based on current presented results's spacial resolution
+      searchResult.forEach((result) => {
+        if (result.meta["spatial_resolution"]) {
+          const spatial_res =
+            typeof result.meta["spatial_resolution"] === "string"
+              ? [result.meta["spatial_resolution"]]
+              : result.meta["spatial_resolution"];
+          spatial_res.forEach((sr) => {
+            const displayLayer = displayLayers.find(
+              (d) => d.source === layer_match[sr]
+            );
+            if (displayLayer)
+              selectDisplayLayers = [...selectDisplayLayers, displayLayer];
+          });
+        }
+      });
+      // remove duplicates
+      let uniqueIds = new Set();
+      const newDisplayLayers = selectDisplayLayers.filter((obj) => {
+        if (!uniqueIds.has(obj.id)) {
+          uniqueIds.add(obj.id);
+          return true;
+        }
+        return false;
+      });
+      let uniqueInteractiveIds = new Set();
+
+      // Don't use this variable current because we just want the state interactive layer for now
+      const newInteractiveLayers = currentInteractiveLayers.filter((obj) => {
+        if (!uniqueInteractiveIds.has(obj.id)) {
+          uniqueInteractiveIds.add(obj.id);
+          return true;
+        }
+        return false;
+      });
+
+      // add all custom sources to the map if not there [Note: if we also want the source to change based on search result, modify this function]
+      Object.keys(sources).forEach((id) => {
+        if (!map.getSource(id)) map.addSource(id, sources[id]);
+      });
+
+      // when the map is load, only add state and county line layers
+      displayLayers.forEach((lyr) => {
+        if (lyr.id === "state-2018" || lyr.id === "county-2018")
+          map.addLayer(lyr);
+      });
+
+      // add layers by a specific order. Line first then interactive
+      // if (!resetStatus) {
+      //   newDisplayLayers
+      //     .filter((l) => l.id !== "state-2018" && l.id !== "county-2018")
+      //     .forEach((lyr) => {
+      //       const addBefore =
+      //         lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+      //       map.addLayer(lyr, addBefore);
+      //     });
+      // }
+      // add navigation control to the map
+      const testControl = new maplibregl.NavigationControl({});
+      const controls = map._controls;
+      const hasNavigationControl = controls.some(
+        (control) => control instanceof testControl.constructor
+      );
+      if (!hasNavigationControl)
+        mapRef.current.addControl(testControl, "top-right");
+
+      // if the search result has spatial coverage, add pin to the corresponding location (but no zoom)
+      searchResult.forEach((result, index) => {
+        if (result.meta["spatial_coverage"]) {
+          let spatial_coverages = result.meta["spatial_coverage"];
+          if (typeof spatial_coverages === "string")
+            spatial_coverages = [spatial_coverages];
+          spatial_coverages.forEach((sc) => {
+            if (sc.includes(",")) {
+              const [countyName, stateName] = sc.split(",");
+              const location = getCountyGeo(stateName, countyName);
+              let lat = location ? location.lat : 0;
+              let lon = location ? location.lng : 0;
+              const id = `pin-${lon}-${lat}`;
+              if (!map.getSource(id)) {
+                map.addSource(id, {
+                  type: "geojson",
+                  data: {
+                    type: "FeatureCollection",
+                    features: [
+                      {
+                        type: "Feature",
+                        geometry: {
+                          type: "Point",
+                          coordinates: [lon, lat],
+                        },
+                        properties: {
+                          title: "County Pin",
+                        },
+                      },
+                    ],
+                  },
+                });
+              }
+              if (!map.getLayer(id)) {
+                map.addLayer({
+                  id: id,
+                  type: "circle",
+                  source: id,
+                  paint: {
+                    "circle-radius": 5,
+                    "circle-color": "#007cbf", // future improvement: pass search result with its color code match to this component and put it here
+                  },
+                });
+              }
+            }
+            // Commented out the popup for now, using interactive layers instead in the future
+            //   map.on("mouseenter", id, (e) => {
+            //     map.getCanvas().style.cursor = "pointer";
+
+            //     const coordinates = (
+            //       e.features[0].geometry as any
+            //     ).coordinates.slice();
+            //     const id = e.features[0]["layer"]["id"];
+
+            //     // new maplibregl.Popup()
+            //     //   .setLngLat(coordinates)
+            //     //   .setHTML(`<h3>${title}</h3>`)
+            //     //   .addTo(map);
+            //     const popup = new maplibregl.Popup({ closeOnClick: false })
+            //       .setLngLat(coordinates)
+            //       .setHTML(`<p>${id}</p>`)
+            //       .addTo(map);
+            //     map._popup = popup;
+            //   });
+
+            //   map.on("mouseleave", id, () => {
+            //     map.getCanvas().style.cursor = "";
+
+            //     // const popup = map.getCanvas().querySelector(".maplibregl-popup");
+            //     // if (popup) {
+            //     //   popup.remove();
+            //     // }
+            //     if (map._popup) {
+            //       map._popup.remove();
+            //       map._popup = null;
+            //     }
+            //   });
+            // });
+            //}
+          });
+        }
+      });
+
+      // // add these layers before the "Ocean labels" layer (which is already present
+      // // in the default mapstyle). This allows labels to overlap the boundaries.
+      // displayLayers.forEach((lyr) => {
+      //   const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+      //   mapRef.current.getMap().addLayer(lyr, addBefore);
+      // });
+
+      // if Spatial Resolution filter is checked, only add the checked layers
+
+      const checkedSources = Array.from(srChecked)
+        .filter((c: CheckBoxObject) => c.checked)
+        .map((c: CheckBoxObject) => c.value);
+      displayLayers
+        .filter((l) => checkedSources.includes(l.source))
+        .forEach((lyr) => {
+          //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+          if (!map.getLayer(lyr.id)) map.addLayer(lyr);
+        });
+
+      // Always add interactive layers as the last layers
+      if (map.getLayer("state-interactive") === undefined)
+        map.addLayer(
+          interactiveLayers.find((i) => i.id === "state-interactive")
+        );
+      // mapRef.current
+      //   .getMap()
+      //   .addLayer(
+      //     interactiveLayers.find((i) => i.id === "county-interactive")
+      //   );
+      // based on discussion, only add state interactive layers for now
+      // setCurrentDisplayLayers(newDisplayLayers);
+    }
+  }, [searchResult, mapLoaded, srChecked]);
 
   const onHover = useCallback((event) => {
     const feat = event.features && event.features[0];
@@ -114,8 +329,6 @@ export default function MapArea(): JSX.Element {
       id: feat && feat.properties.HEROP_ID,
     });
   }, []);
-
-  const mapRef = useRef<MapRef>();
 
   const onClick = (event: MapLayerMouseEvent) => {
     const feat = event.features[0];
@@ -154,26 +367,79 @@ export default function MapArea(): JSX.Element {
     },
   };
 
-  const onLoad = () => {
-    // add all custom sources to the map
-    Object.keys(sources).forEach((id) => {
-      mapRef.current.getMap().addSource(id, sources[id]);
-    });
+  //   let testDisplayLayers = currentDisplayLayers;
+  //   // get all needed interactive layers based on current presented results's spacial resolution
+  //   searchResult.forEach((result) => {
+  //     if (result.meta["spatial_resolution"]) {
+  //       const spatial_res =
+  //         typeof result.meta["spatial_resolution"] === "string"
+  //           ? [result.meta["spatial_resolution"]]
+  //           : result.meta["spatial_resolution"];
+  //       spatial_res.forEach((sr) => {
+  //         const displayLayer = displayLayers.find(
+  //           (d) => d.source === layer_match[sr]
+  //         );
+  //         // const interactiveLayer = interactiveLayers.find(d=>d.source === layer_match[sr]);
+  //         if (displayLayer) {
+  //           testDisplayLayers = [...testDisplayLayers, displayLayer];
+  //         }
+  //       });
+  //     }
+  //   });
+  //   // remove duplicates
+  //   const uniqueIds = new Set();
+  //   const newDisplayLayers = testDisplayLayers.filter((obj) => {
+  //     // If the id is not in the Set, add it and return true to keep the object
+  //     if (!uniqueIds.has(obj.id)) {
+  //       uniqueIds.add(obj.id);
+  //       return true;
+  //     }
+  //     // If the id is in the Set, return false to filter out the duplicate object
+  //     return false;
+  //   });
 
-    // add these layers before the "Ocean labels" layer (which is already present
-    // in the default mapstyle). This allows labels to overlap the boundaries.
-    displayLayers.forEach((lyr) => {
-      const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-      mapRef.current.getMap().addLayer(lyr, addBefore);
-    });
+  //   // add all custom sources to the map
+  //   Object.keys(sources).forEach((id) => {
+  //     mapRef.current.getMap().addSource(id, sources[id]);
+  //   });
 
-    // add selectable state layer to the map (this is linked to 'interactiveLayerIds' in the Map object)
-    mapRef.current.getMap().addLayer(stateInteractive, "Ocean labels");
+  //   // when the map is load, only add state and county line layers
+  //   if (newDisplayLayers.length === 0) {
+  //     displayLayers.forEach((lyr) => {
+  //       if (lyr.id === "state-2018" || lyr.id === "county-2018")
+  //         mapRef.current.getMap().addLayer(lyr);
+  //     });
+  //   }
+
+  //   // add navigation control to the map
+  //   const testControl = new maplibregl.NavigationControl({});
+  //   mapRef.current.addControl(testControl, "top-right");
+  //   ``;
+  //   // // add these layers before the "Ocean labels" layer (which is already present
+  //   // // in the default mapstyle). This allows labels to overlap the boundaries.
+  //   // displayLayers.forEach((lyr) => {
+  //   //   const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+  //   //   mapRef.current.getMap().addLayer(lyr, addBefore);
+  //   // });
+
+  //   // add layers by a specific order. Line first then interactive
+  //   newDisplayLayers.forEach((lyr) => {
+  //     //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+  //     mapRef.current.getMap().addLayer(lyr);
+  //   });
+  //   // add selectable state layer to the map (this is linked to 'interactiveLayerIds' in the Map object)
+  //   mapRef.current
+  //     .getMap()
+  //     .addLayer(interactiveLayers.find((i) => i.id === "state-interactive"));
+  //   setCurrentDisplayLayers(newDisplayLayers);
+  // };
+  const handleMapLoad = () => {
+    setMapLoaded(true);
   };
-
   return (
     <div style={{ height: "calc(100vh - 172px" }}>
       <Map
+        id="discoveryMap"
         ref={mapRef}
         mapLib={maplibregl}
         initialViewState={{
@@ -186,11 +452,11 @@ export default function MapArea(): JSX.Element {
         mapStyle="https://api.maptiler.com/maps/dataviz/style.json?key=bnAOhGDLHGeqBRkYSg8l"
         onMouseMove={onHover}
         onClick={onClick}
-        onLoad={onLoad}
+        onLoad={handleMapLoad}
         interactiveLayerIds={["state-interactive"]}
       >
         {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
-        <Layer {...hlStateLyr} beforeId="Ocean labels" filter={filterState} />
+        {/* <Layer {...hlStateLyr} beforeId="Ocean labels" filter={filterState} /> */}
         {selectedState && (
           <Popup
             longitude={hoverInfo.longitude}
