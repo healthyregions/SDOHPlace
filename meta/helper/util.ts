@@ -10,7 +10,8 @@ export function findFirstSentence(paragraph: string): string | undefined {
   const sentenceMatch = /[A-Z][^.!?]*[.!?]/;
   const matchResult =
     typeof paragraph === "string" && paragraph.match(sentenceMatch);
-  return matchResult ? matchResult[0].trim() : undefined;
+
+  return matchResult && matchResult[0]? matchResult[0].trim() : undefined;
 }
 
 /**
