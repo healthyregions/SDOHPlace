@@ -1,4 +1,4 @@
-import countyData from './us_latlng.json';
+import countyData from './us_latlng.json'
 import stateMatch from './state_match.json';
 
 interface CountyData {

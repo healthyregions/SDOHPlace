@@ -91,19 +91,17 @@ function NavigateButton({
  * @param searchResult: SolrObject[] is the list of search result
  * @param resetStatus: boolean is the status of 'initial' or 'reset' of the map. If it is 'reset', the map will only show state and county layers
  * @param srChecked: CheckBoxObject[] is the list of spatial checkbox resolution checked by the user
- * @returns 
+ * @returns
  */
 export default function MapArea({
   searchResult,
   resetStatus,
-  srChecked
-}
-: {
+  srChecked,
+}: {
   searchResult: SolrObject[];
   resetStatus: boolean;
   srChecked: Set<CheckBoxObject>;
-}
-): JSX.Element {
+}): JSX.Element {
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
     LayerSpecification[]
   >([]);
@@ -213,41 +211,43 @@ export default function MapArea({
           if (typeof spatial_coverages === "string")
             spatial_coverages = [spatial_coverages];
           spatial_coverages.forEach((sc) => {
-            const [countyName, stateName] = sc.split(",");
-            const location = getCountyGeo(stateName, countyName);
-            let lat = location ? location.lat : 0;
-            let lon = location ? location.lng : 0;
-            const id = `pin-${lon}-${lat}`;
-            if (!map.getSource(id)) {
-              map.addSource(id, {
-                type: "geojson",
-                data: {
-                  type: "FeatureCollection",
-                  features: [
-                    {
-                      type: "Feature",
-                      geometry: {
-                        type: "Point",
-                        coordinates: [lon, lat],
+            if (sc.includes(",")) {
+              const [countyName, stateName] = sc.split(",");
+              const location = getCountyGeo(stateName, countyName);
+              let lat = location ? location.lat : 0;
+              let lon = location ? location.lng : 0;
+              const id = `pin-${lon}-${lat}`;
+              if (!map.getSource(id)) {
+                map.addSource(id, {
+                  type: "geojson",
+                  data: {
+                    type: "FeatureCollection",
+                    features: [
+                      {
+                        type: "Feature",
+                        geometry: {
+                          type: "Point",
+                          coordinates: [lon, lat],
+                        },
+                        properties: {
+                          title: "County Pin",
+                        },
                       },
-                      properties: {
-                        title: "County Pin",
-                      },
-                    },
-                  ],
-                },
-              });
-            }
-            if (!map.getLayer(id)) {
-              map.addLayer({
-                id: id,
-                type: "circle",
-                source: id,
-                paint: {
-                  "circle-radius": 5,
-                  "circle-color": "#007cbf", // future improvement: pass search result with its color code match to this component and put it here
-                },
-              });
+                    ],
+                  },
+                });
+              }
+              if (!map.getLayer(id)) {
+                map.addLayer({
+                  id: id,
+                  type: "circle",
+                  source: id,
+                  paint: {
+                    "circle-radius": 5,
+                    "circle-color": "#007cbf", // future improvement: pass search result with its color code match to this component and put it here
+                  },
+                });
+              }
             }
             // Commented out the popup for now, using interactive layers instead in the future
             //   map.on("mouseenter", id, (e) => {
@@ -295,15 +295,17 @@ export default function MapArea({
       // });
 
       // if Spatial Resolution filter is checked, only add the checked layers
-      
-        const checkedSources = Array.from(srChecked).filter((c:CheckBoxObject) => c.checked).map((c:CheckBoxObject) => c.value);
-        displayLayers
-          .filter((l) => checkedSources.includes(l.source))
-          .forEach((lyr) => {
-            //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-            if(!map.getLayer(lyr.id)) map.addLayer(lyr);
-          });
-      
+
+      const checkedSources = Array.from(srChecked)
+        .filter((c: CheckBoxObject) => c.checked)
+        .map((c: CheckBoxObject) => c.value);
+      displayLayers
+        .filter((l) => checkedSources.includes(l.source))
+        .forEach((lyr) => {
+          //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+          if (!map.getLayer(lyr.id)) map.addLayer(lyr);
+        });
+
       // Always add interactive layers as the last layers
       if (map.getLayer("state-interactive") === undefined)
         map.addLayer(
@@ -316,7 +318,6 @@ export default function MapArea({
       //   );
       // based on discussion, only add state interactive layers for now
       // setCurrentDisplayLayers(newDisplayLayers);
-
     }
   }, [searchResult, mapLoaded, srChecked]);
 
