@@ -67,17 +67,20 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 };
 const useStyles = makeStyles({
   imageContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'row'
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+    "@media (max-width: 959px)": {
+      marginLeft: "1em",
+    },
   },
   image: {
     width: "100%",
     height: "100%",
-    objectFit: 'contain',
+    objectFit: "contain",
     "@media (max-width: 959px)": {
-       width: "80%",
-       height: "80%",
+      width: "80%",
+      height: "80%",
     },
   },
   // For siebel center for design logo only because it is a large png file, not an svg
@@ -85,12 +88,12 @@ const useStyles = makeStyles({
   largeImage: {
     width: "80%",
     height: "80%",
-    objectFit: 'contain',
+    objectFit: "contain",
     "@media (max-width: 959px)": {
-       width: "60%",
-       height: "60%",
+      width: "60%",
+      height: "60%",
     },
-  }
+  },
 });
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
@@ -347,19 +350,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </Grid>
               <Grid item xs={6} sm={2}>
                 <Link
-                  href="https://spatial.uchicago.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="Center for Spatial Data Science"
-                    src={csdsLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <Link
                   href="https://www.ncsa.illinois.edu/"
                   target="_blank"
                   rel="noreferrer"
@@ -371,6 +361,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </Link>
               </Grid>
+
               <Grid item xs={6} sm={2}>
                 <Link
                   href="https://designcenter.illinois.edu/"
