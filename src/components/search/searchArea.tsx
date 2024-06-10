@@ -310,7 +310,7 @@ export default function SearchArea({
   return (
     <Grid container height={"calc(100vh - 172px)"}>
       <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
-        <Grid item xs={12} sx={{background: "aqua"}}>
+        <Grid item xs={12} sx={{background: "rgb(25, 118, 210)"}}>
             <h5>Spacial Resolution Select</h5>
             {Array.from(sRCheckboxes).map((checkbox, index) => (
               <span key={index}>
