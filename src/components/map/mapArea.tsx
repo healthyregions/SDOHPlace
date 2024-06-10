@@ -244,7 +244,7 @@ export default function MapArea({
                   source: id,
                   paint: {
                     "circle-radius": 5,
-                    "circle-color": "#007cbf", // future improvement: pass search result with its color code match to this component and put it here
+                    "circle-color": "#7E1CC4", // future improvement: pass search result with its color code match to this component and put it here
                   },
                 });
               }
