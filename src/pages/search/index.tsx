@@ -104,66 +104,66 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
           <h1 style={{ fontSize: "3em" }}>Data Discovery</h1>
         </div>
         <div className="self-center flex w-full flex-col max-md:max-w-full">
-            {isLoading ? (
-              <span>Loading...</span>
-            ) : (
-              <SearchArea
-                results={solrObjectResults}
-                isLoading={isLoading}
-                filterAttributeList={[
-                  {
-                    attribute: "index_year",
-                    displayName: "Year",
-                  },
-                  {
-                    attribute: "resource_class",
-                    displayName: "Resource Class",
-                  },
-                  {
-                    attribute: "resource_type",
-                    displayName: "Resource Type",
-                  },
-                  {
-                    attribute: "format",
-                    displayName: "Format",
-                  },
-                  {
-                    attribute: "subject",
-                    displayName: "Subject",
-                  },
-                  {
-                    attribute: "theme",
-                    displayName: "Theme",
-                  },
-                  {
-                    attribute: "creator",
-                    displayName: "Creator",
-                  },
-                  {
-                    attribute: "publisher",
-                    displayName: "Publisher",
-                  },
-                  {
-                    attribute: "provider",
-                    displayName: "Provider",
-                  },
-                  // Move the Spacial Resolution to the top as a distinct filter
-                  // {
-                  //   attribute: "spatial_resolution",
-                  //   displayName: "Spatial Resolution",
-                  // },
-                  {
-                    attribute: "methods_variables",
-                    displayName: "Methods Variables",
-                  },
-                  {
-                    attribute: "data_variables",
-                    displayName: "Data Variables",
-                  },
-                ]}
-                schema={schema}
-              />
-            )}
+          {isLoading ? (
+            <span>Loading...</span>
+          ) : (
+            <SearchArea
+              results={solrObjectResults}
+              isLoading={isLoading}
+              filterAttributeList={[
+                {
+                  attribute: "index_year",
+                  displayName: "Year",
+                },
+                {
+                  attribute: "resource_class",
+                  displayName: "Resource Class",
+                },
+                {
+                  attribute: "resource_type",
+                  displayName: "Resource Type",
+                },
+                {
+                  attribute: "format",
+                  displayName: "Format",
+                },
+                {
+                  attribute: "subject",
+                  displayName: "Subject",
+                },
+                {
+                  attribute: "theme",
+                  displayName: "Theme",
+                },
+                {
+                  attribute: "creator",
+                  displayName: "Creator",
+                },
+                {
+                  attribute: "publisher",
+                  displayName: "Publisher",
+                },
+                {
+                  attribute: "provider",
+                  displayName: "Provider",
+                },
+                // Move the Spacial Resolution to the top as a distinct filter
+                // {
+                //   attribute: "spatial_resolution",
+                //   displayName: "Spatial Resolution",
+                // },
+                {
+                  attribute: "methods_variables",
+                  displayName: "Methods Variables",
+                },
+                {
+                  attribute: "data_variables",
+                  displayName: "Data Variables",
+                },
+              ]}
+              schema={schema}
+            />
+          )}
         </div>
       </div>
     </>

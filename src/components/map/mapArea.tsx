@@ -180,10 +180,10 @@ export default function MapArea({
       });
 
       // when the map is load, only add state and county line layers
-      displayLayers.forEach((lyr) => {
-        if (lyr.id === "state-2018" || lyr.id === "county-2018")
-          map.addLayer(lyr);
-      });
+      // displayLayers.forEach((lyr) => {
+      //   if (lyr.id === "state-2018" || lyr.id === "county-2018")
+      //     map.addLayer(lyr);
+      // });
 
       // add layers by a specific order. Line first then interactive
       // if (!resetStatus) {
@@ -288,12 +288,14 @@ export default function MapArea({
         }
       });
 
-      // // add these layers before the "Ocean labels" layer (which is already present
-      // // in the default mapstyle). This allows labels to overlap the boundaries.
-      // displayLayers.forEach((lyr) => {
-      //   const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-      //   mapRef.current.getMap().addLayer(lyr, addBefore);
-      // });
+      // add these layers before the "Ocean labels" layer (which is already present
+      // in the default mapstyle). This allows labels to overlap the boundaries.
+      displayLayers.forEach((lyr) => {
+        const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+        if (lyr.id === "state-2018" || lyr.id === "county-2018") {
+          mapRef.current.getMap().addLayer(lyr, addBefore);
+        }
+      });
 
       // if Spatial Resolution filter is checked, only add the checked layers
 
@@ -303,8 +305,8 @@ export default function MapArea({
       displayLayers
         .filter((l) => checkedSources.includes(l.source))
         .forEach((lyr) => {
-          //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-          if (!map.getLayer(lyr.id)) map.addLayer(lyr);
+          const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
+          if (!map.getLayer(lyr.id)) map.addLayer(lyr, addBefore);
         });
 
       // Always add interactive layers as the last layers
@@ -457,8 +459,8 @@ export default function MapArea({
         interactiveLayerIds={["state-interactive"]}
       >
         {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
-        {/* <Layer {...hlStateLyr} beforeId="Ocean labels" filter={filterState} /> */}
-        {selectedState && (
+        <Layer {...hlStateLyr} filter={filterState} />
+        {/* {selectedState && (
           <Popup
             longitude={hoverInfo.longitude}
             latitude={hoverInfo.latitude}
@@ -467,7 +469,7 @@ export default function MapArea({
           >
             Id: {selectedState}
           </Popup>
-        )}
+        )} */}
         <NavigateButton label="[]" bounds={bounds.states} />
         <NavigateButton label="AK" bounds={bounds.alaska} />
         <NavigateButton label="HI" bounds={bounds.hawaii} />
