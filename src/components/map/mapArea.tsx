@@ -11,7 +11,11 @@ import {
   LngLatBoundsLike,
 } from "react-map-gl/maplibre";
 import maplibregl from "maplibre-gl";
-import { LayerSpecification, FilterSpecification } from "maplibre-gl";
+import {
+  LayerSpecification,
+  LineLayerSpecification,
+  FilterSpecification,
+} from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
 import layer_match from "../../../meta/_metadata/layer_match.json";
@@ -20,6 +24,7 @@ import { SolrObject } from "meta/interface/SolrObject";
 import {
   displayLayers,
   interactiveLayers,
+  LayerDef,
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
 
@@ -123,7 +128,7 @@ export default function MapArea({
   });
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
-      const map = mapRef.current.getMap() as CustomMap;
+      const map = mapRef.current.getMap();
       if (map.isStyleLoaded()) {
         // remove all sdoh layers. Current I use '-' to identify sdoh layers. We may need to discuss a better way to identify sdoh layers
         map.getStyle().layers.forEach((lyr) => {
@@ -137,7 +142,7 @@ export default function MapArea({
         // note state and county will always be added in later steps
       }
 
-      let selectDisplayLayers = new Array<LayerSpecification>();
+      let selectDisplayLayers = new Array<LayerDef>();
       // get all needed interactive layers based on current presented results's spacial resolution
       searchResult.forEach((result) => {
         if (result.meta["spatial_resolution"]) {
@@ -147,7 +152,7 @@ export default function MapArea({
               : result.meta["spatial_resolution"];
           spatial_res.forEach((sr) => {
             const displayLayer = displayLayers.find(
-              (d) => d.source === layer_match[sr]
+              (d) => d.spec.source === layer_match[sr]
             );
             if (displayLayer)
               selectDisplayLayers = [...selectDisplayLayers, displayLayer];
@@ -157,8 +162,8 @@ export default function MapArea({
       // remove duplicates
       let uniqueIds = new Set();
       const newDisplayLayers = selectDisplayLayers.filter((obj) => {
-        if (!uniqueIds.has(obj.id)) {
-          uniqueIds.add(obj.id);
+        if (!uniqueIds.has(obj.spec.id)) {
+          uniqueIds.add(obj.spec.id);
           return true;
         }
         return false;
@@ -288,12 +293,12 @@ export default function MapArea({
         }
       });
 
-      // add these layers before the "Ocean labels" layer (which is already present
-      // in the default mapstyle). This allows labels to overlap the boundaries.
       displayLayers.forEach((lyr) => {
-        const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-        if (lyr.id === "state-2018" || lyr.id === "county-2018") {
-          mapRef.current.getMap().addLayer(lyr, addBefore);
+        if (lyr.spec.id === "state-2018" && !map.getLayer(lyr.spec.id)) {
+          map.addLayer(lyr.spec, lyr.addBefore);
+        }
+        if (lyr.spec.id === "county-2018" && !map.getLayer(lyr.spec.id)) {
+          map.addLayer(lyr.spec, lyr.addBefore);
         }
       });
 
@@ -303,10 +308,9 @@ export default function MapArea({
         .filter((c: CheckBoxObject) => c.checked)
         .map((c: CheckBoxObject) => c.value);
       displayLayers
-        .filter((l) => checkedSources.includes(l.source))
+        .filter((l) => checkedSources.includes(l.spec.source))
         .forEach((lyr) => {
-          const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-          if (!map.getLayer(lyr.id)) map.addLayer(lyr, addBefore);
+          if (!map.getLayer(lyr.spec.id)) map.addLayer(lyr.spec, lyr.addBefore);
         });
 
       // Always add interactive layers as the last layers
@@ -359,7 +363,7 @@ export default function MapArea({
   );
 
   // these layers for highlighted styles on hover
-  const hlStateLyr: LayerSpecification = {
+  const hlStateLyr: LineLayerSpecification = {
     id: "state-highlighted",
     source: "state",
     "source-layer": "state-2018",
@@ -380,7 +384,7 @@ export default function MapArea({
   //           : result.meta["spatial_resolution"];
   //       spatial_res.forEach((sr) => {
   //         const displayLayer = displayLayers.find(
-  //           (d) => d.source === layer_match[sr]
+  //           (d) => d.spec.source === layer_match[sr]
   //         );
   //         // const interactiveLayer = interactiveLayers.find(d=>d.source === layer_match[sr]);
   //         if (displayLayer) {

@@ -56,10 +56,10 @@ export default function SearchArea({
   let tempSRChecboxes = new Set<CheckBoxObject>();
   // NOTE: state and county checkboxes are not there because we assume that state and county layer are always there. Remove the if statement if we want to include them
   displayLayers.forEach((layer) => {
-    if (layer.id !== "state-2018" && layer.id !== "county-2018")
+    if (layer.spec.id !== "state-2018" && layer.spec.id !== "county-2018")
       tempSRChecboxes.add({
         attribute: "special_resolution",
-        value: layer.source,
+        value: layer.spec.source,
         checked: false,
       });
   });
