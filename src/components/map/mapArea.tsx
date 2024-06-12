@@ -237,17 +237,18 @@ export default function MapArea({
                   },
                 });
               }
-              if (!map.getLayer(id)) {
-                map.addLayer({
-                  id: id,
-                  type: "circle",
-                  source: id,
-                  paint: {
-                    "circle-radius": 5,
-                    "circle-color": "#7E1CC4", // future improvement: pass search result with its color code match to this component and put it here
-                  },
-                });
-              }
+              // Hide this part because we are not using the circle for now
+              // if (!map.getLayer(id)) {
+              //   map.addLayer({
+              //     id: id,
+              //     type: "circle",
+              //     source: id,
+              //     paint: {
+              //       "circle-radius": 5,
+              //       "circle-color": "#7E1CC4", // future improvement: pass search result with its color code match to this component and put it here
+              //     },
+              //   });
+              // }
             }
             // Commented out the popup for now, using interactive layers instead in the future
             //   map.on("mouseenter", id, (e) => {
