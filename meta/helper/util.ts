@@ -11,7 +11,7 @@ export function findFirstSentence(paragraph: string): string | undefined {
   const matchResult =
     typeof paragraph === "string" && paragraph.match(sentenceMatch);
 
-  return matchResult && matchResult[0]? matchResult[0].trim() : undefined;
+  return matchResult && matchResult[0] ? matchResult[0].trim() : undefined;
 }
 
 /**
