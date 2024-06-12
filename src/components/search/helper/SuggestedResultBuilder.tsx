@@ -32,7 +32,6 @@ export default class SuggestedResultBuilder {
       if (suggestions[0].weight > 0.5) result.push(suggestions[0]["term"]);
     } else {
       suggestions.forEach((res) => {
-        // if multiple terms are suggested, use only weight = 1 term
         if (res.weight >= 1) result.push(res["term"]);
       });
     }
