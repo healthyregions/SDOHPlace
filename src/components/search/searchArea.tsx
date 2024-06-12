@@ -52,18 +52,20 @@ export default function SearchArea({
   });
   const [autocompleteKey, setAutocompleteKey] = useState(0); // force autocomplete to re-render when user clicks on clear results
   const [checkboxes, setCheckboxes] = useState([]);
-  
+
   let tempSRChecboxes = new Set<CheckBoxObject>();
   // NOTE: state and county checkboxes are not there because we assume that state and county layer are always there. Remove the if statement if we want to include them
-    displayLayers.forEach((layer) => {
-      if(layer.id !== 'state-2018' && layer.id !== 'county-2018')
+  displayLayers.forEach((layer) => {
+    if (layer.id !== "state-2018" && layer.id !== "county-2018")
       tempSRChecboxes.add({
         attribute: "special_resolution",
         value: layer.source,
         checked: false,
       });
-    });
-  const [sRCheckboxes, setSRCheckboxes] = useState(new Set<CheckBoxObject>(tempSRChecboxes)); // Special Resolution checkboxes
+  });
+  const [sRCheckboxes, setSRCheckboxes] = useState(
+    new Set<CheckBoxObject>(tempSRChecboxes)
+  ); // Special Resolution checkboxes
   const [options, setOptions] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [resetStatus, setResetStatus] = useState(true);
@@ -291,17 +293,17 @@ export default function SearchArea({
     const { value, checked } = event.target;
 
     // Create a new Set with updated checkboxes
-      const updatedSet = new Set(
-        Array.from(sRCheckboxes).map((obj) => {
-          if (obj.value === value) {
-            // Update the checkbox's checked property
-            return { ...obj, checked: checked };
-          }
-          return obj;
-        })
-      );
+    const updatedSet = new Set(
+      Array.from(sRCheckboxes).map((obj) => {
+        if (obj.value === value) {
+          // Update the checkbox's checked property
+          return { ...obj, checked: checked };
+        }
+        return obj;
+      })
+    );
     // Update the state with the new Set and log the updated state
-  setSRCheckboxes(updatedSet);
+    setSRCheckboxes(updatedSet);
 
     // Update another state (resetStatus)
     setResetStatus(!resetStatus);
@@ -310,19 +312,19 @@ export default function SearchArea({
   return (
     <Grid container height={"calc(100vh - 172px)"}>
       <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
-        <Grid item xs={12} sx={{background: "rgb(25, 118, 210)"}}>
-            <h5>Spacial Resolution Select</h5>
-            {Array.from(sRCheckboxes).map((checkbox, index) => (
-              <span key={index}>
-                <span>{checkbox.value}</span>
-                <Checkbox
-                  checked={checkbox.checked}
-                  value={checkbox.value}
-                  onChange={handleSRSelectionChange}
-                />
-              </span>
-            ))}
-          </Grid>
+        <Grid item xs={12} sx={{ background: "rgb(25, 118, 210)" }}>
+          <h5>Spacial Resolution Select</h5>
+          {Array.from(sRCheckboxes).map((checkbox, index) => (
+            <span key={index}>
+              <span>{checkbox.value}</span>
+              <Checkbox
+                checked={checkbox.checked}
+                value={checkbox.value}
+                onChange={handleSRSelectionChange}
+              />
+            </span>
+          ))}
+        </Grid>
         <Grid container className="search_box_container">
           <form id="search-form" onSubmit={handleSubmit}>
             <Grid container alignItems="center">

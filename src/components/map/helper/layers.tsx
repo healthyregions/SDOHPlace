@@ -28,7 +28,7 @@ const bgLyr: LayerSpecification = {
   "source-layer": "bg-2018",
   type: "line",
   paint: {
-    "line-color": "#770725",
+    "line-color": "#ff9c77",
     "line-width": 0.75,
   },
 };
@@ -51,7 +51,7 @@ const countyLyr: LayerSpecification = {
   type: "line",
   paint: {
     "line-color": "lightgray",
-    "line-width": 1.1,
+    "line-width": 1.5,
   },
 };
 // Make it always there
@@ -62,7 +62,7 @@ const stateLyr: LayerSpecification = {
   type: "line",
   paint: {
     "line-color": "#CCC",
-    "line-width": 1.75,
+    "line-width": 2,
   },
 };
 
@@ -83,7 +83,7 @@ const stateInteractive: LayerSpecification = {
   "source-layer": "state-2018",
   type: "fill",
   paint: {
-    "fill-opacity": 0
+    "fill-opacity": 0,
   },
 };
 const countyInteractive: LayerSpecification = {
@@ -92,7 +92,7 @@ const countyInteractive: LayerSpecification = {
   "source-layer": "county-2018",
   type: "fill",
   paint: {
-    "fill-opacity": 0
+    "fill-opacity": 0,
   },
 };
 const placeInteractive: LayerSpecification = {
@@ -101,7 +101,7 @@ const placeInteractive: LayerSpecification = {
   "source-layer": "place-2018",
   type: "fill",
   paint: {
-    "fill-opacity": 0
+    "fill-opacity": 0,
   },
 };
 const zctaInteractive: LayerSpecification = {
@@ -110,7 +110,7 @@ const zctaInteractive: LayerSpecification = {
   "source-layer": "zcta-2018",
   type: "fill",
   paint: {
-    "fill-opacity": 0
+    "fill-opacity": 0,
   },
 };
 const bgInteractive: LayerSpecification = {
@@ -119,7 +119,7 @@ const bgInteractive: LayerSpecification = {
   "source-layer": "bg-2018",
   type: "fill",
   paint: {
-    "fill-opacity": 0
+    "fill-opacity": 0,
   },
 };
 const tractInteractive: LayerSpecification = {
@@ -128,7 +128,7 @@ const tractInteractive: LayerSpecification = {
   "source-layer": "tract-2018",
   type: "fill",
   paint: {
-    "fill-opacity": 0
+    "fill-opacity": 0,
   },
 };
 
