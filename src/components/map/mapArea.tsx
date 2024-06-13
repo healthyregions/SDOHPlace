@@ -482,7 +482,7 @@ export default function MapArea({
             Id: {selectedState}
           </Popup>
         )} */}
-        <NavigateButton label="[]" bounds={bounds.states} />
+        <NavigateButton label="Con. US" bounds={bounds.states} />
         <NavigateButton label="AK" bounds={bounds.alaska} />
         <NavigateButton label="HI" bounds={bounds.hawaii} />
       </Map>
