@@ -25,6 +25,7 @@ import {
   displayLayers,
   interactiveLayers,
   LayerDef,
+  poiLayer,
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
 
@@ -71,6 +72,11 @@ function NavigateButton({
   const { current: map } = useMap();
 
   const onClick = () => {
+    if (map.getMap().getLayer(poiLayer.spec.id)) {
+      map.getMap().removeLayer(poiLayer.spec.id);
+    } else {
+      map.getMap().addLayer(poiLayer.spec, poiLayer.addBefore);
+    }
     map.fitBounds(bounds);
   };
 
@@ -132,7 +138,9 @@ export default function MapArea({
       if (map.isStyleLoaded()) {
         // remove all sdoh layers. Current I use '-' to identify sdoh layers. We may need to discuss a better way to identify sdoh layers
         map.getStyle().layers.forEach((lyr) => {
-          if (lyr.id.indexOf("-") !== -1) map.removeLayer(lyr.id);
+          if (lyr.id.indexOf("-") !== -1) {
+            map.removeLayer(lyr.id);
+          }
         });
         // remove all sdoh sources
         Object.keys(map.getStyle().sources).forEach((src) => {

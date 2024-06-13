@@ -1,14 +1,24 @@
-import { FillLayerSpecification, LineLayerSpecification } from "maplibre-gl";
+import {
+  FillLayerSpecification,
+  LineLayerSpecification,
+  CircleLayerSpecification,
+} from "maplibre-gl";
 
 // Important note: Before we used "LayerSpecification" but this was too generic
 // to pass our pre-commit hooks, after it was used as the nested spec property type
-// within the LayerDef type.
+// within the LayerDef type. Specifically, it failed because in some places the source property
+// is referenced, and on BackgroundLayerSpecification this property does not exist.
+
 // It is better to use more specific types here anyway, so prefer this use of
 // FillLayerSpecification, LineLayerSpecification etc.
 
 export type LayerDef = {
   addBefore: string | null;
-  spec: FillLayerSpecification | LineLayerSpecification | null;
+  spec:
+    | FillLayerSpecification
+    | LineLayerSpecification
+    | CircleLayerSpecification
+    | null;
 };
 
 // SR: City
@@ -66,7 +76,7 @@ const tractSpec: LineLayerSpecification = {
   "source-layer": "tract-2018",
   type: "line",
   paint: {
-    "line-color": "#0f3142",
+    "line-color": "#9490B6",
     "line-width": 1,
   },
 };
@@ -181,3 +191,22 @@ export const interactiveLayers = [
   bgInteractive,
   tractInteractive,
 ];
+
+// demo POI layer
+const poiSpec: CircleLayerSpecification = {
+  id: "pois",
+  source: "pois",
+  // "source-layer": "pois",
+  type: "circle",
+  paint: {
+    "circle-radius": 5,
+    "circle-color": "#1FBCA3",
+    "circle-stroke-color": "#000000",
+    "circle-stroke-width": 1,
+  },
+};
+
+export const poiLayer: LayerDef = {
+  addBefore: "Ocean labels",
+  spec: poiSpec,
+};
