@@ -149,7 +149,7 @@ const About: NextPage = () => {
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
+                <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   <p style={{ marginBottom: "10px" }}>
                     The SDOH & Place Project provides access to spatially
                     indexed and curated databases, specifically designed for
@@ -195,7 +195,7 @@ const About: NextPage = () => {
           <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
             <h2 className="font-fredoka">Core Team</h2>
           </div>
-          <p className="text-stone-900 text-2xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
+          <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Our team is based out of the University of Illinois at
             Urbana-Champaign via Dr. Kolak&apos;s{" "}
             <a
@@ -337,7 +337,7 @@ const About: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="text-stone-900 py-[50px] text-2xl leading-[133.333%] self-center ml-0 w-[1068px] max-w-[1068px] mb-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
+        <div className="text-stone-900 py-[50px] text-xl leading-[133.333%] self-center ml-0 w-[1068px] max-w-[1068px] mb-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
           Spring 2023 research assistants supporting Place metadata
           harmonization and other activites included Elaina Katz, Sarthak Joshi,
           Augustyn Crane, and Jorge Corral.

@@ -323,19 +323,19 @@
     "name": "Adam Cox",
     "title": "Software Engineer",
     "image": "../../images/headshot-ac.png",
-    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orlean, Louisiana ...",
+    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana ...",
     "links": {
       "LinkedIn": "https://www.linkedin.com/in/mradamcox/",
       "GitHub": "https://github.com/mradamcox"
     },
     "category": ["core"],
     "long": [
-      "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads dev-ops and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement."
+      "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads engineering and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement."
     ]
   },
   "pengyin": {
     "name": "Pengyin Shan",
-    "title": "Research Software Engineer",
+    "title": "Software Engineer",
     "image": "../../images/headshot-ps.png",
     "text": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
     "links": {
@@ -438,12 +438,12 @@
   },
   "latrice": {
     "name": "Latrice Landry",
-    "title": "",
-    "image": "../../images/missing-headshot.png",
-    "text": "",
+    "title": "Instructor",
+    "image": "../../images/headshot-ll.jpeg",
+    "text": "Latrice Landry is an instructor specializing in developing systems-based approaches to achieving equitable translation of precision medicine and precision public health at the Perelman School ...",
     "links": {},
     "category": ["fellow"],
-    "long": []
+    "long": ["Latrice Landry is an instructor specializing in developing systems-based approaches to achieving equitable translation of precision medicine and precision public health at the Perelman School of Medicine at the University of Pennsylvania. She received both her master's degree in policy and her PhD in Nutrition from Tufts University. Her doctoral research focused on the interactions between diet and genetics as determinants for dyslipidemia in African Americans in the Jackson Heart Study. In 2015, she was the Inaugural Food and Drug Administration's Genomic Medicine and Minority Health Fellow. She has also been recognized as a thought leader in minority health and precision medicine by the National Minority Quality Forum in 2017 and an AIM AHEAD Leadership Fellow for artificial intelligence and social determinants of health in 2022. She has a sincere passion for building equitable systems, eliminating racism from research and medicine, and expanding minority participation and leadership in the biomedical workforce. Understanding that the present moment requires difficult conversations, honest truth, and persistence, she is committed to science that improves health for all."]
   },
   "alex": {
     "name": "Alex Michels",
