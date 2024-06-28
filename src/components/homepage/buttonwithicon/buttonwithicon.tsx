@@ -1,8 +1,8 @@
-import type { NextPage } from "next";
-import { Button, Icon, colors } from "@mui/material";
+import { Button } from "@mui/material";
 import Image from "next/image";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
+import { makeStyles } from "@mui/styles";
 
 const fullConfig = resolveConfig(tailwindConfig);
 interface Props {
@@ -13,12 +13,36 @@ interface Props {
   onClick: any;
   disabled?: boolean;
   iconOpacity?: number;
+  width?: string;
+  justifyContent?: string;
+  borderRadius?: string;
+  endIcon?: any; // if there's end icon, then start icon and label will be left aligned and end icon will be right aligned (i.e. footer style)
 }
-
+const useStyles = makeStyles((theme) => ({
+  buttonWithEndIcon: {
+    position: "relative",
+    paddingLeft: "4rem",
+    paddingRight: "4rem",
+    "& .MuiButton-startIcon": {
+      position: "absolute",
+      left: "1.5rem",
+    },
+    "& .MuiButton-endIcon": {
+      position: "absolute",
+      right: "1.5rem",
+    },
+    "& .button-content": {
+      position: "absolute",
+      left: "4rem",
+    },
+  },
+}));
 const ButtonWithIcon = (props: Props): JSX.Element => {
+  const classes = useStyles();
   return (
     <div>
       <Button
+        className={props.endIcon ? classes.buttonWithEndIcon : ""}
         variant="contained"
         startIcon={
           <Image
@@ -30,9 +54,15 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
             }}
           />
         }
+        endIcon={
+          props.endIcon ? (
+            <Image priority src={props.endIcon} alt={props.label} style={{}} />
+          ) : null
+        }
         onClick={props.onClick}
         disabled={props.disabled}
         sx={{
+          width: props.width ? props.width : "auto ",
           height: "3rem",
           "@media (min-width: 768px)": {
             height: "3.75rem",
@@ -40,7 +70,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           "@media only screen and (max-width: 921px) and (min-width: 768px)": {
             height: "3.25rem",
           },
-          borderRadius: "6.25rem",
+          borderRadius: props.borderRadius ? props.borderRadius : "6.25rem",
           background: `${fullConfig.theme.colors[props.fillColor]}`,
           textTransform: "none",
           color: `${fullConfig.theme.colors[props.labelColor]}`,
@@ -50,6 +80,9 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           fontWeight: 700,
           lineHeight: "1.5rem",
           letterSpacing: "0.00938rem",
+          justifyContent: props.justifyContent
+            ? props.justifyContent
+            : "initial",
           "&:hover": {
             boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
             backgroundColor: `${fullConfig.theme.colors[props.fillColor]}`,
@@ -57,7 +90,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           },
         }}
       >
-        {props.label}
+        <span className="button-content">{props.label}</span>
       </Button>
     </div>
   );

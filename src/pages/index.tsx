@@ -18,6 +18,8 @@ import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
 import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
+import ncsaLogo from "@/public/logos/ncsa-logo.svg";
+import scdLogo from "@/public/logos/scd-logo.png";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
@@ -36,7 +38,8 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -62,6 +65,36 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
     },
   };
 };
+const useStyles = makeStyles({
+  imageContainer: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+    "@media (max-width: 959px)": {
+      marginLeft: "1em",
+    },
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+    "@media (max-width: 959px)": {
+      width: "80%",
+      height: "80%",
+    },
+  },
+  // For siebel center for design logo only because it is a large png file, not an svg
+  // Could update this later if the logo is updated to an svg
+  largeImage: {
+    width: "80%",
+    height: "80%",
+    objectFit: "contain",
+    "@media (max-width: 959px)": {
+      width: "60%",
+      height: "60%",
+    },
+  },
+});
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -100,7 +133,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "6",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: " ",
+      text: "", // "Discover more Social Determinants of Health" after the link is ready
+      link: "", // Add link after the link is ready
     },
   ];
 
@@ -113,7 +147,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreClick = () => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
+  const classes = useStyles();
   return (
     <>
       <Header title={null} />
@@ -175,7 +209,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
-            <p className="text-almostblack text-2xl-rfs font-normal leading-8">
+            <p className="text-almostblack text-xl font-normal leading-8">
               A{" "}
               <span className="text-frenchviolet font-bold">free platform</span>{" "}
               to discover and practice with place-based data for health equity,
@@ -237,6 +271,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 svgIcon={factor.svgIcon}
                 title={factor.title}
                 text={factor.text}
+                link={factor.link ? factor.link : ""}
               />
             ))}
           </div>
@@ -281,41 +316,66 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_2fr] text-start">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_4fr] text-start">
           <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
             Brought to you by
           </div>
-          <div className="flex flex-col md:grid md:grid-flow-col md:grid-cols-[1fr_1fr] items-center">
-            <div className="mx-auto md:my-auto w-[14.75rem] max-h-[3.25rem] max-md:w-[7.8125rem] max-md:h-[1.75rem] max-md:mb-[2rem]">
-              <Link
-                href="http://www.healthyregions.org/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image
-                  alt="Healthy Regions & Policies Lab"
-                  src={heropLightLogo}
-                />
-              </Link>
-            </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
-              <Link
-                href="https://illinois.edu/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image alt="University of Illinois" src={universityWordmark} />
-              </Link>
-            </div>
-            <div className="mx-auto md:my-auto w-[12.5625rem] h-[3.1875rem] max-md:w-[6.6875rem] max-md:h-[1.6875rem] max-md:mb-[2rem]">
-              <Link
-                href="https://spatial.uchicago.edu/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image alt="Center for Spatial Data Science" src={csdsLogo} />
-              </Link>
-            </div>
+          <div className={classes.imageContainer}>
+            <Grid container spacing={2} className="flex justify-between">
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="http://www.healthyregions.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="Healthy Regions & Policies Lab"
+                    src={heropLightLogo}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://illinois.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="University of Illinois"
+                    src={universityWordmark}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://www.ncsa.illinois.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt="National Center for Supercomputing Applications"
+                    src={ncsaLogo}
+                    className={classes.image}
+                  />
+                </Link>
+              </Grid>
+
+              <Grid item xs={6} sm={2}>
+                <Link
+                  href="https://designcenter.illinois.edu/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    className={`${classes.image} ${classes.largeImage}`}
+                    alt="Siebel Center for Design"
+                    src={scdLogo}
+                  />
+                </Link>
+              </Grid>
+            </Grid>
           </div>
         </div>
       </div>
