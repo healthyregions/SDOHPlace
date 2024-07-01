@@ -24,8 +24,9 @@ import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
 import { displayLayers } from "../map/helper/layers";
-
+import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import CheckBoxObject from "../search/interface/CheckboxObject";
+import ResultCard from "./resultCard";
 
 export default function SearchArea({
   results,
@@ -414,19 +415,43 @@ export default function SearchArea({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={9}>
-        {fetchResults.length > 0 ? (
+
+      {fetchResults.length > 0 ? (
+        <Grid item xs={9}>
+          {/* NOTE: following styled items are matching the new design and will be moved to the new iframe once we are ready */}
+
+          {/* ViewOnly's width is set to 499px, same to design as example */}
+          <Grid item id="ResultCardViewOnly" width="499px">
+            {/* Result Card's width is set to fill its container's width */}
+            <ResultCard 
+              title="CDC Social Vulnerability Index"
+              subject={["Social Vulnerability Index"]}
+              creator="Agency for Toxic Substances and Disease Registry"
+              publisher="Centers for Disease Control and Prevention"
+              index_year={["2020", "2021", "2022", "2016", "2017", "2018", "2019"]}
+              spatial_resolution={["County", "ZCTA"]}
+              resource_class={["Dataset"]}
+              icon={dataDiscoveryIcon}
+              link="https://www.cdc.gov/socialvulnerability/index.html"
+            />
+          </Grid>
+
           <MapArea
             searchResult={fetchResults}
             resetStatus={resetStatus}
             srChecked={sRCheckboxes}
           />
-        ) : isLoading ? (
+        </Grid>
+      ) : isLoading ? (
+        <Grid item xs={9}>
+          {" "}
           <h1>Loading map...</h1>
-        ) : (
+        </Grid>
+      ) : (
+        <Grid item xs={9}>
           <h1>No results.</h1>
-        )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }
