@@ -1,11 +1,14 @@
 import { makeStyles } from "@mui/styles";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 import tailwindConfig from "../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "./iconText";
+import { updateSearchParams } from "./helper/ManageURLParams";
 
 interface Props {
   title: string;
+  id: string;
   subject: string[];
   creator: string;
   publisher: string;
@@ -28,6 +31,21 @@ const useStyles = makeStyles((theme) => ({
 
 const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
+
+  const searchParams = useSearchParams();
+  const currentPath = usePathname();
+  const router = useRouter();
+
+  const handleItemDetailButton = (value) => {
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "show",
+      value,
+      "overwrite"
+    );
+  };
   return (
     <div
       className={`container mx-auto p-5 bg-lightbisque shadow-none rounded-sm overflow-hidden aspect-ratio`}
@@ -41,16 +59,15 @@ const ResultCard = (props: Props): JSX.Element => {
             labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
             labelColor={fullConfig.theme.colors["almostblack"]}
           />
-          <div className="md:mt-4 sm:mt-0 order-1 sm:order-none w-full sm:ml-auto">
-            <a
-              href={props.link}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center justify-center sm:justify-end"
+          <div className="md:mt-4 sm:mt-0 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end">
+            <button
+              onClick={() => {
+                handleItemDetailButton(props.id);
+              }}
               style={{ color: fullConfig.theme.colors["frenchviolet"] }}
             >
               View <span className="ml-1">&#8594;</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>

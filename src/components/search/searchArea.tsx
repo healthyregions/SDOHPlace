@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { SolrObject } from "meta/interface/SolrObject";
@@ -23,10 +24,11 @@ import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
-import { displayLayers } from "../map/helper/layers";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 import ResultCard from "./resultCard";
+
+import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 
 export default function SearchArea({
   results,
@@ -55,14 +57,41 @@ export default function SearchArea({
   const [checkboxes, setCheckboxes] = useState([]);
 
   let tempSRChecboxes = new Set<CheckBoxObject>();
-  // NOTE: state and county checkboxes are not there because we assume that state and county layer are always there. Remove the if statement if we want to include them
-  displayLayers.forEach((layer) => {
-    if (layer.spec.id !== "state-2018" && layer.spec.id !== "county-2018")
-      tempSRChecboxes.add({
-        attribute: "special_resolution",
-        value: layer.spec.source,
-        checked: false,
-      });
+
+  const spatialResOptions = [
+    {
+      value: "state",
+      display_name: "State",
+    },
+    {
+      value: "county",
+      display_name: "County",
+    },
+    {
+      value: "zcta",
+      display_name: "Zip Code",
+    },
+    {
+      value: "tract",
+      display_name: "Tract",
+    },
+    {
+      value: "bg",
+      display_name: "Block Group",
+    },
+    {
+      value: "place",
+      display_name: "City",
+    },
+  ];
+
+  spatialResOptions.forEach((option) => {
+    tempSRChecboxes.add({
+      attribute: "special_resolution", // not sure where this attribute property is used?
+      value: option.value,
+      checked: false,
+      displayName: option.display_name,
+    });
   });
   const [sRCheckboxes, setSRCheckboxes] = useState(
     new Set<CheckBoxObject>(tempSRChecboxes)
@@ -82,6 +111,10 @@ export default function SearchArea({
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(schema);
   let suggestResultBuilder = new SuggestedResult();
+
+  const searchParams = useSearchParams();
+  const currentPath = usePathname();
+  const router = useRouter();
 
   const handleSearch = async (value) => {
     searchQueryBuilder
@@ -293,6 +326,15 @@ export default function SearchArea({
   const handleSRSelectionChange = (event) => {
     const { value, checked } = event.target;
 
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "layers",
+      value,
+      checked ? "add" : "remove"
+    );
+
     // Create a new Set with updated checkboxes
     const updatedSet = new Set(
       Array.from(sRCheckboxes).map((obj) => {
@@ -317,7 +359,7 @@ export default function SearchArea({
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
             <span key={index}>
-              <span>{checkbox.value}</span>
+              <span>{checkbox.displayName}</span>
               <Checkbox
                 checked={checkbox.checked}
                 value={checkbox.value}
@@ -423,12 +465,21 @@ export default function SearchArea({
           {/* ViewOnly's width is set to 499px, same to design as example */}
           <Grid item id="ResultCardViewOnly" width="499px">
             {/* Result Card's width is set to fill its container's width */}
-            <ResultCard 
+            <ResultCard
+              id="social-vulnerability-index"
               title="CDC Social Vulnerability Index"
               subject={["Social Vulnerability Index"]}
               creator="Agency for Toxic Substances and Disease Registry"
               publisher="Centers for Disease Control and Prevention"
-              index_year={["2020", "2021", "2022", "2016", "2017", "2018", "2019"]}
+              index_year={[
+                "2020",
+                "2021",
+                "2022",
+                "2016",
+                "2017",
+                "2018",
+                "2019",
+              ]}
               spatial_resolution={["County", "ZCTA"]}
               resource_class={["Dataset"]}
               icon={dataDiscoveryIcon}
