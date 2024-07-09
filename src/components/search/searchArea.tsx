@@ -99,6 +99,7 @@ export default function SearchArea({
   const [options, setOptions] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [resetStatus, setResetStatus] = useState(true);
+  const [queryString, setQueryString] = useState(null);
   const constructFilter = filterAttributeList.map((filter) => {
     return {
       [filter.attribute]: {},
@@ -188,14 +189,45 @@ export default function SearchArea({
     }
   };
 
+  // parse search params and update specific reactive values only if they have changed
+  useEffect(() => {
+    const newQueryString = searchParams.get("query");
+    if (newQueryString && newQueryString != queryString) {
+      setQueryString(newQueryString);
+    }
+  }, [searchParams]);
+
+  // whenever the query string changes in the url params, run a search
+  // ultimately, handleSearch should also be called if the filters change,
+  // and it should take no inputs, as all of the inputs should be gathered
+  // at time of search from url params.
+  useEffect(() => {
+    if (queryString) {
+      searchQueryBuilder.suggestQuery(queryString);
+      handleSearch(queryString);
+    }
+  }, [queryString]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    searchQueryBuilder.suggestQuery(userInput);
-    handleSearch(userInput);
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "query",
+      userInput,
+      "overwrite"
+    );
   };
   const handleDropdownSelect = (event, value) => {
-    searchQueryBuilder.suggestQuery(value);
-    handleSearch(value);
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "query",
+      value,
+      "overwrite"
+    );
   };
   const processResults = (results, value) => {
     suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
