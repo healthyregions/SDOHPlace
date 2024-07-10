@@ -257,7 +257,9 @@ const Footer = (): JSX.Element => {
               </li>
             </ul>
           </div>
-          <div className={`${classes.marginAutoDesktopAhead} flex flex-row justify-center flex-[33.33]`}>
+          <div
+            className={`${classes.marginAutoDesktopAhead} flex flex-row justify-center flex-[33.33]`}
+          >
             <div
               className={`flex flex-col gap-[.5rem] justify-center max-w-[21.5625rem] `}
             >
@@ -272,7 +274,9 @@ const Footer = (): JSX.Element => {
                 justifyContent="space-between"
                 fillColor={"smokegray"}
                 labelColor={"salmonpink"}
-                onClick={() => {window.location.href = "/news";}}
+                onClick={() => {
+                  window.location.href = "/news";
+                }}
               ></ButtonWithIcon>
             </div>
           </div>

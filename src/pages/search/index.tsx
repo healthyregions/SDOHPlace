@@ -1,6 +1,7 @@
 "use client";
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
 import Modal from "@mui/material/Modal";
@@ -16,6 +17,7 @@ import SearchArea from "@/components/search/searchArea";
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
+import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -64,6 +66,41 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   );
   const [isLoading, setLoading] = useState(true);
 
+  // create a useState variable that will mirror our param value and
+  // can be used locally here
+  const [exampleInput, setExampleInput] = useState(null);
+
+  // these varables must be created here so they can be passed into
+  // updateSearchParams() within hooks that come later
+  const searchParams = useSearchParams();
+  const currentPath = usePathname();
+  const router = useRouter();
+
+  // handler function that pushes values from the input into a url param
+  const handleExampleInput = (value: string) => {
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "example-input",
+      value,
+      "overwrite"
+    );
+  };
+
+  // first hook to update the reactive variable, exampleInput
+  useEffect(() => {
+    const newExampleInput = searchParams.get("example-input");
+    if (newExampleInput && newExampleInput != exampleInput) {
+      setExampleInput(newExampleInput);
+    }
+  }, [searchParams, exampleInput]);
+
+  // second hook to do things with this specific param only when it is changed
+  useEffect(() => {
+    console.log("example input:", exampleInput);
+  }, [exampleInput]);
+
   useEffect(() => {
     fetch(solrUrl + "/select?q=*:*&rows=100")
       .then((res) => res.json())
@@ -95,6 +132,17 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
           <div className="self-center w-full mt-10 max-md:max-w-full">
             This could be an introductory message/splash page. Or we could
             remove it.
+          </div>
+          <div>
+            <p>
+              Here is an example of an input that is mirrored in the url params:
+            </p>
+            <input
+              style={{ color: "black" }}
+              placeholder="test"
+              onChange={(event) => handleExampleInput(event.target.value)}
+              defaultValue={searchParams.get("example-input"?.toString()) || ""}
+            />
           </div>
           <div className="bg-orange-300 w-full h-1 mt-10" />
         </Box>

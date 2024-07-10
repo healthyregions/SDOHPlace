@@ -31,9 +31,7 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
           return year.toString();
         })
     : [];
-  result.meta = {
-    
-  };
+  result.meta = {};
   result.years = new Set();
   if (rawSolrObject.dct_isVersionOf_sm)
     // child object only
