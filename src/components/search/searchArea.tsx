@@ -195,7 +195,7 @@ export default function SearchArea({
     if (newQueryString && newQueryString != queryString) {
       setQueryString(newQueryString);
     }
-  }, [searchParams]);
+  }, [searchParams, queryString]);
 
   // whenever the query string changes in the url params, run a search
   // ultimately, handleSearch should also be called if the filters change,

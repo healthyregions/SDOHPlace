@@ -420,8 +420,13 @@ export default function MapArea({
   useEffect(() => {
     const layers = searchParams.get("layers");
     const newParamLyrIds = layers ? layers.split("|") : [];
-    newParamLyrIds != paramLyrIds && setParamLyrIds(newParamLyrIds);
-  }, [searchParams, mapLoaded]);
+    if (
+      newParamLyrIds &&
+      JSON.stringify(newParamLyrIds) != JSON.stringify(paramLyrIds)
+    ) {
+      setParamLyrIds(newParamLyrIds);
+    }
+  }, [searchParams, mapLoaded, paramLyrIds]);
 
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
@@ -450,7 +455,7 @@ export default function MapArea({
         }
       });
     }
-  }, [paramLyrIds]);
+  }, [paramLyrIds, mapLoaded]);
 
   return (
     <div style={{ height: "calc(100vh - 172px" }}>

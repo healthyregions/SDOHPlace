@@ -94,7 +94,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
     if (newExampleInput && newExampleInput != exampleInput) {
       setExampleInput(newExampleInput);
     }
-  }, [searchParams]);
+  }, [searchParams, exampleInput]);
 
   // second hook to do things with this specific param only when it is changed
   useEffect(() => {
