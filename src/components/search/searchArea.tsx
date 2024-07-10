@@ -58,6 +58,10 @@ export default function SearchArea({
 
   let tempSRChecboxes = new Set<CheckBoxObject>();
 
+  const searchParams = useSearchParams();
+  const currentPath = usePathname();
+  const router = useRouter();
+
   const spatialResOptions = [
     {
       value: "state",
@@ -89,7 +93,9 @@ export default function SearchArea({
     tempSRChecboxes.add({
       attribute: "special_resolution", // not sure where this attribute property is used?
       value: option.value,
-      checked: false,
+      checked: searchParams.get("layers")
+        ? searchParams.get("layers").toString().includes(option.value)
+        : false,
       displayName: option.display_name,
     });
   });
@@ -112,10 +118,6 @@ export default function SearchArea({
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(schema);
   let suggestResultBuilder = new SuggestedResult();
-
-  const searchParams = useSearchParams();
-  const currentPath = usePathname();
-  const router = useRouter();
 
   const handleSearch = async (value) => {
     searchQueryBuilder
@@ -408,6 +410,7 @@ export default function SearchArea({
                   key={autocompleteKey}
                   freeSolo
                   options={options}
+                  defaultValue={searchParams.get("query"?.toString()) || ""}
                   onInputChange={(event, value, reason) => {
                     if (event && event.type === "change") {
                       setUserInput(value);
@@ -422,9 +425,9 @@ export default function SearchArea({
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Search input"
                       variant="outlined"
                       fullWidth
+                      placeholder="Search"
                       InputProps={{
                         ...params.InputProps,
                         endAdornment: null,
