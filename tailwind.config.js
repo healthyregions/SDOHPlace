@@ -22,6 +22,7 @@ module.exports = {
         salmonpink: "#ff9c77",
         frenchviolet: "#7e1cc4",
         lightbisque: "#ffe5c4",
+        strongorange: "#FF9C77"
       },
       spacing: {},
       fontFamily: {
@@ -40,6 +41,7 @@ module.exports = {
     },
     fontSize: {
       sm: "0.8rem",
+      s: "0.875rem",
       base: "1rem",
       "l": "1.125rem",
       xl: "1.25rem",
