@@ -6,27 +6,27 @@ import data from "./ks-parks-example.json";
 export const sources = {
   state: {
     type: "vector",
-    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/state-2018.pmtiles",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/state-2018.pmtiles",
   },
   county: {
     type: "vector",
-    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/county-2018.pmtiles",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/county-2018.pmtiles",
   },
   tract: {
     type: "vector",
-    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/tract-2018.pmtiles",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/tract-2018.pmtiles",
   },
   bg: {
     type: "vector",
-    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/bg-2018.pmtiles",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/bg-2018.pmtiles",
   },
   zcta: {
     type: "vector",
-    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/zcta-2018.pmtiles",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/zcta-2018.pmtiles",
   },
   place: {
     type: "vector",
-    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/place-2018.pmtiles",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/place-2018.pmtiles",
   },
   pois: {
     type: "geojson",
