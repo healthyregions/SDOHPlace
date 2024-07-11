@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   resultCard: {
     color: `${fullConfig.theme.colors["almostblack"]}`,
     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-    fontWeight: "400",
+    fontWeight: 400,
     fontSize: "0.875rem",
     paddingBottom: "0.5rem",
   },

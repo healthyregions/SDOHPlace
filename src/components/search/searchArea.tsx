@@ -27,6 +27,7 @@ import { displayLayers } from "../map/helper/layers";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 import ResultCard from "./resultCard";
+import DetailPanel from "./detailPanel/detailPanel";
 
 export default function SearchArea({
   results,
@@ -314,6 +315,27 @@ export default function SearchArea({
     <Grid container height={"calc(100vh - 172px)"}>
       <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
         <Grid item xs={12} sx={{ background: "#ECE6F0" }}>
+          {/* ViewOnly's width is set to 499px, same to design as example */}
+          {/* Result Card's width is set to fill its container's width */}
+          <ResultCard
+            title="CDC Social Vulnerability Index"
+            subject={["Social Vulnerability Index"]}
+            creator="Agency for Toxic Substances and Disease Registry"
+            publisher="Centers for Disease Control and Prevention"
+            index_year={[
+              "2020",
+              "2021",
+              "2022",
+              "2016",
+              "2017",
+              "2018",
+              "2019",
+            ]}
+            spatial_resolution={["County", "ZCTA"]}
+            resource_class={["Dataset"]}
+            icon={dataDiscoveryIcon}
+            link="https://www.cdc.gov/socialvulnerability/index.html"
+          />
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
             <span key={index}>
@@ -415,40 +437,28 @@ export default function SearchArea({
           </Grid>
         </Grid>
       </Grid>
-
+      <Grid item height={"100%"} xs={1}></Grid>
       {fetchResults.length > 0 ? (
-        <Grid item xs={9}>
-          {/* NOTE: following styled items are matching the new design and will be moved to the new iframe once we are ready */}
-
-          {/* ViewOnly's width is set to 499px, same to design as example */}
-          <Grid item id="ResultCardViewOnly" width="499px">
-            {/* Result Card's width is set to fill its container's width */}
-            <ResultCard 
-              title="CDC Social Vulnerability Index"
-              subject={["Social Vulnerability Index"]}
-              creator="Agency for Toxic Substances and Disease Registry"
-              publisher="Centers for Disease Control and Prevention"
-              index_year={["2020", "2021", "2022", "2016", "2017", "2018", "2019"]}
-              spatial_resolution={["County", "ZCTA"]}
-              resource_class={["Dataset"]}
-              icon={dataDiscoveryIcon}
-              link="https://www.cdc.gov/socialvulnerability/index.html"
-            />
-          </Grid>
-
-          <MapArea
+        // Using grid system, the right panel is around 8
+        <Grid item xs={8}>
+          {/* <MapArea
             searchResult={fetchResults}
             resetStatus={resetStatus}
             srChecked={sRCheckboxes}
+          /> */}
+          <DetailPanel
+            resultItem={fetchResults.find(
+              (r) => r.id === "social-vulnerability-index"
+            )}
           />
         </Grid>
       ) : isLoading ? (
-        <Grid item xs={9}>
+        <Grid item xs={7}>
           {" "}
           <h1>Loading map...</h1>
         </Grid>
       ) : (
-        <Grid item xs={9}>
+        <Grid item xs={7}>
           <h1>No results.</h1>
         </Grid>
       )}
