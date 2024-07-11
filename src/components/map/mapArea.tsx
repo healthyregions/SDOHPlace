@@ -1,6 +1,7 @@
+"use client";
 import { useEffect, useState, useCallback, useMemo, useRef, use } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-("use client");
 import {
   Map,
   MapRef,
@@ -20,12 +21,13 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
 import layer_match from "../../../meta/_metadata/layer_match.json";
 import { SolrObject } from "meta/interface/SolrObject";
-
+import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import {
   displayLayers,
   interactiveLayers,
   LayerDef,
   poiLayer,
+  layerRegistry,
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
 
@@ -123,8 +125,13 @@ export default function MapArea({
     useState<SolrObject[]>(searchResult);
   const [hoverInfo, setHoverInfo] = useState(null);
 
+  const [paramLyrIds, setParamLyrIds] = useState([]);
+
   const mapRef = useRef<MapRef>();
   const [mapLoaded, setMapLoaded] = useState(false);
+
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     let protocol = new Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
@@ -135,20 +142,6 @@ export default function MapArea({
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
       const map = mapRef.current.getMap();
-      if (map.isStyleLoaded()) {
-        // remove all sdoh layers. Current I use '-' to identify sdoh layers. We may need to discuss a better way to identify sdoh layers
-        map.getStyle().layers.forEach((lyr) => {
-          if (lyr.id.indexOf("-") !== -1) {
-            map.removeLayer(lyr.id);
-          }
-        });
-        // remove all sdoh sources
-        Object.keys(map.getStyle().sources).forEach((src) => {
-          if (["state", "county", "tract", "bg", "zcta", "place"].includes(src))
-            map.removeSource(src);
-        });
-        // note state and county will always be added in later steps
-      }
 
       let selectDisplayLayers = new Array<LayerDef>();
       // get all needed interactive layers based on current presented results's spacial resolution
@@ -301,40 +294,13 @@ export default function MapArea({
         }
       });
 
-      displayLayers.forEach((lyr) => {
-        if (lyr.spec.id === "state-2018" && !map.getLayer(lyr.spec.id)) {
-          map.addLayer(lyr.spec, lyr.addBefore);
-        }
-        if (lyr.spec.id === "county-2018" && !map.getLayer(lyr.spec.id)) {
-          map.addLayer(lyr.spec, lyr.addBefore);
-        }
-      });
-
-      // if Spatial Resolution filter is checked, only add the checked layers
-
-      const checkedSources = Array.from(srChecked)
-        .filter((c: CheckBoxObject) => c.checked)
-        .map((c: CheckBoxObject) => c.value);
-      displayLayers
-        .filter((l) => checkedSources.includes(l.spec.source))
-        .forEach((lyr) => {
-          if (!map.getLayer(lyr.spec.id)) map.addLayer(lyr.spec, lyr.addBefore);
-        });
-
       // Always add interactive layers as the last layers
       if (map.getLayer("state-interactive") === undefined)
         map.addLayer(
           interactiveLayers.find((i) => i.id === "state-interactive")
         );
-      // mapRef.current
-      //   .getMap()
-      //   .addLayer(
-      //     interactiveLayers.find((i) => i.id === "county-interactive")
-      //   );
-      // based on discussion, only add state interactive layers for now
-      // setCurrentDisplayLayers(newDisplayLayers);
     }
-  }, [searchResult, mapLoaded, srChecked]);
+  }, [searchResult, mapLoaded]);
 
   const onHover = useCallback((event) => {
     const feat = event.features && event.features[0];
@@ -448,9 +414,49 @@ export default function MapArea({
   //     .addLayer(interactiveLayers.find((i) => i.id === "state-interactive"));
   //   setCurrentDisplayLayers(newDisplayLayers);
   // };
-  const handleMapLoad = () => {
-    setMapLoaded(true);
-  };
+
+  // this effect looks at the search params, and if the layers param has changed, it sets
+  // the corresponding variable, which will trigger the effect that actually manipulates the map.
+  useEffect(() => {
+    const layers = searchParams.get("layers");
+    const newParamLyrIds = layers ? layers.split("|") : [];
+    if (
+      newParamLyrIds &&
+      JSON.stringify(newParamLyrIds) != JSON.stringify(paramLyrIds)
+    ) {
+      setParamLyrIds(newParamLyrIds);
+    }
+  }, [searchParams, mapLoaded, paramLyrIds]);
+
+  useEffect(() => {
+    if (mapRef.current && mapLoaded) {
+      const map = mapRef.current.getMap();
+      const mapLyrIds = map.getStyle().layers.map((lyr) => {
+        return lyr.id;
+      });
+
+      // add any layers that are in the params but not yet on the map
+      paramLyrIds.forEach((lyr) => {
+        if (
+          layerRegistry[lyr] &&
+          !mapLyrIds.includes(layerRegistry[lyr].spec.id)
+        ) {
+          map.addLayer(layerRegistry[lyr].spec, layerRegistry[lyr].addBefore);
+        }
+      });
+
+      // iterate layers in registry and remove if not in layers param
+      Object.keys(layerRegistry).forEach((lyr) => {
+        if (
+          mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
+          !paramLyrIds.includes(lyr)
+        ) {
+          map.removeLayer(layerRegistry[lyr].spec.id);
+        }
+      });
+    }
+  }, [paramLyrIds, mapLoaded]);
+
   return (
     <div style={{ height: "calc(100vh - 172px" }}>
       <Map
@@ -464,10 +470,10 @@ export default function MapArea({
           width: "100%",
           height: "100%",
         }}
-        mapStyle="https://api.maptiler.com/maps/dataviz/style.json?key=bnAOhGDLHGeqBRkYSg8l"
+        mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
         onMouseMove={onHover}
         onClick={onClick}
-        onLoad={handleMapLoad}
+        onLoad={() => setMapLoaded(true)}
         interactiveLayerIds={["state-interactive"]}
       >
         {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}

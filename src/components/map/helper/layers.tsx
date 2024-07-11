@@ -210,3 +210,12 @@ export const poiLayer: LayerDef = {
   addBefore: "Ocean labels",
   spec: poiSpec,
 };
+
+export const layerRegistry = {
+  state: stateLyr,
+  place: placeLyr,
+  county: countyLyr,
+  bg: bgLyr,
+  tract: tractLyr,
+  zcta: zctaLyr,
+};

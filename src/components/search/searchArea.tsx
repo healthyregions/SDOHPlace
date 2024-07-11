@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { SolrObject } from "meta/interface/SolrObject";
@@ -23,10 +24,11 @@ import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
-import { displayLayers } from "../map/helper/layers";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 import ResultCard from "./resultCard";
+
+import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 
 export default function SearchArea({
   results,
@@ -55,14 +57,47 @@ export default function SearchArea({
   const [checkboxes, setCheckboxes] = useState([]);
 
   let tempSRChecboxes = new Set<CheckBoxObject>();
-  // NOTE: state and county checkboxes are not there because we assume that state and county layer are always there. Remove the if statement if we want to include them
-  displayLayers.forEach((layer) => {
-    if (layer.spec.id !== "state-2018" && layer.spec.id !== "county-2018")
-      tempSRChecboxes.add({
-        attribute: "special_resolution",
-        value: layer.spec.source,
-        checked: false,
-      });
+
+  const searchParams = useSearchParams();
+  const currentPath = usePathname();
+  const router = useRouter();
+
+  const spatialResOptions = [
+    {
+      value: "state",
+      display_name: "State",
+    },
+    {
+      value: "county",
+      display_name: "County",
+    },
+    {
+      value: "zcta",
+      display_name: "Zip Code",
+    },
+    {
+      value: "tract",
+      display_name: "Tract",
+    },
+    {
+      value: "bg",
+      display_name: "Block Group",
+    },
+    {
+      value: "place",
+      display_name: "City",
+    },
+  ];
+
+  spatialResOptions.forEach((option) => {
+    tempSRChecboxes.add({
+      attribute: "special_resolution", // not sure where this attribute property is used?
+      value: option.value,
+      checked: searchParams.get("layers")
+        ? searchParams.get("layers").toString().includes(option.value)
+        : false,
+      displayName: option.display_name,
+    });
   });
   const [sRCheckboxes, setSRCheckboxes] = useState(
     new Set<CheckBoxObject>(tempSRChecboxes)
@@ -70,6 +105,7 @@ export default function SearchArea({
   const [options, setOptions] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [resetStatus, setResetStatus] = useState(true);
+  const [queryString, setQueryString] = useState(null);
   const constructFilter = filterAttributeList.map((filter) => {
     return {
       [filter.attribute]: {},
@@ -155,14 +191,45 @@ export default function SearchArea({
     }
   };
 
+  // parse search params and update specific reactive values only if they have changed
+  useEffect(() => {
+    const newQueryString = searchParams.get("query");
+    if (newQueryString && newQueryString != queryString) {
+      setQueryString(newQueryString);
+    }
+  }, [searchParams, queryString]);
+
+  // whenever the query string changes in the url params, run a search
+  // ultimately, handleSearch should also be called if the filters change,
+  // and it should take no inputs, as all of the inputs should be gathered
+  // at time of search from url params.
+  useEffect(() => {
+    if (queryString) {
+      searchQueryBuilder.suggestQuery(queryString);
+      handleSearch(queryString);
+    }
+  }, [queryString]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    searchQueryBuilder.suggestQuery(userInput);
-    handleSearch(userInput);
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "query",
+      userInput,
+      "overwrite"
+    );
   };
   const handleDropdownSelect = (event, value) => {
-    searchQueryBuilder.suggestQuery(value);
-    handleSearch(value);
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "query",
+      value,
+      "overwrite"
+    );
   };
   const processResults = (results, value) => {
     suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
@@ -293,6 +360,15 @@ export default function SearchArea({
   const handleSRSelectionChange = (event) => {
     const { value, checked } = event.target;
 
+    updateSearchParams(
+      router,
+      searchParams,
+      currentPath,
+      "layers",
+      value,
+      checked ? "add" : "remove"
+    );
+
     // Create a new Set with updated checkboxes
     const updatedSet = new Set(
       Array.from(sRCheckboxes).map((obj) => {
@@ -317,7 +393,7 @@ export default function SearchArea({
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
             <span key={index}>
-              <span>{checkbox.value}</span>
+              <span>{checkbox.displayName}</span>
               <Checkbox
                 checked={checkbox.checked}
                 value={checkbox.value}
@@ -334,6 +410,7 @@ export default function SearchArea({
                   key={autocompleteKey}
                   freeSolo
                   options={options}
+                  defaultValue={searchParams.get("query"?.toString()) || ""}
                   onInputChange={(event, value, reason) => {
                     if (event && event.type === "change") {
                       setUserInput(value);
@@ -348,9 +425,9 @@ export default function SearchArea({
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Search input"
                       variant="outlined"
                       fullWidth
+                      placeholder="Search"
                       InputProps={{
                         ...params.InputProps,
                         endAdornment: null,
@@ -423,12 +500,21 @@ export default function SearchArea({
           {/* ViewOnly's width is set to 499px, same to design as example */}
           <Grid item id="ResultCardViewOnly" width="499px">
             {/* Result Card's width is set to fill its container's width */}
-            <ResultCard 
+            <ResultCard
+              id="social-vulnerability-index"
               title="CDC Social Vulnerability Index"
               subject={["Social Vulnerability Index"]}
               creator="Agency for Toxic Substances and Disease Registry"
               publisher="Centers for Disease Control and Prevention"
-              index_year={["2020", "2021", "2022", "2016", "2017", "2018", "2019"]}
+              index_year={[
+                "2020",
+                "2021",
+                "2022",
+                "2016",
+                "2017",
+                "2018",
+                "2019",
+              ]}
               spatial_resolution={["County", "ZCTA"]}
               resource_class={["Dataset"]}
               icon={dataDiscoveryIcon}
