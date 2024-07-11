@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const fullConfig = resolveConfig(tailwindConfig);
 interface Props {
