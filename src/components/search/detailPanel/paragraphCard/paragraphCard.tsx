@@ -2,8 +2,8 @@ import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import IconText from "../../iconText";
 import { displayNotesIcons } from "./displayNotesIcons";
+import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
 
 interface Props {
   type: string;
@@ -22,14 +22,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.875rem",
     marginLeft: "0.25rem",
   },
-   link: {
-    color: `${fullConfig.theme.colors["frenchviolet"]}`
+  link: {
+    color: `${fullConfig.theme.colors["frenchviolet"]}`,
   },
 }));
 
 const DisplayNote = ({ title, value }) => {
   const classes = useStyles();
-
   return (
     <div className={`container`}>
       {title ? (
@@ -61,16 +60,14 @@ const UsageTip = ({ value }) => {
 
 const Link = ({ value }) => {
   const classes = useStyles();
-  const parsedValue = typeof value === 'string' ? JSON.parse(value) : value;
-  console.log(value, parsedValue);
-  if (typeof parsedValue !== 'object' || parsedValue === null) {
-    throw new Error('Invalid value: must be a JSON object or a JSON string representing an object');
-  }
-  const [key, url] = Object.entries(parsedValue)[0];
+  const [key, url] = ParseReferenceLink(value);
   return (
     <div className="container">
       <b>Link:</b>
-      <a href={String(url)} className={`${classes.paragraphCard} ${classes.link}`}>
+      <a
+        href={String(url)}
+        className={`${classes.paragraphCard} ${classes.link}`}
+      >
         {String(key)}
       </a>
     </div>

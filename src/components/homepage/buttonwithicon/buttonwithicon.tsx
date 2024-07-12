@@ -6,7 +6,7 @@ import { makeStyles } from "@mui/styles";
 
 const fullConfig = resolveConfig(tailwindConfig);
 interface Props {
-  svgIcon: any;
+  svgIcon?: any;
   label: string;
   fillColor: string;
   labelColor: string;
@@ -14,6 +14,8 @@ interface Props {
   disabled?: boolean;
   iconOpacity?: number;
   width?: string;
+  noBox?: boolean;
+  noHover?: boolean;
   justifyContent?: string;
   borderRadius?: string;
   endIcon?: any; // if there's end icon, then start icon and label will be left aligned and end icon will be right aligned (i.e. footer style)
@@ -45,14 +47,16 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
         className={props.endIcon ? classes.buttonWithEndIcon : ""}
         variant="contained"
         startIcon={
-          <Image
-            priority
-            src={props.svgIcon}
-            alt={props.label}
-            style={{
-              opacity: props.iconOpacity ? props.iconOpacity : 1,
-            }}
-          />
+          props.svgIcon ? (
+            <Image
+              priority
+              src={props.svgIcon}
+              alt={props.label}
+              style={{
+                opacity: props.iconOpacity ? props.iconOpacity : 1,
+              }}
+            />
+          ) : null
         }
         endIcon={
           props.endIcon ? (
@@ -83,8 +87,12 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           justifyContent: props.justifyContent
             ? props.justifyContent
             : "initial",
+          boxShadow: props.noBox ? "none" : "3px 3px 5px rgba(0, 0, 0, 0.3)",
+
           "&:hover": {
-            boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
+            boxShadow: props.noHover
+              ? "none"
+              : "3px 3px 5px rgba(0, 0, 0, 0.3)",
             backgroundColor: `${fullConfig.theme.colors[props.fillColor]}`,
             color: `${fullConfig.theme.colors[props.labelColor]}`,
           },

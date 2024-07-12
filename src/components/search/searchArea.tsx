@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { SolrObject } from "meta/interface/SolrObject";
@@ -24,12 +25,12 @@ import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
-import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 import ResultCard from "./resultCard";
 import DetailPanel from "./detailPanel/detailPanel";
 
 import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
+import IconMatch from "./helper/IconMatch";
 
 export default function SearchArea({
   results,
@@ -62,7 +63,6 @@ export default function SearchArea({
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-
   const spatialResOptions = [
     {
       value: "state",
@@ -286,6 +286,25 @@ export default function SearchArea({
     setCurrentFilter(generateFilterFromCurrentResults);
   }, [sRCheckboxes]);
 
+  /** Handle the switch of detail panel and map */
+  const [showMap, setShowMap] = useState(false);
+  const [showDetailPanel, setShowDetailPanel] = useState(null);
+  useEffect(() => {
+    const showMapChange = (url) => {
+      const params = new URLSearchParams(
+        new URL(url, window.location.origin).search
+      );
+      const showParam = params.get("show");
+      setShowMap(showParam && showParam !== "");
+      setShowDetailPanel(showParam);
+    };
+    showMapChange(window.location.href);
+    router.events.on("routeChangeComplete", showMapChange);
+    return () => {
+      router.events.off("routeChangeComplete", showMapChange);
+    };
+  }, [router.events]);
+
   /** Components */
   function FilterAccordion({
     key,
@@ -394,23 +413,13 @@ export default function SearchArea({
           {/* ViewOnly's width is set to 499px, same to design as example */}
           {/* Result Card's width is set to fill its container's width */}
           <ResultCard
-            title="CDC Social Vulnerability Index"
-            subject={["Social Vulnerability Index"]}
-            creator="Agency for Toxic Substances and Disease Registry"
-            publisher="Centers for Disease Control and Prevention"
-            index_year={[
-              "2020",
-              "2021",
-              "2022",
-              "2016",
-              "2017",
-              "2018",
-              "2019",
-            ]}
-            spatial_resolution={["County", "ZCTA"]}
-            resource_class={["Dataset"]}
-            icon={dataDiscoveryIcon}
-            link="https://www.cdc.gov/socialvulnerability/index.html"
+           resultItem={fetchResults.find((r) => r.id === "social-vulnerability-index")}
+          />
+          <ResultCard
+            resultItem={fetchResults.find((r) => r.id === "city-health-dashboard")}
+          />
+         <ResultCard
+            resultItem={fetchResults.find((r) => r.id === "neighborhood-atlas")}
           />
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
@@ -518,15 +527,15 @@ export default function SearchArea({
       {fetchResults.length > 0 ? (
         // Using grid system, the right panel is around 8
         <Grid item xs={8}>
-          {/* <MapArea
-            searchResult={fetchResults}
-            resetStatus={resetStatus}
-            srChecked={sRCheckboxes}
-          /> */}
+          <div style={{ display: showMap ? "none" : "block" }}>
+            <MapArea
+              searchResult={fetchResults}
+              resetStatus={resetStatus}
+              srChecked={sRCheckboxes}
+            />
+          </div>
           <DetailPanel
-            resultItem={fetchResults.find(
-              (r) => r.id === "social-vulnerability-index"
-            )}
+            resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
           />
         </Grid>
       ) : isLoading ? (

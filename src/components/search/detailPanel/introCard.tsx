@@ -22,10 +22,10 @@ const IntroCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div
-      className={`container mx-auto shadow-none overflow-hidden aspect-ratio`}
+      className={`container mx-auto shadow-none aspect-ratio`}
     >
       <div className="flex flex-col sm:flex-row border-t border-t-1 border-strongorange">
-        <div className="flex-1 w-full sm:w-2/3  sm:pl-3.5 sm:pr-6 sm:py-5">
+        <div className="flex-1 w-full sm:w-2/3  sm:pl-3.5 sm:pr-6 sm:pt-5">
           <div className={`${classes.introCard}`}>
             <b>Subject:</b> {props.resultItem.meta.subject}
           </div>
@@ -39,7 +39,7 @@ const IntroCard = (props: Props): JSX.Element => {
             <b>Provider:</b> {props.resultItem.meta.provider}
           </div>
         </div>
-        <div className="flex-1 w-full sm:w-1/3  sm:pl-6 sm:pr-2.25 sm:py-5 bg-lightbisque">
+        <div className="flex-1 w-full sm:w-1/3  sm:pl-6 sm:pr-2.25 sm:pt-5 bg-lightbisque">
           <div className={`${classes.introCard}`}>
             <b>Year:</b> {props.resultItem.index_year.join(", ")}
           </div>
