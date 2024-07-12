@@ -27,31 +27,31 @@ const IntroCard = (props: Props): JSX.Element => {
       <div className="flex flex-col sm:flex-row border-t border-t-1 border-strongorange">
         <div className="flex-1 w-full sm:w-2/3  sm:pl-3.5 sm:pr-6 sm:pt-5">
           <div className={`${classes.introCard}`}>
-            <b>Subject:</b> {props.resultItem.meta.subject}
+            <b>Subject:</b> {props.resultItem.meta.subject? props.resultItem.meta.subject: ""}
           </div>
           <div className={`${classes.introCard}`}>
-            <b>Creator:</b> {props.resultItem.creator.join(", ")}
+            <b>Creator:</b> {props.resultItem.creator? props.resultItem.creator.join(", "): ""}
           </div>
           <div className={`${classes.introCard}`}>
-            <b>Publisher:</b> {props.resultItem.meta.publisher}
+            <b>Publisher:</b> {props.resultItem.meta.publisher? props.resultItem.meta.publisher: ""}
           </div>
           <div className={`${classes.introCard}`}>
-            <b>Provider:</b> {props.resultItem.meta.provider}
+            <b>Provider:</b> {props.resultItem.meta.provider? props.resultItem.meta.provider: ""}
           </div>
         </div>
         <div className="flex-1 w-full sm:w-1/3  sm:pl-6 sm:pr-2.25 sm:pt-5 bg-lightbisque">
           <div className={`${classes.introCard}`}>
-            <b>Year:</b> {props.resultItem.index_year.join(", ")}
+            <b>Year:</b> {props.resultItem.index_year? props.resultItem.index_year.join(", "): ""}
           </div>
           <div className={`${classes.introCard}`}>
             <b>Spatial Resolution:</b>{" "}
-            {props.resultItem.meta.spatial_resolution.join(", ")}
+            {props.resultItem.meta.spatial_resolution? props.resultItem.meta.spatial_resolution.join(","): ""}
           </div>
           <div className={`${classes.introCard}`}>
-            <b>Resource:</b> {props.resultItem.resource_class.join(", ")}
+            <b>Resource:</b> {props.resultItem.resource_class? props.resultItem.resource_class.join(", "): ""}
           </div>
           <div className={`${classes.introCard}`}>
-            <b>Access:</b> {props.resultItem.meta.access_rights}
+            <b>Access:</b> {props.resultItem.meta.access_rights? props.resultItem.meta.access_rights: ""}
           </div>
         </div>
       </div>

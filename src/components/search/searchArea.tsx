@@ -412,15 +412,11 @@ export default function SearchArea({
         <Grid item xs={12} sx={{ background: "#ECE6F0" }}>
           {/* ViewOnly's width is set to 499px, same to design as example */}
           {/* Result Card's width is set to fill its container's width */}
-          <ResultCard
-           resultItem={fetchResults.find((r) => r.id === "social-vulnerability-index")}
-          />
-          <ResultCard
-            resultItem={fetchResults.find((r) => r.id === "city-health-dashboard")}
-          />
-         <ResultCard
-            resultItem={fetchResults.find((r) => r.id === "neighborhood-atlas")}
-          />
+          {
+            fetchResults.map((result) => (
+              <ResultCard key={result.id} resultItem={result} />
+            ))
+          }
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
             <span key={index}>
