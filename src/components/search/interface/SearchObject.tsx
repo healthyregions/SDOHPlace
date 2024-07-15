@@ -14,7 +14,7 @@ export interface SearchObject {
   creator?: string;
   publisher?: string;
   provider?: string;
-  spatial_solution?: string;
+  spatial_resolution?: string;
   methods_variables?: string;
   data_variables?: string;
 }

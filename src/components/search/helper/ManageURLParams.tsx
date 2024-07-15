@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 type RouterType = ReturnType<typeof useRouter>;
 
@@ -48,5 +48,5 @@ export const updateSearchParams = (
       params.delete(key);
     }
   }
-  router.replace(`${currentPath}?${params.toString()}`, { scroll: false });
+  router.replace(`${currentPath}?${params.toString()}`);
 };

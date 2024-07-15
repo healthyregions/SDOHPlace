@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { SolrObject } from "meta/interface/SolrObject";
@@ -24,11 +25,12 @@ import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
-import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 import ResultCard from "./resultCard";
+import DetailPanel from "./detailPanel/detailPanel";
 
 import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
+import IconMatch from "./helper/IconMatch";
 
 export default function SearchArea({
   results,
@@ -61,7 +63,6 @@ export default function SearchArea({
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-
   const spatialResOptions = [
     {
       value: "state",
@@ -285,6 +286,25 @@ export default function SearchArea({
     setCurrentFilter(generateFilterFromCurrentResults);
   }, [sRCheckboxes]);
 
+  /** Handle the switch of detail panel and map */
+  const [showMap, setShowMap] = useState(false);
+  const [showDetailPanel, setShowDetailPanel] = useState(null);
+  useEffect(() => {
+    const showMapChange = (url) => {
+      const params = new URLSearchParams(
+        new URL(url, window.location.origin).search
+      );
+      const showParam = params.get("show");
+      setShowMap(showParam && showParam !== "");
+      setShowDetailPanel(showParam);
+    };
+    showMapChange(window.location.href);
+    router.events.on("routeChangeComplete", showMapChange);
+    return () => {
+      router.events.off("routeChangeComplete", showMapChange);
+    };
+  }, [router.events]);
+
   /** Components */
   function FilterAccordion({
     key,
@@ -390,6 +410,13 @@ export default function SearchArea({
     <Grid container height={"calc(100vh - 172px)"}>
       <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
         <Grid item xs={12} sx={{ background: "#ECE6F0" }}>
+          {/* ViewOnly's width is set to 499px, same to design as example */}
+          {/* Result Card's width is set to fill its container's width */}
+          {
+            fetchResults.map((result) => (
+              <ResultCard key={result.id} resultItem={result} />
+            ))
+          }
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
             <span key={index}>
@@ -492,49 +519,28 @@ export default function SearchArea({
           </Grid>
         </Grid>
       </Grid>
-
+      <Grid item height={"100%"} xs={1}></Grid>
       {fetchResults.length > 0 ? (
-        <Grid item xs={9}>
-          {/* NOTE: following styled items are matching the new design and will be moved to the new iframe once we are ready */}
-
-          {/* ViewOnly's width is set to 499px, same to design as example */}
-          <Grid item id="ResultCardViewOnly" width="499px">
-            {/* Result Card's width is set to fill its container's width */}
-            <ResultCard
-              id="social-vulnerability-index"
-              title="CDC Social Vulnerability Index"
-              subject={["Social Vulnerability Index"]}
-              creator="Agency for Toxic Substances and Disease Registry"
-              publisher="Centers for Disease Control and Prevention"
-              index_year={[
-                "2020",
-                "2021",
-                "2022",
-                "2016",
-                "2017",
-                "2018",
-                "2019",
-              ]}
-              spatial_resolution={["County", "ZCTA"]}
-              resource_class={["Dataset"]}
-              icon={dataDiscoveryIcon}
-              link="https://www.cdc.gov/socialvulnerability/index.html"
+        // Using grid system, the right panel is around 8
+        <Grid item xs={8}>
+          <div style={{ display: showMap ? "none" : "block" }}>
+            <MapArea
+              searchResult={fetchResults}
+              resetStatus={resetStatus}
+              srChecked={sRCheckboxes}
             />
-          </Grid>
-
-          <MapArea
-            searchResult={fetchResults}
-            resetStatus={resetStatus}
-            srChecked={sRCheckboxes}
+          </div>
+          <DetailPanel
+            resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
           />
         </Grid>
       ) : isLoading ? (
-        <Grid item xs={9}>
+        <Grid item xs={7}>
           {" "}
           <h1>Loading map...</h1>
         </Grid>
       ) : (
-        <Grid item xs={9}>
+        <Grid item xs={7}>
           <h1>No results.</h1>
         </Grid>
       )}

@@ -1,13 +1,13 @@
 "use client";
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-
+import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import TopLines from "@/components/TopLines";
 
