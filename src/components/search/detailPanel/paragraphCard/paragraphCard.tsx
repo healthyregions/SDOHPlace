@@ -1,5 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
+import DOMPurify from "dompurify";
 import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { displayNotesIcons } from "./displayNotesIcons";
@@ -43,7 +44,10 @@ const DisplayNote = ({ title, value }) => {
         />
       )}
       <b>{title ? title : "Notes"}:</b>
-      <span className={classes.paragraphCard}>{value}</span>
+      <span
+        className={classes.paragraphCard}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
+      />
     </div>
   );
 };
@@ -53,7 +57,10 @@ const UsageTip = ({ value }) => {
   return (
     <div className={`container`}>
       &#128161; <b>Usage Tip:</b>
-      <span className={classes.paragraphCard}>{value}</span>
+      <span
+        className={classes.paragraphCard}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
+      />
     </div>
   );
 };
