@@ -117,7 +117,6 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
 
   return (
     <>
-      <Header title={"Data Discovery"} />
       <NavBar />
       <TopLines />
       <Modal
@@ -195,7 +194,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
                   attribute: "provider",
                   displayName: "Provider",
                 },
-                // Move the Spacial Resolution to the top as a distinct filter
+                // Move the Spatial Resolution to the top as a distinct filter
                 // {
                 //   attribute: "spatial_resolution",
                 //   displayName: "Spatial Resolution",

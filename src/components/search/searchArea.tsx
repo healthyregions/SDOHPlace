@@ -30,7 +30,7 @@ import ResultCard from "./resultCard";
 import DetailPanel from "./detailPanel/detailPanel";
 
 import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
-import IconMatch from "./helper/IconMatch";
+import SearchRow from "./searchArea/searchRow";
 
 export default function SearchArea({
   results,
@@ -408,15 +408,20 @@ export default function SearchArea({
 
   return (
     <Grid container height={"calc(100vh - 172px)"}>
+      <Grid item xs={12}>
+        <SearchRow
+          header={"Data Discovery"}
+          description="Our data discovery platform provides access to spatially indexed and curated databases,specifically designed for conducting health equity research."
+          schema={schema}
+        />
+      </Grid>
       <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
         <Grid item xs={12} sx={{ background: "#ECE6F0" }}>
           {/* ViewOnly's width is set to 499px, same to design as example */}
           {/* Result Card's width is set to fill its container's width */}
-          {
-            fetchResults.map((result) => (
-              <ResultCard key={result.id} resultItem={result} />
-            ))
-          }
+          {fetchResults.map((result) => (
+            <ResultCard key={result.id} resultItem={result} />
+          ))}
           <h5>Spatial Resolution</h5>
           {Array.from(sRCheckboxes).map((checkbox, index) => (
             <span key={index}>
