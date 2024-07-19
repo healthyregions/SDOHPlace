@@ -7,7 +7,6 @@ import SearchBox from "./searchBox";
 import { Box, Grid, Typography } from "@mui/material";
 
 interface Props {
-  spatial_resolution_list: {};
   header: string;
   description: string;
   schema: any;

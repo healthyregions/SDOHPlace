@@ -412,7 +412,6 @@ export default function SearchArea({
         <SearchRow
           header={"Data Discovery"}
           description="Our data discovery platform provides access to spatially indexed and curated databases,specifically designed for conducting health equity research."
-          spatial_resolution_list={["City", "Zip", "County", "Tract"]}
           schema={schema}
         />
       </Grid>
