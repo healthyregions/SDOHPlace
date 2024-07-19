@@ -6,7 +6,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "../../../../../meta/interface/SolrObject";
 import { updateSearchParams } from "../../helper/ManageURLParams";
 import Image from "next/image";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
 import ShareModal from "./shareModal";

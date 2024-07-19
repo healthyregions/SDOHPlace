@@ -21,10 +21,15 @@ module.exports = {
         black: "#000",
         salmonpink: "#ff9c77",
         frenchviolet: "#7e1cc4",
+        lightviolet: "#ECE6F0",
         lightbisque: "#ffe5c4",
-        strongorange: "#FF9C77"
+        strongorange: "#FF9C77",
       },
       spacing: {},
+      flexGrow: {
+        1: 1,
+        2: 2,
+      },
       fontFamily: {
         // sans is the default font applied by tailwind, so alias
         // it to our custom font
@@ -50,6 +55,7 @@ module.exports = {
       "4xl": "2.441rem",
       "5xl": "3.052rem",
       "6xl": "5rem",
+      4: "4rem",
       inherit: "inherit",
       "2xl-rfs": "clamp(1.125rem, 0.8vw + 0.5rem, 1.5rem)",
       "xl-rfs": "clamp(0.875rem, 0.8vw + 0.3rem, 1.125rem)",

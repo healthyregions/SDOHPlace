@@ -125,7 +125,7 @@ export default function ParentList({
             </Link>
           )}
           {selectedRecord && selectedRecord.meta["spatial_resolution"] && (
-            // test only: show spacial resolution
+            // test only: show spatial resolution
             <List>
               <ListItem>
                 Spatial Resolution: {selectedRecord.meta["spatial_resolution"]}

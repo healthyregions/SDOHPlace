@@ -144,7 +144,7 @@ export default function MapArea({
       const map = mapRef.current.getMap();
 
       let selectDisplayLayers = new Array<LayerDef>();
-      // get all needed interactive layers based on current presented results's spacial resolution
+      // get all needed interactive layers based on current presented results's spatial resolution
       searchResult.forEach((result) => {
         if (result.meta["spatial_resolution"]) {
           const spatial_res =
@@ -349,7 +349,7 @@ export default function MapArea({
   };
 
   //   let testDisplayLayers = currentDisplayLayers;
-  //   // get all needed interactive layers based on current presented results's spacial resolution
+  //   // get all needed interactive layers based on current presented results's spatial resolution
   //   searchResult.forEach((result) => {
   //     if (result.meta["spatial_resolution"]) {
   //       const spatial_res =
