@@ -6,6 +6,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "../../../../../meta/interface/SolrObject";
 import { updateSearchParams } from "../../helper/ManageURLParams";
 import Image from "next/image";
+import DOMPurify from 'dompurify';
 import { Box } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
@@ -119,7 +120,7 @@ const HeaderRow = (props: Props): JSX.Element => {
 
       {props.resultItem.description ? (
         <div className="flex flex-col sm:flex-row items-center">
-          <p className="text-base">{props.resultItem.description}</p>
+          <div className="text-base" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.resultItem.description) }} />
         </div>
       ) : null}
     </div>

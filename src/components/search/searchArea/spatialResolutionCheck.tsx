@@ -75,22 +75,15 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
     setResetStatus(!resetStatus);
   };
   return (
-    // <div style={{ minWidth: props.minWidth }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4"> 
-   <div className="flex flex-row flex-wrap justify-evenly">
+    // <div style={{ minWidth: props.minWidth }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4">
+    <div className="flex flex-row flex-wrap justify-evenly">
       {Array.from(sRCheckboxes).map((checkbox, index) => (
         <div key={index}>
           <div className="flex flex-col items-center justify-center flex-grow">
             <CustomCheckbox
-              checked={
-                checkbox.value === "county" ||
-                checkbox.value === "state" ||
-                checkbox.checked
-              }
+              checked={checkbox.checked}
               value={checkbox.value}
               onChange={handleSRSelectionChange}
-              disabled={
-                checkbox.value === "county" || checkbox.value === "state"
-              }
             />
             <div className="text-center text-l" style={{ letterSpacing: 0.5 }}>
               {checkbox.displayName}

@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
     // remove the button border and 'x' sign in the input field and other default hover settings
     "& input": {
+      fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
       "&:focus": {
         outline: "none",
         borderColor: "transparent",
