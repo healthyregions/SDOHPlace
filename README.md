@@ -27,7 +27,7 @@ Or
   - For example, make a link that looks like [sdohplace.org](https://sdohplace.org) instead of putting `https://sdohplace.org` directly in the post body
 - To add a caption under an image, put the following snippet directly into the post body underneath the image, and add your caption text within it:
     ```
-    <table class="img-caption"><caption>(insert caption text here)</caption></table>
+    <span style={{fontSize:'.8em', fontStyle:'italic'}}>Insert caption text here.</span>
     ```
 - If you need to change the slug of the post after it has been created, you will also need to manually change the file name to match the new slug.
 
