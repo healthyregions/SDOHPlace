@@ -58,6 +58,13 @@ const NavBar = (): JSX.Element => {
           </li>
           <li
             className={`navbar-title ${
+              router.pathname == "/fellows" && "navbar-title-active"
+            }`}
+          >
+            <Link href="/fellows">Fellows</Link>
+          </li>
+          <li
+            className={`navbar-title ${
               router.pathname.startsWith("/news") && "navbar-title-active"
             }`}
           >
