@@ -93,10 +93,13 @@
   color: #ededed;
 }
 
-.content caption {
+.content table.img-caption {
+  width: 100%;
+}
+
+.content table.img-caption > caption {
   font-size: 0.8em;
   font-style: italic;
-  width: 100%;
 }
 
 .content table {
