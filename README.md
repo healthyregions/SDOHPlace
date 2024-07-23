@@ -23,6 +23,14 @@ Or
 - Each post should have at least one tag.
 - Don't use `<` or `>` in the text of a post. If you need those characters, use `&lt;` (lt = "less than") and `&gt;` (gt = "greater than").
   - The reason for this is that markdown can support inclusion of HTML elements, which look like `<element-name>`. If `<>` are found outside of a valid HTML element, they will cause an error.
+- Do not include raw links directly in the post text, always make normal text, highlight, and then add a link to it.
+  - For example, make a link that looks like [sdohplace.org](https://sdohplace.org) instead of putting `https://sdohplace.org` directly in the post body
+- To add a caption under an image, put the following snippet directly into the post body underneath the image, and add your caption text within it:
+    ```
+    <table class="img-caption"><caption>(insert caption text here)</caption></table>
+    ```
+- If you need to change the slug of the post after it has been created, you will also need to manually change the file name to match the new slug.
+
 
 ## Branch Configuration
 
