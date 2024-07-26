@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { SolrObject } from "meta/interface/SolrObject";
 import {
@@ -15,28 +14,30 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useQueryState, parseAsBoolean, parseAsString } from "nuqs";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CloseIcon from "@mui/icons-material/Close";
 import { SearchObject } from "./interface/SearchObject";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
-import ParentList from "./parentList";
 import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
 import MapArea from "../map/mapArea";
-import CheckBoxObject from "../search/interface/CheckboxObject";
-import ResultCard from "./resultCard";
+import CheckBoxObject from "./interface/CheckboxObject";
 import DetailPanel from "./detailPanel/detailPanel";
-
 import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import SearchRow from "./searchArea/searchRow";
+import ResultsPanel from "./resultsPanel/resultsPanel";
+import { SearchUIConfig } from "../searchUIConfig";
+import MapPanel from "./mapPanel/mapPanel";
 
-export default function SearchArea({
+export default function DiscoveryArea({
   results,
   isLoading,
   filterAttributeList,
   schema,
+  line2Height,
 }: {
   results: SolrObject[];
   isLoading: boolean;
@@ -45,6 +46,7 @@ export default function SearchArea({
     displayName: string;
   }[];
   schema: {};
+  line2Height: number;
 }): JSX.Element {
   const [fetchResults, setFetchResults] = useState<SolrObject[]>(
     generateSolrParentList(results)
@@ -57,40 +59,12 @@ export default function SearchArea({
   });
   const [autocompleteKey, setAutocompleteKey] = useState(0); // force autocomplete to re-render when user clicks on clear results
   const [checkboxes, setCheckboxes] = useState([]);
-
   let tempSRChecboxes = new Set<CheckBoxObject>();
 
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-  const spatialResOptions = [
-    {
-      value: "state",
-      display_name: "State",
-    },
-    {
-      value: "county",
-      display_name: "County",
-    },
-    {
-      value: "zcta",
-      display_name: "Zip Code",
-    },
-    {
-      value: "tract",
-      display_name: "Tract",
-    },
-    {
-      value: "bg",
-      display_name: "Block Group",
-    },
-    {
-      value: "place",
-      display_name: "City",
-    },
-  ];
-
-  spatialResOptions.forEach((option) => {
+  SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
     tempSRChecboxes.add({
       attribute: "special_resolution", // not sure where this attribute property is used?
       value: option.value,
@@ -287,21 +261,21 @@ export default function SearchArea({
   }, [sRCheckboxes]);
 
   /** Handle the switch of detail panel and map */
-  const [showMap, setShowMap] = useState(false);
+  const [noShowMap, setNoShowMap] = useState(false);
   const [showDetailPanel, setShowDetailPanel] = useState(null);
   useEffect(() => {
-    const showMapChange = (url) => {
+    const noShowMapChange = (url) => {
       const params = new URLSearchParams(
         new URL(url, window.location.origin).search
       );
       const showParam = params.get("show");
-      setShowMap(showParam && showParam !== "");
+      setNoShowMap(showParam && showParam !== "");
       setShowDetailPanel(showParam);
     };
-    showMapChange(window.location.href);
-    router.events.on("routeChangeComplete", showMapChange);
+    noShowMapChange(window.location.href);
+    router.events.on("routeChangeComplete", noShowMapChange);
     return () => {
-      router.events.off("routeChangeComplete", showMapChange);
+      router.events.off("routeChangeComplete", noShowMapChange);
     };
   }, [router.events]);
 
@@ -406,138 +380,53 @@ export default function SearchArea({
     setResetStatus(!resetStatus);
   };
 
+  // check query status
+  const test = useQueryState("query", parseAsString.withDefault("")) 
+  const isQuery =
+    useQueryState("query", parseAsString.withDefault(""))[0].length>0;
+  useEffect(() => {
+    console.log(test, isQuery);
+  }, [isQuery]);
   return (
-    <Grid container height={"calc(100vh - 172px)"}>
+    <Grid container>
       <Grid item xs={12}>
         <SearchRow
-          header={"Data Discovery"}
-          description="Our data discovery platform provides access to spatially indexed and curated databases,specifically designed for conducting health equity research."
+          header={SearchUIConfig.search.headerRow.title}
+          description={SearchUIConfig.search.headerRow.subtitle}
           schema={schema}
+          line2Height={line2Height}
         />
       </Grid>
-      <Grid item height={"100%"} sx={{ overflow: "scroll" }} xs={3}>
-        <Grid item xs={12} sx={{ background: "#ECE6F0" }}>
-          {/* ViewOnly's width is set to 499px, same to design as example */}
-          {/* Result Card's width is set to fill its container's width */}
-          {fetchResults.map((result) => (
-            <ResultCard key={result.id} resultItem={result} />
-          ))}
-          <h5>Spatial Resolution</h5>
-          {Array.from(sRCheckboxes).map((checkbox, index) => (
-            <span key={index}>
-              <span>{checkbox.displayName}</span>
-              <Checkbox
-                checked={checkbox.checked}
-                value={checkbox.value}
-                onChange={handleSRSelectionChange}
-              />
-            </span>
-          ))}
-        </Grid>
-        <Grid container className="search_box_container">
-          <form id="search-form" onSubmit={handleSubmit}>
-            <Grid container alignItems="center">
-              <Grid item xs={9}>
-                <Autocomplete
-                  key={autocompleteKey}
-                  freeSolo
-                  options={options}
-                  defaultValue={searchParams.get("query"?.toString()) || ""}
-                  onInputChange={(event, value, reason) => {
-                    if (event && event.type === "change") {
-                      setUserInput(value);
-                      handleUserInputChange(event, value);
-                    }
-                  }}
-                  onChange={(event, value) => {
-                    setUserInput(value);
-                    handleDropdownSelect(event, value);
-                  }}
-                  sx={{ minWidth: 250 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      fullWidth
-                      placeholder="Search"
-                      InputProps={{
-                        ...params.InputProps,
-                        endAdornment: null,
-                        type: "search",
-                      }}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Search
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Grid>
-        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          {checkboxes
-            .filter((c) => c.checked === true)
-            .map((c) => filterStatusButton(c))}
-        </Box>
-        <ParentList
-          solrParents={fetchResults}
-          filterAttributeList={filterAttributeList}
-        />
-        <Divider />
-        <Grid container className="search_filter_container">
-          {checkboxes.find((c) => c.checked) !== undefined ||
-          (userInput && userInput.length > 0) ? (
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                onClick={() => {
-                  handleReset();
-                }}
-              >
-                Start Over
-              </Button>
-            </Grid>
-          ) : null}
-
-          {/* IMPORTANT: for filter name, use the key from the schema as function parameter and value */}
-          <Grid item xs={12}>
-            <h3>Filter Based on Search Result</h3>
-            {filterAttributeList.map((filter, index) => (
-              <FilterAccordion
-                key={index}
-                currentCheckboxes={checkboxes}
-                currentFilter={currentFilter}
-                attributeName={filter.attribute}
-                displayName={filter.displayName}
-              />
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item height={"100%"} xs={1}></Grid>
-      {fetchResults.length > 0 ? (
-        // Using grid system, the right panel is around 8
-        <Grid item xs={8}>
-          <div style={{ display: showMap ? "none" : "block" }}>
-            <MapArea
-              searchResult={fetchResults}
-              resetStatus={resetStatus}
-              srChecked={sRCheckboxes}
-            />
-          </div>
-          <DetailPanel
-            resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
+      {fetchResults.length > 0 && (
+        <Grid
+          item
+          className="sm:px-[2em]"
+          xs={12}
+          sm={4}
+          sx={{ marginBottom: isQuery ? "2em" : 0 }}
+        >
+          <ResultsPanel
+            resultsList={fetchResults}
+            relatedList={fetchResults}
+            isQuery={isQuery}
           />
+        </Grid>
+      )}
+      {fetchResults.length > 0 ? (
+        <Grid item xs={8} className="sm:ml-[0.5em]">
+          <Grid
+            item
+            className="sm:px-[2em]"
+            xs={12}
+            sx={{ display: noShowMap ? "none" : "block" }}
+          >
+            <MapPanel resultsList={fetchResults} />
+          </Grid>
+          <Grid sx={{ display: noShowMap ? "block" : "none" }}>
+            <DetailPanel
+              resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
+            />
+          </Grid>
         </Grid>
       ) : isLoading ? (
         <Grid item xs={7}>

@@ -1,13 +1,13 @@
 import { makeStyles } from "@mui/styles";
 import { useSearchParams, usePathname } from "next/navigation";
 import * as React from "react";
-import tailwindConfig from "../../../tailwind.config";
+import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import IconText from "./iconText";
-import { updateSearchParams } from "./helper/ManageURLParams";
+import IconText from "../iconText";
+import { updateSearchParams } from "../helper/ManageURLParams";
 import { useRouter } from "next/router";
 import { SolrObject } from "meta/interface/SolrObject";
-import IconMatch from "./helper/IconMatch";
+import IconMatch from "../helper/IconMatch";
 
 interface Props {
   resultItem: SolrObject;
@@ -44,17 +44,37 @@ const ResultCard = (props: Props): JSX.Element => {
     props.resultItem && (
       <div
         className={`container mx-auto p-5 bg-lightbisque shadow-none rounded-sm aspect-ratio`}
+        style={{
+          borderRadius:
+            searchParams.get("show") === props.resultItem.id
+              ? "4px"
+              : undefined,
+          border:
+            searchParams.get("show") === props.resultItem.id
+              ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
+              : undefined,
+          background:
+            searchParams.get("show") === props.resultItem.id
+              ? `${fullConfig.theme.colors["lightbisque"]}`
+              : undefined,
+          boxShadow:
+            searchParams.get("show") === props.resultItem.id
+              ? "0px 4px 4px 0px lightgray"
+              : undefined,
+        }}
       >
         <div className="flex flex-col sm:flex-row items-center mb-4">
           <div className="flex flex-col sm:flex-row items-center w-full">
-            <IconText
-              roundBackground={true}
-              svgIcon={IconMatch("dataDiscoveryIcon")} // this needs to be updated once we have the full match
-              label={props.resultItem.title}
-              labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
-              labelColor={fullConfig.theme.colors["almostblack"]}
-            />
-            <div className="md:mt-4 sm:mt-0 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end">
+            <div className="w-full sm:w-4/5 flex items-center">
+              <IconText
+                roundBackground={true}
+                svgIcon={IconMatch("dataDiscoveryIcon")} // this needs to be updated once we have the full match
+                label={props.resultItem.title}
+                labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
+                labelColor={fullConfig.theme.colors["almostblack"]}
+              />
+            </div>
+            <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end">
               <button
                 onClick={() => {
                   handleItemDetailButton(props.resultItem.id);

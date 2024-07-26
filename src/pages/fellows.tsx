@@ -61,7 +61,7 @@ const Advisory: NextPage = () => {
     <>
       <Header title={"Fellowship Program"} />
       <NavBar />
-      <TopLines />
+      <TopLines setLine2Height={null}/>
       <Modal
         open={open}
         onClose={handleClose}

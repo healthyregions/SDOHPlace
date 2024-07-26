@@ -77,6 +77,7 @@ const CustomPaper = (props) => {
 
 const SearchBox = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const inputRef = React.useRef(null);
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
@@ -137,6 +138,8 @@ const SearchBox = (props: Props): JSX.Element => {
         });
     } else {
       handleReset();
+      inputRef.current?.focus();
+      inputRef.current?.select();
     }
   };
   return (
@@ -162,6 +165,7 @@ const SearchBox = (props: Props): JSX.Element => {
           renderInput={(params) => (
             <TextField
               {...params}
+              inputRef={inputRef}
               variant="outlined"
               fullWidth
               placeholder="Search"
