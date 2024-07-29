@@ -34,7 +34,7 @@ export const SearchUIConfig = {
       ],
     },
     searchResults: {
-      resultListHeight: "70vh",
+      resultListHeight: "60vh",
       relatedListHeight: "40vh",
     },
     searchFilters: {

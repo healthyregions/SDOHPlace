@@ -47,9 +47,6 @@ const MapPanel = (props: Props): JSX.Element => {
       </Box>
       <Box
         height={"100%"}
-        // className={`${isLaptop ? `sm:max-h-[${props.resultListHeight}vh]` : ""} ${
-        //   isDesktop ? `md:max-h-[${props.resultListHeight + 20}vh]` : ""
-        // }`}
         sx={{
           overflowY: "scroll",
           paddingRight: "1em",

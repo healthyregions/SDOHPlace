@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
@@ -48,20 +48,25 @@ export default function DiscoveryArea({
   schema: {};
   line2Height: number;
 }): JSX.Element {
+  const searchParams = useSearchParams();
   const [fetchResults, setFetchResults] = useState<SolrObject[]>(
     generateSolrParentList(results)
   );
   const [originalResults, setOriginalResults] =
     useState<SolrObject[]>(fetchResults); // last step, probably move this to memory in the future
   const [allResults, setAllResults] = useState<SolrObject[]>(fetchResults); // the initial results
+  // Input box
   const [queryData, setQueryData] = useState<SearchObject>({
     userInput: "",
   });
-  const [autocompleteKey, setAutocompleteKey] = useState(0); // force autocomplete to re-render when user clicks on clear results
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [autocompleteKey, setAutocompleteKey] = useState(0); 
+  const initialSearchInput = searchParams.get("query")?.toString() || "";
+  const [inputValue, setInputValue] = useState<string>(initialSearchInput);
+  const [value, setValue] = useState<string | null>(initialSearchInput);
   const [checkboxes, setCheckboxes] = useState([]);
   let tempSRChecboxes = new Set<CheckBoxObject>();
-
-  const searchParams = useSearchParams();
+ 
   const currentPath = usePathname();
   const router = useRouter();
   SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
@@ -145,26 +150,26 @@ export default function DiscoveryArea({
       });
   };
 
-  const handleUserInputChange = async (event, value) => {
-    setQueryData({
-      ...queryData,
-      userInput: value,
-    });
-    if (value !== "") {
-      searchQueryBuilder.suggestQuery(value);
-      searchQueryBuilder
-        .fetchResult()
-        .then((result) => {
-          processResults(result, value);
-          setOptions(suggestResultBuilder.getTerms());
-        })
-        .catch((error) => {
-          console.error("Error fetching result:", error);
-        });
-    } else {
-      handleReset();
-    }
-  };
+  // const handleUserInputChange = async (event, value) => {
+  //   setQueryData({
+  //     ...queryData,
+  //     userInput: value,
+  //   });
+  //   if (value !== "") {
+  //     searchQueryBuilder.suggestQuery(value);
+  //     searchQueryBuilder
+  //       .fetchResult()
+  //       .then((result) => {
+  //         processResults(result, value);
+  //         setOptions(suggestResultBuilder.getTerms());
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching result:", error);
+  //       });
+  //   } else {
+  //     handleReset();
+  //   }
+  // };
 
   // parse search params and update specific reactive values only if they have changed
   useEffect(() => {
@@ -212,7 +217,7 @@ export default function DiscoveryArea({
     suggestResultBuilder.setResultTerms(JSON.stringify(results));
   };
   const handleReset = () => {
-    setAutocompleteKey(autocompleteKey + 1);
+    setAutocompleteKey((prevKey) => prevKey + 1);
     setCheckboxes([]);
     setCurrentFilter(
       generateFilter(
@@ -222,6 +227,9 @@ export default function DiscoveryArea({
       )
     );
     setFetchResults(allResults);
+    setOptions([]);
+    setValue(null);
+    setInputValue("");
     setResetStatus(true);
   };
   const handleFilter = (attr, value) => (event) => {
@@ -381,9 +389,9 @@ export default function DiscoveryArea({
   };
 
   // check query status
-  const test = useQueryState("query", parseAsString.withDefault("")) 
+  const test = useQueryState("query", parseAsString.withDefault(""));
   const isQuery =
-    useQueryState("query", parseAsString.withDefault(""))[0].length>0;
+    useQueryState("query", parseAsString.withDefault(""))[0].length > 0;
   useEffect(() => {
     console.log(test, isQuery);
   }, [isQuery]);
@@ -395,16 +403,19 @@ export default function DiscoveryArea({
           description={SearchUIConfig.search.headerRow.subtitle}
           schema={schema}
           line2Height={line2Height}
+          autocompleteKey={autocompleteKey}
+          options={options}
+          setOptions={setOptions}
+          handleReset={handleReset}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          value={value}
+          setValue={setValue}
+          inputRef={inputRef}
         />
       </Grid>
       {fetchResults.length > 0 && (
-        <Grid
-          item
-          className="sm:px-[2em]"
-          xs={12}
-          sm={4}
-          sx={{ marginBottom: isQuery ? "2em" : 0 }}
-        >
+        <Grid item className="sm:px-[2em]" xs={12} sm={4}>
           <ResultsPanel
             resultsList={fetchResults}
             relatedList={fetchResults}

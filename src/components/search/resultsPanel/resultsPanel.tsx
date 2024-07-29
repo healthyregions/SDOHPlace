@@ -26,6 +26,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
   
   return (
+    <div className="results-panel" style={{ flex: '1 1 auto', overflow: 'hidden' }}>
     <span className={`${classes.resultsPanel}`}>
       <Box>
         <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
@@ -56,7 +57,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
           maxHeight: `${
             props.isQuery
               ? SearchUIConfig.search.searchResults.resultListHeight
-              : "120vh"
+              : "100vh"
           }`,
         }}
       >
@@ -98,6 +99,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
         </div>
       </Box>
     </span>
+    </div>
   );
 };
 export default ResultsPanel;

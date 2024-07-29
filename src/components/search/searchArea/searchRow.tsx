@@ -12,6 +12,15 @@ interface Props {
   description: string;
   schema: any;
   line2Height: number;
+  autocompleteKey: number;
+  options: any[];
+  handleReset: () => void;
+  setOptions: React.Dispatch<React.SetStateAction<any[]>>;
+  inputRef: React.RefObject<HTMLInputElement>;
+  value: string | null;
+  setValue: React.Dispatch<React.SetStateAction<string | null>>;
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +52,18 @@ const SearchRow = (props: Props): JSX.Element => {
             />
           </Box>
           <Box width="100%" className="mt-[2em] sm:mt-0 sm:mb-5xl">
-            <SearchBox schema={props.schema} />
+            <SearchBox
+              schema={props.schema}
+              autocompleteKey={props.autocompleteKey}
+              options={props.options}
+              setOptions={props.setOptions}
+              handleReset={props.handleReset}
+              inputValue={props.inputValue}
+              setInputValue={props.setInputValue}
+              value={props.value}
+              setValue={props.setValue}
+              inputRef={props.inputRef}
+            />
           </Box>
         </Grid>
         <Grid
