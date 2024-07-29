@@ -201,16 +201,6 @@ export default function DiscoveryArea({
       "overwrite"
     );
   };
-  const handleDropdownSelect = (event, value) => {
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "query",
-      value,
-      "overwrite"
-    );
-  };
   const processResults = (results, value) => {
     suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
     suggestResultBuilder.setSuggestInput(value);
@@ -393,7 +383,6 @@ export default function DiscoveryArea({
   const isQuery =
     useQueryState("query", parseAsString.withDefault(""))[0].length > 0;
   useEffect(() => {
-    console.log(test, isQuery);
   }, [isQuery]);
   return (
     <Grid container>
@@ -412,6 +401,7 @@ export default function DiscoveryArea({
           value={value}
           setValue={setValue}
           inputRef={inputRef}
+          handleSearch={handleSearch}
         />
       </Grid>
       {fetchResults.length > 0 && (

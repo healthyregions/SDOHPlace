@@ -23,13 +23,27 @@ export default class SolrQueryBuilder {
   public fetchResult(): Promise<SolrObject[]> {
     return new Promise((resolve, reject) => {
       fetch(this.query.query)
-        .then((res) => res.json())
-        .then((response) => {
-          const result = this.getSearchResult(response);
-          resolve(result);
+        .then((res) => res.text())
+        .then((text) => {
+          try {
+            const jsonResponse = JSON.parse(text);
+            const result = this.getSearchResult(jsonResponse);
+            resolve(result);
+          } catch (error) {
+            // Check if the response is HTML
+            if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
+              console.warn(
+                "Received HTML response instead of JSON on the first try"
+              );
+              resolve([]);
+            } else {
+              console.error("Error performing search:", error);
+              reject(error);
+            }
+          }
         })
         .catch((error) => {
-          console.error("Error performing search:", error);
+          console.error("Error fetching data:", error);
           reject(error);
         });
     });
@@ -40,17 +54,20 @@ export default class SolrQueryBuilder {
    * @param response_json object of the response from solr
    * @returns a list of SolrObjects as the search result. If no result, return empty list.
    */
-  getSearchResult(response_json: {}): any {
+  getSearchResult(response_json: any): any {
     let result = [] as SolrObject[];
 
     //if return suggest
-    if (response_json["suggest"]) return response_json;
+    if (response_json && response_json["suggest"]) return response_json;
     //if return select
     const rawSolrObjects =
-      response_json["response"] && response_json["response"].docs
+      response_json &&
+      response_json["response"] &&
+      response_json["response"].docs
         ? response_json["response"].docs
         : [];
-    rawSolrObjects.forEach((rawSolrObject) => {
+
+    rawSolrObjects.forEach((rawSolrObject: any) => {
       result.push(initSolrObject(rawSolrObject, this.query.schema_json));
     });
     return result;

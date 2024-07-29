@@ -34,6 +34,7 @@ interface Props {
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSearch: (value) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -110,9 +111,11 @@ const SearchBox = (props: Props): JSX.Element => {
       searchParams,
       currentPath,
       "query",
-      userInput,
+      props.inputValue,
       "overwrite"
     );
+    console.log("Search for:", props.inputValue);
+    props.handleSearch(props.inputValue);
   };
   const handleDropdownSelect = (event, value) => {
     props.setInputValue(value);
@@ -133,7 +136,10 @@ const SearchBox = (props: Props): JSX.Element => {
   //   inputRef.current?.focus();
   //   inputRef.current?.select();
   // };
-  const handleUserInputChange = async (event: React.ChangeEvent<{}>, newInputValue: string) => {
+  const handleUserInputChange = async (
+    event: React.ChangeEvent<{}>,
+    newInputValue: string
+  ) => {
     props.setInputValue(newInputValue);
     setQueryData({
       ...queryData,
@@ -166,7 +172,7 @@ const SearchBox = (props: Props): JSX.Element => {
           PaperComponent={CustomPaper}
           key={props.autocompleteKey}
           freeSolo
-          options={props.options }
+          options={props.options}
           value={props.value || ""}
           inputValue={props.inputValue || ""}
           onInputChange={(event, value, reason) => {

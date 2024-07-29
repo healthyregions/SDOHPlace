@@ -21,6 +21,7 @@ interface Props {
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSearch: (value) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +64,7 @@ const SearchRow = (props: Props): JSX.Element => {
               value={props.value}
               setValue={props.setValue}
               inputRef={props.inputRef}
+              handleSearch={props.handleSearch}
             />
           </Box>
         </Grid>
