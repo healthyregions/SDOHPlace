@@ -23,7 +23,6 @@ import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrParentList } from "meta/helper/solrObjects";
 import FilterObject from "./interface/FilterObject";
 import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
-import MapArea from "../map/mapArea";
 import CheckBoxObject from "./interface/CheckboxObject";
 import DetailPanel from "./detailPanel/detailPanel";
 import { updateSearchParams } from "@/components/search/helper/ManageURLParams";

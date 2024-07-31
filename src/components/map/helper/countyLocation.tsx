@@ -26,6 +26,9 @@ export default function getCountyGeo(
 ): CountyData | null {
   const stateAbbr: string | undefined = stateMatch[state.trim().toLowerCase()];
   const stateData: CountyDataJson = countyData;
+  if (!stateData[stateAbbr]) {
+    return null;
+  }
   if (stateData[stateAbbr].counties.hasOwnProperty(county.trim())) {
     return stateData[stateAbbr].counties[county];
   }

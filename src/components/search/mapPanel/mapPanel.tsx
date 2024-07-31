@@ -53,11 +53,9 @@ const MapPanel = (props: Props): JSX.Element => {
           height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
         }}
       >
-        {props.resultsList.map((result) => (
-          <div key={result.id} className="mb-[0.75em]">
-            <MapArea searchResult={props.resultsList} />
-          </div>
-        ))}
+        <div className="mb-[0.75em]">
+          <MapArea searchResult={props.resultsList} />
+        </div>
       </Box>
       <Box className="sm:my-[1.68em]">
         <div className="sm:mb-[1.5em] sm:flex-col">
