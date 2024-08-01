@@ -69,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
     fontColor: `${fullConfig.theme.colors["smokegray"]}`,
     fontSize: "0.875em",
     marginTop: "0.1em",
-    width: "60%",
-    transform: "translateX(10%)",
+    width: "80%",
+    transform: "translateX(5%)",
   },
 }));
 const CustomPopper = (props) => {
@@ -165,7 +165,7 @@ const SearchBox = (props: Props): JSX.Element => {
     }
   };
   return (
-    <div className={`sm:mt-6 sm:mb-12 sm:ml-[2em]`}>
+    <div className={`sm:mt-6 sm:ml-[2em]`}>
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
           PopperComponent={CustomPopper}
@@ -223,7 +223,7 @@ const SearchBox = (props: Props): JSX.Element => {
                         href="#" // This needs to be updated after decide the advanced search page
                         className={`text-frenchviolet no-underline ${classes.searchBox}`}
                       >
-                        Advanced
+                        Help
                       </a>
                     </Box>
                     <InputAdornment position="end">

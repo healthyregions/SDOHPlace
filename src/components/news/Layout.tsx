@@ -18,7 +18,7 @@ export default function Layout({ children }: Props) {
         <meta name="theme-color" content="#fff" />
       </Head>
       <NavBar />
-      <TopLines setLine2Height={null}/>
+      <TopLines />
       <div className="flex flex-col py-[5rem]">
         <div className="self-center flex w-full max-w-[1068px] flex-col max-md:max-w-full mt-[100px]">
           <h1 className="font-fredoka mb-5 px-5">Project News</h1>

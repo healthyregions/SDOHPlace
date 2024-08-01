@@ -15,10 +15,7 @@ export const SearchUIConfig = {
           value: "county",
           display_name: "County",
         },
-        {
-          value: "zcta",
-          display_name: "Zip Code",
-        },
+
         {
           value: "tract",
           display_name: "Tract",
@@ -30,6 +27,10 @@ export const SearchUIConfig = {
         {
           value: "place",
           display_name: "City",
+        },
+        {
+          value: "zcta",
+          display_name: "Zip",
         },
       ],
     },

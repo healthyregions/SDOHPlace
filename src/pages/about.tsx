@@ -65,7 +65,7 @@ const About: NextPage = () => {
     <>
       <Header title={"About"} />
       <NavBar />
-      <TopLines setLine2Height={null}/>
+      <TopLines />
       <Modal
         open={open}
         onClose={handleClose}

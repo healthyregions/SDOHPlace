@@ -36,7 +36,6 @@ export default function DiscoveryArea({
   isLoading,
   filterAttributeList,
   schema,
-  line2Height,
 }: {
   results: SolrObject[];
   isLoading: boolean;
@@ -45,7 +44,6 @@ export default function DiscoveryArea({
     displayName: string;
   }[];
   schema: {};
-  line2Height: number;
 }): JSX.Element {
   const searchParams = useSearchParams();
   const [fetchResults, setFetchResults] = useState<SolrObject[]>(
@@ -390,7 +388,6 @@ export default function DiscoveryArea({
           header={SearchUIConfig.search.headerRow.title}
           description={SearchUIConfig.search.headerRow.subtitle}
           schema={schema}
-          line2Height={line2Height}
           autocompleteKey={autocompleteKey}
           options={options}
           setOptions={setOptions}

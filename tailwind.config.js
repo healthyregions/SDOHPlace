@@ -10,6 +10,12 @@ module.exports = {
   plugins: [forms, typography],
   theme: {
     extend: {
+      screens: {
+        'l': '1440px',
+        'xl': '1680px',
+        '2xl': '1920px',
+        '3xl': '2560px',
+      },
       colors: {
         white: "#fff",
         // lightgray used to be called ms_on_surface (a mui holdover)

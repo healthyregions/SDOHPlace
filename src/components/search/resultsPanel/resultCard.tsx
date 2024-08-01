@@ -63,7 +63,7 @@ const ResultCard = (props: Props): JSX.Element => {
               : undefined,
         }}
       >
-        <div className="flex flex-col sm:flex-row items-center mb-4">
+        <div className="flex flex-col sm:flex-row items-center mb-2">
           <div className="flex flex-col sm:flex-row items-center w-full">
             <div className="w-full sm:w-4/5 flex items-center">
               <IconText
@@ -86,21 +86,21 @@ const ResultCard = (props: Props): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col sm:flex-row sm:mt-4">
           <div className="flex-1 w-full sm:w-1/2">
-            <div className={`${classes.resultCard} truncate mb-1 md:mb-4 `}>
+            <div className={`${classes.resultCard} truncate `}>
               Subject:{" "}
               {props.resultItem.meta.subject
                 ? props.resultItem.meta.subject[0]
                 : ""}
             </div>
-            <div className={`${classes.resultCard} truncate mb-1 md:mb-4`}>
+            <div className={`${classes.resultCard} truncate `}>
               Creator:{" "}
               {props.resultItem.creator
                 ? props.resultItem.creator.join(", ")
                 : ""}
             </div>
-            <div className={`${classes.resultCard} truncate mb-1 md:mb-0`}>
+            <div className={`${classes.resultCard} truncate `}>
               Publisher:{" "}
               {props.resultItem.meta.publisher
                 ? props.resultItem.meta.publisher[0]
@@ -108,13 +108,13 @@ const ResultCard = (props: Props): JSX.Element => {
             </div>
           </div>
           <div className="flex-1 w-full sm:w-1/2 sm:pl-8">
-            <div className={`${classes.resultCard} truncate mb-1 md:mb-4`}>
+            <div className={`${classes.resultCard} truncate `}>
               Year:{" "}
               {props.resultItem.index_year
                 ? props.resultItem.index_year.join(", ")
                 : ""}
             </div>
-            <div className={`${classes.resultCard} truncate mb-1 md:mb-4`}>
+            <div className={`${classes.resultCard} truncate `}>
               Spatial Res:{" "}
               {props.resultItem.meta.spatial_resolution
                 ? props.resultItem.meta.spatial_resolution.join(", ")

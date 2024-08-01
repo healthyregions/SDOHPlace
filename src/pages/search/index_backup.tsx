@@ -116,7 +116,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   return (
     <>
       <NavBar />
-      <TopLines setLine2Height={null}/>
+      <TopLines />
       <Modal
         open={open}
         onClose={handleClose}
@@ -153,7 +153,6 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
             <span>Loading...</span>
           ) : (
             <DiscoveryArea
-              line2Height={null}
               results={solrObjectResults}
               isLoading={isLoading}
               filterAttributeList={[

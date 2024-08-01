@@ -6,7 +6,6 @@ import NavBar from "@/components/NavBar";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import TopLines from "@/components/TopLines";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -17,6 +16,7 @@ import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import Footer from "@/components/homepage/footer";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import DiscoveryArea from "@/components/search/discoveryArea";
+import SearchTopLines from "@/components/search/SearchTopLines";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -57,7 +57,6 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [line2Height, setLine2Height] = useState(0);
   const [data, setData] = useState(null);
   const [allResults, setAllResults] = useState([]);
   const [solrObjectResults, setSolrObjectResults] = useState(
@@ -117,7 +116,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   return (
     <>
       <NavBar />
-      <TopLines setLine2Height={setLine2Height}/>
+      <SearchTopLines />
       <div className="flex flex-col">
         <div className="self-center flex w-full flex-col max-md:max-w-full">
           {isLoading ? (
@@ -128,7 +127,6 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
               isLoading={isLoading}
               filterAttributeList={SearchUIConfig.search.searchFilters.filters}
               schema={schema}
-              line2Height={line2Height}
             />
           )}
         </div>

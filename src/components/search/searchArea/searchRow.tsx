@@ -11,7 +11,6 @@ interface Props {
   header: string;
   description: string;
   schema: any;
-  line2Height: number;
   autocompleteKey: number;
   options: any[];
   handleReset: () => void;
@@ -33,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
 const SearchRow = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
+    // The mt for top nav is 8, therefore set the row mt to 32
     <Box
-      className="w-full max-md:max-w-full shadow-none aspect-ratio bg-lightviolet"
-      sx={{ marginTop: `${props.line2Height + 10}px` }} // to eliminate the minor overlap
+      className="w-full mt-8 sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet"
     >
       <Grid container className="sm:mb-7">
         <Grid
@@ -45,14 +44,34 @@ const SearchRow = (props: Props): JSX.Element => {
           display="flex"
           flexDirection="column"
           alignItems="center"
-          className="py-[2em] px-[2em] sm:pt-[3em] sm:pl-[2em]"
+          className="pt-[2em] px-[2em]"
+        >
+          <Box display="flex" flexDirection="column" width="100%">
+            <div className="text-[3em] sm:text-[3.5em] xl:text-[4em] text-center sm:text-left">
+              {props.header}
+            </div>
+            <div className={`text-s text-center sm:text-left sm:mt-[1em]`}>
+              {props.description}
+            </div>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          display="flex"
+          flexDirection="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          order={{ xs: 1, sm: 0 }}
+          className={`pt-[2.1825em] pb-[2.875em] sm:pl-[4em] ${classes.searchRow}`}
         >
           <Box width="100%">
             <SpatialResolutionCheck
               src={SearchUIConfig.search.searchBox.spatialResOptions}
             />
           </Box>
-          <Box width="100%" className="mt-[2em] sm:mt-0 sm:mb-5xl">
+          <Box width="100%" className="mt-[2em] sm:mt-0 3xl:max-w-[1203px] pr-[1em] md:pr-[3.375em]">
             <SearchBox
               schema={props.schema}
               autocompleteKey={props.autocompleteKey}
@@ -66,26 +85,6 @@ const SearchRow = (props: Props): JSX.Element => {
               inputRef={props.inputRef}
               handleSearch={props.handleSearch}
             />
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          display="flex"
-          flexDirection="column"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-          order={{ xs: 1, sm: 0 }}
-          className={`py-[1em] pb-[2em] sm:pt-[3em] sm:pl-[4em] ${classes.searchRow}`}
-        >
-          <Box display="flex" flexDirection="column" width="100%">
-            <div className="text-4xl sm:text-[4em] text-center sm:text-left mb-auto">
-              {props.header}
-            </div>
-            <div className={`text-s lg:pr-[20em] text-center sm:text-left`}>
-              {props.description}
-            </div>
           </Box>
         </Grid>
       </Grid>
