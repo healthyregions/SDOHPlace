@@ -64,7 +64,7 @@ const SearchRow = (props: Props): JSX.Element => {
           justifyContent="flex-start"
           alignItems="flex-start"
           order={{ xs: 1, sm: 0 }}
-          className={`pt-[2.1825em] pb-[2.875em] sm:pl-[4em] ${classes.searchRow}`}
+          className={`pt-[2.1825em] pb-[2.875em] ${classes.searchRow}`}
         >
           <Box width="100%">
             <SpatialResolutionCheck
