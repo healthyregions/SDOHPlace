@@ -25,6 +25,16 @@ import SuggestedResult from "../helper/SuggestedResultBuilder";
 
 interface Props {
   schema: any;
+  autocompleteKey: number;
+  options: any[];
+  setOptions: React.Dispatch<React.SetStateAction<any[]>>;
+  handleReset: () => void;
+  inputRef: React.RefObject<HTMLInputElement>;
+  value: string | null;
+  setValue: React.Dispatch<React.SetStateAction<string | null>>;
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSearch: (value) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -59,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
     fontColor: `${fullConfig.theme.colors["smokegray"]}`,
     fontSize: "0.875em",
     marginTop: "0.1em",
-    width: "60%",
-    transform: "translateX(10%)",
+    width: "80%",
+    transform: "translateX(5%)",
   },
 }));
 const CustomPopper = (props) => {
@@ -80,9 +90,9 @@ const SearchBox = (props: Props): JSX.Element => {
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-  const [autocompleteKey, setAutocompleteKey] = React.useState(0);
+  // const [autocompleteKey, setAutocompleteKey] = React.useState(0);
   const [userInput, setUserInput] = React.useState("");
-  const [options, setOptions] = React.useState([]);
+  // const [options, setOptions] = React.useState([]);
   const [queryData, setQueryData] = React.useState<SearchObject>({
     userInput: "",
   });
@@ -101,11 +111,14 @@ const SearchBox = (props: Props): JSX.Element => {
       searchParams,
       currentPath,
       "query",
-      userInput,
+      props.inputValue,
       "overwrite"
     );
+    console.log("Search for:", props.inputValue);
+    props.handleSearch(props.inputValue);
   };
   const handleDropdownSelect = (event, value) => {
+    props.setInputValue(value);
     updateSearchParams(
       router,
       searchParams,
@@ -116,52 +129,68 @@ const SearchBox = (props: Props): JSX.Element => {
     );
   };
   // This needs to be updated after switching to the new method
-  const handleReset = () => {
-    setAutocompleteKey(autocompleteKey + 1);
-  };
-  const handleUserInputChange = async (event, value) => {
+  // const handleReset = () => {
+  //   setAutocompleteKey(autocompleteKey + 1);
+  //   setOptions([]);
+  //   setUserInput("");
+  //   inputRef.current?.focus();
+  //   inputRef.current?.select();
+  // };
+  const handleUserInputChange = async (
+    event: React.ChangeEvent<{}>,
+    newInputValue: string
+  ) => {
+    props.setInputValue(newInputValue);
     setQueryData({
       ...queryData,
-      userInput: value,
+      userInput: newInputValue,
     });
-    if (value !== "") {
-      searchQueryBuilder.suggestQuery(value);
+    if (newInputValue !== "") {
+      searchQueryBuilder.suggestQuery(newInputValue);
       searchQueryBuilder
         .fetchResult()
         .then((result) => {
-          processResults(result, value);
-          setOptions(suggestResultBuilder.getTerms());
+          processResults(result, newInputValue);
+          props.setOptions(suggestResultBuilder.getTerms());
         })
         .catch((error) => {
           console.error("Error fetching result:", error);
         });
     } else {
-      handleReset();
+      setUserInput("");
+      props.setInputValue("");
+      props.inputRef.current?.focus();
+      props.inputRef.current?.select();
+      props.handleReset();
     }
   };
   return (
-    <div className={`sm:mt-6 sm:mb-12 sm:ml-[2em]`}>
+    <div className={`sm:mt-6 sm:ml-[3em] sm:mr-[2em]`}>
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
           PopperComponent={CustomPopper}
           PaperComponent={CustomPaper}
-          key={autocompleteKey}
+          key={props.autocompleteKey}
           freeSolo
-          options={options}
-          defaultValue={searchParams.get("query")?.toString() || ""}
+          options={props.options}
+          value={props.value || ""}
+          inputValue={props.inputValue || ""}
           onInputChange={(event, value, reason) => {
             if (event && event.type === "change") {
-              setUserInput(value);
+              //setUserInput(value);
+              // props.setInputValue(value);
               handleUserInputChange(event, value);
             }
           }}
           onChange={(event, value) => {
-            setUserInput(value);
+            //setUserInput(value);
+            // props.setValue(value);
             handleDropdownSelect(event, value);
           }}
           renderInput={(params) => (
             <TextField
               {...params}
+              inputRef={props.inputRef}
               variant="outlined"
               fullWidth
               placeholder="Search"
@@ -194,7 +223,7 @@ const SearchBox = (props: Props): JSX.Element => {
                         href="#" // This needs to be updated after decide the advanced search page
                         className={`text-frenchviolet no-underline ${classes.searchBox}`}
                       >
-                        Advanced
+                        Help
                       </a>
                     </Box>
                     <InputAdornment position="end">

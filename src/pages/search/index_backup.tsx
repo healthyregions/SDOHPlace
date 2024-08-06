@@ -4,19 +4,18 @@ import { GetStaticProps } from "next";
 import { usePathname, useSearchParams } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import TopLines from "@/components/TopLines";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
 import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
-import Footer from "@/components/homepage/footer";
-import { SearchUIConfig } from "@/components/searchUIConfig";
 import DiscoveryArea from "@/components/search/discoveryArea";
-import SearchTopLines from "@/components/search/SearchTopLines";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -57,6 +56,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const [data, setData] = useState(null);
   const [allResults, setAllResults] = useState([]);
   const [solrObjectResults, setSolrObjectResults] = useState(
@@ -116,8 +116,38 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   return (
     <>
       <NavBar />
-      <SearchTopLines />
+      <TopLines />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalBoxStyle}>
+          <h2>How to Search</h2>
+          <div className="bg-orange-300 clear-both max-w-[1068px] h-1 max-md:max-w-full max-h-full" />
+          <div className="self-center w-full mt-10 max-md:max-w-full">
+            This could be an introductory message/splash page. Or we could
+            remove it.
+          </div>
+          <div>
+            <p>
+              Here is an example of an input that is mirrored in the url params:
+            </p>
+            <input
+              style={{ color: "black" }}
+              placeholder="test"
+              onChange={(event) => handleExampleInput(event.target.value)}
+              defaultValue={searchParams.get("example-input"?.toString()) || ""}
+            />
+          </div>
+          <div className="bg-orange-300 w-full h-1 mt-10" />
+        </Box>
+      </Modal>
       <div className="flex flex-col">
+        <div className="self-center flex w-full 2xl:max-w-[1536px] flex-col max-md:max-w-full mt-[100px] pl-[2.5%]">
+          <h1 style={{ fontSize: "3em" }}>Data Discovery</h1>
+        </div>
         <div className="self-center flex w-full flex-col max-md:max-w-full">
           {isLoading ? (
             <span>Loading...</span>
@@ -125,13 +155,62 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
             <DiscoveryArea
               results={solrObjectResults}
               isLoading={isLoading}
-              filterAttributeList={SearchUIConfig.search.searchFilters.filters}
+              filterAttributeList={[
+                {
+                  attribute: "index_year",
+                  displayName: "Year",
+                },
+                {
+                  attribute: "resource_class",
+                  displayName: "Resource Class",
+                },
+                {
+                  attribute: "resource_type",
+                  displayName: "Resource Type",
+                },
+                {
+                  attribute: "format",
+                  displayName: "Format",
+                },
+                {
+                  attribute: "subject",
+                  displayName: "Subject",
+                },
+                {
+                  attribute: "theme",
+                  displayName: "Theme",
+                },
+                {
+                  attribute: "creator",
+                  displayName: "Creator",
+                },
+                {
+                  attribute: "publisher",
+                  displayName: "Publisher",
+                },
+                {
+                  attribute: "provider",
+                  displayName: "Provider",
+                },
+                // Move the Spatial Resolution to the top as a distinct filter
+                // {
+                //   attribute: "spatial_resolution",
+                //   displayName: "Spatial Resolution",
+                // },
+                {
+                  attribute: "methods_variables",
+                  displayName: "Methods Variables",
+                },
+                {
+                  attribute: "data_variables",
+                  displayName: "Data Variables",
+                },
+              ]}
               schema={schema}
             />
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 };

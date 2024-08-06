@@ -107,13 +107,9 @@ function NavigateButton({
  * @returns
  */
 export default function MapArea({
-  searchResult,
-  resetStatus,
-  srChecked,
+  searchResult
 }: {
   searchResult: SolrObject[];
-  resetStatus: boolean;
-  srChecked: Set<CheckBoxObject>;
 }): JSX.Element {
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
     LayerSpecification[]

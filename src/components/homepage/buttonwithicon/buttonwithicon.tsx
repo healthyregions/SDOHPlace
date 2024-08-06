@@ -7,6 +7,7 @@ import { makeStyles } from "@mui/styles";
 const fullConfig = resolveConfig(tailwindConfig);
 interface Props {
   svgIcon?: any;
+  muiIcon?: any;
   label: string;
   fillColor: string;
   labelColor: string;
@@ -18,6 +19,7 @@ interface Props {
   noHover?: boolean;
   justifyContent?: string;
   borderRadius?: string;
+  border?: string;
   endIcon?: any; // if there's end icon, then start icon and label will be left aligned and end icon will be right aligned (i.e. footer style)
 }
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +58,8 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
                 opacity: props.iconOpacity ? props.iconOpacity : 1,
               }}
             />
+          ) : props.muiIcon ? (
+            <props.muiIcon />
           ) : null
         }
         endIcon={
@@ -88,7 +92,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
             ? props.justifyContent
             : "initial",
           boxShadow: props.noBox ? "none" : "3px 3px 5px rgba(0, 0, 0, 0.3)",
-
+          border: props.border ? props.border : "none",
           "&:hover": {
             boxShadow: props.noHover
               ? "none"
