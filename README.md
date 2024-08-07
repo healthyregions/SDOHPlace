@@ -70,10 +70,32 @@ yarn start
 
 ### Local Decap Blog
 
-To access the blog backend locally for testing, it is best to use the [test backend](https://decapcms.org/docs/test-backend/) that Decap provides.
+To access the blog backend locally for testing, choose one of these two approaches, based on what you need to do. Note, in both cases you will need to edit the config file: Be sure not to commit these changes to version control!
 
-In `public/admin/config.yml` change `name: git-gateway` to `name:test-repo`.
+#### To test content creation without saving it to disk
+
+For this, use the [test backend](https://decapcms.org/docs/test-backend/) that Decap provides.
+
+In `public/admin/config.yml` change `name: git-gateway` to `name: test-repo`.
 
 Now, go to http://localhost:3000/admin/index.html.
 
 This backend does not have access to your file system, so you can create content and update collections configurations without affecting any local files. All content will be lost when you refresh the page.
+
+#### To view/style existing posts that are in your current branch
+
+In this case, Decap needs to be reading from your local filesystem. First add the following line to the top of `public/admin/config.yml`:
+
+```
+local_backend: true
+```
+
+Also, you may want to set the branch to whatever branch you are developing on, but only if you intend to actually make changes to the markdown files themselves during development (not advised anyway).
+
+Next, open a new terminal and use the following command to run the Decap server locally:
+
+```
+npx decap-server
+```
+
+Now, go to http://localhost:3000/admin/index.html.
