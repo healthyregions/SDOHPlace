@@ -18,20 +18,24 @@
     <!-- Include the script that builds the page and powers Netlify CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
-      CMS.registerPreviewStyle(
-        "https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap"
-      );
-      CMS.registerPreviewStyle("/styles/content.module.css");
+      // Register fonts so they can be used in the preview styles
+      CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap");
+      CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400&display=swap");
+      CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap");
+      CMS.registerPreviewStyle("/styles/posts.module.css");
+      // this preview generally mimics the structure of the actual post page, but it is not
+      // actually derived from that component (tried for a long time to get that to work, no luck.)
       var PostPreview = createClass({
         render: function () {
           var entry = this.props.entry;
           var date = entry.getIn(["data", "date"]);
           return h(
-            "div",
-            { className: "content" },
-            h("h1", {}, entry.getIn(["data", "title"])),
-            h("time", {}, entry.getIn(["data", "date"])),
-            h("div", {}, this.props.widgetFor("body"))
+            "div", { className: "container" },
+              h("h1", {}, entry.getIn(["data", "title"])),
+              h("div", { className: "content" },
+                h("time", {}, date),
+                h("div", {}, this.props.widgetFor("body")),
+              )
           );
         },
       });

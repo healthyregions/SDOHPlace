@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/public/styles/content.module.css";
+import styles from "@/public/styles/posts.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
 import Date from "./Date";
@@ -60,10 +60,10 @@ export default function PostLayout({
         author={authorName}
         description={description}
       />
-      <div className={"container"}>
+      <div className={styles.container}>
         <article>
           <header>
-            <h1 className={"font-fredoka"}>{title}</h1>
+            <h1>{title}</h1>
             <div className={"metadata"}>
               <div>
                 <Date date={date} />
@@ -89,15 +89,6 @@ export default function PostLayout({
       </div>
       <style jsx>
         {`
-          .container {
-            display: block;
-            max-width: 1068px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 1.25rem;
-            box-sizing: border-box;
-            z-index: 0;
-          }
           .metadata div {
             display: inline-block;
             margin-right: 0.5rem;

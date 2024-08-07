@@ -1,24 +1,30 @@
+.container {
+  display: block;
+  max-width: 1068px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+  z-index: 0;
+  font-family: Nunito;
+}
+
+.container h1 {
+  font-family: "Fredoka";
+  margin: 2.5rem 0 0 0;
+}
+
 .content {
   color: #222;
-  font-weight: 200;
+  font-weight: 100;
 }
 
 .content time {
   color: #9b9b9b;
 }
 
-.content p {
-  line-height: 1.5rem;
-  margin: 1.5rem 0 0 0;
-  font-size: 1.25em;
-}
-
-.content a {
-  color: blue;
-  text-decoration: underline;
-}
-
 .content h1 {
+  font-family: Fredoka;
   margin: 2.5rem 0 0 0;
 }
 
@@ -26,6 +32,7 @@
 .content h3,
 .content h4,
 .content h5 {
+  font-family: Fredoka;
   margin: 2rem 0 0 0;
   line-height: 1.25em;
 }
@@ -39,19 +46,21 @@
 .content h4 {
   font-size: 1.3rem;
 }
-.content p {
+
+.content p,
+.content ul,
+.content ol {
   font-size: 1.25rem;
 }
+.content p {
+  line-height: 1.5rem;
+  margin: 1.5rem 0 0 0;
+}
 
-/* .content h2::before {
-  position: absolute;
-  margin-left: -1em;
-  font-weight: 300;
-  font-size: 1.5rem;
-  color: #9b9b9b;
-  display: none;
-  content: "#";
-} */
+.content a {
+  color: #7e1cc4;
+  text-decoration: underline;
+}
 
 .content pre {
   display: block;
