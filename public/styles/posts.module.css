@@ -171,3 +171,12 @@
     display: block;
   }
 }
+
+.content figure {
+  margin: 5px 10px;
+}
+
+.content figcaption {
+  font-style: italic;
+  text-align: center;
+}
