@@ -9,6 +9,7 @@ import Modal from "@mui/material/Modal";
 import { AiOutlineClose } from "react-icons/ai";
 
 import Header from "@/components/Header";
+import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 import people from "../../meta/people.json";
 
@@ -90,11 +91,10 @@ const Advisory: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
                 <div className="flex flex-col max-md:mt-10">
-                  <img
-                    loading="lazy"
-                    srcSet={people[bio].image}
-                    className="aspect-[0.94] object-cover object-center w-full overflow-hidden"
+                  <ProfileImage
+                    src={people[bio].image}
                     alt={people[bio].name}
+                    rounded={false}
                   />
                   <div className="text-2xl font-bold leading-[133.333%] mt-6">
                     {people[bio].name}
@@ -193,11 +193,10 @@ const Advisory: NextPage = () => {
                               paddingRight: "100px",
                             }}
                           >
-                            <img
-                              loading="lazy"
-                              srcSet={item.image}
-                              className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
+                            <ProfileImage
+                              src={item.image}
                               alt={item.name}
+                              rounded={true}
                             />
                           </div>
                           <div className="flex grow flex-col max-md:mt-10">
@@ -253,11 +252,10 @@ const Advisory: NextPage = () => {
                           paddingRight: "100px",
                         }}
                       >
-                        <img
-                          loading="lazy"
-                          srcSet={item.image}
-                          className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
+                        <ProfileImage
+                          src={item.image}
                           alt={item.name}
+                          rounded={true}
                         />
                       </div>
                       <div className="flex grow flex-col max-md:mt-10">
