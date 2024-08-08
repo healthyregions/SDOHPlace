@@ -13,7 +13,7 @@ const ProfileImage = (props: Props): JSX.Element => {
     className +=
       " rounded-full border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]";
     return (
-      <div style={{ width: 165, height: 165, display: "inline-block" }}>
+      <div style={{ width: 165, height: 165 }}>
         <Image
           loading="lazy"
           src={props.src}
@@ -21,6 +21,7 @@ const ProfileImage = (props: Props): JSX.Element => {
           height={165}
           className={className}
           alt={props.alt}
+          style={{ boxShadow: "2px 4px 0px 0px #8120c4" }}
         />
       </div>
     );

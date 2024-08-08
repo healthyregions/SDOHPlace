@@ -285,15 +285,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               <div className=" text-2xl-rfs font-normal leading-8">
                 News & Updates
               </div>
-              <div className=" text-2xl-rfs font-normal leading-8 text-end">
+              <div className="uppercase text-2xl-rfs font-normal leading-8 text-end">
                 <Link
-                  style={{
-                    textTransform: "uppercase",
-                    color: `${fullConfig.theme.colors["frenchviolet"]}`,
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                  }}
                   href="/news"
+                  className={"no-underline text-base font-bold"}
                 >
                   All News & Updates
                 </Link>

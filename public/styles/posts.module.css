@@ -33,7 +33,6 @@
 .content h5 {
   font-family: Fredoka;
   margin: 2rem 0 0 0;
-  line-height: 1.25em;
 }
 
 .content h2 {
@@ -52,7 +51,6 @@
   font-size: 1.25rem;
 }
 .content p {
-  line-height: 1.5rem;
   margin: 1.5rem 0 0 0;
 }
 
@@ -134,11 +132,6 @@
 .content ul {
   padding: 0 0 0 1.5rem;
   margin: 1.5rem 0 0 0;
-}
-
-.content ol li,
-.content ul li {
-  line-height: 1.5rem;
 }
 
 .content li ol,

@@ -12,7 +12,7 @@ export default function TagButton({ tag }: Props) {
         as={`/news/tags/${tag.slug}`}
         legacyBehavior
       >
-        <a>{tag.name}</a>
+        <a className={"no-underline"}>{tag.name}</a>
       </Link>
       <style jsx>{`
         a {

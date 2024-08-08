@@ -23,7 +23,13 @@ export default function Pagination({ current, pages, link }: Props) {
               as={link.as(it.page)}
               legacyBehavior
             >
-              <a className={it.page === current ? "active" : null}>{it.page}</a>
+              <a
+                className={`no-underline ${
+                  it.page === current ? "active" : ""
+                }`}
+              >
+                {it.page}
+              </a>
             </Link>
           )}
         </li>

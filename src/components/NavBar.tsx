@@ -41,45 +41,31 @@ const NavBar = (): JSX.Element => {
       <div
         className={`flex justify-between items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
       >
-        <ul className="hidden min-[768px]:flex pl-[2.5%]">
-          <li
-            className={`navbar-title ${
-              router.pathname == "/" && "navbar-title-active"
-            }`}
-          >
+        <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
+          <li className={`${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
-          <li
-            className={`navbar-title ${
-              router.pathname == "/advisory" && "navbar-title-active"
-            }`}
-          >
+          <li className={`${router.pathname == "/advisory" ? "active" : ""}`}>
             <Link href="/advisory">Advisory</Link>
           </li>
-          <li
-            className={`navbar-title ${
-              router.pathname == "/fellows" && "navbar-title-active"
-            }`}
-          >
+          <li className={`${router.pathname == "/fellows" ? "active" : ""}`}>
             <Link href="/fellows">Fellows</Link>
           </li>
           <li
-            className={`navbar-title ${
-              router.pathname.startsWith("/news") && "navbar-title-active"
-            }`}
+            className={`${router.pathname.startsWith("/news") ? "active" : ""}`}
           >
             <Link href="/news">News</Link>
           </li>
           <li
-            className={`navbar-title ${
-              router.pathname == "/about" && "navbar-title-active"
+            className={`${
+              router.pathname.startsWith("/about") ? "active" : ""
             }`}
           >
             <Link href="/about">About</Link>
           </li>
           <li
-            className={`navbar-title ${
-              router.pathname == "/contact" && "navbar-title-active"
+            className={`${
+              router.pathname.startsWith("/contact") ? "active" : ""
             }`}
           >
             <Link href="/contact">Contact Us</Link>
@@ -103,15 +89,15 @@ const NavBar = (): JSX.Element => {
           className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 flex justify-center items-center w-full
-          h-screen bg-frenchviolet text-white text-center ease-in duration-300 `}
+          h-screen bg-frenchviolet text-center ease-in duration-300 `}
         >
-          <ul>
-            <li className="p-4 text-5xl uppercase">
+          <ul className="navbar-mobile">
+            <li>
               <Link className={`${classes.mobileHamburgerMenu}`} href="/">
                 Home
               </Link>
             </li>
-            <li className="p-4 text-5xl uppercase">
+            <li>
               <Link
                 className={`${classes.mobileHamburgerMenu}`}
                 href="/advisory"
@@ -119,17 +105,17 @@ const NavBar = (): JSX.Element => {
                 Advisory
               </Link>
             </li>
-            <li className="p-4 text-5xl uppercase">
+            <li>
               <Link className={`${classes.mobileHamburgerMenu}`} href="/news">
                 News
               </Link>
             </li>
-            <li className="p-4 text-5xl uppercase">
+            <li>
               <Link className={`${classes.mobileHamburgerMenu}`} href="/about">
                 About
               </Link>
             </li>
-            <li className="p-4 text-5xl uppercase">
+            <li>
               <Link
                 className={`${classes.mobileHamburgerMenu}`}
                 href="/contact"

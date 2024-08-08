@@ -8,6 +8,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
+import { makeStyles } from "@mui/styles";
 import { AiOutlineClose } from "react-icons/ai";
 
 import Header from "@/components/Header";
@@ -46,7 +47,15 @@ const modalBtnStyle = {
   textTransform: "uppercase",
 };
 
+const useStyles = makeStyles(() => ({
+  modalBtnStyle: {
+    marginTop: "10px",
+    cursor: "pointer",
+  },
+}));
+
 const Advisory: NextPage = () => {
+  const classes = useStyles();
   const fellowsList = [];
   Object.keys(people).map(function (id, keyIndex) {
     const item = people[id];
@@ -138,12 +147,9 @@ const Advisory: NextPage = () => {
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
+                <div className="text-stone-900 text-xl w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   The{" "}
-                  <Link
-                    className="text-link"
-                    href="https://sdohplace.org/news/community-fellowship-2024"
-                  >
+                  <Link href="https://sdohplace.org/news/community-fellowship-2024">
                     SDOH & Place Fellowship Program
                   </Link>{" "}
                   launched in 2024 to support public health, geography, & health
@@ -196,17 +202,15 @@ const Advisory: NextPage = () => {
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
                               {item.text}
                             </div>
-                            {item.long.length > 0 && (
-                              <Button
-                                sx={modalBtnStyle}
-                                onClick={() => {
-                                  setBio(item.id);
-                                  handleOpen();
-                                }}
-                              >
-                                Read More
-                              </Button>
-                            )}
+                            <div
+                              className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                              onClick={() => {
+                                setBio(item.id);
+                                handleOpen();
+                              }}
+                            >
+                              Read More
+                            </div>
                           </div>
                         </div>
                       </div>

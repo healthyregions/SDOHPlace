@@ -16,8 +16,8 @@ type Props = {
 export default function PostList({ posts, tags, pagination }: Props) {
   return (
     <>
-      <div className={"posts"}>
-        <ul className={"post-list"}>
+      <div className={"post-list"}>
+        <ul className={""}>
           {posts.map((it, i) => (
             <li key={i}>
               <PostItem post={it} />
@@ -43,39 +43,6 @@ export default function PostList({ posts, tags, pagination }: Props) {
           </li>
         ))}
       </ul>
-      <style jsx>{`
-        ul {
-          margin: 0;
-          padding: 0;
-        }
-        li {
-          list-style: none;
-        }
-        .posts {
-          display: flex;
-          flex-direction: column;
-          flex: 1 1 auto;
-          margin-bottom: 2em;
-        }
-        .posts li {
-          margin-bottom: 1.5rem;
-        }
-        .post-list {
-          flex: 1 0 auto;
-        }
-        .categories {
-          display: none;
-        }
-        .categories li {
-          margin-bottom: 0.75em;
-        }
-
-        @media (min-width: 769px) {
-          .categories {
-            display: block;
-          }
-        }
-      `}</style>
     </>
   );
 }

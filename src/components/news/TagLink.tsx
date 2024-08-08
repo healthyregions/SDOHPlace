@@ -6,7 +6,11 @@ type Props = {
 };
 export default function Tag({ tag }: Props) {
   return (
-    <Link href={"/news/tags/[[...slug]]"} as={`/news/tags/${tag.slug}`}>
+    <Link
+      href={"/news/tags/[[...slug]]"}
+      as={`/news/tags/${tag.slug}`}
+      className={"no-underline"}
+    >
       {"#" + tag.name}
     </Link>
   );

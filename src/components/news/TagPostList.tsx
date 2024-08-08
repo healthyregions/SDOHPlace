@@ -15,9 +15,12 @@ type Props = {
 };
 export default function TagPostList({ posts, tag, pagination }: Props) {
   return (
-    <div className={"posts"}>
-      <h1>
-        <Link href={"/news/"}>All posts</Link> / <span>{tag.name}</span>
+    <div className={"post-list"}>
+      <h1 className="mb-8 text-2xl">
+        <Link href={"/news/"} className={"text-darkgray no-underline"}>
+          All posts
+        </Link>{" "}
+        / <span>{tag.name}</span>
       </h1>
       <ul>
         {posts.map((it, i) => (
@@ -37,42 +40,6 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
               : `/news/tags/${tag.slug}/${page}`,
         }}
       />
-      <style jsx>
-        {`
-          .posts {
-            display: flex;
-            flex-direction: column;
-            flex: 1 1 auto;
-            margin-bottom: 2em;
-          }
-          h1 {
-            margin: 0 0 2rem;
-            padding: 0;
-            font-weight: 100;
-            font-size: 1.75rem;
-            color: #9b9b9b;
-          }
-          h1 span {
-            font-weight: bold;
-            color: #222;
-          }
-          ul {
-            margin: 0;
-            padding: 0;
-            flex: 1 0 auto;
-          }
-          li {
-            list-style: none;
-            margin-bottom: 1.5rem;
-          }
-
-          @media (min-width: 769px) {
-            h1 {
-              font-size: 2rem;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }

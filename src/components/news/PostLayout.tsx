@@ -62,9 +62,15 @@ export default function PostLayout({
         description={description}
       />
       <div className={styles.container}>
-        <article>
+        <article
+          className={
+            "text-stone-900 text-xl w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10"
+          }
+        >
           <div className={"backlink"}>
-            <Link href="/news">&larr; back to all posts</Link>
+            <Link href="/news" className={"no-underline"}>
+              &larr; Back to all posts
+            </Link>
           </div>
           <header>
             <h1>{title}</h1>
