@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { PostContent } from "../../lib/posts";
 import { TagContent } from "../../lib/tags";
 import PostItem from "./PostItem";
@@ -14,9 +15,9 @@ type Props = {
 };
 export default function TagPostList({ posts, tag, pagination }: Props) {
   return (
-    <div className={"container"}>
-      <h1 className="font-fredoka">
-        All posts / <span>{tag.name}</span>
+    <div className={"posts"}>
+      <h1>
+        <Link href={"/news/"}>All posts</Link> / <span>{tag.name}</span>
       </h1>
       <ul>
         {posts.map((it, i) => (
@@ -25,7 +26,7 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
           </li>
         ))}
       </ul>
-      {/* <Pagination
+      <Pagination
         current={pagination.current}
         pages={pagination.pages}
         link={{
@@ -35,16 +36,14 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
               ? "/news/tags/" + tag.slug
               : `/news/tags/${tag.slug}/${page}`,
         }}
-      /> */}
+      />
       <style jsx>
         {`
-          .container {
-            margin: 0 auto;
-            max-width: 1068px;
-            width: 100%;
-            padding: 0 1.5rem;
+          .posts {
             display: flex;
             flex-direction: column;
+            flex: 1 1 auto;
+            margin-bottom: 2em;
           }
           h1 {
             margin: 0 0 2rem;

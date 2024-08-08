@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import styles from "@/public/styles/posts.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
@@ -62,6 +63,9 @@ export default function PostLayout({
       />
       <div className={styles.container}>
         <article>
+          <div className={"backlink"}>
+            <Link href="/news">&larr; back to all posts</Link>
+          </div>
           <header>
             <h1>{title}</h1>
             <div className={"metadata"}>
@@ -99,6 +103,10 @@ export default function PostLayout({
           h1 {
             margin: 0 0 0.5rem;
             font-size: 2.3rem;
+          }
+          .backlink {
+            color: grey;
+            margin-bottom: 1em;
           }
           .tag-list {
             list-style: none;

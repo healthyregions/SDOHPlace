@@ -10,7 +10,7 @@
       "keyword": "Spatial Data"
     }
   ],
-  "posts_per_page": 50,
+  "posts_per_page": 10,
   "twitter_account": "@HealthyRegions",
   "github_account": "healthyregions"
 }
