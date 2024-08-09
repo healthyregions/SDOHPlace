@@ -12,6 +12,8 @@ import Header from "@/components/Header";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 import people from "../../meta/people.json";
+import techAdvisorData from "../../meta/tech_advisory.json";
+import stakeholderData from "../../meta/stakeholder_advisory.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -46,19 +48,10 @@ const useStyles = makeStyles(() => ({
 
 const Advisory: NextPage = () => {
   const classes = useStyles();
-  const stakeholderList = [];
-  const technicalList = [];
-  Object.keys(people).map(function (id, keyIndex) {
-    const item = people[id];
-    item.id = id;
-    if (item.category.indexOf("stakeholder") >= 0) {
-      stakeholderList.push(item);
-    } else if (item.category.indexOf("technical") >= 0) {
-      technicalList.push(item);
-    }
-  });
+  const stakeholderList = stakeholderData.stakeholder_advisory;
+  const technicalList = techAdvisorData.tech_advisory;
   const [open, setOpen] = React.useState(false);
-  const [bio, setBio] = React.useState("german");
+  const [modalData, setModalData] = React.useState(stakeholderList[0]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -92,33 +85,28 @@ const Advisory: NextPage = () => {
               <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
                 <div className="flex flex-col max-md:mt-10">
                   <ProfileImage
-                    src={people[bio].image}
-                    alt={people[bio].name}
+                    src={modalData.image}
+                    alt={modalData.name}
                     rounded={false}
                   />
                   <div className="text-2xl font-bold leading-[133.333%] mt-6">
-                    {people[bio].name}
+                    {modalData.name}
                   </div>
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
-                    {people[bio].affiliation}
+                    {modalData.affiliation}
                   </div>
-                  {Object.keys(people[bio].links).map((id, index) => (
+                  {modalData.links.map((link, index) => (
                     <div
                       key={index}
                       className="text-lg font-medium leading-[177.778%] mt-2.5"
                     >
                       <a
-                        href={people[bio].links[id]}
+                        href={link.link_url}
                         target="_blank"
                         rel="noreferrer"
+                        className="text-salmonpink no-underline hover:underline"
                       >
-                        <Typography
-                          sx={{
-                            color: fullConfig.theme.colors["salmonpink"],
-                          }}
-                        >
-                          {id}
-                        </Typography>
+                        <Typography>{link.link_label}</Typography>
                       </a>
                     </div>
                   ))}
@@ -126,15 +114,11 @@ const Advisory: NextPage = () => {
               </div>
               <div className="flex flex-col items-stretch w-9/12 max-md:w-full max-md:ml-0">
                 <div className="text-lg font-medium leading-[177.778%] w-[848px] max-w-full max-md:mt-10">
-                  {people[bio].long.map((p, index) => (
-                    <div
-                      key={index}
-                      style={{ marginBottom: "10px" }}
-                      dangerouslySetInnerHTML={{
-                        __html: p,
-                      }}
-                    />
-                  ))}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: modalData.desc_long,
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -207,12 +191,12 @@ const Advisory: NextPage = () => {
                               {item.affiliation}
                             </div>
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                              {item.text}
+                              {item.desc_short}
                             </div>
                             <div
                               className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
                               onClick={() => {
-                                setBio(item.id);
+                                setModalData(item);
                                 handleOpen();
                               }}
                             >
@@ -266,12 +250,12 @@ const Advisory: NextPage = () => {
                           {item.affiliation}
                         </div>
                         <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                          {item.text}
+                          {item.desc_short}
                         </div>
                         <div
                           className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
                           onClick={() => {
-                            setBio(item.id);
+                            setModalData(item);
                             handleOpen();
                           }}
                         >
