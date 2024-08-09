@@ -1,15 +1,4 @@
 export default function Copyright() {
-  return (
-    <>
-      <p>&copy; 2023</p>
-      <style jsx>
-        {`
-          p {
-            font-size: 0.75rem;
-            text-align: center;
-          }
-        `}
-      </style>
-    </>
-  );
+  const year = new Date().getFullYear();
+  return <p className={"m-2 text-center"}>&copy; {year}</p>;
 }
