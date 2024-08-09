@@ -1,0 +1,116 @@
+{
+    "stakeholder_advisory": [
+    {
+      "name": "Hassanatu Blake",
+      "affiliation": "University of Maryland",
+      "image": "/images/headshot-hb.png",
+      "desc_short": "Hassanatu Blake has a diverse perspective to public health with over 15 years of experience working across multiple sectors intersecting with public health. Currently, Hassanatu is the Director of ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/hassanatu-blake-phd-mph-mba-27925b2/"
+        }
+      ],
+      "desc_long": "Hassanatu Blake has a diverse perspective to public health with over 15 years of experience working across multiple sectors intersecting with public health. Currently, Hassanatu is the Director of Health Equity and Social Justice at <em>National Association of City and County Health Officials (NACCHO)</em> in Washington, DC.\n\nOutside of her public health work, Hassanatu is passionate about Education Technology and the future of learning. She is Adjunct Faculty at Brooklyn College and Tufts University School of Medicine teaching public health education and led a global EdTech non-profit organization as Co-Founder and President at <em>Focal Point Global</em>, which empowered over 20,000 youth and families in US, The Gambia, South Africa, Namibia, and Cameroon. Currently, she co-hosts a podcast that discusses all things EdTech.\n\nHassanatu holds degrees from Tufts University (B.A.), Emory Rollins School of Public Health (MPH), and Plymouth State University (MBA). She is currently a PhD candidate at the University of Alabama at Birmingham with a focus on digital health, and health education and promotion."
+    },
+    {
+      "name": "Germán Cadenas",
+      "affiliation": "Rutgers University",
+      "image": "/images/headshot-gc.png",
+      "desc_short": "Dr. Germán A. Cadenas (he/his/él) is an Assistant Professor of Counseling Psychology at Lehigh University. He is a formerly undocumented immigrant from Latin America. As a ...",
+      "links": [],
+      "desc_long": "Dr. Germán A. Cadenas (he/his/él) is an Assistant Professor of Counseling Psychology at Lehigh University. He is a formerly undocumented immigrant from Latin America. As a scholar-activist, he has been involved in the movement for immigrant rights for over a decade. He completed a PhD in Counseling Psychology at Arizona State University, and a Doctoral Internship and Postdoctoral Fellowship at the University of California Berkeley.\n\nHis academic work is community-based and focuses on the psychology of immigration and on critical consciousness as a tool for social justice. He particularly examines the impact of immigration policy on the psychological wellbeing, education, career/work, and health of Latinx immigrants. His work also includes the development and validation of strategies for mental health service providers and educators working with immigrants. His work has been externally funded and published widely. He serves as Associate Editor of Journal of Counseling Psychology, and is on the Editorial Boards of <em>Journal of Diversity in Higher Education</em> and <em>Journal of Career Development</em>.\n\nDr. Cadenas has informed policy and advocacy at the local, state, and national levels. This includes advocacy for higher education access of undocumented students, grassroots advocacy for humane federal immigration policies, and briefing Congress on research conducted with the National Latinx Psychological Association (NLPA) regarding COVID-19 among Latinxs. He serves on the APA <em>Advocacy Coordinating Committee</em> and as Vice President for Diversity and Public Interest in the <em>Society of Counseling Psychology (Divisions 17 of APA)</em>. He also co-led the <em>Interdivisional Immigration Project</em> that developed collaborative advocacy strategies for community activists and psychologists."
+    },
+    {
+      "name": "Amena Karim",
+      "affiliation": "Community & UniteUs",
+      "image": "/images/headshot-ak.png",
+      "desc_short": "Amena Karim has spent her career serving marginalized communities for more than 20 years. She is a multi-award-winning health equity advocate, keynote speaker, and mayoral-appointed ...",
+      "links": [
+        {
+          "link_label": "Unite Us",
+          "link_url": "https://uniteus.com/"
+        }
+      ],
+      "desc_long": "Amena Karim has spent her career serving marginalized communities for more than 20 years. She is a multi-award-winning health equity advocate, keynote speaker, and mayoral-appointed community commissioner. Amena is a leader at <em>Unite Us</em>, the nation's leading software company bringing sectors together to improve the health and well-being of communities. She is the founder of <em>Feeding South Shore</em> and <em>Feeding Chicago Families</em>, raising more than $400,000 to address social determinants of health barriers, such as food insecurity in marginalized communities across Chicago. She graduated with a master's degree from Northwestern University. Amena is pursuing a Master of Public Health (MPH) at Harvard T. H. Chan School of Public Health."
+    },
+    {
+      "name": "Julia Koschinsky",
+      "affiliation": "University of Chicago",
+      "image": "/images/headshot-jk.png",
+      "desc_short": "Dr. Julia Koschinsky is currently working on projects to integrate spatial data science with scientific reasoning to critically solve spatial data problems and avoid common cognitive and statistical ...",
+      "links": [
+        {
+          "link_label": "Putting Science into Data Science",
+          "link_url": "https://puttingscienceintodatascience.org/"
+        }
+      ],
+      "desc_long": "Dr. Julia Koschinsky is currently working on projects to integrate spatial data science with scientific reasoning to critically solve spatial data problems and avoid common cognitive and statistical pitfalls. She is the Executive Director and Senior Research Associate at the University of Chicago‘s <em>Center for Spatial Data Science (CSDS)</em>. CSDS developed the open spatial software GeoDa, which has been downloaded over half a million times, and hosts spatial analytics lectures with over 710,000 views on its YouTube channel. She earned a PhD in urban planning with a specialization in spatial data analysis (with Luc Anselin) from the University of Illinois at Urbana-Champaign."
+    },
+    {
+      "name": "Qinyun Lin",
+      "affiliation": "University of Gothenburg",
+      "image": "/images/headshot-ql.png",
+      "desc_short": "Dr. Qinyun Lin is a Senior Lecturer in the School of Public Health and Community Medicine, Institute of Medicine, University of Gothenburg. Most broadly, she is a methodologist ...",
+      "links": [
+        {
+          "link_label": "Google Scholar",
+          "link_url": "https://scholar.google.com/citations?user=rn43UskAAAAJ&hl=en"
+        }
+      ],
+      "desc_long": "Dr. Qinyun Lin is a Senior Lecturer in the School of Public Health and Community Medicine, Institute of Medicine, University of Gothenburg. Most broadly, she is a methodologist invested in humanizing quantitative research to better understand mechanisms underlying inequities, particularly health and educational disparities, and, ultimately, informing policymaking. Towards this, she seeks to advance and expand existing quantitative methods and the interpretation of inferences by incorporating human interactions, social and spatial contexts, and mediating factors within these analyses."
+    },
+    {
+      "name": "Aresha Martinez-Cardoso",
+      "affiliation": "University of Chicago",
+      "image": "/images/headshot-am.png",
+      "desc_short": "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research ...",
+      "links": [
+        {
+          "link_label": "Embodying Race(ism)",
+          "link_url": "https://voices.uchicago.edu/areshamc/"
+        }
+      ],
+      "desc_long": "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research integrates theoretical perspectives from the social sciences with epidemiological methods in public health to examine how social inequality in the US shapes population health, with a particular focus on the health of racial/ethnic groups and immigrants. Martinez-Cardoso's work interrogates how race and social inequities have been deeply embedded into our nation’s culture and institutions and traces the biosocial mechanisms by which these inequities get “under the skin” to affect health across the lifecourse."
+    },
+    {
+      "name": "Imelda Moise",
+      "affiliation": "University of Miami",
+      "image": "/images/headshot-im.png",
+      "desc_short": "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally responsive research and ...",
+      "links": [
+        {
+          "link_label": "Profile",
+          "link_url": "https://people.miami.edu/profile/55439772df280bf89e5f82f2a69c214f"
+        }
+      ],
+      "desc_long": "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally responsive research and evaluation to advance health equity, and linking research to programs, policy, and practice in the US and sub-Saharan Africa. She works full-time in global public health as an Associate Professor and as Director of Global Health Studies at the University of Miami where she engages in scholarship of teaching and learning research to determine how to best prepare the next generation of geographers and global public health professionals. Her methodological expertise lies in utilizing mixed methods study designs with geospatial analysis to examine the combined effect of individual, sociocultural and contextual factors linked with health inequities. She has coordinated and evaluated various multi-partner systems-level interventions and is PI on projects working on strengthening early learning support in Miami; NIH greenness cardiovascular studies assessing disparities across Hispanic subgroups in Miami vs. San Diego and NYC. Her primary research is mostly responsive to community needs. Dr. Moise serves on the <em>National Association of City Health Officials (NACCHO)</em>, <em>Miami-Dade Refugee Task Force</em>, and the <em>Healthy Baby Taskforce</em> (part of the Consortium for a Healthier Miami-Dade) where she lends her expertise in health, geography and equity-centered impact. She earned her MSc. and PhD from University of Illinois at Urbana-Champaign, MPH from the University of Illinois Springfield, and bachelor’s from the University of Oregon. Prior to her current position, she backstopped Illinois Department of Public Health and USAID-funded programs in LMIC where she led in many areas of system strengthening, maternal and child health, substance use and HIV sentinel surveillance, and country performance management plans."
+    },
+    {
+      "name": "Norma Padrón",
+      "affiliation": "EmpiricaLabs",
+      "image": "/images/headshot-np.png",
+      "desc_short": "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of EmpiricaLab, a company specializing in peer–to–peer training within healthcare organizations ...",
+      "links": [
+        {
+          "link_label": "Google Scholar",
+          "link_url": "https://people.miami.edu/profile/55439772df280bf89e5f82f2a69c214f"
+        }
+      ],
+      "desc_long": "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of <em>EmpiricaLab</em>, a company specializing in peer-to-peer training within healthcare organizations to accelerate their digital transformation. Her career in healthcare spans over a decade, with leadership roles across academia, nonprofits, and the private sector. She built her expertise in data and technology teams at healthcare organizations, including the <em>Mount Sinai Health System</em>, <em>Thomas Jefferson Health</em>, the <em>American Hospital Association</em> and new ventures at Anthem Digital. Her teams have leveraged data analytics and technology to improve digital health products for patients and providers, design value-based care models, and quality and performance measurement and training for hospital systems across the country.\n\nIn addition to her work in health economics and analytics, Norma has held board positions on STEM education and technology initiatives. She served as chair of the industry advisory board for an NSF Industry-University Cooperative Research Center (IURC) focused on improving healthcare through organizational transformation. She earned a PhD in health policy and management from Yale University, as well as an MS in Economics from Duke University. She also holds a master's degree in public health from Universitat Pompeu Fabra in Barcelona, Spain, and a bachelor's degree in Economics and Math from the University of Texas at Rio Grande Valley."
+    },
+    {
+      "name": "Sue Polis",
+      "affiliation": "National League of Cities",
+      "image": "/images/headshot-sp.png",
+      "desc_short": "Sue Pechilio Polis directs the health and well-being portfolio for NLC as part of the Institute for Youth, Education and Families. The portfolio includes the conceptualization ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "http://www.linkedin.com/in/spechpolis"
+        }
+      ],
+      "desc_long": "Sue Pechilio Polis directs the health and well-being portfolio for NLC as part of the <em>Institute for Youth, Education and Families</em>. The portfolio includes the conceptualization, development and implementation of <em>Cities of Opportunity</em>, a multi-year effort to engage mayors and city leaders in comprehensively addressing the root causes of poor health (SDOH) through an equitable policy and systems change approach. With expertise in health policy, Sue’s work spans the connection to housing, economic opportunity, mental health and substance use disorders, obesity, trauma, as well as local systems alignment and data for well-being. Prior to the <em>National League of Cities</em>, Mrs. Polis led the development and management of the <em>Trust for America’s Health (TFAH)</em> external relations and strategic partnership efforts in support of the organization’s public policy goals.\n\nPrior to joining <em>TFAH</em>, Mrs. Polis worked at <em>AARP</em> on health and financial security-related issues with an emphasis on advancing policy to address the needs of vulnerable 50+ populations. Her focus areas included health care workforce, retirement savings, consumer protection, and low-income programs such as the <em>Supplemental Nutrition Assistance Program (SNAP)</em> and the <em>Low-Income Heating and Energy Assistance Program (LIHEAP)</em>. Mrs. Polis was the founding <em>National Director of Advocacy</em> for the <em>American Heart Association</em>."
+    }
+  ]
+}

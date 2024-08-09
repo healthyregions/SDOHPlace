@@ -88,6 +88,167 @@ collections:
                 widget: "string"
                 hint: "Tag name for displaying on the site"
 
+  - name: "people"
+    label: "People"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: fellows
+        label: Fellows
+        file: "meta/fellows.json"
+        label_singular: "Fellow"
+        fields:
+          - name: fellows
+            label: Fellows
+            label_singular: "Fellow"
+            widget: list
+            summary: "{{name}} - {{cohort}}"
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Cohort"
+                name: "cohort"
+                widget: "select"
+                options: ["Spring 2024", "Fall 2024"]
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - {label: Label, name: link_label, widget: string}
+                  - {label: URL, name: link_url, widget: string, pattern: ['[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)', 'Must be a valid URL.']}
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+              - label: Project Showcase
+                name: "project"
+                required: false
+                widget: relation
+                collection: "showcase"
+                searchFields: ["title"]
+                displayFields: ["title"]
+                valueField: "slug"
+      - name: team
+        label: Team
+        file: "meta/team.json"
+        fields:
+          - name: team
+            label: Team
+            label_singular: "Team Member"
+            widget: list
+            summary: "{{name}} - {{status}}"
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                default: "current"
+                options: ["current", "past"]
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - {label: Label, name: link_label, widget: string}
+                  - {label: URL, name: link_url, widget: string, pattern: ['[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)', 'Must be a valid URL.']}
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+      - name: tech_advisory
+        label: Technical Advisory Group
+        file: "meta/tech_advisory.json"
+        fields:
+          - name: tech_advisory
+            label: Tech Advisory Group
+            label_singular: "Tech Advisor"
+            summary: "{{name}} - {{affiliation}}"
+            widget: list
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Affiliation"
+                name: "affiliation"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - {label: Label, name: link_label, widget: string}
+                  - {label: URL, name: link_url, widget: string, pattern: ['[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)', 'Must be a valid URL.']}
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+      - name: stakeholder_advisory
+        label: Stakeholder Advisory Group
+        file: "meta/stakeholder_advisory.json"
+        fields:
+        - name: stakeholder_advisory
+          label: Stakeholder Advisory Group
+          label_singular: "Stakeholder Advisor"
+          summary: "{{name}} - {{affiliation}}"
+          widget: list
+          fields:
+            - label: "Name"
+              name: "name"
+              widget: "string"
+            - label: "Affiliation"
+              name: "affiliation"
+              widget: "string"
+            - label: "Profile Image"
+              name: "image"
+              widget: "image"
+              choose_url: true
+              default: "/images/missing-headshot.png"
+            - label: "Links"
+              name: "links"
+              widget: "list"
+              summary: "{{link_label}} - {{link_url}}"
+              fields:
+                - {label: Label, name: link_label, widget: string}
+                - {label: URL, name: link_url, widget: string, pattern: ['[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)', 'Must be a valid URL.']}
+            - label: "Short Description"
+              name: "desc_short"
+              widget: "text"
+            - label: "Full Description"
+              name: "desc_long"
+              widget: "text"
+
   - name: "posts"
     label: "Posts"
     folder: "content/posts/"

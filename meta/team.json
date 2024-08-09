@@ -1,0 +1,167 @@
+{
+    "team": [
+    {
+      "name": "Marynia Kolak",
+      "title": "Principal Investigator",
+      "image": "/images/headshot-mk.png",
+      "desc_short": "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate regional and ...",
+      "links": [
+        {
+          "link_label": "Twitter",
+          "link_url": "https://twitter.com/MaryniaKolak"
+        },
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/maryniakolak"
+        },
+        {
+          "link_label": "GitHub",
+          "link_url": "https://github.com/Makosak"
+        }
+      ],
+      "desc_long": "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate regional and neighborhood health equity. Kolak is an <a href='https://experts.illinois.edu/en/persons/marynia-aniela-kolak' target='_blank'>Assistant Professor</a> and Director of Undergraduate Studies at the Department of Geography & GIScience at the University of Illinois at Urbana-Champaign, Fellow at the Center for Spatial Data Science at the University of Chicago, Associate Editor at <em>Preventing Chronic Disease</em> and the <em>Journal of Maps</em>, and member of the <em>DEI Committee</em> at SER.",
+      "status": "current"
+    },
+    {
+      "desc_long": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated with the Carl R. Woese Institute for Genomic Biology, Department of Statistics, and the School of Information Sciences. Before joining UIUC in 2002, he worked at Clairvoyance Corp. as a Research Scientist and a Senior Research Scientist from 1997 to 2000. His research interests are in the general area of intelligent information systems, including specifically intelligent information retrieval, data mining, natural language processing, machine learning, and their applications in domains such as biomedical and health informatics, and intelligent education systems. He has published over 300 papers in these areas and holds 6 patents. He was a key contributor of the Lemur text retrieval and mining toolkit. He is a Fellow of the Association for Computing Machinery (ACM) and a member of ACM SIGIR Academy. He received numerous awards, including ACM SIGIR Gerard Salton Award, ACM SIGIR Test of Time Paper Award (three times), the 2004 Presidential Early Career Award for Scientists and Engineers (PECASE), Alfred P. Sloan Research Fellowship, IBM Faculty Award, and HP Innovation Research Award.",
+      "name": "ChengXiang Zhai",
+      "desc_short": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
+      "status": "current",
+      "title": "Co-Investigator",
+      "links": [
+        {
+          "link_label": "Profile",
+          "link_url": "https://czhai.cs.illinois.edu/"
+        }
+      ],
+      "image": "/images/headshot-cz.png"
+    },
+    {
+      "name": "José Alavez",
+      "title": "Postdoctoral Scholar",
+      "image": "/images/headshot-ja.png",
+      "desc_short": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives ...",
+      "links": [],
+      "desc_long": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives. During his doctoral dissertation, he charted the global and intimate posthumous geographies of migrants who faced the loss of a loved one in Quebec, Canada. In his earlier academic pursuits, he examined the domestic spaces inhabited by the homeless community in Mexico City, and he also developed methodological frameworks to bridge the realms of digital humanities and cartography.",
+      "status": "current"
+    },
+    {
+      "name": "Kamaria Barronville",
+      "title": "Instructional Designer",
+      "image": "/images/headshot-kb.png",
+      "desc_short": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
+      "links": [],
+      "desc_long": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap between urban education and policy by exploring innovative approaches to promote equitable and inclusive educational practices. At HeRoP, Kamaria leverages her knowledge and skills to contribute to the development and implementation of effective instructional strategies within the lab’s research initiatives.",
+      "status": "current"
+    },
+    {
+      "name": "Shubham Kumar",
+      "title": "Product Designer",
+      "image": "/images/headshot-sk.png",
+      "desc_short": "Shubham is a Product Designer at HeRoP with a passion for collaborating with diverse teams to achieve design goals. Prior to his role at the lab, he was improving accessibility in education ...",
+      "links": [],
+      "desc_long": "Shubham is a UX Designer at HeRoP with a passion for collaborating with diverse teams to achieve design goals. Prior to his role at the lab, Shubham was improving accessibility in education with the Board of Trustees at the University of Illinois. He has a master’s degree in Information Management from the University of Illinois Urbana-Champaign and a bachelor’s degree in Information Science from PES University. In his leisure time, Shubham volunteers as a Product Lead at <a href='https://greenstand.org/' target='_blank'>Greenstand</a>, a non-profit addressing poverty and climate change through technology. He also loves going out for bike rides, recognizing the benefits it brings to both his well-being and the Earth.",
+      "status": "current"
+    },
+    {
+      "name": "Marc Astacio-Palmer",
+      "title": "Research Coordinator",
+      "image": "/images/headshot-ma.png",
+      "desc_short": "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/marcastacio/"
+        }
+      ],
+      "desc_long": "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory. He is interested in open science, and how our environment shapes our cognition. Astacio leads day-to-day operations of multiple projects at HeRoP, guides communications & community engagement, and collaborates on how affect may influence user-experience and decision-making.",
+      "status": "current"
+    },
+    {
+      "name": "Mandela Gadri",
+      "title": "PhD Student",
+      "image": "/images/headshot-mg.png",
+      "desc_short": "Ph.D. student Mandela Gadri has a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana, and an MS in community and regional planning from Iowa State University ...",
+      "links": [],
+      "desc_long": "Ph.D. student Mandela Gadri has a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana, and an MS in community and regional planning from Iowa State University. He also has a certificate in GIS and worked as a planner with the city of Cedar Rapids, Iowa prior to joining UIUC. Mandela is interested in GIS and transport poverty.",
+      "status": "current"
+    },
+    {
+      "name": "Catherine Discenza",
+      "title": "Graduate Research Assistant",
+      "image": "/images/headshot-cd.png",
+      "desc_short": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
+        }
+      ],
+      "desc_long": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors.",
+      "status": "current"
+    },
+    {
+      "name": "Andre Vines",
+      "title": "Graphic Designer",
+      "image": "/images/headshot-av.png",
+      "desc_short": "Andre is a self employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet ...",
+      "links": [],
+      "desc_long": "Andre is a self-employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet highly functional. He also enjoys helping people do what they love by connecting them with others through branding and art.",
+      "status": "current"
+    },
+    {
+      "name": "Adam Cox",
+      "title": "Software Engineer",
+      "image": "/images/headshot-ac.png",
+      "desc_short": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/mradamcox/"
+        },
+        {
+          "link_label": "GitHub",
+          "link_url": "https://github.com/mradamcox"
+        }
+      ],
+      "desc_long": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads engineering and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement.",
+      "status": "current"
+    },
+    {
+      "name": "Pengyin Shan",
+      "title": "Software Engineer",
+      "image": "/images/headshot-ps.png",
+      "desc_short": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/pengyinshan/"
+        },
+        {
+          "link_label": "GitHub",
+          "link_url": "https://github.com/pengyin-shan"
+        }
+      ],
+      "desc_long": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize and utilize unstructured, complex, and multilingual datasets. She has a B.S. in Computer Science Engineering and an M.B.A. degree.",
+      "status": "current"
+    },
+    {
+      "name": "Mukesh Chugani",
+      "title": "Software Engineer",
+      "image": "/images/headshot-mc.png",
+      "desc_short": "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University ...",
+      "links": [],
+      "desc_long": "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University. His expertise lies in data visualization, dashboarding and machine learning. He is passionate about creating impactful user experiences and leveraging front-end technologies to bridge the gap between data analysis and user interaction. At HeRoP, he leads front-end engineering and data-viz development with a spatial twist.",
+      "status": "past"
+    },
+    {
+      "name": "Ashwin Patil",
+      "title": "Research Assistant",
+      "image": "/images/headshot-ap.png",
+      "desc_short": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai ...",
+      "links": [],
+      "desc_long": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project.",
+      "status": "past"
+    }
+  ]
+}
