@@ -1,29 +1,27 @@
-import Head from "next/head";
+import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import Footer from "../homepage/footer";
 
 type Props = {
+  page_header?: string;
   children: React.ReactNode;
 };
-export default function Layout({ children }: Props) {
+export default function Layout({ page_header, children }: Props) {
   return (
-    // <div className="root">
     <>
-      <Head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="apple-touch-icon" href="/icon.png" />
-        <meta name="theme-color" content="#fff" />
-      </Head>
+      <Header title={"News"} />
       <NavBar />
       <TopLines />
-      <div className="flex flex-col py-[5rem]">
-        <div className="self-center flex w-full max-w-[1068px] flex-col max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka mb-5 px-5">Project News</h1>
+      <div className="flex flex-col">
+        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+          <h1 className="font-fredoka">{page_header}</h1>
+          <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
+            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+              <main>{children}</main>
+            </div>
+          </div>
         </div>
-        <main>{children}</main>
       </div>
       <Footer />
       <style jsx>

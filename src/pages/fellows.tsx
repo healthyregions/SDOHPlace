@@ -1,5 +1,6 @@
 "use client";
 import type { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/homepage/footer";
 import NavBar from "@/components/NavBar";
@@ -7,11 +8,16 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
+import { makeStyles } from "@mui/styles";
 import { AiOutlineClose } from "react-icons/ai";
+import { Typography } from "@mui/material";
 
 import Header from "@/components/Header";
+import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 import people from "../../meta/people.json";
+
+import fellowsData from "../../meta/fellows.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -44,17 +50,20 @@ const modalBtnStyle = {
   textTransform: "uppercase",
 };
 
-const Advisory: NextPage = () => {
-  const fellowsList = [];
-  Object.keys(people).map(function (id, keyIndex) {
-    const item = people[id];
-    item.id = id;
-    if (item.category.indexOf("fellow") >= 0) {
-      fellowsList.push(item);
-    }
-  });
+const useStyles = makeStyles(() => ({
+  modalBtnStyle: {
+    marginTop: "10px",
+    cursor: "pointer",
+  },
+}));
+
+const Fellows: NextPage = () => {
+  const classes = useStyles();
+  const fellowsList2024 = fellowsData.fellows.filter(
+    (fellow) => fellow.cohort == "Spring 2024"
+  );
   const [open, setOpen] = React.useState(false);
-  const [bio, setBio] = React.useState("german");
+  const [modalData, setModalData] = React.useState(fellowsList2024[0]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -87,29 +96,29 @@ const Advisory: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
                 <div className="flex flex-col max-md:mt-10">
-                  <img
-                    loading="lazy"
-                    srcSet={people[bio].image}
-                    className="aspect-[0.94] object-cover object-center w-full overflow-hidden"
-                    alt={people[bio].name}
+                  <ProfileImage
+                    src={modalData.image}
+                    alt={modalData.name}
+                    rounded={false}
                   />
                   <div className="text-2xl font-bold leading-[133.333%] mt-6">
-                    {people[bio].name}
+                    {modalData.name}
                   </div>
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
-                    {people[bio].affiliation}
+                    {modalData.title}
                   </div>
-                  {Object.keys(people[bio].links).map((id, index) => (
+                  {modalData.links.map((link, index) => (
                     <div
                       key={index}
                       className="text-lg font-medium leading-[177.778%] mt-2.5"
                     >
                       <a
-                        href={people[bio].links[id]}
+                        href={link.link_url}
                         target="_blank"
                         rel="noreferrer"
+                        className="text-salmonpink no-underline hover:underline"
                       >
-                        {id}
+                        <Typography>{link.link_label}</Typography>
                       </a>
                     </div>
                   ))}
@@ -117,13 +126,11 @@ const Advisory: NextPage = () => {
               </div>
               <div className="flex flex-col items-stretch w-9/12 max-md:w-full max-md:ml-0">
                 <div className="text-lg font-medium leading-[177.778%] w-[848px] max-w-full max-md:mt-10">
-                  {people[bio].long.map((p, index) => (
-                    <div
-                      key={index}
-                      style={{ marginBottom: "10px" }}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: modalData.desc_long,
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -137,12 +144,9 @@ const Advisory: NextPage = () => {
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-2xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
+                <div className="text-stone-900 text-xl w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   The{" "}
-                  <Link
-                    className="text-link"
-                    href="https://sdohplace.org/news/community-fellowship-2024"
-                  >
+                  <Link href="https://sdohplace.org/news/community-fellowship-2024">
                     SDOH & Place Fellowship Program
                   </Link>{" "}
                   launched in 2024 to support public health, geography, & health
@@ -169,7 +173,7 @@ const Advisory: NextPage = () => {
               >
                 <div className="self-center w-full max-md:max-w-full">
                   <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                    {fellowsList.map((item, index) => (
+                    {fellowsList2024.map((item, index) => (
                       <div
                         key={index}
                         className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -179,11 +183,10 @@ const Advisory: NextPage = () => {
                             className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
                             style={{ paddingRight: "100px" }}
                           >
-                            <img
-                              loading="lazy"
-                              srcSet={item.image}
-                              className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
+                            <ProfileImage
+                              src={item.image}
                               alt={item.name}
+                              rounded={true}
                             />
                           </div>
                           <div className="flex grow flex-col max-md:mt-10">
@@ -194,19 +197,17 @@ const Advisory: NextPage = () => {
                               {item.title}
                             </div>
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                              {item.text}
+                              {item.desc_short}
                             </div>
-                            {item.long.length > 0 && (
-                              <Button
-                                sx={modalBtnStyle}
-                                onClick={() => {
-                                  setBio(item.id);
-                                  handleOpen();
-                                }}
-                              >
-                                Read More
-                              </Button>
-                            )}
+                            <div
+                              className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                              onClick={() => {
+                                setModalData(item);
+                                handleOpen();
+                              }}
+                            >
+                              Read More
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -223,4 +224,4 @@ const Advisory: NextPage = () => {
   );
 };
 
-export default Advisory;
+export default Fellows;

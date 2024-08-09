@@ -34,8 +34,8 @@ h5 {
   font-size: 1.25em;
 }
 
-a.text-link {
-  @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600;
+a {
+  @apply underline text-frenchviolet;
 }
 
 b,
@@ -48,10 +48,44 @@ em {
   @apply italic;
 }
 
-.navbar-title {
+ul.navbar > li > a {
+  text-decoration: none;
   @apply text-almostblack p-4 uppercase text-base font-bold tracking-[0.03125rem] leading-4;
 }
 
-.navbar-title-active {
+ul.navbar > li.active > a {
+  /* text-decoration: none; */
   @apply text-frenchviolet before:content-[''] before:border-l-[0.25rem] before:border-frenchviolet before:pr-[0.5rem];
+}
+
+ul.navbar-mobile > li {
+  @apply p-4 text-5xl uppercase;
+}
+
+ul.navbar-mobile > li > a {
+  text-decoration: none;
+  @apply text-white;
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin-bottom: 2em;
+}
+
+.post-list > ul {
+  margin: 0;
+  padding: 0;
+  flex: 1 0 auto;
+}
+.post-list > ul > li {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.content h1 {
+  color: red;
+  font-family: Fredoka;
+  margin: 2.5rem 0 0 0;
 }

@@ -27,14 +27,16 @@ const CardWithImage = (props: Props): JSX.Element => {
         </Link>
       </div>
       <div className="text-almostblack text-3xl-rfs font-normal leading-10 max-w-[22.3125rem] mt-[2.31rem]">
-        <Link href={props.url}>{props.title}</Link>
+        <Link href={props.url} className="no-underline text-black">
+          {props.title}
+        </Link>
       </div>
       <div className="text-almostblack text-xl-rfs max-w-[22.3125rem] leading-6 tracking-[0.03125rem] mt-[0.69rem]">
         <p>{props.text}</p>
       </div>
       <a
         href={props.url}
-        className="text-frenchviolet text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem]"
+        className="text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem] no-underline"
       >
         Learn More
       </a>

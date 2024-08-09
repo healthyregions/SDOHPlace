@@ -1,17 +1,15 @@
-import { PostContent } from "../../lib/posts";
-import Date from "./Date";
+import { ShowcaseContent } from "../../lib/cms";
 import Link from "next/link";
-import { parseISO } from "date-fns";
 
 type Props = {
-  post: PostContent;
+  item: ShowcaseContent;
 };
-export default function PostItem({ post }: Props) {
+export default function ShowcaseItem({ item }: Props) {
   return (
-    <Link href={"/news/" + post.slug} legacyBehavior>
+    <Link href={"/showcase/" + item.slug} legacyBehavior>
       <a className={"no-underline"}>
-        <Date date={parseISO(post.date)} />
-        <h2>{post.title}</h2>
+        <h2>{item.title}</h2>
+        <p>{item.fellow}</p>
         <style jsx>
           {`
             a {
