@@ -48,7 +48,14 @@ const NavBar = (): JSX.Element => {
           <li className={`${router.pathname == "/advisory" ? "active" : ""}`}>
             <Link href="/advisory">Advisory</Link>
           </li>
-          <li className={`${router.pathname == "/fellows" ? "active" : ""}`}>
+          <li
+            className={`${
+              router.pathname == "/fellows" ||
+              router.pathname.startsWith("/showcase")
+                ? "active"
+                : ""
+            }`}
+          >
             <Link href="/fellows">Fellows</Link>
           </li>
           <li
@@ -103,6 +110,14 @@ const NavBar = (): JSX.Element => {
                 href="/advisory"
               >
                 Advisory
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${classes.mobileHamburgerMenu}`}
+                href="/fellows"
+              >
+                Fellows
               </Link>
             </li>
             <li>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
+    <title>CMS | SDOH & Place Website</title>
     <script
       src="https://identity.netlify.com/v1/netlify-identity-widget.js"
       async
@@ -48,6 +48,23 @@
         },
       });
       CMS.registerPreviewTemplate("posts", PostPreview);
+      var ShowcasePreview = createClass({
+        render: function () {
+          var entry = this.props.entry;
+          return h(
+            "div",
+            { className: "container" },
+            h("h1", {}, entry.getIn(["data", "title"])),
+            h(
+              "div",
+              { className: "content" },
+              h("img", {src: entry.getIn(["data", "image"])}),
+              h("div", {}, this.props.widgetFor("body"))
+            )
+          );
+        },
+      });
+      CMS.registerPreviewTemplate("showcase", ShowcasePreview);
     </script>
   </body>
 </html>

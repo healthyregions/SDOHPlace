@@ -4,9 +4,10 @@ import TopLines from "@/components/TopLines";
 import Footer from "../homepage/footer";
 
 type Props = {
+  page_header?: string;
   children: React.ReactNode;
 };
-export default function Layout({ children }: Props) {
+export default function Layout({ page_header, children }: Props) {
   return (
     <>
       <Header title={"News"} />
@@ -14,7 +15,7 @@ export default function Layout({ children }: Props) {
       <TopLines />
       <div className="flex flex-col">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Project News</h1>
+          <h1 className="font-fredoka">{page_header}</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <main>{children}</main>

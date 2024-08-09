@@ -172,3 +172,17 @@
   font-style: italic;
   text-align: center;
 }
+
+.metadata {
+  border-bottom: solid rgb(229, 231, 235) 1px;
+}
+
+.metadata > button {
+  background-color: #7e1cc4;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border: 0;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  margin: 1.5em 0;
+}
