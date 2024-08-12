@@ -3,14 +3,83 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   mobileHamburgerMenu: {
     fontSize: "1.5rem",
   },
 }));
+
+type NavLinkType = {
+  title: string;
+  url: string;
+};
+type Props = {
+  title: string;
+  dropdownElId: string;
+  items: NavLinkType[];
+};
+function NavDropdownButton({ title, dropdownElId, items }: Props) {
+  return (
+    <>
+      <button
+        className={"nav-button p-0 font-light"}
+        onMouseLeave={() => {
+          document.getElementById(dropdownElId).setAttribute("hidden", "");
+        }}
+        onMouseEnter={() => {
+          document.getElementById(dropdownElId).removeAttribute("hidden");
+        }}
+      >
+        {title} <ExpandMoreIcon />
+      </button>
+      <ul
+        id={dropdownElId}
+        onMouseEnter={() => {
+          document.getElementById(dropdownElId).removeAttribute("hidden");
+        }}
+        onMouseLeave={() => {
+          document.getElementById(dropdownElId).setAttribute("hidden", "");
+        }}
+        hidden
+      >
+        {items.map((item, index) => (
+          <li key={index}>
+            <Link href={item.url}>{item.title}</Link>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function NavDropdownMobile({ title, dropdownElId, items }: Props) {
+  return (
+    <>
+      <button
+        onClick={() => {
+          document.getElementById(dropdownElId).toggleAttribute("hidden");
+        }}
+      >
+        {title} <ExpandMoreIcon />
+      </button>
+      <ul id={dropdownElId} hidden>
+        {items.map((item, index) => (
+          <li key={index}>
+            <Link
+              className={"text-white no-underline text-base"}
+              href={item.url}
+            >
+              {item.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
 
 const NavBar = (): JSX.Element => {
   const [nav, setNav] = useState(false);
@@ -34,6 +103,11 @@ const NavBar = (): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
 
+  const aboutItems = [
+    { title: "Advisory", url: "/advisory" },
+    { title: "SDOH & Place Project", url: "/about" },
+  ];
+
   return (
     <div
       className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
@@ -45,17 +119,7 @@ const NavBar = (): JSX.Element => {
           <li className={`${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
-          <li className={`${router.pathname == "/advisory" ? "active" : ""}`}>
-            <Link href="/advisory">Advisory</Link>
-          </li>
-          <li
-            className={`${
-              router.pathname == "/fellows" ||
-              router.pathname.startsWith("/showcase")
-                ? "active"
-                : ""
-            }`}
-          >
+          <li className={`${router.pathname == "/fellows" ? "active" : ""}`}>
             <Link href="/fellows">Fellows</Link>
           </li>
           <li
@@ -65,10 +129,17 @@ const NavBar = (): JSX.Element => {
           </li>
           <li
             className={`${
-              router.pathname.startsWith("/about") ? "active" : ""
+              router.pathname.startsWith("/about") ||
+              router.pathname.startsWith("/advisory")
+                ? "active"
+                : ""
             }`}
           >
-            <Link href="/about">About</Link>
+            <NavDropdownButton
+              title="About"
+              dropdownElId="about-dd"
+              items={aboutItems}
+            />
           </li>
           <li
             className={`${
@@ -95,48 +166,28 @@ const NavBar = (): JSX.Element => {
         <div
           className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
-          } top-0 bottom-0 right-0 flex justify-center items-center w-full
+          } top-0 bottom-0 right-0 pt-100 flex justify-center items-baseline w-full
           h-screen bg-frenchviolet text-center ease-in duration-300 `}
         >
           <ul className="navbar-mobile">
             <li>
-              <Link className={`${classes.mobileHamburgerMenu}`} href="/">
-                Home
-              </Link>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <Link
-                className={`${classes.mobileHamburgerMenu}`}
-                href="/advisory"
-              >
-                Advisory
-              </Link>
+              <Link href="/fellows">Fellows</Link>
             </li>
             <li>
-              <Link
-                className={`${classes.mobileHamburgerMenu}`}
-                href="/fellows"
-              >
-                Fellows
-              </Link>
+              <Link href="/news">News</Link>
             </li>
             <li>
-              <Link className={`${classes.mobileHamburgerMenu}`} href="/news">
-                News
-              </Link>
+              <NavDropdownMobile
+                title="About"
+                dropdownElId="about-dd-mobile"
+                items={aboutItems}
+              />
             </li>
             <li>
-              <Link className={`${classes.mobileHamburgerMenu}`} href="/about">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={`${classes.mobileHamburgerMenu}`}
-                href="/contact"
-              >
-                Contact Us
-              </Link>
+              <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>
