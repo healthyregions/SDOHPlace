@@ -14,6 +14,7 @@ export type PostContent = {
 export type ShowcaseContent = {
   readonly title: string;
   readonly slug: string;
+  readonly image: string;
   readonly fellow: string;
   readonly techUsed: string;
   readonly fullPath: string;
