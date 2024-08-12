@@ -20,17 +20,23 @@ type Props = {
   title: string;
   dropdownElId: string;
   items: NavLinkType[];
+  directLink?: string;
 };
-function NavDropdownButton({ title, dropdownElId, items }: Props) {
+function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
   return (
     <>
       <button
-        className={"nav-button p-0 font-light"}
+        className={`nav-button p-0 font-light${
+          directLink ? "" : " cursor-default"
+        }`}
         onMouseLeave={() => {
           document.getElementById(dropdownElId).setAttribute("hidden", "");
         }}
         onMouseEnter={() => {
           document.getElementById(dropdownElId).removeAttribute("hidden");
+        }}
+        onClick={() => {
+          if (directLink) window.location.href = directLink;
         }}
       >
         {title} <ExpandMoreIcon />
@@ -103,6 +109,8 @@ const NavBar = (): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
 
+  const fellowItems = [{ title: "Showcase", url: "/showcase" }];
+
   const aboutItems = [
     { title: "Advisory", url: "/advisory" },
     { title: "SDOH & Place Project", url: "/about" },
@@ -119,8 +127,20 @@ const NavBar = (): JSX.Element => {
           <li className={`${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
-          <li className={`${router.pathname == "/fellows" ? "active" : ""}`}>
-            <Link href="/fellows">Fellows</Link>
+          <li
+            className={`${
+              router.pathname == "/fellows" ||
+              router.pathname.startsWith("/showcase")
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Fellows"
+              dropdownElId="fellows-dd"
+              items={fellowItems}
+              directLink="/fellows"
+            />
           </li>
           <li
             className={`${router.pathname.startsWith("/news") ? "active" : ""}`}
