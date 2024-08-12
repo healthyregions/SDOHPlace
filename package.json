@@ -70,7 +70,8 @@
     "react-schemaorg": "^2.0.0",
     "react-twitter-embed": "^4.0.4",
     "react-youtube": "^10.1.0",
-    "schema-dts": "^1.1.2"
+    "schema-dts": "^1.1.2",
+    "sharp": "^0.33.4"
   },
   "devDependencies": {
     "@commitlint/cli": "17.4.2",
