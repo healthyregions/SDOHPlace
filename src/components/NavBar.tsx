@@ -109,7 +109,10 @@ const NavBar = (): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
 
-  const fellowItems = [{ title: "Showcase", url: "/showcase" }];
+  const fellowItems = [
+    { title: "2024 Cohort", url: "/fellows" },
+    { title: "Showcase", url: "/showcase" },
+  ];
 
   const aboutItems = [
     { title: "Advisory", url: "/advisory" },
@@ -139,7 +142,6 @@ const NavBar = (): JSX.Element => {
               title="Fellows"
               dropdownElId="fellows-dd"
               items={fellowItems}
-              directLink="/fellows"
             />
           </li>
           <li

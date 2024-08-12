@@ -76,20 +76,23 @@ ul.navbar > li.active > button {
   @apply text-frenchviolet before:content-[''] before:border-l-[0.25rem] before:border-frenchviolet before:pr-[0.5rem];
 }
 
-ul.navbar > li.active > ul > li {
-  @apply pl-[0.75rem];
-}
-
 ul.navbar > li > ul {
-  @apply pl-4 absolute;
+  padding: 1rem 2rem;
+  background-color: #ffe5c4;
+  border-radius: 4px;
+  @apply absolute;
 }
 
 ul.navbar > li > ul > li {
-  @apply pt-2 no-underline;
+  @apply pb-2 no-underline;
+}
+
+ul.navbar > li > ul > li:last-child {
+  @apply p-0 no-underline;
 }
 
 ul.navbar > li > ul > li > a {
-  @apply text-almostblack uppercase text-base font-bold tracking-[0.03125rem] leading-4 no-underline;
+  @apply text-almostblack text-base font-bold tracking-[0.03125rem] leading-4 no-underline;
 }
 
 ul.navbar-mobile {
