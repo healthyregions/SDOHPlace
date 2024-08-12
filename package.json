@@ -71,7 +71,7 @@
     "react-twitter-embed": "^4.0.4",
     "react-youtube": "^10.1.0",
     "schema-dts": "^1.1.2",
-    "sharp": "^0.33.4"
+    "sharp": "0.32"
   },
   "devDependencies": {
     "@commitlint/cli": "17.4.2",
