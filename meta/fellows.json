@@ -24,7 +24,12 @@
       "title": "Assistant Professor",
       "image": "/images/headshot-pc.jpeg",
       "desc_short": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/xiang-%E2%80%9Cpeter%E2%80%9D-chen-0429ab19/"
+        }
+      ],
       "desc_long": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests are focused on Geographic Information Systems (GIS) and community health. He employs both a data-driven approach and a mixed-methods approach to unveil socioeconomic and health inequities resulting from the unequal distribution of health resources.<br/><br/>His topical area is food access, evaluating whether community members can perceive and utilize healthy, affordable food provisioning from both place-based and people-based perspectives. This research theme is substantiated using GIS modeling, big data analytics, AI-based food image recognition, and community surveys.",
       "cohort": "Spring 2024"
     },
