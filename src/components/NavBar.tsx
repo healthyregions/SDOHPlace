@@ -132,6 +132,20 @@ const NavBar = (): JSX.Element => {
           </li>
           <li
             className={`${
+              router.pathname.startsWith("/about") ||
+              router.pathname.startsWith("/advisory")
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="About"
+              dropdownElId="about-dd"
+              items={aboutItems}
+            />
+          </li>
+          <li
+            className={`${
               router.pathname == "/fellows" ||
               router.pathname.startsWith("/showcase")
                 ? "active"
@@ -148,20 +162,6 @@ const NavBar = (): JSX.Element => {
             className={`${router.pathname.startsWith("/news") ? "active" : ""}`}
           >
             <Link href="/news">News</Link>
-          </li>
-          <li
-            className={`${
-              router.pathname.startsWith("/about") ||
-              router.pathname.startsWith("/advisory")
-                ? "active"
-                : ""
-            }`}
-          >
-            <NavDropdownButton
-              title="About"
-              dropdownElId="about-dd"
-              items={aboutItems}
-            />
           </li>
           <li
             className={`${
@@ -196,17 +196,21 @@ const NavBar = (): JSX.Element => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/fellows">Fellows</Link>
-            </li>
-            <li>
-              <Link href="/news">News</Link>
-            </li>
-            <li>
               <NavDropdownMobile
                 title="About"
                 dropdownElId="about-dd-mobile"
                 items={aboutItems}
               />
+            </li>
+            <li>
+              <NavDropdownMobile
+                title="Fellows"
+                dropdownElId="fellows-dd-mobile"
+                items={fellowItems}
+              />
+            </li>
+            <li>
+              <Link href="/news">News</Link>
             </li>
             <li>
               <Link href="/contact">Contact Us</Link>
