@@ -99,6 +99,10 @@
     "typescript": "^5.2.2",
     "yaml-loader": "^0.8.0"
   },
+  "cacheDirectories": [
+    "node_modules",
+    ".next/cache"
+  ],
   "prepare": "husky install",
   "browser": {
     "fs": false,
