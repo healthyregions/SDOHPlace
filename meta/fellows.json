@@ -55,10 +55,15 @@
         {
           "link_label": "LinkedIn",
           "link_url": "https://www.linkedin.com/in/amy-kryston"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/mapping-montgomery"
         }
       ],
       "desc_long": "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists in the evaluation of community health worker (CHW) integration into federally qualified health centers and retrospective evaluation of CHW programming during the COVID-19 pandemic. She also provides technical support to North Carolina community-based organizations and health departments and leads the evaluation of community health needs assessment with the City of Montgomery, Alabama. Amy holds a Bachelor of Science in Civil Engineering from Gonzaga University, a Master of Science in Civil and Environmental Engineering and Earth Sciences from the University of Notre Dame, a Master of Public Health from the University of North Carolina, Chapel Hill (UNC).<br/><br/>Prior to her current role, Amy conducted research on remotely sensed early detection of cholera outbreaks in Bangladesh and transboundary water policy of the Ganges River under multiple potential climate futures. At UNC, she received the University’s inaugural Environmental Graduate Research Scholarship for her work on access to safe sanitation in the United States. Amy continues to work the UNC Gillings School of Global Public Health Humanitarian Health Initiative as the program coordinator and as a technical advisor for community health and water and sanitation in Nicaragua. She is a co-founder and the current president of Switchback Gear Collective, a North Carolina non-profit organization working to advance outdoor equity.",
-      "cohort": "Spring 2024"
+      "cohort": "Spring 2024",
+      "project": "the-montgomery-alabama-asset-map"
     },
     {
       "name": "Latrice Landry",
