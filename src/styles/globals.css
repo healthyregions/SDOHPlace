@@ -54,8 +54,15 @@ button.nav-button {
 
 ul.navbar > li > a,
 ul.navbar > li > button {
-  text-decoration: none;
-  @apply text-almostblack pl-4 pr-4 uppercase text-base font-bold tracking-[0.03125rem] leading-4;
+  @apply text-almostblack uppercase text-base font-bold tracking-[0.03125rem] leading-4 no-underline;
+}
+
+ul.navbar > li > a {
+  @apply px-4;
+}
+
+ul.navbar > li > button {
+  @apply pl-4;
 }
 
 ul.navbar > li > a:hover,
