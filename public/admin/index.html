@@ -58,7 +58,7 @@
             h(
               "div",
               { className: "content" },
-              h("img", {src: entry.getIn(["data", "image"])}),
+              h("img", { src: entry.getIn(["data", "image"]) }),
               h("div", {}, this.props.widgetFor("body"))
             )
           );
