@@ -53,6 +53,7 @@
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
     "@mui/styles": "^5.14.14",
+    "@netlify/plugin-nextjs": "^5.6.0",
     "@next/font": "13.1.0",
     "@svgr/webpack": "^8.1.0",
     "@types/js-yaml": "^4.0.8",
