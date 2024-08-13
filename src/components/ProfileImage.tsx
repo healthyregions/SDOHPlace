@@ -10,8 +10,7 @@ interface Props {
 const ProfileImage = (props: Props): JSX.Element => {
   let className = "object-cover object-center w-full h-full overflow-hidden";
   if (props.rounded) {
-    className +=
-      " rounded-full border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]";
+    className += " rounded-full border-4 border-solid border-salmonpink";
     return (
       <div style={{ width: 165, height: 165 }}>
         <Image
@@ -21,7 +20,6 @@ const ProfileImage = (props: Props): JSX.Element => {
           height={165}
           className={className}
           alt={props.alt}
-          style={{ boxShadow: "2px 4px 0px 0px #8120c4" }}
         />
       </div>
     );

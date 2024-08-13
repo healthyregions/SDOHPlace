@@ -53,6 +53,7 @@
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
     "@mui/styles": "^5.14.14",
+    "@netlify/plugin-nextjs": "^5.6.0",
     "@next/font": "13.1.0",
     "@svgr/webpack": "^8.1.0",
     "@types/js-yaml": "^4.0.8",
@@ -70,7 +71,8 @@
     "react-schemaorg": "^2.0.0",
     "react-twitter-embed": "^4.0.4",
     "react-youtube": "^10.1.0",
-    "schema-dts": "^1.1.2"
+    "schema-dts": "^1.1.2",
+    "sharp": "0.32"
   },
   "devDependencies": {
     "@commitlint/cli": "17.4.2",
@@ -98,6 +100,10 @@
     "typescript": "^5.2.2",
     "yaml-loader": "^0.8.0"
   },
+  "cacheDirectories": [
+    "node_modules",
+    ".next/cache"
+  ],
   "prepare": "husky install",
   "browser": {
     "fs": false,
