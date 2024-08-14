@@ -20,7 +20,7 @@ export type Props = {
   link: string;
   tags: string[];
   fellowName: string;
-  techUsed: string;
+  techUsed?: string;
   description?: string;
   source: MDXRemoteSerializeResult;
 };
@@ -44,7 +44,7 @@ export default function Post({
   link,
   tags,
   fellowName,
-  techUsed,
+  techUsed = "",
   description = "",
   source,
 }: Props) {
@@ -91,7 +91,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       title: data.title,
       slug: data.slug,
       image: data.image,
-      techUsed: data.tech_used,
+      techUsed: data.tech_used ? data.tech_used : "",
       link: data.link,
       fellowName: data.fellow,
       source: mdxSource,
