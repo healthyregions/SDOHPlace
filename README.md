@@ -18,38 +18,7 @@ Or
 
 - Switch to the `publish` branch and make direct edits to the `.mdx` files in `content/news`
 
-### Tips for Writing Blog Posts
-
-- Each post should have at least one tag.
-- Don't use `<` or `>` in the text of a post. If you need those characters, use `&lt;` (lt = "less than") and `&gt;` (gt = "greater than").
-  - The reason for this is that markdown can support inclusion of HTML elements, which look like `<element-name>`. If `<>` are found outside of a valid HTML element, they will cause an error.
-- Do not include raw links directly in the post text, always make normal text, highlight, and then add a link to it.
-  - For example, make a link that looks like [sdohplace.org](https://sdohplace.org) instead of putting `https://sdohplace.org` directly in the post body
-- To add a caption under an image, use these three steps:
-
-  1. First, add the image as usual, using the + button in the **Rich Text** editor.
-  2. Next, switch the editor mode to **Markdown** and find the line for the image. It should look something like
-     ```
-     ![](/images/sdoh_place.png)
-     ```
-  3. Now, copy the following code block and place it below the image line:
-     ```
-     <figure>
-       <img src="">
-       <figcaption>add your caption here</figcaption>
-     </figure>
-     ```
-  4. Take the path from the original image tag and put it into the new `src` attribute, and then update your caption as desired. For example:
-     ```
-     <figure>
-       <img src="/images/sdoh_place.png">
-       <figcaption>"SDOH model" by Skbanergt is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></figcaption>
-     </figure>
-     ```
-     Note that to place a link in the caption, you need to use a full `<a>` element.
-  5. Finally, you should see the figure and caption looking good in the post preview, and you can remove the original image line.
-
-- If you need to change the slug of the post after it has been created, you will also need to manually change the file name to match the new slug.
+A full guide to using the CMS is available internally on our Notion workspace.
 
 ## Branch Configuration
 

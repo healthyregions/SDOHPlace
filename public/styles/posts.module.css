@@ -47,7 +47,9 @@
 
 .content p,
 .content ul,
-.content ol {
+.content ol,
+.content details,
+.content details > summary {
   font-size: 1.25rem;
 }
 .content p {

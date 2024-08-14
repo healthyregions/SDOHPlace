@@ -74,19 +74,6 @@ export default function ShowcaseLayout({
           <header>
             <h1>{title}</h1>
           </header>
-          <div className={"text-smokegray font-light italic text-base"}>
-            <p>
-              Earlier this year, we invited{" "}
-              <Link href="/fellows">fifteen fellows</Link> to develop their own
-              web mapping applications, centered on equity and designed with
-              communities in mind, using the{" "}
-              <Link href="https://toolkit.sdohplace.org">
-                SDOH &amp; Place Toolkit
-              </Link>
-              . From July to September, we&apos;ll feature final fellow
-              applications each week.
-            </p>
-          </div>
           <div className="relative">
             <Image
               src={image}

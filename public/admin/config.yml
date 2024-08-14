@@ -296,7 +296,7 @@ collections:
     extension: "mdx"
     format: "frontmatter"
     create: true
-    slug: "{{slug}}"
+    slug: "{{field.slug}}"
     identifier_field: slug
     summary: "{{title}}"
     fields:
@@ -306,6 +306,7 @@ collections:
       - label: "Slug"
         name: "slug"
         widget: "string"
+        hint: "The slug must contain only lowercase letters, numbers, and hyphens. It will name the file and be used in the URL for this entry. It shouldn't be changed after this entry is saved."
       - label: "Publish Date"
         name: "date"
         widget: "datetime"
@@ -356,7 +357,7 @@ collections:
     extension: "mdx"
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
-    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    slug: "{{field.slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Project Title"
         name: "title"
@@ -364,6 +365,7 @@ collections:
       - label: "Slug"
         name: "slug"
         widget: "string"
+        hint: "The slug must contain only lowercase letters, numbers, and hyphens. It will name the file and be used in the URL for this entry. It shouldn't be changed after this entry is saved."
       - label: "Featured Image"
         name: "image"
         widget: "image"
