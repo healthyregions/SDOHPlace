@@ -6,7 +6,6 @@ type Props = {
   item: ShowcaseContent;
 };
 export default function ShowcaseItem({ item }: Props) {
-  console.log(item);
   return (
     <Link href={"/showcase/" + item.slug} legacyBehavior>
       <a className={"no-underline"}>
