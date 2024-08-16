@@ -34,6 +34,7 @@ export default class SolrQueryBuilder {
   public fetchResult(): Promise<SolrObject[]> {
     return new Promise((resolve, reject) => {
       const encodedUrl = this.query.query;
+      console.log("Encoded URL: ", encodedUrl);
       fetch(encodedUrl, {
         method: "GET",
         headers: {

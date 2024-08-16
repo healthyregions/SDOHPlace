@@ -256,7 +256,7 @@ export default function DiscoveryArea({
           <ResultsPanel
             resultsList={fetchResults}
             relatedList={fetchResults}
-            isQuery={isQuery[0].length > 0}
+            isQuery={isQuery[0].length > 0 || filterQueries.length > 0}
           />
         </Grid>
       )}
