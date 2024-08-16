@@ -1,18 +1,15 @@
 "use client";
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
-import { usePathname, useSearchParams } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
-import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import Footer from "@/components/homepage/footer";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import DiscoveryArea from "@/components/search/discoveryArea";
@@ -55,10 +52,6 @@ export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
 
 const Search: NextPage<SearchPageProps> = ({ schema }) => {
   const [open, setOpen] = React.useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [data, setData] = useState(null);
-  const [allResults, setAllResults] = useState([]);
   const [solrObjectResults, setSolrObjectResults] = useState(
     [] as SolrObject[]
   );
@@ -74,10 +67,6 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
         setLoading(false);
       });
   }, [solrUrl, schema]);
-  const memoizedSolrObjectResults = useMemo(
-    () => solrObjectResults,
-    [solrObjectResults]
-  );
   return (
     <>
       <NavBar />
