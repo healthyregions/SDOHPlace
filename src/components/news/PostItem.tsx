@@ -9,7 +9,7 @@ type Props = {
 export default function PostItem({ post }: Props) {
   return (
     <Link href={"/news/" + post.slug} legacyBehavior>
-      <a>
+      <a className={"no-underline"}>
         <Date date={parseISO(post.date)} />
         <h2>{post.title}</h2>
         <style jsx>

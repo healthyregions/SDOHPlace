@@ -3,14 +3,14 @@ import Layout from "@/components/news/Layout";
 import BasicMeta from "@/components/news/meta/BasicMeta";
 import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
 import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
-import PostList from "@/components/news/PostList";
+import ShowcaseList from "@/components/showcase/ShowcaseList";
 import config from "../../lib/config";
-import { countPosts, listPostContent, PostContent } from "../../lib/posts";
+import { countPosts, listPostContent, ShowcaseContent } from "../../lib/cms";
 import { listTags, TagContent } from "../../lib/tags";
 import Head from "next/head";
 
 type Props = {
-  posts: PostContent[];
+  posts: ShowcaseContent[];
   tags: TagContent[];
   pagination: {
     current: number;
@@ -18,24 +18,24 @@ type Props = {
   };
 };
 export default function Index({ posts, tags, pagination }: Props) {
-  const url = "/news";
-  const title = "All posts";
+  const url = "/showcase";
+  const title = "Showcase";
   return (
-    <Layout page_header={"Project News"}>
+    <Layout page_header={"Fellows Showcase"}>
       <BasicMeta url={url} title={title} />
       <OpenGraphMeta url={url} title={title} />
       <TwitterCardMeta url={url} title={title} />
-      <PostList posts={posts} tags={tags} pagination={pagination} />
+      <ShowcaseList posts={posts} pagination={pagination} />
     </Layout>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = listPostContent(1, config.posts_per_page);
+  const posts = listPostContent("content/showcase", 1, config.posts_per_page);
   const tags = listTags();
   const pagination = {
     current: 1,
-    pages: Math.ceil(countPosts() / config.posts_per_page),
+    pages: Math.ceil(countPosts("content/showcase") / config.posts_per_page),
   };
   return {
     props: {

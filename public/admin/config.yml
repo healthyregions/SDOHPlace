@@ -30,6 +30,7 @@ collections:
           - label: "Site keywords"
             name: "site_keywords"
             widget: "list"
+            hint: "Do not edit here! Add/remove site keywords directly in config.json"
             summary: "{{fields.keyword.keyword}}"
             field:
               label: Keyword
@@ -88,13 +89,214 @@ collections:
                 widget: "string"
                 hint: "Tag name for displaying on the site"
 
+  - name: "people"
+    label: "People"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: fellows
+        label: Fellows
+        file: "meta/fellows.json"
+        label_singular: "Fellow"
+        fields:
+          - name: fellows
+            label: Fellows
+            label_singular: "Fellow"
+            widget: list
+            summary: "{{name}} - {{cohort}}"
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Cohort"
+                name: "cohort"
+                widget: "select"
+                options: ["Spring 2024", "Fall 2024"]
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - { label: Label, name: link_label, widget: string }
+                  - {
+                      label: URL,
+                      name: link_url,
+                      widget: string,
+                      pattern:
+                        [
+                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                          "Must be a valid URL.",
+                        ],
+                    }
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+                hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
+              - label: Project Showcase
+                name: "project"
+                required: false
+                widget: relation
+                collection: "showcase"
+                searchFields: ["title"]
+                displayFields: ["title"]
+                valueField: "slug"
+      - name: team
+        label: Team
+        file: "meta/team.json"
+        fields:
+          - name: team
+            label: Team
+            label_singular: "Team Member"
+            widget: list
+            summary: "{{name}} - {{status}}"
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                default: "current"
+                options: ["current", "past"]
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - { label: Label, name: link_label, widget: string }
+                  - {
+                      label: URL,
+                      name: link_url,
+                      widget: string,
+                      pattern:
+                        [
+                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                          "Must be a valid URL.",
+                        ],
+                    }
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+                hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
+      - name: tech_advisory
+        label: Technical Advisory Group
+        file: "meta/tech_advisory.json"
+        fields:
+          - name: tech_advisory
+            label: Tech Advisory Group
+            label_singular: "Tech Advisor"
+            summary: "{{name}} - {{affiliation}}"
+            widget: list
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Affiliation"
+                name: "affiliation"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - { label: Label, name: link_label, widget: string }
+                  - {
+                      label: URL,
+                      name: link_url,
+                      widget: string,
+                      pattern:
+                        [
+                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                          "Must be a valid URL.",
+                        ],
+                    }
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+                hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
+      - name: stakeholder_advisory
+        label: Stakeholder Advisory Group
+        file: "meta/stakeholder_advisory.json"
+        fields:
+          - name: stakeholder_advisory
+            label: Stakeholder Advisory Group
+            label_singular: "Stakeholder Advisor"
+            summary: "{{name}} - {{affiliation}}"
+            widget: list
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+              - label: "Affiliation"
+                name: "affiliation"
+                widget: "string"
+              - label: "Profile Image"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                default: "/images/missing-headshot.png"
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                summary: "{{link_label}} - {{link_url}}"
+                fields:
+                  - { label: Label, name: link_label, widget: string }
+                  - {
+                      label: URL,
+                      name: link_url,
+                      widget: string,
+                      pattern:
+                        [
+                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                          "Must be a valid URL.",
+                        ],
+                    }
+              - label: "Short Description"
+                name: "desc_short"
+                widget: "text"
+              - label: "Full Description"
+                name: "desc_long"
+                widget: "text"
+                hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
+
   - name: "posts"
     label: "Posts"
     folder: "content/posts/"
     extension: "mdx"
     format: "frontmatter"
     create: true
-    slug: "{{slug}}"
+    slug: "{{field.slug}}"
     identifier_field: slug
     summary: "{{title}}"
     fields:
@@ -104,6 +306,7 @@ collections:
       - label: "Slug"
         name: "slug"
         widget: "string"
+        hint: "The slug must contain only lowercase letters, numbers, and hyphens. It will name the file and be used in the URL for this entry. It shouldn't be changed after this entry is saved."
       - label: "Publish Date"
         name: "date"
         widget: "datetime"
@@ -144,6 +347,52 @@ collections:
       - label: "Excerpt"
         name: "excerpt"
         widget: "string"
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  - name: "showcase" # Used in routes, e.g., /admin/collections/blog
+    label: "Showcase" # Used in the UI
+    folder: "content/showcase" # The path to the folder where the documents are stored
+    extension: "mdx"
+    format: "frontmatter"
+    create: true # Allow users to create new documents in this collection
+    slug: "{{field.slug}}"
+    fields: # The fields for each document, usually in front matter
+      - label: "Project Title"
+        name: "title"
+        widget: "string"
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "The slug must contain only lowercase letters, numbers, and hyphens. It will name the file and be used in the URL for this entry. It shouldn't be changed after this entry is saved."
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.jpg"
+      - label: "External Link"
+        name: "link"
+        widget: "string"
+        pattern:
+          [
+            '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+            "Must be a valid URL.",
+          ]
+      - label: "Tech Used"
+        name: "tech_used"
+        widget: "string"
+        required: false
+      - label: Fellow
+        name: "fellow"
+        widget: relation
+        collection: "people"
+        file: "fellows"
+        searchFields:
+          - "fellows.*.name"
+        displayFields:
+          - "fellows.*.name"
+        valueField: "fellows.*.name"
       - label: "Body"
         name: "body"
         widget: "markdown"

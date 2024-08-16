@@ -34,8 +34,8 @@ h5 {
   font-size: 1.25em;
 }
 
-a.text-link {
-  @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600;
+a {
+  @apply underline text-frenchviolet;
 }
 
 b,
@@ -48,10 +48,89 @@ em {
   @apply italic;
 }
 
-.navbar-title {
-  @apply text-almostblack p-4 uppercase text-base font-bold tracking-[0.03125rem] leading-4;
+button.nav-button {
+  @apply text-almostblack;
 }
 
-.navbar-title-active {
+ul.navbar > li > a,
+ul.navbar > li > button {
+  @apply text-almostblack uppercase text-base font-bold tracking-[0.03125rem] leading-4 no-underline;
+}
+
+ul.navbar > li > a {
+  @apply px-4;
+}
+
+ul.navbar > li > button {
+  @apply pl-4;
+}
+
+ul.navbar > li > a:hover,
+ul.navbar > li > button:hover,
+ul.navbar > li > ul > li > a:hover {
+  @apply text-frenchviolet;
+}
+
+ul.navbar > li.active > a,
+ul.navbar > li.active > button {
   @apply text-frenchviolet before:content-[''] before:border-l-[0.25rem] before:border-frenchviolet before:pr-[0.5rem];
+}
+
+ul.navbar > li > ul {
+  padding: 1rem 2rem;
+  background-color: #ffe5c4;
+  border-radius: 4px;
+  @apply absolute;
+}
+
+ul.navbar > li > ul > li {
+  @apply pb-2 no-underline;
+}
+
+ul.navbar > li > ul > li:last-child {
+  @apply p-0 no-underline;
+}
+
+ul.navbar > li > ul > li > a {
+  @apply text-almostblack text-base font-bold tracking-[0.03125rem] leading-4 no-underline;
+}
+
+ul.navbar-mobile {
+  @apply mt-6;
+}
+
+ul.navbar-mobile > li,
+ul.navbar-mobile > li > button {
+  @apply p-4 text-2xl uppercase;
+}
+
+ul.navbar-mobile > li > button {
+  @apply text-white no-underline p-0;
+}
+
+ul.navbar-mobile > li > a {
+  @apply text-white no-underline;
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin-bottom: 2em;
+}
+
+.post-list > ul {
+  margin: 0;
+  padding: 0;
+  flex: 1 0 auto;
+}
+.post-list > ul > li {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.content h1 {
+  color: red;
+  font-family: Fredoka;
+  margin: 2.5rem 0 0 0;
 }

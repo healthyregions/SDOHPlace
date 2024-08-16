@@ -8,14 +8,15 @@ import Button from "@mui/material/Button";
 import { AiOutlineClose } from "react-icons/ai";
 import Footer from "@/components/homepage/footer";
 import Header from "@/components/Header";
+import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
-
-import people from "../../meta/people.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
+
+import team from "../../meta/team.json";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -43,21 +44,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const currentTeam = team.team.filter((p) => p.status == "current");
+const pastTeam = team.team.filter((p) => p.status == "past");
+
 const About: NextPage = () => {
   const classes = useStyles();
-  const teamList = [];
-  const pastTeamList = [];
-  Object.keys(people).map(function (id, keyIndex) {
-    const item = people[id];
-    item.id = id;
-    if (item.category.indexOf("core") >= 0) {
-      teamList.push(item);
-    } else if (item.category.indexOf("past-core") >= 0) {
-      pastTeamList.push(item);
-    }
-  });
   const [open, setOpen] = React.useState(false);
-  const [bio, setBio] = React.useState("marynia");
+  const [modalData, setModalData] = React.useState(currentTeam[0]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -91,35 +84,29 @@ const About: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-3/12 max-md:w-full max-md:ml-0">
                 <div className="flex flex-col max-md:mt-10">
-                  <img
-                    loading="lazy"
-                    srcSet={people[bio].image}
-                    className="aspect-[0.94] object-cover object-center w-full overflow-hidden"
-                    alt={people[bio].name}
+                  <ProfileImage
+                    src={modalData.image}
+                    alt={modalData.name}
+                    rounded={false}
                   />
                   <div className="text-2xl font-bold leading-[133.333%] mt-6">
-                    {people[bio].name}
+                    {modalData.name}
                   </div>
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
-                    {people[bio].affiliation}
+                    {modalData.title}
                   </div>
-                  {Object.keys(people[bio].links).map((id, index) => (
+                  {modalData.links.map((link, index) => (
                     <div
                       key={index}
                       className="text-lg font-medium leading-[177.778%] mt-2.5"
                     >
                       <a
-                        href={people[bio].links[id]}
+                        href={link.link_url}
                         target="_blank"
                         rel="noreferrer"
+                        className="text-salmonpink no-underline hover:underline"
                       >
-                        <Typography
-                          sx={{
-                            color: fullConfig.theme.colors["salmonpink"],
-                          }}
-                        >
-                          {id}
-                        </Typography>
+                        <Typography>{link.link_label}</Typography>
                       </a>
                     </div>
                   ))}
@@ -127,15 +114,11 @@ const About: NextPage = () => {
               </div>
               <div className="flex flex-col items-stretch w-9/12 max-md:w-full max-md:ml-0">
                 <div className="text-lg font-medium leading-[177.778%] w-[848px] max-w-full max-md:mt-10">
-                  {people[bio].long.map((p, index) => (
-                    <div
-                      key={index}
-                      style={{ marginBottom: "10px" }}
-                      dangerouslySetInnerHTML={{
-                        __html: p,
-                      }}
-                    />
-                  ))}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: modalData.desc_long,
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -184,13 +167,6 @@ const About: NextPage = () => {
             </div>
           </div>
         </div>
-        {/* <div className="px-[2.5%] mt-[100px] relative self-center">
-					<Image
-						priority
-						src={sdohGraphic}
-						alt="The SDOH & Place graphic"
-					/>
-				</div> */}
         <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-10 mb-[200px] px-5 max-md:max-w-full max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
             <h2 className="font-fredoka">Core Team</h2>
@@ -230,7 +206,7 @@ const About: NextPage = () => {
             >
               <div className="self-center w-full max-md:max-w-full">
                 <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                  {teamList.map((item, index) => (
+                  {currentTeam.map((item, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -242,11 +218,10 @@ const About: NextPage = () => {
                             paddingRight: "100px",
                           }}
                         >
-                          <img
-                            loading="lazy"
-                            srcSet={item.image}
-                            className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
+                          <ProfileImage
+                            src={item.image}
                             alt={item.name}
+                            rounded={true}
                           />
                         </div>
                         <div className="flex grow flex-col max-md:mt-10">
@@ -257,12 +232,12 @@ const About: NextPage = () => {
                             {item.title}
                           </div>
                           <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                            {item.text}
+                            {item.desc_short}
                           </div>
                           <div
                             className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
                             onClick={() => {
-                              setBio(item.id);
+                              setModalData(item);
                               handleOpen();
                             }}
                           >
@@ -290,7 +265,7 @@ const About: NextPage = () => {
             >
               <div className="self-center w-full max-md:max-w-full">
                 <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                  {pastTeamList.map((item, index) => (
+                  {pastTeam.map((item, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -302,11 +277,10 @@ const About: NextPage = () => {
                             paddingRight: "100px",
                           }}
                         >
-                          <img
-                            loading="lazy"
-                            srcSet={item.image}
-                            className="aspect-[0.98] object-cover rounded-full object-center w-full overflow-hidden grow max-md:mt-10 border-4 border-solid border-salmonpink shadow-[2px_4px_0px_0px_frenchviolet]"
+                          <ProfileImage
+                            src={item.image}
                             alt={item.name}
+                            rounded={true}
                           />
                         </div>
                         <div className="flex grow flex-col max-md:mt-10">
@@ -317,12 +291,12 @@ const About: NextPage = () => {
                             {item.title}
                           </div>
                           <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                            {item.text}
+                            {item.desc_short}
                           </div>
                           <div
                             className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
                             onClick={() => {
-                              setBio(item.id);
+                              setModalData(item);
                               handleOpen();
                             }}
                           >

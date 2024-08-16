@@ -240,20 +240,53 @@ const Footer = (): JSX.Element => {
             <ul
               className={`${classes.marginAutoDesktop} flex flex-col justify-center gap-5 items-start`}
             >
-              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-                <Link href="/">Home</Link>
+              <li className="leading-4">
+                <Link
+                  className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
+                  href="/"
+                >
+                  Home
+                </Link>
               </li>
-              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-                <Link href="/advisory">Advisory</Link>
+              <li className="leading-4">
+                <Link
+                  className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
+                  href="/advisory"
+                >
+                  Advisory
+                </Link>
               </li>
-              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-                <Link href="/news">News</Link>
+              <li className="leading-4">
+                <Link
+                  className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
+                  href="/fellows"
+                >
+                  Fellows
+                </Link>
               </li>
-              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-                <Link href="/about">About</Link>
+              <li className="leading-4">
+                <Link
+                  className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
+                  href="/news"
+                >
+                  News
+                </Link>
               </li>
-              <li className="uppercase text-salmonpink text-center text-xl-rfs leading-4 tracking-[0.03125rem]">
-                <Link href="/contact">Contact Us</Link>
+              <li className="leading-4">
+                <Link
+                  className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
+                  href="/about"
+                >
+                  About
+                </Link>
+              </li>
+              <li className="leading-4">
+                <Link
+                  className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
+                  href="/contact"
+                >
+                  Contact Us
+                </Link>
               </li>
             </ul>
           </div>
