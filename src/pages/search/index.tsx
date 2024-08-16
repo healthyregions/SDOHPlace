@@ -4,7 +4,7 @@ import { GetStaticProps } from "next";
 import { usePathname, useSearchParams } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 
 import resolveConfig from "tailwindcss/resolveConfig";
@@ -63,21 +63,21 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
     [] as SolrObject[]
   );
   const [isLoading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch(solrUrl + "/select?q=*:*&rows=100")
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
-        const solrObjectResults = [];
-        data.response.docs.map((doc, index) => {
-          solrObjectResults.push(initSolrObject(doc, schema));
-        });
+        const solrObjectResults = data.response.docs.map((doc) =>
+          initSolrObject(doc, schema)
+        );
         setSolrObjectResults(solrObjectResults);
         setLoading(false);
       });
-  });
-
+  }, [solrUrl, schema]);
+  const memoizedSolrObjectResults = useMemo(
+    () => solrObjectResults,
+    [solrObjectResults]
+  );
   return (
     <>
       <NavBar />

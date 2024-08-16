@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ResultsPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
-  
+  console.log("ResultsPanel", props.resultsList);
   return (
     <div className="results-panel" style={{ flex: '1 1 auto', overflow: 'hidden' }}>
     <span className={`${classes.resultsPanel}`}>
