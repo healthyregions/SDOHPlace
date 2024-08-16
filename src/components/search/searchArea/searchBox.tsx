@@ -28,7 +28,7 @@ interface Props {
   autocompleteKey: number;
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
-  handleReset: () => void;
+  handleInputReset: () => void;
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -114,7 +114,6 @@ const SearchBox = (props: Props): JSX.Element => {
       props.inputValue,
       "overwrite"
     );
-    console.log("Search for:", props.inputValue);
     props.handleSearch(props.inputValue);
   };
   const handleDropdownSelect = (event, value) => {
@@ -128,14 +127,6 @@ const SearchBox = (props: Props): JSX.Element => {
       "overwrite"
     );
   };
-  // This needs to be updated after switching to the new method
-  // const handleReset = () => {
-  //   setAutocompleteKey(autocompleteKey + 1);
-  //   setOptions([]);
-  //   setUserInput("");
-  //   inputRef.current?.focus();
-  //   inputRef.current?.select();
-  // };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
@@ -161,7 +152,7 @@ const SearchBox = (props: Props): JSX.Element => {
       props.setInputValue("");
       props.inputRef.current?.focus();
       props.inputRef.current?.select();
-      props.handleReset();
+      props.handleInputReset();
     }
   };
   return (
