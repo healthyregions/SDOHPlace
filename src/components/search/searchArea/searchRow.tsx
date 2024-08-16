@@ -13,7 +13,7 @@ interface Props {
   schema: any;
   autocompleteKey: number;
   options: any[];
-  handleReset: () => void;
+  handleInputReset: () => void;
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
@@ -77,7 +77,7 @@ const SearchRow = (props: Props): JSX.Element => {
               autocompleteKey={props.autocompleteKey}
               options={props.options}
               setOptions={props.setOptions}
-              handleReset={props.handleReset}
+              handleInputReset={props.handleInputReset}
               inputValue={props.inputValue}
               setInputValue={props.setInputValue}
               value={props.value}

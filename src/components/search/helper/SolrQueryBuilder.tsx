@@ -1,6 +1,8 @@
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
+import { Search } from "@mui/icons-material";
+import { getSchema } from './GetSchema';
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -12,8 +14,17 @@ export default class SolrQueryBuilder {
   // TODO: if our query will have more syntax, move the select part to individual query methods
   setQuery(queryString: string): SolrQueryBuilder {
     this.query.query = `${this.query.solrUrl}/${queryString}`;
-    console.log("sending query:", this.query.query);
+    console.log("Query: ", this.query.query);
     return this;
+  }
+  getQuery(): string {
+    return this.query.query;
+  }
+  getSchema(): {} {
+    return this.query.schema_json;
+  }
+  getSolrUrl(): string {
+    return this.query.solrUrl;
   }
   setSchema(schema: {}): SolrQueryBuilder {
     this.query.schema_json = schema;
@@ -22,23 +33,32 @@ export default class SolrQueryBuilder {
 
   public fetchResult(): Promise<SolrObject[]> {
     return new Promise((resolve, reject) => {
-      fetch(this.query.query)
-        .then((res) => res.text())
+      const encodedUrl = this.query.query;
+      fetch(encodedUrl, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.text();
+        })
         .then((text) => {
           try {
             const jsonResponse = JSON.parse(text);
             const result = this.getSearchResult(jsonResponse);
             resolve(result);
           } catch (error) {
-            // Check if the response is HTML
+            console.error("Error parsing JSON:", error);
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
-              console.warn(
-                "Received HTML response instead of JSON on the first try"
-              );
+              console.warn("Received HTML response instead of JSON");
               resolve([]);
             } else {
-              console.error("Error performing search:", error);
-              reject(error);
+              reject(new Error("Invalid response format"));
             }
           }
         })
@@ -89,7 +109,7 @@ export default class SolrQueryBuilder {
     if (typeof searchTerms === "string") {
       generalQuery += `${encodeURIComponent(
         findSolrAttribute(searchTerms, this.query.schema_json)
-      )}&rows=1000`; //add rows to remove pagination
+      )}`; //add rows to remove pagination
     } else {
       searchTerms.forEach((term) => {
         generalQuery += `${encodeURIComponent(
@@ -97,7 +117,7 @@ export default class SolrQueryBuilder {
         )} OR `;
       });
       generalQuery = generalQuery.slice(0, -4); //remove the last OR
-      generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
+      //generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
     }
     return this.setQuery(generalQuery);
   }
@@ -107,13 +127,9 @@ export default class SolrQueryBuilder {
   ): SolrQueryBuilder {
     let filterQuery = `select?fq=`;
     searchTerms.forEach((term) => {
-      term["attribute"] = findSolrAttribute(
-        term["attribute"],
-        this.query.schema_json
-      );
-      filterQuery += `${term["attribute"]}:(${encodeURIComponent(
-        term["value"]
-      )} OR "${encodeURIComponent(term["value"])}") AND `;
+      filterQuery += `${encodeURIComponent(
+        findSolrAttribute(term.attribute, this.query.schema_json)
+      )}:"${encodeURIComponent(term.value)}" AND `;
     });
     filterQuery = filterQuery.slice(0, -5); //remove the last AND
     filterQuery = filterQuery += "&rows=1000";

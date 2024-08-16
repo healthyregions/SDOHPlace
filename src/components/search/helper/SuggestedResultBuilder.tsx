@@ -24,9 +24,10 @@ export default class SuggestedResultBuilder {
   private getTermsFromTermResult(response_json: TermResult): string[] {
     let result = [] as string[];
     if (!this.suggestInput) return result;
-    if (Array.isArray(response_json) && response_json.length === 0) {
-      return result; // if response_json is an empty array
+    if (Array.isArray(response_json)) {
+      return result; // if response_json is an array
     }
+    console.log(response_json, this.suggestInput);
     const suggestions = response_json
       ? response_json.suggest[this.suggester][this.suggestInput].suggestions
       : [];

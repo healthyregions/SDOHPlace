@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, use, useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
@@ -30,6 +30,11 @@ import SearchRow from "./searchArea/searchRow";
 import ResultsPanel from "./resultsPanel/resultsPanel";
 import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
+import { Search } from "@mui/icons-material";
+import { GetAllParams } from "./helper/ParameterList";
+import { fi } from "date-fns/locale";
+import { set } from "date-fns";
+import { findSolrAttribute } from "meta/helper/util";
 
 export default function DiscoveryArea({
   results,
@@ -52,20 +57,13 @@ export default function DiscoveryArea({
   const [originalResults, setOriginalResults] =
     useState<SolrObject[]>(fetchResults); // last step, probably move this to memory in the future
   const [allResults, setAllResults] = useState<SolrObject[]>(fetchResults); // the initial results
-  // Input box
-  const [queryData, setQueryData] = useState<SearchObject>({
-    userInput: "",
-  });
   const inputRef = useRef<HTMLInputElement>(null);
-  const [autocompleteKey, setAutocompleteKey] = useState(0); 
-  const initialSearchInput = searchParams.get("query")?.toString() || "";
+  const [autocompleteKey, setAutocompleteKey] = useState(0);
+  const initialSearchInput = useQueryState("query", parseAsString)[0];
   const [inputValue, setInputValue] = useState<string>(initialSearchInput);
   const [value, setValue] = useState<string | null>(initialSearchInput);
   const [checkboxes, setCheckboxes] = useState([]);
   let tempSRChecboxes = new Set<CheckBoxObject>();
- 
-  const currentPath = usePathname();
-  const router = useRouter();
   SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
     tempSRChecboxes.add({
       attribute: "special_resolution", // not sure where this attribute property is used?
@@ -76,36 +74,101 @@ export default function DiscoveryArea({
       displayName: option.display_name,
     });
   });
-  const [sRCheckboxes, setSRCheckboxes] = useState(
-    new Set<CheckBoxObject>(tempSRChecboxes)
-  ); // Special Resolution checkboxes
   const [options, setOptions] = useState([]);
-  const [userInput, setUserInput] = useState("");
   const [resetStatus, setResetStatus] = useState(true);
-  const [queryString, setQueryString] = useState(null);
-  const constructFilter = filterAttributeList.map((filter) => {
-    return {
-      [filter.attribute]: {},
-    };
-  });
-  const [currentFilter, setCurrentFilter] = useState(
-    constructFilter as unknown as FilterObject
-  );
 
-  let searchQueryBuilder = new SolrQueryBuilder();
+  let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
   let suggestResultBuilder = new SuggestedResult();
+  // get all query status
+  const {
+    isQuery,
+    showDetailPanel,
+    showFilter,
+    resource_type,
+    resource_class,
+    format,
+    index_year,
+    query,
+  } = GetAllParams();
 
+  // For filter, re-build filterQuery using SearchQueryBuilder
+  const filterQueries = [];
+  if (resource_type[0].length > 0) {
+    resource_type[0].split(",").forEach((r) => {
+      filterQueries.push({
+        attribute: "resource_type",
+        value: r,
+      });
+    });
+  }
+  if (resource_class[0].length > 0) {
+    resource_class[0].split(",").forEach((r) => {
+      filterQueries.push({
+        attribute: "resource_class",
+        value: r,
+      });
+    });
+  }
+  if (format[0].length > 0) {
+    format[0].split(",").forEach((f) => {
+      filterQueries.push({ attribute: "format", value: f });
+    });
+  }
+  if (index_year[0].length > 0) {
+    index_year[0].split(",").forEach((i) => {
+      filterQueries.push({ attribute: "index_year", value: i });
+    });
+  }
+
+  // Run filter only if no query is present or searchInputBox is set to no value,
+  // Otherwise use the handleSearch that also has filter included
+  useEffect(() => {
+    if (query[0].length === 0 || inputValue === null) filterOnly();
+  }, [inputValue]);
+  const combineGeneralAndFilter = (term) => {
+    let combinedQuery = searchQueryBuilder.generalQuery(term).getQuery();
+    if (filterQueries.length > 0) {
+      let filterQuery = `&fq=`;
+      filterQueries.forEach((term) => {
+        filterQuery += `${encodeURIComponent(
+          findSolrAttribute(term.attribute, searchQueryBuilder.getSchema())
+        )}:"${encodeURIComponent(term.value)}" AND `;
+      });
+      filterQuery = filterQuery.slice(0, -5);
+      combinedQuery += filterQuery;
+    }
+    combinedQuery += "&rows=1000";
+    searchQueryBuilder.setQuery(
+      combinedQuery.replace(searchQueryBuilder.getSolrUrl() + "/", "")
+    );
+  };
+  const filterOnly = () => {
+    if (filterQueries.length > 0) {
+      searchQueryBuilder.filterQuery(filterQueries);
+      searchQueryBuilder
+        .fetchResult()
+        .then((result) => {
+          const newResults = generateSolrParentList(result);
+          setFetchResults(newResults);
+        })
+        .catch((error) => {
+          console.error("Error fetching result:", error);
+        });
+    }
+  };
   const handleSearch = async (value) => {
     searchQueryBuilder
       .fetchResult()
       .then((result) => {
+        console.log("handleSearch", result, value);
         processResults(result, value);
+        console.log("suggestResultBuilder", suggestResultBuilder.getTerms());
         // if multiple terms are returned, we get all weight = 1 terms (this is done in SuggestionsResultBuilder), then aggregate the results for all terms
         if (suggestResultBuilder.getTerms().length > 0) {
           const multipleResults = [] as SolrObject[];
           suggestResultBuilder.getTerms().forEach((term) => {
-            searchQueryBuilder.generalQuery(term);
+            combineGeneralAndFilter(term);
             searchQueryBuilder.fetchResult().then((result) => {
               generateSolrParentList(result).forEach((parent) => {
                 multipleResults.push(parent);
@@ -116,27 +179,14 @@ export default function DiscoveryArea({
               ).map((id) => {
                 return multipleResults.find((a) => a.id === id);
               });
-              const newFilter = generateFilter(
-                newResults,
-                checkboxes,
-                filterAttributeList.map((filter) => filter.attribute)
-              );
-              setCurrentFilter(newFilter);
               setOriginalResults(newResults);
               setFetchResults(newResults);
             });
           });
         } else {
-          searchQueryBuilder.generalQuery(value);
+          combineGeneralAndFilter(value);
           searchQueryBuilder.fetchResult().then((result) => {
             const newResults = generateSolrParentList(result);
-            setCurrentFilter(
-              generateFilter(
-                newResults,
-                checkboxes,
-                filterAttributeList.map((filter) => filter.attribute)
-              )
-            );
             setOriginalResults(newResults);
             setFetchResults(newResults);
           });
@@ -146,40 +196,35 @@ export default function DiscoveryArea({
         console.error("Error fetching result:", error);
       });
   };
+  const processResults = (results, value) => {
+    suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
+    suggestResultBuilder.setSuggestInput(value);
+    suggestResultBuilder.setResultTerms(JSON.stringify(results));
+  };
+  const handleInputReset = () => {
+    console.log("handleInputReset");
+    setAutocompleteKey((prevKey) => prevKey + 1);
+    setCheckboxes([]);
+    setOptions([]);
+    setValue(null);
+    setInputValue("");
+    setResetStatus(true);
+    // since only input got reset, we need to re-run the filter
+    filterOnly();
+  };
 
-  // const handleUserInputChange = async (event, value) => {
-  //   setQueryData({
-  //     ...queryData,
-  //     userInput: value,
-  //   });
-  //   if (value !== "") {
-  //     searchQueryBuilder.suggestQuery(value);
-  //     searchQueryBuilder
-  //       .fetchResult()
-  //       .then((result) => {
-  //         processResults(result, value);
-  //         setOptions(suggestResultBuilder.getTerms());
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching result:", error);
-  //       });
-  //   } else {
-  //     handleReset();
-  //   }
-  // };
-
-  // parse search params and update specific reactive values only if they have changed
+  // For suggestion
+  const [newQueryString, setNewQueryString] = useQueryState(
+    "query",
+    parseAsString
+  );
+  const [queryString, setQueryString] = useState(newQueryString);
   useEffect(() => {
-    const newQueryString = searchParams.get("query");
-    if (newQueryString && newQueryString != queryString) {
+    if (newQueryString && newQueryString !== queryString) {
       setQueryString(newQueryString);
     }
-  }, [searchParams, queryString]);
-
-  // whenever the query string changes in the url params, run a search
-  // ultimately, handleSearch should also be called if the filters change,
-  // and it should take no inputs, as all of the inputs should be gathered
-  // at time of search from url params.
+  }, [newQueryString, queryString]);
+  // Run `suggestQuery` first, then `handleSearch`
   useEffect(() => {
     if (queryString) {
       searchQueryBuilder.suggestQuery(queryString);
@@ -187,200 +232,6 @@ export default function DiscoveryArea({
     }
   }, [queryString]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "query",
-      userInput,
-      "overwrite"
-    );
-  };
-  const processResults = (results, value) => {
-    suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
-    suggestResultBuilder.setSuggestInput(value);
-    suggestResultBuilder.setResultTerms(JSON.stringify(results));
-  };
-  const handleReset = () => {
-    setAutocompleteKey((prevKey) => prevKey + 1);
-    setCheckboxes([]);
-    setCurrentFilter(
-      generateFilter(
-        allResults,
-        [],
-        filterAttributeList.map((filter) => filter.attribute)
-      )
-    );
-    setFetchResults(allResults);
-    setOptions([]);
-    setValue(null);
-    setInputValue("");
-    setResetStatus(true);
-  };
-  const handleFilter = (attr, value) => (event) => {
-    setResetStatus(!resetStatus);
-    const newCheckboxes = [...checkboxes];
-    if (!newCheckboxes.find((c) => c.value === value && c.attribute === attr)) {
-      newCheckboxes.push({
-        attribute: attr,
-        value: value,
-        checked: event.target.checked,
-      });
-    }
-    newCheckboxes.find(
-      (c) => c.value === value && c.attribute === attr
-    ).checked = event.target.checked;
-
-    runningFilter(newCheckboxes, originalResults, schema).then((newResults) => {
-      setFetchResults(newResults);
-      setCurrentFilter(
-        generateFilter(
-          newResults,
-          newCheckboxes,
-          filterAttributeList.map((filter) => filter.attribute)
-        )
-      );
-    });
-    setCheckboxes(newCheckboxes);
-  };
-
-  useEffect(() => {
-    const generateFilterFromCurrentResults = generateFilter(
-      fetchResults,
-      checkboxes,
-      filterAttributeList.map((filter) => filter.attribute)
-    );
-    setCurrentFilter(generateFilterFromCurrentResults);
-  }, [sRCheckboxes]);
-
-  /** Handle the switch of detail panel and map */
-  const [noShowMap, setNoShowMap] = useState(false);
-  const [showDetailPanel, setShowDetailPanel] = useState(null);
-  useEffect(() => {
-    const noShowMapChange = (url) => {
-      const params = new URLSearchParams(
-        new URL(url, window.location.origin).search
-      );
-      const showParam = params.get("show");
-      setNoShowMap(showParam && showParam !== "");
-      setShowDetailPanel(showParam);
-    };
-    noShowMapChange(window.location.href);
-    router.events.on("routeChangeComplete", noShowMapChange);
-    return () => {
-      router.events.off("routeChangeComplete", noShowMapChange);
-    };
-  }, [router.events]);
-
-  /** Components */
-  function FilterAccordion({
-    key,
-    currentCheckboxes,
-    currentFilter,
-    attributeName,
-    displayName,
-  }) {
-    return currentFilter.hasOwnProperty(attributeName) ? (
-      <Accordion defaultExpanded={false} key={key}>
-        <AccordionSummary
-          expandIcon={<ArrowDropDownIcon />}
-          aria-controls="year-content"
-          id="year-header"
-        >
-          <Typography
-            sx={{
-              color:
-                currentCheckboxes.find(
-                  (e) => e.attribute === attributeName && e.checked
-                ) === undefined
-                  ? "black"
-                  : "green",
-            }}
-          >
-            {displayName}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {Object.keys(currentFilter[attributeName]).map((s) => {
-            return (
-              <div key={s}>
-                <span>
-                  {s}:{currentFilter[attributeName][s].number}
-                </span>
-                <Checkbox
-                  sx={{
-                    display: s.length > 0 ? "inline" : "none",
-                  }}
-                  checked={currentFilter[attributeName][s].checked}
-                  value={{
-                    [attributeName]: s,
-                  }}
-                  onChange={handleFilter(attributeName, s)}
-                />
-              </div>
-            );
-          })}
-        </AccordionDetails>
-      </Accordion>
-    ) : null;
-  }
-  function filterStatusButton(c: CheckBoxObject) {
-    return (
-      <Button
-        key={c.value}
-        sx={{ margin: "0.5em" }}
-        variant="outlined"
-        color="success"
-        endIcon={<CloseIcon />}
-        onClick={() => {
-          const cancelEvent = {
-            target: { checked: false },
-          };
-          handleFilter(c.attribute, c.value)(cancelEvent);
-        }}
-      >
-        {c.attribute}:{c.value}
-      </Button>
-    );
-  }
-
-  const handleSRSelectionChange = (event) => {
-    const { value, checked } = event.target;
-
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "layers",
-      value,
-      checked ? "add" : "remove"
-    );
-
-    // Create a new Set with updated checkboxes
-    const updatedSet = new Set(
-      Array.from(sRCheckboxes).map((obj) => {
-        if (obj.value === value) {
-          // Update the checkbox's checked property
-          return { ...obj, checked: checked };
-        }
-        return obj;
-      })
-    );
-    // Update the state with the new Set and log the updated state
-    setSRCheckboxes(updatedSet);
-
-    // Update another state (resetStatus)
-    setResetStatus(!resetStatus);
-  };
-
-  // check query status
-  const test = useQueryState("query", parseAsString.withDefault(""));
-  const isQuery =
-    useQueryState("query", parseAsString.withDefault(""))[0].length > 0;
-  useEffect(() => {
-  }, [isQuery]);
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -391,7 +242,7 @@ export default function DiscoveryArea({
           autocompleteKey={autocompleteKey}
           options={options}
           setOptions={setOptions}
-          handleReset={handleReset}
+          handleInputReset={handleInputReset}
           inputValue={inputValue}
           setInputValue={setInputValue}
           value={value}
@@ -405,7 +256,7 @@ export default function DiscoveryArea({
           <ResultsPanel
             resultsList={fetchResults}
             relatedList={fetchResults}
-            isQuery={isQuery}
+            isQuery={isQuery[0].length > 0}
           />
         </Grid>
       )}
@@ -415,13 +266,15 @@ export default function DiscoveryArea({
             item
             className="sm:px-[2em]"
             xs={12}
-            sx={{ display: noShowMap ? "none" : "block" }}
+            sx={{ display: showDetailPanel[0].length == 0 ? "block" : "none" }}
           >
             <MapPanel resultsList={fetchResults} />
           </Grid>
-          <Grid sx={{ display: noShowMap ? "block" : "none" }}>
+          <Grid
+            sx={{ display: showDetailPanel[0].length > 0 ? "block" : "none" }}
+          >
             <DetailPanel
-              resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
+              resultItem={fetchResults.find((r) => r.id === showDetailPanel[0])}
             />
           </Grid>
         </Grid>

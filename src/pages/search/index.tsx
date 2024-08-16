@@ -64,41 +64,6 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   );
   const [isLoading, setLoading] = useState(true);
 
-  // create a useState variable that will mirror our param value and
-  // can be used locally here
-  const [exampleInput, setExampleInput] = useState(null);
-
-  // these varables must be created here so they can be passed into
-  // updateSearchParams() within hooks that come later
-  const searchParams = useSearchParams();
-  const currentPath = usePathname();
-  const router = useRouter();
-
-  // handler function that pushes values from the input into a url param
-  const handleExampleInput = (value: string) => {
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "example-input",
-      value,
-      "overwrite"
-    );
-  };
-
-  // first hook to update the reactive variable, exampleInput
-  useEffect(() => {
-    const newExampleInput = searchParams.get("example-input");
-    if (newExampleInput && newExampleInput != exampleInput) {
-      setExampleInput(newExampleInput);
-    }
-  }, [searchParams, exampleInput]);
-
-  // second hook to do things with this specific param only when it is changed
-  useEffect(() => {
-    console.log("example input:", exampleInput);
-  }, [exampleInput]);
-
   useEffect(() => {
     fetch(solrUrl + "/select?q=*:*&rows=100")
       .then((res) => res.json())
@@ -111,7 +76,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
         setSolrObjectResults(solrObjectResults);
         setLoading(false);
       });
-  }, []);
+  });
 
   return (
     <>
