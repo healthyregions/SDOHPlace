@@ -4,9 +4,6 @@ import { GetStaticProps } from "next";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
 import { useState, useEffect } from "react";
-
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "tailwind.config.js";
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
@@ -15,28 +12,7 @@ import { SearchUIConfig } from "@/components/searchUIConfig";
 import DiscoveryArea from "@/components/search/discoveryArea";
 import SearchTopLines from "@/components/search/SearchTopLines";
 
-const fullConfig = resolveConfig(tailwindConfig);
-
 const solrUrl = process.env.NEXT_PUBLIC_SOLR_URL;
-
-const modalBoxStyle = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  maxWidth: "1068px",
-  maxHeight: "100vh",
-  color: "white",
-  bgcolor: `${fullConfig.theme.colors["darkgray"]}`,
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  paddingTop: "10px",
-  overflowY: "auto",
-};
-const sideBarStyle = {};
-
 interface SearchPageProps {
   schema: SchemaObject;
 }
@@ -51,7 +27,6 @@ export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
 };
 
 const Search: NextPage<SearchPageProps> = ({ schema }) => {
-  const [open, setOpen] = React.useState(true);
   const [solrObjectResults, setSolrObjectResults] = useState(
     [] as SolrObject[]
   );
