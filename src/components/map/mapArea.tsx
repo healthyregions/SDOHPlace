@@ -444,40 +444,38 @@ export default function MapArea({
   }, [visLyrs, mapLoaded]);
 
   return (
-    <div style={{ height: "calc(100vh - 172px" }}>
-      <Map
-        id="discoveryMap"
-        ref={mapRef}
-        mapLib={maplibregl}
-        initialViewState={{
-          bounds: bounds.states,
-        }}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-        mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
-        onMouseMove={onHover}
-        onClick={onClick}
-        onLoad={() => setMapLoaded(true)}
-        interactiveLayerIds={["state-interactive"]}
-      >
-        {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
-        <Layer {...hlStateLyr} filter={filterState} />
-        {/* {selectedState && (
-          <Popup
-            longitude={hoverInfo.longitude}
-            latitude={hoverInfo.latitude}
-            closeButton={false}
-            className="county-info"
-          >
-            Id: {selectedState}
-          </Popup>
-        )} */}
-        <NavigateButton label="Con. US" bounds={bounds.states} />
-        <NavigateButton label="AK" bounds={bounds.alaska} />
-        <NavigateButton label="HI" bounds={bounds.hawaii} />
-      </Map>
-    </div>
+    <Map
+      id="discoveryMap"
+      ref={mapRef}
+      mapLib={maplibregl}
+      initialViewState={{
+        bounds: bounds.states,
+      }}
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+      mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
+      onMouseMove={onHover}
+      onClick={onClick}
+      onLoad={() => setMapLoaded(true)}
+      interactiveLayerIds={["state-interactive"]}
+    >
+      {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
+      <Layer {...hlStateLyr} filter={filterState} />
+      {/* {selectedState && (
+        <Popup
+          longitude={hoverInfo.longitude}
+          latitude={hoverInfo.latitude}
+          closeButton={false}
+          className="county-info"
+        >
+          Id: {selectedState}
+        </Popup>
+      )} */}
+      <NavigateButton label="Con. US" bounds={bounds.states} />
+      <NavigateButton label="AK" bounds={bounds.alaska} />
+      <NavigateButton label="HI" bounds={bounds.hawaii} />
+    </Map>
   );
 }
