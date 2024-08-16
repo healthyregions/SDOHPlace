@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback, useMemo, useRef, use } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useQueryState, parseAsArrayOf, parseAsString } from "nuqs";
 
 import {
   Map,
@@ -21,7 +21,6 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
 import layer_match from "../../../meta/_metadata/layer_match.json";
 import { SolrObject } from "meta/interface/SolrObject";
-import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import {
   displayLayers,
   interactiveLayers,
@@ -107,7 +106,7 @@ function NavigateButton({
  * @returns
  */
 export default function MapArea({
-  searchResult
+  searchResult,
 }: {
   searchResult: SolrObject[];
 }): JSX.Element {
@@ -121,12 +120,13 @@ export default function MapArea({
     useState<SolrObject[]>(searchResult);
   const [hoverInfo, setHoverInfo] = useState(null);
 
-  const [paramLyrIds, setParamLyrIds] = useState([]);
-
   const mapRef = useRef<MapRef>();
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  const searchParams = useSearchParams();
+  const [visLyrs] = useQueryState(
+    "layers",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -413,16 +413,6 @@ export default function MapArea({
 
   // this effect looks at the search params, and if the layers param has changed, it sets
   // the corresponding variable, which will trigger the effect that actually manipulates the map.
-  useEffect(() => {
-    const layers = searchParams.get("layers");
-    const newParamLyrIds = layers ? layers.split("|") : [];
-    if (
-      newParamLyrIds &&
-      JSON.stringify(newParamLyrIds) != JSON.stringify(paramLyrIds)
-    ) {
-      setParamLyrIds(newParamLyrIds);
-    }
-  }, [searchParams, mapLoaded, paramLyrIds]);
 
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
@@ -432,7 +422,7 @@ export default function MapArea({
       });
 
       // add any layers that are in the params but not yet on the map
-      paramLyrIds.forEach((lyr) => {
+      visLyrs.forEach((lyr) => {
         if (
           layerRegistry[lyr] &&
           !mapLyrIds.includes(layerRegistry[lyr].spec.id)
@@ -445,13 +435,13 @@ export default function MapArea({
       Object.keys(layerRegistry).forEach((lyr) => {
         if (
           mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
-          !paramLyrIds.includes(lyr)
+          !visLyrs.includes(lyr)
         ) {
           map.removeLayer(layerRegistry[lyr].spec.id);
         }
       });
     }
-  }, [paramLyrIds, mapLoaded]);
+  }, [visLyrs, mapLoaded]);
 
   return (
     <div style={{ height: "calc(100vh - 172px" }}>
