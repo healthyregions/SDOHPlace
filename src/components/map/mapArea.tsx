@@ -36,6 +36,8 @@ import {
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
 
+import { ZoomButton, EnableBboxSearchButton } from "./mapButtons";
+
 import getCountyGeo from "./helper/countyLocation";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 
@@ -44,66 +46,15 @@ interface CustomMap extends maplibregl.Map {
   _popup?: maplibregl.Popup | null;
 }
 
-const statesBounds: LngLatBoundsLike = [-125.3321, 23.8991, -65.7421, 49.4325];
+const contiguousBounds: LngLatBoundsLike = [
+  -125.3321, 23.8991, -65.7421, 49.4325,
+];
 const alaskaBounds: LngLatBoundsLike = [
   -180, 50.5134265, -128.3203125, 71.3604977,
 ];
 const hawaiiBounds: LngLatBoundsLike = [
   -163.0371094, 16.5098328, -152.1826172, 25.9580447,
 ];
-const bounds = {
-  states: statesBounds,
-  alaska: alaskaBounds,
-  hawaii: hawaiiBounds,
-};
-// {
-//     results,
-//     isLoading,
-//     filterAttributeList,
-//   }: {
-//     results: SolrObject[];
-//     isLoading: boolean;
-//     filterAttributeList: {
-//       attribute: string;
-//       displayName: string;
-//     }[];
-//   }
-// just an example construction (see upper left corner of map)
-function NavigateButton({
-  label,
-  bounds,
-}: {
-  label: string;
-  bounds: LngLatBoundsLike;
-}) {
-  const { current: map } = useMap();
-
-  const onClick = () => {
-    if (map.getMap().getLayer(poiLayer.spec.id)) {
-      map.getMap().removeLayer(poiLayer.spec.id);
-    } else {
-      map.getMap().addLayer(poiLayer.spec, poiLayer.addBefore);
-    }
-    map.fitBounds(bounds);
-  };
-
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        backgroundColor: "black",
-        margin: "15px",
-        fontSize: "1.5em",
-        padding: "5px",
-        color: "white",
-        zIndex: 1,
-        position: "relative",
-      }}
-    >
-      {label}
-    </button>
-  );
-}
 
 const parseAsLngLatBoundsLike = createParser({
   parse(queryValue) {
@@ -488,7 +439,7 @@ export default function MapArea({
       ref={mapRef}
       mapLib={maplibregl}
       initialViewState={{
-        bounds: bboxParam ? bboxParam : bounds.states,
+        bounds: bboxParam ? bboxParam : contiguousBounds,
       }}
       style={{
         width: "100%",
@@ -513,9 +464,10 @@ export default function MapArea({
           Id: {selectedState}
         </Popup>
       )} */}
-      <NavigateButton label="Con. US" bounds={bounds.states} />
-      <NavigateButton label="AK" bounds={bounds.alaska} />
-      <NavigateButton label="HI" bounds={bounds.hawaii} />
+      <ZoomButton label="Contiguous" bounds={contiguousBounds} />
+      <ZoomButton label="AK" bounds={alaskaBounds} />
+      <ZoomButton label="HI" bounds={hawaiiBounds} />
+      <EnableBboxSearchButton />
     </Map>
   );
 }
