@@ -1,12 +1,18 @@
 "use client";
 import { useEffect, useState, useCallback, useMemo, useRef, use } from "react";
-import { useQueryState, parseAsArrayOf, parseAsString } from "nuqs";
+import {
+  useQueryState,
+  parseAsArrayOf,
+  parseAsString,
+  createParser,
+} from "nuqs";
 
 import {
   Map,
   MapRef,
   useMap,
   MapLayerMouseEvent,
+  ViewStateChangeEvent,
   Popup,
   Layer,
   LngLatBoundsLike,
@@ -99,6 +105,27 @@ function NavigateButton({
   );
 }
 
+const parseAsLngLatBoundsLike = createParser({
+  parse(queryValue) {
+    const coords: number[] = queryValue
+      .split(",")
+      .map((coord) => parseFloat(coord));
+    if (coords.length != 4) {
+      return null;
+    }
+    const bboxParam: LngLatBoundsLike = [
+      coords[0],
+      coords[1],
+      coords[2],
+      coords[3],
+    ];
+    return bboxParam;
+  },
+  serialize(value) {
+    return value.join(",");
+  },
+});
+
 /**
  * @param searchResult: SolrObject[] is the list of search result
  * @param resetStatus: boolean is the status of 'initial' or 'reset' of the map. If it is 'reset', the map will only show state and county layers
@@ -127,6 +154,7 @@ export default function MapArea({
     "layers",
     parseAsArrayOf(parseAsString).withDefault([])
   );
+  const [bboxParam, setBbox] = useQueryState("bbox", parseAsLngLatBoundsLike);
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -322,6 +350,17 @@ export default function MapArea({
     }
   };
 
+  const onMoveEnd = (event: ViewStateChangeEvent) => {
+    const bounds = event.target.getBounds();
+    const newBbox: [number, number, number, number] = [
+      Math.round(bounds._sw.lng * 1000) / 1000,
+      Math.round(bounds._sw.lat * 1000) / 1000,
+      Math.round(bounds._ne.lng * 1000) / 1000,
+      Math.round(bounds._ne.lat * 1000) / 1000,
+    ];
+    setBbox(newBbox);
+  };
+
   const selectedState = (hoverInfo && hoverInfo.id) || "";
   function getStateFilter(selectedState: string) {
     const f: FilterSpecification = ["in", "HEROP_ID", selectedState];
@@ -449,7 +488,7 @@ export default function MapArea({
       ref={mapRef}
       mapLib={maplibregl}
       initialViewState={{
-        bounds: bounds.states,
+        bounds: bboxParam ? bboxParam : bounds.states,
       }}
       style={{
         width: "100%",
@@ -459,6 +498,7 @@ export default function MapArea({
       onMouseMove={onHover}
       onClick={onClick}
       onLoad={() => setMapLoaded(true)}
+      onMoveEnd={onMoveEnd}
       interactiveLayerIds={["state-interactive"]}
     >
       {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
