@@ -44,55 +44,56 @@ export const SearchUIConfig = {
           attribute: "resource_class",
           displayName: "Resource Class",
         },
-        {
-          attribute: "resource_type",
-          displayName: "Resource Type",
-        },
-        {
-          attribute: "format",
-          displayName: "Format",
-        },
-        {
-          attribute: "subject",
-          displayName: "Subject",
-        },
-        {
-          attribute: "theme",
-          displayName: "Theme",
-        },
-        {
-          attribute: "creator",
-          displayName: "Creator",
-        },
-        {
-          attribute: "publisher",
-          displayName: "Publisher",
-        },
-        {
-          attribute: "provider",
-          displayName: "Provider",
-        },
-        {
-          attribute: "methods_variables",
-          displayName: "Methods Variables",
-        },
-        {
-          attribute: "data_variables",
-          displayName: "Data Variables",
-        },
-        {
-          attribute: "spatial_coverage",
-          displayName: "Spatial Coverage",
-        },
-        {
-          attribute: "spatial_resolution",
-          displayName: "Spatial Resolution",
-        },
+        // {
+        //   attribute: "resource_type",
+        //   displayName: "Resource Type",
+        // },
+        // {
+        //   attribute: "format",
+        //   displayName: "Format",
+        // },
+        // {
+        //   attribute: "subject",
+        //   displayName: "Subject",
+        // },
+        // {
+        //   attribute: "theme",
+        //   displayName: "Theme",
+        // },
+        // {
+        //   attribute: "creator",
+        //   displayName: "Creator",
+        // },
+        // {
+        //   attribute: "publisher",
+        //   displayName: "Publisher",
+        // },
+        // {
+        //   attribute: "provider",
+        //   displayName: "Provider",
+        // },
+        // {
+        //   attribute: "methods_variables",
+        //   displayName: "Methods Variables",
+        // },
+        // {
+        //   attribute: "data_variables",
+        //   displayName: "Data Variables",
+        // },
+        // {
+        //   attribute: "spatial_coverage",
+        //   displayName: "Spatial Coverage",
+        // },
+        // {
+        //   attribute: "spatial_resolution",
+        //   displayName: "Spatial Resolution",
+        // },
         {
           attribute: "index_year",
           displayName: "Index Year",
         },
       ],
+      filterPanelHeight: "30vh",
     },
     mapPanel: {
       title: "How to search?",

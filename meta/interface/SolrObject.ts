@@ -13,6 +13,7 @@ export interface SolrObject {
   modified: string;
   access_rights: string[];
   resource_class: string[];
+  score: number; // Solr score to define relevance
   meta: {
     access_rights?: string;
     language?: string;

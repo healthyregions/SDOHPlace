@@ -1,8 +1,6 @@
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
-import { Search } from "@mui/icons-material";
-import { getSchema } from './GetSchema';
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -14,7 +12,6 @@ export default class SolrQueryBuilder {
   // TODO: if our query will have more syntax, move the select part to individual query methods
   setQuery(queryString: string): SolrQueryBuilder {
     this.query.query = `${this.query.solrUrl}/${queryString}`;
-    console.log("Query: ", this.query.query);
     return this;
   }
   getQuery(): string {
@@ -56,7 +53,7 @@ export default class SolrQueryBuilder {
           } catch (error) {
             console.error("Error parsing JSON:", error);
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
-              console.warn("Received HTML response instead of JSON");
+              console.warn("Received HTML response instead of JSON", text);
               resolve([]);
             } else {
               reject(new Error("Invalid response format"));
@@ -77,7 +74,6 @@ export default class SolrQueryBuilder {
    */
   getSearchResult(response_json: any): any {
     let result = [] as SolrObject[];
-
     //if return suggest
     if (response_json && response_json["suggest"]) return response_json;
     //if return select
@@ -87,7 +83,6 @@ export default class SolrQueryBuilder {
       response_json["response"].docs
         ? response_json["response"].docs
         : [];
-
     rawSolrObjects.forEach((rawSolrObject: any) => {
       result.push(initSolrObject(rawSolrObject, this.query.schema_json));
     });
@@ -110,7 +105,7 @@ export default class SolrQueryBuilder {
     if (typeof searchTerms === "string") {
       generalQuery += `${encodeURIComponent(
         findSolrAttribute(searchTerms, this.query.schema_json)
-      )}`; //add rows to remove pagination
+      )}`;
     } else {
       searchTerms.forEach((term) => {
         generalQuery += `${encodeURIComponent(
@@ -118,7 +113,6 @@ export default class SolrQueryBuilder {
         )} OR `;
       });
       generalQuery = generalQuery.slice(0, -4); //remove the last OR
-      //generalQuery = generalQuery += "&rows=1000"; //add rows to remove pagination
     }
     return this.setQuery(generalQuery);
   }
@@ -137,15 +131,46 @@ export default class SolrQueryBuilder {
     return this.setQuery(filterQuery);
   }
 
-  // If we need to add sorting
-  public addSort(
-    field: string,
-    order: "asc" | "desc" = "asc"
-  ): SolrQueryBuilder {
-    if (!this.query.sort) {
-      this.query.sort = [];
-    }
-    this.query.sort.push(`${field} ${order}`);
-    return this;
+  public sortQuery(searchTerm: {
+    attribute: string;
+    order: string;
+  }): SolrQueryBuilder {
+    if (searchTerm.order != "asc" && searchTerm.order != "desc") {
+      searchTerm.order = "asc";
+    } //use asc as default
+    let sortQuery = `select?sort=${encodeURIComponent(
+      findSolrAttribute(searchTerm.attribute, this.query.schema_json)
+    )}${encodeURIComponent(" ")}${searchTerm.order}`;
+    sortQuery = sortQuery += "&rows=1000"; //add rows to remove pagination
+    return this.setQuery(sortQuery);
   }
+
+  public combineQueries = (
+    term,
+    filterQueries,
+  ): SolrQueryBuilder => {
+    let combinedQuery = this.generalQuery(term).getQuery();
+    if (filterQueries.length > 0) {
+      let filterQuery = `&fq=`;
+      filterQueries.forEach((f) => {
+        filterQuery += `${encodeURIComponent(
+          findSolrAttribute(f.attribute, this.getSchema())
+        )}:"${encodeURIComponent(f.value)}" AND `; // for url with multiple filter values, use OR instead of AND
+      });
+      filterQuery = filterQuery.slice(0, -4);
+      combinedQuery += filterQuery;
+    }
+    // add sort by detecting sortOrder and sortBy, only if both are present
+    // if (
+    //   sortOrder.length > 0 &&
+    //   sortBy.length > 0 &&
+    //   findSolrAttribute(sortBy, this.getSchema() !== undefined)
+    // ) {
+    //   combinedQuery += `&sort=${encodeURIComponent(
+    //     findSolrAttribute(sortBy, this.getSchema())
+    //   )}${encodeURIComponent(" ")}${sortOrder}`;
+    // }
+    combinedQuery += "&rows=1000";
+    return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
+  };
 }

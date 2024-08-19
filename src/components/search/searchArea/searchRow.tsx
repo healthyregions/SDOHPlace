@@ -20,7 +20,7 @@ interface Props {
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: (value) => void;
+  handleSearch: (value: string) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({

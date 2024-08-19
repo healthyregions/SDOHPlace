@@ -164,18 +164,14 @@ const SearchBox = (props: Props): JSX.Element => {
           key={props.autocompleteKey}
           freeSolo
           options={props.options}
-          value={props.value || ""}
+          value={props.value === "*" ? "" : props.value || ""}
           inputValue={props.inputValue || ""}
           onInputChange={(event, value, reason) => {
             if (event && event.type === "change") {
-              //setUserInput(value);
-              // props.setInputValue(value);
               handleUserInputChange(event, value);
             }
           }}
           onChange={(event, value) => {
-            //setUserInput(value);
-            // props.setValue(value);
             handleDropdownSelect(event, value);
           }}
           renderInput={(params) => (
