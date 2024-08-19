@@ -212,8 +212,10 @@ export default function DiscoveryArea({
           prev ? `${prev},${filter.value}` : filter.value
         );
       }
-      if (filter.attribute === "format") {
-        setFormat((prev) => (prev ? `${prev},${filter.value}` : filter.value));
+      if (filter.attribute === "resource_type") {
+        setResourceType((prev) =>
+          prev ? `${prev},${filter.value}` : filter.value
+        );
       }
       if (filter.attribute === "index_year") {
         setIndexYear((prev) =>

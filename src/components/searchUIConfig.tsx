@@ -43,15 +43,13 @@ export const SearchUIConfig = {
         {
           attribute: "resource_class",
           displayName: "Resource Class",
+          meta: false
         },
-        // {
-        //   attribute: "resource_type",
-        //   displayName: "Resource Type",
-        // },
-        // {
-        //   attribute: "format",
-        //   displayName: "Format",
-        // },
+        {
+          attribute: "resource_type",
+          displayName: "Resource Type",
+          meta: true
+        },
         // {
         //   attribute: "subject",
         //   displayName: "Subject",
@@ -91,6 +89,7 @@ export const SearchUIConfig = {
         {
           attribute: "index_year",
           displayName: "Index Year",
+          meta:false
         },
       ],
       filterPanelHeight: "30vh",

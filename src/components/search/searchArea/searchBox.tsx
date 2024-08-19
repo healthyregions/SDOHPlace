@@ -90,9 +90,7 @@ const SearchBox = (props: Props): JSX.Element => {
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-  // const [autocompleteKey, setAutocompleteKey] = React.useState(0);
   const [userInput, setUserInput] = React.useState("");
-  // const [options, setOptions] = React.useState([]);
   const [queryData, setQueryData] = React.useState<SearchObject>({
     userInput: "",
   });
@@ -164,8 +162,8 @@ const SearchBox = (props: Props): JSX.Element => {
           key={props.autocompleteKey}
           freeSolo
           options={props.options}
-          value={props.value === "*" ? "" : props.value || ""}
-          inputValue={props.inputValue || ""}
+          value={props.value ? props.value : ""}
+          inputValue={props.value === "*" ? "" : props.value || ""}
           onInputChange={(event, value, reason) => {
             if (event && event.type === "change") {
               handleUserInputChange(event, value);
