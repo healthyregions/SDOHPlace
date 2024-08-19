@@ -1,12 +1,18 @@
 "use client";
 import { useEffect, useState, useCallback, useMemo, useRef, use } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import {
+  useQueryState,
+  parseAsArrayOf,
+  parseAsString,
+  createParser,
+} from "nuqs";
 
 import {
   Map,
   MapRef,
   useMap,
   MapLayerMouseEvent,
+  ViewStateChangeEvent,
   Popup,
   Layer,
   LngLatBoundsLike,
@@ -21,7 +27,6 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
 import layer_match from "../../../meta/_metadata/layer_match.json";
 import { SolrObject } from "meta/interface/SolrObject";
-import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import {
   displayLayers,
   interactiveLayers,
@@ -31,6 +36,8 @@ import {
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
 
+import { ZoomButton, EnableBboxSearchButton } from "./mapButtons";
+
 import getCountyGeo from "./helper/countyLocation";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 
@@ -39,66 +46,36 @@ interface CustomMap extends maplibregl.Map {
   _popup?: maplibregl.Popup | null;
 }
 
-const statesBounds: LngLatBoundsLike = [-125.3321, 23.8991, -65.7421, 49.4325];
+const contiguousBounds: LngLatBoundsLike = [
+  -125.3321, 23.8991, -65.7421, 49.4325,
+];
 const alaskaBounds: LngLatBoundsLike = [
   -180, 50.5134265, -128.3203125, 71.3604977,
 ];
 const hawaiiBounds: LngLatBoundsLike = [
   -163.0371094, 16.5098328, -152.1826172, 25.9580447,
 ];
-const bounds = {
-  states: statesBounds,
-  alaska: alaskaBounds,
-  hawaii: hawaiiBounds,
-};
-// {
-//     results,
-//     isLoading,
-//     filterAttributeList,
-//   }: {
-//     results: SolrObject[];
-//     isLoading: boolean;
-//     filterAttributeList: {
-//       attribute: string;
-//       displayName: string;
-//     }[];
-//   }
-// just an example construction (see upper left corner of map)
-function NavigateButton({
-  label,
-  bounds,
-}: {
-  label: string;
-  bounds: LngLatBoundsLike;
-}) {
-  const { current: map } = useMap();
 
-  const onClick = () => {
-    if (map.getMap().getLayer(poiLayer.spec.id)) {
-      map.getMap().removeLayer(poiLayer.spec.id);
-    } else {
-      map.getMap().addLayer(poiLayer.spec, poiLayer.addBefore);
+const parseAsLngLatBoundsLike = createParser({
+  parse(queryValue) {
+    const coords: number[] = queryValue
+      .split(",")
+      .map((coord) => parseFloat(coord));
+    if (coords.length != 4) {
+      return null;
     }
-    map.fitBounds(bounds);
-  };
-
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        backgroundColor: "black",
-        margin: "15px",
-        fontSize: "1.5em",
-        padding: "5px",
-        color: "white",
-        zIndex: 1,
-        position: "relative",
-      }}
-    >
-      {label}
-    </button>
-  );
-}
+    const bboxParam: LngLatBoundsLike = [
+      coords[0],
+      coords[1],
+      coords[2],
+      coords[3],
+    ];
+    return bboxParam;
+  },
+  serialize(value) {
+    return value.join(",");
+  },
+});
 
 /**
  * @param searchResult: SolrObject[] is the list of search result
@@ -107,7 +84,7 @@ function NavigateButton({
  * @returns
  */
 export default function MapArea({
-  searchResult
+  searchResult,
 }: {
   searchResult: SolrObject[];
 }): JSX.Element {
@@ -121,12 +98,14 @@ export default function MapArea({
     useState<SolrObject[]>(searchResult);
   const [hoverInfo, setHoverInfo] = useState(null);
 
-  const [paramLyrIds, setParamLyrIds] = useState([]);
-
   const mapRef = useRef<MapRef>();
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  const searchParams = useSearchParams();
+  const [visLyrs] = useQueryState(
+    "layers",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
+  const [bboxParam, setBbox] = useQueryState("bbox", parseAsLngLatBoundsLike);
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -322,6 +301,17 @@ export default function MapArea({
     }
   };
 
+  const onMoveEnd = (event: ViewStateChangeEvent) => {
+    const bounds = event.target.getBounds();
+    const newBbox: [number, number, number, number] = [
+      Math.round(bounds._sw.lng * 1000) / 1000,
+      Math.round(bounds._sw.lat * 1000) / 1000,
+      Math.round(bounds._ne.lng * 1000) / 1000,
+      Math.round(bounds._ne.lat * 1000) / 1000,
+    ];
+    setBbox(newBbox);
+  };
+
   const selectedState = (hoverInfo && hoverInfo.id) || "";
   function getStateFilter(selectedState: string) {
     const f: FilterSpecification = ["in", "HEROP_ID", selectedState];
@@ -413,16 +403,6 @@ export default function MapArea({
 
   // this effect looks at the search params, and if the layers param has changed, it sets
   // the corresponding variable, which will trigger the effect that actually manipulates the map.
-  useEffect(() => {
-    const layers = searchParams.get("layers");
-    const newParamLyrIds = layers ? layers.split("|") : [];
-    if (
-      newParamLyrIds &&
-      JSON.stringify(newParamLyrIds) != JSON.stringify(paramLyrIds)
-    ) {
-      setParamLyrIds(newParamLyrIds);
-    }
-  }, [searchParams, mapLoaded, paramLyrIds]);
 
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
@@ -432,7 +412,7 @@ export default function MapArea({
       });
 
       // add any layers that are in the params but not yet on the map
-      paramLyrIds.forEach((lyr) => {
+      visLyrs.forEach((lyr) => {
         if (
           layerRegistry[lyr] &&
           !mapLyrIds.includes(layerRegistry[lyr].spec.id)
@@ -445,49 +425,49 @@ export default function MapArea({
       Object.keys(layerRegistry).forEach((lyr) => {
         if (
           mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
-          !paramLyrIds.includes(lyr)
+          !visLyrs.includes(lyr)
         ) {
           map.removeLayer(layerRegistry[lyr].spec.id);
         }
       });
     }
-  }, [paramLyrIds, mapLoaded]);
+  }, [visLyrs, mapLoaded]);
 
   return (
-    <div style={{ height: "calc(100vh - 172px" }}>
-      <Map
-        id="discoveryMap"
-        ref={mapRef}
-        mapLib={maplibregl}
-        initialViewState={{
-          bounds: bounds.states,
-        }}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-        mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
-        onMouseMove={onHover}
-        onClick={onClick}
-        onLoad={() => setMapLoaded(true)}
-        interactiveLayerIds={["state-interactive"]}
-      >
-        {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
-        <Layer {...hlStateLyr} filter={filterState} />
-        {/* {selectedState && (
-          <Popup
-            longitude={hoverInfo.longitude}
-            latitude={hoverInfo.latitude}
-            closeButton={false}
-            className="county-info"
-          >
-            Id: {selectedState}
-          </Popup>
-        )} */}
-        <NavigateButton label="Con. US" bounds={bounds.states} />
-        <NavigateButton label="AK" bounds={bounds.alaska} />
-        <NavigateButton label="HI" bounds={bounds.hawaii} />
-      </Map>
-    </div>
+    <Map
+      id="discoveryMap"
+      ref={mapRef}
+      mapLib={maplibregl}
+      initialViewState={{
+        bounds: bboxParam ? bboxParam : contiguousBounds,
+      }}
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+      mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
+      onMouseMove={onHover}
+      onClick={onClick}
+      onLoad={() => setMapLoaded(true)}
+      onMoveEnd={onMoveEnd}
+      interactiveLayerIds={["state-interactive"]}
+    >
+      {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
+      <Layer {...hlStateLyr} filter={filterState} />
+      {/* {selectedState && (
+        <Popup
+          longitude={hoverInfo.longitude}
+          latitude={hoverInfo.latitude}
+          closeButton={false}
+          className="county-info"
+        >
+          Id: {selectedState}
+        </Popup>
+      )} */}
+      <ZoomButton label="Contiguous" bounds={contiguousBounds} />
+      <ZoomButton label="AK" bounds={alaskaBounds} />
+      <ZoomButton label="HI" bounds={hawaiiBounds} />
+      <EnableBboxSearchButton />
+    </Map>
   );
 }

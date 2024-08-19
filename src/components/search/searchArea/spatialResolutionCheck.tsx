@@ -1,9 +1,7 @@
 import * as React from "react";
 import CheckBoxObject from "../interface/CheckboxObject";
 import { Checkbox } from "@mui/material";
-import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
-import { useSearchParams, usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { useQueryState, parseAsArrayOf, parseAsString } from "nuqs";
 import { styled } from "@mui/material/styles";
 
 interface SpatialResolutionCheck {
@@ -35,18 +33,18 @@ const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
 }));
 
 const SpatialResolutionCheck = (props: Props): JSX.Element => {
-  const searchParams = useSearchParams();
-  const currentPath = usePathname();
-  const router = useRouter();
   const [resetStatus, setResetStatus] = React.useState(true);
+  const [visLyrs, setVisLyrs] = useQueryState(
+    "layers",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
+
   let tempSRChecboxes = new Set<CheckBoxObject>();
   props.src.forEach((option) => {
     tempSRChecboxes.add({
       attribute: "special_resolution",
       value: option.value,
-      checked: searchParams.get("layers")
-        ? searchParams.get("layers").toString().includes(option.value)
-        : false,
+      checked: visLyrs.includes(option.value),
       displayName: option.display_name,
     });
   });
@@ -55,14 +53,10 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
   );
   const handleSRSelectionChange = (event) => {
     const { value, checked } = event.target;
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "layers",
-      value,
-      checked ? "add" : "remove"
-    );
+    const newList = checked
+      ? visLyrs.concat(value)
+      : visLyrs.filter((item) => item !== value);
+    newList.length > 0 ? setVisLyrs(newList) : setVisLyrs(null);
     const updatedSet = new Set(
       Array.from(sRCheckboxes).map((obj) => {
         if (obj.value === value) {
