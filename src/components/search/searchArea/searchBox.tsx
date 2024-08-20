@@ -22,6 +22,7 @@ import { makeStyles } from "@mui/styles";
 import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import SuggestedResult from "../helper/SuggestedResultBuilder";
+import { useEffect } from "react";
 
 interface Props {
   schema: any;
@@ -35,6 +36,7 @@ interface Props {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   handleSearch: (value) => void;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -90,7 +92,7 @@ const SearchBox = (props: Props): JSX.Element => {
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-  const [userInput, setUserInput] = React.useState("");
+  const [userInput, setUserInput] = React.useState(props.value || "");
   const [queryData, setQueryData] = React.useState<SearchObject>({
     userInput: "",
   });
@@ -104,31 +106,20 @@ const SearchBox = (props: Props): JSX.Element => {
   let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "query",
-      props.inputValue,
-      "overwrite"
-    );
-    props.handleSearch(props.inputValue);
+    props.setQuery(userInput);
+    props.setInputValue(userInput);
+    props.handleSearch(userInput);
   };
   const handleDropdownSelect = (event, value) => {
     props.setInputValue(value);
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "query",
-      value,
-      "overwrite"
-    );
+    props.setQuery(props.inputValue);
+    props.handleSearch(props.inputValue);
   };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
   ) => {
+    setUserInput(newInputValue);
     props.setInputValue(newInputValue);
     setQueryData({
       ...queryData,
@@ -153,6 +144,11 @@ const SearchBox = (props: Props): JSX.Element => {
       props.handleInputReset();
     }
   };
+  useEffect(() => {
+   if (props.value !== "" && props.value !== userInput) {
+    setUserInput(props.value || "");
+  }
+}, [props.value]);
   return (
     <div className={`sm:mt-6 sm:ml-[3em] sm:mr-[2em]`}>
       <form id="search-form" onSubmit={handleSubmit}>
@@ -163,7 +159,7 @@ const SearchBox = (props: Props): JSX.Element => {
           freeSolo
           options={props.options}
           value={props.value ? props.value : ""}
-          inputValue={props.value === "*" ? "" : props.value || ""}
+          inputValue={userInput}
           onInputChange={(event, value, reason) => {
             if (event && event.type === "change") {
               handleUserInputChange(event, value);

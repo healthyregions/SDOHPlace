@@ -250,26 +250,19 @@ export default function DiscoveryArea({
    * Query & Search Input handling
    */
   const handleInputReset = () => {
+    setQuery(null);
     setAutocompleteKey((prevKey) => prevKey + 1);
     setCheckboxes([]);
     setOptions([]);
     setValue(null);
     setInputValue("");
     setResetStatus(true);
-    // since only input got reset, we need to re-run the filter
-    noQuery();
+    // add some time to allow setQuery to be read
+    setTimeout(() => {
+      noQuery();
+    }, 0);
   };
-  // const [newQueryString, setNewQueryString] = useQueryState(
-  //   "query",
-  //   parseAsString
-  // );
-  // const [queryString, setQueryString] = useState(newQueryString);
-  // useEffect(() => {
-  //   if (newQueryString && newQueryString !== queryString) {
-  //     setQueryString(newQueryString);
-  //   }
-  // }, [newQueryString, queryString]);
-  // Run `suggestQuery` first, then `handleSearch`
+
   useEffect(() => {
     handleSearch(query !== undefined ? query : "*");
   }, [
@@ -308,6 +301,7 @@ export default function DiscoveryArea({
           setValue={setValue}
           inputRef={inputRef}
           handleSearch={handleSearch}
+          setQuery={setQuery}
         />
       </Grid>
       {fetchResults.length > 0 && (
