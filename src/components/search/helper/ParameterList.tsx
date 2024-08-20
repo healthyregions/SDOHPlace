@@ -44,6 +44,8 @@ export const GetAllParams = () => {
     "query",
     parseAsString.withDefault("")
   );
+
+  //console.log("now in GetAllParams", showDetailPanel, showFilter, sortOrder, sortBy, resourceType, resourceClass, format, indexYear, query);
   return {
     showDetailPanel,
     showFilter,

@@ -10,7 +10,6 @@ const topLevelList = ["index_year", "resource_class", "creator"];
 
 /**
  * Collect possible options for filter based on results
- * @param filterList
  * @param resultList
  */
 export const generateFilterList = (resultList: SolrObject[]) => {
