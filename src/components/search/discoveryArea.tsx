@@ -82,7 +82,6 @@ export default function DiscoveryArea({
               ).map((id) => {
                 return multipleResults.find((a) => a.id === id);
               });
-              setOriginalResults(newResults);
               setFetchResults(newResults);
             });
           });
@@ -95,7 +94,6 @@ export default function DiscoveryArea({
               sortBy,
               sortOrder
             );
-            setOriginalResults(newResults);
             setFetchResults(newResults);
           });
         }
@@ -187,14 +185,11 @@ export default function DiscoveryArea({
     }
     return res;
   };
-  const filterQueries = reGetFilterQueries([]); //should i change this to useState?
-
+  const filterQueries = reGetFilterQueries([]);
   const [fetchResults, setFetchResults] = useState<SolrObject[]>(
     generateSolrParentList(results, sortBy, sortOrder)
   );
-  const [originalResults, setOriginalResults] =
-    useState<SolrObject[]>(fetchResults); // last step, probably move this to memory in the future
-
+  const originalResults = fetchResults; 
   /**
    * ***************
    * Filter & Sort Component

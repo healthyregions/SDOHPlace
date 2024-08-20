@@ -145,31 +145,33 @@ export default class SolrQueryBuilder {
     return this.setQuery(sortQuery);
   }
 
-  public combineQueries = (
-    term,
-    filterQueries,
-  ): SolrQueryBuilder => {
+  public combineQueries = (term, filterQueries): SolrQueryBuilder => {
     let combinedQuery = this.generalQuery(term).getQuery();
     if (filterQueries.length > 0) {
       let filterQuery = `&fq=`;
+      const groupedQueries = {};
+
+      // Group filter queries by attribute, then do AND
       filterQueries.forEach((f) => {
-        filterQuery += `${encodeURIComponent(
-          findSolrAttribute(f.attribute, this.getSchema())
-        )}:"${encodeURIComponent(f.value)}" AND `; // for url with multiple filter values, use OR instead of AND
+        const attribute = findSolrAttribute(f.attribute, this.getSchema());
+        const encodedAttribute = encodeURIComponent(attribute);
+        const encodedValue = `"${encodeURIComponent(f.value)}"`;
+        if (!groupedQueries[encodedAttribute]) {
+          groupedQueries[encodedAttribute] = [];
+        }
+        groupedQueries[encodedAttribute].push(
+          `${encodedAttribute}:${encodedValue}`
+        );
       });
-      filterQuery = filterQuery.slice(0, -4);
+
+      // Combine queries with OR within the same attribute
+      const attributeQueries = Object.keys(groupedQueries).map(
+        (attribute) => `(${groupedQueries[attribute].join(" OR ")})`
+      );
+
+      filterQuery += attributeQueries.join(" AND ");
       combinedQuery += filterQuery;
     }
-    // add sort by detecting sortOrder and sortBy, only if both are present
-    // if (
-    //   sortOrder.length > 0 &&
-    //   sortBy.length > 0 &&
-    //   findSolrAttribute(sortBy, this.getSchema() !== undefined)
-    // ) {
-    //   combinedQuery += `&sort=${encodeURIComponent(
-    //     findSolrAttribute(sortBy, this.getSchema())
-    //   )}${encodeURIComponent(" ")}${sortOrder}`;
-    // }
     combinedQuery += "&rows=1000";
     return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
   };
