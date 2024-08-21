@@ -30,6 +30,7 @@ interface Props {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   handleInputReset: () => void;
+  processResults: (results, value) => void;
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -98,11 +99,8 @@ const SearchBox = (props: Props): JSX.Element => {
   });
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(props.schema);
-  const processResults = (results, value) => {
-    suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
-    suggestResultBuilder.setSuggestInput(value);
-    suggestResultBuilder.setResultTerms(JSON.stringify(results));
-  };
+
+  
   let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -130,17 +128,17 @@ const SearchBox = (props: Props): JSX.Element => {
       searchQueryBuilder
         .fetchResult()
         .then((result) => {
-          processResults(result, newInputValue);
+          props.processResults(result, newInputValue);
           props.setOptions(suggestResultBuilder.getTerms());
         })
         .catch((error) => {
           console.error("Error fetching result:", error);
         });
     } else {
-      setUserInput("");
-      props.setInputValue("");
-      props.inputRef.current?.focus();
-      props.inputRef.current?.select();
+      // setUserInput("");
+      // props.setInputValue("");
+      // props.inputRef.current?.focus();
+      // props.inputRef.current?.select();
       props.handleInputReset();
     }
   };

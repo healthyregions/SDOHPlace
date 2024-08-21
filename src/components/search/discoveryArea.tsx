@@ -33,9 +33,6 @@ export default function DiscoveryArea({
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
-  const initialSearchInput = useQueryState("query", parseAsString)[0];
-  const [inputValue, setInputValue] = useState<string>(initialSearchInput);
-  const [value, setValue] = useState<string | null>(initialSearchInput);
   const [checkboxes, setCheckboxes] = useState([]);
   let tempSRChecboxes = new Set<CheckBoxObject>();
   SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
@@ -155,6 +152,8 @@ export default function DiscoveryArea({
     query,
     setQuery,
   } = GetAllParams();
+  const [inputValue, setInputValue] = useState<string>(query ? query : "");
+  const [value, setValue] = useState<string | null>(query ? query : null);
   const isQuery = query.length > 0;
   const reGetFilterQueries = (res) => {
     if (resourceType) {
@@ -189,7 +188,7 @@ export default function DiscoveryArea({
   const [fetchResults, setFetchResults] = useState<SolrObject[]>(
     generateSolrParentList(results, sortBy, sortOrder)
   );
-  const originalResults = fetchResults; 
+  const originalResults = fetchResults;
   /**
    * ***************
    * Filter & Sort Component
@@ -244,22 +243,26 @@ export default function DiscoveryArea({
    * ***************
    * Query & Search Input handling
    */
+  const [isResetting, setIsResetting] = useState(false);
+
   const handleInputReset = () => {
-    setQuery(null);
-    setAutocompleteKey((prevKey) => prevKey + 1);
-    setCheckboxes([]);
-    setOptions([]);
-    setValue(null);
-    setInputValue("");
-    setResetStatus(true);
-    // add some time to allow setQuery to be read
-    setTimeout(() => {
-      noQuery();
-    }, 0);
+    setIsResetting(true);
   };
 
   useEffect(() => {
-    handleSearch(query !== undefined ? query : "*");
+    if (isResetting) {
+      setQuery(null);
+      setAutocompleteKey((prevKey) => prevKey + 1);
+      setCheckboxes([]);
+      setOptions([]);
+      setValue(null);
+      setInputValue("");
+      setResetStatus(true);
+      setIsResetting(false);
+      handleSearch("*");
+    } else {
+      handleSearch(query);
+    }
   }, [
     sortBy,
     sortOrder,
@@ -267,18 +270,8 @@ export default function DiscoveryArea({
     resourceClass,
     format,
     indexYear,
-    query,
+    isResetting,
   ]);
-  // useEffect(() => {
-  //   if (queryString) {
-  //     searchQueryBuilder.suggestQuery(queryString);
-  //     handleSearch(queryString);
-  //   } else {
-  //     if (query.length === 0 || inputValue === null) noQuery();
-  //     else handleSearch(query);
-  //   }
-  // }, [queryString, inputValue]);
-
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -288,6 +281,7 @@ export default function DiscoveryArea({
           schema={schema}
           autocompleteKey={autocompleteKey}
           options={options}
+          processResults={processResults}
           setOptions={setOptions}
           handleInputReset={handleInputReset}
           inputValue={inputValue}

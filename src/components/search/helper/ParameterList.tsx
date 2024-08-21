@@ -39,13 +39,13 @@ export const GetAllParams = () => {
     "sortBy",
     parseAsString.withDefault("")
   );
-  // query: the search query
+  //query: the search query
   const [query, setQuery] = useQueryState(
     "query",
     parseAsString.withDefault("")
   );
 
-  //console.log("now in GetAllParams", showDetailPanel, showFilter, sortOrder, sortBy, resourceType, resourceClass, format, indexYear, query);
+  //console.log("now in GetAllParams", showDetailPanel, showFilter, sortOrder, sortBy, resourceType, resourceClass, format, indexYear,query);
   return {
     showDetailPanel,
     showFilter,
