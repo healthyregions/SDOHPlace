@@ -185,10 +185,10 @@ export default function DiscoveryArea({
     return res;
   };
   const filterQueries = reGetFilterQueries([]);
-  const [fetchResults, setFetchResults] = useState<SolrObject[]>(
-    generateSolrParentList(results, sortBy, sortOrder)
-  );
-  const originalResults = fetchResults;
+  const originalResults = generateSolrParentList(results, sortBy, sortOrder);
+  const [fetchResults, setFetchResults] =
+    useState<SolrObject[]>(originalResults);
+
   /**
    * ***************
    * Filter & Sort Component
