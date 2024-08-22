@@ -4,23 +4,29 @@ import { useRouter } from "next/router";
 import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "../../../../../meta/interface/SolrObject";
-import { updateSearchParams } from "../../helper/ManageURLParams";
 import Image from "next/image";
-import DOMPurify from 'dompurify';
-import { Box } from "@mui/material";
+import DOMPurify from "dompurify";
+import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Box, Container, IconButton, Typography } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
-import ShareModal from "./shareModal";
 
 interface Props {
   resultItem: SolrObject;
   headerIcon: any;
+  showDetailPanel: (value: string) => void;
+  showSharedLink: string;
+  setShowSharedLink: (value: string) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
   introCard: {
     color: `${fullConfig.theme.colors["almostblack"]}`,
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
+  },
+  wide: {
+    width: "95%",
   },
 }));
 
@@ -29,29 +35,33 @@ const HeaderRow = (props: Props): JSX.Element => {
   const router = useRouter();
   const backToMapView = (e) => {
     e.preventDefault(); // Prevent the default link behavior
-    const currentParams = new URLSearchParams(window.location.search);
-    const currentPath = window.location.pathname;
-    updateSearchParams(
-      router,
-      currentParams,
-      currentPath,
-      "show",
-      props.resultItem.id,
-      "remove"
-    );
+    // );
+    props.showDetailPanel(null);
   };
 
-  /** Share ShareModal */
-  const [openShareModal, setOpenShareModal] = React.useState(false);
-  const [currentUrl, setCurrentUrl] = React.useState("");
-  const handleOpenShareModal = () => {
-    setCurrentUrl(window.location.href);
-    setOpenShareModal(true);
-  };
-  const handleCloseShareModal = () => {
-    setOpenShareModal(false);
+  //handle share link
+  const handleShowShareLink = () => {
+    if (props.showSharedLink === "true") {
+      props.setShowSharedLink(null);
+    } else props.setShowSharedLink("true");
   };
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert("Link copied to clipboard!");
+  };
+
+  // handle description
+  if (props.resultItem.description.endsWith("<a href='https://www.")) {
+    props.resultItem.description += "'>link</a>"; // Completing the <a> tag for dev only. Delete this after confirming all links are complete
+  }
+  const sanitizedDescription = DOMPurify.sanitize(
+    props.resultItem.description,
+    {
+      ALLOWED_TAGS: ["a", "b", "i", "em", "strong", "p", "div", "span"],
+      ALLOWED_ATTR: ["href", "title", "target", "class"],
+    }
+  );
   return (
     <div className={`container mx-auto shadow-none aspect-ratio`}>
       <div className="flex flex-col sm:mb-5 sm:flex-row">
@@ -88,14 +98,9 @@ const HeaderRow = (props: Props): JSX.Element => {
               justifyContent="space-between"
               fillColor={"white"}
               labelColor={"frenchviolet"}
-              onClick={handleOpenShareModal}
+              onClick={handleShowShareLink}
             />
           </div>
-          <ShareModal
-            open={openShareModal}
-            onClose={handleCloseShareModal}
-            currentUrl={currentUrl}
-          />
           <ButtonWithIcon
             label={"Access"}
             borderRadius={"0.25rem"}
@@ -117,10 +122,57 @@ const HeaderRow = (props: Props): JSX.Element => {
           />
         </div>
       </div>
-
+      {props.showSharedLink && (
+        <div className={`flex w-full p-0 ${classes.introCard}`}>
+          <div
+            className={`flex ${classes.wide}  flex-11 sm:justify-between sm:items-center sm:px-[1em] sm:py-[0.5em] sm:my-[1.5em]`}
+            style={{
+              fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
+              backgroundColor: fullConfig.theme.colors["lightbisque"],
+            }}
+          >
+            <div className="flex flex-col">
+              <div className="flex sm:flex-start sm:items-center">
+                <IconButton
+                  sx={{
+                    width: "0.875em",
+                    color: fullConfig.theme.colors["frenchviolet"],
+                  }}
+                  onClick={() => props.setShowSharedLink(null)}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <p style={{ marginLeft: "2em" }}>Share link:</p>
+              </div>
+              <div className="flex font-bold sm:flex-start sm:items-center sm:mb-[0.5em] sm:ml-[3.4em]">
+                <p>{window.location.href}</p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="flex items-center justify-center sm:p-[1.5em] sm:my-[1.5em]"
+            style={{
+              background: fullConfig.theme.colors["strongbisque"],
+            }}
+          >
+            <IconButton
+              sx={{
+                width: "2em",
+                color: fullConfig.theme.colors["frenchviolet"],
+              }}
+              onClick={handleCopyLink}
+            >
+              <ContentCopyIcon />
+            </IconButton>
+          </div>
+        </div>
+      )}
       {props.resultItem.description ? (
         <div className="flex flex-col sm:flex-row items-center">
-          <div className="text-base" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.resultItem.description) }} />
+          <div
+            className="text-base"
+            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+          />
         </div>
       ) : null}
     </div>

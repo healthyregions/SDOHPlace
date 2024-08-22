@@ -9,7 +9,8 @@ export const GetAllParams = () => {
   const isQuery = useQueryState('isQuery', parseAsString.withDefault(""));
 
   // showDetailPanel: if it is not empty, show the detail panel
-  const showDetailPanel = useQueryState('show', parseAsString.withDefault(""));
+  const [showDetailPanel, setShowDetailPanel] = useQueryState('show', parseAsString.withDefault(""));
+  const [showSharedLink, setShowSharedLink] = useQueryState('showSharedLink', parseAsString.withDefault(""));
 
   // showFilter: if it is not empty, show the filter
   const showFilter = useQueryState('showFilter', parseAsString.withDefault(""));
@@ -26,6 +27,9 @@ export const GetAllParams = () => {
   return {
     isQuery,
     showDetailPanel,
+    setShowDetailPanel,
+    showSharedLink,
+    setShowSharedLink,
     showFilter,
     resource_type,
     resource_class,
