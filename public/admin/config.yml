@@ -296,13 +296,13 @@ collections:
     extension: "mdx"
     format: "frontmatter"
     create: true
-    slug: "{{field.slug}}"
-    identifier_field: slug
+    slug: "{{slug}}"
     summary: "{{title}}"
     fields:
       - label: "Title"
         name: "title"
         widget: "string"
+        hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
       - label: "Slug"
         name: "slug"
         widget: "string"
@@ -357,15 +357,12 @@ collections:
     extension: "mdx"
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
-    slug: "{{field.slug}}"
+    slug: "{{slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Project Title"
         name: "title"
         widget: "string"
-      - label: "Slug"
-        name: "slug"
-        widget: "string"
-        hint: "The slug must contain only lowercase letters, numbers, and hyphens. It will name the file and be used in the URL for this entry. It shouldn't be changed after this entry is saved."
+        hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
       - label: "Featured Image"
         name: "image"
         widget: "image"

@@ -1,5 +1,5 @@
 import React from "react";
-import { ShowcaseContent } from "../../lib/cms";
+import { ShowcaseContent } from "../../lib/showcases";
 import ShowcaseItem from "./ShowcaseItem";
 import Pagination from "../news/Pagination";
 
