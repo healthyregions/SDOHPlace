@@ -27,7 +27,6 @@ export default class SuggestedResultBuilder {
     if (Array.isArray(response_json)) {
       return result; // if response_json is an array
     }
-    console.log(response_json, this.suggestInput);
     const suggestions = response_json
       ? response_json.suggest[this.suggester][this.suggestInput].suggestions
       : [];

@@ -10,6 +10,7 @@ import { findFirstSentence, schemaMatch } from "./util";
  */
 const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
   let result = {} as SolrObject;
+  result.score = rawSolrObject.score;
   result.id = rawSolrObject.id;
   result.title = rawSolrObject.dct_title_s;
   result.metadata_version = rawSolrObject.gbl_mdVersion_s;
@@ -60,7 +61,11 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
  * @param solrObjects a list of transformed solr objects using initSolrObject
  * @returns a list of solrParent objects to create parent resource list
  */
-const generateSolrParentList = (solrObjects: SolrObject[]): SolrObject[] => {
+const generateSolrParentList = (
+  solrObjects: SolrObject[],
+  sortBy?: string,
+  sortOrder?: string
+): SolrObject[] => {
   let result = new Set<SolrObject>();
   solrObjects
     .filter((solrObject) => solrObject.parents)
@@ -85,7 +90,22 @@ const generateSolrParentList = (solrObjects: SolrObject[]): SolrObject[] => {
     .forEach((solrObject) => {
       result.add(solrObject);
     });
-  return Array.from(result);
+  //For now, only handle the case when both sortBy and sortOrder are provided and they are modified
+  const finalArray = Array.from(result);
+  if (sortBy && sortOrder && sortBy === "modified") {
+    finalArray.sort((a, b) => {
+      const dateA = new Date(a.modified);
+      const dateB = new Date(b.modified);
+      if (sortOrder === "asc") {
+        return dateA.getTime() - dateB.getTime();
+      }
+      return dateB.getTime() - dateA.getTime();
+    });
+  } else {
+    // default sort by score (i.e. Relevant)
+    finalArray.sort((a, b) => b.score - a.score);
+  }
+  return finalArray;
 };
 
 /**

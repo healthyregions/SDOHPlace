@@ -1,41 +1,21 @@
 import { useEffect, useState, useRef, use, useMemo } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
-import Button from "@mui/material/Button";
+import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Autocomplete,
-  Box,
-  Checkbox,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useQueryState, parseAsBoolean, parseAsString } from "nuqs";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CloseIcon from "@mui/icons-material/Close";
-import { SearchObject } from "./interface/SearchObject";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrParentList } from "meta/helper/solrObjects";
-import FilterObject from "./interface/FilterObject";
-import { generateFilter, runningFilter } from "./helper/FilterHelpMethods";
+import { filterResults } from "./helper/FilterHelpMethods";
 import CheckBoxObject from "./interface/CheckboxObject";
 import DetailPanel from "./detailPanel/detailPanel";
-import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import SearchRow from "./searchArea/searchRow";
 import ResultsPanel from "./resultsPanel/resultsPanel";
 import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
-import { Search } from "@mui/icons-material";
 import { GetAllParams } from "./helper/ParameterList";
-import { fi } from "date-fns/locale";
-import { set } from "date-fns";
 import { findSolrAttribute } from "meta/helper/util";
-
+import FilterPanel, { grouped } from "./filterPanel/filterPanel";
 export default function DiscoveryArea({
   results,
   isLoading,
@@ -51,17 +31,8 @@ export default function DiscoveryArea({
   schema: {};
 }): JSX.Element {
   const searchParams = useSearchParams();
-  const [fetchResults, setFetchResults] = useState<SolrObject[]>(
-    generateSolrParentList(results)
-  );
-  const [originalResults, setOriginalResults] =
-    useState<SolrObject[]>(fetchResults); // last step, probably move this to memory in the future
-  const [allResults, setAllResults] = useState<SolrObject[]>(fetchResults); // the initial results
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
-  const initialSearchInput = useQueryState("query", parseAsString)[0];
-  const [inputValue, setInputValue] = useState<string>(initialSearchInput);
-  const [value, setValue] = useState<string | null>(initialSearchInput);
   const [checkboxes, setCheckboxes] = useState([]);
   let tempSRChecboxes = new Set<CheckBoxObject>();
   SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
@@ -79,115 +50,47 @@ export default function DiscoveryArea({
 
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
-  let suggestResultBuilder = new SuggestedResult();
-  // get all query status
-  const {
-    isQuery,
-    showDetailPanel,
-    showFilter,
-    resource_type,
-    resource_class,
-    format,
-    index_year,
-    query,
-  } = GetAllParams();
+  let suggestResultBuilder = useMemo(() => new SuggestedResult(), []);
 
-  // For filter, re-build filterQuery using SearchQueryBuilder
-  const filterQueries = [];
-  if (resource_type[0].length > 0) {
-    resource_type[0].split(",").forEach((r) => {
-      filterQueries.push({
-        attribute: "resource_type",
-        value: r,
-      });
-    });
-  }
-  if (resource_class[0].length > 0) {
-    resource_class[0].split(",").forEach((r) => {
-      filterQueries.push({
-        attribute: "resource_class",
-        value: r,
-      });
-    });
-  }
-  if (format[0].length > 0) {
-    format[0].split(",").forEach((f) => {
-      filterQueries.push({ attribute: "format", value: f });
-    });
-  }
-  if (index_year[0].length > 0) {
-    index_year[0].split(",").forEach((i) => {
-      filterQueries.push({ attribute: "index_year", value: i });
-    });
-  }
-
-  // Run filter only if no query is present or searchInputBox is set to no value,
-  // Otherwise use the handleSearch that also has filter included
-  useEffect(() => {
-    if (query[0].length === 0 || inputValue === null) filterOnly();
-  }, [inputValue]);
-  const combineGeneralAndFilter = (term) => {
-    let combinedQuery = searchQueryBuilder.generalQuery(term).getQuery();
-    if (filterQueries.length > 0) {
-      let filterQuery = `&fq=`;
-      filterQueries.forEach((term) => {
-        filterQuery += `${encodeURIComponent(
-          findSolrAttribute(term.attribute, searchQueryBuilder.getSchema())
-        )}:"${encodeURIComponent(term.value)}" AND `;
-      });
-      filterQuery = filterQuery.slice(0, -5);
-      combinedQuery += filterQuery;
-    }
-    combinedQuery += "&rows=1000";
-    searchQueryBuilder.setQuery(
-      combinedQuery.replace(searchQueryBuilder.getSolrUrl() + "/", "")
-    );
-  };
-  const filterOnly = () => {
-    if (filterQueries.length > 0) {
-      searchQueryBuilder.filterQuery(filterQueries);
-      searchQueryBuilder
-        .fetchResult()
-        .then((result) => {
-          const newResults = generateSolrParentList(result);
-          setFetchResults(newResults);
-        })
-        .catch((error) => {
-          console.error("Error fetching result:", error);
-        });
-    }
-  };
+  /**
+   * ***************
+   * Helper functions
+   */
   const handleSearch = async (value) => {
     searchQueryBuilder
       .fetchResult()
       .then((result) => {
-        console.log("handleSearch", result, value);
         processResults(result, value);
         console.log("suggestResultBuilder", suggestResultBuilder.getTerms());
         // if multiple terms are returned, we get all weight = 1 terms (this is done in SuggestionsResultBuilder), then aggregate the results for all terms
         if (suggestResultBuilder.getTerms().length > 0) {
           const multipleResults = [] as SolrObject[];
           suggestResultBuilder.getTerms().forEach((term) => {
-            combineGeneralAndFilter(term);
+            searchQueryBuilder.combineQueries(term, filterQueries);
             searchQueryBuilder.fetchResult().then((result) => {
-              generateSolrParentList(result).forEach((parent) => {
-                multipleResults.push(parent);
-              });
+              generateSolrParentList(result, sortBy, sortOrder).forEach(
+                (parent) => {
+                  multipleResults.push(parent);
+                }
+              );
               // remove duplicates by id
               const newResults = Array.from(
                 new Set(multipleResults.map((a) => a.id))
               ).map((id) => {
                 return multipleResults.find((a) => a.id === id);
               });
-              setOriginalResults(newResults);
               setFetchResults(newResults);
             });
           });
         } else {
-          combineGeneralAndFilter(value);
+          console.log("no suggestions, just one term", value, filterQueries);
+          searchQueryBuilder.combineQueries(value, filterQueries);
           searchQueryBuilder.fetchResult().then((result) => {
-            const newResults = generateSolrParentList(result);
-            setOriginalResults(newResults);
+            const newResults = generateSolrParentList(
+              result,
+              sortBy,
+              sortOrder
+            );
             setFetchResults(newResults);
           });
         }
@@ -201,37 +104,174 @@ export default function DiscoveryArea({
     suggestResultBuilder.setSuggestInput(value);
     suggestResultBuilder.setResultTerms(JSON.stringify(results));
   };
-  const handleInputReset = () => {
-    console.log("handleInputReset");
-    setAutocompleteKey((prevKey) => prevKey + 1);
-    setCheckboxes([]);
-    setOptions([]);
-    setValue(null);
-    setInputValue("");
-    setResetStatus(true);
-    // since only input got reset, we need to re-run the filter
-    filterOnly();
+  // Run filter and sort only if no query is present or searchInputBox is set to no value
+  // NOTE that sort is handled by generateSolrParentList instead of query directly to Solr so that when the parentList is generated (as displayed), the result is sorted
+  const noQuery = () => {
+    const shouldSort =
+      (
+        sortOrder.length > 0 &&
+        sortBy.length > 0 &&
+        findSolrAttribute(sortBy, searchQueryBuilder.getSchema() !== undefined)
+      ).length > 0;
+    if (filterQueries.length > 0) {
+      searchQueryBuilder.filterQuery(filterQueries);
+      searchQueryBuilder
+        .fetchResult()
+        .then((result) => {
+          const newResults = shouldSort
+            ? generateSolrParentList(result, sortBy, sortOrder)
+            : generateSolrParentList(result);
+          setFetchResults(newResults);
+        })
+        .catch((error) => {
+          console.error("Error fetching result:", error);
+        });
+    }
   };
 
-  // For suggestion
-  const [newQueryString, setNewQueryString] = useQueryState(
-    "query",
-    parseAsString
-  );
-  const [queryString, setQueryString] = useState(newQueryString);
-  useEffect(() => {
-    if (newQueryString && newQueryString !== queryString) {
-      setQueryString(newQueryString);
+  /**
+   * ***************
+   * URL Parameter Handling
+   */
+  const {
+    showDetailPanel,
+    showFilter,
+    setShowFilter,
+    sortOrder,
+    setSortOrder,
+    sortBy,
+    setSortBy,
+    resourceType,
+    setResourceType,
+    resourceClass,
+    setResourceClass,
+    format,
+    setFormat,
+    indexYear,
+    setIndexYear,
+    query,
+    setQuery,
+  } = GetAllParams();
+  const [inputValue, setInputValue] = useState<string>(query ? query : "");
+  const [value, setValue] = useState<string | null>(query ? query : null);
+  const isQuery = query.length > 0;
+  const reGetFilterQueries = (res) => {
+    if (resourceType) {
+      resourceType.split(",").forEach((r) => {
+        res.push({
+          attribute: "resource_type",
+          value: r,
+        });
+      });
     }
-  }, [newQueryString, queryString]);
-  // Run `suggestQuery` first, then `handleSearch`
-  useEffect(() => {
-    if (queryString) {
-      searchQueryBuilder.suggestQuery(queryString);
-      handleSearch(queryString);
+    if (resourceClass) {
+      resourceClass.split(",").forEach((r) => {
+        res.push({
+          attribute: "resource_class",
+          value: r,
+        });
+      });
     }
-  }, [queryString]);
+    if (format) {
+      format.split(",").forEach((f) => {
+        res.push({ attribute: "format", value: f });
+      });
+    }
+    if (indexYear) {
+      indexYear.split(",").forEach((i) => {
+        res.push({ attribute: "index_year", value: i });
+      });
+    }
+    return res;
+  };
+  const filterQueries = reGetFilterQueries([]);
+  const originalResults = generateSolrParentList(results, sortBy, sortOrder);
+  const [fetchResults, setFetchResults] =
+    useState<SolrObject[]>(originalResults);
 
+  /**
+   * ***************
+   * Filter & Sort Component
+   */
+  const updateAll = (newSortBy, newSortOrder, newFilterQueries, searchTerm) => {
+    setSortBy(newSortBy ? newSortBy : null);
+    setSortOrder(newSortOrder ? newSortOrder : null);
+    setResourceType(null);
+    setResourceClass(null);
+    setFormat(null);
+    setIndexYear(null);
+    newFilterQueries.forEach((filter) => {
+      if (filter.attribute === "resource_class") {
+        setResourceClass((prev) =>
+          prev ? `${prev},${filter.value}` : filter.value
+        );
+      }
+      if (filter.attribute === "resource_type") {
+        setResourceType((prev) =>
+          prev ? `${prev},${filter.value}` : filter.value
+        );
+      }
+      if (filter.attribute === "index_year") {
+        setIndexYear((prev) =>
+          prev ? `${prev},${filter.value}` : filter.value
+        );
+      }
+    });
+    if (searchTerm) {
+      setQuery(searchTerm);
+    }
+  };
+  const filterComponent = (
+    <FilterPanel
+      reGetFilterQueries={reGetFilterQueries}
+      originalList={originalResults}
+      term={isQuery ? query : "*"}
+      optionMaxNum={7}
+      filterQueries={filterQueries}
+      showFilter={showFilter ? showFilter : ""}
+      setShowFilter={setShowFilter}
+      sortOrder={sortOrder ? sortOrder : ""}
+      setSortOrder={setSortOrder}
+      sortBy={sortBy ? sortBy : ""}
+      setSortBy={setSortBy}
+      handleSearch={handleSearch}
+      updateAll={updateAll}
+    />
+  );
+
+  /**
+   * ***************
+   * Query & Search Input handling
+   */
+  const [isResetting, setIsResetting] = useState(false);
+
+  const handleInputReset = () => {
+    setIsResetting(true);
+  };
+
+  useEffect(() => {
+    if (isResetting) {
+      setQuery(null);
+      setAutocompleteKey((prevKey) => prevKey + 1);
+      setCheckboxes([]);
+      setOptions([]);
+      setValue(null);
+      setInputValue("");
+      setResetStatus(true);
+      setIsResetting(false);
+      handleSearch("*");
+    } else {
+      handleSearch(query);
+    }
+  }, [
+    sortBy,
+    sortOrder,
+    resourceType,
+    resourceClass,
+    format,
+    indexYear,
+    isResetting,
+  ]);
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -241,6 +281,7 @@ export default function DiscoveryArea({
           schema={schema}
           autocompleteKey={autocompleteKey}
           options={options}
+          processResults={processResults}
           setOptions={setOptions}
           handleInputReset={handleInputReset}
           inputValue={inputValue}
@@ -249,6 +290,7 @@ export default function DiscoveryArea({
           setValue={setValue}
           inputRef={inputRef}
           handleSearch={handleSearch}
+          setQuery={setQuery}
         />
       </Grid>
       {fetchResults.length > 0 && (
@@ -256,7 +298,10 @@ export default function DiscoveryArea({
           <ResultsPanel
             resultsList={fetchResults}
             relatedList={fetchResults}
-            isQuery={isQuery[0].length > 0 || filterQueries.length > 0}
+            isQuery={isQuery || filterQueries.length > 0}
+            filterComponent={filterComponent}
+            showFilter={showFilter}
+            setShowFilter={setShowFilter}
           />
         </Grid>
       )}
