@@ -29,6 +29,7 @@ module.exports = {
         frenchviolet: "#7e1cc4",
         lightviolet: "#ECE6F0",
         lightbisque: "#ffe5c4",
+        strongbisque: "#FFD39B",
         strongorange: "#FF9C77",
       },
       spacing: {},

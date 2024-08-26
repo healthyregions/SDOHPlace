@@ -135,6 +135,9 @@ export default function DiscoveryArea({
    */
   const {
     showDetailPanel,
+    setShowDetailPanel,
+    showSharedLink,
+    setShowSharedLink,
     showFilter,
     setShowFilter,
     sortOrder,
@@ -311,15 +314,19 @@ export default function DiscoveryArea({
             item
             className="sm:px-[2em]"
             xs={12}
-            sx={{ display: showDetailPanel[0].length == 0 ? "block" : "none" }}
+            sx={{ display: showDetailPanel.length == 0 ? "block" : "none" }}
           >
             <MapPanel resultsList={fetchResults} />
           </Grid>
           <Grid
-            sx={{ display: showDetailPanel[0].length > 0 ? "block" : "none" }}
+            sx={{ display: showDetailPanel.length > 0 ? "block" : "none" }}
           >
             <DetailPanel
-              resultItem={fetchResults.find((r) => r.id === showDetailPanel[0])}
+              resultItem={fetchResults.find((r) => r.id === showDetailPanel)
+              }
+              setShowDetailPanel={setShowDetailPanel}
+              showSharedLink={showSharedLink}
+              setShowSharedLink={setShowSharedLink}
             />
           </Grid>
         </Grid>

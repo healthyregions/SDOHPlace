@@ -11,6 +11,9 @@ import IconMatch from "../helper/IconMatch";
 
 interface Props {
   resultItem: SolrObject;
+  setShowDetailPanel: (value: string) => void;
+  showSharedLink: string;
+  setShowSharedLink: (value: string) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +33,13 @@ const DetailPanel = (props: Props): JSX.Element => {
         className={`container sm:px-11 sm:mb-60 mx-auto bg-white shadow-none aspect-ratio`}
       >
         <div className="flex flex-col sm:flex-row mb-8" id="introCardRow">
-          <HeaderRow resultItem={props.resultItem} headerIcon={IconMatch("dataDiscoveryIcon")}/>
+          <HeaderRow
+            resultItem={props.resultItem}
+            headerIcon={IconMatch("dataDiscoveryIcon")}
+            showDetailPanel={props.setShowDetailPanel}
+            showSharedLink={props.showSharedLink}
+            setShowSharedLink={props.setShowSharedLink}
+          />
         </div>
         <div className="flex flex-col sm:flex-row mb-12" id="introCardRow">
           <IntroCard resultItem={props.resultItem} />
