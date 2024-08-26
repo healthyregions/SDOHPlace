@@ -49,7 +49,7 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   let newsItem = getSortedPostsData();
-
+  console.log(newsItem);
   // Convert date to string format
   newsItem = newsItem.map((item) => {
     return {
@@ -98,6 +98,7 @@ const useStyles = makeStyles({
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
+  console.log(newsItem);
   const sdohFactors = [
     {
       id: "1",
@@ -302,7 +303,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   image={item.thumbnail}
                   title={item.title}
                   text={item.excerpt}
-                  url={"news/" + item.slug}
+                  url={"news/" + item.id.split(".")[0]}
                 />
               ))}
             </div>

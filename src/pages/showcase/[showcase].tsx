@@ -2,7 +2,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import matter from "gray-matter";
-import { fetchPostContent } from "../../lib/cms";
+import { fetchPostContent } from "../../lib/showcases";
 import fs from "fs";
 import yaml from "js-yaml";
 import { parseISO } from "date-fns";
@@ -89,7 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       title: data.title,
-      slug: data.slug,
+      slug: slug,
       image: data.image,
       techUsed: data.tech_used ? data.tech_used : "",
       link: data.link,

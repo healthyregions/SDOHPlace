@@ -3,13 +3,20 @@ import matter from "gray-matter";
 import path from "path";
 import yaml from "js-yaml";
 
-const postsDirectory = path.join(process.cwd(), "content/showcase");
-
 export type PostContent = {
-  readonly date: string;
+  readonly date?: string;
   readonly title: string;
   readonly slug: string;
   readonly tags?: string[];
+  readonly fullPath: string;
+};
+
+export type ShowcaseContent = {
+  readonly title: string;
+  readonly slug: string;
+  readonly image: string;
+  readonly fellow: string;
+  readonly techUsed: string;
   readonly fullPath: string;
 };
 
@@ -34,6 +41,7 @@ export function fetchPostContent(directory: string): PostContent[] {
           yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
         },
       });
+
       const matterData = matterResult.data as {
         date: string;
         title: string;
@@ -42,15 +50,7 @@ export function fetchPostContent(directory: string): PostContent[] {
         fullPath: string;
       };
       matterData.fullPath = fullPath;
-
-      const slug = fileName.replace(/\.mdx$/, "");
-
-      // Validate slug string
-      if (matterData.slug !== slug) {
-        throw new Error(
-          "slug field not match with the path of its content source"
-        );
-      }
+      matterData.slug = fileName.replace(/\.mdx$/, "");
 
       return matterData;
     });
@@ -65,18 +65,19 @@ export function fetchPostContent(directory: string): PostContent[] {
   return postCache;
 }
 
-export function countPosts(tag?: string): number {
-  return fetchPostContent("content/showcase").filter(
+export function countPosts(directory: string, tag?: string): number {
+  return fetchPostContent(directory).filter(
     (it) => !tag || (it.tags && it.tags.includes(tag))
   ).length;
 }
 
 export function listPostContent(
+  directory: string,
   page: number,
   limit: number,
   tag?: string
 ): PostContent[] {
-  return fetchPostContent("content/showcase")
+  return fetchPostContent(directory)
     .filter((it) => !tag || (it.tags && it.tags.includes(tag)))
     .slice((page - 1) * limit, page * limit);
 }

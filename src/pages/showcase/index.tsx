@@ -5,7 +5,11 @@ import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
 import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
 import config from "../../lib/config";
-import { countPosts, listPostContent, ShowcaseContent } from "../../lib/cms";
+import {
+  countPosts,
+  listPostContent,
+  ShowcaseContent,
+} from "../../lib/showcases";
 import { listTags, TagContent } from "../../lib/tags";
 import Head from "next/head";
 
