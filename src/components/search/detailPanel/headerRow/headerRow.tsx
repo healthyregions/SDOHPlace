@@ -7,7 +7,7 @@ import { SolrObject } from "../../../../../meta/interface/SolrObject";
 import Image from "next/image";
 import DOMPurify from "dompurify";
 import CloseIcon from "@mui/icons-material/Close";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
@@ -32,10 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderRow = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const router = useRouter();
   const backToMapView = (e) => {
-    e.preventDefault(); // Prevent the default link behavior
-    // );
+    e.preventDefault();
     props.showDetailPanel(null);
   };
 
@@ -45,10 +43,9 @@ const HeaderRow = (props: Props): JSX.Element => {
       props.setShowSharedLink(null);
     } else props.setShowSharedLink("true");
   };
-
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert("Link copied to clipboard!");
+    alert("The shared link has been copied to the clipboard successfully!");
   };
 
   // handle description
@@ -129,6 +126,7 @@ const HeaderRow = (props: Props): JSX.Element => {
             style={{
               fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
               backgroundColor: fullConfig.theme.colors["lightbisque"],
+              borderRadius: "0.5em 0 0 0.5em",
             }}
           >
             <div className="flex flex-col">
@@ -137,6 +135,9 @@ const HeaderRow = (props: Props): JSX.Element => {
                   sx={{
                     width: "0.875em",
                     color: fullConfig.theme.colors["frenchviolet"],
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                    },
                   }}
                   onClick={() => props.setShowSharedLink(null)}
                 >
@@ -153,16 +154,24 @@ const HeaderRow = (props: Props): JSX.Element => {
             className="flex items-center justify-center sm:p-[1.5em] sm:my-[1.5em]"
             style={{
               background: fullConfig.theme.colors["strongbisque"],
+              borderRadius: "0 0.5em 0.5em 0",
             }}
           >
             <IconButton
               sx={{
-                width: "2em",
+                padding: 0,
                 color: fullConfig.theme.colors["frenchviolet"],
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
               }}
               onClick={handleCopyLink}
             >
-              <ContentCopyIcon />
+              <CopyAllIcon
+                sx={{
+                  fontSize: "2em",
+                }}
+              />
             </IconButton>
           </div>
         </div>
