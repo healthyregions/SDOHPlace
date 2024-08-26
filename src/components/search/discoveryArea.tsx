@@ -50,20 +50,6 @@ export default function DiscoveryArea({
 
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
-  // get all query status
-  const {
-    isQuery,
-    showDetailPanel,
-    setShowDetailPanel,
-    showSharedLink,
-    setShowSharedLink,
-    showFilter,
-    resource_type,
-    resource_class,
-    format,
-    index_year,
-    query,
-  } = GetAllParams();
   let suggestResultBuilder = useMemo(() => new SuggestedResult(), []);
 
   /**
@@ -149,6 +135,9 @@ export default function DiscoveryArea({
    */
   const {
     showDetailPanel,
+    setShowDetailPanel,
+    showSharedLink,
+    setShowSharedLink,
     showFilter,
     setShowFilter,
     sortOrder,
