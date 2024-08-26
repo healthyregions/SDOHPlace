@@ -1,4 +1,4 @@
-import { ShowcaseContent } from "../../lib/cms";
+import { ShowcaseContent } from "../../lib/showcases";
 import Image from "next/image";
 import Link from "next/link";
 
