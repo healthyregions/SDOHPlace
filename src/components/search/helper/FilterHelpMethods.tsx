@@ -3,108 +3,46 @@ import CheckBoxObject from "../interface/CheckboxObject";
 import SolrQueryBuilder from "./SolrQueryBuilder";
 import { filterParentList } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
+import { SearchUIConfig } from "@/components/searchUIConfig";
 
 // attributes that are not in meta as a SolrObject. All attributes here needs to be part of filter
 const topLevelList = ["index_year", "resource_class", "creator"];
 
 /**
- * for attribute name, using the same key as solr schema
- * Matching needs to use the same attribute name as the solr schema
+ * Collect possible options for filter based on results
+ * @param resultList
  */
-export const generateFilter = (
-  fetchResults: SolrObject[],
-  checkBoxes: CheckBoxObject[],
-  filterList: string[]
-) => {
-  let currentFilter = {} as unknown as FilterObject;
-  filterList.map((filter) => {
-    currentFilter[filter] = {};
-  });
-  fetchResults.forEach((result) => {
-    topLevelList.forEach((attribute) => {
-      if (result[attribute]) {
+export const generateFilterList = (resultList: SolrObject[]) => {
+  let res = {};
+  let filterList: string[] = SearchUIConfig.search.searchFilters.filters.map(
+    (d) => d.attribute
+  );
+  const metaAttributes = SearchUIConfig.search.searchFilters.filters
+    .filter((item) => item.meta === true)
+    .map((item) => item.attribute);
+  resultList.forEach((result) => {
+    filterList.forEach((attribute) => {
+      if (!res[attribute]) res[attribute] = [];
+      if (!metaAttributes.includes(attribute)) {
         if (!Array.isArray(result[attribute]))
           result[attribute] = [result[attribute]];
         (result[attribute] as string[]).forEach((attr) => {
-          if (currentFilter[attribute][attr]) {
-            currentFilter[attribute][attr].number += 1;
-          } else
-            currentFilter[attribute][attr] = {
-              number: 1,
-              checked: false,
-            };
-          if (
-            checkBoxes.length > 0 &&
-            checkBoxes.find(
-              (c) => c.value === attr && c.attribute === attribute
-            ) !== undefined &&
-            checkBoxes.find(
-              (c) => c.value === attr && c.attribute === attribute
-            ).checked
-          ) {
-            currentFilter[attribute][attr].checked = true;
-          } else {
-            currentFilter[attribute][attr].checked = false;
-          }
+          res[attribute].push(attr);
         });
-      }
-    });
-    // other attributes are in meta
-    if (result.meta) {
-      Object.keys(result.meta).forEach((key) => {
-        if (filterList.includes(key) && !topLevelList.includes(key)) {
-          if (Array.isArray(result.meta[key])) {
-            (result.meta[key] as string[]).forEach((metaData) => {
-              // if a term appears multiple times within a attributes, only count onces as GeoBlacklight currently doing
-              if (!currentFilter[key][metaData])
-                currentFilter[key][metaData] = {
-                  number: 1,
-                  checked: false,
-                };
-              else currentFilter[key][metaData].number += 1;
-              if (
-                checkBoxes.length > 0 &&
-                checkBoxes.find(
-                  (c) => c.value === metaData && c.attribute === key
-                ) !== undefined &&
-                checkBoxes.find(
-                  (c) => c.value === metaData && c.attribute === key
-                ).checked
-              ) {
-                currentFilter[key][metaData].checked = true;
-              } else {
-                currentFilter[key][metaData].checked = false;
-              }
-            });
-          } else if (typeof result.meta[key] === "string") {
-            const metaString = result.meta[key] as string; // Type assertion
-            if (currentFilter[key].hasOwnProperty(metaString)) {
-              currentFilter[key][metaString].number += 1;
-            } else
-              currentFilter[key][metaString] = {
-                number: 1,
-                checked: false,
-              };
-
-            if (
-              checkBoxes.length > 0 &&
-              checkBoxes.find(
-                (c) => c.value === metaString && c.attribute === key
-              ) !== undefined &&
-              checkBoxes.find(
-                (c) => c.value === metaString && c.attribute === key
-              ).checked
-            ) {
-              currentFilter[key][metaString].checked = true;
-            } else {
-              currentFilter[key][metaString].checked = false;
-            }
-          }
+      } else {
+        if (Array.isArray(result.meta[attribute])) {
+          (result.meta[attribute] as string[]).forEach((attr) => {
+            res[attribute].push(attr);
+          });
+        } else if (typeof result.meta[attribute] === "string") {
+          const metaString = result.meta[attribute] as string; // Type assertion
+          res[attribute].push(metaString);
         }
-      });
-    }
+      }
+      res[attribute] = Array.from(new Set(res[attribute]));
+    });
   });
-  return currentFilter;
+  return res;
 };
 
 export const updateFilter = (

@@ -14,13 +14,15 @@ interface Props {
   autocompleteKey: number;
   options: any[];
   handleInputReset: () => void;
+  processResults: (results: any, value: string) => void;
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: (value) => void;
+  handleSearch: (value: string) => void;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -76,6 +78,7 @@ const SearchRow = (props: Props): JSX.Element => {
               schema={props.schema}
               autocompleteKey={props.autocompleteKey}
               options={props.options}
+              processResults={props.processResults}
               setOptions={props.setOptions}
               handleInputReset={props.handleInputReset}
               inputValue={props.inputValue}
@@ -84,6 +87,7 @@ const SearchRow = (props: Props): JSX.Element => {
               setValue={props.setValue}
               inputRef={props.inputRef}
               handleSearch={props.handleSearch}
+              setQuery={props.setQuery}
             />
           </Box>
         </Grid>

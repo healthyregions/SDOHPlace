@@ -22,6 +22,7 @@ import { makeStyles } from "@mui/styles";
 import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import SuggestedResult from "../helper/SuggestedResultBuilder";
+import { useEffect } from "react";
 
 interface Props {
   schema: any;
@@ -29,12 +30,14 @@ interface Props {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   handleInputReset: () => void;
+  processResults: (results, value) => void;
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   handleSearch: (value) => void;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -90,47 +93,31 @@ const SearchBox = (props: Props): JSX.Element => {
   const searchParams = useSearchParams();
   const currentPath = usePathname();
   const router = useRouter();
-  // const [autocompleteKey, setAutocompleteKey] = React.useState(0);
-  const [userInput, setUserInput] = React.useState("");
-  // const [options, setOptions] = React.useState([]);
+  const [userInput, setUserInput] = React.useState(props.value || "");
   const [queryData, setQueryData] = React.useState<SearchObject>({
     userInput: "",
   });
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(props.schema);
-  const processResults = (results, value) => {
-    suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
-    suggestResultBuilder.setSuggestInput(value);
-    suggestResultBuilder.setResultTerms(JSON.stringify(results));
-  };
+
+  
   let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "query",
-      props.inputValue,
-      "overwrite"
-    );
-    props.handleSearch(props.inputValue);
+    props.setQuery(userInput);
+    props.setInputValue(userInput);
+    props.handleSearch(userInput);
   };
   const handleDropdownSelect = (event, value) => {
     props.setInputValue(value);
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "query",
-      value,
-      "overwrite"
-    );
+    props.setQuery(props.inputValue);
+    props.handleSearch(props.inputValue);
   };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
   ) => {
+    setUserInput(newInputValue);
     props.setInputValue(newInputValue);
     setQueryData({
       ...queryData,
@@ -141,20 +128,25 @@ const SearchBox = (props: Props): JSX.Element => {
       searchQueryBuilder
         .fetchResult()
         .then((result) => {
-          processResults(result, newInputValue);
+          props.processResults(result, newInputValue);
           props.setOptions(suggestResultBuilder.getTerms());
         })
         .catch((error) => {
           console.error("Error fetching result:", error);
         });
     } else {
-      setUserInput("");
-      props.setInputValue("");
-      props.inputRef.current?.focus();
-      props.inputRef.current?.select();
+      // setUserInput("");
+      // props.setInputValue("");
+      // props.inputRef.current?.focus();
+      // props.inputRef.current?.select();
       props.handleInputReset();
     }
   };
+  useEffect(() => {
+   if (props.value !== "" && props.value !== userInput) {
+    setUserInput(props.value || "");
+  }
+}, [props.value]);
   return (
     <div className={`sm:mt-6 sm:ml-[3em] sm:mr-[2em]`}>
       <form id="search-form" onSubmit={handleSubmit}>
@@ -164,18 +156,14 @@ const SearchBox = (props: Props): JSX.Element => {
           key={props.autocompleteKey}
           freeSolo
           options={props.options}
-          value={props.value || ""}
-          inputValue={props.inputValue || ""}
+          value={props.value ? props.value : ""}
+          inputValue={userInput}
           onInputChange={(event, value, reason) => {
             if (event && event.type === "change") {
-              //setUserInput(value);
-              // props.setInputValue(value);
               handleUserInputChange(event, value);
             }
           }}
           onChange={(event, value) => {
-            //setUserInput(value);
-            // props.setValue(value);
             handleDropdownSelect(event, value);
           }}
           renderInput={(params) => (
