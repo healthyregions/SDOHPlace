@@ -2,7 +2,6 @@ import { useEffect, useState, useRef, use, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
 import { Grid, Typography } from "@mui/material";
-import { useQueryState, parseAsBoolean, parseAsString } from "nuqs";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrParentList } from "meta/helper/solrObjects";

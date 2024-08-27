@@ -1,11 +1,5 @@
 "use client";
 import { useEffect, useState, useCallback, useMemo, useRef, use } from "react";
-import {
-  useQueryState,
-  parseAsArrayOf,
-  parseAsString,
-  createParser,
-} from "nuqs";
 
 import {
   Map,
@@ -40,6 +34,7 @@ import { ZoomButton, EnableBboxSearchButton } from "./mapButtons";
 
 import getCountyGeo from "./helper/countyLocation";
 import CheckBoxObject from "../search/interface/CheckboxObject";
+import { GetAllParams } from "../search/helper/ParameterList";
 
 // Define interface for map object
 interface CustomMap extends maplibregl.Map {
@@ -55,27 +50,6 @@ const alaskaBounds: LngLatBoundsLike = [
 const hawaiiBounds: LngLatBoundsLike = [
   -163.0371094, 16.5098328, -152.1826172, 25.9580447,
 ];
-
-const parseAsLngLatBoundsLike = createParser({
-  parse(queryValue) {
-    const coords: number[] = queryValue
-      .split(",")
-      .map((coord) => parseFloat(coord));
-    if (coords.length != 4) {
-      return null;
-    }
-    const bboxParam: LngLatBoundsLike = [
-      coords[0],
-      coords[1],
-      coords[2],
-      coords[3],
-    ];
-    return bboxParam;
-  },
-  serialize(value) {
-    return value.join(",");
-  },
-});
 
 /**
  * @param searchResult: SolrObject[] is the list of search result
@@ -101,11 +75,7 @@ export default function MapArea({
   const mapRef = useRef<MapRef>();
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  const [visLyrs] = useQueryState(
-    "layers",
-    parseAsArrayOf(parseAsString).withDefault([])
-  );
-  const [bboxParam, setBbox] = useQueryState("bbox", parseAsLngLatBoundsLike);
+  const params = GetAllParams();
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -309,7 +279,7 @@ export default function MapArea({
       Math.round(bounds._ne.lng * 1000) / 1000,
       Math.round(bounds._ne.lat * 1000) / 1000,
     ];
-    setBbox(newBbox);
+    params.setBboxParam(newBbox);
   };
 
   const selectedState = (hoverInfo && hoverInfo.id) || "";
@@ -412,7 +382,7 @@ export default function MapArea({
       });
 
       // add any layers that are in the params but not yet on the map
-      visLyrs.forEach((lyr) => {
+      params.visLyrs.forEach((lyr) => {
         if (
           layerRegistry[lyr] &&
           !mapLyrIds.includes(layerRegistry[lyr].spec.id)
@@ -425,13 +395,13 @@ export default function MapArea({
       Object.keys(layerRegistry).forEach((lyr) => {
         if (
           mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
-          !visLyrs.includes(lyr)
+          !params.visLyrs.includes(lyr)
         ) {
           map.removeLayer(layerRegistry[lyr].spec.id);
         }
       });
     }
-  }, [visLyrs, mapLoaded]);
+  }, [params.visLyrs, mapLoaded]);
 
   return (
     <Map
@@ -439,7 +409,7 @@ export default function MapArea({
       ref={mapRef}
       mapLib={maplibregl}
       initialViewState={{
-        bounds: bboxParam ? bboxParam : contiguousBounds,
+        bounds: params.bboxParam ? params.bboxParam : contiguousBounds,
       }}
       style={{
         width: "100%",

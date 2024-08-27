@@ -31,15 +31,15 @@ const ResultCard = (props: Props): JSX.Element => {
         className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
         style={{
           border:
-            params.show === props.resultItem.id
+            params.showDetailPanel === props.resultItem.id
               ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
               : `1px solid white`,
           background:
-            params.show === props.resultItem.id
+            params.showDetailPanel === props.resultItem.id
               ? `${fullConfig.theme.colors["lightbisque"]}`
               : undefined,
           boxShadow:
-            params.show === props.resultItem.id
+            params.showDetailPanel === props.resultItem.id
               ? "0px 4px 4px 0px lightgray"
               : undefined,
         }}
@@ -58,7 +58,7 @@ const ResultCard = (props: Props): JSX.Element => {
             <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end">
               <button
                 onClick={() => {
-                  params.setShow(props.resultItem.id);
+                  params.setShowDetailPanel(props.resultItem.id);
                 }}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >
