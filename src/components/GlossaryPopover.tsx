@@ -2,7 +2,7 @@ import glossaryEntries from "../../meta/glossary.json";
 import * as React from "react";
 import Popover from "@mui/material/Popover";
 
-export default function GlossaryPopover({ entry }) {
+export default function GlossaryPopover({ entry, display = null }) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -18,7 +18,9 @@ export default function GlossaryPopover({ entry }) {
   const open = Boolean(anchorEl);
   const id = open ? `${entry}-popover` : undefined;
 
-  if (glossaryEntries[entry]) {
+  const content = display ? display : glossaryEntries[entry];
+
+  if (content) {
     return (
       <>
         <button
@@ -47,7 +49,7 @@ export default function GlossaryPopover({ entry }) {
               "text-almostblack py-1 px-2 border-strongorange rounded border font-sans text-sm bg-lightbisque"
             }
           >
-            {glossaryEntries[entry]}
+            {content}
           </div>
         </Popover>
       </>
