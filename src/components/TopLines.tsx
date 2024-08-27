@@ -11,12 +11,7 @@ export default function TopLines() {
         <Image priority src={line1} alt="" className="w-full h-full" />
       </div>
       <div className="absolute right-0 top-[2%] w-[11vw] max-md:w-[18vw] max-md:top-[5%] h-auto">
-        <Image
-          priority
-          src={line2}
-          alt=""
-          className="w-full h-full"
-        />
+        <Image priority src={line2} alt="" className="w-full h-full" />
       </div>
       <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
         <Image priority src={line3} alt="" className="w-full h-full" />

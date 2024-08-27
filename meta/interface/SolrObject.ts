@@ -37,7 +37,7 @@ export interface SolrObject {
     timestamp?: string;
     score?: number;
     display_note?: string[];
-   };
+  };
   years: Set<string>;
   parents?: string[];
 }

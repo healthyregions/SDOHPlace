@@ -11,10 +11,10 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        'l': '1440px',
-        'xl': '1680px',
-        '2xl': '1920px',
-        '3xl': '2560px',
+        l: "1440px",
+        xl: "1680px",
+        "2xl": "1920px",
+        "3xl": "2560px",
       },
       colors: {
         white: "#fff",

@@ -100,7 +100,6 @@ const SearchBox = (props: Props): JSX.Element => {
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(props.schema);
 
-  
   let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -143,10 +142,10 @@ const SearchBox = (props: Props): JSX.Element => {
     }
   };
   useEffect(() => {
-   if (props.value !== "" && props.value !== userInput) {
-    setUserInput(props.value || "");
-  }
-}, [props.value]);
+    if (props.value !== "" && props.value !== userInput) {
+      setUserInput(props.value || "");
+    }
+  }, [props.value]);
   return (
     <div className={`sm:mt-6 sm:ml-[3em] sm:mr-[2em]`}>
       <form id="search-form" onSubmit={handleSubmit}>

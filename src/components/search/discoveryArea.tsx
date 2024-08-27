@@ -318,12 +318,9 @@ export default function DiscoveryArea({
           >
             <MapPanel resultsList={fetchResults} />
           </Grid>
-          <Grid
-            sx={{ display: showDetailPanel.length > 0 ? "block" : "none" }}
-          >
+          <Grid sx={{ display: showDetailPanel.length > 0 ? "block" : "none" }}>
             <DetailPanel
-              resultItem={fetchResults.find((r) => r.id === showDetailPanel)
-              }
+              resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
               setShowDetailPanel={setShowDetailPanel}
               showSharedLink={showSharedLink}
               setShowSharedLink={setShowSharedLink}

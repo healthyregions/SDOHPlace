@@ -10,12 +10,7 @@ export default function SearchTopLines() {
         <Image priority src={line16} alt="" className="w-full h-full" />
       </div>
       <div className="absolute right-0 w-[5vw] max-md:w-[5vw] h-auto top-[0.5em] max-md:top-[0.5em]">
-        <Image
-          priority
-          src={line15}
-          alt=""
-          className="w-full h-full"
-        />
+        <Image priority src={line15} alt="" className="w-full h-full" />
       </div>
       {/* <div className="absolute right-0 top-[43%] w-[5vw] max-md:hidden h-auto">
         <Image priority src={line3} alt="" className="w-full h-full" />

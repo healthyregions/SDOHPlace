@@ -6,9 +6,15 @@ import { parseAsString, useQueryState } from "nuqs";
  */
 export const GetAllParams = () => {
   // showDetailPanel: if it is not empty, show the detail panel
-  const [showDetailPanel, setShowDetailPanel] = useQueryState('show', parseAsString.withDefault(""));
-  const [showSharedLink, setShowSharedLink] = useQueryState('showSharedLink', parseAsString.withDefault(""));
-  
+  const [showDetailPanel, setShowDetailPanel] = useQueryState(
+    "show",
+    parseAsString.withDefault("")
+  );
+  const [showSharedLink, setShowSharedLink] = useQueryState(
+    "showSharedLink",
+    parseAsString.withDefault("")
+  );
+
   // showFilter: if it is not empty, show the filter
   const [showFilter, setShowFilter] = useQueryState(
     "showFilter",
