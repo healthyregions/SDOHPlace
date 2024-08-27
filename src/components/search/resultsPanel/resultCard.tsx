@@ -1,13 +1,11 @@
 import { makeStyles } from "@mui/styles";
-import { useSearchParams, usePathname } from "next/navigation";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
-import { updateSearchParams } from "../helper/ManageURLParams";
-import { useRouter } from "next/router";
 import { SolrObject } from "meta/interface/SolrObject";
 import IconMatch from "../helper/IconMatch";
+import { GetAllParams } from "@/components/search/helper/ParameterList";
 
 interface Props {
   resultItem: SolrObject;
@@ -25,40 +23,23 @@ const useStyles = makeStyles((theme) => ({
 
 const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const params = GetAllParams();
 
-  const searchParams = useSearchParams();
-  const currentPath = usePathname();
-  const router = useRouter();
-
-  const handleItemDetailButton = (value) => {
-    updateSearchParams(
-      router,
-      searchParams,
-      currentPath,
-      "show",
-      value,
-      "overwrite"
-    );
-  };
   return (
     props.resultItem && (
       <div
         className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
         style={{
-          borderRadius:
-            searchParams.get("show") === props.resultItem.id
-              ? "4px"
-              : undefined,
           border:
-            searchParams.get("show") === props.resultItem.id
+            params.showDetailPanel === props.resultItem.id
               ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
-              : undefined,
+              : `1px solid white`,
           background:
-            searchParams.get("show") === props.resultItem.id
+            params.showDetailPanel === props.resultItem.id
               ? `${fullConfig.theme.colors["lightbisque"]}`
               : undefined,
           boxShadow:
-            searchParams.get("show") === props.resultItem.id
+            params.showDetailPanel === props.resultItem.id
               ? "0px 4px 4px 0px lightgray"
               : undefined,
         }}
@@ -77,7 +58,7 @@ const ResultCard = (props: Props): JSX.Element => {
             <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end">
               <button
                 onClick={() => {
-                  handleItemDetailButton(props.resultItem.id);
+                  params.setShowDetailPanel(props.resultItem.id);
                 }}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >
