@@ -6,6 +6,7 @@ import SpatialResolutionCheck from "./spatialResolutionCheck";
 import SearchBox from "./searchBox";
 import { Box, Grid, Typography } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
+import GlossaryPopover from "@/components/GlossaryPopover";
 
 interface Props {
   header: string;
@@ -35,9 +36,7 @@ const SearchRow = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     // The mt for top nav is 8, therefore set the row mt to 32
-    <Box
-      className="w-full mt-8 sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet"
-    >
+    <Box className="w-full mt-8 sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
       <Grid container className="sm:mb-7">
         <Grid
           item
@@ -53,7 +52,9 @@ const SearchRow = (props: Props): JSX.Element => {
               {props.header}
             </div>
             <div className={`text-s text-center sm:text-left sm:mt-[1em]`}>
-              {props.description}
+              Our data discovery platform provides access to spatially indexed
+              and curated databases, specifically designed for conducting{" "}
+              <GlossaryPopover entry={"health equity"} /> research.
             </div>
           </Box>
         </Grid>
@@ -73,7 +74,10 @@ const SearchRow = (props: Props): JSX.Element => {
               src={SearchUIConfig.search.searchBox.spatialResOptions}
             />
           </Box>
-          <Box width="100%" className="mt-[2em] sm:mt-0 3xl:max-w-[1203px] pr-[1em] md:pr-[3.375em]">
+          <Box
+            width="100%"
+            className="mt-[2em] sm:mt-0 3xl:max-w-[1203px] pr-[1em] md:pr-[3.375em]"
+          >
             <SearchBox
               schema={props.schema}
               autocompleteKey={props.autocompleteKey}
