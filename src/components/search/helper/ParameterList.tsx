@@ -52,6 +52,7 @@ export const GetAllParams = () => {
     "query",
     parseAsString.withDefault("")
   );
+  const [show, setShow] = useQueryState("show", parseAsString.withDefault(""));
 
   //console.log("now in GetAllParams", showDetailPanel, showFilter, sortOrder, sortBy, resourceType, resourceClass, format, indexYear,query);
   return {
@@ -75,5 +76,7 @@ export const GetAllParams = () => {
     setIndexYear,
     query,
     setQuery,
+    show,
+    setShow,
   };
 };

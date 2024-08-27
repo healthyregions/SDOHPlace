@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import { updateSearchParams } from "@/components/search/helper/ManageURLParams";
 import { useSearchParams, usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
