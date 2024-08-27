@@ -43,7 +43,7 @@ const ResultCard = (props: Props): JSX.Element => {
   return (
     props.resultItem && (
       <div
-        className={`container mx-auto p-5 bg-lightbisque shadow-none rounded-sm aspect-ratio`}
+        className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
         style={{
           borderRadius:
             searchParams.get("show") === props.resultItem.id

@@ -8,7 +8,7 @@ import { Box, Typography } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { set } from 'date-fns';
+import { set } from "date-fns";
 
 interface Props {
   resultsList: SolrObject[];
@@ -37,8 +37,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <Box>
           <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
-              <Box display={props.showFilter.length > 0 ? "none" : "flex"}>
-                {props.isQuery ? "Result" : "All data sources"} (
+              <Box>
+                {props.isQuery ? "Results" : "All data sources"} (
                 {props.resultsList.length})
               </Box>
             </div>
@@ -63,31 +63,17 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   marginRight: "0.25em",
                 }}
               />
-              <Typography
-                sx={{
-                  fontWeight: props.showFilter.length > 0 ? "bold" : "normal",
-                }}
-              >
-                Sort & Filter
-              </Typography>
+              <div>Sort & Filter</div>
             </div>
           </div>
         </Box>
         {props.showFilter.length > 0 && props.filterComponent}
         <Box
-          display={props.showFilter.length > 0 ? "flex" : "none"}
-          className="flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center"
-        >
-          <Box className="sm:mt-[2.5em] flex flex-col sm:flex-row flex-grow text-2xl">
-            {props.isQuery ? "Result" : "All data sources"} (
-            {props.resultsList.length})
-          </Box>
-        </Box>
-        <Box
           height={"100%"}
           sx={{
             overflowY: "scroll",
-            paddingRight: "1em",
+            paddingRight: "1.25em",
+            marginTop: "1.5em",
             maxHeight: `${
               props.isQuery || props.showFilter.length > 0
                 ? SearchUIConfig.search.searchResults.resultListHeight

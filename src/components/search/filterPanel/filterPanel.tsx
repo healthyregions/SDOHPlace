@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const filterNameLookup = SearchUIConfig.search.searchFilters.filters.reduce(
+  (o, f) => ({ ...o, [f.attribute]: f.displayName }),
+  {}
+);
+
 /**
  * Only show filter items in url
  * @param props
@@ -75,12 +80,12 @@ const FilterPanel = (props: Props): JSX.Element => {
     () => SearchUIConfig.search.searchFilters.filters.map((d) => d.attribute),
     [SearchUIConfig.search.searchFilters.filters]
   );
-  const minRange = generateFilterFromCurrentResults["index_year"].map(Number).reduce(
-    (a, b) => (a < b ? a : b)
-  );
-  const maxRange = generateFilterFromCurrentResults["index_year"].map(Number).reduce(
-    (a, b) => (a > b ? a : b)
-  );
+  const minRange = generateFilterFromCurrentResults["index_year"]
+    .map(Number)
+    .reduce((a, b) => (a < b ? a : b));
+  const maxRange = generateFilterFromCurrentResults["index_year"]
+    .map(Number)
+    .reduce((a, b) => (a > b ? a : b));
   const [yearRange, setYearRange] = useState([1964, 2024]);
   const [marks, setMarks] = useState([]);
   const [filterQueries, setFilterQueries] = useState(props.filterQueries);
@@ -112,10 +117,17 @@ const FilterPanel = (props: Props): JSX.Element => {
       { length: newValue[1] - newValue[0] + 1 },
       (_, i) => newValue[0] + i
     );
-    const yearsString = yearsArray.join(",");
+    // ultimately, the index_year attribute should be set to null if the slider is at its
+    // min/max range. This would remove the URL param, thereby removing this facet from the solr
+    // query. Tried to implement this here but got a strange behavior...
+    const yearsString =
+      newValue[0] == minRange && newValue[1] == maxRange
+        ? null
+        : yearsArray.join(",");
     newFilterQueries.push({
       attribute: "index_year",
-      value: yearsString,
+      // value: yearsString,
+      value: yearsArray.join(","),
     });
     props.updateAll(
       props.sortBy,
@@ -153,7 +165,7 @@ const FilterPanel = (props: Props): JSX.Element => {
         className="p-5"
         sx={{
           background: `${fullConfig.theme.colors["lightbisque"]}`,
-          minHeight: SearchUIConfig.search.searchFilters.filterPanelHeight,
+          borderRadius: "4px",
         }}
       >
         <Box display="flex" alignItems="center">
@@ -162,7 +174,10 @@ const FilterPanel = (props: Props): JSX.Element => {
           </Box>
           <Box>
             <IconButton
-              sx={{ color: `${fullConfig.theme.colors["frenchviolet"]}` }}
+              sx={{
+                color: `${fullConfig.theme.colors["frenchviolet"]}`,
+                padding: 0,
+              }}
               onClick={() => {
                 if (props.showFilter.length > 0) {
                   props.setShowFilter(null);
@@ -178,7 +193,6 @@ const FilterPanel = (props: Props): JSX.Element => {
         {/* Sort by modified date */}
         <Box display="flex" alignItems="center">
           <Box>
-            <div className="text-s font-bold">(Modified)Year</div>
             <span>
               <Button
                 variant="text"
@@ -256,9 +270,18 @@ const FilterPanel = (props: Props): JSX.Element => {
           Object.keys(generateFilterFromCurrentResults).map((filterAttr) => {
             return (
               <div key={filterAttr}>
-                <div className="text-s font-bold">{filterAttr}</div>
+                <div className="text-s font-bold">
+                  {filterNameLookup[filterAttr]}
+                </div>
                 {filterAttr === "index_year" ? (
                   <Slider
+                    sx={{
+                      color: `${fullConfig.theme.colors["frenchviolet"]}`,
+                      "& .MuiSlider-markLabel": labelStyle,
+                      "& .MuiSlider-valueLabel": labelStyle,
+                      width: "calc(100% - 22px)",
+                      marginLeft: "11px",
+                    }}
                     min={minRange}
                     max={maxRange}
                     value={yearRange}
