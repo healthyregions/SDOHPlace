@@ -22,7 +22,7 @@ export default function GlossaryPopover({ entry }) {
     return (
       <>
         <button
-          className={"underline decoration-wavy"}
+          className={"underline decoration-dotted"}
           aria-describedby={id}
           onClick={handleClick}
         >
