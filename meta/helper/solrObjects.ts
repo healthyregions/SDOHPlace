@@ -18,8 +18,8 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
   result.access_rights = rawSolrObject.dct_accessRights_s;
   result.resource_class = rawSolrObject.gbl_resourceClass_sm;
   result.description = rawSolrObject.dct_description_sm
-    ? findFirstSentence(rawSolrObject.dct_description_sm[0])
-    : "";
+    ? rawSolrObject.dct_description_sm
+    : [];
   result.creator = rawSolrObject.dct_creator_sm
     ? typeof rawSolrObject.dct_creator_sm === "string"
       ? [rawSolrObject.dct_creator_sm]
