@@ -8,28 +8,28 @@ export const SearchUIConfig = {
     searchBox: {
       spatialResOptions: [
         {
-          value: "State",
+          value: "state",
           display_name: "State",
         },
         {
-          value: "County",
+          value: "county",
           display_name: "County",
         },
 
         {
-          value: "Census Tract",
+          value: "tract",
           display_name: "Tract",
         },
         {
-          value: "Census Block Group",
-          display_name: "Bg",
+          value: "bg",
+          display_name: "Block Group",
         },
         {
-          value: "Place",
+          value: "place",
           display_name: "City",
         },
         {
-          value: "Zip Code Tabulation Area (ZCTA)",
+          value: "zcta",
           display_name: "Zip",
         },
       ],
