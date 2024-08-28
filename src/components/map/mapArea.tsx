@@ -299,7 +299,7 @@ export default function MapArea({
     "source-layer": "state-2018",
     type: "line",
     paint: {
-      "line-color": "#8e0850",
+      "line-color": "#FF9C77",
       "line-width": 3,
     },
   };
