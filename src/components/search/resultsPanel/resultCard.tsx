@@ -9,6 +9,8 @@ import { GetAllParams } from "@/components/search/helper/ParameterList";
 
 interface Props {
   resultItem: SolrObject;
+  setHighlightLyr: (value: string) => void;
+  setHighlightIds: (value: string[]) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,9 @@ const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
 
+  const spatial_resolution = props.resultItem.meta.spatial_resolution
+    ? props.resultItem.meta.spatial_resolution[0]
+    : null;
   return (
     props.resultItem && (
       <div
@@ -42,6 +47,12 @@ const ResultCard = (props: Props): JSX.Element => {
             params.showDetailPanel === props.resultItem.id
               ? "0px 4px 4px 0px lightgray"
               : undefined,
+        }}
+        onMouseOver={() => {
+          props.setHighlightLyr(spatial_resolution);
+        }}
+        onMouseOut={() => {
+          props.setHighlightLyr(null);
         }}
       >
         <div className="flex flex-col sm:flex-row items-center mb-2">

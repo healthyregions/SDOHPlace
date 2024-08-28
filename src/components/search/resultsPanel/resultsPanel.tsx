@@ -17,6 +17,8 @@ interface Props {
   filterComponent: React.ReactNode;
   showFilter: string;
   setShowFilter: (value: string) => void;
+  setHighlightLyr: (value: string) => void;
+  setHighlightIds: (value: string[]) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +85,12 @@ const ResultsPanel = (props: Props): JSX.Element => {
         >
           {props.resultsList.map((result) => (
             <div key={result.id} className="mb-[0.75em]">
-              <ResultCard key={result.id} resultItem={result} />
+              <ResultCard
+                key={result.id}
+                resultItem={result}
+                setHighlightIds={props.setHighlightIds}
+                setHighlightLyr={props.setHighlightLyr}
+              />
             </div>
           ))}
         </Box>
@@ -114,7 +121,12 @@ const ResultsPanel = (props: Props): JSX.Element => {
               {/* Temporary use the first two result items until we decide what to put in the related section */}
               {props.relatedList.map((result, index) => (
                 <div key={result.id} className="mb-[0.75em]">
-                  <ResultCard key={result.id} resultItem={result} />
+                  <ResultCard
+                    key={result.id}
+                    resultItem={result}
+                    setHighlightIds={props.setHighlightIds}
+                    setHighlightLyr={props.setHighlightLyr}
+                  />
                 </div>
               ))}
             </Box>

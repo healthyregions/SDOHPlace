@@ -59,8 +59,12 @@ const hawaiiBounds: LngLatBoundsLike = [
  */
 export default function MapArea({
   searchResult,
+  highlightIds,
+  highlightLyr,
 }: {
   searchResult: SolrObject[];
+  highlightLyr?: string;
+  highlightIds?: string[];
 }): JSX.Element {
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
     LayerSpecification[]
@@ -402,6 +406,53 @@ export default function MapArea({
       });
     }
   }, [params.visLyrs, mapLoaded]);
+
+  useEffect(() => {
+    if (mapRef.current && mapLoaded) {
+      const map = mapRef.current.getMap();
+      const mapLyrIds = map.getStyle().layers.map((lyr) => {
+        return lyr.id;
+      });
+      if (highlightLyr) {
+        // sloppy lookup for now, will update later
+        let lyrId: string;
+        switch (highlightLyr) {
+          case "Census Block":
+          case "Census Block Group":
+            lyrId = "bg";
+            break;
+          case "Census Tract":
+            lyrId = "tract";
+            break;
+          case "County":
+            lyrId = "county";
+            break;
+          case "State":
+            lyrId = "state";
+            break;
+          case "Zip Code Tabulation Area (ZCTA)":
+            lyrId = "zcta";
+            break;
+        }
+        if (lyrId) {
+          map.addLayer(
+            layerRegistry[lyrId].spec,
+            layerRegistry[lyrId].addBefore
+          );
+        }
+      } else {
+        // remove all layers that aren't activated via URL params
+        Object.keys(layerRegistry).forEach((lyr) => {
+          if (
+            mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
+            !params.visLyrs.includes(lyr)
+          ) {
+            map.removeLayer(layerRegistry[lyr].spec.id);
+          }
+        });
+      }
+    }
+  }, [highlightIds, highlightLyr]);
 
   return (
     <Map

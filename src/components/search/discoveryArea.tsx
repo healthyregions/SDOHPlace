@@ -247,6 +247,9 @@ export default function DiscoveryArea({
    */
   const [isResetting, setIsResetting] = useState(false);
 
+  const [highlightIds, setHighlightIds] = useState([]);
+  const [highlightLyr, setHighlightLyr] = useState("");
+
   const handleInputReset = () => {
     setIsResetting(true);
   };
@@ -304,6 +307,8 @@ export default function DiscoveryArea({
             filterComponent={filterComponent}
             showFilter={showFilter}
             setShowFilter={setShowFilter}
+            setHighlightLyr={setHighlightLyr}
+            setHighlightIds={setHighlightIds}
           />
         </Grid>
       )}
@@ -315,7 +320,11 @@ export default function DiscoveryArea({
             xs={12}
             sx={{ display: showDetailPanel.length == 0 ? "block" : "none" }}
           >
-            <MapPanel resultsList={fetchResults} />
+            <MapPanel
+              resultsList={fetchResults}
+              highlightLyr={highlightLyr}
+              highlightIds={highlightIds}
+            />
           </Grid>
           <Grid sx={{ display: showDetailPanel.length > 0 ? "block" : "none" }}>
             <DetailPanel
