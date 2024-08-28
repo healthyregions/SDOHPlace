@@ -19,7 +19,27 @@ export type LayerDef = {
     | LineLayerSpecification
     | CircleLayerSpecification
     | null;
+  specHl:
+    | FillLayerSpecification
+    | LineLayerSpecification
+    | CircleLayerSpecification
+    | null;
 };
+
+function makeHighlightLayer(
+  spec:
+    | FillLayerSpecification
+    | LineLayerSpecification
+    | CircleLayerSpecification
+) {
+  const specHl = structuredClone(spec);
+  specHl.id += "-hl";
+  specHl.paint = {
+    "line-color": "#7e1cc4",
+    "line-width": 0.25,
+  };
+  return specHl;
+}
 
 // SR: City
 const placeSpec: FillLayerSpecification = {
@@ -35,6 +55,7 @@ const placeSpec: FillLayerSpecification = {
 const placeLyr: LayerDef = {
   addBefore: "Landcover",
   spec: placeSpec,
+  specHl: makeHighlightLayer(placeSpec),
 };
 
 // SR: Zip Code Tabulation Area (ZCTA)
@@ -51,6 +72,7 @@ const zctaSpec: LineLayerSpecification = {
 const zctaLyr: LayerDef = {
   addBefore: "Ocean labels",
   spec: zctaSpec,
+  specHl: makeHighlightLayer(zctaSpec),
 };
 
 // SR: Census Block Group
@@ -67,6 +89,7 @@ const bgSpec: LineLayerSpecification = {
 const bgLyr: LayerDef = {
   addBefore: "Ocean labels",
   spec: bgSpec,
+  specHl: makeHighlightLayer(bgSpec),
 };
 
 // SR: Census Tract
@@ -83,6 +106,7 @@ const tractSpec: LineLayerSpecification = {
 const tractLyr: LayerDef = {
   addBefore: "Ocean labels",
   spec: tractSpec,
+  specHl: makeHighlightLayer(tractSpec),
 };
 
 // SR: County
@@ -99,6 +123,7 @@ const countySpec: LineLayerSpecification = {
 const countyLyr: LayerDef = {
   addBefore: "Ocean labels",
   spec: countySpec,
+  specHl: makeHighlightLayer(countySpec),
 };
 
 // Make it always there
@@ -115,6 +140,7 @@ const stateSpec: LineLayerSpecification = {
 const stateLyr: LayerDef = {
   addBefore: "Ocean labels",
   spec: stateSpec,
+  specHl: makeHighlightLayer(stateSpec),
 };
 
 export const displayLayers = [
@@ -209,6 +235,7 @@ const poiSpec: CircleLayerSpecification = {
 export const poiLayer: LayerDef = {
   addBefore: "Ocean labels",
   spec: poiSpec,
+  specHl: makeHighlightLayer(poiSpec),
 };
 
 export const layerRegistry = {

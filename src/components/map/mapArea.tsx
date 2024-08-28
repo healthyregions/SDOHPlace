@@ -436,7 +436,7 @@ export default function MapArea({
         }
         if (lyrId) {
           map.addLayer(
-            layerRegistry[lyrId].spec,
+            layerRegistry[lyrId].specHl,
             layerRegistry[lyrId].addBefore
           );
         }
@@ -444,10 +444,10 @@ export default function MapArea({
         // remove all layers that aren't activated via URL params
         Object.keys(layerRegistry).forEach((lyr) => {
           if (
-            mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
+            mapLyrIds.includes(layerRegistry[lyr].specHl.id) &&
             !params.visLyrs.includes(lyr)
           ) {
-            map.removeLayer(layerRegistry[lyr].spec.id);
+            map.removeLayer(layerRegistry[lyr].specHl.id);
           }
         });
       }
