@@ -18,10 +18,9 @@ import { useEffect, useMemo, useState } from "react";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { generateFilterList, updateFilter } from "../helper/FilterHelpMethods";
-import { fi } from "date-fns/locale";
+import { GetAllParams, updateAll } from "../helper/ParameterList";
 
 interface Props {
-  reGetFilterQueries: (res: any) => void;
   originalList: SolrObject[];
   optionMaxNum: number;
   filterQueries: any;
@@ -32,13 +31,6 @@ interface Props {
   setSortOrder: (value: string) => void;
   sortBy: string;
   setSortBy: (value: string) => void;
-  handleSearch: (value: string) => void;
-  updateAll: (
-    newSortBy: any,
-    newSortOrder: any,
-    filterQueries: any,
-    searchTerm: any
-  ) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +52,7 @@ const filterNameLookup = SearchUIConfig.search.searchFilters.filters.reduce(
  */
 const FilterPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const params = GetAllParams();
   const labelStyle: SxProps<Theme> = {
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
     fontSize: "0.875em",
@@ -129,7 +122,8 @@ const FilterPanel = (props: Props): JSX.Element => {
       // value: yearsString,
       value: yearsArray.join(","),
     });
-    props.updateAll(
+    updateAll(
+      params,
       props.sortBy,
       props.sortOrder,
       newFilterQueries,
@@ -209,7 +203,8 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
                 onClick={(e) => {
                   // sort by modified date asc by updating sortOrder and sortBy in url
-                  props.updateAll(
+                  updateAll(
+                    params,
                     "modified",
                     "desc",
                     props.filterQueries,
@@ -234,7 +229,8 @@ const FilterPanel = (props: Props): JSX.Element => {
                   }`,
                 }}
                 onClick={(e) => {
-                  props.updateAll(
+                  updateAll(
+                    params,
                     "modified",
                     "asc",
                     props.filterQueries,
@@ -258,7 +254,7 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
                 onClick={(e) => {
                   // sort by relevance asc (i.e. the default order)
-                  props.updateAll("", "", props.filterQueries, props.term);
+                  updateAll(params, "", "", props.filterQueries, props.term);
                 }}
               >
                 Relevance
@@ -364,7 +360,8 @@ const FilterPanel = (props: Props): JSX.Element => {
                                       ][i]
                                   );
                                 }
-                                props.updateAll(
+                                updateAll(
+                                  params,
                                   props.sortBy,
                                   props.sortOrder,
                                   newFilterQueries,

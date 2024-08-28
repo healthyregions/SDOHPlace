@@ -35,6 +35,7 @@ import { ZoomButton, EnableBboxSearchButton } from "./mapButtons";
 import getCountyGeo from "./helper/countyLocation";
 import CheckBoxObject from "../search/interface/CheckboxObject";
 import { GetAllParams } from "../search/helper/ParameterList";
+import { set } from "date-fns";
 
 // Define interface for map object
 interface CustomMap extends maplibregl.Map {
