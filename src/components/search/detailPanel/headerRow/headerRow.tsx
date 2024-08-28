@@ -48,10 +48,6 @@ const HeaderRow = (props: Props): JSX.Element => {
     alert("The shared link has been copied to the clipboard successfully!");
   };
 
-  // handle description
-  if (props.resultItem.description.endsWith("<a href='https://www.")) {
-    props.resultItem.description += "'>link</a>"; // Completing the <a> tag for dev only. Delete this after confirming all links are complete
-  }
   const sanitizedDescription = DOMPurify.sanitize(
     props.resultItem.description,
     {
