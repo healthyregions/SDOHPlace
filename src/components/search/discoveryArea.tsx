@@ -62,7 +62,6 @@ export default function DiscoveryArea({
    * Helper functions
    */
   const handleSearch = async (params, value, filterQueries) => {
-    console.log(value, filterQueries);
     searchQueryBuilder
       .fetchResult()
       .then((result) => {

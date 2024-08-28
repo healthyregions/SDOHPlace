@@ -69,8 +69,11 @@ const FilterPanel = (props: Props): JSX.Element => {
     generateFilterFromCurrentResults,
     setGenerateFilterFromCurrentResults,
   ] = React.useState(() => generateFilterList(props.originalList));
-  const filterAttributes = useMemo(
-    () => SearchUIConfig.search.searchFilters.filters.map((d) => d.attribute),
+  let filterAttributes = useMemo(
+    () => [
+      ...SearchUIConfig.search.searchFilters.filters.map((d) => d.attribute),
+      "layers",
+    ],
     [SearchUIConfig.search.searchFilters.filters]
   );
   const minRange = generateFilterFromCurrentResults["index_year"]
@@ -140,7 +143,12 @@ const FilterPanel = (props: Props): JSX.Element => {
     return filterAttributes
       .map((filter, index) => {
         const [queryState] = filterStates[index];
-        return queryState.length > 0 ? { filter, value: queryState } : null;
+        return queryState.length > 0
+          ? {
+              filter,
+              value: queryState,
+            }
+          : null;
       })
       .filter(
         (item): item is { filter: string; value: string } => item !== null

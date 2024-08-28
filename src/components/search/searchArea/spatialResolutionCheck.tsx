@@ -1,12 +1,8 @@
 import * as React from "react";
 import CheckBoxObject from "../interface/CheckboxObject";
 import { Checkbox, Typography } from "@mui/material";
-import { makeStyles, styled } from "@mui/styles";
-import {
-  GetAllParams,
-  reGetFilterQueries,
-  updateAll,
-} from "../helper/ParameterList";
+
+import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 

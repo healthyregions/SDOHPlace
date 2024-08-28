@@ -1,6 +1,7 @@
 import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
+import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -153,6 +154,7 @@ export default class SolrQueryBuilder {
 
       // Group filter queries by attribute, then do AND
       filterQueries.forEach((f) => {
+        if (f.attribute === "spatial_resolution") f.value = SRMatch[f.value];
         const attribute = findSolrAttribute(f.attribute, this.getSchema());
         const encodedAttribute = encodeURIComponent(attribute);
         const encodedValue = `"${encodeURIComponent(f.value)}"`;
