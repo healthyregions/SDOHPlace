@@ -2281,6 +2281,13 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
+"@types/leaflet@^1.9.8":
+  version "1.9.12"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.9.12.tgz#a6626a0b3fba36fd34723d6e95b22e8024781ad6"
+  integrity sha512-BK7XS+NyRI291HIo0HCfE18Lp8oA30H1gpi1tf0mF3TgiCEzanQjOqNZ4x126SXzzi2oNSZhZ5axJp1k0iM6jg==
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/mapbox-gl@>=1.0.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@types/mapbox-gl/-/mapbox-gl-3.4.0.tgz#99207b6b68122e20947f5b2bc51c5304b9fd8125"
@@ -7322,11 +7329,12 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pmtiles@^2.11.0:
-  version "2.11.0"
-  resolved "https://registry.yarnpkg.com/pmtiles/-/pmtiles-2.11.0.tgz#53aac29408e001a73b15b1c8cad0b17c944ab7bd"
-  integrity sha512-dU9SzzaqmCGpdEuTnIba6bDHT6j09ZJFIXxwGpvkiEnce3ZnBB1VKt6+EOmJGueriweaZLAMTUmKVElU2CBe0g==
+pmtiles@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/pmtiles/-/pmtiles-3.0.7.tgz#49eec79a198d5872a9fa2af82d31ccae0b200182"
+  integrity sha512-kGTFNyzmNdF8yiGxuoskNwLfUkHzC1ouJ5waL6dLID+g4hKlGnohIGX4q7qXrY0rHTK+8MwIKDTrUjY70Kk5ew==
   dependencies:
+    "@types/leaflet" "^1.9.8"
     fflate "^0.8.0"
 
 possible-typed-array-names@^1.0.0:
