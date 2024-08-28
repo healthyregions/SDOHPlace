@@ -57,14 +57,7 @@ const DetailPanel = (props: Props): JSX.Element => {
           />
           <IconTag
             svgIcon={IconMatch("dataDiscoveryIcon")}
-            label="Food access"
-            labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
-            labelColor={fullConfig.theme.colors["almostblack"]}
-            roundBackground={true}
-          />
-          <IconTag
-            svgIcon={IconMatch("dataDiscoveryIcon")}
-            label="Greenspaces"
+            label="Occupation"
             labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
             labelColor={fullConfig.theme.colors["almostblack"]}
             roundBackground={true}
