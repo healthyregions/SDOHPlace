@@ -414,32 +414,10 @@ export default function MapArea({
         return lyr.id;
       });
       if (highlightLyr) {
-        // sloppy lookup for now, will update later
-        let lyrId: string;
-        switch (highlightLyr) {
-          case "Census Block":
-          case "Census Block Group":
-            lyrId = "bg";
-            break;
-          case "Census Tract":
-            lyrId = "tract";
-            break;
-          case "County":
-            lyrId = "county";
-            break;
-          case "State":
-            lyrId = "state";
-            break;
-          case "Zip Code Tabulation Area (ZCTA)":
-            lyrId = "zcta";
-            break;
-        }
-        if (lyrId) {
-          map.addLayer(
-            layerRegistry[lyrId].specHl,
-            layerRegistry[lyrId].addBefore
-          );
-        }
+        map.addLayer(
+          layerRegistry[highlightLyr].specHl,
+          layerRegistry[highlightLyr].addBefore
+        );
       } else {
         // remove all layers that aren't activated via URL params
         Object.keys(layerRegistry).forEach((lyr) => {

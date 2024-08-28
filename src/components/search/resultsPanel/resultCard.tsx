@@ -27,9 +27,25 @@ const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
 
-  const spatial_resolution = props.resultItem.meta.spatial_resolution
-    ? props.resultItem.meta.spatial_resolution[0]
-    : null;
+  // show the most detailed geography that a record represents
+  let lyrId: string;
+  const spatial_res = props.resultItem.meta.spatial_resolution
+    ? props.resultItem.meta.spatial_resolution
+    : [];
+  if (
+    spatial_res.includes("Census Block Group") ||
+    spatial_res.includes("Census Block")
+  ) {
+    lyrId = "bg";
+  } else if (spatial_res.includes("Census Tract")) {
+    lyrId = "tract";
+  } else if (spatial_res.includes("County")) {
+    lyrId = "county";
+  } else if (spatial_res.includes("Zip Code Tabulation Area (ZCTA)")) {
+    lyrId = "zcta";
+  } else if (spatial_res.includes("State")) {
+    lyrId = "state";
+  }
   return (
     props.resultItem && (
       <div
@@ -49,7 +65,8 @@ const ResultCard = (props: Props): JSX.Element => {
               : undefined,
         }}
         onMouseOver={() => {
-          props.setHighlightLyr(spatial_resolution);
+          props.setHighlightLyr(null);
+          props.setHighlightLyr(lyrId);
         }}
         onMouseOut={() => {
           props.setHighlightLyr(null);
