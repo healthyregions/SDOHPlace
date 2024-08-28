@@ -134,7 +134,12 @@
       "title": "Graduate Candidate",
       "image": "/images/headshot-msj.jpeg",
       "desc_short": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and ...",
-      "links": [],
+      "links": [
+        {
+          "link_url": "https://www.linkedin.com/in/msj1/",
+          "link_label": "LinkedIn"
+        }
+      ],
       "desc_long": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of transgender adults in the United States. They hold a Master of Philosophy in Sociology from the University of Cambridge and a Master of Arts in Sociology from Rice University. Madeline is committed to building comprehensive and creative measures of multilevel gendered stigma to specify stigma’s impact on population health. Their research interests include LGBTQ+ population health, structural sexism, the relationship between state policies and health disparities, healthcare access and delivery, survey measurement of LGBTQ+ identity, and data visualization.",
       "cohort": "Spring 2024"
     },
@@ -143,7 +148,12 @@
       "title": "DEI Specialist",
       "image": "/images/headshot-mt.jpeg",
       "desc_short": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending ...",
-      "links": [],
+      "links": [
+        {
+          "link_url": "https://www.linkedin.com/in/makiya-thomas-m-a-mdiv-9160331aa/",
+          "link_label": "LinkedIn"
+        }
+      ],
       "desc_long": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending Eastern Illinois University. Makiya has also served in the Illinois Army National Guard for the past 9 years. While in the Army, she’s served as a Platoon Leader, Operations Officer in Charge while being deployed, and currently serves as a Headquarters Commander. Makiya currently works as a DEI Specialist for the Public Health District of Champaign where she lives with her beauty baby boy named Judah.",
       "cohort": "Spring 2024"
     },
