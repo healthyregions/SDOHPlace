@@ -220,11 +220,8 @@ export default function DiscoveryArea({
             filterComponent={filterComponent}
             showFilter={params.showFilter}
             setShowFilter={params.setShowFilter}
-<<<<<<< HEAD
             setHighlightLyr={setHighlightLyr}
             setHighlightIds={setHighlightIds}
-=======
->>>>>>> 664efb5 (add filter function for spatial resolutions and create the new UI)
           />
         </Grid>
       )}
