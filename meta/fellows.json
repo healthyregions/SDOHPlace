@@ -93,7 +93,12 @@
       "title": "Assistant Professor",
       "image": "/images/headshot-sn.jpeg",
       "desc_short": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health ...",
-      "links": [],
+      "links": [
+        {
+          "link_url": "https://www.linkedin.com/in/sarah-nelson-04a46a19/",
+          "link_label": "LinkedIn"
+        }
+      ],
       "desc_long": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities and populations that have experienced being underserved in health care and policy, emphasizing community engagement and collaboration in research and teaching, and community- and participant-led research priorities in choosing and designing research projects.<br/><br/>Previously, she has also worked with Indigenous-led health organizations to understand links between mental health and colonialism, as well as barriers that Indigenous clients of health care organizations experience in an urban setting, and the roles of these organizations in opening health care spaces to Indigenous community members in the city.",
       "cohort": "Spring 2024"
     },
