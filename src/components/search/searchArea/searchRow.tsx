@@ -7,6 +7,7 @@ import SearchBox from "./searchBox";
 import { Box, Grid, Typography } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import GlossaryPopover from "@/components/GlossaryPopover";
+import { set } from "date-fns";
 
 interface Props {
   header: string;
@@ -22,8 +23,8 @@ interface Props {
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: (value: string) => void;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  handleSearch: (params: any, value: string, filterQueries: any) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -72,6 +73,7 @@ const SearchRow = (props: Props): JSX.Element => {
           <Box width="100%">
             <SpatialResolutionCheck
               src={SearchUIConfig.search.searchBox.spatialResOptions}
+              handleSearch={props.handleSearch}
             />
           </Box>
           <Box

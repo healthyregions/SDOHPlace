@@ -12,9 +12,15 @@ import SearchRow from "./searchArea/searchRow";
 import ResultsPanel from "./resultsPanel/resultsPanel";
 import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
-import { GetAllParams } from "./helper/ParameterList";
+import {
+  GetAllParams,
+  reGetFilterQueries,
+  updateAll,
+} from "./helper/ParameterList";
 import { findSolrAttribute } from "meta/helper/util";
 import FilterPanel, { grouped } from "./filterPanel/filterPanel";
+import SpatialResolutionCheck from "./searchArea/spatialResolutionCheck";
+import { set } from "date-fns";
 export default function DiscoveryArea({
   results,
   isLoading,
@@ -36,7 +42,7 @@ export default function DiscoveryArea({
   let tempSRChecboxes = new Set<CheckBoxObject>();
   SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
     tempSRChecboxes.add({
-      attribute: "special_resolution", // not sure where this attribute property is used?
+      attribute: "spatial_resolution", // not sure where this attribute property is used?
       value: option.value,
       checked: searchParams.get("layers")
         ? searchParams.get("layers").toString().includes(option.value)
@@ -55,7 +61,7 @@ export default function DiscoveryArea({
    * ***************
    * Helper functions
    */
-  const handleSearch = async (value) => {
+  const handleSearch = async (params, value, filterQueries) => {
     searchQueryBuilder
       .fetchResult()
       .then((result) => {
@@ -67,11 +73,13 @@ export default function DiscoveryArea({
           suggestResultBuilder.getTerms().forEach((term) => {
             searchQueryBuilder.combineQueries(term, filterQueries);
             searchQueryBuilder.fetchResult().then((result) => {
-              generateSolrParentList(result, sortBy, sortOrder).forEach(
-                (parent) => {
-                  multipleResults.push(parent);
-                }
-              );
+              generateSolrParentList(
+                result,
+                params.sortBy,
+                params.sortOrder
+              ).forEach((parent) => {
+                multipleResults.push(parent);
+              });
               // remove duplicates by id
               const newResults = Array.from(
                 new Set(multipleResults.map((a) => a.id))
@@ -87,8 +95,8 @@ export default function DiscoveryArea({
           searchQueryBuilder.fetchResult().then((result) => {
             const newResults = generateSolrParentList(
               result,
-              sortBy,
-              sortOrder
+              params.sortBy,
+              params.sortOrder
             );
             setFetchResults(newResults);
           });
@@ -103,91 +111,26 @@ export default function DiscoveryArea({
     suggestResultBuilder.setSuggestInput(value);
     suggestResultBuilder.setResultTerms(JSON.stringify(results));
   };
-  // Run filter and sort only if no query is present or searchInputBox is set to no value
-  // NOTE that sort is handled by generateSolrParentList instead of query directly to Solr so that when the parentList is generated (as displayed), the result is sorted
-  const noQuery = () => {
-    const shouldSort =
-      (
-        sortOrder.length > 0 &&
-        sortBy.length > 0 &&
-        findSolrAttribute(sortBy, searchQueryBuilder.getSchema() !== undefined)
-      ).length > 0;
-    if (filterQueries.length > 0) {
-      searchQueryBuilder.filterQuery(filterQueries);
-      searchQueryBuilder
-        .fetchResult()
-        .then((result) => {
-          const newResults = shouldSort
-            ? generateSolrParentList(result, sortBy, sortOrder)
-            : generateSolrParentList(result);
-          setFetchResults(newResults);
-        })
-        .catch((error) => {
-          console.error("Error fetching result:", error);
-        });
-    }
-  };
 
   /**
    * ***************
    * URL Parameter Handling
    */
-  const {
-    showDetailPanel,
-    setShowDetailPanel,
-    showSharedLink,
-    setShowSharedLink,
-    showFilter,
-    setShowFilter,
-    sortOrder,
-    setSortOrder,
-    sortBy,
-    setSortBy,
-    resourceType,
-    setResourceType,
-    resourceClass,
-    setResourceClass,
-    format,
-    setFormat,
-    indexYear,
-    setIndexYear,
-    query,
-    setQuery,
-  } = GetAllParams();
-  const [inputValue, setInputValue] = useState<string>(query ? query : "");
-  const [value, setValue] = useState<string | null>(query ? query : null);
-  const isQuery = query.length > 0;
-  const reGetFilterQueries = (res) => {
-    if (resourceType) {
-      resourceType.split(",").forEach((r) => {
-        res.push({
-          attribute: "resource_type",
-          value: r,
-        });
-      });
-    }
-    if (resourceClass) {
-      resourceClass.split(",").forEach((r) => {
-        res.push({
-          attribute: "resource_class",
-          value: r,
-        });
-      });
-    }
-    if (format) {
-      format.split(",").forEach((f) => {
-        res.push({ attribute: "format", value: f });
-      });
-    }
-    if (indexYear) {
-      indexYear.split(",").forEach((i) => {
-        res.push({ attribute: "index_year", value: i });
-      });
-    }
-    return res;
-  };
-  const filterQueries = reGetFilterQueries([]);
-  const originalResults = generateSolrParentList(results, sortBy, sortOrder);
+  const params = GetAllParams();
+  const [inputValue, setInputValue] = useState<string>(
+    params.query ? params.query : ""
+  );
+  const [value, setValue] = useState<string | null>(
+    params.query ? params.query : null
+  );
+  const isQuery = params.query.length > 0;
+
+  const filterQueries = reGetFilterQueries(params);
+  const originalResults = generateSolrParentList(
+    results,
+    params.sortBy,
+    params.sortOrder
+  );
   const [fetchResults, setFetchResults] =
     useState<SolrObject[]>(originalResults);
 
@@ -195,49 +138,19 @@ export default function DiscoveryArea({
    * ***************
    * Filter & Sort Component
    */
-  const updateAll = (newSortBy, newSortOrder, newFilterQueries, searchTerm) => {
-    setSortBy(newSortBy ? newSortBy : null);
-    setSortOrder(newSortOrder ? newSortOrder : null);
-    setResourceType(null);
-    setResourceClass(null);
-    setFormat(null);
-    setIndexYear(null);
-    newFilterQueries.forEach((filter) => {
-      if (filter.attribute === "resource_class") {
-        setResourceClass((prev) =>
-          prev ? `${prev},${filter.value}` : filter.value
-        );
-      }
-      if (filter.attribute === "resource_type") {
-        setResourceType((prev) =>
-          prev ? `${prev},${filter.value}` : filter.value
-        );
-      }
-      if (filter.attribute === "index_year") {
-        setIndexYear((prev) =>
-          prev ? `${prev},${filter.value}` : filter.value
-        );
-      }
-    });
-    if (searchTerm) {
-      setQuery(searchTerm);
-    }
-  };
+
   const filterComponent = (
     <FilterPanel
-      reGetFilterQueries={reGetFilterQueries}
       originalList={originalResults}
-      term={isQuery ? query : "*"}
+      term={isQuery ? params.query : "*"}
       optionMaxNum={7}
       filterQueries={filterQueries}
-      showFilter={showFilter ? showFilter : ""}
-      setShowFilter={setShowFilter}
-      sortOrder={sortOrder ? sortOrder : ""}
-      setSortOrder={setSortOrder}
-      sortBy={sortBy ? sortBy : ""}
-      setSortBy={setSortBy}
-      handleSearch={handleSearch}
-      updateAll={updateAll}
+      showFilter={params.showFilter ? params.showFilter : ""}
+      setShowFilter={params.setShowFilter}
+      sortOrder={params.sortOrder ? params.sortOrder : ""}
+      setSortOrder={params.setSortOrder}
+      sortBy={params.sortBy ? params.sortBy : ""}
+      setSortBy={params.setSortBy}
     />
   );
 
@@ -253,7 +166,7 @@ export default function DiscoveryArea({
 
   useEffect(() => {
     if (isResetting) {
-      setQuery(null);
+      params.setQuery(null);
       setAutocompleteKey((prevKey) => prevKey + 1);
       setCheckboxes([]);
       setOptions([]);
@@ -261,17 +174,17 @@ export default function DiscoveryArea({
       setInputValue("");
       setResetStatus(true);
       setIsResetting(false);
-      handleSearch("*");
+      handleSearch(params, "*", reGetFilterQueries(params));
     } else {
-      handleSearch(query);
+      handleSearch(params, params.query, reGetFilterQueries(params));
     }
   }, [
-    sortBy,
-    sortOrder,
-    resourceType,
-    resourceClass,
-    format,
-    indexYear,
+    params.sortBy,
+    params.sortOrder,
+    params.resourceType,
+    params.resourceClass,
+    params.format,
+    params.indexYear,
     isResetting,
   ]);
   return (
@@ -283,16 +196,16 @@ export default function DiscoveryArea({
           schema={schema}
           autocompleteKey={autocompleteKey}
           options={options}
+          handleInputReset={handleInputReset}
           processResults={processResults}
           setOptions={setOptions}
-          handleInputReset={handleInputReset}
+          inputRef={inputRef}
           inputValue={inputValue}
           setInputValue={setInputValue}
           value={value}
           setValue={setValue}
-          inputRef={inputRef}
+          setQuery={params.setQuery}
           handleSearch={handleSearch}
-          setQuery={setQuery}
         />
       </Grid>
       {fetchResults.length > 0 && (
@@ -302,8 +215,8 @@ export default function DiscoveryArea({
             relatedList={fetchResults}
             isQuery={isQuery || filterQueries.length > 0}
             filterComponent={filterComponent}
-            showFilter={showFilter}
-            setShowFilter={setShowFilter}
+            showFilter={params.showFilter}
+            setShowFilter={params.setShowFilter}
           />
         </Grid>
       )}
@@ -313,16 +226,24 @@ export default function DiscoveryArea({
             item
             className="sm:px-[2em]"
             xs={12}
-            sx={{ display: showDetailPanel.length == 0 ? "block" : "none" }}
+            sx={{
+              display: params.showDetailPanel.length == 0 ? "block" : "none",
+            }}
           >
             <MapPanel resultsList={fetchResults} />
           </Grid>
-          <Grid sx={{ display: showDetailPanel.length > 0 ? "block" : "none" }}>
+          <Grid
+            sx={{
+              display: params.showDetailPanel.length > 0 ? "block" : "none",
+            }}
+          >
             <DetailPanel
-              resultItem={fetchResults.find((r) => r.id === showDetailPanel)}
-              setShowDetailPanel={setShowDetailPanel}
-              showSharedLink={showSharedLink}
-              setShowSharedLink={setShowSharedLink}
+              resultItem={fetchResults.find(
+                (r) => r.id === params.showDetailPanel
+              )}
+              setShowDetailPanel={params.setShowDetailPanel}
+              showSharedLink={params.showSharedLink}
+              setShowSharedLink={params.setShowSharedLink}
             />
           </Grid>
         </Grid>

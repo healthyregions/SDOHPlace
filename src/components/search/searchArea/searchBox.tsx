@@ -22,6 +22,8 @@ import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import SuggestedResult from "../helper/SuggestedResultBuilder";
 import { useEffect } from "react";
+import { get } from "http";
+import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
 
 interface Props {
   schema: any;
@@ -35,7 +37,7 @@ interface Props {
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: (value) => void;
+  handleSearch: (params, value, filterQueries) => void;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 const fullConfig = resolveConfig(tailwindConfig);
@@ -89,10 +91,10 @@ const CustomPaper = (props) => {
 
 const SearchBox = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const searchParams = useSearchParams();
-  const currentPath = usePathname();
-  const router = useRouter();
-  const [userInput, setUserInput] = React.useState(props.value || "");
+  const params = GetAllParams();
+  const [userInput, setUserInput] = React.useState(
+    props.value === "*" ? "" : props.value || ""
+  );
   const [queryData, setQueryData] = React.useState<SearchObject>({
     userInput: "",
   });
@@ -101,15 +103,17 @@ const SearchBox = (props: Props): JSX.Element => {
 
   let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
+    const filterQueries = reGetFilterQueries(params);
     event.preventDefault();
     props.setQuery(userInput);
     props.setInputValue(userInput);
-    props.handleSearch(userInput);
+    props.handleSearch(params, userInput, filterQueries);
   };
   const handleDropdownSelect = (event, value) => {
+    const filterQueries = reGetFilterQueries(params);
     props.setInputValue(value);
     props.setQuery(props.inputValue);
-    props.handleSearch(props.inputValue);
+    props.handleSearch(params, props.inputValue, filterQueries);
   };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,

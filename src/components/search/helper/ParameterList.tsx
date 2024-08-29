@@ -91,7 +91,7 @@ export const GetAllParams = () => {
     parseAsBoolean.withDefault(false)
   );
 
-  //layers: the layers to be added to the map
+  //layers: the layers to be added to the map. Use this as the reference for spatial resolution
   const [visLyrs, setVisLyrs] = useQueryState(
     "layers",
     parseAsArrayOf(parseAsString).withDefault([])
@@ -103,7 +103,6 @@ export const GetAllParams = () => {
     parseAsLngLatBoundsLike
   );
 
-  //console.log("now in GetAllParams", showDetailPanel, showFilter, sortOrder, sortBy, resourceType, resourceClass, format, indexYear,query);
   return {
     showDetailPanel,
     setShowDetailPanel,
@@ -132,4 +131,50 @@ export const GetAllParams = () => {
     bboxParam,
     setBboxParam,
   };
+};
+
+/**
+ * Re-update everything based on the status of current url. May improve later by separating the update functions
+ */
+export const updateAll = (
+  params,
+  newSortBy,
+  newSortOrder,
+  newFilterQueries,
+  searchTerm
+) => {
+  params.setSortBy(newSortBy ? newSortBy : null);
+  params.setSortOrder(newSortOrder ? newSortOrder : null);
+  params.setResourceType(null);
+  params.setResourceClass(null);
+  params.setFormat(null);
+  params.setIndexYear(null);
+  newFilterQueries.forEach((filter) => {
+    if (filter.attribute === "index_year") {
+      params.setIndexYear((prev) =>
+        prev ? `${prev},${filter.value}` : filter.value
+      );
+    }
+  });
+  if (searchTerm) {
+    params.setQuery(searchTerm);
+  }
+};
+
+/**
+ * get newest filter queries based on the current url in {attribute, value} format
+ */
+export const reGetFilterQueries = (params) => {
+  const res = [];
+  if (params.visLyrs) {
+    params.visLyrs.forEach((i) => {
+      res.push({ attribute: "spatial_resolution", value: i });
+    });
+  }
+  if (params.indexYear) {
+    params.indexYear.split(",").forEach((i) => {
+      res.push({ attribute: "index_year", value: i });
+    });
+  }
+  return res;
 };
