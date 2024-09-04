@@ -67,6 +67,7 @@ const ResultCard = (props: Props): JSX.Element => {
         onMouseOver={() => {
           props.setHighlightLyr(null);
           props.setHighlightLyr(lyrId);
+          props.setHighlightIds(props.resultItem.meta.spatial_coverage);
         }}
         onMouseOut={() => {
           props.setHighlightLyr(null);

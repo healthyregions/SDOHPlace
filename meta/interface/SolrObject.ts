@@ -30,6 +30,7 @@ export interface SolrObject {
     md_version?: string;
     suppress?: boolean;
     spatial_resolution?: string[];
+    spatial_coverage?: string[];
     data_usage_notes?: string;
     data_variables?: string[];
     methods_variables?: string[];

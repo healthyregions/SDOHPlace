@@ -14,8 +14,10 @@ import {
 import maplibregl from "maplibre-gl";
 import {
   LayerSpecification,
-  LineLayerSpecification,
   FilterSpecification,
+  FillLayerSpecification,
+  LineLayerSpecification,
+  CircleLayerSpecification,
 } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
@@ -81,6 +83,8 @@ export default function MapArea({
   const [mapLoaded, setMapLoaded] = useState(false);
 
   const params = GetAllParams();
+
+  const [currentZoom, setCurrentZoom] = useState<number>();
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -254,11 +258,31 @@ export default function MapArea({
 
   const onHover = useCallback((event) => {
     const feat = event.features && event.features[0];
+    const feats = event.features && event.features;
+    feats.forEach((f) => {
+      console.log(f);
+    });
+    // console.log(feats)
     setHoverInfo({
       longitude: event.lngLat.lng,
       latitude: event.lngLat.lat,
       id: feat && feat.properties.HEROP_ID,
     });
+  }, []);
+
+  const onZoomEnd = useCallback(() => {
+    const map = mapRef.current.getMap();
+    const zoom = map.getZoom();
+    const lyrs = params.visLyrs;
+    if (zoom <= 6) {
+      if (!lyrs.includes("state")) {
+        lyrs.push("state");
+        params.setVisLyrs(lyrs);
+      }
+    } else if (zoom <= 10) {
+      // set county layer visible
+    }
+    setCurrentZoom(map.getZoom());
   }, []);
 
   const onClick = (event: MapLayerMouseEvent) => {
@@ -408,53 +432,81 @@ export default function MapArea({
     }
   }, [params.visLyrs, mapLoaded]);
 
+  function makeHighlightLayer(
+    spec:
+      | FillLayerSpecification
+      | LineLayerSpecification
+      | CircleLayerSpecification,
+    zoom: number
+  ) {
+    const specHl = structuredClone(spec);
+    specHl.id = "result-highlight";
+    let lineWidth: number;
+    if (zoom <= 5) {
+      lineWidth = 0.75;
+    } else if (zoom <= 8) {
+      lineWidth = 1.25;
+    } else if (zoom <= 15) {
+      lineWidth = 3;
+    } else {
+      lineWidth = 5;
+    }
+    specHl.paint = {
+      "line-color": "#7e1cc4",
+      "line-width": lineWidth,
+    };
+    return specHl;
+  }
+
   useEffect(() => {
     if (mapRef.current && mapLoaded) {
       const map = mapRef.current.getMap();
-      const mapLyrIds = map.getStyle().layers.map((lyr) => {
-        return lyr.id;
-      });
+      if (map.getLayer("result-highlight") != undefined) {
+        map.removeLayer("result-highlight");
+      }
       if (highlightLyr) {
-        map.addLayer(
-          layerRegistry[highlightLyr].specHl,
-          layerRegistry[highlightLyr].addBefore
+        const hlLayer = makeHighlightLayer(
+          layerRegistry[highlightLyr].spec,
+          map.getZoom()
         );
-      } else {
-        // remove all layers that aren't activated via URL params
-        Object.keys(layerRegistry).forEach((lyr) => {
-          if (
-            mapLyrIds.includes(layerRegistry[lyr].specHl.id) &&
-            !params.visLyrs.includes(lyr)
-          ) {
-            map.removeLayer(layerRegistry[lyr].specHl.id);
-          }
-        });
+        map.addLayer(hlLayer);
+        if (highlightIds) {
+          const hlFilter: FilterSpecification = [
+            "in",
+            "HEROP_ID",
+            ...highlightIds,
+          ];
+          map.setFilter(hlLayer.id, hlFilter);
+        }
       }
     }
   }, [highlightIds, highlightLyr]);
 
   return (
-    <Map
-      id="discoveryMap"
-      ref={mapRef}
-      mapLib={maplibregl}
-      initialViewState={{
-        bounds: params.bboxParam ? params.bboxParam : contiguousBounds,
-      }}
-      style={{
-        width: "100%",
-        height: "100%",
-      }}
-      mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
-      onMouseMove={onHover}
-      onClick={onClick}
-      onLoad={() => setMapLoaded(true)}
-      onMoveEnd={onMoveEnd}
-      interactiveLayerIds={["state-interactive"]}
-    >
-      {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
-      <Layer {...hlStateLyr} filter={filterState} />
-      {/* {selectedState && (
+    <>
+      {currentZoom}
+      <Map
+        id="discoveryMap"
+        ref={mapRef}
+        mapLib={maplibregl}
+        initialViewState={{
+          bounds: params.bboxParam ? params.bboxParam : contiguousBounds,
+        }}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
+        onMouseMove={onHover}
+        onClick={onClick}
+        onLoad={() => setMapLoaded(true)}
+        onMoveEnd={onMoveEnd}
+        interactiveLayerIds={["state-interactive"]}
+        onZoomEnd={onZoomEnd}
+      >
+        {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
+        <Layer {...hlStateLyr} filter={filterState} />
+        {/* {selectedState && (
         <Popup
           longitude={hoverInfo.longitude}
           latitude={hoverInfo.latitude}
@@ -464,10 +516,11 @@ export default function MapArea({
           Id: {selectedState}
         </Popup>
       )} */}
-      <ZoomButton label="Contiguous" bounds={contiguousBounds} />
-      <ZoomButton label="AK" bounds={alaskaBounds} />
-      <ZoomButton label="HI" bounds={hawaiiBounds} />
-      <EnableBboxSearchButton />
-    </Map>
+        <ZoomButton label="Contiguous" bounds={contiguousBounds} />
+        <ZoomButton label="AK" bounds={alaskaBounds} />
+        <ZoomButton label="HI" bounds={hawaiiBounds} />
+        <EnableBboxSearchButton />
+      </Map>
+    </>
   );
 }
