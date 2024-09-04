@@ -1,12 +1,11 @@
 import * as React from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Autocomplete,
   Box,
   Button,
-  Checkbox,
-  Grid,
   IconButton,
   InputAdornment,
   Paper,
@@ -15,14 +14,12 @@ import {
 } from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import { useSearchParams, usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
 import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import SuggestedResult from "../helper/SuggestedResultBuilder";
 import { useEffect } from "react";
-import { get } from "http";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
 
 interface Props {
@@ -90,6 +87,9 @@ const CustomPaper = (props) => {
 };
 
 const SearchBox = (props: Props): JSX.Element => {
+  const [showClearButton, setShowClearButton] = React.useState(
+    props.value ? true : false
+  );
   const classes = useStyles();
   const params = GetAllParams();
   const [userInput, setUserInput] = React.useState(
@@ -163,6 +163,7 @@ const SearchBox = (props: Props): JSX.Element => {
           onInputChange={(event, value, reason) => {
             if (event && event.type === "change") {
               handleUserInputChange(event, value);
+              setShowClearButton(value !== "");
             }
           }}
           onChange={(event, value) => {
@@ -193,39 +194,53 @@ const SearchBox = (props: Props): JSX.Element => {
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
-                  <InputAdornment position="start" className="mr-2">
-                    <SearchIcon className="text-2xl" />
+                  <InputAdornment position="start">
+                    <SearchIcon className="text-2xl mr-2 ml-10 text-frenchviolet" />
+                    <Box component="span" className="mx-2">
+                      <a
+                        href="#" // This needs to be updated after decide the advanced search page
+                        className={`no-underline text-frenchviolet `}
+                      >
+                        <InfoOutlinedIcon />
+                      </a>
+                    </Box>
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <Box display="flex" alignItems="center">
-                    <Box component="span" className="mr-2">
-                      <a
-                        href="#" // This needs to be updated after decide the advanced search page
-                        className={`text-frenchviolet no-underline ${classes.searchBox}`}
-                      >
-                        Help
-                      </a>
-                    </Box>
+                    {showClearButton && (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => {
+                            setUserInput("");
+                            props.handleInputReset();
+                            setShowClearButton(false);
+                          }}
+                        >
+                          <CloseIcon className="text-2xl text-frenchviolet" />
+                        </IconButton>
+                      </InputAdornment>
+                    )}
                     <InputAdornment position="end">
                       <Button
+                        className=""
                         type="submit"
                         variant="contained"
                         color="primary"
                         sx={{
-                          minWidth: "auto",
-                          padding: 0,
-                          borderRadius: "50%",
-                          width: "2.25em",
-                          height: "2.25em",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          backgroundColor:
-                            fullConfig.theme.colors["frenchviolet"],
+                          backgroundColor: "transparent",
+                          color: fullConfig.theme.colors["frenchviolet"],
+                          boxShadow: "none",
+                          "&:hover": {
+                            backgroundColor: "transparent",
+                            boxShadow: "none",
+                          },
                         }}
                       >
-                        <ArrowForwardIcon />
+                        <ArrowCircleRightIcon className="text-2xl mr-10" />
                       </Button>
                     </InputAdornment>
                   </Box>
