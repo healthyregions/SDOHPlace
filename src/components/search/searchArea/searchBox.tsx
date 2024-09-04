@@ -87,7 +87,9 @@ const CustomPaper = (props) => {
 };
 
 const SearchBox = (props: Props): JSX.Element => {
-  const [showClearButton, setShowClearButton] = React.useState(false);
+  const [showClearButton, setShowClearButton] = React.useState(
+    props.value ? true : false
+  );
   const classes = useStyles();
   const params = GetAllParams();
   const [userInput, setUserInput] = React.useState(
