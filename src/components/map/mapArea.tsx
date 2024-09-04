@@ -139,22 +139,6 @@ export default function MapArea({
         if (!map.getSource(id)) map.addSource(id, sources[id]);
       });
 
-      // when the map is load, only add state and county line layers
-      // displayLayers.forEach((lyr) => {
-      //   if (lyr.id === "state-2018" || lyr.id === "county-2018")
-      //     map.addLayer(lyr);
-      // });
-
-      // add layers by a specific order. Line first then interactive
-      // if (!resetStatus) {
-      //   newDisplayLayers
-      //     .filter((l) => l.id !== "state-2018" && l.id !== "county-2018")
-      //     .forEach((lyr) => {
-      //       const addBefore =
-      //         lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-      //       map.addLayer(lyr, addBefore);
-      //     });
-      // }
       // add navigation control to the map
       const testControl = new maplibregl.NavigationControl({});
       const controls = map._controls;
@@ -258,11 +242,6 @@ export default function MapArea({
 
   const onHover = useCallback((event) => {
     const feat = event.features && event.features[0];
-    const feats = event.features && event.features;
-    feats.forEach((f) => {
-      console.log(f);
-    });
-    // console.log(feats)
     setHoverInfo({
       longitude: event.lngLat.lng,
       latitude: event.lngLat.lat,
@@ -332,73 +311,6 @@ export default function MapArea({
       "line-width": 3,
     },
   };
-
-  //   let testDisplayLayers = currentDisplayLayers;
-  //   // get all needed interactive layers based on current presented results's spatial resolution
-  //   searchResult.forEach((result) => {
-  //     if (result.meta["spatial_resolution"]) {
-  //       const spatial_res =
-  //         typeof result.meta["spatial_resolution"] === "string"
-  //           ? [result.meta["spatial_resolution"]]
-  //           : result.meta["spatial_resolution"];
-  //       spatial_res.forEach((sr) => {
-  //         const displayLayer = displayLayers.find(
-  //           (d) => d.spec.source === layer_match[sr]
-  //         );
-  //         // const interactiveLayer = interactiveLayers.find(d=>d.source === layer_match[sr]);
-  //         if (displayLayer) {
-  //           testDisplayLayers = [...testDisplayLayers, displayLayer];
-  //         }
-  //       });
-  //     }
-  //   });
-  //   // remove duplicates
-  //   const uniqueIds = new Set();
-  //   const newDisplayLayers = testDisplayLayers.filter((obj) => {
-  //     // If the id is not in the Set, add it and return true to keep the object
-  //     if (!uniqueIds.has(obj.id)) {
-  //       uniqueIds.add(obj.id);
-  //       return true;
-  //     }
-  //     // If the id is in the Set, return false to filter out the duplicate object
-  //     return false;
-  //   });
-
-  //   // add all custom sources to the map
-  //   Object.keys(sources).forEach((id) => {
-  //     mapRef.current.getMap().addSource(id, sources[id]);
-  //   });
-
-  //   // when the map is load, only add state and county line layers
-  //   if (newDisplayLayers.length === 0) {
-  //     displayLayers.forEach((lyr) => {
-  //       if (lyr.id === "state-2018" || lyr.id === "county-2018")
-  //         mapRef.current.getMap().addLayer(lyr);
-  //     });
-  //   }
-
-  //   // add navigation control to the map
-  //   const testControl = new maplibregl.NavigationControl({});
-  //   mapRef.current.addControl(testControl, "top-right");
-  //   ``;
-  //   // // add these layers before the "Ocean labels" layer (which is already present
-  //   // // in the default mapstyle). This allows labels to overlap the boundaries.
-  //   // displayLayers.forEach((lyr) => {
-  //   //   const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-  //   //   mapRef.current.getMap().addLayer(lyr, addBefore);
-  //   // });
-
-  //   // add layers by a specific order. Line first then interactive
-  //   newDisplayLayers.forEach((lyr) => {
-  //     //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-  //     mapRef.current.getMap().addLayer(lyr);
-  //   });
-  //   // add selectable state layer to the map (this is linked to 'interactiveLayerIds' in the Map object)
-  //   mapRef.current
-  //     .getMap()
-  //     .addLayer(interactiveLayers.find((i) => i.id === "state-interactive"));
-  //   setCurrentDisplayLayers(newDisplayLayers);
-  // };
 
   // this effect looks at the search params, and if the layers param has changed, it sets
   // the corresponding variable, which will trigger the effect that actually manipulates the map.
