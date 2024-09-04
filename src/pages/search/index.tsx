@@ -48,16 +48,12 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
       <SearchTopLines />
       <div className="flex flex-col">
         <div className="self-center flex w-full flex-col max-md:max-w-full">
-          {isLoading ? (
-            <span>Loading...</span>
-          ) : (
-            <DiscoveryArea
-              results={solrObjectResults}
-              isLoading={isLoading}
-              filterAttributeList={SearchUIConfig.search.searchFilters.filters}
-              schema={schema}
-            />
-          )}
+          <DiscoveryArea
+            results={solrObjectResults}
+            isLoading={isLoading}
+            filterAttributeList={SearchUIConfig.search.searchFilters.filters}
+            schema={schema}
+          />
         </div>
       </div>
       <Footer />

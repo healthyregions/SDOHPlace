@@ -83,16 +83,22 @@ const ResultsPanel = (props: Props): JSX.Element => {
             }`,
           }}
         >
-          {props.resultsList.map((result) => (
-            <div key={result.id} className="mb-[0.75em]">
-              <ResultCard
-                key={result.id}
-                resultItem={result}
-                setHighlightIds={props.setHighlightIds}
-                setHighlightLyr={props.setHighlightLyr}
-              />
+          {props.resultsList.length > 0 ? (
+            props.resultsList.map((result) => (
+              <div key={result.id} className="mb-[0.75em]">
+                <ResultCard
+                  key={result.id}
+                  resultItem={result}
+                  setHighlightIds={props.setHighlightIds}
+                  setHighlightLyr={props.setHighlightLyr}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="flex justify-center">
+              <span>No results</span>
             </div>
-          ))}
+          )}
         </Box>
         <Box
           className="sm:my-[1.68em]"
