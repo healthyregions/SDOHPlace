@@ -25,10 +25,6 @@ export const SearchUIConfig = {
           display_name: "Block Group",
         },
         {
-          value: "place",
-          display_name: "City",
-        },
-        {
           value: "zcta",
           display_name: "Zip",
         },

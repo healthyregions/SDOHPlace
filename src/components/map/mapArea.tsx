@@ -14,8 +14,10 @@ import {
 import maplibregl from "maplibre-gl";
 import {
   LayerSpecification,
-  LineLayerSpecification,
   FilterSpecification,
+  FillLayerSpecification,
+  LineLayerSpecification,
+  CircleLayerSpecification,
 } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Protocol } from "pmtiles";
@@ -60,8 +62,12 @@ const hawaiiBounds: LngLatBoundsLike = [
  */
 export default function MapArea({
   searchResult,
+  highlightIds,
+  highlightLyr,
 }: {
   searchResult: SolrObject[];
+  highlightLyr?: string;
+  highlightIds?: string[];
 }): JSX.Element {
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
     LayerSpecification[]
@@ -77,6 +83,8 @@ export default function MapArea({
   const [mapLoaded, setMapLoaded] = useState(false);
 
   const params = GetAllParams();
+
+  const [currentZoom, setCurrentZoom] = useState<number>();
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -131,22 +139,6 @@ export default function MapArea({
         if (!map.getSource(id)) map.addSource(id, sources[id]);
       });
 
-      // when the map is load, only add state and county line layers
-      // displayLayers.forEach((lyr) => {
-      //   if (lyr.id === "state-2018" || lyr.id === "county-2018")
-      //     map.addLayer(lyr);
-      // });
-
-      // add layers by a specific order. Line first then interactive
-      // if (!resetStatus) {
-      //   newDisplayLayers
-      //     .filter((l) => l.id !== "state-2018" && l.id !== "county-2018")
-      //     .forEach((lyr) => {
-      //       const addBefore =
-      //         lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-      //       map.addLayer(lyr, addBefore);
-      //     });
-      // }
       // add navigation control to the map
       const testControl = new maplibregl.NavigationControl({});
       const controls = map._controls;
@@ -257,6 +249,23 @@ export default function MapArea({
     });
   }, []);
 
+  const onZoomEnd = useCallback(() => {
+    // WIP!
+    const map = mapRef.current.getMap();
+    const zoom = map.getZoom();
+    const lyrs = params.visLyrs;
+    if (zoom <= 6) {
+      if (!lyrs.includes("state")) {
+        lyrs.push("state");
+        params.setVisLyrs(lyrs);
+      }
+    } else if (zoom <= 10) {
+      // set county layer visible
+    }
+    setCurrentZoom(map.getZoom());
+    console.log(currentZoom);
+  }, []);
+
   const onClick = (event: MapLayerMouseEvent) => {
     const feat = event.features[0];
     if (feat) {
@@ -305,73 +314,6 @@ export default function MapArea({
     },
   };
 
-  //   let testDisplayLayers = currentDisplayLayers;
-  //   // get all needed interactive layers based on current presented results's spatial resolution
-  //   searchResult.forEach((result) => {
-  //     if (result.meta["spatial_resolution"]) {
-  //       const spatial_res =
-  //         typeof result.meta["spatial_resolution"] === "string"
-  //           ? [result.meta["spatial_resolution"]]
-  //           : result.meta["spatial_resolution"];
-  //       spatial_res.forEach((sr) => {
-  //         const displayLayer = displayLayers.find(
-  //           (d) => d.spec.source === layer_match[sr]
-  //         );
-  //         // const interactiveLayer = interactiveLayers.find(d=>d.source === layer_match[sr]);
-  //         if (displayLayer) {
-  //           testDisplayLayers = [...testDisplayLayers, displayLayer];
-  //         }
-  //       });
-  //     }
-  //   });
-  //   // remove duplicates
-  //   const uniqueIds = new Set();
-  //   const newDisplayLayers = testDisplayLayers.filter((obj) => {
-  //     // If the id is not in the Set, add it and return true to keep the object
-  //     if (!uniqueIds.has(obj.id)) {
-  //       uniqueIds.add(obj.id);
-  //       return true;
-  //     }
-  //     // If the id is in the Set, return false to filter out the duplicate object
-  //     return false;
-  //   });
-
-  //   // add all custom sources to the map
-  //   Object.keys(sources).forEach((id) => {
-  //     mapRef.current.getMap().addSource(id, sources[id]);
-  //   });
-
-  //   // when the map is load, only add state and county line layers
-  //   if (newDisplayLayers.length === 0) {
-  //     displayLayers.forEach((lyr) => {
-  //       if (lyr.id === "state-2018" || lyr.id === "county-2018")
-  //         mapRef.current.getMap().addLayer(lyr);
-  //     });
-  //   }
-
-  //   // add navigation control to the map
-  //   const testControl = new maplibregl.NavigationControl({});
-  //   mapRef.current.addControl(testControl, "top-right");
-  //   ``;
-  //   // // add these layers before the "Ocean labels" layer (which is already present
-  //   // // in the default mapstyle). This allows labels to overlap the boundaries.
-  //   // displayLayers.forEach((lyr) => {
-  //   //   const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-  //   //   mapRef.current.getMap().addLayer(lyr, addBefore);
-  //   // });
-
-  //   // add layers by a specific order. Line first then interactive
-  //   newDisplayLayers.forEach((lyr) => {
-  //     //const addBefore = lyr.id == "place-2018" ? "Forest" : "Ocean labels";
-  //     mapRef.current.getMap().addLayer(lyr);
-  //   });
-  //   // add selectable state layer to the map (this is linked to 'interactiveLayerIds' in the Map object)
-  //   mapRef.current
-  //     .getMap()
-  //     .addLayer(interactiveLayers.find((i) => i.id === "state-interactive"));
-  //   setCurrentDisplayLayers(newDisplayLayers);
-  // };
-
   // this effect looks at the search params, and if the layers param has changed, it sets
   // the corresponding variable, which will trigger the effect that actually manipulates the map.
 
@@ -404,28 +346,80 @@ export default function MapArea({
     }
   }, [params.visLyrs, mapLoaded]);
 
+  function makeHighlightLayer(
+    spec:
+      | FillLayerSpecification
+      | LineLayerSpecification
+      | CircleLayerSpecification,
+    zoom: number
+  ) {
+    const specHl = structuredClone(spec);
+    specHl.id = "result-highlight";
+    let lineWidth: number;
+    if (zoom <= 5) {
+      lineWidth = 0.75;
+    } else if (zoom <= 8) {
+      lineWidth = 1.25;
+    } else if (zoom <= 15) {
+      lineWidth = 3;
+    } else {
+      lineWidth = 5;
+    }
+    specHl.paint = {
+      "line-color": "#7e1cc4",
+      "line-width": lineWidth,
+    };
+    return specHl;
+  }
+
+  useEffect(() => {
+    if (mapRef.current && mapLoaded) {
+      const map = mapRef.current.getMap();
+      if (map.getLayer("result-highlight") != undefined) {
+        map.removeLayer("result-highlight");
+      }
+      if (highlightLyr) {
+        const hlLayer = makeHighlightLayer(
+          layerRegistry[highlightLyr].spec,
+          map.getZoom()
+        );
+        map.addLayer(hlLayer);
+        if (highlightIds) {
+          const hlFilter: FilterSpecification = [
+            "in",
+            "HEROP_ID",
+            ...highlightIds,
+          ];
+          map.setFilter(hlLayer.id, hlFilter);
+        }
+      }
+    }
+  }, [highlightIds, highlightLyr]);
+
   return (
-    <Map
-      id="discoveryMap"
-      ref={mapRef}
-      mapLib={maplibregl}
-      initialViewState={{
-        bounds: params.bboxParam ? params.bboxParam : contiguousBounds,
-      }}
-      style={{
-        width: "100%",
-        height: "100%",
-      }}
-      mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
-      onMouseMove={onHover}
-      onClick={onClick}
-      onLoad={() => setMapLoaded(true)}
-      onMoveEnd={onMoveEnd}
-      interactiveLayerIds={["state-interactive"]}
-    >
-      {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
-      <Layer {...hlStateLyr} filter={filterState} />
-      {/* {selectedState && (
+    <>
+      <Map
+        id="discoveryMap"
+        ref={mapRef}
+        mapLib={maplibregl}
+        initialViewState={{
+          bounds: params.bboxParam ? params.bboxParam : contiguousBounds,
+        }}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
+        onMouseMove={onHover}
+        onClick={onClick}
+        onLoad={() => setMapLoaded(true)}
+        onMoveEnd={onMoveEnd}
+        interactiveLayerIds={["state-interactive"]}
+        onZoomEnd={onZoomEnd}
+      >
+        {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
+        <Layer {...hlStateLyr} filter={filterState} />
+        {/* {selectedState && (
         <Popup
           longitude={hoverInfo.longitude}
           latitude={hoverInfo.latitude}
@@ -435,10 +429,11 @@ export default function MapArea({
           Id: {selectedState}
         </Popup>
       )} */}
-      <ZoomButton label="Contiguous" bounds={contiguousBounds} />
-      <ZoomButton label="AK" bounds={alaskaBounds} />
-      <ZoomButton label="HI" bounds={hawaiiBounds} />
-      <EnableBboxSearchButton />
-    </Map>
+        <ZoomButton label="Contiguous" bounds={contiguousBounds} />
+        <ZoomButton label="AK" bounds={alaskaBounds} />
+        <ZoomButton label="HI" bounds={hawaiiBounds} />
+        <EnableBboxSearchButton />
+      </Map>
+    </>
   );
 }

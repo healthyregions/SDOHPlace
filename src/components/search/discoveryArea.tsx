@@ -160,6 +160,9 @@ export default function DiscoveryArea({
    */
   const [isResetting, setIsResetting] = useState(false);
 
+  const [highlightIds, setHighlightIds] = useState([]);
+  const [highlightLyr, setHighlightLyr] = useState("");
+
   const handleInputReset = () => {
     setIsResetting(true);
   };
@@ -208,55 +211,48 @@ export default function DiscoveryArea({
           handleSearch={handleSearch}
         />
       </Grid>
-      {fetchResults.length > 0 && (
-        <Grid item className="sm:px-[2em]" xs={12} sm={4}>
-          <ResultsPanel
+      <Grid item className="sm:px-[2em]" xs={12} sm={4}>
+        <ResultsPanel
+          resultsList={fetchResults}
+          relatedList={fetchResults}
+          isQuery={isQuery || filterQueries.length > 0}
+          filterComponent={filterComponent}
+          showFilter={params.showFilter}
+          setShowFilter={params.setShowFilter}
+          setHighlightLyr={setHighlightLyr}
+          setHighlightIds={setHighlightIds}
+        />
+      </Grid>
+      <Grid item xs={8} className="sm:ml-[0.5em]">
+        <Grid
+          item
+          className="sm:px-[2em]"
+          xs={12}
+          sx={{
+            display: params.showDetailPanel.length == 0 ? "block" : "none",
+          }}
+        >
+          <MapPanel
             resultsList={fetchResults}
-            relatedList={fetchResults}
-            isQuery={isQuery || filterQueries.length > 0}
-            filterComponent={filterComponent}
-            showFilter={params.showFilter}
-            setShowFilter={params.setShowFilter}
+            highlightLyr={highlightLyr}
+            highlightIds={highlightIds}
           />
         </Grid>
-      )}
-      {fetchResults.length > 0 ? (
-        <Grid item xs={8} className="sm:ml-[0.5em]">
-          <Grid
-            item
-            className="sm:px-[2em]"
-            xs={12}
-            sx={{
-              display: params.showDetailPanel.length == 0 ? "block" : "none",
-            }}
-          >
-            <MapPanel resultsList={fetchResults} />
-          </Grid>
-          <Grid
-            sx={{
-              display: params.showDetailPanel.length > 0 ? "block" : "none",
-            }}
-          >
-            <DetailPanel
-              resultItem={fetchResults.find(
-                (r) => r.id === params.showDetailPanel
-              )}
-              setShowDetailPanel={params.setShowDetailPanel}
-              showSharedLink={params.showSharedLink}
-              setShowSharedLink={params.setShowSharedLink}
-            />
-          </Grid>
+        <Grid
+          sx={{
+            display: params.showDetailPanel.length > 0 ? "block" : "none",
+          }}
+        >
+          <DetailPanel
+            resultItem={fetchResults.find(
+              (r) => r.id === params.showDetailPanel
+            )}
+            setShowDetailPanel={params.setShowDetailPanel}
+            showSharedLink={params.showSharedLink}
+            setShowSharedLink={params.setShowSharedLink}
+          />
         </Grid>
-      ) : isLoading ? (
-        <Grid item xs={7}>
-          {" "}
-          <h1>Loading map...</h1>
-        </Grid>
-      ) : (
-        <Grid item xs={7}>
-          <h1>No results.</h1>
-        </Grid>
-      )}
+      </Grid>
     </Grid>
   );
 }

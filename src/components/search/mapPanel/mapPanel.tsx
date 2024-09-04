@@ -12,6 +12,8 @@ import ConstructionIcon from "@mui/icons-material/Construction";
 
 interface Props {
   resultsList: SolrObject[];
+  highlightLyr?: string;
+  highlightIds?: string[];
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +55,11 @@ const MapPanel = (props: Props): JSX.Element => {
           height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
         }}
       >
-        <MapArea searchResult={props.resultsList} />
+        <MapArea
+          searchResult={props.resultsList}
+          highlightIds={props.highlightIds}
+          highlightLyr={props.highlightLyr}
+        />
       </Box>
       <Box className="sm:my-[1.68em]">
         <div className="sm:mb-[1.5em] sm:flex-col">

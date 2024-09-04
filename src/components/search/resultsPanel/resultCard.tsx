@@ -9,6 +9,8 @@ import { GetAllParams } from "@/components/search/helper/ParameterList";
 
 interface Props {
   resultItem: SolrObject;
+  setHighlightLyr: (value: string) => void;
+  setHighlightIds: (value: string[]) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,25 @@ const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
 
+  // show the most detailed geography that a record represents
+  let lyrId: string;
+  const spatial_res = props.resultItem.meta.spatial_resolution
+    ? props.resultItem.meta.spatial_resolution
+    : [];
+  if (
+    spatial_res.includes("Census Block Group") ||
+    spatial_res.includes("Census Block")
+  ) {
+    lyrId = "bg";
+  } else if (spatial_res.includes("Census Tract")) {
+    lyrId = "tract";
+  } else if (spatial_res.includes("County")) {
+    lyrId = "county";
+  } else if (spatial_res.includes("Zip Code Tabulation Area (ZCTA)")) {
+    lyrId = "zcta";
+  } else if (spatial_res.includes("State")) {
+    lyrId = "state";
+  }
   return (
     props.resultItem && (
       <div
@@ -42,6 +63,14 @@ const ResultCard = (props: Props): JSX.Element => {
             params.showDetailPanel === props.resultItem.id
               ? "0px 4px 4px 0px lightgray"
               : undefined,
+        }}
+        onMouseOver={() => {
+          props.setHighlightLyr(null);
+          props.setHighlightLyr(lyrId);
+          props.setHighlightIds(props.resultItem.meta.spatial_coverage);
+        }}
+        onMouseOut={() => {
+          props.setHighlightLyr(null);
         }}
       >
         <div className="flex flex-col sm:flex-row items-center mb-2">

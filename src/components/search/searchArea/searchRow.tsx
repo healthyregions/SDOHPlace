@@ -7,6 +7,7 @@ import SearchBox from "./searchBox";
 import { Box, Grid, Typography } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import GlossaryPopover from "@/components/GlossaryPopover";
+import { set } from "date-fns";
 
 interface Props {
   header: string;
