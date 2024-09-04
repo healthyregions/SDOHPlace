@@ -250,6 +250,7 @@ export default function MapArea({
   }, []);
 
   const onZoomEnd = useCallback(() => {
+    // WIP!
     const map = mapRef.current.getMap();
     const zoom = map.getZoom();
     const lyrs = params.visLyrs;
@@ -262,6 +263,7 @@ export default function MapArea({
       // set county layer visible
     }
     setCurrentZoom(map.getZoom());
+    console.log(currentZoom);
   }, []);
 
   const onClick = (event: MapLayerMouseEvent) => {
@@ -396,7 +398,6 @@ export default function MapArea({
 
   return (
     <>
-      {currentZoom}
       <Map
         id="discoveryMap"
         ref={mapRef}
