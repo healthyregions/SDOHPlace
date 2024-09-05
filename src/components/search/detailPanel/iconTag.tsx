@@ -25,18 +25,18 @@ const IconTag = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div
-      className={`flex items-center shadow-none bg-lightbisque border border-1 border-strongorange rounded py-1.5 px-2 space-x-2 ${classes.iconTag}`}
+      className={`flex items-center shadow-none bg-lightbisque border border-1 border-strongorange rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${classes.iconTag}`}
     >
       {props.roundBackground ? (
         <div className="relative flex items-center justify-center">
-          <Image src={props.svgIcon} alt="Icon" className="w-6 h-6" />
+          <Image src={props.svgIcon} alt="Icon" className="w-4 h-4" />
         </div>
       ) : (
         // for single icon without background
-        <Image src={props.svgIcon} alt="Icon" className="w-6 h-6" />
+        <Image src={props.svgIcon} alt="Icon" className="w-4 h-4" />
       )}
       <span
-        className={`${props.labelClass} truncate`}
+        className={`${props.labelClass}`}
         style={{ color: props.labelColor }}
       >
         {props.label}
