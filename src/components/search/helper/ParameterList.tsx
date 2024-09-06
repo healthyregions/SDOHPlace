@@ -6,7 +6,7 @@ import {
   parseAsString,
   createParser,
 } from "nuqs";
-import { p } from "nuqs/dist/serializer-C_l8WgvO";
+import React from "react";
 
 const parseAsLngLatBoundsLike = createParser({
   parse(queryValue) {
@@ -68,6 +68,12 @@ export const GetAllParams = () => {
     parseAsString.withDefault("")
   );
 
+  // subject tags: the tags to filter the search results
+  const [subject, setSubject] = useQueryState(
+    "subject",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
+
   // sort_order: the order of the search results
   const [sortOrder, setSortOrder] = useQueryState(
     "sortOrder",
@@ -97,6 +103,10 @@ export const GetAllParams = () => {
     "layers",
     parseAsArrayOf(parseAsString).withDefault([])
   );
+  const [spatialResolution, setSpatialResolution] = useQueryState(
+    "spatial_resolution",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
 
   //bbox: the current bounding box of the map, can be used for spatial queries
   const [bboxParam, setBboxParam] = useQueryState(
@@ -123,16 +133,82 @@ export const GetAllParams = () => {
     setFormat,
     indexYear,
     setIndexYear,
+    subject,
+    setSubject,
     query,
     setQuery,
     bboxSearch,
     setBboxSearch,
     visLyrs,
     setVisLyrs,
+    spatialResolution,
+    setSpatialResolution,
     bboxParam,
     setBboxParam,
+  
   };
-};
+}
+//   return React.useMemo(() => ({
+//     showDetailPanel,
+//     setShowDetailPanel,
+//     showSharedLink,
+//     setShowSharedLink,
+//     showFilter,
+//     setShowFilter,
+//     sortOrder,
+//     setSortOrder,
+//     sortBy,
+//     setSortBy,
+//     resourceType,
+//     setResourceType,
+//     resourceClass,
+//     setResourceClass,
+//     format,
+//     setFormat,
+//     indexYear,
+//     setIndexYear,
+//     subject,
+//     setSubject,
+//     query,
+//     setQuery,
+//     bboxSearch,
+//     setBboxSearch,
+//     visLyrs,
+//     setVisLyrs,
+//     bboxParam,
+//     setBboxParam,
+//   }), [
+//     showDetailPanel,
+//     setShowDetailPanel,
+//     showSharedLink,
+//     setShowSharedLink,
+//     showFilter,
+//     setShowFilter,
+//     sortOrder,
+//     setSortOrder,
+//     sortBy,
+//     setSortBy,
+//     resourceType,
+//     setResourceType,
+//     resourceClass,
+//     setResourceClass,
+//     format,
+//     setFormat,
+//     indexYear,
+//     setIndexYear,
+//     subject,
+//     setSubject,
+//     query,
+//     setQuery,
+//     bboxSearch,
+//     setBboxSearch,
+//     visLyrs,
+//     setVisLyrs,
+//     bboxParam,
+//     setBboxParam,
+//   ]);
+// }
+
 
 /**
  * Re-update everything based on the status of current url. May improve later by separating the update functions
@@ -146,11 +222,20 @@ export const updateAll = (
 ) => {
   params.setSortBy(newSortBy ? newSortBy : null);
   params.setSortOrder(newSortOrder ? newSortOrder : null);
-  params.setResourceType(null);
-  params.setResourceClass(null);
-  params.setFormat(null);
+  params.setSpatialResolution(null);
   params.setIndexYear(null);
+  params.setSubject(null);
   newFilterQueries.forEach((filter) => {
+    if (filter.attribute === "spatial_resolution") {
+      params.setVisLyrs((prev) =>
+        prev ? prev.concat(filter.value) : [filter.value]
+      );
+    }
+    if (filter.attribute === "subject") {
+      params.setSubject((prev) =>
+        prev ? prev.concat(filter.value) : [filter.value]
+      );
+    }
     if (filter.attribute === "index_year") {
       params.setIndexYear((prev) =>
         prev ? `${prev},${filter.value}` : filter.value
@@ -167,6 +252,11 @@ export const updateAll = (
  */
 export const reGetFilterQueries = (params) => {
   const res = [];
+  if (params.subject){
+    params.subject.forEach((i) => {
+      res.push({ attribute: "subject", value: i });
+    });
+  }
   if (params.visLyrs) {
     params.visLyrs.forEach((i) => {
       res.push({ attribute: "spatial_resolution", value: i });

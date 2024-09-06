@@ -72,17 +72,25 @@ const FilterPanel = (props: Props): JSX.Element => {
   let filterAttributes = useMemo(
     () => [
       ...SearchUIConfig.search.searchFilters.filters.map((d) => d.attribute),
-      "layers",
+      "layers","spatial_resolution"
     ],
     [SearchUIConfig.search.searchFilters.filters]
   );
+  console.log(
+    "generateFilterFromCurrentResults",
+    generateFilterFromCurrentResults
+  );
   const minRange = generateFilterFromCurrentResults["index_year"]
-    .map(Number)
-    .reduce((a, b) => (a < b ? a : b));
+    ? generateFilterFromCurrentResults["index_year"]
+        .map(Number)
+        .reduce((a, b) => (a < b ? a : b))
+    : 1900;
   const maxRange = generateFilterFromCurrentResults["index_year"]
-    .map(Number)
-    .reduce((a, b) => (a > b ? a : b));
-  const [yearRange, setYearRange] = useState([1964, 2024]);
+    ? generateFilterFromCurrentResults["index_year"]
+        .map(Number)
+        .reduce((a, b) => (a > b ? a : b))
+    : 2024;
+  const [yearRange, setYearRange] = useState([1900, 2024]);
   const [marks, setMarks] = useState([]);
   const [filterQueries, setFilterQueries] = useState(props.filterQueries);
   const getYearRangeFromUrl = (indexYearString) => {
@@ -106,9 +114,14 @@ const FilterPanel = (props: Props): JSX.Element => {
   }, [props.originalList, props.filterQueries]);
   const handleYearRangeChange = (event, newValue) => {
     setYearRange(newValue);
+    // const newFilterQueries = props.filterQueries.filter(
+    //   (f) => f["attribute"] !== "index_year"
+    // );
+    // 
     const newFilterQueries = props.filterQueries.filter(
       (f) => f["attribute"] !== "index_year"
-    );
+    ).filter((f) => f["attribute"] !== "subject");
+    console.log("newFilterQueries", newFilterQueries);
     const yearsArray = Array.from(
       { length: newValue[1] - newValue[0] + 1 },
       (_, i) => newValue[0] + i
@@ -116,15 +129,22 @@ const FilterPanel = (props: Props): JSX.Element => {
     // ultimately, the index_year attribute should be set to null if the slider is at its
     // min/max range. This would remove the URL param, thereby removing this facet from the solr
     // query. Tried to implement this here but got a strange behavior...
+
     const yearsString =
-      newValue[0] == minRange && newValue[1] == maxRange
+      newValue[0] === minRange && newValue[1] === maxRange
         ? null
         : yearsArray.join(",");
-    newFilterQueries.push({
-      attribute: "index_year",
-      // value: yearsString,
-      value: yearsArray.join(","),
-    });
+    if (yearsString !== null) {
+      newFilterQueries.push({
+        attribute: "index_year",
+        value: yearsString,
+      });
+    }
+    // newFilterQueries.push({
+    //   attribute: "index_year",
+    //   // value: yearsString,
+    //   value: yearsArray.join(","),
+    // });
     updateAll(
       params,
       props.sortBy,

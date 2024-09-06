@@ -14,6 +14,7 @@ interface Props {
   setShowDetailPanel: (value: string) => void;
   showSharedLink: string;
   setShowSharedLink: (value: string) => void;
+  handleSearch(params: any, value: string, filterQueries: any): void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -48,12 +49,13 @@ const DetailPanel = (props: Props): JSX.Element => {
           className="flex flex-col sm:flex-row gap-4 mb-12 sm:gap-8"
           id="iconTagRow"
         >
-          <IconTag
+          {/* <IconTag
             svgIcon={IconMatch("dataDiscoveryIcon")}
             label="Transportation"
             labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
             labelColor={fullConfig.theme.colors["almostblack"]}
             roundBackground={true}
+            handleSearch={props.handleSearch}
           />
           <IconTag
             svgIcon={IconMatch("dataDiscoveryIcon")}
@@ -61,7 +63,8 @@ const DetailPanel = (props: Props): JSX.Element => {
             labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
             labelColor={fullConfig.theme.colors["almostblack"]}
             roundBackground={true}
-          />
+            handleSearch={props.handleSearch}
+          /> */}
         </div>
         <div
           className="container pb-2 gap-4 sm:gap-8 border-b border-b-1 border-strongorange rounded"

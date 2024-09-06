@@ -42,6 +42,7 @@ export const generateFilterList = (resultList: SolrObject[]) => {
       res[attribute] = Array.from(new Set(res[attribute]));
     });
   });
+  console.log("res", res);
   return res;
 };
 

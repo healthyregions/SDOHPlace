@@ -39,17 +39,17 @@ export default function DiscoveryArea({
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
-  let tempSRChecboxes = new Set<CheckBoxObject>();
-  SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
-    tempSRChecboxes.add({
-      attribute: "spatial_resolution", // not sure where this attribute property is used?
-      value: option.value,
-      checked: searchParams.get("layers")
-        ? searchParams.get("layers").toString().includes(option.value)
-        : false,
-      displayName: option.display_name,
-    });
-  });
+  // let tempSRChecboxes = new Set<CheckBoxObject>();
+  // SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
+  //   tempSRChecboxes.add({
+  //     attribute: "spatial_resolution",
+  //     value: option.value,
+  //     checked: searchParams.get("layers")
+  //       ? searchParams.get("layers").toString().includes(option.value)
+  //       : false,
+  //     displayName: option.display_name,
+  //   });
+  // });
   const [options, setOptions] = useState([]);
   const [resetStatus, setResetStatus] = useState(true);
 
@@ -62,6 +62,7 @@ export default function DiscoveryArea({
    * Helper functions
    */
   const handleSearch = async (params, value, filterQueries) => {
+    console.log("handleSearch", value, filterQueries);
     searchQueryBuilder
       .fetchResult()
       .then((result) => {
@@ -209,6 +210,7 @@ export default function DiscoveryArea({
           setValue={setValue}
           setQuery={params.setQuery}
           handleSearch={handleSearch}
+          filterQueries={filterQueries}
         />
       </Grid>
       <Grid item className="sm:px-[2em]" xs={12} sm={4}>
@@ -221,6 +223,8 @@ export default function DiscoveryArea({
           setShowFilter={params.setShowFilter}
           setHighlightLyr={setHighlightLyr}
           setHighlightIds={setHighlightIds}
+          handleSearch={handleSearch}
+          handleInputReset={handleInputReset}
         />
       </Grid>
       <Grid item xs={8} className="sm:ml-[0.5em]">
@@ -250,6 +254,7 @@ export default function DiscoveryArea({
             setShowDetailPanel={params.setShowDetailPanel}
             showSharedLink={params.showSharedLink}
             setShowSharedLink={params.setShowSharedLink}
+            handleSearch={handleSearch}
           />
         </Grid>
       </Grid>

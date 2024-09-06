@@ -9,7 +9,6 @@ import { Box, Typography } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { set } from "date-fns";
 import IconTag from "../detailPanel/iconTag";
 import IconMatch from "../helper/IconMatch";
 
@@ -22,6 +21,8 @@ interface Props {
   setShowFilter: (value: string) => void;
   setHighlightLyr: (value: string) => void;
   setHighlightIds: (value: string[]) => void;
+  handleSearch(params: any, value: string, filterQueries: any): void;
+  handleInputReset: () => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -107,13 +108,15 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 <div className="text-s">Search for themes instead?</div>
               </Box>
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                {/* This part will be changed to automated generated themes once the data & design is ready */}
+                {/* This part will be changed to the list at https://github.com/healthyregions/SDOHPlace/issues/287 once the subject data is updated */}
                 <IconTag
                   svgIcon={IconMatch("transportation")}
                   label="Transportation"
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
                 />
                 <IconTag
                   svgIcon={IconMatch("foodAccess")}
@@ -121,6 +124,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
                 />
                 <IconTag
                   svgIcon={IconMatch("greenSpace")}
@@ -128,6 +133,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
                 />
               </Box>
             </div>

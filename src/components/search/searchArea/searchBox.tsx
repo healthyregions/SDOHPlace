@@ -107,6 +107,7 @@ const SearchBox = (props: Props): JSX.Element => {
     event.preventDefault();
     props.setQuery(userInput);
     props.setInputValue(userInput);
+    params.setSubject(null);
     props.handleSearch(params, userInput, filterQueries);
   };
   const handleDropdownSelect = (event, value) => {
