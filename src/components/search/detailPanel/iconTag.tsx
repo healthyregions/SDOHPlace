@@ -3,7 +3,11 @@ import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import Image from "next/image";
-import { GetAllParams, reGetFilterQueries, updateAll } from "../helper/ParameterList";
+import {
+  GetAllParams,
+  reGetFilterQueries,
+  updateAll,
+} from "../helper/ParameterList";
 
 interface Props {
   svgIcon: any;
@@ -30,9 +34,10 @@ const IconTag = (props: Props): JSX.Element => {
   const handleSubjectClick = (sub: string) => {
     const filterQueries = [{ attribute: "subject", value: sub }];
     updateAll(params, null, null, filterQueries, "*");
-    params.setQuery(null);
-    params.setSubject([sub]);
+    params.setQuery("*");
+    params.setSubject(sub);
     props.handleSearch(reGetFilterQueries(params), "*", filterQueries);
+    props.handleInputReset();
   };
   return (
     <div

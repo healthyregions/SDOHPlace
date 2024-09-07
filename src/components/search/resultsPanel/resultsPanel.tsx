@@ -110,8 +110,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
                 {/* This part will be changed to the list at https://github.com/healthyregions/SDOHPlace/issues/287 once the subject data is updated */}
                 <IconTag
-                  svgIcon={IconMatch("transportation")}
-                  label="Transportation"
+                  svgIcon={IconMatch("Community Health")}
+                  label="Community Health"
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}

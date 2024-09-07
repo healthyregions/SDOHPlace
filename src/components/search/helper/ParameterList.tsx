@@ -71,7 +71,7 @@ export const GetAllParams = () => {
   // subject tags: the tags to filter the search results
   const [subject, setSubject] = useQueryState(
     "subject",
-    parseAsArrayOf(parseAsString).withDefault([])
+    parseAsString.withDefault("")
   );
 
   // sort_order: the order of the search results
@@ -113,102 +113,73 @@ export const GetAllParams = () => {
     "bbox",
     parseAsLngLatBoundsLike
   );
-
-  return {
-    showDetailPanel,
-    setShowDetailPanel,
-    showSharedLink,
-    setShowSharedLink,
-    showFilter,
-    setShowFilter,
-    sortOrder,
-    setSortOrder,
-    sortBy,
-    setSortBy,
-    resourceType,
-    setResourceType,
-    resourceClass,
-    setResourceClass,
-    format,
-    setFormat,
-    indexYear,
-    setIndexYear,
-    subject,
-    setSubject,
-    query,
-    setQuery,
-    bboxSearch,
-    setBboxSearch,
-    visLyrs,
-    setVisLyrs,
-    spatialResolution,
-    setSpatialResolution,
-    bboxParam,
-    setBboxParam,
-  
-  };
-}
-//   return React.useMemo(() => ({
-//     showDetailPanel,
-//     setShowDetailPanel,
-//     showSharedLink,
-//     setShowSharedLink,
-//     showFilter,
-//     setShowFilter,
-//     sortOrder,
-//     setSortOrder,
-//     sortBy,
-//     setSortBy,
-//     resourceType,
-//     setResourceType,
-//     resourceClass,
-//     setResourceClass,
-//     format,
-//     setFormat,
-//     indexYear,
-//     setIndexYear,
-//     subject,
-//     setSubject,
-//     query,
-//     setQuery,
-//     bboxSearch,
-//     setBboxSearch,
-//     visLyrs,
-//     setVisLyrs,
-//     bboxParam,
-//     setBboxParam,
-//   }), [
-//     showDetailPanel,
-//     setShowDetailPanel,
-//     showSharedLink,
-//     setShowSharedLink,
-//     showFilter,
-//     setShowFilter,
-//     sortOrder,
-//     setSortOrder,
-//     sortBy,
-//     setSortBy,
-//     resourceType,
-//     setResourceType,
-//     resourceClass,
-//     setResourceClass,
-//     format,
-//     setFormat,
-//     indexYear,
-//     setIndexYear,
-//     subject,
-//     setSubject,
-//     query,
-//     setQuery,
-//     bboxSearch,
-//     setBboxSearch,
-//     visLyrs,
-//     setVisLyrs,
-//     bboxParam,
-//     setBboxParam,
-//   ]);
-// }
-
+  return React.useMemo(
+    () => ({
+      showDetailPanel,
+      setShowDetailPanel,
+      showSharedLink,
+      setShowSharedLink,
+      showFilter,
+      setShowFilter,
+      sortOrder,
+      setSortOrder,
+      sortBy,
+      setSortBy,
+      resourceType,
+      setResourceType,
+      resourceClass,
+      setResourceClass,
+      format,
+      setFormat,
+      indexYear,
+      setIndexYear,
+      subject,
+      setSubject,
+      query,
+      setQuery,
+      bboxSearch,
+      setBboxSearch,
+      visLyrs,
+      setVisLyrs,
+      spatialResolution,
+      setSpatialResolution,
+      bboxParam,
+      setBboxParam,
+    }),
+    [
+      showDetailPanel,
+      setShowDetailPanel,
+      showSharedLink,
+      setShowSharedLink,
+      showFilter,
+      setShowFilter,
+      sortOrder,
+      setSortOrder,
+      sortBy,
+      setSortBy,
+      resourceType,
+      setResourceType,
+      resourceClass,
+      setResourceClass,
+      format,
+      setFormat,
+      indexYear,
+      setIndexYear,
+      subject,
+      setSubject,
+      query,
+      setQuery,
+      bboxSearch,
+      setBboxSearch,
+      visLyrs,
+      setVisLyrs,
+      spatialResolution,
+      setSpatialResolution,
+      bboxParam,
+      setBboxParam,
+    ]
+  );
+};
 
 /**
  * Re-update everything based on the status of current url. May improve later by separating the update functions
@@ -223,17 +194,23 @@ export const updateAll = (
   params.setSortBy(newSortBy ? newSortBy : null);
   params.setSortOrder(newSortOrder ? newSortOrder : null);
   params.setSpatialResolution(null);
+  params.setVisLyrs(null);
   params.setIndexYear(null);
   params.setSubject(null);
   newFilterQueries.forEach((filter) => {
     if (filter.attribute === "spatial_resolution") {
+      params.setSpatialResolution((prev) =>
+        prev ? Array.from(new Set(prev.concat(filter.value))) : [filter.value]
+      );
+    }
+    if (filter.attribute === "layers") {
       params.setVisLyrs((prev) =>
-        prev ? prev.concat(filter.value) : [filter.value]
+        prev ? Array.from(new Set(prev.concat(filter.value))) : [filter.value]
       );
     }
     if (filter.attribute === "subject") {
       params.setSubject((prev) =>
-        prev ? prev.concat(filter.value) : [filter.value]
+        prev ? Array.from(new Set(prev.concat(filter.value))) : [filter.value]
       );
     }
     if (filter.attribute === "index_year") {
@@ -242,6 +219,7 @@ export const updateAll = (
       );
     }
   });
+
   if (searchTerm) {
     params.setQuery(searchTerm);
   }
@@ -252,14 +230,18 @@ export const updateAll = (
  */
 export const reGetFilterQueries = (params) => {
   const res = [];
-  if (params.subject){
-    params.subject.forEach((i) => {
-      res.push({ attribute: "subject", value: i });
+  if (params.spatialResolution) {
+    params.spatialResolution.forEach((i) => {
+      res.push({ attribute: "spatial_resolution", value: i });
     });
+  }
+  if (params.subject) {
+    res.push({ attribute: "subject", value: params.subject });
+    // subject can only be one at a time
   }
   if (params.visLyrs) {
     params.visLyrs.forEach((i) => {
-      res.push({ attribute: "spatial_resolution", value: i });
+      res.push({ attribute: "layers", value: i });
     });
   }
   if (params.indexYear) {
@@ -267,5 +249,16 @@ export const reGetFilterQueries = (params) => {
       res.push({ attribute: "index_year", value: i });
     });
   }
+  if (params.query) {
+    res.push({ attribute: "query", value: params.query });
+  }
   return res;
+};
+
+export const resetAllFilters = (params) => {
+  params.setSpatialResolution(null);
+  params.setVisLyrs(null);
+  params.setIndexYear(null);
+  params.setSubject(null);
+  params.setQuery(null);
 };

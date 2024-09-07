@@ -91,7 +91,7 @@ const SearchBox = (props: Props): JSX.Element => {
     props.value ? true : false
   );
   const classes = useStyles();
-  const params = GetAllParams();
+  const urlParams = GetAllParams();
   const [userInput, setUserInput] = React.useState(
     props.value === "*" ? "" : props.value || ""
   );
@@ -103,18 +103,18 @@ const SearchBox = (props: Props): JSX.Element => {
 
   let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
-    const filterQueries = reGetFilterQueries(params);
+    const filterQueries = reGetFilterQueries(urlParams);
     event.preventDefault();
     props.setQuery(userInput);
     props.setInputValue(userInput);
-    params.setSubject(null);
-    props.handleSearch(params, userInput, filterQueries);
+    urlParams.setSubject(null);
+    props.handleSearch(urlParams, userInput, filterQueries);
   };
   const handleDropdownSelect = (event, value) => {
-    const filterQueries = reGetFilterQueries(params);
+    const filterQueries = reGetFilterQueries(urlParams);
     props.setInputValue(value);
     props.setQuery(props.inputValue);
-    props.handleSearch(params, props.inputValue, filterQueries);
+    props.handleSearch(urlParams, props.inputValue, filterQueries);
   };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
@@ -138,18 +138,19 @@ const SearchBox = (props: Props): JSX.Element => {
           console.error("Error fetching result:", error);
         });
     } else {
-      // setUserInput("");
-      // props.setInputValue("");
-      // props.inputRef.current?.focus();
-      // props.inputRef.current?.select();
       props.handleInputReset();
     }
   };
   useEffect(() => {
-    if (props.value !== "" && props.value !== userInput) {
-      setUserInput(props.value || "");
+    console.log("props.value in searchBox", props.value, urlParams.query);
+    if (!urlParams.query) {
+      setUserInput("");
+    } else if (urlParams.query !== userInput) {
+      setUserInput(urlParams.query === "*" ? "" : urlParams.query);
+    } else {
+      setUserInput(urlParams.query);
     }
-  }, [props.value]);
+  }, [urlParams.query]);
   return (
     <div className={`sm:mt-6 sm:ml-[3em] sm:mr-[2em]`}>
       <form id="search-form" onSubmit={handleSubmit}>
@@ -214,6 +215,7 @@ const SearchBox = (props: Props): JSX.Element => {
                         <IconButton
                           onClick={() => {
                             setUserInput("");
+                            urlParams.setSubject(null);
                             props.handleInputReset();
                             setShowClearButton(false);
                           }}

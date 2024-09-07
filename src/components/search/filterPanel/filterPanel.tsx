@@ -18,7 +18,12 @@ import { useEffect, useMemo, useState } from "react";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { generateFilterList, updateFilter } from "../helper/FilterHelpMethods";
-import { GetAllParams, updateAll } from "../helper/ParameterList";
+import {
+  GetAllParams,
+  reGetFilterQueries,
+  updateAll,
+} from "../helper/ParameterList";
+import { set } from "date-fns";
 
 interface Props {
   originalList: SolrObject[];
@@ -72,27 +77,24 @@ const FilterPanel = (props: Props): JSX.Element => {
   let filterAttributes = useMemo(
     () => [
       ...SearchUIConfig.search.searchFilters.filters.map((d) => d.attribute),
-      "layers","spatial_resolution"
+      "layers",
+      "spatial_resolution",
     ],
     [SearchUIConfig.search.searchFilters.filters]
   );
-  console.log(
-    "generateFilterFromCurrentResults",
-    generateFilterFromCurrentResults
-  );
-  const minRange = generateFilterFromCurrentResults["index_year"]
+  let minRange = generateFilterFromCurrentResults["index_year"]
     ? generateFilterFromCurrentResults["index_year"]
         .map(Number)
         .reduce((a, b) => (a < b ? a : b))
-    : 1900;
-  const maxRange = generateFilterFromCurrentResults["index_year"]
+    : 1963;
+  let maxRange = generateFilterFromCurrentResults["index_year"]
     ? generateFilterFromCurrentResults["index_year"]
         .map(Number)
         .reduce((a, b) => (a > b ? a : b))
     : 2024;
-  const [yearRange, setYearRange] = useState([1900, 2024]);
+  const [yearRange, setYearRange] = useState([1963, 2024]);
   const [marks, setMarks] = useState([]);
-  const [filterQueries, setFilterQueries] = useState(props.filterQueries);
+  //const [filterQueries, setFilterQueries] = useState(props.filterQueries);
   const getYearRangeFromUrl = (indexYearString) => {
     const yearsArray = indexYearString.split(",").map(Number);
     const minYear = Math.min(...yearsArray);
@@ -105,23 +107,24 @@ const FilterPanel = (props: Props): JSX.Element => {
   };
   useEffect(() => {
     let indexYearString = [];
+    let filterQueries = reGetFilterQueries(params);
+    console.log(
+      "filterQueries in filterPanel useEffect",
+      filterQueries,
+      generateFilterFromCurrentResults
+    );
     filterQueries.forEach((f) => {
       if (f.attribute === "index_year") indexYearString.push(f.value);
     });
     if (indexYearString.length > 0) {
       setYearRange(getYearRangeFromUrl(indexYearString.join(",")));
-    }
-  }, [props.originalList, props.filterQueries]);
+    } else setYearRange([minRange, maxRange]);
+  }, [params.subject]);
   const handleYearRangeChange = (event, newValue) => {
     setYearRange(newValue);
-    // const newFilterQueries = props.filterQueries.filter(
-    //   (f) => f["attribute"] !== "index_year"
-    // );
-    // 
-    const newFilterQueries = props.filterQueries.filter(
-      (f) => f["attribute"] !== "index_year"
-    ).filter((f) => f["attribute"] !== "subject");
-    console.log("newFilterQueries", newFilterQueries);
+    const newFilterQueries = props.filterQueries
+      .filter((f) => f["attribute"] !== "index_year")
+      .filter((f) => f["attribute"] !== "subject");
     const yearsArray = Array.from(
       { length: newValue[1] - newValue[0] + 1 },
       (_, i) => newValue[0] + i
@@ -152,7 +155,7 @@ const FilterPanel = (props: Props): JSX.Element => {
       newFilterQueries,
       props.term
     );
-    setFilterQueries(newFilterQueries);
+    //setFilterQueries(newFilterQueries);
   };
   // Initialize filter states outside of useMemo
   const filterStates = filterAttributes.map((filter) => {
@@ -290,126 +293,24 @@ const FilterPanel = (props: Props): JSX.Element => {
             </span>
           </Box>
         </Box>
-        {Object.keys(generateFilterFromCurrentResults).length > 0 &&
-          Object.keys(generateFilterFromCurrentResults).map((filterAttr) => {
-            return (
-              <div key={filterAttr}>
-                <div className="text-s font-bold">
-                  {filterNameLookup[filterAttr]}
-                </div>
-                {filterAttr === "index_year" ? (
-                  <Slider
-                    sx={{
-                      color: `${fullConfig.theme.colors["frenchviolet"]}`,
-                      "& .MuiSlider-markLabel": labelStyle,
-                      "& .MuiSlider-valueLabel": labelStyle,
-                      width: "calc(100% - 22px)",
-                      marginLeft: "11px",
-                    }}
-                    min={minRange}
-                    max={maxRange}
-                    value={yearRange}
-                    onChange={handleYearRangeChange}
-                    valueLabelDisplay="auto"
-                    marks={marks}
-                  />
-                ) : (
-                  <FormGroup
-                    sx={{
-                      overflowY: "auto",
-                      maxHeight: `${props.optionMaxNum * 20}px`,
-                    }}
-                  >
-                    {Array.from(
-                      {
-                        length:
-                          generateFilterFromCurrentResults[filterAttr].length,
-                      },
-                      (_, i) => (
-                        <FormControlLabel
-                          sx={{
-                            "& .MuiFormControlLabel-label": labelStyle,
-                          }}
-                          control={
-                            <Checkbox
-                              sx={checkBoxStyle}
-                              checked={
-                                existingFilters.find((e) => {
-                                  const substrings = e.value
-                                    .toLowerCase()
-                                    .split(",");
-                                  const matchAny = substrings.some(
-                                    (substring) =>
-                                      e.filter === filterAttr &&
-                                      generateFilterFromCurrentResults[
-                                        filterAttr
-                                      ]
-                                        .map((str) => str.toLowerCase())
-                                        [i].includes(substring.trim())
-                                  );
-                                  return matchAny;
-                                }) !== undefined
-                              }
-                              value={
-                                generateFilterFromCurrentResults[filterAttr][i]
-                              }
-                              onChange={(event) => {
-                                // create new FilterQueries
-                                let newFilterQueries = [];
-                                if (event.target.checked) {
-                                  props.filterQueries.find(
-                                    (f) =>
-                                      f[filterAttr] ===
-                                      generateFilterFromCurrentResults[
-                                        filterAttr
-                                      ][i]
-                                  ) === undefined
-                                    ? props.filterQueries.push({
-                                        attribute: filterAttr,
-                                        value:
-                                          generateFilterFromCurrentResults[
-                                            filterAttr
-                                          ][i],
-                                      })
-                                    : (props.filterQueries.find(
-                                        (f) => f["attribute"] === filterAttr
-                                      )["value"] =
-                                        generateFilterFromCurrentResults[
-                                          filterAttr
-                                        ][i]);
-                                  newFilterQueries = props.filterQueries;
-                                } else {
-                                  //remove this item from filterQueries
-                                  newFilterQueries = props.filterQueries.filter(
-                                    (f) =>
-                                      f["value"] !==
-                                      generateFilterFromCurrentResults[
-                                        filterAttr
-                                      ][i]
-                                  );
-                                }
-                                updateAll(
-                                  params,
-                                  props.sortBy,
-                                  props.sortOrder,
-                                  newFilterQueries,
-                                  props.term
-                                );
-                              }}
-                            />
-                          }
-                          label={
-                            generateFilterFromCurrentResults[filterAttr][i]
-                          }
-                          key={i}
-                        />
-                      )
-                    )}
-                  </FormGroup>
-                )}
-              </div>
-            );
-          })}
+        <div>
+          <div className="text-s font-bold">Year</div>
+          <Slider
+            sx={{
+              color: `${fullConfig.theme.colors["frenchviolet"]}`,
+              "& .MuiSlider-markLabel": labelStyle,
+              "& .MuiSlider-valueLabel": labelStyle,
+              width: "calc(100% - 22px)",
+              marginLeft: "11px",
+            }}
+            min={minRange}
+            max={maxRange}
+            value={yearRange}
+            onChange={handleYearRangeChange}
+            valueLabelDisplay="auto"
+            marks={marks}
+          />
+        </div>
       </Box>
     </div>
   );
