@@ -6,7 +6,7 @@ import {
   parseAsString,
   createParser,
 } from "nuqs";
-import { p } from "nuqs/dist/serializer-C_l8WgvO";
+import React from "react";
 
 const parseAsLngLatBoundsLike = createParser({
   parse(queryValue) {
@@ -68,6 +68,12 @@ export const GetAllParams = () => {
     parseAsString.withDefault("")
   );
 
+  // subject tags: the tags to filter the search results
+  const [subject, setSubject] = useQueryState(
+    "subject",
+    parseAsString.withDefault("")
+  );
+
   // sort_order: the order of the search results
   const [sortOrder, setSortOrder] = useQueryState(
     "sortOrder",
@@ -97,41 +103,82 @@ export const GetAllParams = () => {
     "layers",
     parseAsArrayOf(parseAsString).withDefault([])
   );
+  const [spatialResolution, setSpatialResolution] = useQueryState(
+    "spatial_resolution",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
 
   //bbox: the current bounding box of the map, can be used for spatial queries
   const [bboxParam, setBboxParam] = useQueryState(
     "bbox",
     parseAsLngLatBoundsLike
   );
-
-  return {
-    showDetailPanel,
-    setShowDetailPanel,
-    showSharedLink,
-    setShowSharedLink,
-    showFilter,
-    setShowFilter,
-    sortOrder,
-    setSortOrder,
-    sortBy,
-    setSortBy,
-    resourceType,
-    setResourceType,
-    resourceClass,
-    setResourceClass,
-    format,
-    setFormat,
-    indexYear,
-    setIndexYear,
-    query,
-    setQuery,
-    bboxSearch,
-    setBboxSearch,
-    visLyrs,
-    setVisLyrs,
-    bboxParam,
-    setBboxParam,
-  };
+  return React.useMemo(
+    () => ({
+      showDetailPanel,
+      setShowDetailPanel,
+      showSharedLink,
+      setShowSharedLink,
+      showFilter,
+      setShowFilter,
+      sortOrder,
+      setSortOrder,
+      sortBy,
+      setSortBy,
+      resourceType,
+      setResourceType,
+      resourceClass,
+      setResourceClass,
+      format,
+      setFormat,
+      indexYear,
+      setIndexYear,
+      subject,
+      setSubject,
+      query,
+      setQuery,
+      bboxSearch,
+      setBboxSearch,
+      visLyrs,
+      setVisLyrs,
+      spatialResolution,
+      setSpatialResolution,
+      bboxParam,
+      setBboxParam,
+    }),
+    [
+      showDetailPanel,
+      setShowDetailPanel,
+      showSharedLink,
+      setShowSharedLink,
+      showFilter,
+      setShowFilter,
+      sortOrder,
+      setSortOrder,
+      sortBy,
+      setSortBy,
+      resourceType,
+      setResourceType,
+      resourceClass,
+      setResourceClass,
+      format,
+      setFormat,
+      indexYear,
+      setIndexYear,
+      subject,
+      setSubject,
+      query,
+      setQuery,
+      bboxSearch,
+      setBboxSearch,
+      visLyrs,
+      setVisLyrs,
+      spatialResolution,
+      setSpatialResolution,
+      bboxParam,
+      setBboxParam,
+    ]
+  );
 };
 
 /**
@@ -146,17 +193,33 @@ export const updateAll = (
 ) => {
   params.setSortBy(newSortBy ? newSortBy : null);
   params.setSortOrder(newSortOrder ? newSortOrder : null);
-  params.setResourceType(null);
-  params.setResourceClass(null);
-  params.setFormat(null);
+  params.setSpatialResolution(null);
+  params.setVisLyrs(null);
   params.setIndexYear(null);
+  params.setSubject(null);
   newFilterQueries.forEach((filter) => {
+    if (filter.attribute === "spatial_resolution") {
+      params.setSpatialResolution((prev) =>
+        prev ? Array.from(new Set(prev.concat(filter.value))) : [filter.value]
+      );
+    }
+    if (filter.attribute === "layers") {
+      params.setVisLyrs((prev) =>
+        prev ? Array.from(new Set(prev.concat(filter.value))) : [filter.value]
+      );
+    }
+    if (filter.attribute === "subject") {
+      params.setSubject((prev) =>
+        prev ? Array.from(new Set(prev.concat(filter.value))) : [filter.value]
+      );
+    }
     if (filter.attribute === "index_year") {
       params.setIndexYear((prev) =>
         prev ? `${prev},${filter.value}` : filter.value
       );
     }
   });
+
   if (searchTerm) {
     params.setQuery(searchTerm);
   }
@@ -167,9 +230,18 @@ export const updateAll = (
  */
 export const reGetFilterQueries = (params) => {
   const res = [];
+  if (params.spatialResolution) {
+    params.spatialResolution.forEach((i) => {
+      res.push({ attribute: "spatial_resolution", value: i });
+    });
+  }
+  if (params.subject) {
+    res.push({ attribute: "subject", value: params.subject });
+    // subject can only be one at a time
+  }
   if (params.visLyrs) {
     params.visLyrs.forEach((i) => {
-      res.push({ attribute: "spatial_resolution", value: i });
+      res.push({ attribute: "layers", value: i });
     });
   }
   if (params.indexYear) {
@@ -177,5 +249,16 @@ export const reGetFilterQueries = (params) => {
       res.push({ attribute: "index_year", value: i });
     });
   }
+  if (params.query) {
+    res.push({ attribute: "query", value: params.query });
+  }
   return res;
+};
+
+export const resetAllFilters = (params) => {
+  params.setSpatialResolution(null);
+  params.setVisLyrs(null);
+  params.setIndexYear(null);
+  params.setSubject(null);
+  params.setQuery(null);
 };

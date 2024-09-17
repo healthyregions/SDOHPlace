@@ -25,6 +25,7 @@ interface Props {
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   handleSearch: (params: any, value: string, filterQueries: any) => void;
+  filterQueries: any;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +75,7 @@ const SearchRow = (props: Props): JSX.Element => {
             <SpatialResolutionCheck
               src={SearchUIConfig.search.searchBox.spatialResOptions}
               handleSearch={props.handleSearch}
+              filterQueries={props.filterQueries}
             />
           </Box>
           <Box

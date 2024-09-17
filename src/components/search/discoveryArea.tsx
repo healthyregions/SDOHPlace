@@ -5,8 +5,6 @@ import { Grid, Typography } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrParentList } from "meta/helper/solrObjects";
-import { filterResults } from "./helper/FilterHelpMethods";
-import CheckBoxObject from "./interface/CheckboxObject";
 import DetailPanel from "./detailPanel/detailPanel";
 import SearchRow from "./searchArea/searchRow";
 import ResultsPanel from "./resultsPanel/resultsPanel";
@@ -15,12 +13,11 @@ import MapPanel from "./mapPanel/mapPanel";
 import {
   GetAllParams,
   reGetFilterQueries,
+  resetAllFilters,
   updateAll,
 } from "./helper/ParameterList";
-import { findSolrAttribute } from "meta/helper/util";
 import FilterPanel, { grouped } from "./filterPanel/filterPanel";
-import SpatialResolutionCheck from "./searchArea/spatialResolutionCheck";
-import { set } from "date-fns";
+
 export default function DiscoveryArea({
   results,
   isLoading,
@@ -39,17 +36,17 @@ export default function DiscoveryArea({
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
-  let tempSRChecboxes = new Set<CheckBoxObject>();
-  SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
-    tempSRChecboxes.add({
-      attribute: "spatial_resolution", // not sure where this attribute property is used?
-      value: option.value,
-      checked: searchParams.get("layers")
-        ? searchParams.get("layers").toString().includes(option.value)
-        : false,
-      displayName: option.display_name,
-    });
-  });
+  // let tempSRChecboxes = new Set<CheckBoxObject>();
+  // SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
+  //   tempSRChecboxes.add({
+  //     attribute: "spatial_resolution",
+  //     value: option.value,
+  //     checked: searchParams.get("layers")
+  //       ? searchParams.get("layers").toString().includes(option.value)
+  //       : false,
+  //     displayName: option.display_name,
+  //   });
+  // });
   const [options, setOptions] = useState([]);
   const [resetStatus, setResetStatus] = useState(true);
 
@@ -66,7 +63,6 @@ export default function DiscoveryArea({
       .fetchResult()
       .then((result) => {
         processResults(result, value);
-        console.log("suggestResultBuilder", suggestResultBuilder.getTerms());
         // if multiple terms are returned, we get all weight = 1 terms (this is done in SuggestionsResultBuilder), then aggregate the results for all terms
         if (suggestResultBuilder.getTerms().length > 0) {
           const multipleResults = [] as SolrObject[];
@@ -124,7 +120,6 @@ export default function DiscoveryArea({
     params.query ? params.query : null
   );
   const isQuery = params.query.length > 0;
-
   const filterQueries = reGetFilterQueries(params);
   const originalResults = generateSolrParentList(
     results,
@@ -164,17 +159,17 @@ export default function DiscoveryArea({
   const [highlightLyr, setHighlightLyr] = useState("");
 
   const handleInputReset = () => {
+    setValue("*");
+    setInputValue("*");
+    params.setQuery("*");
     setIsResetting(true);
   };
 
   useEffect(() => {
     if (isResetting) {
-      params.setQuery(null);
       setAutocompleteKey((prevKey) => prevKey + 1);
       setCheckboxes([]);
       setOptions([]);
-      setValue(null);
-      setInputValue("");
       setResetStatus(true);
       setIsResetting(false);
       handleSearch(params, "*", reGetFilterQueries(params));
@@ -184,10 +179,9 @@ export default function DiscoveryArea({
   }, [
     params.sortBy,
     params.sortOrder,
-    params.resourceType,
-    params.resourceClass,
-    params.format,
     params.indexYear,
+    params.subject,
+    params.query,
     isResetting,
   ]);
   return (
@@ -209,6 +203,7 @@ export default function DiscoveryArea({
           setValue={setValue}
           setQuery={params.setQuery}
           handleSearch={handleSearch}
+          filterQueries={filterQueries}
         />
       </Grid>
       <Grid item className="sm:px-[2em]" xs={12} sm={4}>
@@ -221,6 +216,8 @@ export default function DiscoveryArea({
           setShowFilter={params.setShowFilter}
           setHighlightLyr={setHighlightLyr}
           setHighlightIds={setHighlightIds}
+          handleSearch={handleSearch}
+          handleInputReset={handleInputReset}
         />
       </Grid>
       <Grid item xs={8} className="sm:ml-[0.5em]">
@@ -250,6 +247,8 @@ export default function DiscoveryArea({
             setShowDetailPanel={params.setShowDetailPanel}
             showSharedLink={params.showSharedLink}
             setShowSharedLink={params.setShowSharedLink}
+            handleSearch={handleSearch}
+            handleInputReset={handleInputReset}
           />
         </Grid>
       </Grid>

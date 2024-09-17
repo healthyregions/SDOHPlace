@@ -2,13 +2,15 @@ import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
+import SearchIcon from "@mui/icons-material/Search";
 import { SolrObject } from "meta/interface/SolrObject";
 import ResultCard from "./resultCard";
 import { Box, Typography } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { set } from "date-fns";
+import IconTag from "../detailPanel/iconTag";
+import IconMatch from "../helper/IconMatch";
 
 interface Props {
   resultsList: SolrObject[];
@@ -19,6 +21,8 @@ interface Props {
   setShowFilter: (value: string) => void;
   setHighlightLyr: (value: string) => void;
   setHighlightIds: (value: string[]) => void;
+  handleSearch(params: any, value: string, filterQueries: any): void;
+  handleInputReset: () => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -95,8 +99,44 @@ const ResultsPanel = (props: Props): JSX.Element => {
               </div>
             ))
           ) : (
-            <div className="flex justify-center">
-              <span>No results</span>
+            <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+              <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                <SearchIcon className="text-strongorange mb-[0.15em]" />
+                <div className="text-s">No results</div>
+              </Box>
+              <Box className="mb-[0.75em]">
+                <div className="text-s">Search for themes instead?</div>
+              </Box>
+              <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+                {/* This part will be changed to the list at https://github.com/healthyregions/SDOHPlace/issues/287 once the subject data is updated */}
+                <IconTag
+                  svgIcon={IconMatch("Community Health")}
+                  label="Community Health"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("foodAccess")}
+                  label="Food access"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("greenSpace")}
+                  label="Green space"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+              </Box>
             </div>
           )}
         </Box>
@@ -105,8 +145,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
           display={props.isQuery ? "block" : "none"}
         >
           <div className="sm:mb-[1.5em] sm:flex-col">
-            <div className="flex flex-grow  sm:ml-[1.1em] items-center text-2xl">
-              <span className="mr-4">Related</span>
+            <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
+              <span className="mr-4">Similar results</span>
               <div
                 className="flex-grow border-b-2 sm:mr-[2.3em]"
                 style={{

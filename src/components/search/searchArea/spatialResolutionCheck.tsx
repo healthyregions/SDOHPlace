@@ -5,7 +5,6 @@ import { Checkbox, Typography } from "@mui/material";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-
 interface SpatialResolutionCheck {
   value: string;
   display_name: string;
@@ -13,30 +12,50 @@ interface SpatialResolutionCheck {
 interface Props {
   src: SpatialResolutionCheck[];
   handleSearch(params: any, value: string, filterQueries: any): void;
+  filterQueries: any;
 }
 const fullConfig = resolveConfig(tailwindConfig);
-
 const SpatialResolutionCheck = (props: Props): JSX.Element => {
   let params = GetAllParams();
-
-  let tempSRChecboxes = new Set<CheckBoxObject>();
-  props.src.forEach((option) => {
-    tempSRChecboxes.add({
-      attribute: "spatial_resolution",
-      value: option.value,
-      checked: params.visLyrs.includes(option.value),
-      displayName: option.display_name,
+  let currentParams = reGetFilterQueries(params);
+  const stableCurrentSR = React.useMemo(() => {
+    return JSON.stringify(params.spatialResolution || []);
+  }, [params.spatialResolution]);
+  React.useEffect(() => {
+    const tempSRChecboxes = new Set<CheckBoxObject>();
+    props.src.forEach((option) => {
+      const checked = stableCurrentSR.includes(option.value.toString().trim());
+      tempSRChecboxes.add({
+        attribute: "spatial_resolution",
+        value: option.value,
+        checked: checked,
+        displayName: option.display_name,
+      });
     });
-  });
+    const currentStateString = JSON.stringify(Array.from(sRCheckboxes));
+    const newStateString = JSON.stringify(Array.from(tempSRChecboxes));
+    if (currentStateString !== newStateString) {
+      setSRCheckboxes(new Set(tempSRChecboxes));
+    }
+    props.handleSearch(
+      params,
+      currentParams.find((p) => p.attribute === "query")
+        ? currentParams.find((p) => p.attribute === "query").value
+        : "*",
+      currentParams
+    );
+  }, [props.src, stableCurrentSR]);
+  //
   const [sRCheckboxes, setSRCheckboxes] = React.useState(
-    new Set<CheckBoxObject>(tempSRChecboxes)
+    new Set<CheckBoxObject>()
   );
   const handleSRSelectionChange = (event) => {
     const { value, checked } = event.target;
     const newList = checked
-      ? params.visLyrs.concat(value)
-      : params.visLyrs.filter((item) => item !== value);
-    newList.length > 0 ? params.setVisLyrs(newList) : params.setVisLyrs(null);
+      ? [...(params.spatialResolution || []), value]
+      : params.spatialResolution.filter((item) => item !== value);
+    params.setSpatialResolution(newList.length > 0 ? newList : null);
+    params.setVisLyrs(newList.length > 0 ? newList : null);
     const updatedSet = new Set(
       Array.from(sRCheckboxes).map((obj) => {
         if (obj.value === value) {
@@ -45,19 +64,19 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
         return obj;
       })
     );
-
-    // update filer queries based on the newList
-    const filterQueries = reGetFilterQueries(params);
-    const newFilterQueries = newList
-      .map((i) => {
-        return { attribute: "spatial_resolution", value: i };
-      })
-      .concat(
-        filterQueries.filter((i) => i.attribute !== "spatial_resolution")
-      );
-    const query = params.query ? params.query : "*";
-    props.handleSearch(params, query, newFilterQueries);
     setSRCheckboxes(updatedSet);
+    const filterQueries = reGetFilterQueries(params);
+    const newFilterQueries = [
+      ...newList.map((i) => ({
+        attribute: "spatial_resolution",
+        value: i,
+      })),
+      ...filterQueries.filter((i) => i.attribute !== "spatial_resolution"),
+    ];
+    const q = newFilterQueries.find((f) => f.attribute === "query")
+      ? newFilterQueries.find((f) => f.attribute === "query").value
+      : "*";
+    props.handleSearch(params, q, newFilterQueries);
   };
   return (
     <div className={`flex items-center space-x-10 md:ml-[6em]`}>
