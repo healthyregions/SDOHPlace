@@ -24,7 +24,7 @@ export interface SolrObject {
     theme?: string;
     issued?: string;
     temporal?: string;
-    references?: any;
+    references?: any; // json object. Value should be displayed
     rights?: string;
     md_modified?: string;
     md_version?: string;

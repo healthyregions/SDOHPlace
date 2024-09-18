@@ -75,7 +75,7 @@ const Link = ({ value }) => {
         href={String(url)}
         className={`${classes.paragraphCard} ${classes.link}`}
       >
-        {String(key)}
+        {String(url)}
       </a>
     </div>
   );
