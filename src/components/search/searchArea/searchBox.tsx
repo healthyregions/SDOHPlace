@@ -28,7 +28,7 @@ interface Props {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   handleInputReset: () => void;
-  processResults: (results, value) => [];
+  processResults: (results, value) => string[];
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
