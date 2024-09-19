@@ -28,8 +28,8 @@ export const sources = {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/place-2018.pmtiles",
   },
-  pois: {
-    type: "geojson",
-    data: data,
+  "us-parks": {
+    type: "vector",
+    url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/overlays/us-parks.pmtiles",
   },
 };
