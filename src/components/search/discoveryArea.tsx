@@ -13,8 +13,6 @@ import MapPanel from "./mapPanel/mapPanel";
 import {
   GetAllParams,
   reGetFilterQueries,
-  resetAllFilters,
-  updateAll,
 } from "./helper/ParameterList";
 import FilterPanel, { grouped } from "./filterPanel/filterPanel";
 
