@@ -1,7 +1,6 @@
-import { c } from "nuqs/dist/serializer-C_l8WgvO";
 import { SolrObject } from "../interface/SolrObject";
 // import { SolrParent } from "../interface/SolrParent";
-import { findFirstSentence, schemaMatch } from "./util";
+import {schemaMatch } from "./util";
 
 /**
  *
