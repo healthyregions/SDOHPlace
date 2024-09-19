@@ -1,3 +1,4 @@
+import { c } from "nuqs/dist/serializer-C_l8WgvO";
 import { SolrObject } from "../interface/SolrObject";
 // import { SolrParent } from "../interface/SolrParent";
 import { findFirstSentence, schemaMatch } from "./util";
@@ -90,6 +91,7 @@ const generateSolrParentList = (
     .forEach((solrObject) => {
       result.add(solrObject);
     });
+  console.log("result", result);
   //For now, only handle the case when both sortBy and sortOrder are provided and they are modified
   const finalArray = Array.from(result);
   if (sortBy && sortOrder && sortBy === "modified") {
