@@ -1,3 +1,4 @@
+import { c } from "nuqs/dist/serializer-C_l8WgvO";
 import { SolrObject } from "../interface/SolrObject";
 // import { SolrParent } from "../interface/SolrParent";
 import { findFirstSentence, schemaMatch } from "./util";
@@ -71,6 +72,8 @@ const generateSolrParentList = (
     .filter((solrObject) => solrObject.parents)
     .forEach((childObject) => {
       childObject.parents.forEach((parentTitle) => {
+        // only if the object has parents, add the parent to the result
+        if(solrObjects.filter((solrParent) => parentTitle === solrParent.id).length >0 ) {
         solrObjects
           .filter((solrParent) => parentTitle === solrParent.id)
           .forEach((solrParent) => {
@@ -83,6 +86,10 @@ const generateSolrParentList = (
               : null;
             result.add(solrParent);
           });
+        }
+        else {
+          result.add(childObject);
+        }
       });
     });
   solrObjects
