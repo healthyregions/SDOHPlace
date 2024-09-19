@@ -1,6 +1,5 @@
 "use client";
 import { useMap, LngLatBoundsLike } from "react-map-gl/maplibre";
-import { poiLayer } from "./helper/layers";
 import { GetAllParams } from "../search/helper/ParameterList";
 
 const mapButtonStyle =
@@ -16,11 +15,6 @@ export function ZoomButton({
   const { current: map } = useMap();
 
   const onClick = () => {
-    if (map.getMap().getLayer(poiLayer.spec.id)) {
-      map.getMap().removeLayer(poiLayer.spec.id);
-    } else {
-      map.getMap().addLayer(poiLayer.spec, poiLayer.addBefore);
-    }
     map.fitBounds(bounds);
   };
 

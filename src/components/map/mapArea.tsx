@@ -27,8 +27,8 @@ import {
   displayLayers,
   interactiveLayers,
   LayerDef,
-  poiLayer,
   layerRegistry,
+  overlayRegistry,
 } from "../../components/map/helper/layers";
 import { sources } from "../../components/map/helper/sources";
 
@@ -77,7 +77,8 @@ export default function MapArea({
   >([]);
   const [currentResults, setCurrentResults] =
     useState<SolrObject[]>(searchResult);
-  const [hoverInfo, setHoverInfo] = useState(null);
+  const [parkPopupInfo, setParkPopupInfo] = useState(null);
+  const [selectedState, setSelectedState] = useState("");
 
   const mapRef = useRef<MapRef>();
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -241,19 +242,33 @@ export default function MapArea({
   }, [searchResult, mapLoaded]);
 
   const onHover = useCallback((event) => {
-    const feat = event.features && event.features[0];
-    setHoverInfo({
-      longitude: event.lngLat.lng,
-      latitude: event.lngLat.lat,
-      id: feat && feat.properties.HEROP_ID,
-    });
+    const parkFeat = event.features.find((f) => f.source == "us-parks");
+    const stateFeat = event.features.find((f) => f.source == "state");
+    const stateId = stateFeat ? stateFeat.properties.HEROP_ID : false;
+    setSelectedState(stateId);
+
+    // if (feat) {mapRef.current.getMap().getCanvas().style.cursor = 'pointer';}
+    mapRef.current.getMap().getCanvas().style.cursor = parkFeat
+      ? "pointer"
+      : "grab";
+    const parkInfo = parkFeat
+      ? {
+          longitude: parkFeat.geometry.coordinates[0],
+          latitude: parkFeat.geometry.coordinates[1],
+          name: parkFeat.properties.name,
+        }
+      : null;
+    setParkPopupInfo(parkInfo);
   }, []);
+
+  use;
 
   const onZoomEnd = useCallback(() => {
     // WIP!
     const map = mapRef.current.getMap();
     const zoom = map.getZoom();
     const lyrs = params.visLyrs;
+    const overlays = params.visOverlays;
     if (zoom <= 6) {
       if (!lyrs.includes("state")) {
         lyrs.push("state");
@@ -292,7 +307,6 @@ export default function MapArea({
     params.setBboxParam(newBbox);
   };
 
-  const selectedState = (hoverInfo && hoverInfo.id) || "";
   function getStateFilter(selectedState: string) {
     const f: FilterSpecification = ["in", "HEROP_ID", selectedState];
     return f;
@@ -322,6 +336,29 @@ export default function MapArea({
       const map = mapRef.current.getMap();
       const mapLyrIds = map.getStyle().layers.map((lyr) => {
         return lyr.id;
+      });
+
+      // add any overlays that are in the params but not yet on the map
+      params.visOverlays.forEach((lyr) => {
+        if (
+          overlayRegistry[lyr] &&
+          !mapLyrIds.includes(overlayRegistry[lyr].spec.id)
+        ) {
+          map.addLayer(
+            overlayRegistry[lyr].spec,
+            overlayRegistry[lyr].addBefore
+          );
+        }
+      });
+
+      // iterate overlays in registry and remove if not in overlays param
+      Object.keys(overlayRegistry).forEach((lyr) => {
+        if (
+          mapLyrIds.includes(overlayRegistry[lyr].spec.id) &&
+          !params.visOverlays.includes(lyr)
+        ) {
+          map.removeLayer(overlayRegistry[lyr].spec.id);
+        }
       });
 
       // add any layers that are in the params but not yet on the map
@@ -414,21 +451,21 @@ export default function MapArea({
         onClick={onClick}
         onLoad={() => setMapLoaded(true)}
         onMoveEnd={onMoveEnd}
-        interactiveLayerIds={["state-interactive"]}
+        interactiveLayerIds={["state-interactive", "us-parks"]}
         onZoomEnd={onZoomEnd}
       >
         {/* adding highlight layer here, to aquire the dynamic filter (maybe this can be done in a more similar pattern to the other layers) */}
         <Layer {...hlStateLyr} filter={filterState} />
-        {/* {selectedState && (
-        <Popup
-          longitude={hoverInfo.longitude}
-          latitude={hoverInfo.latitude}
-          closeButton={false}
-          className="county-info"
-        >
-          Id: {selectedState}
-        </Popup>
-      )} */}
+        {parkPopupInfo && (
+          <Popup
+            longitude={parkPopupInfo.longitude}
+            latitude={parkPopupInfo.latitude}
+            closeButton={false}
+            className="county-info"
+          >
+            {parkPopupInfo.name}
+          </Popup>
+        )}
         <ZoomButton label="Contiguous" bounds={contiguousBounds} />
         <ZoomButton label="AK" bounds={alaskaBounds} />
         <ZoomButton label="HI" bounds={hawaiiBounds} />
