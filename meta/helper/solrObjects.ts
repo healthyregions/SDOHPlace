@@ -72,6 +72,8 @@ const generateSolrParentList = (
     .filter((solrObject) => solrObject.parents)
     .forEach((childObject) => {
       childObject.parents.forEach((parentTitle) => {
+        // only if the object has parents, add the parent to the result
+        if(solrObjects.filter((solrParent) => parentTitle === solrParent.id).length >0 ) {
         solrObjects
           .filter((solrParent) => parentTitle === solrParent.id)
           .forEach((solrParent) => {
@@ -84,6 +86,10 @@ const generateSolrParentList = (
               : null;
             result.add(solrParent);
           });
+        }
+        else {
+          result.add(childObject);
+        }
       });
     });
   solrObjects
@@ -91,7 +97,6 @@ const generateSolrParentList = (
     .forEach((solrObject) => {
       result.add(solrObject);
     });
-  console.log("result", result);
   //For now, only handle the case when both sortBy and sortOrder are provided and they are modified
   const finalArray = Array.from(result);
   if (sortBy && sortOrder && sortBy === "modified") {
