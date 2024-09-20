@@ -28,7 +28,7 @@ interface Props {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   handleInputReset: () => void;
-  processResults: (results, value) => void;
+  processResults: (results, value) => string[];
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -113,8 +113,8 @@ const SearchBox = (props: Props): JSX.Element => {
   const handleDropdownSelect = (event, value) => {
     const filterQueries = reGetFilterQueries(urlParams);
     props.setInputValue(value);
-    props.setQuery(props.inputValue);
-    props.handleSearch(urlParams, props.inputValue, filterQueries);
+    props.setQuery(value);
+    props.handleSearch(urlParams, value, filterQueries);
   };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
@@ -131,8 +131,8 @@ const SearchBox = (props: Props): JSX.Element => {
       searchQueryBuilder
         .fetchResult()
         .then((result) => {
-          props.processResults(result, newInputValue);
-          props.setOptions(suggestResultBuilder.getTerms());
+          let returnedTerms = props.processResults(result, newInputValue);
+          props.setOptions(returnedTerms);
         })
         .catch((error) => {
           console.error("Error fetching result:", error);
@@ -142,7 +142,6 @@ const SearchBox = (props: Props): JSX.Element => {
     }
   };
   useEffect(() => {
-    console.log("props.value in searchBox", props.value, urlParams.query);
     if (!urlParams.query) {
       setUserInput("");
     } else if (urlParams.query !== userInput) {

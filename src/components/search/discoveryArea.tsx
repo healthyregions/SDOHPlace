@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, use, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrParentList } from "meta/helper/solrObjects";
@@ -13,10 +13,8 @@ import MapPanel from "./mapPanel/mapPanel";
 import {
   GetAllParams,
   reGetFilterQueries,
-  resetAllFilters,
-  updateAll,
 } from "./helper/ParameterList";
-import FilterPanel, { grouped } from "./filterPanel/filterPanel";
+import FilterPanel from "./filterPanel/filterPanel";
 
 export default function DiscoveryArea({
   results,
@@ -62,11 +60,11 @@ export default function DiscoveryArea({
     searchQueryBuilder
       .fetchResult()
       .then((result) => {
-        processResults(result, value);
+        let returnedTerms = processResults(result, value);
         // if multiple terms are returned, we get all weight = 1 terms (this is done in SuggestionsResultBuilder), then aggregate the results for all terms
-        if (suggestResultBuilder.getTerms().length > 0) {
+        if (returnedTerms.length > 0) {
           const multipleResults = [] as SolrObject[];
-          suggestResultBuilder.getTerms().forEach((term) => {
+          returnedTerms.forEach((term) => {
             searchQueryBuilder.combineQueries(term, filterQueries);
             searchQueryBuilder.fetchResult().then((result) => {
               generateSolrParentList(
@@ -86,7 +84,6 @@ export default function DiscoveryArea({
             });
           });
         } else {
-          console.log("no suggestions, just one term", value, filterQueries);
           searchQueryBuilder.combineQueries(value, filterQueries);
           searchQueryBuilder.fetchResult().then((result) => {
             const newResults = generateSolrParentList(
@@ -106,6 +103,7 @@ export default function DiscoveryArea({
     suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
     suggestResultBuilder.setSuggestInput(value);
     suggestResultBuilder.setResultTerms(JSON.stringify(results));
+    return suggestResultBuilder.getTerms();
   };
 
   /**

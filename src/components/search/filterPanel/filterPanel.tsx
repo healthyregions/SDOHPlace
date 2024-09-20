@@ -108,18 +108,23 @@ const FilterPanel = (props: Props): JSX.Element => {
   useEffect(() => {
     let indexYearString = [];
     let filterQueries = reGetFilterQueries(params);
-    console.log(
-      "filterQueries in filterPanel useEffect",
-      filterQueries,
-      generateFilterFromCurrentResults
-    );
     filterQueries.forEach((f) => {
       if (f.attribute === "index_year") indexYearString.push(f.value);
     });
     if (indexYearString.length > 0) {
       setYearRange(getYearRangeFromUrl(indexYearString.join(",")));
-    } else setYearRange([minRange, maxRange]);
-  }, [params.subject]);
+      setMarks([
+        { value: yearRange[0], label: `${yearRange[0]}` },
+        { value: yearRange[1], label: `${yearRange[1]}` },
+      ]);
+    } else {
+      setYearRange([minRange, maxRange]);
+      setMarks([
+        { value: minRange, label: `${minRange}` },
+        { value: maxRange, label: `${maxRange}` },
+      ]);
+    }
+  }, [params.subject, params.indexYear]);
   const handleYearRangeChange = (event, newValue) => {
     setYearRange(newValue);
     const newFilterQueries = props.filterQueries
@@ -129,10 +134,6 @@ const FilterPanel = (props: Props): JSX.Element => {
       { length: newValue[1] - newValue[0] + 1 },
       (_, i) => newValue[0] + i
     );
-    // ultimately, the index_year attribute should be set to null if the slider is at its
-    // min/max range. This would remove the URL param, thereby removing this facet from the solr
-    // query. Tried to implement this here but got a strange behavior...
-
     const yearsString =
       newValue[0] === minRange && newValue[1] === maxRange
         ? null
@@ -143,11 +144,6 @@ const FilterPanel = (props: Props): JSX.Element => {
         value: yearsString,
       });
     }
-    // newFilterQueries.push({
-    //   attribute: "index_year",
-    //   // value: yearsString,
-    //   value: yearsArray.join(","),
-    // });
     updateAll(
       params,
       props.sortBy,
@@ -155,28 +151,36 @@ const FilterPanel = (props: Props): JSX.Element => {
       newFilterQueries,
       props.term
     );
-    //setFilterQueries(newFilterQueries);
+    if (yearsString === null) {
+      setYearRange([minRange, maxRange]);
+    }
+
+    const updatedMarks = [
+      { value: newValue[0], label: `${newValue[0]}` },
+      { value: newValue[1], label: `${newValue[1]}` },
+    ];
+    setMarks(updatedMarks);
   };
   // Initialize filter states outside of useMemo
   const filterStates = filterAttributes.map((filter) => {
     return useQueryState(filter, parseAsString.withDefault(""));
   });
 
-  const existingFilters = useMemo(() => {
-    return filterAttributes
-      .map((filter, index) => {
-        const [queryState] = filterStates[index];
-        return queryState.length > 0
-          ? {
-              filter,
-              value: queryState,
-            }
-          : null;
-      })
-      .filter(
-        (item): item is { filter: string; value: string } => item !== null
-      );
-  }, [filterAttributes, filterStates]);
+  // const existingFilters = useMemo(() => {
+  //   return filterAttributes
+  //     .map((filter, index) => {
+  //       const [queryState] = filterStates[index];
+  //       return queryState.length > 0
+  //         ? {
+  //             filter,
+  //             value: queryState,
+  //           }
+  //         : null;
+  //     })
+  //     .filter(
+  //       (item): item is { filter: string; value: string } => item !== null
+  //     );
+  // }, [filterAttributes, filterStates]);
 
   return (
     <div

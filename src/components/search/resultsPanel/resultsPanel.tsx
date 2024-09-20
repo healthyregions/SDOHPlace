@@ -5,12 +5,17 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { SolrObject } from "meta/interface/SolrObject";
 import ResultCard from "./resultCard";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import IconTag from "../detailPanel/iconTag";
 import IconMatch from "../helper/IconMatch";
+import {
+  GetAllParams,
+  isFiltersOn,
+  resetAllFilters,
+} from "../helper/ParameterList";
 
 interface Props {
   resultsList: SolrObject[];
@@ -34,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ResultsPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const params = GetAllParams();
   return (
     <div
       className="results-panel"
@@ -72,6 +78,28 @@ const ResultsPanel = (props: Props): JSX.Element => {
               <div>Sort & Filter</div>
             </div>
           </div>
+          {isFiltersOn(params) && (
+            <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center justify-center">
+              <Button
+                className="sm:my-[0.5em]"
+                sx={{
+                  color: "white",
+                  backgroundColor: fullConfig.theme.colors["frenchviolet"],
+                  "&:hover": {
+                    boxShadow: "none",
+                    backgroundColor: fullConfig.theme.colors["frenchviolet"],
+                    color: "white",
+                  },
+                }}
+                onClick={() => {
+                  resetAllFilters(params);
+                  props.handleSearch(params, params.query, []);
+                }}
+              >
+                Clear All Filters
+              </Button>
+            </div>
+          )}
         </Box>
         {props.showFilter.length > 0 && props.filterComponent}
         <Box
@@ -108,7 +136,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 <div className="text-s">Search for themes instead?</div>
               </Box>
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                {/* This part will be changed to the list at https://github.com/healthyregions/SDOHPlace/issues/287 once the subject data is updated */}
                 <IconTag
                   svgIcon={IconMatch("Community Health")}
                   label="Community Health"

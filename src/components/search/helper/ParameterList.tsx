@@ -269,5 +269,14 @@ export const resetAllFilters = (params) => {
   params.setVisLyrs(null);
   params.setIndexYear(null);
   params.setSubject(null);
-  params.setQuery(null);
+  params.setSortOrder(null);
+};
+
+export const isFiltersOn = (params) => {
+  return (
+    params.spatialResolution.length > 0 ||
+    params.visLyrs.length > 0 ||
+    params.indexYear.length > 0 ||
+    params.subject.length > 0
+  );
 };

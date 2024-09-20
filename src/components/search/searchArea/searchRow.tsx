@@ -7,7 +7,6 @@ import SearchBox from "./searchBox";
 import { Box, Grid, Typography } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import GlossaryPopover from "@/components/GlossaryPopover";
-import { set } from "date-fns";
 
 interface Props {
   header: string;
@@ -16,7 +15,7 @@ interface Props {
   autocompleteKey: number;
   options: any[];
   handleInputReset: () => void;
-  processResults: (results: any, value: string) => void;
+  processResults: (results: any, value: string) => string[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
