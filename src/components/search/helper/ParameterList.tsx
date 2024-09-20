@@ -98,13 +98,18 @@ export const GetAllParams = () => {
     parseAsBoolean.withDefault(false)
   );
 
-  //layers: the layers to be added to the map. Use this as the reference for spatial resolution
+  //layers: the layers to be added to the map
   const [visLyrs, setVisLyrs] = useQueryState(
     "layers",
     parseAsArrayOf(parseAsString).withDefault([])
   );
   const [spatialResolution, setSpatialResolution] = useQueryState(
     "spatial_resolution",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
+  //layers: the overlays to be shown on the map
+  const [visOverlays, setVisOverlays] = useQueryState(
+    "overlays",
     parseAsArrayOf(parseAsString).withDefault([])
   );
 
@@ -141,6 +146,8 @@ export const GetAllParams = () => {
       setBboxSearch,
       visLyrs,
       setVisLyrs,
+      visOverlays,
+      setVisOverlays,
       spatialResolution,
       setSpatialResolution,
       bboxParam,
@@ -173,6 +180,8 @@ export const GetAllParams = () => {
       setBboxSearch,
       visLyrs,
       setVisLyrs,
+      visOverlays,
+      setVisOverlays,
       spatialResolution,
       setSpatialResolution,
       bboxParam,
@@ -260,5 +269,14 @@ export const resetAllFilters = (params) => {
   params.setVisLyrs(null);
   params.setIndexYear(null);
   params.setSubject(null);
-  params.setQuery(null);
+  params.setSortOrder(null);
+};
+
+export const isFiltersOn = (params) => {
+  return (
+    params.spatialResolution.length > 0 ||
+    params.visLyrs.length > 0 ||
+    params.indexYear.length > 0 ||
+    params.subject.length > 0
+  );
 };

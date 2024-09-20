@@ -219,10 +219,10 @@ export const interactiveLayers = [
 ];
 
 // demo POI layer
-const poiSpec: CircleLayerSpecification = {
-  id: "pois",
-  source: "pois",
-  // "source-layer": "pois",
+const parksSpec: CircleLayerSpecification = {
+  id: "us-parks",
+  source: "us-parks",
+  "source-layer": "resources",
   type: "circle",
   paint: {
     "circle-radius": 5,
@@ -232,10 +232,10 @@ const poiSpec: CircleLayerSpecification = {
   },
 };
 
-export const poiLayer: LayerDef = {
+export const parksLayer: LayerDef = {
   addBefore: "Ocean labels",
-  spec: poiSpec,
-  specHl: makeHighlightLayer(poiSpec),
+  spec: parksSpec,
+  specHl: makeHighlightLayer(parksSpec),
 };
 
 export const layerRegistry = {
@@ -245,4 +245,8 @@ export const layerRegistry = {
   bg: bgLyr,
   tract: tractLyr,
   zcta: zctaLyr,
+};
+
+export const overlayRegistry = {
+  Parks: parksLayer,
 };

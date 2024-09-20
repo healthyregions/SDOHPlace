@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, use, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrParentList } from "meta/helper/solrObjects";
@@ -13,11 +13,8 @@ import MapPanel from "./mapPanel/mapPanel";
 import {
   GetAllParams,
   reGetFilterQueries,
-  resetAllFilters,
-  updateAll,
 } from "./helper/ParameterList";
-import FilterPanel, { grouped } from "./filterPanel/filterPanel";
-import { c } from "nuqs/dist/serializer-C_l8WgvO";
+import FilterPanel from "./filterPanel/filterPanel";
 
 export default function DiscoveryArea({
   results,
