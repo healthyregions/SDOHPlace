@@ -469,7 +469,7 @@ export default function MapArea({
         <ZoomButton label="Contiguous" bounds={contiguousBounds} />
         <ZoomButton label="AK" bounds={alaskaBounds} />
         <ZoomButton label="HI" bounds={hawaiiBounds} />
-        <EnableBboxSearchButton />
+        {/* <EnableBboxSearchButton /> */}
       </Map>
     </>
   );
