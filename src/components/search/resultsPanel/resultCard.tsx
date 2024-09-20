@@ -78,7 +78,11 @@ const ResultCard = (props: Props): JSX.Element => {
             <div className="w-full sm:w-4/5 flex items-center">
               <IconText
                 roundBackground={true}
-                svgIcon={IconMatch("dataDiscoveryIcon")} // this needs to be updated once we have the full match
+                svgIcon={IconMatch(
+                  props.resultItem.meta.subject && props.resultItem.meta.subject.length>0
+                    ? props.resultItem.meta.subject[0]
+                    : ""
+                )}
                 label={props.resultItem.title}
                 labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
                 labelColor={fullConfig.theme.colors["almostblack"]}

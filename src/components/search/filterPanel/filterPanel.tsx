@@ -108,11 +108,6 @@ const FilterPanel = (props: Props): JSX.Element => {
   useEffect(() => {
     let indexYearString = [];
     let filterQueries = reGetFilterQueries(params);
-    console.log(
-      "filterQueries in filterPanel useEffect",
-      filterQueries,
-      generateFilterFromCurrentResults
-    );
     filterQueries.forEach((f) => {
       if (f.attribute === "index_year") indexYearString.push(f.value);
     });

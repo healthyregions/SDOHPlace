@@ -37,7 +37,12 @@ const DetailPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col sm:flex-row mb-8" id="introCardRow">
           <HeaderRow
             resultItem={props.resultItem}
-            headerIcon={IconMatch("dataDiscoveryIcon")}
+            headerIcon={IconMatch(
+              props.resultItem.meta.subject &&
+                props.resultItem.meta.subject.length > 0
+                ? props.resultItem.meta.subject[0]
+                : ""
+            )}
             showDetailPanel={props.setShowDetailPanel}
             showSharedLink={props.showSharedLink}
             setShowSharedLink={props.setShowSharedLink}
@@ -46,29 +51,27 @@ const DetailPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col sm:flex-row mb-12" id="introCardRow">
           <IntroCard resultItem={props.resultItem} />
         </div>
-        <div
-          className="flex flex-col sm:flex-row gap-4 mb-12 sm:gap-8"
-          id="iconTagRow"
-        >
-          <IconTag
-            svgIcon={IconMatch("transportation")}
-            label="Transportation"
-            labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
-            labelColor={fullConfig.theme.colors["almostblack"]}
-            roundBackground={true}
-            handleSearch={props.handleSearch}
-            handleInputReset={props.handleInputReset}
-          />
-          <IconTag
-            svgIcon={IconMatch("foodAccess")}
-            label="Food access"
-            labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
-            labelColor={fullConfig.theme.colors["almostblack"]}
-            roundBackground={true}
-            handleSearch={props.handleSearch}
-            handleInputReset={props.handleInputReset}
-          />
-        </div>
+
+        {props.resultItem.meta.subject && (
+          <div
+            className="flex flex-col sm:flex-row gap-4 mb-12 sm:gap-8"
+            id="iconTagRow"
+          >
+            {props.resultItem.meta.subject.map((s, index) => (
+              <IconTag
+                svgIcon={IconMatch(s)}
+                key={index}
+                label={s}
+                labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                labelColor={fullConfig.theme.colors["almostblack"]}
+                roundBackground={true}
+                handleSearch={props.handleSearch}
+                handleInputReset={props.handleInputReset}
+              />
+            ))}
+          </div>
+        )}
+
         <div
           className="container pb-2 gap-4 sm:gap-8 border-b border-b-1 border-strongorange rounded"
           id="notesRow"

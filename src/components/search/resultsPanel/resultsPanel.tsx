@@ -108,10 +108,9 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 <div className="text-s">Search for themes instead?</div>
               </Box>
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                {/* This part will be changed to the list at https://github.com/healthyregions/SDOHPlace/issues/287 once the subject data is updated */}
                 <IconTag
-                  svgIcon={IconMatch("Community Health")}
-                  label="Community Health"
+                  svgIcon={IconMatch("Demographics")}
+                  label="Demographics"
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}
@@ -119,8 +118,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   handleInputReset={props.handleInputReset}
                 />
                 <IconTag
-                  svgIcon={IconMatch("foodAccess")}
-                  label="Food access"
+                  svgIcon={IconMatch("Economic Stability")}
+                  label="Economic Stability"
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}
@@ -128,8 +127,98 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   handleInputReset={props.handleInputReset}
                 />
                 <IconTag
-                  svgIcon={IconMatch("greenSpace")}
-                  label="Green space"
+                  svgIcon={IconMatch("Employment")}
+                  label="Employment"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Education")}
+                  label="Education"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Food Environment")}
+                  label="Food Environment"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Health and Healthcare")}
+                  label="Health and Healthcare"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Housing")}
+                  label="Housing"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Neighborhood and Built Environment")}
+                  label="Neighborhood and Built Environment"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Physical Activity and Lifestyle")}
+                  label="Physical Activity and Lifestyle"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Safety")}
+                  label="Safety"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Social and Community Context")}
+                  label="Social and Community Context"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("Transportation and Infrastructure")}
+                  label="Transportation and Infrastructure"
+                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
+                  labelColor={fullConfig.theme.colors["almostblack"]}
+                  roundBackground={true}
+                  handleSearch={props.handleSearch}
+                  handleInputReset={props.handleInputReset}
+                />
+                <IconTag
+                  svgIcon={IconMatch("COMPOSITE")}
+                  label="Composite"
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}
                   roundBackground={true}

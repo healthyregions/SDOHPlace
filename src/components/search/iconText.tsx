@@ -1,4 +1,6 @@
-import Image from "next/image";
+import { makeStyles } from "@mui/styles";
+import tailwindConfig from "tailwind.config";
+import resolveConfig from "tailwindcss/resolveConfig";
 
 interface Props {
   svgIcon: any;
@@ -7,6 +9,15 @@ interface Props {
   labelColor: string;
   roundBackground: boolean;
 }
+const fullConfig = resolveConfig(tailwindConfig);
+const useStyles = makeStyles((theme) => ({
+  iconTag: {
+    color: `${fullConfig.theme.colors["almostblack"]}`,
+    fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+    fontWeight: 400,
+    fontSize: "0.875rem",
+  },
+}));
 const IconText: React.FC<Props> = ({
   svgIcon,
   label,
@@ -14,6 +25,7 @@ const IconText: React.FC<Props> = ({
   labelColor,
   roundBackground,
 }): JSX.Element => {
+  const classes = useStyles();
   return (
     <div
       className="flex items-center shadow-none"
@@ -24,12 +36,14 @@ const IconText: React.FC<Props> = ({
       }}
     >
       {roundBackground ? (
-        <div className="relative w-10 h-10 mr-2 flex items-center justify-center bg-white rounded-full">
-          <Image src={svgIcon} alt="Icon" className="w-6 h-6" />
+        <div className="flex-shrink-0 relative w-10 h-10 mr-2 flex items-center justify-center bg-white rounded-full">
+          <div className="w-6 h-6" style={{ color: `${fullConfig.theme.colors["strongorange"]}` }}>{svgIcon}</div>
         </div>
       ) : (
         // for single icon without background
-        <Image src={svgIcon} alt="Icon" className="w-6 h-6" />
+        <div className="w-6 h-6">
+          {svgIcon}
+        </div>
       )}
       <span
         className={`${labelClass} truncate`}

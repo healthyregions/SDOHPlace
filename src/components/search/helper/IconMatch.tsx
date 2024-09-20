@@ -1,25 +1,51 @@
-import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
-import transportation from "@/public/icons/transportation.svg";
-import greenSpace from "@/public/icons/greenSpace.svg";
-import foodAccess from "@/public/icons/foodAccess.svg";
+import { 
+  People, 
+  Paid, 
+  Work, 
+  School, 
+  Restaurant, 
+  LocalHospital, 
+  Home, 
+  LocationCity, 
+  DirectionsBike, 
+  Security, 
+  Forum, 
+  DirectionsBus, 
+  AutoAwesomeMosaic 
+} from '@mui/icons-material';
 
 /**
- * TODO: change the 'dataDiscoveryIcon' to real icon name, such as dataset
  * @param icon is the icon name based on SolrObject theme(?)
- * @returns the icon file or the icon code if using the default icon
+ * @returns the Material UI icon component corresponding to the icon name
  */
 const IconMatch = (icon: string): JSX.Element => {
   switch (icon) {
-    case "dataDiscoveryIcon":
-      return dataDiscoveryIcon;
-    case "transportation":
-      return transportation;
-    case "greenSpace":
-      return greenSpace;
-    case "foodAccess":
-      return foodAccess;
+    case "Demographics":
+      return <People  />;
+    case "Economic Stability":
+      return <Paid  />;
+    case "Employment":
+      return <Work  />;
+    case "Education":
+      return <School  />;
+    case "Food Environment":
+      return <Restaurant  />;
+    case "Health and Healthcare":
+      return <LocalHospital  />;
+    case "Housing":
+      return <Home  />;
+    case "Neighborhood and Built Environment":
+      return <LocationCity  />;
+    case "Physical Activity and Lifestyle":
+      return <DirectionsBike  />;
+    case "Safety":
+      return <Security  />;
+    case "Social and Community Context":
+      return <Forum  />;
+    case "Transportation and Infrastructure":
+      return <DirectionsBus  />;
     default:
-      return dataDiscoveryIcon;
+      return <AutoAwesomeMosaic  />; // Composite
   }
 };
 
