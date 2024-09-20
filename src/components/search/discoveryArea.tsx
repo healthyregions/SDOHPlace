@@ -94,15 +94,7 @@ export default function DiscoveryArea({
               params.sortBy,
               params.sortOrder
             );
-            // filter out objects with multiple subject values if the subject filter is applied and it is "Composite"
-            // this is a temporary solution, may lead to some lagging in front-end. Will see server-side solution in the future
-            if (params.subject && params.subject === "Composite") {
-              setFetchResults(
-                newResults.filter(
-                  (r) => r.meta.subject && r.meta.subject.length > 1
-                )
-              );
-            } else setFetchResults(newResults);
+            setFetchResults(newResults);
             if (params.showDetailPanel && params.showDetailPanel.length > 0) {
               if (!newResults.find((r) => r.id === params.showDetailPanel)) {
                 params.setShowDetailPanel(null);

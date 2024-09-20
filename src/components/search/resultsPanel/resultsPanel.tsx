@@ -244,15 +244,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   handleSearch={props.handleSearch}
                   handleInputReset={props.handleInputReset}
                 />
-                <IconTag
-                  svgIcon={IconMatch("Composite")}
-                  label="Composite"
-                  labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
-                  labelColor={fullConfig.theme.colors["almostblack"]}
-                  roundBackground={true}
-                  handleSearch={props.handleSearch}
-                  handleInputReset={props.handleInputReset}
-                />
               </Box>
             </div>
           )}
