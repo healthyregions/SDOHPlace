@@ -2,6 +2,7 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
 import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
+import { f } from "nuqs/dist/serializer-C_l8WgvO";
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -149,32 +150,41 @@ export default class SolrQueryBuilder {
   public combineQueries = (term, filterQueries): SolrQueryBuilder => {
     let combinedQuery = this.generalQuery(term).getQuery();
     if (filterQueries.length > 0) {
-      let filterQuery = `&fq=`;
       const groupedQueries = {};
-      // Group filter queries by attribute, then do AND
-      filterQueries
-        .filter((f) => f.attribute !== "layers" && f.attribute !== "query")
-        .forEach((f) => {
-          if (f.attribute === "spatial_resolution") f.value = SRMatch[f.value];
-          const attribute = findSolrAttribute(f.attribute, this.getSchema());
-          const encodedAttribute = encodeURIComponent(attribute);
-          const encodedValue = `"${encodeURIComponent(f.value)}"`;
-          if (!groupedQueries[encodedAttribute]) {
-            groupedQueries[encodedAttribute] = [];
-          }
-          groupedQueries[encodedAttribute].push(
-            `${encodedAttribute}:${encodedValue}`
-          );
-        });
-      // Combine queries with OR within the same attribute
-      const attributeQueries = Object.keys(groupedQueries).map(
-        (attribute) => `(${groupedQueries[attribute].join(" OR ")})`
-      );
-
-      filterQuery += attributeQueries.join(" AND ");
-      combinedQuery += filterQuery;
+      // Special case for "Composite" subject
+      if (
+        filterQueries.filter(
+          (f) => f.attribute === "subject" && f.value === "Composite"
+        ).length > 0
+      ) {
+        let filterQuery = `*`;
+        combinedQuery += filterQuery;
+      } else {
+        let filterQuery = `&fq=`;
+        filterQueries
+          .filter((f) => f.attribute !== "layers" && f.attribute !== "query")
+          .forEach((f) => {
+            if (f.attribute === "spatial_resolution")
+              f.value = SRMatch[f.value];
+            const attribute = findSolrAttribute(f.attribute, this.getSchema());
+            const encodedAttribute = encodeURIComponent(attribute);
+            const encodedValue = `"${encodeURIComponent(f.value)}"`;
+            if (!groupedQueries[encodedAttribute]) {
+              groupedQueries[encodedAttribute] = [];
+            }
+            groupedQueries[encodedAttribute].push(
+              `${encodedAttribute}:${encodedValue}`
+            );
+          });
+        // Combine queries with OR within the same attribute
+        const attributeQueries = Object.keys(groupedQueries).map(
+          (attribute) => `(${groupedQueries[attribute].join(" OR ")})`
+        );
+        filterQuery += attributeQueries.join(" AND ");
+        combinedQuery += filterQuery;
+      }
+      combinedQuery += "&rows=1000";
     }
-    combinedQuery += "&rows=1000";
     return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
   };
 }

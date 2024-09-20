@@ -1,18 +1,18 @@
-import { 
-  People, 
-  Paid, 
-  Work, 
-  School, 
-  Restaurant, 
-  LocalHospital, 
-  Home, 
-  LocationCity, 
-  DirectionsBike, 
-  Security, 
-  Forum, 
-  DirectionsBus, 
-  AutoAwesomeMosaic 
-} from '@mui/icons-material';
+import {
+  People,
+  Paid,
+  Work,
+  School,
+  Restaurant,
+  LocalHospital,
+  Home,
+  LocationCity,
+  DirectionsBike,
+  Security,
+  Forum,
+  DirectionsBus,
+  AutoAwesomeMosaic,
+} from "@mui/icons-material";
 
 /**
  * @param icon is the icon name based on SolrObject theme(?)
@@ -21,31 +21,31 @@ import {
 const IconMatch = (icon: string): JSX.Element => {
   switch (icon) {
     case "Demographics":
-      return <People  />;
+      return <People />;
     case "Economic Stability":
-      return <Paid  />;
+      return <Paid />;
     case "Employment":
-      return <Work  />;
+      return <Work />;
     case "Education":
-      return <School  />;
+      return <School />;
     case "Food Environment":
-      return <Restaurant  />;
+      return <Restaurant />;
     case "Health and Healthcare":
-      return <LocalHospital  />;
+      return <LocalHospital />;
     case "Housing":
-      return <Home  />;
+      return <Home />;
     case "Neighborhood and Built Environment":
-      return <LocationCity  />;
+      return <LocationCity />;
     case "Physical Activity and Lifestyle":
-      return <DirectionsBike  />;
+      return <DirectionsBike />;
     case "Safety":
-      return <Security  />;
+      return <Security />;
     case "Social and Community Context":
-      return <Forum  />;
+      return <Forum />;
     case "Transportation and Infrastructure":
-      return <DirectionsBus  />;
+      return <DirectionsBus />;
     default:
-      return <AutoAwesomeMosaic  />; // Composite
+      return <AutoAwesomeMosaic />; // Composite
   }
 };
 

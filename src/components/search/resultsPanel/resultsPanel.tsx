@@ -245,7 +245,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   handleInputReset={props.handleInputReset}
                 />
                 <IconTag
-                  svgIcon={IconMatch("COMPOSITE")}
+                  svgIcon={IconMatch("Composite")}
                   label="Composite"
                   labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                   labelColor={fullConfig.theme.colors["almostblack"]}

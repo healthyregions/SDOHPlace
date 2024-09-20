@@ -10,10 +10,7 @@ import SearchRow from "./searchArea/searchRow";
 import ResultsPanel from "./resultsPanel/resultsPanel";
 import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
-import {
-  GetAllParams,
-  reGetFilterQueries,
-} from "./helper/ParameterList";
+import { GetAllParams, reGetFilterQueries } from "./helper/ParameterList";
 import FilterPanel from "./filterPanel/filterPanel";
 
 export default function DiscoveryArea({
@@ -81,17 +78,37 @@ export default function DiscoveryArea({
                 return multipleResults.find((a) => a.id === id);
               });
               setFetchResults(newResults);
+              if (params.showDetailPanel.length > 0) {
+                if (!newResults.find((r) => r.id === params.showDetailPanel)) {
+                  params.setShowDetailPanel(null);
+                  setIsResetting(true);
+                }
+              }
             });
           });
         } else {
           searchQueryBuilder.combineQueries(value, filterQueries);
           searchQueryBuilder.fetchResult().then((result) => {
-            const newResults = generateSolrParentList(
+            let newResults = generateSolrParentList(
               result,
               params.sortBy,
               params.sortOrder
             );
-            setFetchResults(newResults);
+            // filter out objects with multiple subject values if the subject filter is applied and it is "Composite"
+            // this is a temporary solution, may lead to some lagging in front-end. Will see server-side solution in the future
+            if (params.subject && params.subject === "Composite") {
+              setFetchResults(
+                newResults.filter(
+                  (r) => r.meta.subject && r.meta.subject.length > 1
+                )
+              );
+            } else setFetchResults(newResults);
+            if (params.showDetailPanel && params.showDetailPanel.length > 0) {
+              if (!newResults.find((r) => r.id === params.showDetailPanel)) {
+                params.setShowDetailPanel(null);
+                setIsResetting(true);
+              }
+            }
           });
         }
       })
@@ -180,6 +197,7 @@ export default function DiscoveryArea({
     params.indexYear,
     params.subject,
     params.query,
+    params.showDetailPanel,
     isResetting,
   ]);
   return (
@@ -219,20 +237,23 @@ export default function DiscoveryArea({
         />
       </Grid>
       <Grid item xs={8} className="sm:ml-[0.5em]">
-        <Grid
+        {/* <Grid
           item
           className="sm:px-[2em]"
           xs={12}
           sx={{
             display: params.showDetailPanel.length == 0 ? "block" : "none",
           }}
-        >
-          <MapPanel
-            resultsList={fetchResults}
-            highlightLyr={highlightLyr}
-            highlightIds={highlightIds}
-          />
-        </Grid>
+        > */}
+        <MapPanel
+          showMap={
+            isResetting || params.showDetailPanel.length == 0 ? "block" : "none"
+          }
+          resultsList={fetchResults}
+          highlightLyr={highlightLyr}
+          highlightIds={highlightIds}
+        />
+        {/* </Grid> */}
         <Grid
           sx={{
             display: params.showDetailPanel.length > 0 ? "block" : "none",

@@ -37,13 +37,16 @@ const IconText: React.FC<Props> = ({
     >
       {roundBackground ? (
         <div className="flex-shrink-0 relative w-10 h-10 mr-2 flex items-center justify-center bg-white rounded-full">
-          <div className="w-6 h-6" style={{ color: `${fullConfig.theme.colors["strongorange"]}` }}>{svgIcon}</div>
+          <div
+            className="w-6 h-6"
+            style={{ color: `${fullConfig.theme.colors["strongorange"]}` }}
+          >
+            {svgIcon}
+          </div>
         </div>
       ) : (
         // for single icon without background
-        <div className="w-6 h-6">
-          {svgIcon}
-        </div>
+        <div className="w-6 h-6">{svgIcon}</div>
       )}
       <span
         className={`${labelClass} truncate`}

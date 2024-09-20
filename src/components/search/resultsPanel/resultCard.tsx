@@ -79,8 +79,10 @@ const ResultCard = (props: Props): JSX.Element => {
               <IconText
                 roundBackground={true}
                 svgIcon={IconMatch(
-                  props.resultItem.meta.subject && props.resultItem.meta.subject.length>0
-                    ? props.resultItem.meta.subject[0]
+                  props.resultItem.meta.subject
+                    ? props.resultItem.meta.subject.length > 1
+                      ? "Composite"
+                      : props.resultItem.meta.subject[0]
                     : ""
                 )}
                 label={props.resultItem.title}

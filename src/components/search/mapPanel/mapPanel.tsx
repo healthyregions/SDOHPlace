@@ -20,6 +20,7 @@ import {
   Popover,
   Typography,
   ListItemIcon,
+  Grid,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -37,6 +38,7 @@ interface Props {
   resultsList: SolrObject[];
   highlightLyr?: string;
   highlightIds?: string[];
+  showMap: string;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -80,164 +82,165 @@ const MapPanel = (props: Props): JSX.Element => {
     setInfoAnchorEl(null);
   };
   const popoverId = infoOpen ? "simple-popover" : undefined;
-
   useEffect(() => {
     params.visOverlays.length > 0
       ? setOverlaysBtnTxt("Overlays: " + params.visOverlays.join(", "))
       : setOverlaysBtnTxt("Overlays");
-  });
+  }, []);
   return (
-    <span className={`${classes.mapPanel}`}>
-      <Box>
-        <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
-          <div className="flex flex-col sm:flex-row flex-grow text-2xl">
-            Map view
-          </div>
-          <button
-            id="overlays-button"
-            className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
-            style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-            aria-controls={overlaysOpen ? "overlays-button" : undefined}
-            aria-haspopup="true"
-            aria-expanded={overlaysOpen ? "true" : undefined}
-            onClick={handleOverlaysClick}
-          >
-            <SvgIcon
-              component={ArrowDropDownIcon}
-              sx={{
-                color: fullConfig.theme.colors["frenchviolet"],
-                fontSize: 40,
-              }}
-            />
-            <span className="sm:mx-[0.25em] font-bold">{overlaysBtnTxt}</span>
-          </button>
-          <button
-            id="basic-button"
-            className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
-            style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-            aria-controls={infoOpen ? "info-popover" : undefined}
-            aria-haspopup="true"
-            aria-expanded={infoOpen ? "true" : undefined}
-            onClick={handleInfoClick}
-          >
-            <SvgIcon
-              component={InfoOutlinedIcon}
-              sx={{
-                color: fullConfig.theme.colors["frenchviolet"],
-              }}
-            />
-          </button>
-          <Popover
-            id={popoverId}
-            open={infoOpen}
-            anchorEl={infoAnchorEl}
-            onClose={handleInfoClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-          >
-            <p style={{ padding: "1em" }}>
-              Overlays created from{" "}
-              <Link
-                href="https://docs.overturemaps.org/guides/places/"
-                target="_blank"
-              >
-                Places
-              </Link>{" "}
-              theme,{" "}
-              <Link href="https://overturemaps.org" target="_blank">
-                Overture Maps Foundation
-              </Link>
-              .
-            </p>
-          </Popover>
-          <Menu
-            id="basic-menu"
-            className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
-            style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-            anchorEl={overlaysMenuAnchorEl}
-            open={overlaysOpen}
-            onClose={closeOverlaysMenu}
-            MenuListProps={{
-              "aria-labelledby": "overlays-button",
-            }}
-          >
-            {Object.keys(overlayRegistry).map((overlay) => (
-              <MenuItem
-                // selected={params.visOverlays.includes(overlay)}
-                style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-                key={overlay}
-                onClick={() => {
-                  closeOverlaysMenu();
-                  toggleOverlay(overlay);
+    <Grid item className="sm:px-[2em]" xs={12} display={props.showMap}>
+      <span className={`${classes.mapPanel}`}>
+        <Box>
+          <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
+            <div className="flex flex-col sm:flex-row flex-grow text-2xl">
+              Map view
+            </div>
+            <button
+              id="overlays-button"
+              className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
+              style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+              aria-controls={overlaysOpen ? "overlays-button" : undefined}
+              aria-haspopup="true"
+              aria-expanded={overlaysOpen ? "true" : undefined}
+              onClick={handleOverlaysClick}
+            >
+              <SvgIcon
+                component={ArrowDropDownIcon}
+                sx={{
+                  color: fullConfig.theme.colors["frenchviolet"],
+                  fontSize: 40,
                 }}
-              >
-                {params.visOverlays.includes(overlay) && (
-                  <ListItemIcon
-                    style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-                  >
-                    <CheckIcon />
-                  </ListItemIcon>
-                )}
-                {overlay}
-              </MenuItem>
-            ))}
-          </Menu>
-        </div>
-      </Box>
-      <div></div>
-      <Box
-        height={"100%"}
-        sx={{
-          overflowY: "scroll",
-          height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
-        }}
-      >
-        <MapArea
-          searchResult={props.resultsList}
-          highlightIds={props.highlightIds}
-          highlightLyr={props.highlightLyr}
-        />
-      </Box>
-      <Box className="sm:my-[1.68em]">
-        <div className="sm:mb-[1.5em] sm:flex-col">
-          <Box height={"100%"} className="sm:mt-[4.35em] sm:ml-[2em]">
-            <Box className="text-2xl sm:mb-[0.6em]">
-              {SearchUIConfig.search.mapPanel.title}
-            </Box>
-            <Box className="text-s sm:mb-[1.5em]">
-              {SearchUIConfig.search.mapPanel.subtitle}
-            </Box>
-            <Box display={"flex"} flexDirection={"row"} gap={3}>
-              <ButtonWithIcon
-                label="What is SDOH and Place?"
-                labelColor={"frenchviolet"}
-                borderRadius="100px"
-                noHover={true}
-                noBox={true}
-                border={`1px solid ${fullConfig.theme.colors["frenchviolet"]}`}
-                fillColor="white"
-                onClick={() => window.open("https://sdohplace.org", "_blank")}
               />
-              <ButtonWithIcon
-                muiIcon={ConstructionIcon}
-                label="Community Toolkit"
-                labelColor={"frenchviolet"}
-                borderRadius="100px"
-                noHover={true}
-                noBox={true}
-                fillColor="white"
-                border={`1px solid ${fullConfig.theme.colors["frenchviolet"]}`}
-                onClick={() =>
-                  window.open("https://toolkit.sdohplace.org", "_blank")
-                }
+              <span className="sm:mx-[0.25em] font-bold">{overlaysBtnTxt}</span>
+            </button>
+            <button
+              id="basic-button"
+              className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
+              style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+              aria-controls={infoOpen ? "info-popover" : undefined}
+              aria-haspopup="true"
+              aria-expanded={infoOpen ? "true" : undefined}
+              onClick={handleInfoClick}
+            >
+              <SvgIcon
+                component={InfoOutlinedIcon}
+                sx={{
+                  color: fullConfig.theme.colors["frenchviolet"],
+                }}
               />
+            </button>
+            <Popover
+              id={popoverId}
+              open={infoOpen}
+              anchorEl={infoAnchorEl}
+              onClose={handleInfoClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <p style={{ padding: "1em" }}>
+                Overlays created from{" "}
+                <Link
+                  href="https://docs.overturemaps.org/guides/places/"
+                  target="_blank"
+                >
+                  Places
+                </Link>{" "}
+                theme,{" "}
+                <Link href="https://overturemaps.org" target="_blank">
+                  Overture Maps Foundation
+                </Link>
+                .
+              </p>
+            </Popover>
+            <Menu
+              id="basic-menu"
+              className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
+              style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+              anchorEl={overlaysMenuAnchorEl}
+              open={overlaysOpen}
+              onClose={closeOverlaysMenu}
+              MenuListProps={{
+                "aria-labelledby": "overlays-button",
+              }}
+            >
+              {Object.keys(overlayRegistry).map((overlay) => (
+                <MenuItem
+                  // selected={params.visOverlays.includes(overlay)}
+                  style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+                  key={overlay}
+                  onClick={() => {
+                    closeOverlaysMenu();
+                    toggleOverlay(overlay);
+                  }}
+                >
+                  {params.visOverlays.includes(overlay) && (
+                    <ListItemIcon
+                      style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+                    >
+                      <CheckIcon />
+                    </ListItemIcon>
+                  )}
+                  {overlay}
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
+        </Box>
+        <div></div>
+        <Box
+          height={"100%"}
+          sx={{
+            overflowY: "scroll",
+            height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
+          }}
+        >
+          <MapArea
+            searchResult={props.resultsList}
+            highlightIds={props.highlightIds}
+            highlightLyr={props.highlightLyr}
+          />
+        </Box>
+        <Box className="sm:my-[1.68em]">
+          <div className="sm:mb-[1.5em] sm:flex-col">
+            <Box height={"100%"} className="sm:mt-[4.35em] sm:ml-[2em]">
+              <Box className="text-2xl sm:mb-[0.6em]">
+                {SearchUIConfig.search.mapPanel.title}
+              </Box>
+              <Box className="text-s sm:mb-[1.5em]">
+                {SearchUIConfig.search.mapPanel.subtitle}
+              </Box>
+              <Box display={"flex"} flexDirection={"row"} gap={3}>
+                <ButtonWithIcon
+                  label="What is SDOH and Place?"
+                  labelColor={"frenchviolet"}
+                  borderRadius="100px"
+                  noHover={true}
+                  noBox={true}
+                  border={`1px solid ${fullConfig.theme.colors["frenchviolet"]}`}
+                  fillColor="white"
+                  onClick={() => window.open("https://sdohplace.org", "_blank")}
+                />
+                <ButtonWithIcon
+                  muiIcon={ConstructionIcon}
+                  label="Community Toolkit"
+                  labelColor={"frenchviolet"}
+                  borderRadius="100px"
+                  noHover={true}
+                  noBox={true}
+                  fillColor="white"
+                  border={`1px solid ${fullConfig.theme.colors["frenchviolet"]}`}
+                  onClick={() =>
+                    window.open("https://toolkit.sdohplace.org", "_blank")
+                  }
+                />
+              </Box>
             </Box>
-          </Box>
-        </div>
-      </Box>
-    </span>
+          </div>
+        </Box>
+      </span>
+    </Grid>
   );
 };
 export default MapPanel;

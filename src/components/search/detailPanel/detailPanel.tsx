@@ -38,9 +38,10 @@ const DetailPanel = (props: Props): JSX.Element => {
           <HeaderRow
             resultItem={props.resultItem}
             headerIcon={IconMatch(
-              props.resultItem.meta.subject &&
-                props.resultItem.meta.subject.length > 0
-                ? props.resultItem.meta.subject[0]
+              props.resultItem.meta.subject
+                ? props.resultItem.meta.subject.length > 1
+                  ? "Composite"
+                  : props.resultItem.meta.subject[0]
                 : ""
             )}
             showDetailPanel={props.setShowDetailPanel}

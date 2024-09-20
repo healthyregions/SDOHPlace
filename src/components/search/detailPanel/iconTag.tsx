@@ -31,14 +31,11 @@ const IconTag = (props: Props): JSX.Element => {
   let params = GetAllParams();
   const classes = useStyles();
   const handleSubjectClick = (sub: string) => {
-    if (sub === "Composite") {
-    } else {
-      let filterQueries = [{ attribute: "subject", value: sub }];
-      updateAll(params, null, null, filterQueries, "*");
-      params.setQuery("*");
-      params.setSubject(sub);
-      props.handleSearch(reGetFilterQueries(params), "*", filterQueries);
-    }
+    let filterQueries = [{ attribute: "subject", value: "sub" }];
+    updateAll(params, null, null, filterQueries, "*");
+    params.setQuery("*");
+    params.setSubject(sub);
+    props.handleSearch(reGetFilterQueries(params), "*", filterQueries);
     props.handleInputReset();
   };
   return (
