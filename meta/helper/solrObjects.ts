@@ -9,7 +9,7 @@ import { schemaMatch } from "./util";
  * @returns
  */
 const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
-  if (rawSolrObject.gbl_suppress_b === false) {
+  if (!rawSolrObject.gbl_suppressed_b) {
     let result = {} as SolrObject;
     result.score = rawSolrObject.score;
     result.id = rawSolrObject.id;
