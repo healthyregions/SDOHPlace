@@ -2,7 +2,6 @@ import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import Image from "next/image";
 import {
   GetAllParams,
   reGetFilterQueries,
@@ -32,7 +31,7 @@ const IconTag = (props: Props): JSX.Element => {
   let params = GetAllParams();
   const classes = useStyles();
   const handleSubjectClick = (sub: string) => {
-    const filterQueries = [{ attribute: "subject", value: sub }];
+    let filterQueries = [{ attribute: "subject", value: "sub" }];
     updateAll(params, null, null, filterQueries, "*");
     params.setQuery("*");
     params.setSubject(sub);
@@ -46,12 +45,14 @@ const IconTag = (props: Props): JSX.Element => {
     >
       {props.roundBackground ? (
         // for icon with background as the theme tags.
-        <div className="relative flex items-center justify-center">
-          <Image src={props.svgIcon} alt="Icon" className="w-4 h-4" />
+        <div
+          className="relative flex items-center justify-center"
+          style={{ color: `${fullConfig.theme.colors["strongorange"]}` }}
+        >
+          {props.svgIcon}
         </div>
       ) : (
-        // for single icon without background
-        <Image src={props.svgIcon} alt="Icon" className="w-4 h-4" />
+        <div>{props.svgIcon}</div>
       )}
       <span
         className={`${props.labelClass}`}

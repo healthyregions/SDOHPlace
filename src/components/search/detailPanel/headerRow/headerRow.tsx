@@ -1,6 +1,5 @@
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
-import { useRouter } from "next/router";
 import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "../../../../../meta/interface/SolrObject";
@@ -68,14 +67,15 @@ const HeaderRow = (props: Props): JSX.Element => {
       </div>
       <div className="flex flex-col sm:mb-7 sm:flex-row items-center">
         <div className="flex flex-col sm:flex-row items-center flex-grow">
-          <Image
-            src={props.headerIcon}
-            alt="Icon"
-            className="w-10 h-10 text-4xl"
-          />
+          <div
+            className="flex items-center sm:text-[4em]"
+            style={{ color: fullConfig.theme.colors["strongorange"] }}
+          >
+            {React.cloneElement(props.headerIcon, { fontSize: "inherit" })}
+          </div>
           <Box
             sx={{ display: "inline" }}
-            className={`text-4xl leading-8 ml-6 ${classes.introCard}`}
+            className={`text-4xl leading-8 ml-[0.5em] ${classes.introCard}`}
           >
             {props.resultItem.title}
           </Box>
