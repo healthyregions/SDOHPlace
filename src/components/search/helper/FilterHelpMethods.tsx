@@ -1,3 +1,5 @@
+// NOTE: most methods in this file are not used in the search component now. Still save them here for future possible filter implementation.
+
 import FilterObject from "../interface/FilterObject";
 import CheckBoxObject from "../interface/CheckboxObject";
 import SolrQueryBuilder from "./SolrQueryBuilder";

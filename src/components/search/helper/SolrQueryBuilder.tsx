@@ -2,7 +2,7 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
 import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
-import { f } from "nuqs/dist/serializer-C_l8WgvO";
+
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -143,7 +143,7 @@ export default class SolrQueryBuilder {
     let sortQuery = `select?sort=${encodeURIComponent(
       findSolrAttribute(searchTerm.attribute, this.query.schema_json)
     )}${encodeURIComponent(" ")}${searchTerm.order}`;
-    sortQuery = sortQuery += "&rows=1000"; //add rows to remove pagination
+    sortQuery = sortQuery; //add rows to remove pagination
     return this.setQuery(sortQuery);
   }
 
@@ -158,6 +158,7 @@ export default class SolrQueryBuilder {
         ).length > 0
       ) {
         let filterQuery = `*`;
+        filterQuery += `dct_subject_count_i:[2 TO *]`;
         combinedQuery += filterQuery;
       } else {
         let filterQuery = `&fq=`;
@@ -183,8 +184,8 @@ export default class SolrQueryBuilder {
         filterQuery += attributeQueries.join(" AND ");
         combinedQuery += filterQuery;
       }
-      combinedQuery += "&rows=1000";
     }
+    combinedQuery += "&rows=1000";
     return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
   };
 }
