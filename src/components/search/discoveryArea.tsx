@@ -87,7 +87,6 @@ export default function DiscoveryArea({
             });
           });
         } else {
-          console.log("No suggestions found, fetching results for the query");
           searchQueryBuilder.combineQueries(value, filterQueries);
           searchQueryBuilder.fetchResult().then((result) => {
             let newResults = generateSolrObjectList(
