@@ -253,8 +253,9 @@ export default function DiscoveryArea({
           }}
         >
           <DetailPanel
-            resultItem={fetchResults.find(
-              (r) => r.id === params.showDetailPanel
+            resultItem={
+              fetchResults.find(
+              (r) => r? r.id === params.showDetailPanel : null
             )}
             setShowDetailPanel={params.setShowDetailPanel}
             showSharedLink={params.showSharedLink}

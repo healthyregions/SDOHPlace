@@ -9,7 +9,7 @@ import { schemaMatch } from "./util";
  * @returns
  */
 const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
-  if (!rawSolrObject.gbl_suppress_b) {
+  if (rawSolrObject.gbl_suppress_b === false) {
     let result = {} as SolrObject;
     result.score = rawSolrObject.score;
     result.id = rawSolrObject.id;
@@ -55,8 +55,7 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
       }
     });
     return result;
-  }
-  return undefined;
+  };
 };
 
 /**
@@ -69,6 +68,8 @@ const generateSolrObjectList = (
   sortBy?: string,
   sortOrder?: string
 ): SolrObject[] => {
+  //remove undefined objects
+  solrObjects = solrObjects.filter((solrObject) => solrObject !== undefined);
   let result = new Set<SolrObject>(solrObjects);
   //For now, only handle the case when both sortBy and sortOrder are provided and they are modified
   const finalArray = Array.from(result);
