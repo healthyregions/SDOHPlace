@@ -4,7 +4,7 @@ import { SolrObject } from "meta/interface/SolrObject";
 import { Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
-import { generateSolrParentList } from "meta/helper/solrObjects";
+import { generateSolrObjectList } from "meta/helper/solrObjects";
 import DetailPanel from "./detailPanel/detailPanel";
 import SearchRow from "./searchArea/searchRow";
 import ResultsPanel from "./resultsPanel/resultsPanel";
@@ -64,7 +64,7 @@ export default function DiscoveryArea({
           returnedTerms.forEach((term) => {
             searchQueryBuilder.combineQueries(term, filterQueries);
             searchQueryBuilder.fetchResult().then((result) => {
-              generateSolrParentList(
+              generateSolrObjectList(
                 result,
                 params.sortBy,
                 params.sortOrder
@@ -89,7 +89,7 @@ export default function DiscoveryArea({
         } else {
           searchQueryBuilder.combineQueries(value, filterQueries);
           searchQueryBuilder.fetchResult().then((result) => {
-            let newResults = generateSolrParentList(
+            let newResults = generateSolrObjectList(
               result,
               params.sortBy,
               params.sortOrder
@@ -128,7 +128,7 @@ export default function DiscoveryArea({
   );
   const isQuery = params.query.length > 0;
   const filterQueries = reGetFilterQueries(params);
-  const originalResults = generateSolrParentList(
+  const originalResults = generateSolrObjectList(
     results,
     params.sortBy,
     params.sortOrder
@@ -252,8 +252,9 @@ export default function DiscoveryArea({
           }}
         >
           <DetailPanel
-            resultItem={fetchResults.find(
-              (r) => r.id === params.showDetailPanel
+            resultItem={
+              fetchResults.find(
+              (r) => r? r.id === params.showDetailPanel : null
             )}
             setShowDetailPanel={params.setShowDetailPanel}
             showSharedLink={params.showSharedLink}

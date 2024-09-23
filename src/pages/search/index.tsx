@@ -32,7 +32,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
   );
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    fetch(solrUrl + "/select?q=*:*&rows=100")
+    fetch(solrUrl + "/select?q=*:*")
       .then((res) => res.json())
       .then((data) => {
         const solrObjectResults = data.response.docs.map((doc) =>
