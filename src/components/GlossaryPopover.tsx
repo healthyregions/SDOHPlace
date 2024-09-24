@@ -46,7 +46,7 @@ export default function GlossaryPopover({ entry, display = null }) {
         >
           <div
             className={
-              "text-almostblack py-1 px-2 border-strongorange rounded border font-sans text-sm bg-lightbisque"
+              "text-almostblack py-1 px-2 rounded font-sans text-sm bg-lightbisque"
             }
           >
             {content}
