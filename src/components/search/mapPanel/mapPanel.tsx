@@ -1,13 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useRef,
-  use,
-  MouseEvent,
-} from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "meta/interface/SolrObject";
@@ -22,7 +14,6 @@ import {
   ListItemIcon,
   Grid,
 } from "@mui/material";
-import { styled } from "@mui/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CheckIcon from "@mui/icons-material/Check";
@@ -34,6 +25,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
 import { GetAllParams } from "../helper/ParameterList";
 import { overlayRegistry } from "../../map/helper/layers";
+import { localStyles } from "../../../lib/localStyles";
 
 interface Props {
   resultsList: SolrObject[];
@@ -42,16 +34,6 @@ interface Props {
   showMap: string;
 }
 const fullConfig = resolveConfig(tailwindConfig);
-
-const OverlaysButton = styled(Button)({
-  margin: 0,
-  marginRight: "10px",
-  padding: 0,
-  textTransform: "none",
-  color: fullConfig.theme.colors["frenchviolet"],
-  fontWeight: 400,
-  fontSize: "1.1em",
-});
 
 const MapPanel = (props: Props): JSX.Element => {
   const params = GetAllParams();
@@ -98,8 +80,9 @@ const MapPanel = (props: Props): JSX.Element => {
           <div className="flex flex-col sm:flex-row flex-grow text-2xl">
             Map view
           </div>
-          <OverlaysButton
+          <Button
             id="overlays-button"
+            sx={localStyles.overlaysButton}
             aria-controls={overlaysOpen ? "overlays-button" : undefined}
             aria-haspopup="true"
             aria-expanded={overlaysOpen ? "true" : undefined}
@@ -113,7 +96,7 @@ const MapPanel = (props: Props): JSX.Element => {
               }}
             />
             {overlaysBtnTxt}
-          </OverlaysButton>
+          </Button>
           <Button
             id="basic-button"
             className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
@@ -172,7 +155,7 @@ const MapPanel = (props: Props): JSX.Element => {
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
                 key={overlay}
                 onClick={() => {
-                  closeOverlaysMenu();
+                  // closeOverlaysMenu();
                   toggleOverlay(overlay);
                 }}
               >
