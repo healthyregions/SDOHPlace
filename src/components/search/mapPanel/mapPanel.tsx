@@ -123,20 +123,24 @@ const MapPanel = (props: Props): JSX.Element => {
               horizontal: "left",
             }}
           >
-            <p style={{ padding: "1em" }}>
-              Overlays created from{" "}
-              <Link
-                href="https://docs.overturemaps.org/guides/places/"
-                target="_blank"
-              >
-                Places
-              </Link>{" "}
-              theme,{" "}
-              <Link href="https://overturemaps.org" target="_blank">
-                Overture Maps Foundation
-              </Link>
-              .
-            </p>
+            <Box className="py-2 px-4 rounded bg-lightbisque">
+              <p className="text-almostblack font-sans text-sm">
+                Overlays created from{" "}
+                <Link
+                  href="https://docs.overturemaps.org/guides/places/"
+                  target="_blank"
+                >
+                  Places
+                </Link>{" "}
+                theme,{" "}
+                <Link href="https://overturemaps.org" target="_blank">
+                  Overture Maps Foundation
+                </Link>
+                .
+              </p>
+            </Box>
+            {/* <p style={{ padding: "1em" }}>
+            </p> */}
           </Popover>
           <Menu
             id="basic-menu"
@@ -147,8 +151,10 @@ const MapPanel = (props: Props): JSX.Element => {
             onClose={closeOverlaysMenu}
             MenuListProps={{
               "aria-labelledby": "overlays-button",
+              className: "rounded bg-lightbisque",
             }}
           >
+            {/* <Box className="py-1 px-2 rounded border bg-lightbisque"> */}
             {Object.keys(overlayRegistry).map((overlay) => (
               <MenuItem
                 // selected={params.visOverlays.includes(overlay)}
@@ -169,6 +175,8 @@ const MapPanel = (props: Props): JSX.Element => {
                 {overlay}
               </MenuItem>
             ))}
+
+            {/* </Box> */}
           </Menu>
         </div>
       </Box>
