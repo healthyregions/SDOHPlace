@@ -2,28 +2,40 @@ import { PostContent } from "../../lib/posts";
 import Date from "./Date";
 import Link from "next/link";
 import { parseISO } from "date-fns";
+import {ShowcaseContent} from "../../lib/showcases";
 
-type Props = {
-  post: PostContent;
+const getPostContent = (post: PostContent) => <>
+    <Date date={parseISO(post.date)} />
+    <h2 className={"item-title"}>{post.title}</h2>
+</>;
+
+export type ItemProps = {
+  item: PostContent | ShowcaseContent;
+  slugPrefix?: string;
+  getContent?: Function;
 };
-export default function PostItem({ post }: Props) {
+export default function PostItem({
+    item,
+    slugPrefix = '/news/',
+    getContent = getPostContent
+}: ItemProps) {
+
+  const css: string = `
+      .item-link {
+        color: #222;
+        display: inline-block;
+      }
+      .item-title {
+        margin: 0;
+        font-size: 2rem;
+      }
+  `;
+
   return (
-    <Link href={"/news/" + post.slug} legacyBehavior>
-      <a className={"no-underline"}>
-        <Date date={parseISO(post.date)} />
-        <h2>{post.title}</h2>
-        <style jsx>
-          {`
-            a {
-              color: #222;
-              display: inline-block;
-            }
-            h2 {
-              margin: 0;
-              font-size: 2rem;
-            }
-          `}
-        </style>
+    <Link href={slugPrefix + item.slug} legacyBehavior>
+      <style>{css}</style>
+      <a className={"no-underline item-link"}>
+        {getContent(item)}
       </a>
     </Link>
   );

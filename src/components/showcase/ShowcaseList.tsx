@@ -2,22 +2,18 @@ import React from "react";
 import { ShowcaseContent } from "../../lib/showcases";
 import ShowcaseItem from "./ShowcaseItem";
 import Pagination from "../news/Pagination";
+import {ListProps} from "@/components/news/PostList";
 
-type Props = {
-  posts: ShowcaseContent[];
-  pagination: {
-    current: number;
-    pages: number;
-  };
-};
-export default function PostList({ posts, pagination }: Props) {
+const getContent = (item) => <ShowcaseItem item={item} />
+
+export default function ShowcaseList({ posts, pagination }: ListProps) {
   return (
     <>
       <div className={"post-list"}>
         <ul className={""}>
           {posts.map((it, i) => (
             <li key={i}>
-              <ShowcaseItem item={it} />
+              {getContent(it)}
             </li>
           ))}
         </ul>

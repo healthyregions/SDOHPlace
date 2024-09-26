@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "@/public/styles/posts.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
-import Date from "./Date";
+import DateComponent from "./Date";
 import Layout from "./Layout";
 import BasicMeta from "./meta/BasicMeta";
 import JsonLdMeta from "./meta/JsonLdMeta";
@@ -12,17 +12,30 @@ import TwitterCardMeta from "./meta/TwitterCardMeta";
 import TagButton from "./TagButton";
 import { getAuthor } from "../../lib/authors";
 import { getTag } from "../../lib/tags";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import Footer from "../homepage/footer";
+import { getFellow } from "../../lib/people";
+import Image from "next/image";
 
-type Props = {
+export type PostLayoutProps = {
+  // Shared
   title: string;
   date: Date;
   slug: string;
   tags: string[];
-  author: string;
   description?: string;
   children: React.ReactNode;
+
+  // PostLayout
+  author?: string;
+  showJsonLd: boolean;
+  showMetadata: boolean;
+
+  // ShowcaseLayout
+  fellowName: string;
+  image: string;
+  link: string;
+  techUsed: string;
+  pathPrefix: string;
+  backButtonText: string;
 };
 export default function PostLayout({
   title,
@@ -30,37 +43,48 @@ export default function PostLayout({
   slug,
   author,
   tags,
+  link,
+  image,
+  fellowName,
+  techUsed,
   description = "",
   children,
-}: Props) {
+  showJsonLd = true,
+  showMetadata = true,
+  pathPrefix = '/news',
+  backButtonText = 'Back to all posts'
+}: PostLayoutProps) {
   const keywords = tags ? tags.map((it) => getTag(it).name) : [];
   const authorName = getAuthor(author).name;
+  const fellow = getFellow(fellowName);
   return (
     <Layout>
       <BasicMeta
-        url={`/news/${slug}`}
+        url={`${pathPrefix}/${slug}`}
         title={title}
         keywords={keywords}
         description={description}
       />
       <TwitterCardMeta
-        url={`/news/${slug}`}
+        url={`${pathPrefix}/${slug}`}
         title={title}
         description={description}
       />
       <OpenGraphMeta
-        url={`/news/${slug}`}
+        url={`${pathPrefix}/${slug}`}
         title={title}
         description={description}
       />
-      <JsonLdMeta
-        url={`/news/${slug}`}
-        title={title}
-        keywords={keywords}
-        date={date}
-        author={authorName}
-        description={description}
-      />
+        {
+            showJsonLd && <JsonLdMeta
+                url={`${pathPrefix}/${slug}`}
+                title={title}
+                keywords={keywords}
+                date={date}
+                author={authorName}
+                description={description}
+              />
+        }
       <div className={styles.container}>
         <article
           className={
@@ -68,30 +92,59 @@ export default function PostLayout({
           }
         >
           <div className={"backlink"}>
-            <Link href="/news" className={"no-underline"}>
-              &larr; Back to all posts
+            <Link href={pathPrefix} className={"no-underline"}>
+              &larr; {backButtonText}
             </Link>
           </div>
           <header>
             <h1>{title}</h1>
-            <div className={"metadata"}>
-              <div>
-                <Date date={date} />
-              </div>
-              <div>
-                <Author author={getAuthor(author)} />
-              </div>
-            </div>
+              {
+                  showMetadata && <div className={"metadata"}>
+                      <div>
+                        <DateComponent date={date} />
+                      </div>
+                      <div>
+                        <Author author={getAuthor(author)} />
+                      </div>
+                    </div>
+              }
           </header>
+            {
+                image && <div className="relative">
+                    <Image
+                        src={image}
+                        alt="ad"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{ width: "100%", height: "auto" }} // optional
+                    />
+                </div>
+            }
+            { fellowName && fellow && link && <div className={styles.metadata}>
+                    <p style={{ marginTop: "0.5rem" }}>Tech used: {techUsed}</p>
+                    <p>
+                        By: <Link href={fellow.link}>{fellow.name}</Link>
+                    </p>
+                    <p>Fellow cohort: Spring 2024</p>
+                    <button
+                        onClick={() => {
+                            window.open(link, "_blank");
+                        }}
+                    >
+                        Explore App &rarr;
+                    </button>
+                </div>
+            }
           <div className={styles.content}>{children}</div>
-          <ul className={"tag-list"}>
-            {tags &&
-              tags.map((it, i) => (
-                <li key={i}>
-                  <TagButton tag={getTag(it)} />
-                </li>
-              ))}
-          </ul>
+            { tags && <ul className={"tag-list"}>
+                {tags.map((it, i) => (
+                    <li key={i}>
+                      <TagButton tag={getTag(it)} />
+                    </li>
+                  ))}
+                </ul>
+            }
         </article>
         <footer>
           <Copyright />

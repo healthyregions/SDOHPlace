@@ -4,45 +4,49 @@ import PostItem from "./PostItem";
 import TagLink from "./TagLink";
 import Pagination from "./Pagination";
 import { TagContent } from "../../lib/tags";
+import {ShowcaseContent} from "../../lib/showcases";
+import ShowcaseItem from "@/components/showcase/ShowcaseItem";
 
-type Props = {
-  posts: PostContent[];
-  tags: TagContent[];
+const getContent = (item) => <PostItem item={item} />
+
+export type ListProps = {
+  posts: PostContent[] | ShowcaseContent[];
+  tags?: TagContent[];
   pagination: {
     current: number;
     pages: number;
   };
 };
-export default function PostList({ posts, tags, pagination }: Props) {
+export default function PostList({ posts, tags, pagination }: ListProps) {
   return (
     <>
       <div className={"post-list"}>
         <ul className={""}>
           {posts.map((it, i) => (
             <li key={i}>
-              <PostItem post={it} />
+                {getContent(it)}
             </li>
           ))}
         </ul>
-        <Pagination
+          { pagination && <Pagination
           current={pagination.current}
           pages={pagination.pages}
           link={{
             href: (page) => (page === 1 ? "/news" : "/news/page/[page]"),
             as: (page) => (page === 1 ? null : "/news/page/" + page),
           }}
-        />
+        />}
       </div>
-      <ul className={"categories"}>
-        <li>
-          <strong>Tags</strong>
-        </li>
-        {tags.map((it, i) => (
-          <li key={i}>
-            <TagLink tag={it} />
-          </li>
-        ))}
-      </ul>
+        { tags && <ul className={"categories"}>
+            <li>
+              <strong>Tags</strong>
+            </li>
+            {tags.map((it, i) => (
+              <li key={i}>
+                <TagLink tag={it} />
+              </li>
+            ))}
+      </ul>}
     </>
   );
 }
