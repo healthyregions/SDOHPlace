@@ -21,7 +21,6 @@ import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import SuggestedResult from "../helper/SuggestedResultBuilder";
 import { useEffect } from "react";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
-import { url } from "inspector";
 
 interface Props {
   schema: any;
