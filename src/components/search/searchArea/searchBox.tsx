@@ -202,6 +202,7 @@ const SearchBox = (props: Props): JSX.Element => {
                         onClick={() => {
                           urlParams.setInfoPanel("Yes");
                         }}
+                        style={{ cursor: "pointer" }}
                         className={`no-underline text-frenchviolet `}
                       >
                         <InfoOutlinedIcon />

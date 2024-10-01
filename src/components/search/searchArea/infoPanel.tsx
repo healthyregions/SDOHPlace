@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 function CustomTabPanel(props: Props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -44,12 +43,24 @@ export default function InfoPanel() {
   let params = GetAllParams();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [maxHeight, setMaxHeight] = React.useState(0);
+  const tabPanelRef = React.useRef(null);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   const handleClosePanel = () => {
     params.setInfoPanel(null);
   };
+  React.useEffect(() => {
+    if (tabPanelRef.current) {
+      const panels = Array.from(tabPanelRef.current.children) as HTMLElement[];
+      const maxContentHeight = panels.reduce(
+        (maxHeight, panel) => Math.max(maxHeight, panel.scrollHeight),
+        0
+      );
+      setMaxHeight(maxContentHeight);
+    }
+  }, []);
   return (
     <div className={`${classes.infoPanel}`}>
       <Box
@@ -139,18 +150,26 @@ export default function InfoPanel() {
           <CloseIcon />
         </IconButton>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        Spatial resolution determines how detailed your data is. A higher
-        resolution means you can see data for smaller areas, like individual
-        census tracts or zip codes. Low resolution shows data for larger areas,
-        like states or counties. Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum
-        ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        Search keywords. Low resolution shows data for larger areas, like states
-        or counties. Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum
-        ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
-      </CustomTabPanel>
+      <Box
+        sx={{
+          minHeight: maxHeight,
+          transition: "height 0.3s ease",
+        }}
+        ref={tabPanelRef}
+      >
+        <CustomTabPanel value={value} index={0}>
+          Spatial resolution determines how detailed your data is. A higher
+          resolution means you can see data for smaller areas, like individual
+          census tracts or zip codes. Low resolution shows data for larger
+          areas, like states or counties. Lorem ipsum ipsum ipsum ipsum ipsum
+          ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          Search keywords. Low resolution shows data for larger areas, like
+          states or counties. Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum
+          ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
+        </CustomTabPanel>
+      </Box>
     </div>
   );
 }
