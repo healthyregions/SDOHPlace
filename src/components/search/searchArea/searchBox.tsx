@@ -199,7 +199,10 @@ const SearchBox = (props: Props): JSX.Element => {
                     <SearchIcon className="text-2xl mr-2 ml-10 text-frenchviolet" />
                     <Box component="span" className="mx-2">
                       <a
-                        href="#" // This needs to be updated after decide the advanced search page
+                        onClick={() => {
+                          urlParams.setInfoPanel("Yes");
+                        }}
+                        style={{ cursor: "pointer" }}
                         className={`no-underline text-frenchviolet `}
                       >
                         <InfoOutlinedIcon />

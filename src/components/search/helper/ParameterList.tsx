@@ -43,7 +43,10 @@ export const GetAllParams = () => {
     "showSharedLink",
     parseAsString.withDefault("")
   );
-
+  const [showInfoPanel, setInfoPanel] = useQueryState(
+    "showInfoPanel",
+    parseAsString.withDefault("")
+  );
   // showFilter: if it is not empty, show the filter
   const [showFilter, setShowFilter] = useQueryState(
     "showFilter",
@@ -124,6 +127,8 @@ export const GetAllParams = () => {
       setShowDetailPanel,
       showSharedLink,
       setShowSharedLink,
+      showInfoPanel,
+      setInfoPanel,
       showFilter,
       setShowFilter,
       sortOrder,
