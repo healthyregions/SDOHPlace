@@ -129,7 +129,7 @@ export default class SolrQueryBuilder {
       )}:"${encodeURIComponent(term.value)}" AND `;
     });
     filterQuery = filterQuery.slice(0, -5); //remove the last AND
-    filterQuery = filterQuery += "&rows=1000";
+    filterQuery = filterQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
     return this.setQuery(filterQuery);
   }
 
@@ -185,7 +185,7 @@ export default class SolrQueryBuilder {
         combinedQuery += filterQuery;
       }
     }
-    combinedQuery += "&rows=1000";
+    combinedQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
     return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
   };
 }

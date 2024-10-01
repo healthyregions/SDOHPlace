@@ -21,6 +21,7 @@ import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import SuggestedResult from "../helper/SuggestedResultBuilder";
 import { useEffect } from "react";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
+import { url } from "inspector";
 
 interface Props {
   schema: any;
@@ -199,7 +200,9 @@ const SearchBox = (props: Props): JSX.Element => {
                     <SearchIcon className="text-2xl mr-2 ml-10 text-frenchviolet" />
                     <Box component="span" className="mx-2">
                       <a
-                        href="#" // This needs to be updated after decide the advanced search page
+                        onClick={() => {
+                          urlParams.setInfoPanel("Yes");
+                        }}
                         className={`no-underline text-frenchviolet `}
                       >
                         <InfoOutlinedIcon />
