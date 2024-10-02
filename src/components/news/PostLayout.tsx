@@ -42,7 +42,7 @@ export default function PostLayout({
   date,
   slug,
   author,
-  tags,
+  tags = [],
   link,
   image,
   fellowName,
@@ -54,8 +54,8 @@ export default function PostLayout({
   pathPrefix = '/news',
   backButtonText = 'Back to all posts'
 }: PostLayoutProps) {
-  const keywords = tags ? tags.map((it) => getTag(it).name) : [];
-  const authorName = getAuthor(author).name;
+  const keywords = tags?.length ? tags.map((it) => getTag(it)?.name) : [];
+  const authorName = getAuthor(author)?.name;
   const fellow = getFellow(fellowName);
   return (
     <Layout>

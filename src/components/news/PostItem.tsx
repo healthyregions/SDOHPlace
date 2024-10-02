@@ -32,11 +32,13 @@ export default function PostItem({
   `;
 
   return (
-    <Link href={slugPrefix + item.slug} legacyBehavior>
+    <>
       <style>{css}</style>
-      <a className={"no-underline item-link"}>
-        {getContent(item)}
-      </a>
-    </Link>
+      <Link href={slugPrefix + item.slug} legacyBehavior>
+        <a className={"no-underline item-link"}>
+          {getContent(item)}
+        </a>
+      </Link>
+    </>
   );
 }

@@ -7,17 +7,18 @@ import { TagContent } from "../../lib/tags";
 import {ShowcaseContent} from "../../lib/showcases";
 import ShowcaseItem from "@/components/showcase/ShowcaseItem";
 
-const getContent = (item) => <PostItem item={item} />
+const getPostContent = (item) => <PostItem item={item} />
 
 export type ListProps = {
   posts: PostContent[] | ShowcaseContent[];
   tags?: TagContent[];
+  getContent?: Function;
   pagination: {
     current: number;
     pages: number;
   };
 };
-export default function PostList({ posts, tags, pagination }: ListProps) {
+export default function PostList({ posts, tags, pagination, getContent=getPostContent }: ListProps) {
   return (
     <>
       <div className={"post-list"}>
@@ -37,7 +38,7 @@ export default function PostList({ posts, tags, pagination }: ListProps) {
           }}
         />}
       </div>
-        { tags && <ul className={"categories"}>
+        { tags?.length && <ul className={"categories"}>
             <li>
               <strong>Tags</strong>
             </li>
