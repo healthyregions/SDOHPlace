@@ -26,16 +26,16 @@ export type PostLayoutProps = {
 
   // PostLayout
   author?: string;
-  showJsonLd: boolean;
-  showMetadata: boolean;
+  showJsonLd?: boolean;
+  showMetadata?: boolean;
 
   // ShowcaseLayout
-  fellowName: string;
-  image: string;
-  link: string;
-  techUsed: string;
-  pathPrefix: string;
-  backButtonText: string;
+  fellowName?: string;
+  image?: string;
+  link?: string;
+  techUsed?: string;
+  pathPrefix?: string;
+  backButtonText?: string;
 };
 export default function PostLayout({
   title,
