@@ -4,11 +4,9 @@ import PostItem, {ItemProps} from "@/components/news/PostItem";
 
 const getShowcaseContent = (item: ShowcaseContent) => <>
     <div style={{ display: "flex" }}>
-        <div>
-            <Image src={item.image} alt={item.title} width={200} height={25} />
-        </div>
+        <Image src={item.image} alt={item.title} width={200} height={25} />
         <div style={{ paddingLeft: "2rem" }}>
-            <h2>{item.title}</h2>
+            <h2 className={"item-title"}>{item.title}</h2>
             <p>{item.fellow}</p>
         </div>
     </div>
