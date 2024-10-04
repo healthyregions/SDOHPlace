@@ -11,6 +11,7 @@ import ShowcaseLayout from "@/components/showcase/ShowcaseLayout";
 import InstagramEmbed from "react-instagram-embed";
 import YouTube from "react-youtube";
 import { TwitterTweetEmbed } from "react-twitter-embed";
+import Layout from "@/components/Layout";
 
 export type Props = {
   title: string;
@@ -48,21 +49,25 @@ export default function Post({
   description = "",
   source,
 }: Props) {
+  const showcase_props = {
+    title,
+    date: parseISO(dateString),
+    slug,
+    image,
+    link,
+    tags,
+    fellowName,
+    techUsed,
+    description,
+    children: <MDXRemote {...source} components={components} />
+  }
   return (
     <>
-      <ShowcaseLayout
-        title={title}
-        date={parseISO(dateString)}
-        slug={slug}
-        image={image}
-        link={link}
-        tags={tags}
-        fellowName={fellowName}
-        techUsed={techUsed}
-        description={description}
+      <Layout
+        type={'showcase'}
+        showcase_props={showcase_props}
       >
-        <MDXRemote {...source} components={components} />
-      </ShowcaseLayout>
+      </Layout>
     </>
   );
 }

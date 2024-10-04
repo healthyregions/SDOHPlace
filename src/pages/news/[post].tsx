@@ -11,6 +11,7 @@ import PostLayout from "@/components/news/PostLayout";
 import InstagramEmbed from "react-instagram-embed";
 import YouTube from "react-youtube";
 import { TwitterTweetEmbed } from "react-twitter-embed";
+import Layout from "@/components/Layout";
 
 export type Props = {
   title: string;
@@ -42,18 +43,21 @@ export default function Post({
   description = "",
   source,
 }: Props) {
+  const news_props = {
+    title,
+    date: parseISO(dateString),
+    slug,
+    tags,
+    author,
+    description,
+    children: <MDXRemote {...source} components={components} />
+  };
   return (
     <>
-      <PostLayout
-        title={title}
-        date={parseISO(dateString)}
-        slug={slug}
-        tags={tags}
-        author={author}
-        description={description}
-      >
-        <MDXRemote {...source} components={components} />
-      </PostLayout>
+      <Layout
+        type={'news'}
+        news_props={news_props}
+      ></Layout>
     </>
   );
 }
