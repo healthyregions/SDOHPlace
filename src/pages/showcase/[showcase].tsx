@@ -2,11 +2,10 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import matter from "gray-matter";
-import { fetchPostContent } from "../../lib/showcases";
+import { fetchShowcaseContent } from "../../lib/showcases";
 import fs from "fs";
 import yaml from "js-yaml";
 import { parseISO } from "date-fns";
-import ShowcaseLayout from "@/components/showcase/ShowcaseLayout";
 
 import InstagramEmbed from "react-instagram-embed";
 import YouTube from "react-youtube";
@@ -35,9 +34,9 @@ const slugToPostContent = ((postContents) => {
   let hash = {};
   postContents.forEach((it) => (hash[it.slug] = it));
   return hash;
-})(fetchPostContent("content/showcase"));
+})(fetchShowcaseContent("content/showcase"));
 
-export default function Post({
+export default function Showcase({
   title,
   dateString,
   slug,
@@ -73,7 +72,7 @@ export default function Post({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchPostContent("content/showcase").map(
+  const paths = fetchShowcaseContent("content/showcase").map(
     (it) => "/showcase/" + it.slug
   );
   return {
