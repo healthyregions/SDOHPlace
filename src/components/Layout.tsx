@@ -78,7 +78,6 @@ export default function Layout({ type, news_props, showcase_props, page_header, 
           }
           h1 {
             margin: 0 0 0.5rem;
-            font-size: 2.3rem;
           }
           .backlink {
             color: grey;
