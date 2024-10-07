@@ -15,9 +15,22 @@ type Props = {
   children?: React.ReactNode;
 };
 export default function Layout({ type, news_props, showcase_props, page_header, children }: Props) {
+  const getTitle = (type: string) => {
+    switch (type) {
+      case 'news':
+        return 'News';
+      case 'showcase':
+        return 'Showcase';
+      /*case 'guides':
+        return 'Guides';*/
+      default:
+        return undefined;
+    }
+  }
+
   return (
     <>
-      <Header title={"News"} />
+      <Header title={getTitle(type)} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col">
