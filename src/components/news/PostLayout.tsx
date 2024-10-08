@@ -73,7 +73,7 @@ export default function PostLayout({
             </Link>
           </div>
           <header>
-            <h1>{title}</h1>
+            <h1 className={'post-header'}>{title}</h1>
             <div className={"metadata"}>
               <div>
                 <Date date={date} />
@@ -97,6 +97,38 @@ export default function PostLayout({
           <Copyright />
         </footer>
       </div>
+      <style jsx>
+        {`
+          @media (min-width: 769px) {
+            .container {
+              display: flex;
+              flex-direction: column;
+            }
+          }
+          .post-header {
+            margin: 0 0 0.5rem;
+            font-size: 2.3rem;
+          }
+          .backlink {
+            color: grey;
+            margin-bottom: 1em;
+          }
+          .metadata div {
+            display: inline-block;
+            margin-right: 0.5rem;
+          }
+          .tag-list {
+            list-style: none;
+            text-align: right;
+            margin: 1.75rem 0 0 0;
+            padding: 0;
+          }
+          .tag-list li {
+            display: inline-block;
+            margin-left: 0.5rem;
+          }
+        `}
+      </style>
     </>
   );
 }
