@@ -1,6 +1,6 @@
 services:
 
-  discovery-app:
+  homepage:
     container_name: sdoh-homepage
     image: herop/sdoh-homepage
     build:
