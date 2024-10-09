@@ -2,15 +2,15 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import matter from "gray-matter";
-import { fetchPostContent } from "../../lib/showcases";
+import { fetchShowcaseContent } from "../../lib/showcases";
 import fs from "fs";
 import yaml from "js-yaml";
 import { parseISO } from "date-fns";
-import ShowcaseLayout from "@/components/showcase/ShowcaseLayout";
 
 import InstagramEmbed from "react-instagram-embed";
 import YouTube from "react-youtube";
 import { TwitterTweetEmbed } from "react-twitter-embed";
+import Layout from "@/components/Layout";
 
 export type Props = {
   title: string;
@@ -34,9 +34,9 @@ const slugToPostContent = ((postContents) => {
   let hash = {};
   postContents.forEach((it) => (hash[it.slug] = it));
   return hash;
-})(fetchPostContent("content/showcase"));
+})(fetchShowcaseContent("content/showcase"));
 
-export default function Post({
+export default function Showcase({
   title,
   dateString,
   slug,
@@ -48,27 +48,31 @@ export default function Post({
   description = "",
   source,
 }: Props) {
+  const showcase_props = {
+    title,
+    date: parseISO(dateString),
+    slug,
+    image,
+    link,
+    tags,
+    fellowName,
+    techUsed,
+    description,
+    children: <MDXRemote {...source} components={components} />
+  }
   return (
     <>
-      <ShowcaseLayout
-        title={title}
-        date={parseISO(dateString)}
-        slug={slug}
-        image={image}
-        link={link}
-        tags={tags}
-        fellowName={fellowName}
-        techUsed={techUsed}
-        description={description}
+      <Layout
+        type={'showcase'}
+        showcase_props={showcase_props}
       >
-        <MDXRemote {...source} components={components} />
-      </ShowcaseLayout>
+      </Layout>
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchPostContent("content/showcase").map(
+  const paths = fetchShowcaseContent("content/showcase").map(
     (it) => "/showcase/" + it.slug
   );
   return {
