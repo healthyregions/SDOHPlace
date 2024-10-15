@@ -305,11 +305,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </IconButton>
           </div>
         </div>
+        {/*  DEBUG only
         <div style={{ textAlign: 'center' }}>
           {currentPage + 1} / {maxPage} ({pageSize} per page)
         </div>
-        {/* DEBUG only
-
         <div style={{ textAlign: 'center' }}>
           Showing {pageSize * currentPage} - {(pageSize * currentPage) + (pageSize - 1)}
         </div>
