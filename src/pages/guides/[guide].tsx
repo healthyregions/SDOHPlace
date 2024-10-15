@@ -14,7 +14,7 @@ import Layout from "@/components/Layout";
 
 export type Props = {
   title: string;
-  lastUpdatedString: string;
+  last_updated: string;
   slug: string;
   featured_image: string;
   author: string;
@@ -28,14 +28,16 @@ const components = {
   TwitterTweetEmbed,
 };
 const slugToGuideContent = ((guideContents) => {
-  let hash = {};
+  const hash = {};
   guideContents.forEach((it) => (hash[it.slug] = it));
+  console.log('hash: ', hash);
+
   return hash;
 })(fetchGuideContent());
 
 export default function Guide({
                                title,
-                               lastUpdatedString,
+                               last_updated,
                                slug,
                                featured_image,
                                author,
@@ -44,13 +46,14 @@ export default function Guide({
                              }: Props) {
   const guide_props = {
     title,
-    last_updated: parseISO(lastUpdatedString),
+    last_updated: new Date(last_updated),
     slug,
     featured_image,
     author,
     body,
     children: <MDXRemote {...source} components={components} />
   };
+  console.log('guide_props:', guide_props);
   return (
     <>
       <Layout
@@ -70,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params.post as string;
+  const slug = params.guide as string;
   const source = fs.readFileSync(slugToGuideContent[slug].fullPath, "utf8");
   const { content, data } = matter(source, {
     engines: {
@@ -81,9 +84,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       title: data.title,
-      lastUpdatedString: data.last_updated,
-      slug: slug,
-      body: data.body,
+      last_updated: data.last_updated,
+      slug,
+      //body: data.body,
       featured_image: data.featured_image,
       author: data.author,
       source: mdxSource,

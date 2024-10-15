@@ -14,6 +14,7 @@ import { getAuthor } from "../../lib/authors";
 import { getTag } from "../../lib/tags";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import Footer from "../homepage/footer";
+import Image from "next/image";
 
 export type GuideLayoutProps = {
   title: string;
@@ -33,7 +34,7 @@ export default function GuideLayout({
   body = "",
   children,
 }: GuideLayoutProps) {
-  const authorName = getAuthor(author).name;
+  const authorObject = { name: author, slug: null, introduction: null };
   return (
     <>
       {/*<BasicMeta
@@ -66,11 +67,11 @@ export default function GuideLayout({
             "text-stone-900 text-xl w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10"
           }
         >
-          <div className={"backlink"}>
+          {/*<div className={"backlink"}>
             <Link href="/guides" className={"no-underline"}>
               &larr; Back to all guides
             </Link>
-          </div>
+          </div>*/}
           <header>
             <h1 className={'guide-header'}>{title}</h1>
             <div className={"metadata"}>
@@ -78,8 +79,11 @@ export default function GuideLayout({
                 <Date date={last_updated} />
               </div>
               <div>
-                <Author author={getAuthor(author)} />
+                <Author author={authorObject} />
               </div>
+            </div>
+            <div>
+              <img src={featured_image} alt={'featured_image'} />
             </div>
           </header>
           <div className={styles.content}>{children}</div>

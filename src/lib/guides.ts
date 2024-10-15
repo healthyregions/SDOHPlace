@@ -6,10 +6,11 @@ import yaml from "js-yaml";
 const guidesDirectory = path.join(process.cwd(), "content/guides");
 
 export type GuideContent = {
-  readonly date: string;
+  readonly last_updated: string;
   readonly title: string;
   readonly slug: string;
-  readonly tags?: string[];
+  readonly featured_image: string;
+  //readonly body: string;
   readonly fullPath: string;
 };
 
@@ -35,21 +36,20 @@ export function fetchGuideContent(): GuideContent[] {
         },
       });
       const matterData = matterResult.data as {
-        date: string;
+        last_updated: string;
         title: string;
-        tags: string[];
+        featured_image: string;
         slug: string;
         fullPath: string;
       };
       matterData.fullPath = fullPath;
       matterData.slug = fileName.replace(/\.mdx$/, "");
-      console.log(matterData);
 
       return matterData;
     });
   // Sort posts by date
   guideCache = allGuidesData.sort((a, b) => {
-    if (a.date < b.date) {
+    if (a.last_updated < b.last_updated) {
       return 1;
     } else {
       return -1;
@@ -58,18 +58,14 @@ export function fetchGuideContent(): GuideContent[] {
   return guideCache;
 }
 
-export function countGuides(tag?: string): number {
-  return fetchGuideContent().filter(
-    (it) => !tag || (it.tags && it.tags.includes(tag))
-  ).length;
+export function countGuides(): number {
+  return fetchGuideContent().length;
 }
 
-export function listPostContent(
+export function listGuideContent(
   page: number,
-  limit: number,
-  tag?: string
+  limit: number
 ): GuideContent[] {
   return fetchGuideContent()
-    .filter((it) => !tag || (it.tags && it.tags.includes(tag)))
     .slice((page - 1) * limit, page * limit);
 }
