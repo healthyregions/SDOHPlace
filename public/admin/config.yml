@@ -1,3 +1,4 @@
+local_backend: true
 backend:
   name: git-gateway
   branch: publish
@@ -390,6 +391,38 @@ collections:
         displayFields:
           - "fellows.*.name"
         valueField: "fellows.*.name"
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  - name: "guides" # Used in routes, e.g., /admin/collections/blog
+    label: "Guides" # Used in the UI
+    folder: "content/guides" # The path to the folder where the MDX files are stored
+    extension: "mdx"
+    format: "frontmatter"
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}"
+    fields: # The fields for each document, usually in front matter
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
+      - label: "Featured Image"
+        name: "featured_image"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.jpg"
+      - label: "Last Updated"
+        name: "last_updated"
+        widget: "datetime"
+        default: "{{now}}"
+        date_format: "DD.MM.YYYY" # e.g. 24.12.2021
+        time_format: "HH:mm" # e.g. 21:07
+        format: "LLL"
+        picker_utc: false
+      - label: Author
+        name: "author"
+        widget: string
       - label: "Body"
         name: "body"
         widget: "markdown"

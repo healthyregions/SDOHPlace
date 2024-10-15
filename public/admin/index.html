@@ -65,6 +65,25 @@
         },
       });
       CMS.registerPreviewTemplate("showcase", ShowcasePreview);
+      var GuidePreview = createClass({
+        render: function () {
+          var entry = this.props.entry;
+          return h(
+            "div",
+            { className: "container" },
+            h("h1", {}, entry.getIn(["data", "title"])),
+            h(
+              "div",
+              { className: "content" },
+              h("img", { src: entry.getIn(["data", "featured_image"]) }),
+              h("time", {}, entry.getIn(["data", "last_updated"])),
+              h("p", {}, entry.getIn(["data", "author"])),
+              h("div", {}, this.props.widgetFor("body"))
+            )
+          );
+        },
+      });
+      CMS.registerPreviewTemplate("guides", GuidePreview);
     </script>
   </body>
 </html>
