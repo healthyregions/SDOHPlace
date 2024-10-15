@@ -7,6 +7,7 @@ import React, { useRef } from "react";
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
+import transitIcon from "@/public/logos/transit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
 import workplaceIcon from "@/public/logos/workplace-icon.svg";
@@ -100,6 +101,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
   console.log(newsItem);
   const sdohFactors = [
+    {
+      id: "0",
+      svgIcon: transitIcon,
+      title: "Transit",
+      text: "Every day, countless people rely on public transit to get to work, school, and essential services. It’s about building a more inclusive community.",
+      link: "/guides/public-transit-equity",
+    },
     {
       id: "1",
       svgIcon: greenspacesIcon,
@@ -263,9 +271,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health
+            Social Determinants of Health have a Spatial Footprint
           </div>
-          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
+          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto">
             {sdohFactors.map((factor) => (
               <Card
                 key={factor.id}
