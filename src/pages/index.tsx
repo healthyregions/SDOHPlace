@@ -155,6 +155,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const lastPageSize = sdohFactors.length % pageSize;
   const numFullPages = Math.floor((sdohFactors.length / pageSize));
   const maxPage = (lastPageSize > 0) ? numFullPages + 1 : numFullPages;
+  const startIndex = pageSize * currentPage;
+  const endIndex = startIndex + pageSize;
 
   const canNextPage = () => currentPage < (maxPage - 1);
   const canPrevPage = () => currentPage > minPage;
@@ -309,7 +311,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             style={{ display: canPrevPage() ? 'inherit' : 'none' }}>
               <FaChevronCircleLeft />
             </IconButton>
-            {sdohFactors.slice(pageSize * currentPage, (currentPage * pageSize) + pageSize).map((factor) => (
+            {sdohFactors.slice(startIndex, endIndex).map((factor) => (
               <Card
                 key={factor.id}
                 svgIcon={factor.svgIcon}
@@ -526,11 +528,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <Footer />
       <style>
         {`
-          .carousel {
-            background-image: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255, 1) 70%)
-                              linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255, 1) 70%);
-
-          }
           .carousel-link-container {
             display: flex;
             align-items: right;
@@ -539,7 +536,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             text-decoration: none;
             display: flex;
             align-items: center;
-            font-size: 1rem;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            line-height: 24px;
             
             svg {
               margin-right: 0.5rem;
