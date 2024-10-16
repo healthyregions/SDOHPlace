@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
 import { fetchGuideContent } from "../../lib/guides";
 import fs from "fs";
@@ -30,20 +31,20 @@ const components = {
 const slugToGuideContent = ((guideContents) => {
   const hash = {};
   guideContents.forEach((it) => (hash[it.slug] = it));
-  console.log('hash: ', hash);
+  console.log("hash: ", hash);
 
   return hash;
 })(fetchGuideContent());
 
 export default function Guide({
-                               title,
-                               last_updated,
-                               slug,
-                               featured_image,
-                               author,
-                               body = "",
-                               source,
-                             }: Props) {
+  title,
+  last_updated,
+  slug,
+  featured_image,
+  author,
+  body = "",
+  source,
+}: Props) {
   const guide_props = {
     title,
     last_updated: new Date(last_updated),
@@ -51,15 +52,12 @@ export default function Guide({
     featured_image,
     author,
     body,
-    children: <MDXRemote {...source} components={components} />
+    children: <MDXRemote {...source} components={components} />,
   };
-  console.log('guide_props:', guide_props);
+  console.log("guide_props:", guide_props);
   return (
     <>
-      <Layout
-        type={'guide'}
-        guide_props={guide_props}
-      ></Layout>
+      <Layout type={"guide"} guide_props={guide_props}></Layout>
     </>
   );
 }
@@ -80,7 +78,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
     },
   });
-  const mdxSource = await serialize(content);
+  const mdxSource = await serialize(content, {
+    mdxOptions: { remarkPlugins: [remarkGfm] },
+  });
   return {
     props: {
       title: data.title,
