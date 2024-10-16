@@ -104,13 +104,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
 
-  useEffect(() => {
-    if (window.matchMedia("(max-width: 480px)").matches) {
-      setPageSize(2);
-    } else {
-      setPageSize(4);
-    }
-  }, [window.matchMedia("(max-width: 480px)").matches]);
   console.log(newsItem);
   const sdohFactors = [
     {
