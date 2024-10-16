@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, {useRef, useState} from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
+import transitIcon from "@/public/logos/transit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
 import workplaceIcon from "@/public/logos/workplace-icon.svg";
@@ -38,8 +39,10 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box, Grid } from "@mui/material";
+import {Box, Grid, IconButton} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/24/solid";
+import {FaChevronCircleLeft, FaChevronCircleRight} from "react-icons/fa";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -98,8 +101,18 @@ const useStyles = makeStyles({
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
+
   console.log(newsItem);
   const sdohFactors = [
+    {
+      id: "0",
+      svgIcon: transitIcon,
+      title: "Transit",
+      text: "Every day, countless people rely on public transit to get to work, school, and essential services. It’s about building a more inclusive community.",
+      link: "/guides/public-transit-equity",
+    },
     {
       id: "1",
       svgIcon: greenspacesIcon,
@@ -138,6 +151,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       link: "", // Add link after the link is ready
     },
   ];
+  const minPage = 0;
+  const lastPageSize = sdohFactors.length % pageSize;
+  const numFullPages = Math.floor((sdohFactors.length / pageSize));
+  const maxPage = (lastPageSize > 0) ? numFullPages + 1 : numFullPages;
+
+  const canNextPage = () => currentPage < (maxPage - 1);
+  const canPrevPage = () => currentPage > minPage;
+  const nextPage = () => canNextPage() && setCurrentPage(currentPage + 1);
+  const prevPage = () => canPrevPage() && setCurrentPage(currentPage - 1);
 
   function scrollToComingSoon() {
     document
@@ -263,10 +285,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health
+            Social Determinants of Health have a Spatial Footprint
           </div>
-          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
-            {sdohFactors.map((factor) => (
+          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto">
+            <IconButton style={{ backgroundColor: 'transparent' }} onClick={prevPage} disabled={!canPrevPage()}>
+              <FaChevronCircleLeft />
+            </IconButton>
+            {sdohFactors.slice(pageSize * currentPage, (currentPage * pageSize) + pageSize).map((factor) => (
               <Card
                 key={factor.id}
                 svgIcon={factor.svgIcon}
@@ -275,8 +300,21 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 link={factor.link ? factor.link : ""}
               />
             ))}
+            <IconButton style={{ backgroundColor: 'transparent' }} onClick={nextPage} disabled={!canNextPage()}>
+              <FaChevronCircleRight />
+            </IconButton>
           </div>
         </div>
+        {/*  DEBUG only
+        <div style={{ textAlign: 'center' }}>
+          {currentPage + 1} / {maxPage} ({pageSize} per page)
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          Showing {pageSize * currentPage} - {(pageSize * currentPage) + (pageSize - 1)}
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <pre>{JSON.stringify(sdohFactors.slice(pageSize * currentPage, pageSize).map(x => x.id))}</pre>
+        </div>*/}
       </div>
 
       <div className="w-full h-auto">
