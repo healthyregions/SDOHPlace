@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
@@ -42,7 +42,7 @@ import tailwindConfig from "tailwind.config.js";
 import {Box, Grid, IconButton} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/24/solid";
-import {FaChevronCircleLeft, FaChevronCircleRight} from "react-icons/fa";
+import {FaBook, FaChevronCircleLeft, FaChevronCircleRight, FaPlus} from "react-icons/fa";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -102,8 +102,15 @@ const useStyles = makeStyles({
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(4);
 
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 480px)").matches) {
+      setPageSize(2);
+    } else {
+      setPageSize(4);
+    }
+  }, [window.matchMedia("(max-width: 480px)").matches]);
   console.log(newsItem);
   const sdohFactors = [
     {
@@ -285,10 +292,28 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health have a Spatial Footprint
+            <Grid container spacing={0}>
+                <Grid item xs={12} lg={7}>
+                    Social Determinants of Health have a Spatial Footprint
+                </Grid>
+                <Grid item xs={12} lg={3} className={'carousel-link-container'}>
+                    <a href={'#'} className={'carousel-link'}>
+                        <FaBook></FaBook>
+                        Introduction to SDOH & Place
+                    </a>
+                </Grid>
+                <Grid item xs={12} lg={2} className={'carousel-link-container'}>
+                    <a href={'#'} className={'carousel-link'}>
+                        <FaPlus></FaPlus>
+                        Create a Guide
+                    </a>
+                </Grid>
+            </Grid>
           </div>
-          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto">
-            <IconButton style={{ backgroundColor: 'transparent' }} onClick={prevPage} disabled={!canPrevPage()}>
+
+          <div className="carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto">
+            <IconButton className={'carousel-icon-button'} onClick={prevPage} disabled={!canPrevPage()}
+            style={{ display: canPrevPage() ? 'inherit' : 'none' }}>
               <FaChevronCircleLeft />
             </IconButton>
             {sdohFactors.slice(pageSize * currentPage, (currentPage * pageSize) + pageSize).map((factor) => (
@@ -300,7 +325,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 link={factor.link ? factor.link : ""}
               />
             ))}
-            <IconButton style={{ backgroundColor: 'transparent' }} onClick={nextPage} disabled={!canNextPage()}>
+            <IconButton className={'carousel-icon-button'} onClick={nextPage} disabled={!canNextPage()}
+                        style={{ display: canNextPage() ? 'inherit' : 'none' }}>
               <FaChevronCircleRight />
             </IconButton>
           </div>
@@ -505,6 +531,38 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
       <Footer />
+      <style>
+        {`
+          .carousel {
+            background-image: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255, 1) 70%)
+                              linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255, 1) 70%);
+
+          }
+          .carousel-link-container {
+            display: flex;
+            align-items: right;
+          }
+          .carousel-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            
+            svg {
+              margin-right: 0.5rem;
+              vertical-align: middle;
+            }
+          }
+          .carousel-icon-button {
+            background-color: transparent !important;
+            
+            svg {
+              color: #FF9C77;
+              background: #FFE5C4;
+            }
+          }
+        `}
+      </style>
     </>
   );
 };
