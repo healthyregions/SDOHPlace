@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
 import { fetchShowcaseContent } from "../../lib/showcases";
 import fs from "fs";
@@ -58,15 +59,11 @@ export default function Showcase({
     fellowName,
     techUsed,
     description,
-    children: <MDXRemote {...source} components={components} />
-  }
+    children: <MDXRemote {...source} components={components} />,
+  };
   return (
     <>
-      <Layout
-        type={'showcase'}
-        showcase_props={showcase_props}
-      >
-      </Layout>
+      <Layout type={"showcase"} showcase_props={showcase_props}></Layout>
     </>
   );
 }
@@ -89,7 +86,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
     },
   });
-  const mdxSource = await serialize(content);
+  const mdxSource = await serialize(content, {
+    mdxOptions: { remarkPlugins: [remarkGfm] },
+  });
   return {
     props: {
       title: data.title,

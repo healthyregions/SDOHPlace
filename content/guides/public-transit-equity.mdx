@@ -251,10 +251,80 @@ While the specific parameters may vary depending on the tools and the scope of t
     * **Zoning Regulations:** Areas where certain types of development are permitted or restricted.
     * **Environmental Constraints:** Protected areas where development or transit infrastructure is limited.
 
-#### Commonly Used Transit Equity Indicators
+### Commonly Used Transit Equity Indicators
 
 Note: When selecting and applying these indicators, it is important to ensure that data accurately reflects the communities being studied. Consider combining quantitative data with qualitative insights from community members to gain a comprehensive understanding of transit equity issues.
 
-`<insert tables 1 and 2>`
+#### Table 1. Indicators For Measuring Accessibility
 
-`<insert references>`
+| Indicator                                                                                               | Data Source                                                                 | Scale                            |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------- |
+| Percent of Population Without Access to a Car                                                           | ACS                                                                         | Census Tract/Block Group         |
+| Percent of Population That Commutes by Public Transit                                                   | ACS                                                                         | Census Tract/Block Group         |
+| Percent of Low-Income and Minority Workers with Access to Care Centers                                  | ACS, Employment Data                                                        | City/Metropolitan Area           |
+| Percent of Transit Riders Who are People of Color Below the Poverty Line                                | Transit Surveys, ACS                                                        | Transit Agency Level             |
+| Percent of Disabled People Accessible by Transit                                                        | ACS, Transit Routes                                                         | Census Tract/Block Group         |
+| Transit Fare as a Percentage of Income for Low-Income Households                                        | ACS, Fare Data                                                              | Household Level                  |
+| Average Travel Time to Jobs for Marginalized Communities                                                | ACS, GTFS Data                                                              | Census Tract/Block Group         |
+| Access to Healthy Food Options within 30 Minutes by Transit                                             | ACS, Grocery Store Locations, GTFS Data                                     | Census Tract/Block Group         |
+| Access to Educational Facilities (Schools, Colleges) by Transit                                         | ACS, Educational Facility Locations, GTFS Data                              | Census Tract/Block Group         |
+| Percent of Elderly Population with Access to Transit Stops within 0.25 Miles                            | ACS (Age Data), Transit Stop Locations                                      | Census Block Group               |
+| Frequency of Transit Service in Low-Income Areas                                                        | GTFS Data, ACS                                                              | Census Tract/Block Group         |
+| Number of Transfers Required for Low-Income Riders to Reach Employment Centers                          | GTFS Data, Employment Locations                                             | Transit Routes                   |
+| Access to Parks and Recreational Areas by Transit                                                       | ACS, Park Locations, GTFS Data                                              | Census Tract/Block Group         |
+| Transit Stop Amenities (Shelters, Benches) in Different Areas                                           | Transit Agency Data, GIS Mapping                                            | Transit Stop Level               |
+| Average Commute Time Disparity Between Low-Income and High-Income Neighborhoods                         | ACS, GTFS Data                                                              | Neighborhood Level               |
+| Accessibility to Social Services (e.g., Libraries, Community Centers) by Transit                        | ACS, Facility Locations, GTFS Data                                          | Census Tract/Block Group         |
+| Number of Jobs Accessibility within 30/60 Minutes by Transit for Different Income Groups                | ACS, Employment Data, GTFS Data                                             | Census Tract/Block Group         |
+| Percent with Shift Workers access to Employment Opportunities for Non-Traditional Work Hours            | ACS (Occupation Data), GTFS Data                                            | Census Tract/Block Group         |
+| Quality of Transit Infrastructure in Different Neighborhoods (e.g., State of Good Repair)               | Transit Agency Maintenance Records                                          | Neighborhood Level               |
+| Bicycle and Pedestrian Accessibility to Transit Stops                                                   | GIS Data on Bike Lanes, Sidewalks, Transit Stop Locations                   | Census Tract/Block Group         |
+| Low-income areas with high diesel particulate matter exposure, and/or traffic proximity/volume          | EPA National Emissions Inventory (NEI), Local health/environmental agencies | Census tract, City, County       |
+| Increase in transit hours during events and weekends                                                    | Local Transit Agencies                                                      | City, Regional                   |
+| Average time required to transfer between modes at major hubs                                           | Local Transit Agencies                                                      | Transit hubs, City, Metropolitan |
+| Number of bike racks, bike-share programs near transit stops                                            | Local Transit Agencies                                                      | City, Neighborhood               |
+| Percentage of transit information materials available in the top five languages spoken in the community | Local Transit Authorities                                                   | City, Metropolitan               |
+| Percentage of population living within a 0.5-mile radius of a transit stop                              | Census Bureau (ACS)                                                         | Census tract, City, County       |
+| Number of parking corrals, charging stations, and designated lanes                                      | Local Government Data                                                       | City, Neighborhood               |
+| Total number of wayfinding signs, maps, at a stop                                                       | Local Transit Agencies                                                      | City, Neighborhood, Transit hubs |
+
+#### Table 2. Data Sources for Transit Accessibility Analysis
+
+| Data Type                          | Source/Tool                               | Link                       |
+| ---------------------------------- | ----------------------------------------- | -------------------------- |
+| Demographic and Socioeconomic Data | American Community Survey (ACS)           | ACS Data                   |
+| Public Transport Feed              | GTFS (General Transit Feed Specification) | GTFS Overview              |
+|                                    | tidytransit R Package                     | tidytransit on CRAN        |
+|                                    | Transitland Website                       | Transitland Feed Registry  |
+| Transit Agency Data                | Transit Agencies' Websites                | Varies by Agency           |
+|                                    | National Transit Database (NTD)           | National Transit Database  |
+| Road Network Data                  | osmextract R Package                      | osmextract on CRAN         |
+|                                    | Geofabrik Website                         | Geofabrik Download Server  |
+|                                    | HOT Export Tool                           | HOT Export Tool            |
+|                                    | BBBike.org Extract Service                | BBBike Extract Service     |
+|                                    | Protomaps Download Service                | Protomaps OSM Extracts     |
+| Elevation Data (DEM)               | elevatr R Package                         | elevatr on CRAN            |
+|                                    | USGS EarthExplorer                        | USGS EarthExplorer         |
+|                                    | Copernicus DEM                            | Copernicus Open Access Hub |
+|                                    | NASA SRTM Data                            | NASA SRTM Data             |
+| GIS Data and Tools                 | GIS Software (QGIS, ArcGIS Pro)           | QGIS / ArcGIS Pro          |
+|                                    | OpenStreetMap (OSM)                       | OpenStreetMap              |
+
+### Useful R Packages for Routing and Analysis
+
+* tidycensus: Simplifies accessing and working with U.S. Census data, including the ACS.
+* tidytransit: Works with GTFS data for transit analysis.
+* r5r: Performs routing and accessibility analysis on multimodal transport networks.
+
+### References
+
+* Guagliardo, M.F (2004). Spatial accessibility of primary care: concepts, methods and challenges. Int J Health. https://doi.org/10.1186/1476-072X-3-3
+* Iroz-Elardo, N., Schoner, J., Fox, E. H., Brookes, A., & Frank, L. D. (2020). Active travel and social justice: Addressing disparities and promoting health equity through a novel approach to Regional Transportation Planning. Social science & medicine. https://doi:10.1016/j.socscimed.2020.113211
+* Levinson, David, and et al. 2020. “Transport Access Manual: A Guide for Measuring Connection Between People and Places,”. https://ses.library.usyd.edu.au/handle/2123/23733.
+* Lopes, H. S., Ribeiro, V., & Remoaldo, P. C. (2019). Spatial accessibility and social inclusion: The impact of Portugal's last health reform. GeoHealth. https://doi.org/10.1029/2018GH000165
+* Pereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R.”  https://doi.org/10.32866/001c.21262.
+* Pereira, Rafael H.M. 2019. “Future Accessibility Impacts of Transport Policy Scenarios: Equity and Sensitivity to Travel Time Thresholds for Bus Rapid Transit Expansion in Rio de Janeiro.” Journal of Transport Geography https://doi.org/10.1016/j.jtrangeo.2018.12.005.
+* Pereira, R. H. M., Saraiva, M., Herszenhut, D., & Braga, C. K. (2024, April 11). Intro to r5r: Rapid Realistic Routing with R5 in R. IPEA. 
+  https://ipeagit.github.io/r5r/reference/accessibility.html#decay-functions-1
+* U.S. Environmental Protection Agency. (2024, July 25). Smart location mapping. EPA. https://www.epa.gov/smartgrowth/smart-location-mapping#Trans45
+* Wilson, K., & Rosenberg, M. W. (2004). Accessibility and the Canadian health care system: squaring perceptions and realities. Health policy. https://doi.org/10.1016/S0168-8510(03)00101-5
