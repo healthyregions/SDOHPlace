@@ -71,6 +71,7 @@
     "react-schemaorg": "^2.0.0",
     "react-twitter-embed": "^4.0.4",
     "react-youtube": "^10.1.0",
+    "remark-gfm": "^3",
     "schema-dts": "^1.1.2",
     "sharp": "0.32"
   },
