@@ -151,18 +151,18 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       link: "", // Add link after the link is ready
     },
   ];
-  const minPage = 0;
-  const lastPageSize = sdohFactors.length % pageSize;
-  const numFullPages = Math.floor((sdohFactors.length / pageSize));
-  const maxPage = (lastPageSize > 0) ? numFullPages + 1 : numFullPages;
-  const startIndex = pageSize * currentPage;
-  const endIndex = startIndex + pageSize;
 
-  const canNextPage = () => currentPage < (maxPage - 1);
-  const canPrevPage = () => currentPage > minPage;
-  const nextPage = () => canNextPage() && setCurrentPage(currentPage + 1);
-  const prevPage = () => canPrevPage() && setCurrentPage(currentPage - 1);
+  // TODO: detect edge of scroll width, hide buttons at edge?
+  const canNextPage = () => true;
+  const canPrevPage = () => true;
 
+  const scrollSize = 265;
+  const nextPage = () => canNextPage() && scroll(scrollSize);
+  const prevPage = () => canPrevPage() && scroll(-scrollSize);
+  const carouselRef = useRef();
+  const scroll = (scrollOffset) => {
+    carouselRef.current.scrollLeft += scrollOffset;
+  };
   function scrollToComingSoon() {
     document
       .getElementById("coming-soon-section")
@@ -314,7 +314,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </Grid>
             <Grid item xs={10}>
               <div className={'carousel-container'}>
-                <div className={'carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto'}>
+                <div ref={carouselRef} className={'carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto'}>
                   {sdohFactors.map((factor) => (
                       <Card
                         key={factor.id}
@@ -537,7 +537,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           }
           .carousel {
             overflow-x: none;
-            scrollbar-width: thin;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
             mask-image:
               linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
           }
