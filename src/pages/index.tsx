@@ -289,6 +289,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
+              {/* TODO: uncomment these once they have destiations
                 <Grid item xs={12} lg={7}>
                     Social Determinants of Health have a Spatial Footprint
                 </Grid>
@@ -297,7 +298,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         <FaBook></FaBook>
                         Introduction to SDOH & Place
                     </a>
-                </Grid>
+                </Grid>*/}
                 <Grid item xs={12} lg={2} className={'carousel-link-container'}>
                     <a href={'#'} className={'carousel-link'}>
                         <FaPlus></FaPlus>
