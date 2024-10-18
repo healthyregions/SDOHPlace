@@ -307,12 +307,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div>
 
           <Grid container spacing={0}>
-            <Grid item xs={1}>
+            <Grid item xs={1} className={'vertical-center'}>
               <IconButton className={'carousel-icon-button prev-button'} onClick={prevPage} disabled={!canPrevPage()}>
                 <FaChevronCircleLeft />
               </IconButton>
             </Grid>
-            <Grid item xs>
+            <Grid item xs={10}>
               <div className={'carousel-container'}>
                 <div className={'carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto'}>
                   {sdohFactors.map((factor) => (
@@ -327,7 +327,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
               </div>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} className={'vertical-center'}>
               <IconButton className={'carousel-icon-button next-button'} onClick={nextPage} disabled={!canNextPage()}>
                 <FaChevronCircleRight />
               </IconButton>
@@ -526,15 +526,20 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <Footer />
       <style>
         {`
+          .vertical-center {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+          }
           .carousel-container {
             mask-image:
-              linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 5%);
+              linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
           }
           .carousel {
             overflow-x: none;
             scrollbar-width: thin;
             mask-image:
-              linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 5%);
+              linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
           }
           .carousel-link-container {
             display: flex;
@@ -555,9 +560,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           }
           .carousel-icon-button {
             background-color: transparent !important;
-            position: absolute;
             align-self: center;
-            z-index: 5;
+            margin-left: auto;
+            margin-right: auto;
             
             svg {
               color: #FF9C77;
@@ -566,11 +571,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           }
           .prev-button {
             display: ${canPrevPage() ? 'inherit' : 'none'};
-            left: 13rem;
           }
           .next-button {
             display: ${canNextPage() ? 'inherit' : 'none'};
-            right: 13rem;
           }
         `}
       </style>
