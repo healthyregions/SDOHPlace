@@ -306,36 +306,34 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </Grid>
           </div>
 
-          <div className="carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto">
-            <IconButton className={'carousel-icon-button'} onClick={prevPage} disabled={!canPrevPage()}
-            style={{ display: canPrevPage() ? 'inherit' : 'none' }}>
-              <FaChevronCircleLeft />
-            </IconButton>
-            {sdohFactors.slice(startIndex, endIndex).map((factor) => (
-              <Card
-                key={factor.id}
-                svgIcon={factor.svgIcon}
-                title={factor.title}
-                text={factor.text}
-                link={factor.link ? factor.link : ""}
-              />
-            ))}
-            <IconButton className={'carousel-icon-button'} onClick={nextPage} disabled={!canNextPage()}
-                        style={{ display: canNextPage() ? 'inherit' : 'none' }}>
-              <FaChevronCircleRight />
-            </IconButton>
-          </div>
+          <Grid container spacing={0}>
+            <Grid item xs={1}>
+              <IconButton className={'carousel-icon-button prev-button'} onClick={prevPage} disabled={!canPrevPage()}>
+                <FaChevronCircleLeft />
+              </IconButton>
+            </Grid>
+            <Grid item xs>
+              <div className={'carousel-container'}>
+                <div className={'carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto'}>
+                  {sdohFactors.map((factor) => (
+                      <Card
+                        key={factor.id}
+                        svgIcon={factor.svgIcon}
+                        title={factor.title}
+                        text={factor.text}
+                        link={factor.link ? factor.link : ""}
+                      />
+                  ))}
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton className={'carousel-icon-button next-button'} onClick={nextPage} disabled={!canNextPage()}>
+                <FaChevronCircleRight />
+              </IconButton>
+            </Grid>
+          </Grid>
         </div>
-        {/*  DEBUG only
-        <div style={{ textAlign: 'center' }}>
-          {currentPage + 1} / {maxPage} ({pageSize} per page)
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          Showing {pageSize * currentPage} - {(pageSize * currentPage) + (pageSize - 1)}
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <pre>{JSON.stringify(sdohFactors.slice(pageSize * currentPage, pageSize).map(x => x.id))}</pre>
-        </div>*/}
       </div>
 
       <div className="w-full h-auto">
@@ -528,6 +526,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <Footer />
       <style>
         {`
+          .carousel-container {
+            mask-image:
+              linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 5%);
+          }
+          .carousel {
+            overflow-x: none;
+            scrollbar-width: thin;
+            mask-image:
+              linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 5%);
+          }
           .carousel-link-container {
             display: flex;
             align-items: right;
@@ -547,11 +555,22 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           }
           .carousel-icon-button {
             background-color: transparent !important;
+            position: absolute;
+            align-self: center;
+            z-index: 5;
             
             svg {
               color: #FF9C77;
               background: #FFE5C4;
             }
+          }
+          .prev-button {
+            display: ${canPrevPage() ? 'inherit' : 'none'};
+            left: 13rem;
+          }
+          .next-button {
+            display: ${canNextPage() ? 'inherit' : 'none'};
+            right: 13rem;
           }
         `}
       </style>
