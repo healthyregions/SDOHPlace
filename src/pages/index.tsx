@@ -161,7 +161,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const prevPage = () => canPrevPage() && scrollCarousel(-scrollSize);
   const carouselRef = useRef();
   const scrollCarousel = (scrollOffset) => {
-    carouselRef.current.scrollLeft += scrollOffset;
+    const ref: any = carouselRef.current!;
+    ref.scrollLeft += scrollOffset;
   };
   function scrollToComingSoon() {
     document
