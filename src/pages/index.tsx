@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
@@ -39,10 +39,15 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import {Box, Grid, IconButton} from "@mui/material";
+import { Box, Grid, IconButton } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/24/solid";
-import {FaBook, FaChevronCircleLeft, FaChevronCircleRight, FaPlus} from "react-icons/fa";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  FaBook,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
+  FaPlus,
+} from "react-icons/fa";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -52,7 +57,6 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   let newsItem = getSortedPostsData();
-  console.log(newsItem);
   // Convert date to string format
   newsItem = newsItem.map((item) => {
     return {
@@ -103,8 +107,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
-
-  console.log(newsItem);
   const sdohFactors = [
     {
       id: "0",
@@ -299,38 +301,51 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         Introduction to SDOH & Place
                     </a>
                 </Grid>*/}
-                <Grid item xs={12} lg={2} className={'carousel-link-container'}>
-                    <a href={'#'} className={'carousel-link'}>
-                        <FaPlus></FaPlus>
-                        Create a Guide
-                    </a>
-                </Grid>
+              <Grid item xs={12} lg={2} className={"carousel-link-container"}>
+                <a href={"#"} className={"carousel-link"}>
+                  <FaPlus></FaPlus>
+                  Create a Guide
+                </a>
+              </Grid>
             </Grid>
           </div>
 
           <Grid container spacing={0}>
-            <Grid item xs={1} className={'vertical-center'}>
-              <IconButton className={'carousel-icon-button prev-button'} onClick={prevPage} disabled={!canPrevPage()}>
+            <Grid item xs={1} className={"vertical-center"}>
+              <IconButton
+                className={"carousel-icon-button prev-button"}
+                onClick={prevPage}
+                disabled={!canPrevPage()}
+              >
                 <FaChevronCircleLeft />
               </IconButton>
             </Grid>
             <Grid item xs={10}>
-              <div className={'carousel-container'}>
-                <div ref={carouselRef} className={'carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto'}>
+              <div className={"carousel-container"}>
+                <div
+                  ref={carouselRef}
+                  className={
+                    "carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto"
+                  }
+                >
                   {sdohFactors.map((factor) => (
-                      <Card
-                        key={factor.id}
-                        svgIcon={factor.svgIcon}
-                        title={factor.title}
-                        text={factor.text}
-                        link={factor.link ? factor.link : ""}
-                      />
+                    <Card
+                      key={factor.id}
+                      svgIcon={factor.svgIcon}
+                      title={factor.title}
+                      text={factor.text}
+                      link={factor.link ? factor.link : ""}
+                    />
                   ))}
                 </div>
               </div>
             </Grid>
-            <Grid item xs={1} className={'vertical-center'}>
-              <IconButton className={'carousel-icon-button next-button'} onClick={nextPage} disabled={!canNextPage()}>
+            <Grid item xs={1} className={"vertical-center"}>
+              <IconButton
+                className={"carousel-icon-button next-button"}
+                onClick={nextPage}
+                disabled={!canNextPage()}
+              >
                 <FaChevronCircleRight />
               </IconButton>
             </Grid>
@@ -573,10 +588,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             }
           }
           .prev-button {
-            display: ${canPrevPage() ? 'inherit' : 'none'};
+            display: ${canPrevPage() ? "inherit" : "none"};
           }
           .next-button {
-            display: ${canNextPage() ? 'inherit' : 'none'};
+            display: ${canNextPage() ? "inherit" : "none"};
           }
         `}
       </style>

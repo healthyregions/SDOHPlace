@@ -31,8 +31,6 @@ const components = {
 const slugToGuideContent = ((guideContents) => {
   const hash = {};
   guideContents.forEach((it) => (hash[it.slug] = it));
-  console.log("hash: ", hash);
-
   return hash;
 })(fetchGuideContent());
 
@@ -54,7 +52,6 @@ export default function Guide({
     body,
     children: <MDXRemote {...source} components={components} />,
   };
-  console.log("guide_props:", guide_props);
   return (
     <>
       <Layout type={"guide"} guide_props={guide_props}></Layout>
