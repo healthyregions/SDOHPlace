@@ -113,7 +113,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       svgIcon: transitIcon,
       title: "Transit",
       text: "Every day, countless people rely on public transit to get to work, school, and essential services. It’s about building a more inclusive community.",
-      link: "/guides/public-transit-equity",
+      // link: "/guides/public-transit-equity",
     },
     {
       id: "1",
@@ -291,22 +291,22 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
+              <Grid item xs={12} lg={7}>
+                Social Determinants of Health have a Spatial Footprint
+              </Grid>
               {/* TODO: uncomment these once they have destiations
-                <Grid item xs={12} lg={7}>
-                    Social Determinants of Health have a Spatial Footprint
-                </Grid>
                 <Grid item xs={12} lg={3} className={'carousel-link-container'}>
                     <a href={'#'} className={'carousel-link'}>
                         <FaBook></FaBook>
                         Introduction to SDOH & Place
                     </a>
-                </Grid>*/}
-              <Grid item xs={12} lg={2} className={"carousel-link-container"}>
-                <a href={"#"} className={"carousel-link"}>
-                  <FaPlus></FaPlus>
-                  Create a Guide
-                </a>
-              </Grid>
+                </Grid>
+                <Grid item xs={12} lg={2} className={"carousel-link-container"}>
+                  <a href={"#"} className={"carousel-link"}>
+                    <FaPlus></FaPlus>
+                    Create a Guide
+                  </a>
+                </Grid> */}
             </Grid>
           </div>
 
