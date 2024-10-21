@@ -3,7 +3,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
-import { fetchShowcaseContent } from "../../lib/showcases";
+import { fetchGuideContent } from "../../lib/guides";
 import fs from "fs";
 import yaml from "js-yaml";
 import { parseISO } from "date-fns";
@@ -15,14 +15,11 @@ import Layout from "@/components/Layout";
 
 export type Props = {
   title: string;
-  dateString: string;
+  last_updated: string;
   slug: string;
-  image: string;
-  link: string;
-  tags: string[];
-  fellowName: string;
-  techUsed?: string;
-  description?: string;
+  featured_image: string;
+  author: string;
+  body?: string;
   source: MDXRemoteSerializeResult;
 };
 
@@ -31,47 +28,39 @@ const components = {
   YouTube,
   TwitterTweetEmbed,
 };
-const slugToPostContent = ((postContents) => {
-  let hash = {};
-  postContents.forEach((it) => (hash[it.slug] = it));
+const slugToGuideContent = ((guideContents) => {
+  const hash = {};
+  guideContents.forEach((it) => (hash[it.slug] = it));
   return hash;
-})(fetchShowcaseContent("content/showcase"));
+})(fetchGuideContent());
 
-export default function Showcase({
+export default function Guide({
   title,
-  dateString,
+  last_updated,
   slug,
-  image,
-  link,
-  tags,
-  fellowName,
-  techUsed = "",
-  description = "",
+  featured_image,
+  author,
+  body = "",
   source,
 }: Props) {
-  const showcase_props = {
+  const guide_props = {
     title,
-    date: parseISO(dateString),
+    last_updated: new Date(last_updated),
     slug,
-    image,
-    link,
-    tags,
-    fellowName,
-    techUsed,
-    description,
+    featured_image,
+    author,
+    body,
     children: <MDXRemote {...source} components={components} />,
   };
   return (
     <>
-      <Layout type={"showcase"} showcase_props={showcase_props}></Layout>
+      <Layout type={"guide"} guide_props={guide_props}></Layout>
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchShowcaseContent("content/showcase").map(
-    (it) => "/showcase/" + it.slug
-  );
+  const paths = fetchGuideContent().map((it) => "/guides/" + it.slug);
   return {
     paths,
     fallback: false,
@@ -79,8 +68,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params.showcase as string;
-  const source = fs.readFileSync(slugToPostContent[slug].fullPath, "utf8");
+  const slug = params.guide as string;
+  const source = fs.readFileSync(slugToGuideContent[slug].fullPath, "utf8");
   const { content, data } = matter(source, {
     engines: {
       yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
@@ -92,11 +81,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       title: data.title,
-      slug: slug,
-      image: data.image,
-      techUsed: data.tech_used ? data.tech_used : "",
-      link: data.link,
-      fellowName: data.fellow,
+      last_updated: data.last_updated,
+      slug,
+      //body: data.body,
+      featured_image: data.featured_image,
+      author: data.author,
       source: mdxSource,
     },
   };

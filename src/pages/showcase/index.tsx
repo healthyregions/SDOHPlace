@@ -1,14 +1,14 @@
 import { GetStaticProps } from "next";
-import Layout from "@/components/news/Layout";
+import Layout from "@/components/Layout";
 import BasicMeta from "@/components/news/meta/BasicMeta";
 import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
 import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
 import config from "../../lib/config";
 import {
-  countPosts,
-  listPostContent,
-  ShowcaseContent,
+  countShowcases,
+  listShowcaseContent,
+  ShowcaseContent
 } from "../../lib/showcases";
 import { listTags, TagContent } from "../../lib/tags";
 import Head from "next/head";
@@ -35,11 +35,11 @@ export default function Index({ posts, tags, pagination }: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = listPostContent("content/showcase", 1, config.posts_per_page);
+  const posts = listShowcaseContent("content/showcase", 1, config.posts_per_page);
   const tags = listTags();
   const pagination = {
     current: 1,
-    pages: Math.ceil(countPosts("content/showcase") / config.posts_per_page),
+    pages: Math.ceil(countShowcases("content/showcase") / config.posts_per_page),
   };
   return {
     props: {
