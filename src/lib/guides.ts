@@ -3,29 +3,30 @@ import matter from "gray-matter";
 import path from "path";
 import yaml from "js-yaml";
 
-const postsDirectory = path.join(process.cwd(), "content/posts");
+const guidesDirectory = path.join(process.cwd(), "content/guides");
 
-export type PostContent = {
-  readonly date: string;
+export type GuideContent = {
+  readonly last_updated: string;
   readonly title: string;
   readonly slug: string;
-  readonly tags?: string[];
+  readonly featured_image: string;
+  //readonly body: string;
   readonly fullPath: string;
 };
 
-let postCache: PostContent[];
+let guideCache: GuideContent[];
 
-export function fetchPostContent(): PostContent[] {
-  if (postCache) {
-    return postCache;
+export function fetchGuideContent(): GuideContent[] {
+  if (guideCache) {
+    return guideCache;
   }
   // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
+  const fileNames = fs.readdirSync(guidesDirectory);
+  const allGuidesData = fileNames
     .filter((it) => it.endsWith(".mdx"))
     .map((fileName) => {
       // Read markdown file as string
-      const fullPath = path.join(postsDirectory, fileName);
+      const fullPath = path.join(guidesDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
 
       // Use gray-matter to parse the post metadata section
@@ -35,9 +36,9 @@ export function fetchPostContent(): PostContent[] {
         },
       });
       const matterData = matterResult.data as {
-        date: string;
+        last_updated: string;
         title: string;
-        tags: string[];
+        featured_image: string;
         slug: string;
         fullPath: string;
       };
@@ -47,28 +48,24 @@ export function fetchPostContent(): PostContent[] {
       return matterData;
     });
   // Sort posts by date
-  postCache = allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
+  guideCache = allGuidesData.sort((a, b) => {
+    if (a.last_updated < b.last_updated) {
       return 1;
     } else {
       return -1;
     }
   });
-  return postCache;
+  return guideCache;
 }
 
-export function countPosts(tag?: string): number {
-  return fetchPostContent().filter(
-    (it) => !tag || (it.tags && it.tags.includes(tag))
-  ).length;
+export function countGuides(): number {
+  return fetchGuideContent().length;
 }
 
-export function listPostContent(
+export function listGuideContent(
   page: number,
-  limit: number,
-  tag?: string
-): PostContent[] {
-  return fetchPostContent()
-    .filter((it) => !tag || (it.tags && it.tags.includes(tag)))
+  limit: number
+): GuideContent[] {
+  return fetchGuideContent()
     .slice((page - 1) * limit, page * limit);
 }

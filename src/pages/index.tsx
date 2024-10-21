@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
 import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
+import transitIcon from "@/public/logos/transit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
 import workplaceIcon from "@/public/logos/workplace-icon.svg";
@@ -38,8 +39,15 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, IconButton } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  FaBook,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
+  FaPlus,
+} from "react-icons/fa";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -49,7 +57,6 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   let newsItem = getSortedPostsData();
-  console.log(newsItem);
   // Convert date to string format
   newsItem = newsItem.map((item) => {
     return {
@@ -98,8 +105,16 @@ const useStyles = makeStyles({
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
-  console.log(newsItem);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(4);
   const sdohFactors = [
+    {
+      id: "0",
+      svgIcon: transitIcon,
+      title: "Transit",
+      text: "Every day, countless people rely on public transit to get to work, school, and essential services. It’s about building a more inclusive community.",
+      // link: "/guides/public-transit-equity",
+    },
     {
       id: "1",
       svgIcon: greenspacesIcon,
@@ -139,6 +154,18 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     },
   ];
 
+  // TODO: detect edge of scroll width, hide buttons at edge?
+  const canNextPage = () => true;
+  const canPrevPage = () => true;
+
+  const scrollSize = 265;
+  const nextPage = () => canNextPage() && scrollCarousel(scrollSize);
+  const prevPage = () => canPrevPage() && scrollCarousel(-scrollSize);
+  const carouselRef = useRef();
+  const scrollCarousel = (scrollOffset) => {
+    const ref: any = carouselRef.current!;
+    ref.scrollLeft += scrollOffset;
+  };
   function scrollToComingSoon() {
     document
       .getElementById("coming-soon-section")
@@ -263,19 +290,66 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health
+            <Grid container spacing={0}>
+              <Grid item xs={12} lg={7}>
+                Social Determinants of Health have a Spatial Footprint
+              </Grid>
+              {/* TODO: uncomment these once they have destiations
+                <Grid item xs={12} lg={3} className={'carousel-link-container'}>
+                    <a href={'#'} className={'carousel-link'}>
+                        <FaBook></FaBook>
+                        Introduction to SDOH & Place
+                    </a>
+                </Grid>
+                <Grid item xs={12} lg={2} className={"carousel-link-container"}>
+                  <a href={"#"} className={"carousel-link"}>
+                    <FaPlus></FaPlus>
+                    Create a Guide
+                  </a>
+                </Grid> */}
+            </Grid>
           </div>
-          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
-            {sdohFactors.map((factor) => (
-              <Card
-                key={factor.id}
-                svgIcon={factor.svgIcon}
-                title={factor.title}
-                text={factor.text}
-                link={factor.link ? factor.link : ""}
-              />
-            ))}
-          </div>
+
+          <Grid container spacing={0}>
+            <Grid item xs={1} className={"vertical-center"}>
+              <IconButton
+                className={"carousel-icon-button prev-button"}
+                onClick={prevPage}
+                disabled={!canPrevPage()}
+              >
+                <FaChevronCircleLeft />
+              </IconButton>
+            </Grid>
+            <Grid item xs={10}>
+              <div className={"carousel-container"}>
+                <div
+                  ref={carouselRef}
+                  className={
+                    "carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto"
+                  }
+                >
+                  {sdohFactors.map((factor) => (
+                    <Card
+                      key={factor.id}
+                      svgIcon={factor.svgIcon}
+                      title={factor.title}
+                      text={factor.text}
+                      link={factor.link ? factor.link : ""}
+                    />
+                  ))}
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={1} className={"vertical-center"}>
+              <IconButton
+                className={"carousel-icon-button next-button"}
+                onClick={nextPage}
+                disabled={!canNextPage()}
+              >
+                <FaChevronCircleRight />
+              </IconButton>
+            </Grid>
+          </Grid>
         </div>
       </div>
 
@@ -467,6 +541,60 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
       <Footer />
+      <style>
+        {`
+          .vertical-center {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+          }
+          .carousel-container {
+            mask-image:
+              linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
+          }
+          .carousel {
+            overflow-x: none;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            mask-image:
+              linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
+          }
+          .carousel-link-container {
+            display: flex;
+            align-items: right;
+          }
+          .carousel-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+            
+            svg {
+              margin-right: 0.5rem;
+              vertical-align: middle;
+            }
+          }
+          .carousel-icon-button {
+            background-color: transparent !important;
+            align-self: center;
+            margin-left: auto;
+            margin-right: auto;
+            
+            svg {
+              color: #FF9C77;
+              background: #FFE5C4;
+            }
+          }
+          .prev-button {
+            display: ${canPrevPage() ? "inherit" : "none"};
+          }
+          .next-button {
+            display: ${canNextPage() ? "inherit" : "none"};
+          }
+        `}
+      </style>
     </>
   );
 };
