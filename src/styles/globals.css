@@ -134,3 +134,155 @@ ul.navbar-mobile > li > a {
   font-family: Fredoka;
   margin: 2.5rem 0 0 0;
 }
+
+/* Markdown Styles */
+
+article {
+  flex: 1 0 auto;
+}
+
+/* Headers */
+
+article h1 {
+  font-family: 'Fredoka', sans-serif;
+  color: #7E1CC4;
+  font-weight: 400;
+  font-size: 48px;
+  letter-spacing: 0.2px;
+}
+
+article h2 {
+  font-family: 'Fredoka', sans-serif;
+  color: #1E1E1E;
+  font-weight: 400;
+  font-size: 36px;
+  border-left: solid 4px;
+  border-color: #FF9C77;
+  padding-left: 11px !important;
+}
+
+article h3 {
+  font-family: 'Fredoka', sans-serif;
+  color: #1E1E1E;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+article h4 {
+  font-family: 'Fredoka', sans-serif;
+  color: #1E1E1E;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article h5 > em {
+  font-style: normal;
+}
+
+
+/* Lists */
+
+article ul {
+  font-family: 'Nunito', sans-serif;
+  color: #1E1E1E;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article ul li::marker {
+  color: #FF9C77;
+}
+
+article ol {
+  font-family: 'Nunito', sans-serif;
+  color: #1E1E1E;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+
+/*  Details + Summary */
+
+article details, details summary {
+  font-family: 'Nunito', sans-serif;
+  color: #1E1E1E;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article details summary {
+  margin-bottom: 1rem;
+}
+
+article summary::marker {
+  color: #FF9C77;
+}
+
+article summary strong {
+  font-weight: 400 !important;
+}
+
+
+/* Links / Anchors */
+
+article a {
+  text-decoration: none !important;
+  font-weight: 400;
+}
+
+
+/* Image Captions */
+
+article p.caption, article .figcaption {
+  font-family: 'Fredoka', sans-serif;
+  color: #333333;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+/* Tables */
+
+article table tr {
+  font-family: 'Nunito', sans-serif;
+  border-top: 2px solid #FFE5C4 !important;
+  line-height: 27.2px;
+}
+
+article table tr th {
+  background-color: #fff;
+  font-weight: 700;
+  border-bottom: 2px solid #FFE5C4;
+}
+
+article table td, article table th {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+article table {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  color: #333333;
+  overflow-x: auto;
+  width: 100%;
+}
+
+article table tr td:first-child {
+  min-width: 200px !important;
+}
+
+article table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+article table tbody tr:nth-child(even) {
+  background-color: #FFFAF3;
+}
+
+article table tbody tr:last-child {
+  border-bottom: 3px solid #FFE5C4;
+}
+
+article table td {
+  text-align: left;
+}
