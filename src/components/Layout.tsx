@@ -5,7 +5,7 @@ import Footer from "./homepage/footer";
 import React from "react";
 import PostLayout, {PostLayoutProps} from './news/PostLayout';
 import ShowcaseLayout, {ShowcaseLayoutProps} from './showcase/ShowcaseLayout';
-import GuideLayout, {GuideLayoutProps} from "@/components/guides/GuideLayout";
+import GuideLayout, {GuideLayoutProps} from "./guides/GuideLayout";
 
 type Props = {
   type?: 'news' | 'showcase' | 'guide' ;
