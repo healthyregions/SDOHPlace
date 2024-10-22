@@ -130,92 +130,13 @@ NB: The three methods are restrictive. Here, the probability of choosing the nea
 
 <details><summary>Container-Based Measures</summary></br>Acknowledging individual differences can complicate accessibility calculations and may require additional data, computational, and technical support. A number of transit equity measures simplify this complexity by using container-based measures which assess accessibility by grouping all the opportunities within predefined geographic areas commonly referred to as "containers" - neighborhoods, census tracts, or block groups. These measures assume that everyone within the container shares similar characteristics and that the area's attributes can represent the experiences of its residents, which makes it easier to analyze and compare.
 
-You can pull a number of data from the American Community Survey (ACS for different areas or employ a  combination of techniques ) for container measures. Potential examples include:\
-<ol><li>Count of Bus Stops Within a Neighborhood<ul><li>The neighborhood acts as the "container."</li><li>By aggregating the number of bus stops within this container, we are assuming that the accessibility to bus services is uniformly available to all residents in the area.</li><li>This count can be added as a new column or field in the dataset representing that area.</li><li>This measure simplifies individual differences by treating the availability of bus stops as a characteristic of the entire area.</li></ul></li><li>Block Groups Within a Half Mile Buffer of a Transit Stop<ul><li>Each block group serves as a container.</li><li>By determining which block groups fall within the half-mile buffer, we are assigning an accessibility attribute to the entire block group.</li><li>These block groups are marked or categorized based on whether they meet this proximity criterion.</li><li>This approach assumes that everyone within the selected block groups has similar access to the transit stop.</li></ul></li><li>Proportion of Commuters That Use Public Transit (via ACS)<ul><li>The census tract is the container.</li><li>By linking ACS data to the census tract, we are attributing the commuting behavior to the entire area.</li><li>This proportion is added as a field in the dataset representing that census tract.</li><li>This measure assumes uniformity in public transit usage within the tract.</li></ul></li><li>Travel Diary Summary by Area<ul><li>The area (e.g., neighborhood) acts as the container.</li><li>Individual travel behaviors are aggregated to provide average or typical travel patterns for the area.</li><li>This approach assumes that the summarized data represents the experiences of all residents within the container.</li></ul></li><li>Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within Half a Mile of a Bus Stop<ul><li>The census tract is the container.</li><li>Combines ACS data on low-income residents at the census tract level with spatial data on bus stop locations.</li><li>This measure assigns an accessibility attribute (proximity to bus stops) to the tract based on the aggregated data of its residents.</li><li>It assumes that the accessibility level is uniform for low-income residents within the tract.</li></ul></li><li>Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within a 30-Minute Public Transit Distance of any Grocery Store<ul><li>The census tract serves as the container.</li><li>Merging ACS data on low-income residents with transit network data to calculate travel times to grocery stores.</li><li>The measure aggregates individual accessibility into a tract-level statistic.</li><li>It attributes the calculated accessibility level to all low-income residents within the tract.</li></ul></li></ol></br>Limitations of Container-Based Measures:<ul><li>Overgeneralization: Container based measure assumes everyone in the area is the same, ignoring individual differences.</li><li>Border Issues: It does not account for people who might possibly cross boundaries to access opportunities in nearby areas.
+You can pull a number of data from the American Community Survey (ACS for different areas or employ a  combination of techniques) for container measures. Potential examples include:
 
-</li><li>No Travel Difficulty Consideration: Moreover, it does not consider how hard or easy it is to reach these opportunities.
+<ol><li><b>Count of Bus Stops Within a Neighborhood</b><ul><li>The neighborhood acts as the "container."</li><li>By aggregating the number of bus stops within this container, we are assuming that the accessibility to bus services is uniformly available to all residents in the area.</li><li>This count can be added as a new column or field in the dataset representing that area.</li><li>This measure simplifies individual differences by treating the availability of bus stops as a characteristic of the entire area.</li></ul></li><li><b>Block Groups Within a Half Mile Buffer of a Transit Stop</b><ul><li>Each block group serves as a container.</li><li>By determining which block groups fall within the half-mile buffer, we are assigning an accessibility attribute to the entire block group.</li><li>These block groups are marked or categorized based on whether they meet this proximity criterion.</li><li>This approach assumes that everyone within the selected block groups has similar access to the transit stop.</li></ul></li><li><b>Proportion of Commuters That Use Public Transit (via ACS)</b><ul><li>The census tract is the container.</li><li>By linking ACS data to the census tract, we are attributing the commuting behavior to the entire area.</li><li>This proportion is added as a field in the dataset representing that census tract.</li><li>This measure assumes uniformity in public transit usage within the tract.</li></ul></li><li><b>Travel Diary Summary by Area</b><ul><li>The area (e.g., neighborhood) acts as the container.</li><li>Individual travel behaviors are aggregated to provide average or typical travel patterns for the area.</li><li>This approach assumes that the summarized data represents the experiences of all residents within the container.</li></ul></li><li><b>Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within Half a Mile of a Bus Stop</b><ul><li>The census tract is the container.</li><li>Combines ACS data on low-income residents at the census tract level with spatial data on bus stop locations.</li><li>This measure assigns an accessibility attribute (proximity to bus stops) to the tract based on the aggregated data of its residents.</li><li>It assumes that the accessibility level is uniform for low-income residents within the tract.</li></ul></li><li><b>Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within a 30-Minute Public Transit Distance of any Grocery Store</b><ul><li>The census tract serves as the container.</li><li>Merging ACS data on low-income residents with transit network data to calculate travel times to grocery stores.</li><li>The measure aggregates individual accessibility into a tract-level statistic.</li><li>It attributes the calculated accessibility level to all low-income residents within the tract.</li></ul></li></ol></br>Limitations of Container-Based Measures:<ul><li><b>Overgeneralization</b>: Container based measure assumes everyone in the area is the same, ignoring individual differences.</li><li><b>Border Issues</b>: It does not account for people who might possibly cross boundaries to access opportunities in nearby areas.</li><li><b>No Travel Difficulty Consideration</b>: Moreover, it does not consider how hard or easy it is to reach these opportunities.</li></ul></details></br>
 
-</li></ul>
+<details><summary>Cumulative-Opportunity Measures</summary></br>Think of this measure as counting all the places you can get to within a certain time or distance(cutoff) towards or away from an origin. For example, how many grocery stores can you reach within a 15-minute walk? Instead of just looking at the distance or time it takes to get somewhere, this measure focuses on how many opportunities are available within your travel limits. It includes all opportunities within the cutoff and excludes those beyond it.</br></br>A cumulative-opportunity measure is most ideal when there is a strict limit on acceptable travel time or distance. For example, emergency services that must be reached within 10 minutes. In addition, cumulative-opportunity measure is useful when  you are working with policies or regulations that specify maximum acceptable travel times that is needed which can be helpful to identify areas lacking essential services within a critical threshold.</br></br>How the cumulative-opportunity measure works:<ol><li><b>Setting a Cutoff</b>: Decide on a travel time or distance limit, like 30 minutes by bus.</li><li><b>Counting Opportunities</b>: Count all the places (jobs, schools, parks) you can reach within that limit.</li></ol></br>Limitations of Cumulative-Opportunity Measure:<ul><li><b>Ignores Small Differences</b>: Cumulative-opportunity measure literally assumes that most people do not really care about small differences in travel times or distances(10 min vs. 12min)- arbitrary Cutoffs. As long as the options are within certain limits(the cuff off points), people are generally okay with them(arbitrary Cutoffs).</li><li><b>Equal Weighting</b>: It also treats all opportunities the same, even if some are more important or harder to reach. There is no gradual decline or weighting; it is an all-or-nothing approach.</li></ul></details></br>
 
-</details>
-
-##### Container-Based Measures
-
-Acknowledging individual differences can complicate accessibility calculations and may require additional data, computational, and technical support. A number of transit equity measures simplify this complexity by using container-based measures which assess accessibility by grouping all the opportunities within predefined geographic areas commonly referred to as "containers" - neighborhoods, census tracts, or block groups. These measures assume that everyone within the container shares similar characteristics and that the area's attributes can represent the experiences of its residents, which makes it easier to analyze and compare.
-
-You can pull a number of data from the American Community Survey (ACS for different areas or employ a  combination of techniques ) for container measures. Potential examples include:
-
-1. **Count of Bus Stops Within a Neighborhood**
-
-   * The neighborhood acts as the "container."
-   * By aggregating the number of bus stops within this container, we are assuming that the accessibility to bus services is uniformly available to all residents in the area.
-   * This count can be added as a new column or field in the dataset representing that area.
-   * This measure simplifies individual differences by treating the availability of bus stops as a characteristic of the entire area.
-2. **Block Groups Within a Half Mile Buffer of a Transit Stop**
-
-   * Each block group serves as a container.
-   * By determining which block groups fall within the half-mile buffer, we are assigning an accessibility attribute to the entire block group.
-   * These block groups are marked or categorized based on whether they meet this proximity criterion.
-   * This approach assumes that everyone within the selected block groups has similar access to the transit stop.
-3. **Proportion of Commuters That Use Public Transit (via ACS)**
-
-   * The census tract is the container.
-   * By linking ACS data to the census tract, we are attributing the commuting behavior to the entire area.
-   * This proportion is added as a field in the dataset representing that census tract.
-   * This measure assumes uniformity in public transit usage within the tract.
-4. **Travel Diary Summary by Area**
-
-   * The area (e.g., neighborhood) acts as the container.
-   * Individual travel behaviors are aggregated to provide average or typical travel patterns for the area.
-   * This approach assumes that the summarized data represents the experiences of all residents within the container.
-5. **Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within Half a Mile of a Bus Stop**
-
-   * The census tract is the container.
-   * Combines  ACS data on low-income residents at the census tract level with spatial data on bus stop locations.
-   * This measure assigns an accessibility attribute (proximity to bus stops) to the tract based on the aggregated data of its residents.
-   * It assumes that the accessibility level is uniform for low-income residents within the tract.
-6. **Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within a 30-Minute Public Transit Distance of any Grocery Store**
-
-   * The census tract serves as the container.
-   * Merging ACS data on low-income residents with transit network data to calculate travel times to grocery stores.
-   * The measure aggregates individual accessibility into a tract-level statistic.
-   * It attributes the calculated accessibility level to all low-income residents within the tract.
-
-*Limitations of  Container-Based Measures*
-
-* **Overgeneralization:** Container based measure assumes everyone in the area is the same, ignoring individual differences.
-* **Border Issues:** It does not account for people who might possibly cross boundaries to access opportunities in nearby areas.
-* **No Travel Difficulty Consideration:** Moreover, it does not consider how hard or easy it is to reach these opportunities.
-
-#### Cumulative-Opportunity Measures
-
-Think of this measure as counting all the places you can get to within a certain time or distance(cutoff) towards or away from an origin. For example, how many grocery stores can you reach within a 15-minute walk? Instead of just looking at the distance or time it takes to get somewhere, this measure focuses on how many opportunities are available within your travel limits. It includes all opportunities within the cutoff and excludes those beyond it. 
-
-A cumulative-opportunity measure is most ideal when there is a strict limit on acceptable travel time or distance. For example, emergency services that must be reached within 10 minutes. In addition, cumulative-opportunity measure is useful when  you are working with policies or regulations that specify maximum acceptable travel times that is needed which can be helpful to identify areas lacking essential services within a critical threshold.
-
-*How the cumulative-opportunity measure works*
-
-1. Setting a Cutoff: Decide on a travel time or distance limit, like 30 minutes by bus.
-2. Counting Opportunities: Count all the places (jobs, schools, parks) you can reach within that limit.
-
-*Limitations of Cumulative-Opportunity Measure*
-
-* Ignores Small Differences: Cumulative-opportunity measure literally assumes that most people do not really care about small differences in travel times or distances(10 min vs. 12min)- arbitrary Cutoffs. As long as the options are within certain limits(the cuff off points), people are generally okay with them(arbitrary Cutoffs).
-* Equal Weighting: It also treats all opportunities the same, even if some are more important or harder to reach. There is no gradual decline or weighting; it is an all-or-nothing approach.
-
-#### Gravity Measure
-
-This measure is like the cumulative-opportunity measure but offers more in-depth into reaching opportunities. The gravity measures of spatial accessibility consider not just how many places you can reach, but also the  attractiveness of the destinations- that is how big  and important the  place is (like a large hospital vs. a small clinic). It gives more weight/importance to places that are closer and much easier to reach. They are most useful because they can adjust for different types of destinations and how people value those destinations. For example, people might be willing to travel further to a hospital than to a clinic because the hospital offers more services or  because of substantial evidence of quality (e.g., patient care quality).
-
-##### *How the Gravity Measure works*
-
-1. Distance Decay Function: Distance decay is a concept that describes how the significance of a location diminishes as the distance from it increases. This idea offers an alternative approach for addressing the fact that certain travelers or segments of the population are willing to tolerate longer travel times than others. Various formulas, such as exponential, fixed_exponential, linear, or logistic, are used to comprehend how people's willingness to travel is influenced by distance.
-2. Weighted Opportunities: Closer and more attractive places have a bigger impact on the accessibility score.
-
-##### *Limitations of Gravity Measure*
-
-* Complexity: Requires more data and understanding of the factors that influence accessibility.
-* Setting Factors: Deciding how much distance affects accessibility (the impedance factor) can be challenging.
+<details><summary>Gravity Measure</summary></br>This measure is like the cumulative-opportunity measure but offers more in-depth into reaching opportunities. The gravity measures of spatial accessibility consider not just how many places you can reach, but also the attractiveness of the destinations- that is how big and important the place is (like a large hospital vs. a small clinic). It gives more weight/importance to places that are closer and much easier to reach. They are most useful because they can adjust for different types of destinations and how people value those destinations. For example, people might be willing to travel further to a hospital than to a clinic because the hospital offers more services or because of substantial evidence of quality (e.g., patient care quality).</br></br>How the Gravity Measure works:<ol><li><b>Distance Decay Function</b>: Distance decay is a concept that describes how the significance of a location diminishes as the distance from it increases. This idea offers an alternative approach for addressing the fact that certain travelers or segments of the population are willing to tolerate longer travel times than others. Various formulas, such as exponential, fixed_exponential, linear, or logistic, are used to comprehend how people's willingness to travel is influenced by distance.</li><li><b>Weighted Opportunities</b>: Closer and more attractive places have a bigger impact on the accessibility score.</li></ol></br>Limitations of Gravity Measure:<ul><li><b>Complexity</b>: Requires more data and understanding of the factors that influence accessibility.</li><li><b>Setting Factors</b>: Deciding how much distance affects accessibility (the impedance factor) can be challenging.</li></ul></details>
 
 #### Summary of Measures in Everyday Terms
 
@@ -234,6 +155,8 @@ When setting up your accessibility analysis, it is important to carefully define
 #### Commonly Used Parameters in Transit Accessibility Analysis
 
 While the specific parameters may vary depending on the tools and the scope of the study, some commonly used parameters include:
+
+
 
 1. **Origin and Destination Points:**
 
