@@ -217,6 +217,8 @@ export default function GuideLayout({
             font-family: 'Nunito', sans-serif;
             font-size: 16px;
             color: #333333;
+            overflow-x: auto;
+            width: 100%;
           }
 
           table tr td:first-child {
