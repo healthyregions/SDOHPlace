@@ -92,8 +92,119 @@ export default function GuideLayout({
           <Copyright />
         </footer>
       </div>
-      <style jsx>
+      <style global jsx>
         {`
+          
+          /* Headers */
+          
+          h1 {
+            font-family: 'Fredoka', sans-serif;
+            color: #7E1CC4;
+            font-weight: 400;
+            font-size: 48px;
+            letter-spacing: 0.2px;
+          }
+
+          h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: #1E1E1E;
+            font-weight: 400;
+            font-size: 36px;
+            border-left: solid 4px;
+            border-color: #FF9C77;
+            padding-left: 11px !important;
+          }
+
+          h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: #1E1E1E;
+            font-weight: 400;
+            font-size: 24px;
+          }
+
+          h4 {
+            font-family: 'Fredoka', sans-serif;
+            color: #1E1E1E;
+            font-weight: 400;
+            font-size: 18px;
+          }
+          
+          h5 > em {
+            font-style: normal;
+          }
+
+          
+          /* Lists */
+          
+          ul {
+            font-family: 'Nunito', sans-serif;
+            color: #1E1E1E;
+            font-weight: 400;
+            font-size: 18px;
+          }
+
+          ul li::marker {
+            color: #FF9C77;
+          }
+
+          ol {
+            font-family: 'Nunito', sans-serif;
+            color: #1E1E1E;
+            font-weight: 400;
+            font-size: 18px;
+          }
+
+          /*  Details + Summary */
+
+          details, details summary {
+            font-family: 'Nunito', sans-serif;
+            color: #1E1E1E;
+            font-weight: 400;
+            font-size: 18px;
+          }
+
+          details summary {
+            margin-bottom: 1rem;
+          }
+
+          summary::marker {
+            color: #FF9C77;
+          }
+
+          summary strong {
+            font-weight: 400 !important;
+          }
+
+          
+          /* Tables */ 
+          
+          section.normal table tr {
+            font-family: 'Nunito', sans-serif;
+            border-top: 2px solid #FFE5C4;
+          }
+
+          table caption {
+            font-family: 'Nunito', sans-serif;
+          }
+
+          table tbody {
+            border-bottom: 3px solid #FFE5C4;
+          }
+
+          .book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) {
+            background-color: #FFFAF3;
+          }
+
+          td:first-child {
+            min-width: 200px !important;
+          }
+
+          td {
+            text-align: left;
+          }
+
+          /* Non-markdown Styles */
+
           @media (min-width: 769px) {
             .container {
               display: flex;
