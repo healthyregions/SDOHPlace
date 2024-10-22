@@ -106,30 +106,29 @@ You can access or calculate the **centroid** using GIS software or programming l
    Ensuring the data is in an appropriate Coordinate Reference System (CRS). After obtaining the latitude and longitude, it is important to transform these coordinates into spatial data using the appropriate Coordinate Reference System (CRS) that best represents your study area (You can read more on this in Module 4 of the SDOH & Place community toolkit). You need to do the same if you are using the address locations. Using the correct CRS is crucial for accurate measurements and spatial analysis.</br></br><details><summary>Here is how you can proceed with CRS:</summary></br><ul><li><b>Selecting the Right CRS</b><ul><li>Geographic CRS: Based on a three-dimensional spherical model of the earth (e.g., WGS84).</li><li>Projected CRS: Translates the earth's spherical surface onto a two-dimensional plane (e.g., UTM zones, State Plane Coordinate Systems).</li><li>Choose a CRS that minimizes distortion in your specific area of interest(Local Accuracy). Also ensure all spatial data layers use the same CRS to allow for proper overlay and analysis(Data Compatibility)</li></ul></li></br><li><b>Transforming CRS in Software</b><ul><li>GIS Software:<ul><li>QGIS: Use the "Reproject Layer" tool to transform the CRS of your spatial data.</li><li>ArcGIS Pro: Utilize the "Project" tool found in the Data Management toolbox.</li></ul></li><li>Programming Libraries:<ul><li>Python: Use pyproj for CRS transformations or GeoPandas for handling geospatial data frames with different CRSs.</li><li>R: The sf package allows for straightforward CRS transformations using the st_transform() function.</li></ul></li></ul></li></ul></details>
 3. Save and utilize the centroid data for your specific analytical needs. The  spatial coordinates of the origin or destination can be in the form of latitude column and longitude column, or specific address stored in a CSV format in the attribute table of the dataset with an id column. 
 
+
+
 ### Choosing the Right Measure
 
 When we talk about how far one place is from another or how easy it is to get there, we use different methods and measures to compute distance and access. For the most part, the way we do it depends on how we think about distance and the specific community we are looking at or a combination of both. These methods are at the heart of both web-based and desktop GIS tools like QGIS and ArcGIS Pro, as well as advanced open-source tools like the r5r package in R. They help us understand and plan for things like emergency services, and community development
 
 #### Choosing the right measure to determine distance and access
 
-##### *Straight Line Distance (Euclidean Distance)*
+<details><summary>Straight Line Distance (Euclidean Distance)</summary><ul><li>This is the simplest way to measure distance. Imagine a direct line from your house to your friend's house on a map.</li><li>This line does not consider any buildings, roads, rivers, or obstacles – it is the absolute shortest path between two points, as if you are flying like a bird.</li><li>It is simple but not always practical. You cannot walk/drive through buildings or private property, so you may not actually  be able to take direct path as it seems to portray.</li><li>When it is useful: Quick Estimates- It provides  a basic idea of how close two places are. Initial Planning- It is most useful when details about roads or paths are not available</li></ul></details>
 
-* This is the simplest way to measure distance. Imagine a direct line from your house to your friend's house on a map.
-* This line does not consider any buildings, roads, rivers, or obstacles – it is the absolute shortest path between two points, as if you are flying like a bird.
-* It is simple but not always practical. You cannot walk/drive through buildings or private property, so you may not actually  be able to take direct path as it seems to portray.
-* When it is useful: Quick Estimates- It provides  a basic idea of how close two places are. Initial Planning- It is most useful when details about roads or paths are not available
+<details><summary>Distance Along Roads or Paths (Network Distance)</summary><ul><li>This measures the actual distance you would travel along streets, sidewalks, or transit routes.</li><li>It is like the route you would get from a GPS when driving or walking somewhere and it is more accurate for daily life, but you might have to walk down your street, turn a corner, and cross at a crosswalk, which could make an actual distance become one mile instead of half a mile.</li><li>When it is useful: Travel Planning - This is most useful if you want to know how far you will actually travel, for delivery route or mail services planning.</li></ul></details>
 
-##### *Distance Along Roads or Paths (Network Distance)*
 
-* This measures the actual distance you would travel along streets, sidewalks, or transit routes.
-* It is like the route you would get from a GPS when driving or walking somewhere and it is more accurate for daily life, but you might have to walk down your street, turn a corner, and cross at a crosswalk, which could make an actual distance become one mile instead of half a mile.
-* When it is useful: Travel Planning - This is most useful if you want to know how far you will actually travel, for delivery route or mail services planning.
+
+*
+
+* <detail><summary>Travel Time(Network Distance)</summary><ul><li>This measure is similar to the distance along roads or paths measure except that instead of considering distance along streets, sidewalks, or transit routes the focus is now on the actual time ( in minutes) it takes to travel that distance.</li><li>Even if two places are close, heavy traffic or limited bus schedules might mean it takes longer to get there. So, it accounts for factors like speed limits, traffic, stoplights, and public transit schedules.</li><li>When it is useful: Emergency Services – For instance ambulances and fire trucks may need to know how long it will take to reach someone  in an emergency situation. Commuting – It helps to determine how easily people can access essential services like hospitals or grocery stores.</li></ul></details>
 
 ##### *Travel Time(Network Distance)*
 
-* This measure is similar to the distance along roads or paths measure except that instead of considering distance along streets, sidewalks, or transit routes the focus is now on the actual time ( in minutes)  it takes to travel that distance.
-* Even if two places are close, heavy traffic or limited bus schedules might mean it takes longer to get there. So, it accounts for factors like speed limits, traffic, stoplights, and public transit schedules.
-* When it is useful: Emergency Services – For instance ambulances and fire trucks may need to know how long it will take to reach someone  in an emergency situation. Commuting – It helps to determine how easily people can access essential services like hospitals or grocery stores.
+*
+*
+*
 
 **NB: The three methods are restrictive. Here, the probability of choosing the nearest location for a purpose is always assumed to be high (probability= 1)which might always be true.**
 
