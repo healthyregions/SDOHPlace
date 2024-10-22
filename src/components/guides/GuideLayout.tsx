@@ -154,6 +154,7 @@ export default function GuideLayout({
             font-size: 18px;
           }
 
+          
           /*  Details + Summary */
 
           details, details summary {
@@ -176,33 +177,69 @@ export default function GuideLayout({
           }
 
           
+          /* Links / Anchors */
+          
+          a {
+            text-decoration: none !important;
+            font-weight: 400;
+          }
+          
+          
+          /* Image Captions */
+          
+          p.caption, .figcaption {
+            font-family: 'Fredoka', sans-serif;
+            color: #333333;
+            margin-bottom: 2rem;
+            font-style: italic;
+          }
+          
           /* Tables */ 
           
-          section.normal table tr {
+          table tr {
             font-family: 'Nunito', sans-serif;
-            border-top: 2px solid #FFE5C4;
+            border-top: 2px solid #FFE5C4 !important;
+            line-height: 27.2px;
+          }
+          
+          table tr th {
+            background-color: #fff;
+            font-weight: 700;
+            border-bottom: 2px solid #FFE5C4;
+          }
+          
+          table td, table th {
+            border-left: none !important;
+            border-right: none !important;
           }
 
-          table caption {
+          table {
             font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            color: #333333;
           }
 
-          table tbody {
-            border-bottom: 3px solid #FFE5C4;
-          }
-
-          .book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) {
-            background-color: #FFFAF3;
-          }
-
-          td:first-child {
+          table tr td:first-child {
             min-width: 200px !important;
           }
 
-          td {
+          table tbody tr:nth-child(odd) {
+            background-color: #fff;
+          }
+
+          table tbody tr:nth-child(even) {
+            background-color: #FFFAF3;
+          }
+          
+          table tbody tr:last-child {
+            border-bottom: 3px solid #FFE5C4;
+          }
+          
+          table td {
             text-align: left;
           }
 
+          
           /* Non-markdown Styles */
 
           @media (min-width: 769px) {
