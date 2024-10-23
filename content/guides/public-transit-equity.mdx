@@ -156,51 +156,23 @@ When setting up your accessibility analysis, it is important to carefully define
 
 While the specific parameters may vary depending on the tools and the scope of the study, some commonly used parameters include:
 
+</br>
 
+<details><summary>Origin and Destination Points</summary><ul><li><b>Coordinates</b>: Latitude and longitude of starting points and destinations.</li><li><b>Geographic Units</b>: Use of centroids from census tracts, blocks, or custom grid cells.</li></ul></details></br><details><summary>Travel Modes</summary><ul><li><b>Public Transit</b>: Buses, trains, subways.</li><li><b>Active Transportation</b>: Walking, cycling.</li><li><b>Private Vehicles</b>: Cars, motorcycles.</li></ul></details></br>
 
-1. **Origin and Destination Points:**
+<details><summary>Time Constraints</summary><ul><li><b>Departure Time</b>: The time at which the journey starts, affecting transit schedules and traffic conditions.</li><li><b>Time Windows</b>: Specified periods during which the analysis is conducted, such as peak or off-peak hours.</li></ul></details></br>
 
-   * **Coordinates:** Latitude and longitude of starting points and destinations.
-   * **Geographic Units:** Use of centroids from census tracts, blocks, or custom grid cells.
-2. **Travel Modes:**
+<details><summary>Travel Time Thresholds</summary><ul><li><b>Cutoff Times</b>: Maximum acceptable travel times (e.g., 30 minutes) to consider opportunities accessible.</li></ul></details></br>
 
-   * **Public Transit:** Buses, trains, subways.
-   * **Active Transportation:** Walking, cycling.
-   * **Private Vehicles:** Cars, motorcycles.
-3. **Time Constraints:**
+<details><summary>Impedance Functions</summary><ul><li><b>Decay Functions</b>: Mathematical functions that model how the likelihood of accessing an opportunity decreases with increasing travel time or distance (e.g., exponential, logistic functions).</li><li><b>Weights</b>: Assigning importance to opportunities based on travel time, cost, or other factors.</li></ul></details></br><details><summary>Network Data</summary><ul><li><b>Transit Schedules</b>: Timetables for buses, trains, and other transit services.</li><li><b>Road Networks</b>: Maps of streets and pathways, including attributes like speed limits and road types.</li><li><b>Walking and Cycling Paths</b>: Inclusion of pedestrian walkways and bike lanes.</li></ul></details></br>
 
-   * Departure Time: The time at which the journey starts, affecting transit schedules and traffic conditions.
-   * Time Windows: Specified periods during which the analysis is conducted, such as peak or off-peak hours.
-4. **Travel Time Thresholds:**
+<details><summary>Service Attributes</summary><ul><li><b>Frequencies</b>: How often transit services run.</li><li><b>Capacities</b>: The number of passengers that can be accommodated.</li><li><b>Costs</b>: Fares or expenses associated with different modes of travel.</li></ul></details></br>
 
-   * Cutoff Times: Maximum acceptable travel times (e.g., 30 minutes) to consider opportunities accessible.
-5. **Impedance Functions:**
+<details><summary>User Profiles</summary><ul><li><b>Walking Speeds</b>: Average or specific walking speeds to account for different populations.</li><li><b>Transfer Penalties</b>: Additional time or inconvenience associated with changing transit modes or lines.</li><li><b>Accessibility Needs</b>: Considerations for people with disabilities or mobility challenges.</li></ul></details></br>
 
-   * **Decay Functions:** Mathematical functions that model how the likelihood of accessing an opportunity decreases with increasing travel time or distance (e.g., exponential, logistic functions).
-   * **Weights:** Assigning importance to opportunities based on travel time, cost, or other factors.
-6. **Network Data:**
+<details><summary>Geographic Constraints</summary><ul><li><b>Barriers</b>: Physical obstacles like rivers, highways, or restricted areas.</li><li><b>Topography</b>: Elevation changes that may affect travel times and modes.</li></ul></details></br>
 
-   * **Transit Schedules:** Timetables for buses, trains, and other transit services.
-   * Road Networks: Maps of streets and pathways, including attributes like speed limits and road types.
-   * Walking and Cycling Paths: Inclusion of pedestrian walkways and bike lanes.
-7. **Service Attributes:**
-
-   * **Frequencies:** How often transit services run.
-   * **Capacities:** The number of passengers that can be accommodated.
-   * **Costs:** Fares or expenses associated with different modes of travel.
-8. **User Profiles:**
-
-   * **Walking Speeds:** Average or specific walking speeds to account for different populations.
-   * **Transfer Penalties:** Additional time or inconvenience associated with changing transit modes or lines.
-   * **Accessibility Needs:** Considerations for people with disabilities or mobility challenges.
-9. **Geographic Constraints:**
-
-   * Barriers: Physical obstacles like rivers, highways, or restricted areas.
-   * Topography: Elevation changes that may affect travel times and modes.
-10. **Policy and Regulatory Factors:**
-
-    * **Zoning Regulations:** Areas where certain types of development are permitted or restricted.
-    * **Environmental Constraints:** Protected areas where development or transit infrastructure is limited.
+<details><summary>Policy and Regulatory Factors</summary><ul><li><b>Zoning Regulations</b>: Areas where certain types of development are permitted or restricted.</li><li><b>Environmental Constraints</b>: Protected areas where development or transit infrastructure is limited.</li></ul></details>
 
 ### Commonly Used Transit Equity Indicators
 
