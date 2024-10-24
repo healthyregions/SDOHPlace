@@ -144,39 +144,14 @@ article {
 /* Headers */
 
 article h1 {
-  font-family: "Fredoka", sans-serif;
   color: #7e1cc4;
-  font-weight: 400;
-  font-size: 48px;
   letter-spacing: 0.2px;
 }
 
 article h2 {
-  font-family: "Fredoka", sans-serif;
-  color: #1e1e1e;
-  font-weight: 400;
-  font-size: 36px;
   border-left: solid 4px;
   border-color: #ff9c77;
   padding-left: 11px !important;
-}
-
-article h3 {
-  font-family: "Fredoka", sans-serif;
-  color: #1e1e1e;
-  font-weight: 400;
-  font-size: 24px;
-}
-
-article h4 {
-  font-family: "Fredoka", sans-serif;
-  color: #1e1e1e;
-  font-weight: 400;
-  font-size: 18px;
-}
-
-article h5 > em {
-  font-style: normal;
 }
 
 /* Lists */
