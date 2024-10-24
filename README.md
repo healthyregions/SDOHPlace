@@ -64,7 +64,21 @@ To access the blog backend locally for testing, choose one of these two approach
 
 For this, use the [test backend](https://decapcms.org/docs/test-backend/) that Decap provides.
 
-In `public/admin/config.yml` change `name: git-gateway` to `name: test-repo`.
+In `public/admin/config.yml` change `name: git-gateway` to `name: test-repo`, so that
+
+```
+backend:
+  name: git-gateway
+  branch: publish
+```
+
+becomes
+
+```
+backend:
+  name: test-repo
+  branch: publish
+```
 
 Now, go to http://localhost:3000/admin/index.html.
 
@@ -72,10 +86,21 @@ This backend does not have access to your file system, so you can create content
 
 #### To view/style existing posts that are in your current branch
 
-In this case, Decap needs to be reading from your local filesystem. First add the following line to the top of `public/admin/config.yml`:
+In this case, Decap needs to be reading from your local filesystem. First add `local_backend: true` to the top of `public/admin/config.yml`, so that
+
+```
+backend:
+  name: git-gateway
+  branch: publish
+```
+
+becomes
 
 ```
 local_backend: true
+backend:
+  name: git-gateway
+  branch: publish
 ```
 
 Also, you may want to set the branch to whatever branch you are developing on, but only if you intend to actually make changes to the markdown files themselves during development (not advised anyway).
