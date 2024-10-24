@@ -92,8 +92,11 @@ export default function GuideLayout({
           <Copyright />
         </footer>
       </div>
-      <style jsx>
+      <style global jsx>
         {`
+          
+          /* Non-markdown Styles */
+
           @media (min-width: 769px) {
             .container {
               display: flex;
