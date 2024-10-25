@@ -96,7 +96,7 @@ export default class SolrQueryBuilder {
    * */
   public suggestQuery(searchTerm: string): SolrQueryBuilder {
     const suggestQuery = `suggest?q=${encodeURIComponent(searchTerm)}`;
-    return this.setQuery(suggestQuery);
+    return this.setQuery(suggestQuery + "&fq=-gbl_suppressed_b:true");
   }
   public contentQuery(searchTerm: string): SolrQueryBuilder {
     const contentQuery = `select?q=content:"${encodeURIComponent(searchTerm)}"`;
@@ -104,30 +104,35 @@ export default class SolrQueryBuilder {
   }
   public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
     let generalQuery = "select?q=";
-    if (typeof searchTerms === "string") {
-      generalQuery += `${encodeURIComponent(
-        findSolrAttribute(searchTerms, this.query.schema_json)
-      )}`;
-    } else {
-      searchTerms.forEach((term) => {
+    if (searchTerms) {
+      if (typeof searchTerms === "string") {
         generalQuery += `${encodeURIComponent(
-          findSolrAttribute(term, this.query.schema_json)
-        )} OR `;
-      });
-      generalQuery = generalQuery.slice(0, -4); //remove the last OR
+          findSolrAttribute(searchTerms, this.query.schema_json)
+        )}`;
+      } else {
+        searchTerms.forEach((term) => {
+          generalQuery += `${encodeURIComponent(
+            findSolrAttribute(term, this.query.schema_json)
+          )} OR `;
+        });
+        generalQuery = generalQuery.slice(0, -4); //remove the last OR
+      }
     }
-    return this.setQuery(generalQuery);
+    return this.setQuery(
+      (generalQuery += "&fq=(gbl_suppressed_b:false)&rows=1000")
+    );
   }
 
   public filterQuery(
     searchTerms: { attribute: string; value: string }[]
   ): SolrQueryBuilder {
     let filterQuery = `select?fq=`;
-    searchTerms.forEach((term) => {
-      filterQuery += `${encodeURIComponent(
-        findSolrAttribute(term.attribute, this.query.schema_json)
-      )}:"${encodeURIComponent(term.value)}" AND `;
-    });
+    if (searchTerms)
+      searchTerms.forEach((term) => {
+        filterQuery += `${encodeURIComponent(
+          findSolrAttribute(term.attribute, this.query.schema_json)
+        )}:"${encodeURIComponent(term.value)}" AND `;
+      });
     filterQuery = filterQuery.slice(0, -5); //remove the last AND
     filterQuery = filterQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
     return this.setQuery(filterQuery);

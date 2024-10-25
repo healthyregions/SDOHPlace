@@ -4,7 +4,7 @@ import TermResult from "../interface/TermResult";
 export default class SuggestedResultBuilder {
   private result = {} as TermResult;
   private term = [] as string[];
-  private suggester = "mySuggester" as string; // change this later
+  private suggester = "sdohSuggester" as string; // change this later
   private suggestInput = "*" as string; // change this later
   getTerms(): string[] {
     return this.term;
