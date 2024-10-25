@@ -17,6 +17,7 @@
   <body>
     <!-- Include the script that builds the page and powers Netlify CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       // Register fonts so they can be used in the preview styles
       CMS.registerPreviewStyle(
@@ -40,12 +41,14 @@
           {
             name: 'title',
             label: 'Title',
-            widget: 'string'
+            widget: 'string',
+            required: true
           },
           {
             name: 'content',
             label: 'Content',
-            widget: 'markdown'
+            widget: 'markdown',
+            required: true
           },
           {
             name: 'group',
@@ -63,7 +66,7 @@
         //
         // Additionally, it's recommended that you use non-greedy capturing groups (e.g.
         // `(.*?)` vs `(.*)`), especially if matching against newline characters.
-        pattern: /^<details( name="(.*)?")?>\n*<summary>\n*(.*?)\n*<\/summary>\n*(.*?)\n*<\/details>$/ms,
+        pattern: /<details(\sname='([^']+)?')?>\n*<summary>\n*(.*?)\n*<\/summary>\n*(.*?)\n*<\/details>/ms,
         // Given a RegExp Match object
         // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match#return_value),
         // return an object with one property for each field defined in `fields`.
@@ -85,29 +88,37 @@
         // markdown document
         toBlock: function(data) {
           if (data.group) {
-            return `<details name="${data.group}"><summary>${data.title}</summary>${data.content}</details>`;
+            return `
+<details name='${data.group}'>
+<summary>${data.title}</summary>
+
+${data.content}
+</details>`;
           } else {
-            return `<details><summary>${data.title}</summary>${data.content}</details>`;
+            return `
+<details>
+<summary>${data.title}</summary>
+
+${data.content}
+</details>`;
           }
         },
         // Preview output for this component. Can either be a string or a React component
         // (component gives better render performance)
         toPreview: function(data) {
           if (data.group) {return `
-<details name="${data.group}">
-  <summary>${data.title}</summary>
+<details name='${data.group}'>
+<summary>${data.title}</summary>
 
-  ${data.content}
-
+${marked.parse(data.content)}
 </details>
 `;
           } else {
             return `
 <details>
-  <summary>${data.title}</summary>
+<summary>${data.title}</summary>
 
-  ${data.content}
-
+${marked.parse(data.content)}
 </details>
 `;
           }
