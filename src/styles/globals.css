@@ -215,6 +215,7 @@ article details {
 
 article summary::marker {
   color: #ff9c77;
+  cursor: pointer;
 }
 
 article summary strong {
