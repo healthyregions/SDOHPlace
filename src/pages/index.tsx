@@ -112,14 +112,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "0",
       svgIcon: transitIcon,
       title: "Transit",
-      text: "Every day, countless people rely on public transit to get to work, school, and essential services. It’s about building a more inclusive community.",
+      text: "Travelers rely on public transit to get to work, school, and essential services. Measuring equity in transit gives insight into the fairness of systems.",
       link: "/guides/public-transit-equity",
     },
     {
       id: "1",
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
-      text: "Greenspaces may combat urban heat island effects, purify air, offer recreation, and improve mental health by reducing stress and anxiety.",
+      text: "Areas with more trees, parks, and vegetation may provide access to recreation, improve mental health, and combat heat island effects.",
     },
     {
       id: "2",
@@ -131,7 +131,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "3",
       svgIcon: workplaceIcon,
       title: "Workplace",
-      text: "At work, exposure to toxins and exploitation detrimentally impacts health, especially among vulnerable groups.",
+      text: "Access to job opportunities and worker safety all influence population vibrancy and may be linked as structural drivers of health.",
     },
     {
       id: "4",
@@ -143,7 +143,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "5",
       svgIcon: housingIcon,
       title: "Housing",
-      text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals' physical and mental health.",
+      text: "Housing cost, quality, and displacement influence populations at local and regional scales.",
     },
     {
       id: "6",
@@ -292,7 +292,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
               <Grid item xs={12} lg={7}>
-                Social Determinants of Health have a Spatial Footprint
+                Social Determinants of Health & Place Research Guides
               </Grid>
               {/* TODO: uncomment these once they have destiations
                 <Grid item xs={12} lg={3} className={'carousel-link-container'}>
