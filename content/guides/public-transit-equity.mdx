@@ -1,6 +1,6 @@
 ---
 title: Public Transit Equity
-featured_image: /images/transit-equity-featured.png
+featured_image: /images/title.png
 last_updated: October 15, 2024 12:33 PM
 author: Mandela Gadri
 ---
@@ -69,7 +69,6 @@ While this guide does not cover everything about public transportation and all m
 We can use certain signs to check if the system treats everyone fairly instead of just looking at distance or time. These signs help us see if some groups, like people with low income, different races, disabilities, or living in certain areas, have a harder time using public transportation. This way, we can work to make things fairer for everyone. Some key things to consider:
 
 <ul><li>Do low-income areas or disabled riders have the same access to bus stops and transit stations as wealthier areas?</li><li>Can everyone afford the transit fares? Are there programs in place to assist low-income riders?</li><li>Do marginalized communities have longer commutes to reach essential services such as jobs, healthcare facilities, education, and other essential services?</li><li>Do existing plans highlight specific areas where interventions may be needed?</li><li>Do existing solutions help in tracking improvements over time and evaluating the impact of policies and investments?</li></ul>
-
 </details>
 
 ## Spatial Approaches to Calculating Public Transit Access at the Community Level
@@ -94,8 +93,6 @@ You can access or calculate the **centroid** using GIS software or programming l
 ### Choosing the Right Measure
 
 ![](/images/lens.svg)
-
-<img src="/images/lens.svg" alt="Girl in a jacket" width="500" height="600"/>
 
 When we talk about how far one place is from another or how easy it is to get there, we use different methods and measures to compute distance and access. For the most part, the way we do it depends on how we think about distance and the specific community we are looking at or a combination of both. These methods are at the heart of both web-based and desktop GIS tools like QGIS and ArcGIS Pro, as well as advanced open-source tools like the r5r package in R. They help us understand and plan for things like emergency services, and community development
 
@@ -302,11 +299,23 @@ Note: When selecting and applying these indicators, it is important to ensure th
 | GIS Data and Tools                 | GIS Software (QGIS, ArcGIS Pro)           | QGIS / ArcGIS Pro          |
 |                                    | OpenStreetMap (OSM)                       | OpenStreetMap              |
 
+Note: Table 2  lists a number of data sources relevant to transit analysis. However, note that the American Community Survey (ACS) is mainly concerned with analyzing work-related commuting patterns in its transportation-related tables. It does not provide information on transportation used for activities other than work. Therefore, in order to obtain a comprehensive understanding of public transportation usage for non-work-related purposes, it may be necessary to integrate ACS data with additional sources such as NHTS or transit agency reports. The National Household Travel Survey (NHTS) collects information about all types of travel, not just traveling to and from work. It provides valuable information about how people use public transportation for activities such as shopping, going out, visiting friends and family, and more. Certain transit agency agencies offer data regarding the patterns of ridership that can be categorized into trips for work purposes versus those for non-work purposes, taking into account factors such as travel time and routes.
+
 ## Useful R Packages for Routing and Analysis
 
 * **tidycensus**: Simplifies accessing and working with U.S. Census data, including the ACS.
 * **tidytransit**: Works with GTFS data for transit analysis.
 * **r5r**: Performs routing and accessibility analysis on multimodal transport networks.
+
+<div style={{padding: "1em 1.5em", display:"flex", flexDirection:"column", borderRadius:"1em", backgroundColor:"#ffe5c4"}}>
+  <h4 style={{marginTop:0, marginBottom:".5em"}}>About the Author</h4>
+  <div style={{display:"flex"}}>
+    <div style={{minWidth:"160px"}}>
+      <img class="rounded-full border-4 border-solid border-salmonpink" src="/images/headshot-mg.png" />
+    </div>
+    <p style={{marginLeft:"2em", marginTop:"0"}}><strong>Mandela Gadri</strong> is a Ph.D. student with an MS in community and regional planning from Iowa State University and a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana. He also has a certificate in GIS and worked as a planner with the city of Cedar Rapids, Iowa prior to joining UIUC. Mandela is interested in GIS and transport poverty.</p>
+  </div>
+</div>
 
 ## References
 
