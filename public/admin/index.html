@@ -48,6 +48,8 @@
             name: 'content',
             label: 'Content',
             widget: 'markdown',
+            // exclude toggle-section from being nested inside of another toggle-section
+            editor_components: [ "image", "code-block" ],
             required: true
           },
           {
