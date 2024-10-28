@@ -126,6 +126,7 @@ const FilterPanel = (props: Props): JSX.Element => {
     }
   }, [params.subject, params.indexYear]);
   const handleYearRangeChange = (event, newValue) => {
+    params.setShowDetailPanel(null);
     setYearRange(newValue);
     const newFilterQueries = props.filterQueries
       .filter((f) => f["attribute"] !== "index_year")
