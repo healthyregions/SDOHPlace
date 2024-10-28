@@ -113,7 +113,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       svgIcon: transitIcon,
       title: "Transit",
       text: "Every day, countless people rely on public transit to get to work, school, and essential services. It’s about building a more inclusive community.",
-      // link: "/guides/public-transit-equity",
+      link: "/guides/public-transit-equity",
     },
     {
       id: "1",
