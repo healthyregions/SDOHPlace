@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, use, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
-import { Grid } from "@mui/material";
+import { debounce, Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
@@ -20,7 +20,6 @@ export default function DiscoveryArea({
   results: SolrObject[];
   schema: {};
 }): JSX.Element {
-  const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
@@ -42,73 +41,6 @@ export default function DiscoveryArea({
   searchQueryBuilder.setSchema(schema);
   let suggestResultBuilder = useMemo(() => new SuggestedResult(), []);
 
-  /**
-   * ***************
-   * Helper functions
-   */
-  const handleSearch = async (params, value, filterQueries) => {
-    if (params.query !== "*" && params.query && params.query.length > 0) {
-      value = params.query;
-      suggestResultBuilder.setSuggestInput(value);
-      suggestResultBuilder.setSuggester("sdohSuggester");
-      searchQueryBuilder
-        .suggestQuery(value)
-        .fetchResult()
-        .then((result) => {
-          // if returned suggestions's weight > 5, search each term and put result into SimilarResults section
-          if (
-            result["suggest"]["sdohSuggester"][value].suggestions.length === 0
-          ) {
-            setRelatedResults([]);
-          } else {
-            result["suggest"]["sdohSuggester"][value].suggestions.forEach(
-              (suggestion) => {
-                if (suggestion.weight > 5) {
-                  const term = suggestion.term;
-                  searchQueryBuilder.generalQuery(term);
-                  searchQueryBuilder.fetchResult().then((res) => {
-                    generateSolrObjectList(
-                      res,
-                      params.sortBy,
-                      params.sortOrder
-                    ).forEach((parent) => {
-                      setRelatedResults((prev) => {
-                        return [...prev, parent];
-                      });
-                    });
-                  });
-                }
-              }
-            );
-          }
-        });
-    }
-    searchQueryBuilder.combineQueries(value, filterQueries);
-    searchQueryBuilder
-      .fetchResult()
-      .then((result) => {
-        let newResults = generateSolrObjectList(
-          result,
-          params.sortBy,
-          params.sortOrder
-        );
-        setFetchResults(newResults);
-      })
-      .catch((error) => {
-        console.error("Error fetching result:", error);
-      });
-  };
-  const processResults = (results, value) => {
-    suggestResultBuilder.setSuggester("sdohSuggester"); //this could be changed to a different suggester
-    suggestResultBuilder.setSuggestInput(value);
-    suggestResultBuilder.setResultTerms(JSON.stringify(results));
-    return suggestResultBuilder.getTerms();
-  };
-
-  /**
-   * ***************
-   * URL Parameter Handling
-   */
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
     params.query ? params.query : ""
@@ -123,9 +55,119 @@ export default function DiscoveryArea({
     params.sortBy,
     params.sortOrder
   );
+
+  /**
+   * ***************
+   * Helper functions
+   */
   const [fetchResults, setFetchResults] =
     useState<SolrObject[]>(originalResults);
   const [relatedResults, setRelatedResults] = useState<SolrObject[]>([]);
+  const [updateKey, setUpdateKey] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  let controller;
+  const debouncedHandleSearch = debounce(
+    (params, value, filterQueries, callback) => {
+      callback(params, value, filterQueries);
+    },
+    10
+  );
+  const asyncSearch = async (params, value, filterQueries) => {
+    const suggestionController = new AbortController(); // for suggestion fetch
+    const searchController = new AbortController(); // for search fetch
+    setIsLoading(true);
+    setRelatedResults([]);
+    const handlesearch = async () => {
+      searchQueryBuilder.combineQueries(value, filterQueries);
+      try {
+        const resultResponse = await searchQueryBuilder.fetchResult(
+          searchController.signal
+        );
+        const newResults = generateSolrObjectList(
+          resultResponse,
+          params.sortBy,
+          params.sortOrder
+        );
+        setFetchResults(newResults);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Error fetching main results:", error);
+        }
+      }
+    };
+    const searchPromise = handlesearch();
+    if (params.query && params.query !== "*" && params.query !== "") {
+      try {
+        console.log("value", value, controller);
+        if (controller) {
+          controller.abort();
+          // Cancel any existing suggestion fetch request before starting a new one to prevent the old suggestion overwriting the new one
+        }
+        controller = suggestionController;
+        const suggestResult = await searchQueryBuilder
+          .suggestQuery(value)
+          .fetchResult(controller.signal);
+        // handle suggestions for similar results
+        const suggestions =
+          suggestResult["suggest"]["sdohSuggester"][value].suggestions || [];
+        const validSuggestions = suggestions.filter(
+          (suggestion) => suggestion.weight > 5 && suggestion.term !== value
+        );
+        const batchSize = 10; // run in batch to prevent delay
+        const clearRelatedResults = [];
+        for (let i = 0; i < validSuggestions.length; i += batchSize) {
+          const batch = validSuggestions.slice(i, i + batchSize);
+          try {
+            const batchResults = await Promise.all(
+              batch.map((suggestion) =>
+                searchQueryBuilder
+                  .generalQuery(suggestion.term)
+                  .fetchResult(controller.signal)
+              )
+            );
+            batchResults.forEach((results) => {
+              results.forEach((parent) => {
+                if (
+                  !clearRelatedResults.some((child) => child.id === parent.id)
+                ) {
+                  clearRelatedResults.push(parent);
+                }
+              });
+            });
+          } catch (error) {
+            if (error.name === "AbortError") {
+              break;
+            }
+          }
+        }
+        setRelatedResults(clearRelatedResults);
+        setUpdateKey((prevKey) => prevKey + 1);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Error during fetch operation:", error);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+    }
+    await searchPromise;
+  };
+  const handleSearch = (params, value, filterQueries) => {
+    debouncedHandleSearch(params, value, filterQueries, asyncSearch);
+  };
+  const processResults = (results, value) => {
+    suggestResultBuilder.setSuggester("sdohSuggester"); //this could be changed to a different suggester
+    suggestResultBuilder.setSuggestInput(value);
+    suggestResultBuilder.setResultTerms(JSON.stringify(results));
+    return suggestResultBuilder.getTerms();
+  };
+
+  /**
+   * ***************
+   * URL Parameter Handling
+   */
 
   /**
    * ***************
@@ -172,7 +214,7 @@ export default function DiscoveryArea({
       setIsResetting(false);
       setRelatedResults([]);
       handleSearch(params, "*", reGetFilterQueries(params));
-    } else {
+    } else if (params.query && params.query !== "") {
       handleSearch(params, params.query, reGetFilterQueries(params));
     }
   }, [
@@ -208,6 +250,8 @@ export default function DiscoveryArea({
       </Grid>
       <Grid item className="sm:px-[2em]" xs={12} sm={4}>
         <ResultsPanel
+          isLoading={isLoading}
+          updateKey={updateKey}
           resultsList={fetchResults}
           relatedList={relatedResults}
           isQuery={isQuery || filterQueries.length > 0}

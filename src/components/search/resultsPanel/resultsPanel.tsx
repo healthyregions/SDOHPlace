@@ -1,11 +1,11 @@
-import { makeStyles } from "@mui/styles";
+import { makeStyles, propsToClassKey } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { SolrObject } from "meta/interface/SolrObject";
 import ResultCard from "./resultCard";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
@@ -18,6 +18,8 @@ import {
 } from "../helper/ParameterList";
 
 interface Props {
+  isLoading: boolean;
+  updateKey: number;
   resultsList: SolrObject[];
   relatedList: SolrObject[];
   isQuery: boolean;
@@ -41,9 +43,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
   //remove the duplicate results in the related list
-  const uniqueRelatedList = props.relatedList
-    .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
-    .filter((v) => props.resultsList.every((t) => t.id !== v.id));
+  const uniqueRelatedList = React.useMemo(() => {
+    return props.relatedList
+      .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
+      .filter((v) => props.resultsList.every((t) => t.id !== v.id));
+  }, [props.relatedList, props.resultsList]);
   return (
     <div
       className="results-panel"
@@ -256,44 +260,65 @@ const ResultsPanel = (props: Props): JSX.Element => {
             </div>
           )}
         </Box>
-        {uniqueRelatedList.length > 0 && (
+        {props.isLoading ? (
           <Box
             className="sm:my-[1.68em]"
             display={props.isQuery ? "block" : "none"}
           >
-            <div className="sm:mb-[1.5em] sm:flex-col">
-              <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
-                <span className="mr-4">Similar results</span>
-                <div
-                  className="flex-grow border-b-2 sm:mr-[2.3em]"
-                  style={{
-                    height: "1px",
-                    border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
-                  }}
-                />
-              </div>
-              <Box
-                height={"100%"}
-                className="sm:mt-[0.875em]"
+            <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
+              <span className="mr-4">
+                Looking for data you may interested in...
+              </span>
+              <CircularProgress
+                size={24}
                 sx={{
-                  overflowY: "scroll",
-                  paddingRight: "1em",
-                  maxHeight: `${SearchUIConfig.search.searchResults.relatedListHeight}`,
+                  color: fullConfig.theme.colors["strongorange"],
+                  animationDuration: "550ms",
+                  marginLeft: "0.5em",
                 }}
-              >
-                {uniqueRelatedList.map((result) => (
-                  <div key={result.id} className="mb-[0.75em]">
-                    <ResultCard
-                      key={result.id}
-                      resultItem={result}
-                      setHighlightIds={props.setHighlightIds}
-                      setHighlightLyr={props.setHighlightLyr}
-                    />
-                  </div>
-                ))}
-              </Box>
+              />
             </div>
           </Box>
+        ) : (
+          uniqueRelatedList.length > 0 && (
+            <Box
+              className="sm:my-[1.68em]"
+              display={props.isQuery ? "block" : "none"}
+            >
+              <div className="sm:mb-[1.5em] sm:flex-col">
+                <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
+                  <span className="mr-4">You may want to check</span>
+                  <div
+                    className="flex-grow border-b-2 sm:mr-[2.3em]"
+                    style={{
+                      height: "1px",
+                      border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+                    }}
+                  />
+                </div>
+                <Box
+                  height={"100%"}
+                  className="sm:mt-[0.875em]"
+                  sx={{
+                    overflowY: "scroll",
+                    paddingRight: "1em",
+                    maxHeight: `${SearchUIConfig.search.searchResults.relatedListHeight}`,
+                  }}
+                >
+                  {uniqueRelatedList.map((result) => (
+                    <div key={result.id} className="mb-[0.75em]">
+                      <ResultCard
+                        key={result.id}
+                        resultItem={result}
+                        setHighlightIds={props.setHighlightIds}
+                        setHighlightLyr={props.setHighlightLyr}
+                      />
+                    </div>
+                  ))}
+                </Box>
+              </div>
+            </Box>
+          )
         )}
       </span>
     </div>

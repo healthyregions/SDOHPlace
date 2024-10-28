@@ -30,16 +30,17 @@ export default class SolrQueryBuilder {
     return this;
   }
 
-  public fetchResult(): Promise<SolrObject[]> {
+  public fetchResult(signal?: AbortSignal): Promise<SolrObject[]> {
     return new Promise((resolve, reject) => {
       const encodedUrl = this.query.query;
-      console.log("Encoded URL: ", encodedUrl);
+      //console.log("Encoded URL: ", encodedUrl);
       fetch(encodedUrl, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        signal,
       })
         .then((res) => {
           if (!res.ok) {
@@ -63,7 +64,11 @@ export default class SolrQueryBuilder {
           }
         })
         .catch((error) => {
-          console.error("Error fetching data:", error);
+          if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+          } else {
+            console.error("Error fetching data:", error);
+          }
           reject(error);
         });
     });
@@ -95,8 +100,11 @@ export default class SolrQueryBuilder {
    * Search Methods based on Solr syntax. Not all methods are used in the search component
    * */
   public suggestQuery(searchTerm: string): SolrQueryBuilder {
-    const suggestQuery = `suggest?q=${encodeURIComponent(searchTerm)}`;
-    return this.setQuery(suggestQuery + "&fq=-gbl_suppressed_b:true");
+    const suggestQuery = `suggest?q=${encodeURIComponent(
+      searchTerm
+    )}&fq=-gbl_suppressed_b:true`;
+    console.log("Suggest Query: ", suggestQuery);
+    return this.setQuery(suggestQuery);
   }
   public contentQuery(searchTerm: string): SolrQueryBuilder {
     const contentQuery = `select?q=content:"${encodeURIComponent(searchTerm)}"`;
@@ -191,6 +199,7 @@ export default class SolrQueryBuilder {
       }
     }
     combinedQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
+    console.log("Combined Query: ", combinedQuery);
     return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
   };
 }
