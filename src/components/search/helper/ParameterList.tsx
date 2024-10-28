@@ -7,7 +7,6 @@ import {
   createParser,
 } from "nuqs";
 import React from "react";
-import { p } from "nuqs/dist/serializer-C_l8WgvO";
 
 const parseAsLngLatBoundsLike = createParser({
   parse(queryValue) {

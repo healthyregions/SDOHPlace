@@ -33,7 +33,7 @@ export default class SolrQueryBuilder {
   public fetchResult(signal?: AbortSignal): Promise<SolrObject[]> {
     return new Promise((resolve, reject) => {
       const encodedUrl = this.query.query;
-      //console.log("Encoded URL: ", encodedUrl);
+      console.log("Encoded URL: ", encodedUrl);
       fetch(encodedUrl, {
         method: "GET",
         headers: {
@@ -103,7 +103,6 @@ export default class SolrQueryBuilder {
     const suggestQuery = `suggest?q=${encodeURIComponent(
       searchTerm
     )}&fq=-gbl_suppressed_b:true`;
-    console.log("Suggest Query: ", suggestQuery);
     return this.setQuery(suggestQuery);
   }
   public contentQuery(searchTerm: string): SolrQueryBuilder {
@@ -199,7 +198,6 @@ export default class SolrQueryBuilder {
       }
     }
     combinedQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
-    console.log("Combined Query: ", combinedQuery);
     return this.setQuery(combinedQuery.replace(this.getSolrUrl() + "/", ""));
   };
 }
