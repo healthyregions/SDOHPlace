@@ -7,6 +7,7 @@ import {
   createParser,
 } from "nuqs";
 import React from "react";
+import { p } from "nuqs/dist/serializer-C_l8WgvO";
 
 const parseAsLngLatBoundsLike = createParser({
   parse(queryValue) {
@@ -121,6 +122,13 @@ export const GetAllParams = () => {
     "bbox",
     parseAsLngLatBoundsLike
   );
+
+  // prevAction: the previous action
+  const [prevAction, setPrevAction] = useQueryState(
+    "prevAction",
+    parseAsString.withDefault("")
+  );
+
   return React.useMemo(
     () => ({
       showDetailPanel,
@@ -157,6 +165,8 @@ export const GetAllParams = () => {
       setSpatialResolution,
       bboxParam,
       setBboxParam,
+      prevAction,
+      setPrevAction,
     }),
     [
       showDetailPanel,
@@ -191,6 +201,8 @@ export const GetAllParams = () => {
       setSpatialResolution,
       bboxParam,
       setBboxParam,
+      prevAction,
+      setPrevAction,
     ]
   );
 };
@@ -270,6 +282,7 @@ export const reGetFilterQueries = (params) => {
 };
 
 export const resetAllFilters = (params) => {
+  params.setPrevAction("filter");
   params.setSpatialResolution(null);
   params.setVisLyrs(null);
   params.setIndexYear(null);

@@ -119,6 +119,7 @@ const SearchBox = (props: Props): JSX.Element => {
 
   const handleSubmit = (event) => {
     const filterQueries = reGetFilterQueries(urlParams);
+    urlParams.setPrevAction(null)
     event.preventDefault();
     props.setQuery(userInput);
     props.setInputValue(userInput);
@@ -130,6 +131,7 @@ const SearchBox = (props: Props): JSX.Element => {
     const filterQueries = reGetFilterQueries(urlParams);
     props.setInputValue(value);
     props.setQuery(value);
+    urlParams.setPrevAction(null)
     urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, value, filterQueries);
   };

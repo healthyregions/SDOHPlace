@@ -77,8 +77,7 @@ export default function DiscoveryArea({
   const asyncSearch = async (params, value, filterQueries) => {
     const suggestionController = new AbortController(); // for suggestion fetch
     const searchController = new AbortController(); // for search fetch
-    setIsLoading(true);
-    setRelatedResults([]);
+
     const searchPromise = async () => {
       searchQueryBuilder.combineQueries(value, filterQueries);
       try {
@@ -97,7 +96,15 @@ export default function DiscoveryArea({
         }
       }
     };
-    if (params.query && params.query !== "*" && params.query !== "") {
+    if (
+      params.query &&
+      params.query !== "*" &&
+      params.query !== "" &&
+      params.prevAction !== "filter" &&
+      params.prevAction !== "sort"
+    ) {
+      setRelatedResults([]);
+      setIsLoading(true);
       try {
         if (controller) {
           controller.abort();
@@ -155,7 +162,6 @@ export default function DiscoveryArea({
     await searchPromise();
   };
   const handleSearch = (params, value, filterQueries) => {
-    console.log("handleSearch", value, filterQueries);
     debouncedHandleSearch(params, value, filterQueries, asyncSearch);
   };
   const processResults = (results, value) => {
