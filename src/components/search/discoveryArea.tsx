@@ -12,6 +12,8 @@ import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
 import { GetAllParams, reGetFilterQueries } from "./helper/ParameterList";
 import FilterPanel from "./filterPanel/filterPanel";
+import { fi } from "date-fns/locale";
+import { parseArgs } from "util";
 
 export default function DiscoveryArea({
   results,
@@ -77,7 +79,7 @@ export default function DiscoveryArea({
     const searchController = new AbortController(); // for search fetch
     setIsLoading(true);
     setRelatedResults([]);
-    const handlesearch = async () => {
+    const searchPromise = async () => {
       searchQueryBuilder.combineQueries(value, filterQueries);
       try {
         const resultResponse = await searchQueryBuilder.fetchResult(
@@ -95,10 +97,8 @@ export default function DiscoveryArea({
         }
       }
     };
-    const searchPromise = handlesearch();
     if (params.query && params.query !== "*" && params.query !== "") {
       try {
-        console.log("value", value, controller);
         if (controller) {
           controller.abort();
           // Cancel any existing suggestion fetch request before starting a new one to prevent the old suggestion overwriting the new one
@@ -152,9 +152,10 @@ export default function DiscoveryArea({
     } else {
       setIsLoading(false);
     }
-    await searchPromise;
+    await searchPromise();
   };
   const handleSearch = (params, value, filterQueries) => {
+    console.log("handleSearch", value, filterQueries);
     debouncedHandleSearch(params, value, filterQueries, asyncSearch);
   };
   const processResults = (results, value) => {
@@ -223,7 +224,6 @@ export default function DiscoveryArea({
     params.indexYear,
     params.subject,
     params.query,
-    params.showDetailPanel,
     isResetting,
   ]);
   return (

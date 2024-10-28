@@ -48,6 +48,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
       .filter((v) => props.resultsList.every((t) => t.id !== v.id));
   }, [props.relatedList, props.resultsList]);
+
   return (
     <div
       className="results-panel"
