@@ -3,7 +3,6 @@ import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
 import { debounce, Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
-import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import DetailPanel from "./detailPanel/detailPanel";
 import SearchRow from "./searchArea/searchRow";
@@ -41,7 +40,7 @@ export default function DiscoveryArea({
 
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
-  let suggestResultBuilder = useMemo(() => new SuggestedResult(), []);
+  
 
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
@@ -118,7 +117,7 @@ export default function DiscoveryArea({
         const suggestions =
           suggestResult["suggest"]["sdohSuggester"][value].suggestions || [];
         const validSuggestions = suggestions.filter(
-          (suggestion) => suggestion.weight > 1 && suggestion.term !== value
+          (suggestion) => suggestion.weight > 5 && suggestion.term !== value
         );
         const batchSize = 10; // run in batch to prevent delay
         const clearRelatedResults = [];
