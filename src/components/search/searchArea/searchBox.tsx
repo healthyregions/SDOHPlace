@@ -28,7 +28,6 @@ interface Props {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   handleInputReset: () => void;
-  processResults: (results, value) => string[];
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -153,7 +152,7 @@ const SearchBox = (props: Props): JSX.Element => {
         .then(async (result) => {
           result["suggest"]["sdohSuggester"][newInputValue].suggestions.forEach(
             (suggestion) => {
-              if (suggestion.weight === 10) {
+              if (suggestion.weight > 1) {
                 finalSuggestions.push(suggestion);
               }
             }

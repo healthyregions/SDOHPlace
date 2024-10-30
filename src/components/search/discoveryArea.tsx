@@ -118,7 +118,7 @@ export default function DiscoveryArea({
         const suggestions =
           suggestResult["suggest"]["sdohSuggester"][value].suggestions || [];
         const validSuggestions = suggestions.filter(
-          (suggestion) => suggestion.weight > 5 && suggestion.term !== value
+          (suggestion) => suggestion.weight > 1 && suggestion.term !== value
         );
         const batchSize = 10; // run in batch to prevent delay
         const clearRelatedResults = [];
@@ -163,12 +163,6 @@ export default function DiscoveryArea({
   };
   const handleSearch = (params, value, filterQueries) => {
     debouncedHandleSearch(params, value, filterQueries, asyncSearch);
-  };
-  const processResults = (results, value) => {
-    suggestResultBuilder.setSuggester("sdohSuggester"); //this could be changed to a different suggester
-    suggestResultBuilder.setSuggestInput(value);
-    suggestResultBuilder.setResultTerms(JSON.stringify(results));
-    return suggestResultBuilder.getTerms();
   };
 
   /**
@@ -242,7 +236,6 @@ export default function DiscoveryArea({
           autocompleteKey={autocompleteKey}
           options={options}
           handleInputReset={handleInputReset}
-          processResults={processResults}
           setOptions={setOptions}
           inputRef={inputRef}
           inputValue={inputValue}
