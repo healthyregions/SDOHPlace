@@ -20,7 +20,8 @@ import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import { useEffect } from "react";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
-import { containsYear, isLocationTerm } from "../helper/SuggestMethods";
+import { containsYear } from "../helper/SuggestMethods";
+import { p } from "nuqs/dist/serializer-C_l8WgvO";
 
 interface Props {
   schema: any;
@@ -99,23 +100,7 @@ const SearchBox = (props: Props): JSX.Element => {
   });
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(props.schema);
-
-  const processSuggestions = (finalSuggestions) => {
-    const locations = [];
-    const nonLocations = [];
-
-    finalSuggestions.forEach((suggest) => {
-      if (!containsYear(suggest)) {
-        if (isLocationTerm(suggest)) {
-          locations.push(suggest);
-        } else {
-          nonLocations.push(suggest);
-        }
-      }
-    });
-    return [...nonLocations, ...locations];
-  };
-
+      
   const handleSubmit = (event) => {
     const filterQueries = reGetFilterQueries(urlParams);
     urlParams.setPrevAction(null)
@@ -152,14 +137,14 @@ const SearchBox = (props: Props): JSX.Element => {
         .then(async (result) => {
           result["suggest"]["sdohSuggester"][newInputValue].suggestions.forEach(
             (suggestion) => {
-              if (suggestion.weight > 1) {
+              if (suggestion.weight > 50) {
                 finalSuggestions.push(suggestion);
               }
             }
           );
           //remove duplicates from the finalSuggestions
           props.setOptions(
-            processSuggestions(finalSuggestions)
+            finalSuggestions
               .map((s) => s.term)
               .filter((value, index, self) => self.indexOf(value) === index)
           );

@@ -117,7 +117,7 @@ export default function DiscoveryArea({
         const suggestions =
           suggestResult["suggest"]["sdohSuggester"][value].suggestions || [];
         const validSuggestions = suggestions.filter(
-          (suggestion) => suggestion.weight > 5 && suggestion.term !== value
+          (suggestion) => suggestion.weight >= 50 && suggestion.term !== value
         );
         const batchSize = 10; // run in batch to prevent delay
         const clearRelatedResults = [];
