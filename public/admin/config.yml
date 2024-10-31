@@ -298,6 +298,7 @@ collections:
     create: true
     slug: "{{slug}}"
     summary: "{{title}}"
+    preview_path: "news/{{slug}}"
     fields:
       - label: "Title"
         name: "title"
@@ -358,6 +359,7 @@ collections:
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}"
+    preview_path: "showcase/{{slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Project Title"
         name: "title"
@@ -401,6 +403,7 @@ collections:
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}"
+    preview_path: "guides/{{slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Title"
         name: "title"
