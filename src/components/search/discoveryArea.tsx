@@ -123,7 +123,7 @@ export default function DiscoveryArea({
             (suggestion) =>
               suggestion.weight >= 50 &&
               suggestion.term !== value &&
-              suggestion.payload === "true"
+              suggestion.payload === "false"
           )
           .sort((a, b) => b.weight - a.weight)
           .slice(0, 10); // for suggestions with weight >= 50, get the top 10 suggestions with the highest weight

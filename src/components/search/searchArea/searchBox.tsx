@@ -137,7 +137,7 @@ const SearchBox = (props: Props): JSX.Element => {
         .then(async (result) => {
           result["suggest"]["sdohSuggester"][newInputValue].suggestions.forEach(
             (suggestion) => {
-              if (suggestion.weight > 50 && suggestion.payload === "true") {
+              if (suggestion.weight > 50 && suggestion.payload === "false") {
                 finalSuggestions.push(suggestion);
               }
             }
