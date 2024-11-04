@@ -40,7 +40,6 @@ export default function DiscoveryArea({
 
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
-  
 
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
@@ -78,6 +77,9 @@ export default function DiscoveryArea({
     const searchController = new AbortController(); // for search fetch
 
     const searchPromise = async () => {
+      // get the first 5 words of the search term if it is longer than 50 characters
+      value =
+        value.length > 50 ? value.split(" ").slice(0, 5).join(" ") : value;
       searchQueryBuilder.combineQueries(value, filterQueries);
       try {
         const resultResponse = await searchQueryBuilder.fetchResult(
@@ -116,9 +118,15 @@ export default function DiscoveryArea({
         // handle suggestions for similar results
         const suggestions =
           suggestResult["suggest"]["sdohSuggester"][value].suggestions || [];
-        const validSuggestions = suggestions.filter(
-          (suggestion) => suggestion.weight >= 50 && suggestion.term !== value
-        );
+        const validSuggestions = suggestions
+          .filter(
+            (suggestion) =>
+              suggestion.weight >= 50 &&
+              suggestion.term !== value &&
+              suggestion.payload === "true"
+          )
+          .sort((a, b) => b.weight - a.weight)
+          .slice(0, 10); // for suggestions with weight >= 50, get the top 10 suggestions with the highest weight
         const batchSize = 10; // run in batch to prevent delay
         const clearRelatedResults = [];
         for (let i = 0; i < validSuggestions.length; i += batchSize) {
@@ -127,7 +135,11 @@ export default function DiscoveryArea({
             const batchResults = await Promise.all(
               batch.map((suggestion) =>
                 searchQueryBuilder
-                  .generalQuery(suggestion.term)
+                  .generalQuery(
+                    suggestion.term.length > 50
+                      ? `${suggestion.term.split(" ").slice(0, 5).join(" ")}`
+                      : suggestion.term
+                  ) //get the first 5 words of the suggestion
                   .fetchResult(controller.signal)
               )
             );

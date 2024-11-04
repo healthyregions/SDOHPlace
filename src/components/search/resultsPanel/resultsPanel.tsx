@@ -288,7 +288,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
             >
               <div className="sm:mb-[1.5em] sm:flex-col">
                 <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
-                  <span className="mr-4">You may want to check</span>
+                  <span className="mr-4">You may be interested in...</span>
                   <div
                     className="flex-grow border-b-2 sm:mr-[2.3em]"
                     style={{

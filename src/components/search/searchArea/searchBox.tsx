@@ -100,10 +100,10 @@ const SearchBox = (props: Props): JSX.Element => {
   });
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(props.schema);
-      
+
   const handleSubmit = (event) => {
     const filterQueries = reGetFilterQueries(urlParams);
-    urlParams.setPrevAction(null)
+    urlParams.setPrevAction(null);
     event.preventDefault();
     props.setQuery(userInput);
     props.setInputValue(userInput);
@@ -115,7 +115,7 @@ const SearchBox = (props: Props): JSX.Element => {
     const filterQueries = reGetFilterQueries(urlParams);
     props.setInputValue(value);
     props.setQuery(value);
-    urlParams.setPrevAction(null)
+    urlParams.setPrevAction(null);
     urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, value, filterQueries);
   };
@@ -137,16 +137,21 @@ const SearchBox = (props: Props): JSX.Element => {
         .then(async (result) => {
           result["suggest"]["sdohSuggester"][newInputValue].suggestions.forEach(
             (suggestion) => {
-              if (suggestion.weight > 50) {
+              if (suggestion.weight > 50 && suggestion.payload === "true") {
                 finalSuggestions.push(suggestion);
               }
             }
           );
-          //remove duplicates from the finalSuggestions
+
+          //remove duplicates from the finalSuggestions, rank them and get the top 10 suggestions
           props.setOptions(
             finalSuggestions
               .map((s) => s.term)
               .filter((value, index, self) => self.indexOf(value) === index)
+              .sort((a, b) => {
+                return b.weight - a.weight;
+              })
+              .slice(0, 10)
           );
         })
         .catch((error) => {
