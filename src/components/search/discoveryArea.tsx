@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef, use, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { SolrObject } from "meta/interface/SolrObject";
-import { Grid } from "@mui/material";
+import { debounce, Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
-import SuggestedResult from "./helper/SuggestedResultBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import DetailPanel from "./detailPanel/detailPanel";
 import SearchRow from "./searchArea/searchRow";
@@ -12,22 +11,16 @@ import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
 import { GetAllParams, reGetFilterQueries } from "./helper/ParameterList";
 import FilterPanel from "./filterPanel/filterPanel";
+import { fi } from "date-fns/locale";
+import { parseArgs } from "util";
 
 export default function DiscoveryArea({
   results,
-  isLoading,
-  filterAttributeList,
   schema,
 }: {
   results: SolrObject[];
-  isLoading: boolean;
-  filterAttributeList: {
-    attribute: string;
-    displayName: string;
-  }[];
   schema: {};
 }): JSX.Element {
-  const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
@@ -47,78 +40,7 @@ export default function DiscoveryArea({
 
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
-  let suggestResultBuilder = useMemo(() => new SuggestedResult(), []);
 
-  /**
-   * ***************
-   * Helper functions
-   */
-  const handleSearch = async (params, value, filterQueries) => {
-    searchQueryBuilder
-      .fetchResult()
-      .then((result) => {
-        let returnedTerms = processResults(result, value);
-        // if multiple terms are returned, we get all weight = 1 terms (this is done in SuggestionsResultBuilder), then aggregate the results for all terms
-        if (returnedTerms.length > 0) {
-          const multipleResults = [] as SolrObject[];
-          returnedTerms.forEach((term) => {
-            searchQueryBuilder.combineQueries(term, filterQueries);
-            searchQueryBuilder.fetchResult().then((result) => {
-              generateSolrObjectList(
-                result,
-                params.sortBy,
-                params.sortOrder
-              ).forEach((parent) => {
-                multipleResults.push(parent);
-              });
-              // remove duplicates by id
-              const newResults = Array.from(
-                new Set(multipleResults.map((a) => a.id))
-              ).map((id) => {
-                return multipleResults.find((a) => a.id === id);
-              });
-              setFetchResults(newResults);
-              if (params.showDetailPanel.length > 0) {
-                if (!newResults.find((r) => r.id === params.showDetailPanel)) {
-                  params.setShowDetailPanel(null);
-                  setIsResetting(true);
-                }
-              }
-            });
-          });
-        } else {
-          searchQueryBuilder.combineQueries(value, filterQueries);
-          searchQueryBuilder.fetchResult().then((result) => {
-            let newResults = generateSolrObjectList(
-              result,
-              params.sortBy,
-              params.sortOrder
-            );
-            setFetchResults(newResults);
-            if (params.showDetailPanel && params.showDetailPanel.length > 0) {
-              if (!newResults.find((r) => r.id === params.showDetailPanel)) {
-                params.setShowDetailPanel(null);
-                setIsResetting(true);
-              }
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching result:", error);
-      });
-  };
-  const processResults = (results, value) => {
-    suggestResultBuilder.setSuggester("mySuggester"); //this could be changed to a different suggester
-    suggestResultBuilder.setSuggestInput(value);
-    suggestResultBuilder.setResultTerms(JSON.stringify(results));
-    return suggestResultBuilder.getTerms();
-  };
-
-  /**
-   * ***************
-   * URL Parameter Handling
-   */
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
     params.query ? params.query : ""
@@ -133,8 +55,131 @@ export default function DiscoveryArea({
     params.sortBy,
     params.sortOrder
   );
+
+  /**
+   * ***************
+   * Helper functions
+   */
   const [fetchResults, setFetchResults] =
     useState<SolrObject[]>(originalResults);
+  const [relatedResults, setRelatedResults] = useState<SolrObject[]>([]);
+  const [updateKey, setUpdateKey] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  let controller;
+  const debouncedHandleSearch = debounce(
+    (params, value, filterQueries, callback) => {
+      callback(params, value, filterQueries);
+    },
+    10
+  );
+  const asyncSearch = async (params, value, filterQueries) => {
+    const suggestionController = new AbortController(); // for suggestion fetch
+    const searchController = new AbortController(); // for search fetch
+
+    const searchPromise = async () => {
+      // get the first 5 words of the search term if it is longer than 50 characters
+      value =
+        value.length > 50 ? value.split(" ").slice(0, 5).join(" ") : value;
+      searchQueryBuilder.combineQueries(value, filterQueries);
+      try {
+        const resultResponse = await searchQueryBuilder.fetchResult(
+          searchController.signal
+        );
+        const newResults = generateSolrObjectList(
+          resultResponse,
+          params.sortBy,
+          params.sortOrder
+        );
+        setFetchResults(newResults);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Error fetching main results:", error);
+        }
+      }
+    };
+    if (
+      params.query &&
+      params.query !== "*" &&
+      params.query !== "" &&
+      params.prevAction !== "filter" &&
+      params.prevAction !== "sort"
+    ) {
+      setRelatedResults([]);
+      setIsLoading(true);
+      try {
+        if (controller) {
+          controller.abort();
+          // Cancel any existing suggestion fetch request before starting a new one to prevent the old suggestion overwriting the new one
+        }
+        controller = suggestionController;
+        const suggestResult = await searchQueryBuilder
+          .suggestQuery(value)
+          .fetchResult(controller.signal);
+        // handle suggestions for similar results
+        const suggestions =
+          suggestResult["suggest"]["sdohSuggester"][value].suggestions || [];
+        const validSuggestions = suggestions
+          .filter(
+            (suggestion) =>
+              suggestion.weight >= 50 &&
+              suggestion.term !== value &&
+              suggestion.payload === "false"
+          )
+          .sort((a, b) => b.weight - a.weight)
+          .slice(0, 10); // for suggestions with weight >= 50, get the top 10 suggestions with the highest weight
+        const batchSize = 10; // run in batch to prevent delay
+        const clearRelatedResults = [];
+        for (let i = 0; i < validSuggestions.length; i += batchSize) {
+          const batch = validSuggestions.slice(i, i + batchSize);
+          try {
+            const batchResults = await Promise.all(
+              batch.map((suggestion) =>
+                searchQueryBuilder
+                  .generalQuery(
+                    suggestion.term.length > 50
+                      ? `${suggestion.term.split(" ").slice(0, 5).join(" ")}`
+                      : suggestion.term
+                  ) //get the first 5 words of the suggestion
+                  .fetchResult(controller.signal)
+              )
+            );
+            batchResults.forEach((results) => {
+              results.forEach((parent) => {
+                if (
+                  !clearRelatedResults.some((child) => child.id === parent.id)
+                ) {
+                  clearRelatedResults.push(parent);
+                }
+              });
+            });
+          } catch (error) {
+            if (error.name === "AbortError") {
+              break;
+            }
+          }
+        }
+        setRelatedResults(clearRelatedResults);
+        setUpdateKey((prevKey) => prevKey + 1);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Error during fetch operation:", error);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+    }
+    await searchPromise();
+  };
+  const handleSearch = (params, value, filterQueries) => {
+    debouncedHandleSearch(params, value, filterQueries, asyncSearch);
+  };
+
+  /**
+   * ***************
+   * URL Parameter Handling
+   */
 
   /**
    * ***************
@@ -161,7 +206,6 @@ export default function DiscoveryArea({
    * Query & Search Input handling
    */
   const [isResetting, setIsResetting] = useState(false);
-
   const [highlightIds, setHighlightIds] = useState([]);
   const [highlightLyr, setHighlightLyr] = useState("");
 
@@ -169,6 +213,7 @@ export default function DiscoveryArea({
     setValue("*");
     setInputValue("*");
     params.setQuery("*");
+    params.setShowDetailPanel(null);
     setIsResetting(true);
   };
 
@@ -179,8 +224,9 @@ export default function DiscoveryArea({
       setOptions([]);
       setResetStatus(true);
       setIsResetting(false);
+      setRelatedResults([]);
       handleSearch(params, "*", reGetFilterQueries(params));
-    } else {
+    } else if (params.query && params.query !== "") {
       handleSearch(params, params.query, reGetFilterQueries(params));
     }
   }, [
@@ -189,7 +235,6 @@ export default function DiscoveryArea({
     params.indexYear,
     params.subject,
     params.query,
-    params.showDetailPanel,
     isResetting,
   ]);
   return (
@@ -202,7 +247,6 @@ export default function DiscoveryArea({
           autocompleteKey={autocompleteKey}
           options={options}
           handleInputReset={handleInputReset}
-          processResults={processResults}
           setOptions={setOptions}
           inputRef={inputRef}
           inputValue={inputValue}
@@ -216,8 +260,10 @@ export default function DiscoveryArea({
       </Grid>
       <Grid item className="sm:px-[2em]" xs={12} sm={4}>
         <ResultsPanel
+          isLoading={isLoading}
+          updateKey={updateKey}
           resultsList={fetchResults}
-          relatedList={fetchResults}
+          relatedList={relatedResults}
           isQuery={isQuery || filterQueries.length > 0}
           filterComponent={filterComponent}
           showFilter={params.showFilter}
@@ -252,9 +298,8 @@ export default function DiscoveryArea({
           }}
         >
           <DetailPanel
-            resultItem={fetchResults.find((r) =>
-              r ? r.id === params.showDetailPanel : null
-            )}
+            fetchResults={fetchResults}
+            relatedResults={relatedResults}
             setShowDetailPanel={params.setShowDetailPanel}
             showSharedLink={params.showSharedLink}
             setShowSharedLink={params.setShowSharedLink}

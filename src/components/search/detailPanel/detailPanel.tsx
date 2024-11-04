@@ -8,9 +8,13 @@ import IconTag from "./iconTag";
 import ParagraphCard from "./paragraphCard/paragraphCard";
 import HeaderRow from "./headerRow/headerRow";
 import IconMatch from "../helper/IconMatch";
+import { GetAllParams } from "../helper/ParameterList";
+import { url } from "inspector";
 
 interface Props {
-  resultItem: SolrObject;
+  //resultItem: SolrObject;
+  fetchResults: SolrObject[];
+  relatedResults: SolrObject[];
   setShowDetailPanel: (value: string) => void;
   showSharedLink: string;
   setShowSharedLink: (value: string) => void;
@@ -28,20 +32,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DetailPanel = (props: Props): JSX.Element => {
-  const classes = useStyles();
+  const urlParams = GetAllParams();
+  let resultItem = props.fetchResults.find(
+    (r) => r.id === urlParams.showDetailPanel
+  );
+  if (!resultItem) {
+    resultItem = props.relatedResults.find(
+      (r) => r.id === urlParams.showDetailPanel
+    );
+  }
   return (
-    props.resultItem && (
+    resultItem && (
       <div
         className={`container sm:px-11 sm:mb-60 mx-auto bg-white shadow-none aspect-ratio`}
       >
         <div className="flex flex-col sm:flex-row mb-8" id="introCardRow">
           <HeaderRow
-            resultItem={props.resultItem}
+            resultItem={resultItem}
             headerIcon={IconMatch(
-              props.resultItem.meta.subject
-                ? props.resultItem.meta.subject.length > 1
+              resultItem.meta.subject
+                ? resultItem.meta.subject.length > 1
                   ? "Composite"
-                  : props.resultItem.meta.subject[0]
+                  : resultItem.meta.subject[0]
                 : ""
             )}
             showDetailPanel={props.setShowDetailPanel}
@@ -50,15 +62,15 @@ const DetailPanel = (props: Props): JSX.Element => {
           />
         </div>
         <div className="flex flex-col sm:flex-row mb-12" id="introCardRow">
-          <IntroCard resultItem={props.resultItem} />
+          <IntroCard resultItem={resultItem} />
         </div>
 
-        {props.resultItem.meta.subject && (
+        {resultItem.meta.subject && (
           <div
             className="flex flex-col sm:flex-row gap-4 mb-12 sm:gap-8"
             id="iconTagRow"
           >
-            {props.resultItem.meta.subject.map((s, index) => (
+            {resultItem.meta.subject.map((s, index) => (
               <IconTag
                 svgIcon={IconMatch(s)}
                 key={index}
@@ -77,8 +89,8 @@ const DetailPanel = (props: Props): JSX.Element => {
           className="container pb-2 gap-4 sm:gap-8 border-b border-b-1 border-strongorange rounded"
           id="notesRow"
         >
-          {props.resultItem.meta.display_note &&
-            props.resultItem.meta.display_note.map((s, index) => {
+          {resultItem.meta.display_note &&
+            resultItem.meta.display_note.map((s, index) => {
               const [before, after] = (
                 s.includes(":") ? s.split(/:(.*)/, 2) : ["", s]
               ) as [string, string];
@@ -91,34 +103,34 @@ const DetailPanel = (props: Props): JSX.Element => {
                 />
               );
             })}
-          {props.resultItem.meta.data_usage_notes && (
+          {resultItem.meta.data_usage_notes && (
             <ParagraphCard
               type="usage_tip"
               title="Usage Tip"
-              value={props.resultItem.meta.data_usage_notes}
+              value={resultItem.meta.data_usage_notes}
             />
           )}
         </div>
         <div className="container mt-7 gap-4 sm:gap-8" id="restRow">
-          {props.resultItem.meta.methods_variables && (
+          {resultItem.meta.methods_variables && (
             <ParagraphCard
               type="rest"
               title="Methods"
-              value={props.resultItem.meta.methods_variables.join(", ")}
+              value={resultItem.meta.methods_variables.join(", ")}
             />
           )}
-          {props.resultItem.meta.data_variables && (
+          {resultItem.meta.data_variables && (
             <ParagraphCard
               type="rest"
               title="Data variables"
-              value={props.resultItem.meta.data_variables.join(", ")}
+              value={resultItem.meta.data_variables.join(", ")}
             />
           )}
-          {props.resultItem.meta.references && (
+          {resultItem.meta.references && (
             <ParagraphCard
               type="references"
               title="Link"
-              value={props.resultItem.meta.references}
+              value={resultItem.meta.references}
             />
           )}
         </div>

@@ -50,6 +50,8 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
     new Set<CheckBoxObject>()
   );
   const handleSRSelectionChange = (event) => {
+    params.setPrevAction("filter");
+    params.setShowDetailPanel(null);
     const { value, checked } = event.target;
     const newList = checked
       ? [...(params.spatialResolution || []), value]

@@ -1,11 +1,11 @@
-import { makeStyles } from "@mui/styles";
+import { makeStyles, propsToClassKey } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { SolrObject } from "meta/interface/SolrObject";
 import ResultCard from "./resultCard";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
@@ -18,6 +18,8 @@ import {
 } from "../helper/ParameterList";
 
 interface Props {
+  isLoading: boolean;
+  updateKey: number;
   resultsList: SolrObject[];
   relatedList: SolrObject[];
   isQuery: boolean;
@@ -40,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
 const ResultsPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
+  //remove the duplicate results in the related list
+  const uniqueRelatedList = React.useMemo(() => {
+    return props.relatedList
+      .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
+      .filter((v) => props.resultsList.every((t) => t.id !== v.id));
+  }, [props.relatedList, props.resultsList]);
+  
   return (
     <div
       className="results-panel"
@@ -109,7 +118,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
             paddingRight: "1.25em",
             marginTop: "1.5em",
             maxHeight: `${
-              props.isQuery || props.showFilter.length > 0
+              (props.isQuery &&
+                params.query !== "*" &&
+                params.query.length > 0 &&
+                uniqueRelatedList.length > 0) ||
+              props.showFilter.length > 0
                 ? SearchUIConfig.search.searchResults.resultListHeight
                 : "100vh"
             }`,
@@ -248,44 +261,66 @@ const ResultsPanel = (props: Props): JSX.Element => {
             </div>
           )}
         </Box>
-        <Box
-          className="sm:my-[1.68em]"
-          display={props.isQuery ? "block" : "none"}
-        >
-          <div className="sm:mb-[1.5em] sm:flex-col">
+        {props.isLoading ? (
+          <Box
+            className="sm:my-[1.68em]"
+            display={props.isQuery ? "block" : "none"}
+          >
             <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
-              <span className="mr-4">Similar results</span>
-              <div
-                className="flex-grow border-b-2 sm:mr-[2.3em]"
-                style={{
-                  height: "1px",
-                  border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+              <span className="mr-4">
+                Looking for data you may interested in...
+              </span>
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: fullConfig.theme.colors["strongorange"],
+                  animationDuration: "550ms",
+                  marginLeft: "0.5em",
                 }}
               />
             </div>
+          </Box>
+        ) : (
+          uniqueRelatedList.length > 0 && (
             <Box
-              height={"100%"}
-              className="sm:mt-[0.875em]"
-              sx={{
-                overflowY: "scroll",
-                paddingRight: "1em",
-                maxHeight: `${SearchUIConfig.search.searchResults.relatedListHeight}`,
-              }}
+              className="sm:my-[1.68em]"
+              display={props.isQuery ? "block" : "none"}
             >
-              {/* Temporary use the first two result items until we decide what to put in the related section */}
-              {props.relatedList.map((result, index) => (
-                <div key={result.id} className="mb-[0.75em]">
-                  <ResultCard
-                    key={result.id}
-                    resultItem={result}
-                    setHighlightIds={props.setHighlightIds}
-                    setHighlightLyr={props.setHighlightLyr}
+              <div className="sm:mb-[1.5em] sm:flex-col">
+                <div className="flex flex-grow  sm:ml-[0.7em] items-center text-2xl">
+                  <span className="mr-4">You may be interested in...</span>
+                  <div
+                    className="flex-grow border-b-2 sm:mr-[2.3em]"
+                    style={{
+                      height: "1px",
+                      border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+                    }}
                   />
                 </div>
-              ))}
+                <Box
+                  height={"100%"}
+                  className="sm:mt-[0.875em]"
+                  sx={{
+                    overflowY: "scroll",
+                    paddingRight: "1em",
+                    maxHeight: `${SearchUIConfig.search.searchResults.relatedListHeight}`,
+                  }}
+                >
+                  {uniqueRelatedList.map((result) => (
+                    <div key={result.id} className="mb-[0.75em]">
+                      <ResultCard
+                        key={result.id}
+                        resultItem={result}
+                        setHighlightIds={props.setHighlightIds}
+                        setHighlightLyr={props.setHighlightLyr}
+                      />
+                    </div>
+                  ))}
+                </Box>
+              </div>
             </Box>
-          </div>
-        </Box>
+          )
+        )}
       </span>
     </div>
   );
