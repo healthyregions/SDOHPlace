@@ -138,6 +138,22 @@ export default function DiscoveryArea({
 
   /**
    * ***************
+   * Query & Search Input handling
+   */
+  const [isResetting, setIsResetting] = useState(false);
+
+  const [highlightIds, setHighlightIds] = useState([]);
+  const [highlightLyr, setHighlightLyr] = useState("");
+
+  const handleInputReset = () => {
+    setValue("*");
+    setInputValue("*");
+    params.setQuery("*");
+    setIsResetting(true);
+  };
+
+  /**
+   * ***************
    * Filter & Sort Component
    */
 
@@ -153,24 +169,10 @@ export default function DiscoveryArea({
       setSortOrder={params.setSortOrder}
       sortBy={params.sortBy ? params.sortBy : ""}
       setSortBy={params.setSortBy}
+      handleInputReset={handleInputReset}
+      handleSearch={handleSearch}
     />
   );
-
-  /**
-   * ***************
-   * Query & Search Input handling
-   */
-  const [isResetting, setIsResetting] = useState(false);
-
-  const [highlightIds, setHighlightIds] = useState([]);
-  const [highlightLyr, setHighlightLyr] = useState("");
-
-  const handleInputReset = () => {
-    setValue("*");
-    setInputValue("*");
-    params.setQuery("*");
-    setIsResetting(true);
-  };
 
   useEffect(() => {
     if (isResetting) {
