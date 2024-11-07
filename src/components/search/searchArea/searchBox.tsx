@@ -18,9 +18,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
 import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
-import SuggestedResult from "../helper/SuggestedResultBuilder";
 import { useEffect } from "react";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
+import { containsYear } from "../helper/SuggestMethods";
+import { p } from "nuqs/dist/serializer-C_l8WgvO";
 
 interface Props {
   schema: any;
@@ -28,7 +29,6 @@ interface Props {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any[]>>;
   handleInputReset: () => void;
-  processResults: (results, value) => string[];
   inputRef: React.RefObject<HTMLInputElement>;
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
@@ -101,19 +101,22 @@ const SearchBox = (props: Props): JSX.Element => {
   let searchQueryBuilder = new SolrQueryBuilder();
   searchQueryBuilder.setSchema(props.schema);
 
-  let suggestResultBuilder = new SuggestedResult();
   const handleSubmit = (event) => {
     const filterQueries = reGetFilterQueries(urlParams);
+    urlParams.setPrevAction(null);
     event.preventDefault();
     props.setQuery(userInput);
     props.setInputValue(userInput);
     urlParams.setSubject(null);
+    urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, userInput, filterQueries);
   };
   const handleDropdownSelect = (event, value) => {
     const filterQueries = reGetFilterQueries(urlParams);
     props.setInputValue(value);
     props.setQuery(value);
+    urlParams.setPrevAction(null);
+    urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, value, filterQueries);
   };
   const handleUserInputChange = async (
@@ -128,11 +131,28 @@ const SearchBox = (props: Props): JSX.Element => {
     });
     if (newInputValue !== "") {
       searchQueryBuilder.suggestQuery(newInputValue);
+      const finalSuggestions = [];
       searchQueryBuilder
         .fetchResult()
-        .then((result) => {
-          let returnedTerms = props.processResults(result, newInputValue);
-          props.setOptions(returnedTerms);
+        .then(async (result) => {
+          result["suggest"]["sdohSuggester"][newInputValue].suggestions.forEach(
+            (suggestion) => {
+              if (suggestion.weight > 50 && suggestion.payload === "false") {
+                finalSuggestions.push(suggestion);
+              }
+            }
+          );
+
+          //remove duplicates from the finalSuggestions, rank them and get the top 10 suggestions
+          props.setOptions(
+            finalSuggestions
+              .map((s) => s.term)
+              .filter((value, index, self) => self.indexOf(value) === index)
+              .sort((a, b) => {
+                return b.weight - a.weight;
+              })
+              .slice(0, 10)
+          );
         })
         .catch((error) => {
           console.error("Error fetching result:", error);
