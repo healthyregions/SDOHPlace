@@ -130,6 +130,8 @@ const FilterPanel = (props: Props): JSX.Element => {
     }
   }, [params.subject, params.indexYear]);
   const handleYearRangeChange = (event, newValue) => {
+    params.setShowDetailPanel(null);
+    params.setPrevAction("filter");
     setYearRange(newValue);
     const newFilterQueries = props.filterQueries
       .filter((f) => f["attribute"] !== "index_year")
@@ -153,7 +155,7 @@ const FilterPanel = (props: Props): JSX.Element => {
       props.sortBy,
       props.sortOrder,
       newFilterQueries,
-      props.term
+      props.term,
     );
     if (yearsString === null) {
       setYearRange([minRange, maxRange]);
@@ -240,6 +242,7 @@ const FilterPanel = (props: Props): JSX.Element => {
                   }`,
                 }}
                 onClick={(e) => {
+                  params.setPrevAction("sort");
                   // sort by modified date asc by updating sortOrder and sortBy in url
                   updateAll(
                     params,
@@ -267,6 +270,7 @@ const FilterPanel = (props: Props): JSX.Element => {
                   }`,
                 }}
                 onClick={(e) => {
+                  params.setPrevAction("sort");
                   updateAll(
                     params,
                     "modified",
@@ -291,6 +295,7 @@ const FilterPanel = (props: Props): JSX.Element => {
                   }`,
                 }}
                 onClick={(e) => {
+                  params.setPrevAction("sort");
                   // sort by relevance asc (i.e. the default order)
                   updateAll(params, "", "", props.filterQueries, props.term);
                 }}

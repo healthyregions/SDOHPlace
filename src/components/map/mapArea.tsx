@@ -248,17 +248,19 @@ export default function MapArea({
     setSelectedState(stateId);
 
     // if (feat) {mapRef.current.getMap().getCanvas().style.cursor = 'pointer';}
-    mapRef.current.getMap().getCanvas().style.cursor = parkFeat
-      ? "pointer"
-      : "grab";
-    const parkInfo = parkFeat
-      ? {
-          longitude: parkFeat.geometry.coordinates[0],
-          latitude: parkFeat.geometry.coordinates[1],
-          name: parkFeat.properties.name,
-        }
-      : null;
-    setParkPopupInfo(parkInfo);
+    if (mapRef.current) {
+      mapRef.current.getMap().getCanvas().style.cursor = parkFeat
+        ? "pointer"
+        : "grab";
+      const parkInfo = parkFeat
+        ? {
+            longitude: parkFeat.geometry.coordinates[0],
+            latitude: parkFeat.geometry.coordinates[1],
+            name: parkFeat.properties.name,
+          }
+        : null;
+      setParkPopupInfo(parkInfo);
+    }
   }, []);
 
   use;

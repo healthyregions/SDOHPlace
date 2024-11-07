@@ -30,7 +30,7 @@ export default class SolrQueryBuilder {
     return this;
   }
 
-  public fetchResult(): Promise<SolrObject[]> {
+  public fetchResult(signal?: AbortSignal): Promise<SolrObject[]> {
     return new Promise((resolve, reject) => {
       const encodedUrl = this.query.query;
       console.log("Encoded URL: ", encodedUrl);
@@ -40,6 +40,7 @@ export default class SolrQueryBuilder {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        signal,
       })
         .then((res) => {
           if (!res.ok) {
@@ -63,7 +64,11 @@ export default class SolrQueryBuilder {
           }
         })
         .catch((error) => {
-          console.error("Error fetching data:", error);
+          if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+          } else {
+            console.error("Error fetching data:", error);
+          }
           reject(error);
         });
     });
@@ -95,7 +100,9 @@ export default class SolrQueryBuilder {
    * Search Methods based on Solr syntax. Not all methods are used in the search component
    * */
   public suggestQuery(searchTerm: string): SolrQueryBuilder {
-    const suggestQuery = `suggest?q=${encodeURIComponent(searchTerm)}`;
+    const suggestQuery = `suggest?q=${encodeURIComponent(
+      searchTerm
+    )}&fq=-gbl_suppressed_b:true`;
     return this.setQuery(suggestQuery);
   }
   public contentQuery(searchTerm: string): SolrQueryBuilder {
@@ -104,30 +111,35 @@ export default class SolrQueryBuilder {
   }
   public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
     let generalQuery = "select?q=";
-    if (typeof searchTerms === "string") {
-      generalQuery += `${encodeURIComponent(
-        findSolrAttribute(searchTerms, this.query.schema_json)
-      )}`;
-    } else {
-      searchTerms.forEach((term) => {
+    if (searchTerms) {
+      if (typeof searchTerms === "string") {
         generalQuery += `${encodeURIComponent(
-          findSolrAttribute(term, this.query.schema_json)
-        )} OR `;
-      });
-      generalQuery = generalQuery.slice(0, -4); //remove the last OR
+          findSolrAttribute(searchTerms, this.query.schema_json)
+        )}`;
+      } else {
+        searchTerms.forEach((term) => {
+          generalQuery += `${encodeURIComponent(
+            findSolrAttribute(term, this.query.schema_json)
+          )} OR `;
+        });
+        generalQuery = generalQuery.slice(0, -4); //remove the last OR
+      }
     }
-    return this.setQuery(generalQuery);
+    return this.setQuery(
+      (generalQuery += "&fq=(gbl_suppressed_b:false)&rows=1000")
+    );
   }
 
   public filterQuery(
     searchTerms: { attribute: string; value: string }[]
   ): SolrQueryBuilder {
     let filterQuery = `select?fq=`;
-    searchTerms.forEach((term) => {
-      filterQuery += `${encodeURIComponent(
-        findSolrAttribute(term.attribute, this.query.schema_json)
-      )}:"${encodeURIComponent(term.value)}" AND `;
-    });
+    if (searchTerms)
+      searchTerms.forEach((term) => {
+        filterQuery += `${encodeURIComponent(
+          findSolrAttribute(term.attribute, this.query.schema_json)
+        )}:"${encodeURIComponent(term.value)}" AND `;
+      });
     filterQuery = filterQuery.slice(0, -5); //remove the last AND
     filterQuery = filterQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
     return this.setQuery(filterQuery);

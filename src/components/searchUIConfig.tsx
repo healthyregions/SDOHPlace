@@ -32,7 +32,7 @@ export const SearchUIConfig = {
     },
     searchResults: {
       resultListHeight: "60vh",
-      relatedListHeight: "40vh",
+      relatedListHeight: "60vh", // make sure to fill the remaining space for small search results
     },
     searchFilters: {
       filters: [
