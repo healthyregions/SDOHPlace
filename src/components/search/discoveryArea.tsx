@@ -41,6 +41,10 @@ export default function DiscoveryArea({
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
 
+  /**
+   * ***************
+   * URL Parameter Handling
+   */
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
     params.query ? params.query : ""
@@ -181,15 +185,9 @@ export default function DiscoveryArea({
 
   /**
    * ***************
-   * URL Parameter Handling
-   */
-
-  /**
-   * ***************
    * Query & Search Input handling
    */
   const [isResetting, setIsResetting] = useState(false);
-
   const [highlightIds, setHighlightIds] = useState([]);
   const [highlightLyr, setHighlightLyr] = useState("");
 
@@ -197,8 +195,10 @@ export default function DiscoveryArea({
     setValue("*");
     setInputValue("*");
     params.setQuery("*");
+    params.setShowDetailPanel(null);
     setIsResetting(true);
   };
+
 
   /**
    * ***************
@@ -207,6 +207,8 @@ export default function DiscoveryArea({
 
   const filterComponent = (
     <FilterPanel
+      handleInputReset={handleInputReset}
+      handleSearch={handleSearch}
       originalList={originalResults}
       term={isQuery ? params.query : "*"}
       optionMaxNum={7}
@@ -217,10 +219,9 @@ export default function DiscoveryArea({
       setSortOrder={params.setSortOrder}
       sortBy={params.sortBy ? params.sortBy : ""}
       setSortBy={params.setSortBy}
-      handleInputReset={handleInputReset}
-      handleSearch={handleSearch}
     />
   );
+
 
   useEffect(() => {
     if (isResetting) {

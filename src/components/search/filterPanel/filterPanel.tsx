@@ -8,7 +8,6 @@ import {
   Slider,
   SxProps,
   Theme,
-  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import tailwindConfig from "../../../../tailwind.config";
@@ -23,8 +22,6 @@ import {
   reGetFilterQueries,
   updateAll,
 } from "../helper/ParameterList";
-import IconMatch from "../helper/IconMatch";
-import IconTag from "../detailPanel/iconTag";
 import ThemeIcons from "../helper/themeIcons";
 
 interface Props {
