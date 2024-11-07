@@ -8,7 +8,6 @@ import {
   Slider,
   SxProps,
   Theme,
-  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import tailwindConfig from "../../../../tailwind.config";
@@ -23,7 +22,7 @@ import {
   reGetFilterQueries,
   updateAll,
 } from "../helper/ParameterList";
-import { set } from "date-fns";
+import ThemeIcons from "../helper/themeIcons";
 
 interface Props {
   originalList: SolrObject[];
@@ -36,6 +35,8 @@ interface Props {
   setSortOrder: (value: string) => void;
   sortBy: string;
   setSortBy: (value: string) => void;
+  handleSearch(params: any, value: string, filterQueries: any): void;
+  handleInputReset: () => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -167,7 +168,6 @@ const FilterPanel = (props: Props): JSX.Element => {
   const filterStates = filterAttributes.map((filter) => {
     return useQueryState(filter, parseAsString.withDefault(""));
   });
-
   // const existingFilters = useMemo(() => {
   //   return filterAttributes
   //     .map((filter, index) => {
@@ -302,8 +302,8 @@ const FilterPanel = (props: Props): JSX.Element => {
             </span>
           </Box>
         </Box>
-        <div>
-          <div className="text-s font-bold">Year</div>
+        <Box sx={{ mt: 1 }}>
+          <Box className="text-s font-bold">Year</Box>
           <Slider
             sx={{
               color: `${fullConfig.theme.colors["frenchviolet"]}`,
@@ -319,7 +319,18 @@ const FilterPanel = (props: Props): JSX.Element => {
             valueLabelDisplay="auto"
             marks={marks}
           />
-        </div>
+        </Box>
+        <Box sx={{ mt: 1 }}>
+          <Box className="text-s font-bold" sx={{ mb: 1 }}>
+            Theme
+          </Box>
+          <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+            <ThemeIcons
+              handleSearch={props.handleSearch}
+              handleInputReset={props.handleInputReset}
+            />
+          </Box>
+        </Box>
       </Box>
     </div>
   );

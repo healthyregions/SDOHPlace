@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   iconTag: {
     color: `${fullConfig.theme.colors["almostblack"]}`,
     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-    fontWeight: 400,
     fontSize: "0.875rem",
   },
 }));
@@ -56,7 +55,13 @@ const IconTag = (props: Props): JSX.Element => {
       )}
       <span
         className={`${props.labelClass}`}
-        style={{ color: props.labelColor }}
+        style={{
+          color:
+            params.subject === props.label
+              ? `${fullConfig.theme.colors["strongorange"]}`
+              : props.labelColor,
+          fontWeight: params.subject === props.label ? 900 : 400,
+        }}
       >
         {props.label}
       </span>

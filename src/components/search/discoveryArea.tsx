@@ -41,6 +41,10 @@ export default function DiscoveryArea({
   let searchQueryBuilder = useMemo(() => new SolrQueryBuilder(), []);
   searchQueryBuilder.setSchema(schema);
 
+  /**
+   * ***************
+   * URL Parameter Handling
+   */
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
     params.query ? params.query : ""
@@ -78,8 +82,11 @@ export default function DiscoveryArea({
 
     const searchPromise = async () => {
       // get the first 5 words of the search term if it is longer than 50 characters
-      value =
-        value.length > 50 ? value.split(" ").slice(0, 5).join(" ") : value;
+      value = value
+        ? value.length > 50
+          ? value.split(" ").slice(0, 5).join(" ")
+          : value
+        : "";
       searchQueryBuilder.combineQueries(value, filterQueries);
       try {
         const resultResponse = await searchQueryBuilder.fetchResult(
@@ -178,31 +185,6 @@ export default function DiscoveryArea({
 
   /**
    * ***************
-   * URL Parameter Handling
-   */
-
-  /**
-   * ***************
-   * Filter & Sort Component
-   */
-
-  const filterComponent = (
-    <FilterPanel
-      originalList={originalResults}
-      term={isQuery ? params.query : "*"}
-      optionMaxNum={7}
-      filterQueries={filterQueries}
-      showFilter={params.showFilter ? params.showFilter : ""}
-      setShowFilter={params.setShowFilter}
-      sortOrder={params.sortOrder ? params.sortOrder : ""}
-      setSortOrder={params.setSortOrder}
-      sortBy={params.sortBy ? params.sortBy : ""}
-      setSortBy={params.setSortBy}
-    />
-  );
-
-  /**
-   * ***************
    * Query & Search Input handling
    */
   const [isResetting, setIsResetting] = useState(false);
@@ -216,6 +198,30 @@ export default function DiscoveryArea({
     params.setShowDetailPanel(null);
     setIsResetting(true);
   };
+
+
+  /**
+   * ***************
+   * Filter & Sort Component
+   */
+
+  const filterComponent = (
+    <FilterPanel
+      handleInputReset={handleInputReset}
+      handleSearch={handleSearch}
+      originalList={originalResults}
+      term={isQuery ? params.query : "*"}
+      optionMaxNum={7}
+      filterQueries={filterQueries}
+      showFilter={params.showFilter ? params.showFilter : ""}
+      setShowFilter={params.setShowFilter}
+      sortOrder={params.sortOrder ? params.sortOrder : ""}
+      setSortOrder={params.setSortOrder}
+      sortBy={params.sortBy ? params.sortBy : ""}
+      setSortBy={params.setSortBy}
+    />
+  );
+
 
   useEffect(() => {
     if (isResetting) {
