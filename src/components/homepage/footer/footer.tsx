@@ -324,8 +324,7 @@ const Footer = (): JSX.Element => {
                 labelColor={"salmonpink"}
                 onClick={() => {
                   // Link to sign up to the Mailing List
-                  window.open
-                  window.location.href = "https://groups.webservices.illinois.edu/subscribe/192463";
+                  window.open("https://groups.webservices.illinois.edu/subscribe/192463", "_blank");
                 }}
               ></ButtonWithIcon>
             </div>
