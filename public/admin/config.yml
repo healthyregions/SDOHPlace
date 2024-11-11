@@ -298,6 +298,7 @@ collections:
     create: true
     slug: "{{slug}}"
     summary: "{{title}}"
+    preview_path: "news/{{slug}}"
     fields:
       - label: "Title"
         name: "title"
@@ -358,6 +359,7 @@ collections:
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}"
+    preview_path: "showcase/{{slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Project Title"
         name: "title"
@@ -368,6 +370,12 @@ collections:
         widget: "image"
         choose_url: true
         default: "/images/default.jpg"
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "M/D/YYYY"
+        default: '{{now}}'
+        hint: "The date when this showcase case was created, updated, or published."
       - label: "External Link"
         name: "link"
         widget: "string"
@@ -401,6 +409,7 @@ collections:
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}"
+    preview_path: "guides/{{slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Title"
         name: "title"
