@@ -9,8 +9,8 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "meta/interface/SolrObject";
 import { useEffect, useMemo, useState } from "react";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import { generateFilterList, updateFilter } from "../helper/FilterHelpMethods";
+import { Box } from "@mui/material";
+import { generateFilterList } from "../helper/FilterHelpMethods";
 import {
   GetAllParams,
   reGetFilterQueries,
@@ -39,11 +39,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
   },
 }));
-
-const filterNameLookup = SearchUIConfig.search.searchFilters.filters.reduce(
-  (o, f) => ({ ...o, [f.attribute]: f.displayName }),
-  {}
-);
 
 /**
  * Only show filter items in url
@@ -321,7 +316,6 @@ const FilterPanel = (props: Props): JSX.Element => {
           <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
             <ThemeIcons
               handleSearch={props.handleSearch}
-              handleInputReset={props.handleInputReset}
             />
           </Box>
         </Box>

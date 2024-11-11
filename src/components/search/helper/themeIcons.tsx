@@ -6,7 +6,6 @@ import resolveConfig from "tailwindcss/resolveConfig";
 
 interface Props {
   handleSearch(params: any, value: string, filterQueries: any): void;
-  handleInputReset: () => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +40,6 @@ const ThemeIcons = (props: Props): JSX.Element => {
           labelColor={fullConfig.theme.colors["almostblack"]}
           roundBackground={true}
           handleSearch={props.handleSearch}
-          handleInputReset={props.handleInputReset}
         />
       ))}
     </>

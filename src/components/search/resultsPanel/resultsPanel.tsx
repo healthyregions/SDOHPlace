@@ -9,8 +9,6 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import IconTag from "../detailPanel/iconTag";
-import IconMatch from "../helper/IconMatch";
 import {
   GetAllParams,
   isFiltersOn,
@@ -152,7 +150,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
                 <ThemeIcons
                   handleSearch={props.handleSearch}
-                  handleInputReset={props.handleInputReset}
                 />
               </Box>
             </div>

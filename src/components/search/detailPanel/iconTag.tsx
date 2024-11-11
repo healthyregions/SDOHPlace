@@ -14,7 +14,6 @@ interface Props {
   labelClass: string;
   labelColor: string;
   roundBackground: boolean;
-  handleInputReset: () => void;
   handleSearch(params: any, value: string, filterQueries: any): void;
 }
 
@@ -49,11 +48,11 @@ const IconTag = (props: Props): JSX.Element => {
     if (subjectString) {
       filterQueries.push({ attribute: "subject", value: subjectString });
     }
-    updateAll(params, null, null, filterQueries, "*");
-    params.setQuery("*");
+    const currentQuery = params.query ? params.query : "*";
+    updateAll(params, null, null, filterQueries, currentQuery);
+    params.setQuery(currentQuery);
     params.setSubject(subjectString);
-    props.handleSearch(reGetFilterQueries(params), "*", filterQueries);
-    props.handleInputReset();
+    props.handleSearch(reGetFilterQueries(params), currentQuery, filterQueries);
   };
 
   const isSelected = (label: string): boolean => {
