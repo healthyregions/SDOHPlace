@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
-import DataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg?component";
+import DataDiscovery from "@/public/logos/data-discovery-icon.svg?component";
 import transitIcon from "@/public/logos/transit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
@@ -102,8 +102,6 @@ const useStyles = makeStyles({
     },
   },
 });
-
-const DataDiscovery = () => (<div><DataDiscoveryIcon /></div>);
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
