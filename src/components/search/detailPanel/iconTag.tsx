@@ -17,6 +17,7 @@ interface Props {
   handleInputReset: () => void;
   handleSearch(params: any, value: string, filterQueries: any): void;
 }
+
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
   iconTag: {
@@ -29,21 +30,45 @@ const useStyles = makeStyles((theme) => ({
 const IconTag = (props: Props): JSX.Element => {
   let params = GetAllParams();
   const classes = useStyles();
+
   const handleSubjectClick = (sub: string) => {
-    let filterQueries = [{ attribute: "subject", value: "sub" }];
+    let filterQueries = reGetFilterQueries(params);
+    let currentSubjects = params.subject
+      ? params.subject.split(",").map((s) => s.trim())
+      : [];
+    let newSubjects: string[];
+    if (currentSubjects.includes(sub)) {
+      newSubjects = currentSubjects.filter((s) => s !== sub);
+    } else {
+      newSubjects = [...currentSubjects, sub];
+    }
+    const subjectString = newSubjects.length > 0 ? newSubjects.join(",") : "";
+    filterQueries = filterQueries.filter(
+      (query) => query.attribute !== "subject"
+    );
+    if (subjectString) {
+      filterQueries.push({ attribute: "subject", value: subjectString });
+    }
     updateAll(params, null, null, filterQueries, "*");
     params.setQuery("*");
-    params.setSubject(sub);
+    params.setSubject(subjectString);
     props.handleSearch(reGetFilterQueries(params), "*", filterQueries);
     props.handleInputReset();
   };
+
+  const isSelected = (label: string): boolean => {
+    const currentSubjects = params.subject
+      ? params.subject.split(",").map((s) => s.trim())
+      : [];
+    return currentSubjects.includes(label);
+  };
+
   return (
     <div
-      className={`flex items-center shadow-none bg-lightbisque border border-1 border-strongorange rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${classes.iconTag}  cursor-pointer`}
+      className={`flex items-center shadow-none bg-lightbisque border border-1 border-strongorange rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${classes.iconTag} cursor-pointer`}
       onClick={() => handleSubjectClick(props.label)}
     >
       {props.roundBackground ? (
-        // for icon with background as the theme tags.
         <div
           className="relative flex items-center justify-center"
           style={{ color: `${fullConfig.theme.colors["strongorange"]}` }}
@@ -56,11 +81,10 @@ const IconTag = (props: Props): JSX.Element => {
       <span
         className={`${props.labelClass}`}
         style={{
-          color:
-            params.subject === props.label
-              ? `${fullConfig.theme.colors["strongorange"]}`
-              : props.labelColor,
-          fontWeight: params.subject === props.label ? 900 : 400,
+          color: isSelected(props.label)
+            ? `${fullConfig.theme.colors["strongorange"]}`
+            : props.labelColor,
+          fontWeight: isSelected(props.label) ? 900 : 400,
         }}
       >
         {props.label}

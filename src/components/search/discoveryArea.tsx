@@ -199,7 +199,6 @@ export default function DiscoveryArea({
     setIsResetting(true);
   };
 
-
   /**
    * ***************
    * Filter & Sort Component
@@ -221,7 +220,6 @@ export default function DiscoveryArea({
       setSortBy={params.setSortBy}
     />
   );
-
 
   useEffect(() => {
     if (isResetting) {

@@ -2,13 +2,7 @@
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import { useQueryState, parseAsString } from "nuqs";
-import {
-  Button,
-  IconButton,
-  Slider,
-  SxProps,
-  Theme,
-} from "@mui/material";
+import { Button, IconButton, Slider, SxProps, Theme } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
@@ -152,7 +146,7 @@ const FilterPanel = (props: Props): JSX.Element => {
       props.sortBy,
       props.sortOrder,
       newFilterQueries,
-      props.term,
+      props.term
     );
     if (yearsString === null) {
       setYearRange([minRange, maxRange]);

@@ -261,8 +261,9 @@ export const reGetFilterQueries = (params) => {
     });
   }
   if (params.subject) {
-    res.push({ attribute: "subject", value: params.subject });
-    // subject can only be one at a time
+    params.subject.split(",").forEach((i) => {
+      res.push({ attribute: "subject", value: i });
+    });
   }
   if (params.visLyrs) {
     params.visLyrs.forEach((i) => {
