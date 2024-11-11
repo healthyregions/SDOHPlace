@@ -60,7 +60,7 @@ const IconTag = (props: Props): JSX.Element => {
       typeof params.subject === "string"
         ? params.subject.split(",").map((s) => s.trim())
         : params.subject
-        ? params.subject.map((s) => s.trim())
+        ? (params.subject as string[]).map((s) => s.trim())
         : [];
     return currentSubjects.includes(label);
   };
