@@ -79,7 +79,6 @@ const DetailPanel = (props: Props): JSX.Element => {
                 labelColor={fullConfig.theme.colors["almostblack"]}
                 roundBackground={true}
                 handleSearch={props.handleSearch}
-                handleInputReset={props.handleInputReset}
               />
             ))}
           </div>

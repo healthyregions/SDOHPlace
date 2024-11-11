@@ -119,9 +119,9 @@ const FilterPanel = (props: Props): JSX.Element => {
     params.setShowDetailPanel(null);
     params.setPrevAction("filter");
     setYearRange(newValue);
-    const newFilterQueries = props.filterQueries
-      .filter((f) => f["attribute"] !== "index_year")
-      .filter((f) => f["attribute"] !== "subject");
+    const newFilterQueries = props.filterQueries.filter(
+      (f) => f["attribute"] !== "index_year"
+    );
     const yearsArray = Array.from(
       { length: newValue[1] - newValue[0] + 1 },
       (_, i) => newValue[0] + i
@@ -314,9 +314,7 @@ const FilterPanel = (props: Props): JSX.Element => {
             Theme
           </Box>
           <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-            <ThemeIcons
-              handleSearch={props.handleSearch}
-            />
+            <ThemeIcons handleSearch={props.handleSearch} />
           </Box>
         </Box>
       </Box>

@@ -56,9 +56,12 @@ const IconTag = (props: Props): JSX.Element => {
   };
 
   const isSelected = (label: string): boolean => {
-    const currentSubjects = params.subject
-      ? params.subject.split(",").map((s) => s.trim())
-      : [];
+    const currentSubjects =
+      typeof params.subject === "string"
+        ? params.subject.split(",").map((s) => s.trim())
+        : params.subject
+        ? params.subject.map((s) => s.trim())
+        : [];
     return currentSubjects.includes(label);
   };
 
