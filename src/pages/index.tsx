@@ -5,8 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
-import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
-import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
+import DataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg?component";
 import transitIcon from "@/public/logos/transit-icon.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
@@ -48,6 +47,7 @@ import {
   FaChevronCircleRight,
   FaPlus,
 } from "react-icons/fa";
+import {Handyman} from "@mui/icons-material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -102,6 +102,8 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const DataDiscovery = () => (<div><DataDiscoveryIcon /></div>);
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -249,7 +251,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             <div>
               <ButtonWithIcon
                 label={"Data Discovery"}
-                svgIcon={dataDiscoveryIcon}
+                svgIcon={<DataDiscovery />}
                 fillColor={"salmonpink"}
                 labelColor={"almostblack"}
                 onClick={scrollToComingSoon}
@@ -258,7 +260,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             <div>
               <ButtonWithIcon
                 label={"Community Toolkit"}
-                svgIcon={communityToolkitIcon}
+                svgIcon={<Handyman />}
                 fillColor={"frenchviolet"}
                 labelColor={"white"}
                 onClick={scrollToComingSoon}
@@ -486,7 +488,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     <div>
                       <ButtonWithIcon
                         label={"Data Discovery"}
-                        svgIcon={dataDiscoveryIcon}
+                        svgIcon={<DataDiscovery />}
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
                         onClick={scrollToComingSoon}
@@ -522,7 +524,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   <div>
                     <ButtonWithIcon
                       label={"Community Toolkit"}
-                      svgIcon={communityToolkitIcon}
+                      svgIcon={<Handyman />}
                       fillColor={"frenchviolet"}
                       labelColor={"white"}
                       onClick={() => {
