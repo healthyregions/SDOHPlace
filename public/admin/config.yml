@@ -373,6 +373,7 @@ collections:
       - label: "Date"
         name: "date"
         widget: "datetime"
+        date_format: "M/D/YYYY"
         default: '{{now}}'
         hint: "The date when this showcase case was created, updated, or published."
       - label: "External Link"
