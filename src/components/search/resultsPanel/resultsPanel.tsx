@@ -9,8 +9,6 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SvgIcon } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import IconTag from "../detailPanel/iconTag";
-import IconMatch from "../helper/IconMatch";
 import {
   GetAllParams,
   isFiltersOn,
@@ -49,7 +47,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
       .filter((v) => props.resultsList.every((t) => t.id !== v.id));
   }, [props.relatedList, props.resultsList]);
-  
+
   return (
     <div
       className="results-panel"
@@ -150,10 +148,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 <div className="text-s">Search for themes instead?</div>
               </Box>
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                <ThemeIcons
-                  handleSearch={props.handleSearch}
-                  handleInputReset={props.handleInputReset}
-                />
+                <ThemeIcons handleSearch={props.handleSearch} />
               </Box>
             </div>
           )}

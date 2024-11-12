@@ -261,8 +261,15 @@ export const reGetFilterQueries = (params) => {
     });
   }
   if (params.subject) {
-    res.push({ attribute: "subject", value: params.subject });
-    // subject can only be one at a time
+    if (typeof params.subject === "string") {
+      params.subject.split(",").forEach((i) => {
+        res.push({ attribute: "subject", value: i });
+      });
+    } else {
+      params.subject.forEach((i) => {
+        res.push({ attribute: "subject", value: i });
+      });
+    }
   }
   if (params.visLyrs) {
     params.visLyrs.forEach((i) => {
@@ -270,9 +277,15 @@ export const reGetFilterQueries = (params) => {
     });
   }
   if (params.indexYear) {
-    params.indexYear.split(",").forEach((i) => {
-      res.push({ attribute: "index_year", value: i });
-    });
+    if (typeof params.indexYear === "string") {
+      params.indexYear.split(",").forEach((i) => {
+        res.push({ attribute: "index_year", value: i });
+      });
+    } else {
+      params.indexYear.forEach((i) => {
+        res.push({ attribute: "index_year", value: i });
+      });
+    }
   }
   if (params.query) {
     res.push({ attribute: "query", value: params.query });

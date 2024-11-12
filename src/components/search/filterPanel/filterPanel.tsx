@@ -2,21 +2,15 @@
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import { useQueryState, parseAsString } from "nuqs";
-import {
-  Button,
-  IconButton,
-  Slider,
-  SxProps,
-  Theme,
-} from "@mui/material";
+import { Button, IconButton, Slider, SxProps, Theme } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { SolrObject } from "meta/interface/SolrObject";
 import { useEffect, useMemo, useState } from "react";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import { generateFilterList, updateFilter } from "../helper/FilterHelpMethods";
+import { Box } from "@mui/material";
+import { generateFilterList } from "../helper/FilterHelpMethods";
 import {
   GetAllParams,
   reGetFilterQueries,
@@ -45,11 +39,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
   },
 }));
-
-const filterNameLookup = SearchUIConfig.search.searchFilters.filters.reduce(
-  (o, f) => ({ ...o, [f.attribute]: f.displayName }),
-  {}
-);
 
 /**
  * Only show filter items in url
@@ -130,9 +119,9 @@ const FilterPanel = (props: Props): JSX.Element => {
     params.setShowDetailPanel(null);
     params.setPrevAction("filter");
     setYearRange(newValue);
-    const newFilterQueries = props.filterQueries
-      .filter((f) => f["attribute"] !== "index_year")
-      .filter((f) => f["attribute"] !== "subject");
+    const newFilterQueries = props.filterQueries.filter(
+      (f) => f["attribute"] !== "index_year"
+    );
     const yearsArray = Array.from(
       { length: newValue[1] - newValue[0] + 1 },
       (_, i) => newValue[0] + i
@@ -152,7 +141,7 @@ const FilterPanel = (props: Props): JSX.Element => {
       props.sortBy,
       props.sortOrder,
       newFilterQueries,
-      props.term,
+      props.term
     );
     if (yearsString === null) {
       setYearRange([minRange, maxRange]);
@@ -325,10 +314,7 @@ const FilterPanel = (props: Props): JSX.Element => {
             Theme
           </Box>
           <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-            <ThemeIcons
-              handleSearch={props.handleSearch}
-              handleInputReset={props.handleInputReset}
-            />
+            <ThemeIcons handleSearch={props.handleSearch} />
           </Box>
         </Box>
       </Box>
