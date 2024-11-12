@@ -67,13 +67,23 @@ const IconTag = (props: Props): JSX.Element => {
 
   return (
     <div
-      className={`flex items-center shadow-none bg-lightbisque border border-1 border-strongorange rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${classes.iconTag} cursor-pointer`}
+      className={`flex items-center shadow-none bg-lightbisque border border-1 rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${
+        classes.iconTag
+      } cursor-pointer ${
+        isSelected(props.label) ? "border-frenchviolet" : "border-strongorange"
+      }`}
       onClick={() => handleSubjectClick(props.label)}
     >
       {props.roundBackground ? (
         <div
           className="relative flex items-center justify-center"
-          style={{ color: `${fullConfig.theme.colors["strongorange"]}` }}
+          style={{
+            color: `${
+              isSelected(props.label)
+                ? fullConfig.theme.colors["frenchviolet"]
+                : fullConfig.theme.colors["strongorange"]
+            }`,
+          }}
         >
           {props.svgIcon}
         </div>
@@ -84,7 +94,7 @@ const IconTag = (props: Props): JSX.Element => {
         className={`${props.labelClass}`}
         style={{
           color: isSelected(props.label)
-            ? `${fullConfig.theme.colors["strongorange"]}`
+            ? `${fullConfig.theme.colors["frenchviolet"]}`
             : props.labelColor,
           fontWeight: isSelected(props.label) ? 900 : 400,
         }}
