@@ -140,7 +140,9 @@ When we talk about how far one place is from another or how easy it is to get th
 <details>
 <summary>Travel Time(Network Distance)</summary>
 
-<ul><li>This measure is similar to the distance along roads or paths measure except that instead of considering distance along streets, sidewalks, or transit routes the focus is now on the actual time ( in minutes) it takes to travel that distance.</li><li>Even if two places are close, heavy traffic or limited bus schedules might mean it takes longer to get there. So, it accounts for factors like speed limits, traffic, stoplights, and public transit schedules.</li><li>When it is useful: Emergency Services – For instance ambulances and fire trucks may need to know how long it will take to reach someone  in an emergency situation. Commuting – It helps to determine how easily people can access essential services like hospitals or grocery stores.</li></ul>
+* This measure is similar to the distance along roads or paths measure except that instead of considering distance along streets, sidewalks, or transit routes the focus is now on the actual time ( in minutes) it takes to travel that distance.
+* Even if two places are close, heavy traffic or limited bus schedules might mean it takes longer to get there. So, it accounts for factors like speed limits, traffic, stoplights, and public transit schedules.
+* When it is useful: Emergency Services – For instance ambulances and fire trucks may need to know how long it will take to reach someone  in an emergency situation. Commuting – It helps to determine how easily people can access essential services like hospitals or grocery stores.
 </details>
 
 NB: The three methods are restrictive. Here, the probability of choosing the nearest location for a purpose is always assumed to be high (probability= 1) which might always be true.
@@ -157,11 +159,46 @@ Acknowledging individual differences can complicate accessibility calculations a
 
 You can pull a number of data from the American Community Survey (ACS for different areas or employ a  combination of techniques) for container measures. Potential examples include:
 
-<ol><li><strong>Count of Bus Stops Within a Neighborhood</strong><ul><li>The neighborhood acts as the "container."</li><li>By aggregating the number of bus stops within this container, we are assuming that the accessibility to bus services is uniformly available to all residents in the area.</li><li>This count can be added as a new column or field in the dataset representing that area.</li><li>This measure simplifies individual differences by treating the availability of bus stops as a characteristic of the entire area.</li></ul></li><li><strong>Block Groups Within a Half Mile Buffer of a Transit Stop</strong><ul><li>Each block group serves as a container.</li><li>By determining which block groups fall within the half-mile buffer, we are assigning an accessibility attribute to the entire block group.</li><li>These block groups are marked or categorized based on whether they meet this proximity criterion.</li><li>This approach assumes that everyone within the selected block groups has similar access to the transit stop.</li></ul></li><li><strong>Proportion of Commuters That Use Public Transit (via ACS)</strong><ul><li>The census tract is the container.</li><li>By linking ACS data to the census tract, we are attributing the commuting behavior to the entire area.</li><li>This proportion is added as a field in the dataset representing that census tract.</li><li>This measure assumes uniformity in public transit usage within the tract.</li></ul></li><li><strong>Travel Diary Summary by Area</strong><ul><li>The area (e.g., neighborhood) acts as the container.</li><li>Individual travel behaviors are aggregated to provide average or typical travel patterns for the area.</li><li>This approach assumes that the summarized data represents the experiences of all residents within the container.</li></ul></li><li><strong>Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within Half a Mile of a Bus Stop</strong><ul><li>The census tract is the container.</li><li>Combines ACS data on low-income residents at the census tract level with spatial data on bus stop locations.</li><li>This measure assigns an accessibility attribute (proximity to bus stops) to the tract based on the aggregated data of its residents.</li><li>It assumes that the accessibility level is uniform for low-income residents within the tract.</li></ul></li><li><strong>Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within a 30-Minute Public Transit Distance of any Grocery Store</strong><ul><li>The census tract serves as the container.</li><li>Merging ACS data on low-income residents with transit network data to calculate travel times to grocery stores.</li><li>The measure aggregates individual accessibility into a tract-level statistic.</li><li>It attributes the calculated accessibility level to all low-income residents within the tract.</li></ul></li></ol>
+1. **Count of Bus Stops Within a Neighborhood**
+
+   * The neighborhood acts as the "container."
+   * By aggregating the number of bus stops within this container, we are assuming that the accessibility to bus services is uniformly available to all residents in the area.
+   * This count can be added as a new column or field in the dataset representing that area.
+   * This measure simplifies individual differences by treating the availability of bus stops as a characteristic of the entire area.
+2. **Block Groups Within a Half Mile Buffer of a Transit Stop**
+
+   * Each block group serves as a container.
+   * By determining which block groups fall within the half-mile buffer, we are assigning an accessibility attribute to the entire block group.
+   * These block groups are marked or categorized based on whether they meet this proximity criterion.</li><li>This approach assumes that everyone within the selected block groups has similar access to the transit stop.
+3. **Proportion of Commuters That Use Public Transit (via ACS)**
+
+   * The census tract is the container.
+   * By linking ACS data to the census tract, we are attributing the commuting behavior to the entire area.
+   * This proportion is added as a field in the dataset representing that census tract.
+   * This measure assumes uniformity in public transit usage within the tract.
+4. **Travel Diary Summary by Area**
+
+   * The area (e.g., neighborhood) acts as the container.
+   * Individual travel behaviors are aggregated to provide average or typical travel patterns for the area.
+   * This approach assumes that the summarized data represents the experiences of all residents within the container.
+5. **Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within Half a Mile of a Bus Stop**
+
+   * The census tract is the container.
+   * Combines ACS data on low-income residents at the census tract level with spatial data on bus stop locations.
+   * This measure assigns an accessibility attribute (proximity to bus stops) to the tract based on the aggregated data of its residents.
+   * It assumes that the accessibility level is uniform for low-income residents within the tract.
+6. **Census Tract Estimate of Percent of Low-Income Residents (via ACS) Within a 30-Minute Public Transit Distance of any Grocery Store**
+
+   * The census tract serves as the container.
+   * Merging ACS data on low-income residents with transit network data to calculate travel times to grocery stores.
+   * The measure aggregates individual accessibility into a tract-level statistic.
+   * It attributes the calculated accessibility level to all low-income residents within the tract.
 
 Limitations of Container-Based Measures:
 
-<ul><li><strong>Overgeneralization</strong>: Container based measure assumes everyone in the area is the same, ignoring individual differences.</li><li><strong>Border Issues</strong>: It does not account for people who might possibly cross boundaries to access opportunities in nearby areas.</li><li><strong>No Travel Difficulty Consideration</strong>: Moreover, it does not consider how hard or easy it is to reach these opportunities.</li></ul>
+* **Overgeneralization**: Container based measure assumes everyone in the area is the same, ignoring individual differences.
+* **Border Issues**: It does not account for people who might possibly cross boundaries to access opportunities in nearby areas.
+* **No Travel Difficulty Consideration**: Moreover, it does not consider how hard or easy it is to reach these opportunities.
 </details>
 
 
