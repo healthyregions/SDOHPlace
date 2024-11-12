@@ -298,33 +298,33 @@ Note: When selecting and applying these indicators, it is important to ensure th
 
 #### Table 2. Data Sources for Transit Accessibility Analysis
 
-| Data Type                          | Source/Tool                               | Link                       |
-| ---------------------------------- | ----------------------------------------- | -------------------------- |
-| Demographic and Socioeconomic Data | American Community Survey (ACS)           | ACS Data                   |
-| Public Transport Feed              | GTFS (General Transit Feed Specification) | GTFS Overview              |
-|                                    | tidytransit R Package                     | tidytransit on CRAN        |
-|                                    | Transitland Website                       | Transitland Feed Registry  |
-| Transit Agency Data                | Transit Agencies' Websites                | Varies by Agency           |
-|                                    | National Transit Database (NTD)           | National Transit Database  |
-| Road Network Data                  | osmextract R Package                      | osmextract on CRAN         |
-|                                    | Geofabrik Website                         | Geofabrik Download Server  |
-|                                    | HOT Export Tool                           | HOT Export Tool            |
-|                                    | BBBike.org Extract Service                | BBBike Extract Service     |
-|                                    | Protomaps Download Service                | Protomaps OSM Extracts     |
-| Elevation Data (DEM)               | elevatr R Package                         | elevatr on CRAN            |
-|                                    | USGS EarthExplorer                        | USGS EarthExplorer         |
-|                                    | Copernicus DEM                            | Copernicus Open Access Hub |
-|                                    | NASA SRTM Data                            | NASA SRTM Data             |
-| GIS Data and Tools                 | GIS Software (QGIS, ArcGIS Pro)           | QGIS / ArcGIS Pro          |
-|                                    | OpenStreetMap (OSM)                       | OpenStreetMap              |
+| Data Type                          | Source/Tool                               | Link                                                                                                                                                                                                       |
+| ---------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Demographic and Socioeconomic Data | American Community Survey (ACS)           | [ACS Data](https://www.census.gov/programs-surveys/acs/data.html)                                                                                                                                          |
+| Public Transport Feed              | GTFS (General Transit Feed Specification) | [GTFS Overview](https://gtfs.org/)                                                                                                                                                                         |
+|                                    | tidytransit R Package                     | [tidytransit on CRAN](https://r-transit.github.io/tidytransit/)                                                                                                                                            |
+|                                    | Transitland Website                       | [Transitland Feed Registry](https://www.transit.land/)                                                                                                                                                     |
+| Transit Agency Data                | Transit Agencies' Websites                | [Varies by Agency](https://www.apta.com/research-technical-resources/public-transportation-links/)                                                                                                         |
+|                                    | National Transit Database (NTD)           | [National Transit Database](https://www.transit.dot.gov/ntd/ntd-data?field_product_type_target_id=1026&year=2023&combine=)                                                                                 |
+| Road Network Data                  | osmextract R Package                      | [osmextract on CRAN](https://docs.ropensci.org/osmextract/#why-osmextract)                                                                                                                                 |
+|                                    | Geofabrik Website                         | [Geofabrik Download Server](https://download.geofabrik.de/)                                                                                                                                                |
+|                                    | HOT Export Tool                           | [HOT Export Tool](https://export.hotosm.org/v3/)                                                                                                                                                           |
+|                                    | BBBike.org Extract Service                | [BBBike Extract Service](https://extract.bbbike.org/)                                                                                                                                                      |
+|                                    | Protomaps Download Service                | [Protomaps OSM Extracts](https://app.protomaps.com/)                                                                                                                                                       |
+| Elevation Data (DEM)               | elevatr R Package                         | [elevatr on CRAN](https://github.com/USEPA/elevatr)                                                                                                                                                        |
+|                                    | USGS EarthExplorer                        | [USGS EarthExplorer](https://earthexplorer.usgs.gov/)                                                                                                                                                      |
+|                                    | Copernicus DEM                            | [Copernicus Open Access Hub](https://dataspace.copernicus.eu/explore-data)                                                                                                                                 |
+|                                    | NASA SRTM Data                            | [NASA SRTM Data](https://lpdaac.usgs.gov/products/srtmgl1v003/)                                                                                                                                            |
+| GIS Data and Tools                 | GIS Software (QGIS, ArcGIS Pro)           | [QGIS](https://www.geodose.com/2020/08/how-to-download-osm-data-qgis.html) / [ArcGIS Pro](https://support.esri.com/en-us/knowledge-base/how-to-download-publicly-shared-data-from-arcgis-online-000015899) |
+|                                    | OpenStreetMap (OSM)                       | [OpenStreetMap](https://www.openstreetmap.org/#map=4/38.01/-95.84)                                                                                                                                         |
 
 Note: Table 2  lists a number of data sources relevant to transit analysis. However, note that the American Community Survey (ACS) is mainly concerned with analyzing work-related commuting patterns in its transportation-related tables. It does not provide information on transportation used for activities other than work. Therefore, in order to obtain a comprehensive understanding of public transportation usage for non-work-related purposes, it may be necessary to integrate ACS data with additional sources such as NHTS or transit agency reports. The National Household Travel Survey (NHTS) collects information about all types of travel, not just traveling to and from work. It provides valuable information about how people use public transportation for activities such as shopping, going out, visiting friends and family, and more. Certain transit agency agencies offer data regarding the patterns of ridership that can be categorized into trips for work purposes versus those for non-work purposes, taking into account factors such as travel time and routes.
 
 ## Useful R Packages for Routing and Analysis
 
-* **tidycensus**: Simplifies accessing and working with U.S. Census data, including the ACS.
-* **tidytransit**: Works with GTFS data for transit analysis.
-* **r5r**: Performs routing and accessibility analysis on multimodal transport networks.
+* **[tidycensus](https://walker-data.com/tidycensus/)**: Simplifies accessing and working with U.S. Census data, including the ACS.
+* **[tidytransit](https://r-transit.github.io/tidytransit/)**: Works with GTFS data for transit analysis.
+* **[r5r](https://cran.r-project.org/web/packages/r5r/vignettes/r5r.html)**: Performs routing and accessibility analysis on multimodal transport networks.
 
 <div style={{padding: "1em 1.5em", display:"flex", flexDirection:"column", borderRadius:"1em", backgroundColor:"#ffe5c4"}}>
   <h4 style={{marginTop:0, marginBottom:".5em"}}>About the Author</h4>
