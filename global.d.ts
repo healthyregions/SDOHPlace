@@ -17,3 +17,8 @@ declare module "*.yml" {
   const value: any;
   export default value;
 }
+
+declare module "*.svg?component" {
+  const value: any;
+  export default value;
+}
