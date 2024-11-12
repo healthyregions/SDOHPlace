@@ -224,13 +224,15 @@ Limitations of Cumulative-Opportunity Measure:
 <details>
 <summary>Gravity Measure</summary>
 
-This measure is like the cumulative-opportunity measure but offers more in-depth into reaching opportunities. The gravity measures of spatial accessibility consider not just how many places you can reach, but also the attractiveness of the destinations- that is how big and important the place is (like a large hospital vs. a small clinic). It gives more weight/importance to places that are closer and much easier to reach. They are most useful because they can adjust for different types of destinations and how people value those destinations. For example, people might be willing to travel further to a hospital than to a clinic because the hospital offers more services or because of substantial evidence of quality (e.g., patient care quality).How the Gravity Measure works:
+This measure is like the cumulative-opportunity measure but offers more in-depth into reaching opportunities. The gravity measures of spatial accessibility consider not just how many places you can reach, but also the attractiveness of the destinations- that is how big and important the place is (like a large hospital vs. a small clinic). It gives more weight/importance to places that are closer and much easier to reach. They are most useful because they can adjust for different types of destinations and how people value those destinations. For example, people might be willing to travel further to a hospital than to a clinic because the hospital offers more services or because of substantial evidence of quality (e.g., patient care quality). How the Gravity Measure works:
 
-<ol><li><strong>Distance Decay Function</strong>: Distance decay is a concept that describes how the significance of a location diminishes as the distance from it increases. This idea offers an alternative approach for addressing the fact that certain travelers or segments of the population are willing to tolerate longer travel times than others. Various formulas, such as exponential, fixed_exponential, linear, or logistic, are used to comprehend how people's willingness to travel is influenced by distance.</li><li><strong>Weighted Opportunities</strong>: Closer and more attractive places have a bigger impact on the accessibility score.</li></ol>
+1. **Distance Decay Function**: Distance decay is a concept that describes how the significance of a location diminishes as the distance from it increases. This idea offers an alternative approach for addressing the fact that certain travelers or segments of the population are willing to tolerate longer travel times than others. Various formulas, such as exponential, fixed_exponential, linear, or logistic, are used to comprehend how people's willingness to travel is influenced by distance.
+2. **Weighted Opportunities**: Closer and more attractive places have a bigger impact on the accessibility score.
 
 Limitations of Gravity Measure:
 
-<ul><li><strong>Complexity</strong>: Requires more data and understanding of the factors that influence accessibility.</li><li><strong>Setting Factors</strong>: Deciding how much distance affects accessibility (the impedance factor) can be challenging.</li></ul>
+* **Complexity**: Requires more data and understanding of the factors that influence accessibility.
+* **Setting Factors**: Deciding how much distance affects accessibility (the impedance factor) can be challenging.
 </details>
 
 #### Summary of Measures in Everyday Terms
@@ -258,42 +260,49 @@ While the specific parameters may vary depending on the tools and the scope of t
 <details>
 <summary>Origin and Destination Points</summary>
 
-<ul><li><strong>Coordinates</strong>: Latitude and longitude of starting points and destinations.</li><li><strong>Geographic Units</strong>: Use of centroids from census tracts, blocks, or custom grid cells.</li></ul>
+* **Coordinates**: Latitude and longitude of starting points and destinations.
+* **Geographic Units**: Use of centroids from census tracts, blocks, or custom grid cells.
 </details>
 
 
 <details>
 <summary>Travel Modes</summary>
 
-<ul><li><strong>Public Transit</strong>: Buses, trains, subways.</li><li><strong>Active Transportation</strong>: Walking, cycling.</li><li><strong>Private Vehicles</strong>: Cars, motorcycles.</li></ul>
+* **Public Transit**: Buses, trains, subways.
+* **Active Transportation**: Walking, cycling.
+* **Private Vehicles**: Cars, motorcycles.
 </details>
 
 
 <details>
 <summary>Time Constraints</summary>
 
-<ul><li><strong>Departure Time</strong>: The time at which the journey starts, affecting transit schedules and traffic conditions.</li><li><strong>Time Windows</strong>: Specified periods during which the analysis is conducted, such as peak or off-peak hours.</li></ul>
+* **Departure Time**: The time at which the journey starts, affecting transit schedules and traffic conditions.
+* **Time Windows**: Specified periods during which the analysis is conducted, such as peak or off-peak hours.
 </details>
 
 
 <details>
 <summary>Travel Time Thresholds</summary>
 
-<ul><li><strong>Cutoff Times</strong>: Maximum acceptable travel times (e.g., 30 minutes) to consider opportunities accessible.</li></ul>
+* **Cutoff Times**: Maximum acceptable travel times (e.g., 30 minutes) to consider opportunities accessible.
 </details>
 
 
 <details>
 <summary>Impedance Functions</summary>
 
-<ul><li><strong>Decay Functions</strong>: Mathematical functions that model how the likelihood of accessing an opportunity decreases with increasing travel time or distance (e.g., exponential, logistic functions).</li><li><strong>Weights</strong>: Assigning importance to opportunities based on travel time, cost, or other factors.</li></ul>
+* **Decay Functions**: Mathematical functions that model how the likelihood of accessing an opportunity decreases with increasing travel time or distance (e.g., exponential, logistic functions).
+* **Weights**: Assigning importance to opportunities based on travel time, cost, or other factors.
 </details>
 
 
 <details>
 <summary>Network Data</summary>
 
-<ul><li><strong>Transit Schedules</strong>: Timetables for buses, trains, and other transit services.</li><li><strong>Road Networks</strong>: Maps of streets and pathways, including attributes like speed limits and road types.</li><li><strong>Walking and Cycling Paths</strong>: Inclusion of pedestrian walkways and bike lanes.</li></ul>
+* **Transit Schedules**: Timetables for buses, trains, and other transit services.
+* **Road Networks**: Maps of streets and pathways, including attributes like speed limits and road types.
+* **Walking and Cycling Paths**: Inclusion of pedestrian walkways and bike lanes.
 </details>
 
 
