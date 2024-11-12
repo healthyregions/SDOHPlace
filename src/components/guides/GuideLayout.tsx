@@ -73,7 +73,7 @@ export default function GuideLayout({
             </Link>
           </div>*/}
           <header>
-            <h1 className={'guide-header'}>{title}</h1>
+            <h1 className={"guide-header"}>{title}</h1>
             <div className={"metadata"}>
               <div>
                 <Date date={last_updated} />
@@ -83,7 +83,7 @@ export default function GuideLayout({
               </div>
             </div>
             <div>
-              <img src={featured_image} alt={'featured_image'} />
+              <img src={featured_image} alt={"featured_image"} />
             </div>
           </header>
           <div className={styles.content}>{children}</div>
@@ -94,7 +94,6 @@ export default function GuideLayout({
       </div>
       <style global jsx>
         {`
-          
           /* Non-markdown Styles */
 
           @media (min-width: 769px) {

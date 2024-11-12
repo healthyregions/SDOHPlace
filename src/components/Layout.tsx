@@ -3,31 +3,38 @@ import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import Footer from "./homepage/footer";
 import React from "react";
-import PostLayout, {PostLayoutProps} from './news/PostLayout';
-import ShowcaseLayout, {ShowcaseLayoutProps} from './showcase/ShowcaseLayout';
-import GuideLayout, {GuideLayoutProps} from "./guides/GuideLayout";
+import PostLayout, { PostLayoutProps } from "./news/PostLayout";
+import ShowcaseLayout, { ShowcaseLayoutProps } from "./showcase/ShowcaseLayout";
+import GuideLayout, { GuideLayoutProps } from "./guides/GuideLayout";
 
 type Props = {
-  type?: 'news' | 'showcase' | 'guide' ;
+  type?: "news" | "showcase" | "guide";
   news_props?: PostLayoutProps;
   showcase_props?: ShowcaseLayoutProps;
   guide_props?: GuideLayoutProps;
   page_header?: string;
   children?: React.ReactNode;
 };
-export default function Layout({ type, news_props, showcase_props, guide_props, page_header, children }: Props) {
+export default function Layout({
+  type,
+  news_props,
+  showcase_props,
+  guide_props,
+  page_header,
+  children,
+}: Props) {
   const getTitle = (type: string) => {
     switch (type) {
-      case 'news':
-        return 'News';
-      case 'showcase':
-        return 'Showcase';
-      case 'guides':
-        return 'Guides';
+      case "news":
+        return "News";
+      case "showcase":
+        return "Showcase";
+      case "guides":
+        return "Guides";
       default:
         return undefined;
     }
-  }
+  };
 
   return (
     <>
@@ -39,10 +46,20 @@ export default function Layout({ type, news_props, showcase_props, guide_props, 
           {page_header && <h1 className="font-fredoka">{page_header}</h1>}
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10 max-md:overflow-x-auto">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              { !type && <main>{children}</main> }
-              { type === 'news' && <PostLayout {...news_props}>{news_props.children}</PostLayout> }
-              { type === 'showcase' && <ShowcaseLayout {...showcase_props}>{showcase_props.children}</ShowcaseLayout> }
-              { type === 'guide' && <GuideLayout {...guide_props}>{guide_props.children}</GuideLayout> }
+              {!type && <main>{children}</main>}
+              {type === "news" && (
+                <PostLayout {...news_props}>{news_props.children}</PostLayout>
+              )}
+              {type === "showcase" && (
+                <ShowcaseLayout {...showcase_props}>
+                  {showcase_props.children}
+                </ShowcaseLayout>
+              )}
+              {type === "guide" && (
+                <GuideLayout {...guide_props}>
+                  {guide_props.children}
+                </GuideLayout>
+              )}
             </div>
           </div>
         </div>
@@ -69,7 +86,6 @@ export default function Layout({ type, news_props, showcase_props, guide_props, 
               flex: 1 0 auto;
             }
           }
-        
         `}
       </style>
       <style global jsx>
