@@ -136,3 +136,140 @@ ul.navbar-mobile > li > a {
   font-family: Fredoka;
   margin: 2.5rem 0 0 0;
 }
+
+/* Markdown Styles */
+
+article {
+  flex: 1 0 auto;
+}
+
+/* Headers */
+
+article h1 {
+  color: #7e1cc4;
+  letter-spacing: 0.2px;
+}
+
+article h2 {
+  border-left: solid 4px;
+  border-color: #ff9c77;
+  padding-left: 11px !important;
+}
+
+/* Lists */
+
+article ul {
+  font-family: "Nunito", sans-serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article ul li::marker {
+  color: #ff9c77;
+}
+
+article ol {
+  font-family: "Nunito", sans-serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+/*  Details + Summary */
+
+article details,
+details summary {
+  font-family: "Nunito", sans-serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article details {
+  margin-top: 1.5rem;
+}
+
+article summary {
+  cursor: pointer;
+}
+
+article summary::marker {
+  color: #ff9c77;
+  cursor: pointer;
+}
+
+article summary strong {
+  font-weight: 400 !important;
+}
+
+/* Lists */
+
+article li {
+  margin-bottom: 0.85em;
+}
+
+/* Links / Anchors */
+
+article a {
+  text-decoration: none !important;
+  font-weight: 400;
+}
+
+/* Image Captions */
+
+article p.caption,
+article .figcaption {
+  font-family: "Fredoka", sans-serif;
+  color: #333333;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+/* Tables */
+
+article table tr {
+  font-family: "Nunito", sans-serif;
+  border-top: 2px solid #ffe5c4 !important;
+  line-height: 27.2px;
+}
+
+article table tr th {
+  background-color: #fff;
+  font-weight: 700;
+  border-bottom: 2px solid #ffe5c4;
+}
+
+article table td,
+article table th {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+article table {
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  color: #333333;
+  overflow-x: auto;
+  width: 100%;
+}
+
+article table tr td:first-child {
+  min-width: 200px !important;
+}
+
+article table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+article table tbody tr:nth-child(even) {
+  background-color: #fffaf3;
+}
+
+article table tbody tr:last-child {
+  border-bottom: 3px solid #ffe5c4;
+}
+
+article table td {
+  text-align: left;
+}

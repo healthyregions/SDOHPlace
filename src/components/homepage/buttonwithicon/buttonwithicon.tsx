@@ -63,9 +63,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           ) : null
         }
         endIcon={
-          props.endIcon ? (
-            <Image priority src={props.endIcon} alt={props.label} style={{}} />
-          ) : null
+          props.endIcon ? props.endIcon : null
         }
         onClick={props.onClick}
         disabled={props.disabled}
