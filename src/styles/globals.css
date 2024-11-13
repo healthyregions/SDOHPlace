@@ -188,6 +188,10 @@ article details {
   margin-top: 1.5rem;
 }
 
+article summary {
+  cursor: pointer;
+}
+
 article summary::marker {
   color: #ff9c77;
   cursor: pointer;

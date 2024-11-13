@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: healthyregions/SDOHPlace
   branch: publish
 media_folder: public/images
 public_folder: /images
@@ -370,6 +371,12 @@ collections:
         widget: "image"
         choose_url: true
         default: "/images/default.jpg"
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "M/D/YYYY"
+        default: '{{now}}'
+        hint: "The date when this showcase case was created, updated, or published."
       - label: "External Link"
         name: "link"
         widget: "string"

@@ -7,6 +7,7 @@ export type ShowcaseContent = {
   readonly title: string;
   readonly slug: string;
   readonly image: string;
+  readonly date: string;
   readonly fellow: string;
   readonly techUsed: string;
   readonly fullPath: string;
@@ -38,6 +39,7 @@ export function fetchShowcaseContent(directory: string): ShowcaseContent[] {
         title: string;
         slug: string;
         image: string;
+        date: string;
         fellow: string;
         techUsed: string;
         fullPath: string;
@@ -62,5 +64,11 @@ export function listShowcaseContent(
   limit: number
 ): ShowcaseContent[] {
   return fetchShowcaseContent(directory)
+    // Sort by date (newest to oldest)
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return (dateA > dateB) ? -1 : (dateB > dateA) ? 1 : 0;
+    })
     .slice((page - 1) * limit, page * limit);
 }
