@@ -81,7 +81,7 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
     props.handleSearch(params, q, newFilterQueries);
   };
   return (
-    <div className={`flex items-center space-x-10 md:ml-[6em]`}>
+    <div className={`flex items-center space-x-10`}>
       <div className="text-l whitespace-nowrap">Spatial Resolution:</div>
       <div className="flex space-x-4">
         {Array.from(sRCheckboxes).map((checkbox, index) => (

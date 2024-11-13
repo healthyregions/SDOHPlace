@@ -75,7 +75,7 @@ const HeaderRow = (props: Props): JSX.Element => {
           </div>
           <Box
             sx={{ display: "inline" }}
-            className={`text-4xl leading-8 ml-[0.5em] ${classes.introCard}`}
+            className={`text-4xl leading-10 ml-[0.5em] ${classes.introCard}`}
           >
             {props.resultItem.title}
           </Box>

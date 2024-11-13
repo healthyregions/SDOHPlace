@@ -243,73 +243,70 @@ export default function DiscoveryArea({
   ]);
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <SearchRow
-          header={SearchUIConfig.search.headerRow.title}
-          description={SearchUIConfig.search.headerRow.subtitle}
-          schema={schema}
-          autocompleteKey={autocompleteKey}
-          options={options}
-          handleInputReset={handleInputReset}
-          setOptions={setOptions}
-          inputRef={inputRef}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          value={value}
-          setValue={setValue}
-          setQuery={params.setQuery}
-          handleSearch={handleSearch}
-          filterQueries={filterQueries}
-        />
+      <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
+        <Grid container className="container mx-auto pt-[2em] sm:pt-0">
+          <SearchRow
+            header={SearchUIConfig.search.headerRow.title}
+            description={SearchUIConfig.search.headerRow.subtitle}
+            schema={schema}
+            autocompleteKey={autocompleteKey}
+            options={options}
+            handleInputReset={handleInputReset}
+            setOptions={setOptions}
+            inputRef={inputRef}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            value={value}
+            setValue={setValue}
+            setQuery={params.setQuery}
+            handleSearch={handleSearch}
+            filterQueries={filterQueries}
+          />
+        </Grid>
       </Grid>
-      <Grid item className="sm:px-[2em]" xs={12} sm={4}>
-        <ResultsPanel
-          isLoading={isLoading}
-          updateKey={updateKey}
-          resultsList={fetchResults}
-          relatedList={relatedResults}
-          isQuery={isQuery || filterQueries.length > 0}
-          filterComponent={filterComponent}
-          showFilter={params.showFilter}
-          setShowFilter={params.setShowFilter}
-          setHighlightLyr={setHighlightLyr}
-          setHighlightIds={setHighlightIds}
-          handleSearch={handleSearch}
-          handleInputReset={handleInputReset}
-        />
-      </Grid>
-      <Grid item xs={8} className="sm:ml-[0.5em]">
-        {/* <Grid
-          item
-          className="sm:px-[2em]"
-          xs={12}
-          sx={{
-            display: params.showDetailPanel.length == 0 ? "block" : "none",
-          }}
-        > */}
-        <MapPanel
-          showMap={
-            isResetting || params.showDetailPanel.length == 0 ? "block" : "none"
-          }
-          resultsList={fetchResults}
-          highlightLyr={highlightLyr}
-          highlightIds={highlightIds}
-        />
-        {/* </Grid> */}
-        <Grid
-          sx={{
-            display: params.showDetailPanel.length > 0 ? "block" : "none",
-          }}
-        >
-          <DetailPanel
-            fetchResults={fetchResults}
-            relatedResults={relatedResults}
-            setShowDetailPanel={params.setShowDetailPanel}
-            showSharedLink={params.showSharedLink}
-            setShowSharedLink={params.setShowSharedLink}
+      <Grid container className="container mx-auto pt-[1em] ">
+        <Grid item xs={12} sm={4}>
+          <ResultsPanel
+            isLoading={isLoading}
+            updateKey={updateKey}
+            resultsList={fetchResults}
+            relatedList={relatedResults}
+            isQuery={isQuery || filterQueries.length > 0}
+            filterComponent={filterComponent}
+            showFilter={params.showFilter}
+            setShowFilter={params.setShowFilter}
+            setHighlightLyr={setHighlightLyr}
+            setHighlightIds={setHighlightIds}
             handleSearch={handleSearch}
             handleInputReset={handleInputReset}
           />
+        </Grid>
+        <Grid item xs={12} sm={8} className="sm:ml-[0.5em]">
+          <MapPanel
+            showMap={
+              isResetting || params.showDetailPanel.length == 0
+                ? "block"
+                : "none"
+            }
+            resultsList={fetchResults}
+            highlightLyr={highlightLyr}
+            highlightIds={highlightIds}
+          />
+          <Grid
+            sx={{
+              display: params.showDetailPanel.length > 0 ? "block" : "none",
+            }}
+          >
+            <DetailPanel
+              fetchResults={fetchResults}
+              relatedResults={relatedResults}
+              setShowDetailPanel={params.setShowDetailPanel}
+              showSharedLink={params.showSharedLink}
+              setShowSharedLink={params.setShowSharedLink}
+              handleSearch={handleSearch}
+              handleInputReset={handleInputReset}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
