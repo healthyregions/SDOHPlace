@@ -198,10 +198,25 @@ const MapPanel = (props: Props): JSX.Element => {
         <div className="sm:mb-[1.5em] sm:flex-col">
           <Box height={"100%"} className="sm:mt-[4.35em] sm:ml-[2em]">
             <Box className="text-2xl sm:mb-[0.6em]">
-              {SearchUIConfig.search.mapPanel.title}
+              How to search for data...
             </Box>
             <Box className="text-s sm:mb-[1.5em]">
-              {SearchUIConfig.search.mapPanel.subtitle}
+              <p className="mb-[1em]">
+                Users have the option to refine their search by first selecting
+                a geographic scale, such as state, county, or census tract, as
+                an initial filter. This allows them to narrow down the scope of
+                their query to a specific level of spatial detail. After
+                applying this geographic filter, they can then enter keywords of
+                interest to search within the filtered results.
+              </p>
+              <p>
+                However, this two-step process is not mandatory. Users also have
+                the flexibility to bypass the spatial resolution filter entirely
+                and conduct their search directly. They can simply enter their
+                keywords or search terms into the main search bar, which will
+                query the entire database without any predetermined geographic
+                constraints.
+              </p>
             </Box>
             <Box display={"flex"} flexDirection={"row"} gap={3}>
               <ButtonWithIcon

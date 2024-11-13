@@ -96,7 +96,6 @@ const IconTag = (props: Props): JSX.Element => {
           color: isSelected(props.label)
             ? `${fullConfig.theme.colors["frenchviolet"]}`
             : props.labelColor,
-          fontWeight: isSelected(props.label) ? 900 : 400,
         }}
       >
         {props.label}
