@@ -190,7 +190,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="absolute right-0 top-[43%] w-[5vw] max-[1150px]:hidden h-auto">
           <Image priority src={line3} alt="" className="w-full h-full" />
         </div>
-        <div className="absolute right-0 bottom-0 w-[5vw] max-md:[8vw] max-md:hidden  h-auto">
+        <div className="absolute right-0 bottom-0 w-[11vw] max-md:[8vw] max-md:hidden  h-auto">
           <Image priority src={line4} alt="" className="w-full h-full" />
         </div>
         <div className="absolute left-[80%] bottom-0 w-[7vw] max-md:hidden h-auto">
@@ -208,6 +208,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               priority
               src={mainLogo}
               alt="The SDOH & Place Project logo"
+              style={{ paddingBottom: '2rem' }}
             />
           </div>
           <div
@@ -234,7 +235,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-xl font-normal leading-8">
