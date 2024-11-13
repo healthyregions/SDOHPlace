@@ -49,18 +49,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
         className={props.endIcon ? classes.buttonWithEndIcon : ""}
         variant="contained"
         startIcon={
-          props.svgIcon ? (
-            <Image
-              priority
-              src={props.svgIcon}
-              alt={props.label}
-              style={{
-                opacity: props.iconOpacity ? props.iconOpacity : 1,
-              }}
-            />
-          ) : props.muiIcon ? (
-            <props.muiIcon />
-          ) : null
+          props.svgIcon ? props.svgIcon : null
         }
         endIcon={
           props.endIcon ? props.endIcon : null
