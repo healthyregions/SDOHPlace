@@ -1,8 +1,8 @@
 services:
 
-  discovery-app:
-    container_name: sdoh-discovery-app
-    image: herop/sdoh-discovery-app
+  homepage:
+    container_name: sdoh-homepage
+    image: herop/sdoh-homepage
     build:
       context: .
     ports:
