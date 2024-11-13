@@ -22,9 +22,11 @@ import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
 import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
 import xIcon from "@/public/logos/x-purple-icon.svg";
 import newsIcon from "@/public/logos/news.svg";
+import emailIcon from "@/public/logos/email-icon.svg";
 import chevronRight from "@/public/logos/chevron-right.svg";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
+import {ChevronRight, Feed, MailOutline} from "@mui/icons-material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -300,8 +302,8 @@ const Footer = (): JSX.Element => {
               <h5 className="text-gray-500">For all the latest and greatest</h5>
               <ButtonWithIcon
                 label={"NEWS"}
-                svgIcon={newsIcon}
-                endIcon={chevronRight}
+                svgIcon={<Feed />}
+                endIcon={<ChevronRight />}
                 borderRadius={"1rem"}
                 width={"100%"}
                 justifyContent="space-between"
@@ -311,9 +313,23 @@ const Footer = (): JSX.Element => {
                   window.location.href = "/news";
                 }}
               ></ButtonWithIcon>
+              <ButtonWithIcon
+                label={"NEWSLETTER"}
+                svgIcon={<MailOutline />}
+                endIcon={<ChevronRight />}
+                borderRadius={"1rem"}
+                width={"100%"}
+                justifyContent="space-between"
+                fillColor={"smokegray"}
+                labelColor={"salmonpink"}
+                onClick={() => {
+                  // Link to sign up to the Mailing List
+                  window.open("https://groups.webservices.illinois.edu/subscribe/192463", "_blank");
+                }}
+              ></ButtonWithIcon>
             </div>
           </div>
-          {/*           
+          {/*
           <div className="flex flex-col justify-center flex-[34.86] items-start">
             <div className=" text-white text-2xl-rfs leading-8 tracking-[0.03125rem]">
               Sign up for our newsletter!

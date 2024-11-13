@@ -3,32 +3,25 @@ import matter from "gray-matter";
 import path from "path";
 import yaml from "js-yaml";
 
-export type PostContent = {
-  readonly date?: string;
-  readonly title: string;
-  readonly slug: string;
-  readonly tags?: string[];
-  readonly fullPath: string;
-};
-
 export type ShowcaseContent = {
   readonly title: string;
   readonly slug: string;
   readonly image: string;
+  readonly date: string;
   readonly fellow: string;
   readonly techUsed: string;
   readonly fullPath: string;
 };
 
-let postCache: PostContent[];
+let showcaseCache: ShowcaseContent[];
 
-export function fetchPostContent(directory: string): PostContent[] {
-  if (postCache) {
-    return postCache;
+export function fetchShowcaseContent(directory: string): ShowcaseContent[] {
+  if (showcaseCache) {
+    return showcaseCache;
   }
   // Get file names under /posts
   const fileNames = fs.readdirSync(directory);
-  const allPostsData = fileNames
+  showcaseCache = fileNames
     .filter((it) => it.endsWith(".mdx"))
     .map((fileName) => {
       // Read markdown file as string
@@ -43,10 +36,12 @@ export function fetchPostContent(directory: string): PostContent[] {
       });
 
       const matterData = matterResult.data as {
-        date: string;
         title: string;
-        tags: string[];
         slug: string;
+        image: string;
+        date: string;
+        fellow: string;
+        techUsed: string;
         fullPath: string;
       };
       matterData.fullPath = fullPath;
@@ -54,30 +49,26 @@ export function fetchPostContent(directory: string): PostContent[] {
 
       return matterData;
     });
-  // Sort posts by date
-  postCache = allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
-  return postCache;
+
+  // TODO: Sort showcases by date
+  return showcaseCache;
 }
 
-export function countPosts(directory: string, tag?: string): number {
-  return fetchPostContent(directory).filter(
-    (it) => !tag || (it.tags && it.tags.includes(tag))
-  ).length;
+export function countShowcases(directory: string): number {
+  return fetchShowcaseContent(directory).length;
 }
 
-export function listPostContent(
+export function listShowcaseContent(
   directory: string,
   page: number,
-  limit: number,
-  tag?: string
-): PostContent[] {
-  return fetchPostContent(directory)
-    .filter((it) => !tag || (it.tags && it.tags.includes(tag)))
+  limit: number
+): ShowcaseContent[] {
+  return fetchShowcaseContent(directory)
+    // Sort by date (newest to oldest)
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return (dateA > dateB) ? -1 : (dateB > dateA) ? 1 : 0;
+    })
     .slice((page - 1) * limit, page * limit);
 }
