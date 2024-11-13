@@ -264,48 +264,50 @@ export default function DiscoveryArea({
           />
         </Grid>
       </Grid>
-      <Grid container className="container mx-auto pt-[1em] ">
-        <Grid item xs={12} sm={4}>
-          <ResultsPanel
-            isLoading={isLoading}
-            updateKey={updateKey}
-            resultsList={fetchResults}
-            relatedList={relatedResults}
-            isQuery={isQuery || filterQueries.length > 0}
-            filterComponent={filterComponent}
-            showFilter={params.showFilter}
-            setShowFilter={params.setShowFilter}
-            setHighlightLyr={setHighlightLyr}
-            setHighlightIds={setHighlightIds}
-            handleSearch={handleSearch}
-            handleInputReset={handleInputReset}
-          />
-        </Grid>
-        <Grid item xs={12} sm={8} className="sm:ml-[0.5em]">
-          <MapPanel
-            showMap={
-              isResetting || params.showDetailPanel.length == 0
-                ? "block"
-                : "none"
-            }
-            resultsList={fetchResults}
-            highlightLyr={highlightLyr}
-            highlightIds={highlightIds}
-          />
-          <Grid
-            sx={{
-              display: params.showDetailPanel.length > 0 ? "block" : "none",
-            }}
-          >
-            <DetailPanel
-              fetchResults={fetchResults}
-              relatedResults={relatedResults}
-              setShowDetailPanel={params.setShowDetailPanel}
-              showSharedLink={params.showSharedLink}
-              setShowSharedLink={params.setShowSharedLink}
+      <Grid className="w-full px-[1em] sm:px-[2em]">
+        <Grid container className="container mx-auto pt-[1em] ">
+          <Grid item xs={12} sm={4}>
+            <ResultsPanel
+              isLoading={isLoading}
+              updateKey={updateKey}
+              resultsList={fetchResults}
+              relatedList={relatedResults}
+              isQuery={isQuery || filterQueries.length > 0}
+              filterComponent={filterComponent}
+              showFilter={params.showFilter}
+              setShowFilter={params.setShowFilter}
+              setHighlightLyr={setHighlightLyr}
+              setHighlightIds={setHighlightIds}
               handleSearch={handleSearch}
               handleInputReset={handleInputReset}
             />
+          </Grid>
+          <Grid item xs={12} sm={8} className="sm:ml-[0.5em]">
+            <MapPanel
+              showMap={
+                isResetting || params.showDetailPanel.length == 0
+                  ? "block"
+                  : "none"
+              }
+              resultsList={fetchResults}
+              highlightLyr={highlightLyr}
+              highlightIds={highlightIds}
+            />
+            <Grid
+              sx={{
+                display: params.showDetailPanel.length > 0 ? "block" : "none",
+              }}
+            >
+              <DetailPanel
+                fetchResults={fetchResults}
+                relatedResults={relatedResults}
+                setShowDetailPanel={params.setShowDetailPanel}
+                showSharedLink={params.showSharedLink}
+                setShowSharedLink={params.setShowSharedLink}
+                handleSearch={handleSearch}
+                handleInputReset={handleInputReset}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
