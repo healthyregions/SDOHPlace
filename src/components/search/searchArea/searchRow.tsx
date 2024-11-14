@@ -45,7 +45,7 @@ const SearchRow = (props: Props): JSX.Element => {
         sm={4}
         display="flex"
         flexDirection="column"
-        className="py-[2em] sm:pr-[2em] xs:text-center sm:text-left"
+        className="py-[2em] sm:px-[1.1em] xs:text-center sm:text-left"
       >
         <h2>{props.header}</h2>
         <div className={`text-s text-center sm:text-left sm:mt-[1em]`} style={{ textWrap: 'balance'}}>
