@@ -158,6 +158,21 @@ const SearchBox = (props: Props): JSX.Element => {
         });
     } else {
       props.handleInputReset();
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      if (isIOS) {
+      requestAnimationFrame(() => {
+        if (textFieldRef.current) {
+          textFieldRef.current.blur();
+          setTimeout(() => {
+            textFieldRef.current?.focus();
+            textFieldRef.current?.scrollIntoView({ behavior: 'smooth' });
+            if (document.documentElement) {
+              document.documentElement.style.touchAction = 'manipulation';
+            }
+          }, 300); // extra time for ios device
+        }
+      });
+    } else {
       requestAnimationFrame(() => {
         if (textFieldRef.current) {
           textFieldRef.current.blur();
@@ -170,6 +185,7 @@ const SearchBox = (props: Props): JSX.Element => {
         }
       });
     }
+  }
   };
   useEffect(() => {
     if (!urlParams.query) {
