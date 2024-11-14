@@ -171,7 +171,7 @@ const SearchBox = (props: Props): JSX.Element => {
     }
   }, [urlParams.query]);
   return (
-    <div className={`sm:mt-6 sm:ml-[3em] sm:mr-[2em]`}>
+    <div className={`sm:mt-6`}>
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
           PopperComponent={CustomPopper}
