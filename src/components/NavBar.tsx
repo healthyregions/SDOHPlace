@@ -69,6 +69,7 @@ function NavDropdownMobile({ title, dropdownElId, items }: Props) {
   return (
     <>
       <button
+        className={'text-uppercase'}
         onClick={() => {
           document.getElementById(dropdownElId).toggleAttribute("hidden");
         }}
@@ -123,6 +124,11 @@ const NavBar = (): JSX.Element => {
     { title: "SDOH & Place Project", url: "/about" },
   ];
 
+  const resourcesItems = [
+    { title: "Data Discovery", url: "/search" },
+    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
+  ];
+
   return (
     <div
       className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
@@ -140,6 +146,19 @@ const NavBar = (): JSX.Element => {
 
           <li className={`mt-4 ${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
+          </li>
+          <li
+            className={`mt-4 ml-6 ${
+              router.pathname == "/search"
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Resources"
+              dropdownElId="resources-dd"
+              items={resourcesItems}
+            />
           </li>
           <li
             className={`mt-4 ml-4 ${
@@ -209,8 +228,15 @@ const NavBar = (): JSX.Element => {
               </Link>
             </li>
 
-            <li>
+            <li className={'text-uppercase'}>
               <Link href="/">Home</Link>
+            </li>
+            <li>
+              <NavDropdownMobile
+                title="Resources"
+                dropdownElId="resources-dd-mobile"
+                items={resourcesItems}
+              />
             </li>
             <li>
               <NavDropdownMobile
@@ -226,10 +252,10 @@ const NavBar = (): JSX.Element => {
                 items={fellowItems}
               />
             </li>
-            <li>
+            <li className={'text-uppercase'}>
               <Link href="/news">News</Link>
             </li>
-            <li>
+            <li className={'text-uppercase'}>
               <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
