@@ -131,9 +131,9 @@ const NavBar = (): JSX.Element => {
         className={`flex justify-between items-center 2xl:max-w-[1536px] mt-8 pl-0 pr-0 mx-auto`}
       >
         <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
-          { router.pathname != "/" && <li className={'p-0'}>
+          { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
               <Link href="/" style={{ padding:0, margin:0 }}>
-                <Image width={100} height={50} src={'./logos/the-sdoh-place-project-footer.svg'} alt={'LOGO'} />
+                <Image width={40} height={40} src={'./logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
               </Link>
             </li>
           }
@@ -205,7 +205,7 @@ const NavBar = (): JSX.Element => {
           <ul className="navbar-mobile">
             <li>
               <Link href="/">
-                <Image width={150} height={75} src={'./logos/the-sdoh-place-project-footer.svg'} alt={'LOGO'} />
+                <Image width={150} height={75} src={'./logos/sdoh-logo-navbar-mobile.svg'} alt={'LOGO'} />
               </Link>
             </li>
 
