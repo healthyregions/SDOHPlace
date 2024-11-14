@@ -63,7 +63,7 @@ const SearchRow = (props: Props): JSX.Element => {
         justifyContent="flex-start"
         alignItems="flex-start"
         order={{ xs: 1, sm: 0 }}
-        className={`py-[2em] ${classes.searchRow}`}
+        className={`py-[2em] px-8 ${classes.searchRow}`}
       >
         {!params.showInfoPanel && (
           <Box width="100%">
@@ -74,7 +74,7 @@ const SearchRow = (props: Props): JSX.Element => {
                 filterQueries={props.filterQueries}
               />
             </Box>
-            <Box width="100%" className="mt-[2em] sm:mt-0 px-8">
+            <Box width="100%" className="mt-[2em] sm:mt-0">
               <SearchBox
                 schema={props.schema}
                 autocompleteKey={props.autocompleteKey}
