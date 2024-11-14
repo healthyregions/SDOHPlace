@@ -74,7 +74,7 @@ const SearchRow = (props: Props): JSX.Element => {
                 filterQueries={props.filterQueries}
               />
             </Box>
-            <Box width="100%" className="mt-[2em] sm:mt-0">
+            <Box width="100%" className="mt-[2em] sm:mt-0 px-8">
               <SearchBox
                 schema={props.schema}
                 autocompleteKey={props.autocompleteKey}
