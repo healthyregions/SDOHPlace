@@ -472,7 +472,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 <div className="text-almostblack text-2xl-rfs leading-8">
                   <b>Data Discovery </b>
-                  <em style={{ color: "grey" }}> &mdash; coming soon!</em>
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
@@ -489,8 +488,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         svgIcon={<DataDiscovery />}
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
-                        onClick={scrollToComingSoon}
-                        disabled={true}
+                        onClick={() => {
+                          window.location.href = '/search';
+                        }}
                         iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>
