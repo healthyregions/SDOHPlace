@@ -158,16 +158,18 @@ export default function InfoPanel() {
         ref={tabPanelRef}
       >
         <CustomTabPanel value={value} index={0}>
-          Spatial resolution determines how detailed your data is. A higher
-          resolution means you can see data for smaller areas, like individual
-          census tracts or zip codes. Low resolution shows data for larger
-          areas, like states or counties. Lorem ipsum ipsum ipsum ipsum ipsum
-          ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
+          Spatial resolution is the level of geographic detail of how the data
+          is displayed: state (largest, most general level), county (subdivision
+          of a state, including multiple cities and towns), census tract
+          (smaller geographical unit), block group (smallest unit, a subdivision
+          of census tract), and ZIP Code.
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Search keywords. Low resolution shows data for larger areas, like
-          states or counties. Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum
-          ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum.
+          If you know the general SDOH topic you are interested in finding data
+          for, first try the themes in the <strong>Sort & Filter</strong> panel
+          at left. Not finding the theme you want? Try typing it into the search
+          bar to see if it appears in the auto-suggest dropdown, or just click
+          &rarr; and see what you find!
         </CustomTabPanel>
       </Box>
     </div>
