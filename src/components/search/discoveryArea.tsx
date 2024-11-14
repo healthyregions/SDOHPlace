@@ -1,5 +1,4 @@
-import { useEffect, useState, useRef, use, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { SolrObject } from "meta/interface/SolrObject";
 import { debounce, Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
@@ -11,8 +10,6 @@ import { SearchUIConfig } from "../searchUIConfig";
 import MapPanel from "./mapPanel/mapPanel";
 import { GetAllParams, reGetFilterQueries } from "./helper/ParameterList";
 import FilterPanel from "./filterPanel/filterPanel";
-import { fi } from "date-fns/locale";
-import { parseArgs } from "util";
 
 export default function DiscoveryArea({
   results,
@@ -24,17 +21,6 @@ export default function DiscoveryArea({
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
-  // let tempSRChecboxes = new Set<CheckBoxObject>();
-  // SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
-  //   tempSRChecboxes.add({
-  //     attribute: "spatial_resolution",
-  //     value: option.value,
-  //     checked: searchParams.get("layers")
-  //       ? searchParams.get("layers").toString().includes(option.value)
-  //       : false,
-  //     displayName: option.display_name,
-  //   });
-  // });
   const [options, setOptions] = useState([]);
   const [resetStatus, setResetStatus] = useState(true);
 

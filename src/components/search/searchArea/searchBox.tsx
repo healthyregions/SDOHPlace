@@ -20,8 +20,6 @@ import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import { useEffect } from "react";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
-import { containsYear } from "../helper/SuggestMethods";
-import { p } from "nuqs/dist/serializer-C_l8WgvO";
 
 interface Props {
   schema: any;
@@ -87,6 +85,7 @@ const CustomPaper = (props) => {
 };
 
 const SearchBox = (props: Props): JSX.Element => {
+  const textFieldRef = React.useRef<HTMLInputElement>(null);
   const [showClearButton, setShowClearButton] = React.useState(
     props.value ? true : false
   );
@@ -159,6 +158,17 @@ const SearchBox = (props: Props): JSX.Element => {
         });
     } else {
       props.handleInputReset();
+      requestAnimationFrame(() => {
+        if (textFieldRef.current) {
+          textFieldRef.current.blur();
+          setTimeout(() => {
+            textFieldRef.current?.focus();
+            if (textFieldRef.current?.setSelectionRange) {
+              textFieldRef.current.setSelectionRange(0, 0);
+            }
+          }, 100);
+        }
+      });
     }
   };
   useEffect(() => {
@@ -193,7 +203,7 @@ const SearchBox = (props: Props): JSX.Element => {
           renderInput={(params) => (
             <TextField
               {...params}
-              inputRef={props.inputRef}
+              inputRef={textFieldRef}
               variant="outlined"
               fullWidth
               placeholder="Search"
@@ -211,6 +221,13 @@ const SearchBox = (props: Props): JSX.Element => {
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "transparent",
                 },
+              }}
+              onFocus={(e) => {
+                // Prevent any immediate blur
+                e.preventDefault();
+                if (textFieldRef.current) {
+                  textFieldRef.current.focus();
+                }
               }}
               InputProps={{
                 ...params.InputProps,
