@@ -10,6 +10,22 @@
 .animate-fade-in{animation:opac 1.4s}@keyframes opac{from{opacity:0} to{opacity:1}}
 
 
+
+/*  WIP: Scalable background image for top lines?
+
+#searchTopLines {
+  background-image: url('../../public/logos/line15.svg');
+  background-repeat: no-repeat;
+  background-position: right 0 top -3vh;
+}
+
+ */
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+
 /* override the tailwind defaults to get bullets and numbers back on lists in blog posts.*/
 article ul {
   list-style: disc;
@@ -107,7 +123,7 @@ ul.navbar-mobile {
 
 ul.navbar-mobile > li,
 ul.navbar-mobile > li > button {
-  @apply p-4 text-2xl uppercase;
+  @apply p-4 text-2xl;
 }
 
 ul.navbar-mobile > li > button {
