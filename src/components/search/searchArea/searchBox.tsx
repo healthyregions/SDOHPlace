@@ -222,13 +222,6 @@ const SearchBox = (props: Props): JSX.Element => {
                   borderColor: "transparent",
                 },
               }}
-              onFocus={(e) => {
-                // Prevent any immediate blur
-                e.preventDefault();
-                if (textFieldRef.current) {
-                  textFieldRef.current.focus();
-                }
-              }}
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
