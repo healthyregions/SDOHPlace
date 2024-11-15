@@ -179,7 +179,7 @@ export default function DiscoveryArea({
 
   const handleInputReset = () => {
     setValue("*");
-    setInputValue("*");
+    setInputValue("");
     params.setQuery("*");
     params.setShowDetailPanel(null);
     setIsResetting(true);

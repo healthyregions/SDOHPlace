@@ -118,6 +118,19 @@ const SearchBox = (props: Props): JSX.Element => {
     urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, value, filterQueries);
   };
+  const [shouldRemount, setShouldRemount] = React.useState(false);
+  const autocompleteRef = React.useRef<any>(null);
+  const isIOS = React.useMemo(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof window.navigator !== "undefined"
+    ) {
+      return (
+        /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream
+      );
+    }
+    return false;
+  }, []);
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
@@ -158,35 +171,24 @@ const SearchBox = (props: Props): JSX.Element => {
         });
     } else {
       props.handleInputReset();
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-      if (isIOS) {
-      requestAnimationFrame(() => {
-        if (textFieldRef.current) {
-          textFieldRef.current.blur();
-          setTimeout(() => {
-            textFieldRef.current?.focus();
-            textFieldRef.current?.scrollIntoView({ behavior: 'smooth' });
-            if (document.documentElement) {
-              document.documentElement.style.touchAction = 'manipulation';
-            }
-          }, 300); // extra time for ios device
-        }
-      });
+      if (isIOS  && textFieldRef.current) {
+      setTimeout(() => textFieldRef.current.focus(), 50);
     } else {
-      requestAnimationFrame(() => {
-        if (textFieldRef.current) {
-          textFieldRef.current.blur();
-          setTimeout(() => {
-            textFieldRef.current?.focus();
-            if (textFieldRef.current?.setSelectionRange) {
-              textFieldRef.current.setSelectionRange(0, 0);
-            }
-          }, 100);
-        }
-      });
+        requestAnimationFrame(() => {
+          if (textFieldRef.current) {
+            textFieldRef.current.blur();
+            setTimeout(() => {
+              textFieldRef.current?.focus();
+              if (textFieldRef.current?.setSelectionRange) {
+                textFieldRef.current.setSelectionRange(0, 0);
+              }
+            }, 100);
+          }
+        });
+      }
     }
-  }
   };
+
   useEffect(() => {
     if (!urlParams.query) {
       setUserInput("");
@@ -196,10 +198,12 @@ const SearchBox = (props: Props): JSX.Element => {
       setUserInput(urlParams.query);
     }
   }, [urlParams.query]);
+
   return (
     <div className={`sm:mt-6`}>
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
+          ref={autocompleteRef}
           PopperComponent={CustomPopper}
           PaperComponent={CustomPaper}
           key={props.autocompleteKey}
