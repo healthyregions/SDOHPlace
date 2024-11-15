@@ -287,6 +287,14 @@ export const reGetFilterQueries = (params) => {
       });
     }
   }
+  if (params.bboxSearch) {
+    // params.bboxParam is (minX, minY, maxX, maxY), but ENVELOPE must be (minX, maxX, maxY, minY)
+    const bboxAsEnvelope = `ENVELOPE(${params.bboxParam[0]},${params.bboxParam[2]},${params.bboxParam[3]},${params.bboxParam[1]})`;
+    res.push({
+      attribute: "location_geom",
+      value: `"Intersects(${bboxAsEnvelope})`,
+    });
+  }
   if (params.query) {
     res.push({ attribute: "query", value: params.query });
   }
