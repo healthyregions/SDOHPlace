@@ -291,8 +291,8 @@ export const reGetFilterQueries = (params) => {
     // params.bboxParam is (minX, minY, maxX, maxY), but ENVELOPE must be (minX, maxX, maxY, minY)
     const bboxAsEnvelope = `ENVELOPE(${params.bboxParam[0]},${params.bboxParam[2]},${params.bboxParam[3]},${params.bboxParam[1]})`;
     res.push({
-      attribute: "location_geom",
-      value: `"Intersects(${bboxAsEnvelope})`,
+      attribute: "geometry",
+      value: `Intersects(${bboxAsEnvelope})`,
     });
   }
   if (params.query) {
