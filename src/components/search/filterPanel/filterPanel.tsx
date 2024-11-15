@@ -307,7 +307,7 @@ const FilterPanel = (props: Props): JSX.Element => {
             max={maxRange}
             value={yearRange}
             onChange={handleYearRangeChange}
-            valueLabelDisplay="auto"
+            valueLabelDisplay="off"
             marks={marks}
           />
         </Box>
