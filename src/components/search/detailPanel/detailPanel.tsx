@@ -111,17 +111,24 @@ const DetailPanel = (props: Props): JSX.Element => {
           )}
         </div>
         <div className="container mt-7 gap-4 sm:gap-8" id="restRow">
+          {resultItem.meta.featured_variable && (
+            <ParagraphCard
+              type="rest"
+              title="Featured Variable"
+              value={resultItem.meta.featured_variable}
+            />
+          )}
           {resultItem.meta.methods_variables && (
             <ParagraphCard
               type="rest"
-              title="Methods"
+              title="Measures and data input"
               value={resultItem.meta.methods_variables.join(", ")}
             />
           )}
           {resultItem.meta.data_variables && (
             <ParagraphCard
               type="rest"
-              title="Data variables"
+              title="What's in this dataset"
               value={resultItem.meta.data_variables.join(", ")}
             />
           )}

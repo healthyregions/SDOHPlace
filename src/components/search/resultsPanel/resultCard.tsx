@@ -105,9 +105,9 @@ const ResultCard = (props: Props): JSX.Element => {
         <div className="flex flex-col sm:flex-row sm:mt-4">
           <div className="flex-1 w-full sm:w-1/2">
             <div className={`${classes.resultCard} truncate `}>
-              Subject:{" "}
-              {props.resultItem.meta.subject
-                ? props.resultItem.meta.subject[0]
+              Keyword:{" "}
+              {props.resultItem.meta.keyword
+                ? props.resultItem.meta.keyword.join(", ")
                 : ""}
             </div>
             <div className={`${classes.resultCard} truncate `}>
