@@ -215,7 +215,7 @@ const FilterPanel = (props: Props): JSX.Element => {
           <Box>
             <span>
               <span
-                className={'pr-4'}
+                className={'pr-5'}
                 style={{
                   textTransform: "none",
                   cursor: 'pointer',
@@ -236,7 +236,7 @@ const FilterPanel = (props: Props): JSX.Element => {
               </span>
 
               <span
-                className={'pr-4'}
+                className={'pr-5'}
                 style={{
                   textTransform: "none",
                   cursor: 'pointer',
@@ -293,7 +293,7 @@ const FilterPanel = (props: Props): JSX.Element => {
             </span>
           </Box>
         </Box>
-        <Box sx={{ mt: 1 }}>
+        <Box className={'mt-6'}>
           <Box className="text-s font-bold">Year</Box>
           <Slider
             sx={{
