@@ -214,10 +214,11 @@ const FilterPanel = (props: Props): JSX.Element => {
         <Box display="flex" alignItems="center">
           <Box>
             <span>
-              <Button
-                variant="text"
-                sx={{
+              <span
+                className={'pr-4'}
+                style={{
                   textTransform: "none",
+                  cursor: 'pointer',
                   color: `${fullConfig.theme.colors["frenchviolet"]}`,
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 700,
@@ -232,12 +233,13 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
               >
                 Relevance
-              </Button>
+              </span>
 
-              <Button
-                variant="text"
-                sx={{
+              <span
+                className={'pr-4'}
+                style={{
                   textTransform: "none",
+                  cursor: 'pointer',
                   color: `${fullConfig.theme.colors["frenchviolet"]}`,
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 700,
@@ -260,12 +262,12 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
               >
                 Recent first
-              </Button>
+              </span>
 
-              <Button
-                variant="text"
-                sx={{
+              <span
+                style={{
                   textTransform: "none",
+                  cursor: 'pointer',
                   color: `${fullConfig.theme.colors["frenchviolet"]}`,
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 700,
@@ -287,7 +289,7 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
               >
                 Oldest first
-              </Button>
+              </span>
             </span>
           </Box>
         </Box>
