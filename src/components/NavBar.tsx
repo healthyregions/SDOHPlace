@@ -28,7 +28,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
   return (
     <>
       <button
-        className={`nav-button p-0 pb-2 font-light${
+        className={`nav-button p-0 pb-3 font-light${
           directLink ? "" : " cursor-default"
         }`}
 
