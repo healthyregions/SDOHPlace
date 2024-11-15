@@ -80,6 +80,10 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
       : "*";
     props.handleSearch(params, q, newFilterQueries);
   };
+
+  const onChange = () => {
+
+  }
   return (
     <div className={`flex flex-col sm:flex-row items-center space-x-10`}>
       <div className="text-l whitespace-nowrap">Spatial Resolution:</div>
@@ -144,6 +148,14 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
             <div
               className="text-l cursor-pointer select-none"
               style={{ letterSpacing: 0.5 }}
+              onClick={(event) =>
+                handleSRSelectionChange({
+                  target: {
+                    value: checkbox.value,
+                    checked: !checkbox.checked,
+                  },
+                })
+              }
             >
               {checkbox.displayName}
             </div>
