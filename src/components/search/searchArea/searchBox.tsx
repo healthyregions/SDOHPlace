@@ -125,7 +125,7 @@ const SearchBox = (props: Props): JSX.Element => {
       typeof window.navigator !== "undefined"
     ) {
       return (
-        /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream
+        /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !(window as any).MSStream
       );
     }
     return false;
