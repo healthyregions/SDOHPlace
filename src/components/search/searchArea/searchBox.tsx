@@ -85,6 +85,7 @@ const CustomPaper = (props) => {
 };
 
 const SearchBox = (props: Props): JSX.Element => {
+  const autocompleteRef = React.useRef<any>(null);
   const textFieldRef = React.useRef<HTMLInputElement>(null);
   const [showClearButton, setShowClearButton] = React.useState(
     props.value ? true : false
@@ -118,8 +119,6 @@ const SearchBox = (props: Props): JSX.Element => {
     urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, value, filterQueries);
   };
-  const [shouldRemount, setShouldRemount] = React.useState(false);
-  const autocompleteRef = React.useRef<any>(null);
   const isIOS = React.useMemo(() => {
     if (
       typeof window !== "undefined" &&
