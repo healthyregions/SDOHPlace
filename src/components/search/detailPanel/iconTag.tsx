@@ -11,6 +11,7 @@ import {
 interface Props {
   svgIcon: any;
   label: string;
+  variant: string;
   labelClass: string;
   labelColor: string;
   roundBackground: boolean;
@@ -20,8 +21,8 @@ interface Props {
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
   iconTag: {
-    color: `${fullConfig.theme.colors["almostblack"]}`,
-    fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+    color: fullConfig.theme.colors["almostblack"],
+    fontFamily: fullConfig.theme.fontFamily["sans"],
     fontSize: "0.875rem",
   },
 }));
@@ -65,13 +66,49 @@ const IconTag = (props: Props): JSX.Element => {
     return currentSubjects.includes(label);
   };
 
+  /* Support new variant color schemes
+  *    Default => swaps colors when selected
+  *       Icon color =>
+  *           Selected => Cream/Bisque color
+  *           Not Selected => Orange
+  *       Background =>
+  *           Selected => Orange
+  *           Not Selected => Cream/Bisque color
+  *
+  *    "alternate" variant => only colors background when selected
+  *       Icon color =>
+  *           Selected => Orange
+  *           Not Selected => Orange
+  *       Background =>
+  *           Selected => Cream/Bisque color
+  *           Not Selected => White
+  */
+  const getBgColorClass = () => {
+    const selected = isSelected(props.label);
+    if (props.variant === 'alternate') {
+      // Alternate variant
+      return selected ? 'bg-lightbisque' : 'bg-white';
+    }
+    // Default behavior
+    return selected ? 'bg-strongorange' : 'bg-lightbisque';
+  }
+  const getColorName = () => {
+    const selected = isSelected(props.label);
+    if (props.variant === 'alternate') {
+      return 'strongorange';
+    }
+    return selected ? 'lightbisque' : 'strongorange';
+  }
+  const getBorderColorClass = () => {
+    return 'border-strongorange';
+  }
+
   return (
     <div
-      className={`flex items-center shadow-none bg-lightbisque border border-1 rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${
+      className={`flex items-center shadow-none ${getBgColorClass()}
+      border border-1 rounded-[0.5em] py-[0.375em] pl-[0.5em] pr-[1em] space-x-2 ${
         classes.iconTag
-      } cursor-pointer ${
-        isSelected(props.label) ? "border-frenchviolet" : "border-strongorange"
-      }`}
+      } cursor-pointer ${getBorderColorClass()}`}
       onClick={() => handleSubjectClick(props.label)}
     >
       {props.roundBackground ? (
@@ -80,7 +117,7 @@ const IconTag = (props: Props): JSX.Element => {
           style={{
             color: `${
               isSelected(props.label)
-                ? fullConfig.theme.colors["frenchviolet"]
+                ? fullConfig.theme.colors[getColorName()]
                 : fullConfig.theme.colors["strongorange"]
             }`,
           }}
@@ -93,9 +130,7 @@ const IconTag = (props: Props): JSX.Element => {
       <span
         className={`${props.labelClass}`}
         style={{
-          color: isSelected(props.label)
-            ? `${fullConfig.theme.colors["frenchviolet"]}`
-            : props.labelColor,
+          color: props.labelColor,
         }}
       >
         {props.label}

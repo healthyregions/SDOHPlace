@@ -141,7 +141,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 <div className="text-s">Search for themes instead?</div>
               </Box>
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                <ThemeIcons handleSearch={props.handleSearch} />
+                <ThemeIcons handleSearch={props.handleSearch} variant={'alternate'} />
               </Box>
             </div>
           )}
