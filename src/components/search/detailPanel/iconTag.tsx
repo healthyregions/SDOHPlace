@@ -11,7 +11,7 @@ import {
 interface Props {
   svgIcon: any;
   label: string;
-  variant: string;
+  variant?: string;
   labelClass: string;
   labelColor: string;
   roundBackground: boolean;
