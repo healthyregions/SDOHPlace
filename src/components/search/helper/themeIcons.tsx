@@ -6,7 +6,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 
 interface Props {
   handleSearch(params: any, value: string, filterQueries: any): void;
-  variant: string;
+  variant?: string;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
