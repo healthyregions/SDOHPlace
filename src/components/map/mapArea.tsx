@@ -35,9 +35,10 @@ import { sources } from "../../components/map/helper/sources";
 import { ZoomButton, EnableBboxSearchButton } from "./mapButtons";
 
 import getCountyGeo from "./helper/countyLocation";
-import CheckBoxObject from "../search/interface/CheckboxObject";
-import { GetAllParams } from "../search/helper/ParameterList";
-import { set } from "date-fns";
+import {
+  GetAllParams,
+  reGetFilterQueries,
+} from "../search/helper/ParameterList";
 
 // Define interface for map object
 interface CustomMap extends maplibregl.Map {
@@ -64,10 +65,12 @@ export default function MapArea({
   searchResult,
   highlightIds,
   highlightLyr,
+  handleSearch,
 }: {
   searchResult: SolrObject[];
   highlightLyr?: string;
   highlightIds?: string[];
+  handleSearch: (params: any, query: string, filterQueries: string[]) => void;
 }): JSX.Element {
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
     LayerSpecification[]
@@ -307,6 +310,16 @@ export default function MapArea({
       Math.round(bounds._ne.lat * 1000) / 1000,
     ];
     params.setBboxParam(newBbox);
+    if (params.bboxSearch === true) {
+      const currentQuery = params.query ? params.query : "*";
+      const filterQueries = reGetFilterQueries(params);
+      console.log("FilterQueries now:", filterQueries);
+      filterQueries.push({
+        attribute: "bbox",
+        value: newBbox,
+      });
+      handleSearch(params, currentQuery, filterQueries);
+    }
   };
 
   function getStateFilter(selectedState: string) {
@@ -471,7 +484,7 @@ export default function MapArea({
         <ZoomButton label="Contiguous" bounds={contiguousBounds} />
         <ZoomButton label="AK" bounds={alaskaBounds} />
         <ZoomButton label="HI" bounds={hawaiiBounds} />
-        <EnableBboxSearchButton />
+        <EnableBboxSearchButton handleSearch={handleSearch} />
       </Map>
     </>
   );

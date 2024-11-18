@@ -58,8 +58,9 @@ const ResultsPanel = (props: Props): JSX.Element => {
           <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
               <Box>
-                {props.isQuery ? "Results" : "All data sources"} (
-                {props.resultsList.length})
+                {props.isQuery && !props.isLoading
+                  ? `Results (${props.resultsList.length})`
+                  : `All Data Sources (${props.resultsList.length})`}
               </Box>
             </div>
             <div

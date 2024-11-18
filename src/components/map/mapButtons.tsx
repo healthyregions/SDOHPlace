@@ -1,6 +1,9 @@
 "use client";
 import { useMap, LngLatBoundsLike } from "react-map-gl/maplibre";
-import { GetAllParams } from "../search/helper/ParameterList";
+import {
+  GetAllParams,
+  reGetFilterQueries,
+} from "../search/helper/ParameterList";
 
 const mapButtonStyle =
   "mt-4 ml-4 text-almostblack py-1 px-2 border-strongorange rounded border relative z-1 font-sans text-base bg-lightbisque";
@@ -25,9 +28,15 @@ export function ZoomButton({
   );
 }
 
-export function EnableBboxSearchButton() {
+interface EnableBboxSearchButtonProps {
+  handleSearch: (
+    params: any,
+    currentQuery: string,
+    filterQueries: string[]
+  ) => void;
+}
+export function EnableBboxSearchButton({ handleSearch }: EnableBboxSearchButtonProps) {
   const params = GetAllParams();
-
   return (
     <div className={`${mapButtonStyle} inline`}>
       <label>
@@ -35,9 +44,17 @@ export function EnableBboxSearchButton() {
           type="checkbox"
           checked={params.bboxSearch}
           onChange={(e) => {
-            e.target.checked
-              ? params.setBboxSearch(true)
-              : params.setBboxSearch(null);
+            if (e.target.checked) {
+              params.setBboxSearch(true);
+              const currentQuery = params.query ? params.query : "*";
+              const filterQueries = reGetFilterQueries(params);
+              filterQueries.push({ attribute: "bboxSearch", value: "true" });
+              console.log("FilterQueries now:", filterQueries);
+              if (params.bboxParam)
+                handleSearch(params, currentQuery, filterQueries);
+            } else {
+              params.setBboxSearch(null);
+            }
           }}
         />
         &nbsp;Search this area

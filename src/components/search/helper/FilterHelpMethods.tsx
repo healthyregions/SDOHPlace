@@ -93,6 +93,7 @@ export const filterResults = (fetchedResults, key, value) => {
  * checkBoxes here means user have used it, otherwise default value is unchecked, so only search 'true' value
  */
 export const runningFilter = (
+  q: string,
   checkBoxStatus: CheckBoxObject[],
   originalResult: SolrObject[],
   schema_json: {}
@@ -111,7 +112,7 @@ export const runningFilter = (
       filters.push({ attribute, value });
     }
   });
-  filterQueryBuilder.filterQuery(filters);
+  filterQueryBuilder.filterQuery(q, filters);
 
   // Return a promise that resolves with the filtered result
   return new Promise((resolve, reject) => {
