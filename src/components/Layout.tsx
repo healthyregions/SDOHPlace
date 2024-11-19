@@ -41,7 +41,7 @@ export default function Layout({
       <Header title={getTitle(type)} />
       <NavBar />
       <TopLines />
-      <div className="flex flex-col">
+      <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
           {page_header && <h1 className="font-fredoka">{page_header}</h1>}
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10 max-md:overflow-x-auto">

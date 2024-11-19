@@ -67,7 +67,7 @@ const DetailPanel = (props: Props): JSX.Element => {
 
         {resultItem.meta.subject && (
           <div
-            className="flex flex-col sm:flex-row gap-4 mb-12 sm:gap-8"
+            className="flex flex-col flex-wrap sm:flex-row gap-4 mb-12 sm:gap-8"
             id="iconTagRow"
           >
             {resultItem.meta.subject.map((s, index) => (

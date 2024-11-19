@@ -214,10 +214,32 @@ const FilterPanel = (props: Props): JSX.Element => {
         <Box display="flex" alignItems="center">
           <Box>
             <span>
-              <Button
-                variant="text"
-                sx={{
+              <span
+                className={'pr-5'}
+                style={{
                   textTransform: "none",
+                  cursor: 'pointer',
+                  color: `${fullConfig.theme.colors["frenchviolet"]}`,
+                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+                  fontWeight: 700,
+                  textDecoration: `${
+                    !props.sortBy && !props.sortOrder ? "underline" : "none"
+                  }`,
+                }}
+                onClick={(e) => {
+                  params.setPrevAction("sort");
+                  // sort by relevance asc (i.e. the default order)
+                  updateAll(params, "", "", props.filterQueries, props.term);
+                }}
+              >
+                Relevance
+              </span>
+
+              <span
+                className={'pr-5'}
+                style={{
+                  textTransform: "none",
+                  cursor: 'pointer',
                   color: `${fullConfig.theme.colors["frenchviolet"]}`,
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 700,
@@ -240,12 +262,12 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
               >
                 Recent first
-              </Button>{" "}
-              |{" "}
-              <Button
-                variant="text"
-                sx={{
+              </span>
+
+              <span
+                style={{
                   textTransform: "none",
+                  cursor: 'pointer',
                   color: `${fullConfig.theme.colors["frenchviolet"]}`,
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 700,
@@ -267,31 +289,11 @@ const FilterPanel = (props: Props): JSX.Element => {
                 }}
               >
                 Oldest first
-              </Button>{" "}
-              |{" "}
-              <Button
-                variant="text"
-                sx={{
-                  textTransform: "none",
-                  color: `${fullConfig.theme.colors["frenchviolet"]}`,
-                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-                  fontWeight: 700,
-                  textDecoration: `${
-                    !props.sortBy && !props.sortOrder ? "underline" : "none"
-                  }`,
-                }}
-                onClick={(e) => {
-                  params.setPrevAction("sort");
-                  // sort by relevance asc (i.e. the default order)
-                  updateAll(params, "", "", props.filterQueries, props.term);
-                }}
-              >
-                Relevance
-              </Button>
+              </span>
             </span>
           </Box>
         </Box>
-        <Box sx={{ mt: 1 }}>
+        <Box className={'mt-6'}>
           <Box className="text-s font-bold">Year</Box>
           <Slider
             sx={{
@@ -305,7 +307,7 @@ const FilterPanel = (props: Props): JSX.Element => {
             max={maxRange}
             value={yearRange}
             onChange={handleYearRangeChange}
-            valueLabelDisplay="auto"
+            valueLabelDisplay="off"
             marks={marks}
           />
         </Box>

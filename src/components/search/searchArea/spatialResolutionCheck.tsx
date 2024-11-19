@@ -80,12 +80,13 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
       : "*";
     props.handleSearch(params, q, newFilterQueries);
   };
+
   return (
-    <div className={`flex items-center space-x-10`}>
+    <div className={`flex flex-col sm:flex-row items-center ml-4 space-x-7`}>
       <div className="text-l whitespace-nowrap">Spatial Resolution:</div>
-      <div className="flex space-x-4">
+      <div className="flex flex-col sm:flex-row space-x-4">
         {Array.from(sRCheckboxes).map((checkbox, index) => (
-          <div key={index} className="flex items-center space-x-1">
+          <div key={index} className="flex items-center">
             <Checkbox
               id={`sr-checkbox-${index}`}
               checked={checkbox.checked}
@@ -142,8 +143,16 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
             />
 
             <div
-              className="text-l cursor-pointer select-none"
+              className="text-l cursor-pointer select-none pl-1 pr-2"
               style={{ letterSpacing: 0.5 }}
+              onClick={(event) =>
+                handleSRSelectionChange({
+                  target: {
+                    value: checkbox.value,
+                    checked: !checkbox.checked,
+                  },
+                })
+              }
             >
               {checkbox.displayName}
             </div>

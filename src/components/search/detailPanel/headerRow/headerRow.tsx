@@ -61,6 +61,7 @@ const HeaderRow = (props: Props): JSX.Element => {
           href="#"
           className="text-xl text-frenchviolet font-bold leading-8 sm:mb-1"
           onClick={backToMapView}
+          style={{ textDecoration: 'none' }}
         >
           Back to map view
         </a>
@@ -80,7 +81,7 @@ const HeaderRow = (props: Props): JSX.Element => {
             {props.resultItem.title}
           </Box>
         </div>
-        <div className="flex items-center justify-center sm:justify-end md:mt-4 sm:mt-0 order-1 sm:order-none flex-none">
+        <div className="flex items-start justify-center sm:justify-end md:mt-4 sm:mt-0 order-1 sm:order-none flex-none">
           <div className="mr-7">
             <ButtonWithIcon
               label={"Share"}

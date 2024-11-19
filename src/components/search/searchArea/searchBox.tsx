@@ -199,6 +199,7 @@ const SearchBox = (props: Props): JSX.Element => {
               placeholder="Search"
               className={`${classes.searchBox} bg-white`}
               sx={{
+                paddingRight: "0",
                 borderRadius: "1.75em",
                 border: `1px solid ${fullConfig.theme.colors["frenchviolet"]}`,
                 "& .MuiOutlinedInput-root": {
@@ -216,7 +217,7 @@ const SearchBox = (props: Props): JSX.Element => {
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon className="text-2xl mr-2 ml-10 text-frenchviolet" />
+                    <SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" />
                     <Box component="span" className="mx-2">
                       <a
                         onClick={() => {
@@ -254,7 +255,8 @@ const SearchBox = (props: Props): JSX.Element => {
                         color="primary"
                         sx={{
                           display: "flex",
-                          alignItems: "center",
+                          flexDirection: "column",
+                          alignItems: "flex-end",
                           justifyContent: "center",
                           backgroundColor: "transparent",
                           color: fullConfig.theme.colors["frenchviolet"],
@@ -265,7 +267,7 @@ const SearchBox = (props: Props): JSX.Element => {
                           },
                         }}
                       >
-                        <ArrowCircleRightIcon className="text-2xl mr-10" />
+                        <ArrowCircleRightIcon className="text-2xl" />
                       </Button>
                     </InputAdornment>
                   </Box>
