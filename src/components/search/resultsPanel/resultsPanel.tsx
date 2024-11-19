@@ -63,6 +63,21 @@ const ResultsPanel = (props: Props): JSX.Element => {
                   : `All Data Sources (${props.resultsList.length})`}
               </Box>
             </div>
+            {isFiltersOn(params) && (
+              <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
+                <div
+                  style={{
+                    color: fullConfig.theme.colors["frenchviolet"]
+                  }}
+                  onClick={() => {
+                    resetAllFilters(params);
+                    props.handleSearch(params, params.query, []);
+                  }}
+                >
+                  Clear All
+                </div>
+              </div>
+            )}
             <div
               className={`flex sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
               style={{
@@ -87,28 +102,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
               <div>Sort & Filter</div>
             </div>
           </div>
-          {isFiltersOn(params) && (
-            <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center justify-center">
-              <Button
-                className="sm:my-[0.5em]"
-                sx={{
-                  color: "white",
-                  backgroundColor: fullConfig.theme.colors["frenchviolet"],
-                  "&:hover": {
-                    boxShadow: "none",
-                    backgroundColor: fullConfig.theme.colors["frenchviolet"],
-                    color: "white",
-                  },
-                }}
-                onClick={() => {
-                  resetAllFilters(params);
-                  props.handleSearch(params, params.query, []);
-                }}
-              >
-                Clear All Filters
-              </Button>
-            </div>
-          )}
         </Box>
         {props.showFilter.length > 0 && props.filterComponent}
         <Box
@@ -149,7 +142,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 <div className="text-s">Search for themes instead?</div>
               </Box>
               <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                <ThemeIcons handleSearch={props.handleSearch} />
+                <ThemeIcons handleSearch={props.handleSearch} variant={'alternate'} />
               </Box>
             </div>
           )}

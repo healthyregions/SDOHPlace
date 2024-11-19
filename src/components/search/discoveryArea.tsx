@@ -268,7 +268,7 @@ export default function DiscoveryArea({ schema }: { schema: {} }): JSX.Element {
         </Grid>
       </Grid>
       <Grid className="w-full px-[1em] sm:px-[2em]">
-        <Grid container className="container mx-auto pt-[1em] ">
+        <Grid container className="container mx-auto pt-[1.5rem]">
           <Grid item xs={12} sm={4}>
             {isLoading && initialLoad ? (
               <div className="flex justify-center items-center h-64">

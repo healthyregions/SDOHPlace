@@ -146,7 +146,9 @@ const MapPanel = (props: Props): JSX.Element => {
           <Menu
             id="basic-menu"
             className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
-            style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+            style={{
+              boxShadow: '#aaaaaa 6px 12px 16px -8px'
+            }}
             anchorEl={overlaysMenuAnchorEl}
             open={overlaysOpen}
             onClose={closeOverlaysMenu}
@@ -159,7 +161,6 @@ const MapPanel = (props: Props): JSX.Element => {
             {Object.keys(overlayRegistry).map((overlay) => (
               <MenuItem
                 // selected={params.visOverlays.includes(overlay)}
-                style={{ color: fullConfig.theme.colors["frenchviolet"] }}
                 key={overlay}
                 onClick={() => {
                   // closeOverlaysMenu();
@@ -167,9 +168,7 @@ const MapPanel = (props: Props): JSX.Element => {
                 }}
               >
                 {params.visOverlays.includes(overlay) && (
-                  <ListItemIcon
-                    style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-                  >
+                  <ListItemIcon>
                     <CheckIcon />
                   </ListItemIcon>
                 )}
