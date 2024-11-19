@@ -20,8 +20,6 @@ import { SearchObject } from "../interface/SearchObject";
 import SolrQueryBuilder from "../helper/SolrQueryBuilder";
 import { useEffect } from "react";
 import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
-import { containsYear } from "../helper/SuggestMethods";
-import { p } from "nuqs/dist/serializer-C_l8WgvO";
 
 interface Props {
   schema: any;
@@ -87,6 +85,8 @@ const CustomPaper = (props) => {
 };
 
 const SearchBox = (props: Props): JSX.Element => {
+  const autocompleteRef = React.useRef<any>(null);
+  const textFieldRef = React.useRef<HTMLInputElement>(null);
   const [showClearButton, setShowClearButton] = React.useState(
     props.value ? true : false
   );
@@ -119,6 +119,17 @@ const SearchBox = (props: Props): JSX.Element => {
     urlParams.setShowDetailPanel(null); // always show the map panel if user searches
     props.handleSearch(urlParams, value, filterQueries);
   };
+  const isIOS = React.useMemo(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof window.navigator !== "undefined"
+    ) {
+      return (
+        /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !(window as any).MSStream
+      );
+    }
+    return false;
+  }, []);
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
@@ -159,8 +170,24 @@ const SearchBox = (props: Props): JSX.Element => {
         });
     } else {
       props.handleInputReset();
+      if (isIOS  && textFieldRef.current) {
+      setTimeout(() => textFieldRef.current.focus(), 50);
+    } else {
+        requestAnimationFrame(() => {
+          if (textFieldRef.current) {
+            textFieldRef.current.blur();
+            setTimeout(() => {
+              textFieldRef.current?.focus();
+              if (textFieldRef.current?.setSelectionRange) {
+                textFieldRef.current.setSelectionRange(0, 0);
+              }
+            }, 100);
+          }
+        });
+      }
     }
   };
+
   useEffect(() => {
     if (!urlParams.query) {
       setUserInput("");
@@ -170,10 +197,12 @@ const SearchBox = (props: Props): JSX.Element => {
       setUserInput(urlParams.query);
     }
   }, [urlParams.query]);
+
   return (
     <div className={`sm:mt-6`}>
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
+          ref={autocompleteRef}
           PopperComponent={CustomPopper}
           PaperComponent={CustomPaper}
           key={props.autocompleteKey}
@@ -193,7 +222,7 @@ const SearchBox = (props: Props): JSX.Element => {
           renderInput={(params) => (
             <TextField
               {...params}
-              inputRef={props.inputRef}
+              inputRef={textFieldRef}
               variant="outlined"
               fullWidth
               placeholder="Search"

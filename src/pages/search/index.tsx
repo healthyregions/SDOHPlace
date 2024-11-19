@@ -13,7 +13,7 @@ interface SearchPageProps {
 }
 
 export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
-  let schema = getSchema();
+  let schema = await getSchema();
   return {
     props: {
       schema,

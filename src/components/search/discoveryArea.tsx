@@ -15,17 +15,6 @@ export default function DiscoveryArea({ schema }: { schema: {} }): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
-  // let tempSRChecboxes = new Set<CheckBoxObject>();
-  // SearchUIConfig.search.searchBox.spatialResOptions.forEach((option) => {
-  //   tempSRChecboxes.add({
-  //     attribute: "spatial_resolution",
-  //     value: option.value,
-  //     checked: searchParams.get("layers")
-  //       ? searchParams.get("layers").toString().includes(option.value)
-  //       : false,
-  //     displayName: option.display_name,
-  //   });
-  // });
   const [options, setOptions] = useState([]);
   const [resetStatus, setResetStatus] = useState(true);
 
@@ -203,7 +192,7 @@ export default function DiscoveryArea({ schema }: { schema: {} }): JSX.Element {
 
   const handleInputReset = () => {
     setValue("*");
-    setInputValue("*");
+    setInputValue("");
     params.setQuery("*");
     params.setShowDetailPanel(null);
     setIsResetting(true);

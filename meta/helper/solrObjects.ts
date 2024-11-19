@@ -53,6 +53,7 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
       result.meta[schemaMatch(key, schema)] = rawSolrObject[key];
     }
   });
+
   return result;
 };
 
