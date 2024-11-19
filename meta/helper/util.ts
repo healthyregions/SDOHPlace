@@ -20,11 +20,11 @@ export function findFirstSentence(paragraph: string): string | undefined {
  * @returns: the key that matches the metadata in the schema folder, otherwise return the raw key
  */
 export function schemaMatch(rawSolrKey: string, schema_json: {}): string {
-  let result = Object.keys(schema_json).find(
-    (Key: string) => schema_json[Key].uri === rawSolrKey
+  let result = schema_json["fields"].find(
+    (item: object) => item["uri"] === rawSolrKey
   );
   if (result) {
-    return result;
+    return result.id;
   } else return rawSolrKey;
 }
 

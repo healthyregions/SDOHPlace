@@ -138,7 +138,7 @@ const Fellows: NextPage = () => {
           <div className="bg-orange-300 w-full h-1 mt-10" />
         </Box>
       </Modal>
-      <div className="flex flex-col">
+      <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
           <h1 className="font-fredoka">Fellowship Program</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">

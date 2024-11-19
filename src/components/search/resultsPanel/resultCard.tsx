@@ -50,7 +50,11 @@ const ResultCard = (props: Props): JSX.Element => {
     props.resultItem && (
       <div
         className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
+        onClick={() => {
+          params.setShowDetailPanel(props.resultItem.id);
+        }}
         style={{
+          cursor: 'pointer',
           border:
             params.showDetailPanel === props.resultItem.id
               ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
@@ -90,7 +94,7 @@ const ResultCard = (props: Props): JSX.Element => {
                 labelColor={fullConfig.theme.colors["almostblack"]}
               />
             </div>
-            <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end">
+            <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end font-bold">
               <button
                 onClick={() => {
                   params.setShowDetailPanel(props.resultItem.id);
@@ -105,9 +109,9 @@ const ResultCard = (props: Props): JSX.Element => {
         <div className="flex flex-col sm:flex-row sm:mt-4">
           <div className="flex-1 w-full sm:w-1/2">
             <div className={`${classes.resultCard} truncate `}>
-              Subject:{" "}
-              {props.resultItem.meta.subject
-                ? props.resultItem.meta.subject[0]
+              Keyword:{" "}
+              {props.resultItem.meta.keyword
+                ? props.resultItem.meta.keyword.join(", ")
                 : ""}
             </div>
             <div className={`${classes.resultCard} truncate `}>

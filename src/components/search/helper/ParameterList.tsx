@@ -28,12 +28,13 @@ const parseAsLngLatBoundsLike = createParser({
     return value.join(",");
   },
 });
-
 /**
  * The center location to manage all the query parameters
  * @returns all the query parameters as current state
  */
 export const GetAllParams = () => {
+  const [isMounted, setIsMounted] = React.useState(false);
+
   // showDetailPanel: if it is not empty, show the detail panel
   const [showDetailPanel, setShowDetailPanel] = useQueryState(
     "show",
@@ -119,7 +120,7 @@ export const GetAllParams = () => {
   //bbox: the current bounding box of the map, can be used for spatial queries
   const [bboxParam, setBboxParam] = useQueryState(
     "bbox",
-    parseAsLngLatBoundsLike
+    parseAsLngLatBoundsLike.withDefault(null)
   );
 
   // prevAction: the previous action
@@ -127,6 +128,72 @@ export const GetAllParams = () => {
     "prevAction",
     parseAsString.withDefault("")
   );
+
+  const checkIfParamsAreValid = () => {
+    if (!isMounted) {
+      console.log("Component not yet mounted");
+      return false;
+    }
+    const hasValidBbox =
+      bboxParam === null ||
+      (Array.isArray(bboxParam) &&
+        bboxParam.length === 4 &&
+        bboxParam.every((coord) => typeof coord === "number" && !isNaN(coord)));
+    const hasValidArrays =
+      Array.isArray(visLyrs) &&
+      Array.isArray(visOverlays) &&
+      Array.isArray(spatialResolution);
+    const hasValidStringParams =
+      typeof showDetailPanel === "string" &&
+      typeof showSharedLink === "string" &&
+      typeof showInfoPanel === "string" &&
+      typeof showFilter === "string" &&
+      typeof resourceType === "string" &&
+      typeof resourceClass === "string" &&
+      typeof format === "string" &&
+      typeof indexYear === "string" &&
+      typeof subject === "string" &&
+      typeof sortOrder === "string" &&
+      typeof sortBy === "string" &&
+      typeof query === "string";
+    const hasValidBooleanParams = typeof bboxSearch === "boolean";
+    const isValid =
+      hasValidStringParams &&
+      hasValidBooleanParams &&
+      hasValidArrays &&
+      hasValidBbox;
+    return isValid;
+  };
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  const [paramsReady, setParamsReady] = React.useState(false);
+  React.useEffect(() => {
+    if (isMounted) {
+      const isValid = checkIfParamsAreValid();
+      setParamsReady(isValid);
+    }
+  }, [
+    isMounted,
+    showDetailPanel,
+    showSharedLink,
+    showInfoPanel,
+    showFilter,
+    resourceType,
+    resourceClass,
+    format,
+    indexYear,
+    subject,
+    sortOrder,
+    sortBy,
+    query,
+    bboxSearch,
+    visLyrs,
+    spatialResolution,
+    visOverlays,
+    bboxParam,
+    prevAction,
+  ]);
 
   return React.useMemo(
     () => ({
@@ -138,10 +205,6 @@ export const GetAllParams = () => {
       setInfoPanel,
       showFilter,
       setShowFilter,
-      sortOrder,
-      setSortOrder,
-      sortBy,
-      setSortBy,
       resourceType,
       setResourceType,
       resourceClass,
@@ -152,6 +215,10 @@ export const GetAllParams = () => {
       setIndexYear,
       subject,
       setSubject,
+      sortOrder,
+      setSortOrder,
+      sortBy,
+      setSortBy,
       query,
       setQuery,
       bboxSearch,
@@ -166,18 +233,18 @@ export const GetAllParams = () => {
       setBboxParam,
       prevAction,
       setPrevAction,
+      paramsReady,
+      isMounted,
     }),
     [
       showDetailPanel,
       setShowDetailPanel,
       showSharedLink,
       setShowSharedLink,
+      showInfoPanel,
+      setInfoPanel,
       showFilter,
       setShowFilter,
-      sortOrder,
-      setSortOrder,
-      sortBy,
-      setSortBy,
       resourceType,
       setResourceType,
       resourceClass,
@@ -188,6 +255,10 @@ export const GetAllParams = () => {
       setIndexYear,
       subject,
       setSubject,
+      sortOrder,
+      setSortOrder,
+      sortBy,
+      setSortBy,
       query,
       setQuery,
       bboxSearch,
@@ -202,6 +273,8 @@ export const GetAllParams = () => {
       setBboxParam,
       prevAction,
       setPrevAction,
+      paramsReady,
+      isMounted,
     ]
   );
 };
@@ -222,6 +295,8 @@ export const updateAll = (
   params.setVisLyrs(null);
   params.setIndexYear(null);
   params.setSubject(null);
+  params.setBboxSearch(null);
+  params.setBboxParam(null);
   newFilterQueries.forEach((filter) => {
     if (filter.attribute === "spatial_resolution") {
       params.setSpatialResolution((prev) =>
@@ -243,8 +318,13 @@ export const updateAll = (
         prev ? `${prev},${filter.value}` : filter.value
       );
     }
+    if (filter.attribute === "bbox") {
+      params.setBboxParam(filter.value);
+    }
+    if (filter.attribute === "bboxSearch") {
+      params.setBboxSearch(false);
+    }
   });
-
   if (searchTerm) {
     params.setQuery(searchTerm);
   }
@@ -255,6 +335,18 @@ export const updateAll = (
  */
 export const reGetFilterQueries = (params) => {
   const res = [];
+  if (params.bboxParam) {
+    res.push({
+      attribute: "bbox",
+      value: params.bboxParam,
+    });
+  }
+  if (params.bboxSearch){
+    res.push({
+      attribute: "bboxSearch",
+      value: params.bboxSearch,
+    });
+  }
   if (params.spatialResolution) {
     params.spatialResolution.forEach((i) => {
       res.push({ attribute: "spatial_resolution", value: i });
@@ -300,6 +392,8 @@ export const resetAllFilters = (params) => {
   params.setIndexYear(null);
   params.setSubject(null);
   params.setSortOrder(null);
+  params.setBboxSearch(null);
+  params.setBboxParam(null);
 };
 
 export const isFiltersOn = (params) => {
@@ -307,6 +401,8 @@ export const isFiltersOn = (params) => {
     params.spatialResolution.length > 0 ||
     params.visLyrs.length > 0 ||
     params.indexYear.length > 0 ||
-    params.subject.length > 0
+    params.subject.length > 0 ||
+    params.bboxParam ||
+    params.bboxSearch
   );
 };

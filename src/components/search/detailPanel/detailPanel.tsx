@@ -67,7 +67,7 @@ const DetailPanel = (props: Props): JSX.Element => {
 
         {resultItem.meta.subject && (
           <div
-            className="flex flex-col sm:flex-row gap-4 mb-12 sm:gap-8"
+            className="flex flex-col flex-wrap sm:flex-row gap-4 mb-12 sm:gap-8"
             id="iconTagRow"
           >
             {resultItem.meta.subject.map((s, index) => (
@@ -111,17 +111,24 @@ const DetailPanel = (props: Props): JSX.Element => {
           )}
         </div>
         <div className="container mt-7 gap-4 sm:gap-8" id="restRow">
+          {resultItem.meta.featured_variable && (
+            <ParagraphCard
+              type="rest"
+              title="Featured Variable"
+              value={resultItem.meta.featured_variable}
+            />
+          )}
           {resultItem.meta.methods_variables && (
             <ParagraphCard
               type="rest"
-              title="Methods"
+              title="Measures and data input"
               value={resultItem.meta.methods_variables.join(", ")}
             />
           )}
           {resultItem.meta.data_variables && (
             <ParagraphCard
               type="rest"
-              title="Data variables"
+              title="What's in this dataset"
               value={resultItem.meta.data_variables.join(", ")}
             />
           )}

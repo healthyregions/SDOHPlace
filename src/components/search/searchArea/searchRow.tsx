@@ -45,10 +45,10 @@ const SearchRow = (props: Props): JSX.Element => {
         sm={4}
         display="flex"
         flexDirection="column"
-        className="py-[2em] sm:pr-[2em] xs:text-center sm:text-left"
+        className="py-[2em] sm:px-[1.1em] xs:text-center sm:text-left"
       >
         <h2>{props.header}</h2>
-        <div className={`text-s text-center sm:text-left sm:mt-[1em]`}>
+        <div className={`text-s text-center sm:text-left sm:mt-[1em]`} style={{ textWrap: 'balance'}}>
           Our data discovery platform provides access to spatially indexed and
           curated databases, specifically designed for conducting{" "}
           <GlossaryPopover entry={"health equity"} /> research.
@@ -63,7 +63,7 @@ const SearchRow = (props: Props): JSX.Element => {
         justifyContent="flex-start"
         alignItems="flex-start"
         order={{ xs: 1, sm: 0 }}
-        className={`py-[2em] ${classes.searchRow}`}
+        className={`py-[2em] px-8 ${classes.searchRow}`}
       >
         {!params.showInfoPanel && (
           <Box width="100%">
