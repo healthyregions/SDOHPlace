@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, use, useMemo } from "react";
 import { SolrObject } from "meta/interface/SolrObject";
-import { debounce, Grid } from "@mui/material";
+import { CircularProgress, debounce, Grid } from "@mui/material";
 import SolrQueryBuilder from "./helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import DetailPanel from "./detailPanel/detailPanel";
@@ -11,13 +11,7 @@ import MapPanel from "./mapPanel/mapPanel";
 import { GetAllParams, reGetFilterQueries } from "./helper/ParameterList";
 import FilterPanel from "./filterPanel/filterPanel";
 
-export default function DiscoveryArea({
-  results,
-  schema,
-}: {
-  results: SolrObject[];
-  schema: {};
-}): JSX.Element {
+export default function DiscoveryArea({ schema }: { schema: {} }): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
   const [checkboxes, setCheckboxes] = useState([]);
@@ -31,6 +25,7 @@ export default function DiscoveryArea({
    * ***************
    * URL Parameter Handling
    */
+  const [initialLoad, setInitialLoad] = useState(true);
   const params = GetAllParams();
   const [inputValue, setInputValue] = useState<string>(
     params.query ? params.query : ""
@@ -40,18 +35,17 @@ export default function DiscoveryArea({
   );
   const isQuery = params.query.length > 0;
   const filterQueries = reGetFilterQueries(params);
-  const originalResults = generateSolrObjectList(
-    results,
-    params.sortBy,
-    params.sortOrder
-  );
+  // const originalResults = generateSolrObjectList(
+  //   results,
+  //   params.sortBy,
+  //   params.sortOrder
+  // );
 
   /**
    * ***************
    * Helper functions
    */
-  const [fetchResults, setFetchResults] =
-    useState<SolrObject[]>(originalResults);
+  const [fetchResults, setFetchResults] = useState<SolrObject[]>([]);
   const [relatedResults, setRelatedResults] = useState<SolrObject[]>([]);
   const [updateKey, setUpdateKey] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,32 +54,49 @@ export default function DiscoveryArea({
     (params, value, filterQueries, callback) => {
       callback(params, value, filterQueries);
     },
-    10
+    300
   );
   const asyncSearch = async (params, value, filterQueries) => {
+    if (!params || !filterQueries) {
+      return;
+    }
+    setIsLoading(true);
     const suggestionController = new AbortController(); // for suggestion fetch
     const searchController = new AbortController(); // for search fetch
-
     const searchPromise = async () => {
-      // get the first 5 words of the search term if it is longer than 50 characters
-      value = value
+      const searchValue = value
         ? value.length > 50
           ? value.split(" ").slice(0, 5).join(" ")
           : value
         : "";
-      searchQueryBuilder.combineQueries(value, filterQueries);
+
       try {
+        const safeFilterQueries = filterQueries || [];
+        searchQueryBuilder.combineQueries(searchValue, safeFilterQueries);
+
         const resultResponse = await searchQueryBuilder.fetchResult(
           searchController.signal
         );
+
         const newResults = generateSolrObjectList(
           resultResponse,
-          params.sortBy,
-          params.sortOrder
+          params.sortBy || "relevance",
+          params.sortOrder || "desc"
         );
+
         setFetchResults(newResults);
       } catch (error) {
-        if (error.name !== "AbortError") {
+        if (error.name === "TypeError" && error.message.includes("URL")) {
+          console.error("Invalid URL parameters:", {
+            searchValue,
+            filterQueries,
+            params: {
+              sortBy: params.sortBy,
+              sortOrder: params.sortOrder,
+              bboxParam: params.bboxParam,
+            },
+          });
+        } else if (error.name !== "AbortError") {
           console.error("Error fetching main results:", error);
         }
       }
@@ -158,6 +169,7 @@ export default function DiscoveryArea({
           console.error("Error during fetch operation:", error);
         }
       } finally {
+        setInitialLoad(false);
         setIsLoading(false);
       }
     } else {
@@ -166,9 +178,10 @@ export default function DiscoveryArea({
     await searchPromise();
   };
   const handleSearch = (params, value, filterQueries) => {
-    debouncedHandleSearch(params, value, filterQueries, asyncSearch);
+    const safeValue = value || "";
+    const safeFilters = Array.isArray(filterQueries) ? filterQueries : [];
+    debouncedHandleSearch(params, safeValue, safeFilters, asyncSearch);
   };
-
   /**
    * ***************
    * Query & Search Input handling
@@ -194,7 +207,7 @@ export default function DiscoveryArea({
     <FilterPanel
       handleInputReset={handleInputReset}
       handleSearch={handleSearch}
-      originalList={originalResults}
+      originalList={fetchResults}
       term={isQuery ? params.query : "*"}
       optionMaxNum={7}
       filterQueries={filterQueries}
@@ -206,7 +219,6 @@ export default function DiscoveryArea({
       setSortBy={params.setSortBy}
     />
   );
-
   useEffect(() => {
     if (isResetting) {
       setAutocompleteKey((prevKey) => prevKey + 1);
@@ -218,13 +230,18 @@ export default function DiscoveryArea({
       handleSearch(params, "*", reGetFilterQueries(params));
     } else if (params.query && params.query !== "") {
       handleSearch(params, params.query, reGetFilterQueries(params));
+    } else {
+      handleSearch(params, "*", reGetFilterQueries(params));
     }
+    setInitialLoad(false);
   }, [
     params.sortBy,
     params.sortOrder,
     params.indexYear,
     params.subject,
     params.query,
+    params.bboxParam,
+    params.bboxSearch,
     isResetting,
   ]);
   return (
@@ -253,20 +270,26 @@ export default function DiscoveryArea({
       <Grid className="w-full px-[1em] sm:px-[2em]">
         <Grid container className="container mx-auto pt-[1em] ">
           <Grid item xs={12} sm={4}>
-            <ResultsPanel
-              isLoading={isLoading}
-              updateKey={updateKey}
-              resultsList={fetchResults}
-              relatedList={relatedResults}
-              isQuery={isQuery || filterQueries.length > 0}
-              filterComponent={filterComponent}
-              showFilter={params.showFilter}
-              setShowFilter={params.setShowFilter}
-              setHighlightLyr={setHighlightLyr}
-              setHighlightIds={setHighlightIds}
-              handleSearch={handleSearch}
-              handleInputReset={handleInputReset}
-            />
+            {isLoading && initialLoad ? (
+              <div className="flex justify-center items-center h-64">
+                Loading result data <CircularProgress />
+              </div>
+            ) : (
+              <ResultsPanel
+                isLoading={isLoading}
+                updateKey={updateKey}
+                resultsList={fetchResults}
+                relatedList={relatedResults}
+                isQuery={isQuery || filterQueries.length > 0}
+                filterComponent={filterComponent}
+                showFilter={params.showFilter}
+                setShowFilter={params.setShowFilter}
+                setHighlightLyr={setHighlightLyr}
+                setHighlightIds={setHighlightIds}
+                handleSearch={handleSearch}
+                handleInputReset={handleInputReset}
+              />
+            )}
           </Grid>
           <Grid item xs={12} sm={8} className="sm:ml-[0.5em]">
             <MapPanel
@@ -278,6 +301,7 @@ export default function DiscoveryArea({
               resultsList={fetchResults}
               highlightLyr={highlightLyr}
               highlightIds={highlightIds}
+              handleSearch={handleSearch}
             />
             <Grid
               sx={{

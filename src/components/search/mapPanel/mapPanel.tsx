@@ -32,6 +32,7 @@ interface Props {
   highlightLyr?: string;
   highlightIds?: string[];
   showMap: string;
+  handleSearch: any;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -192,6 +193,7 @@ const MapPanel = (props: Props): JSX.Element => {
           searchResult={props.resultsList}
           highlightIds={props.highlightIds}
           highlightLyr={props.highlightLyr}
+          handleSearch={props.handleSearch}
         />
       </Box>
       <Box className="sm:my-[1.68em]">
