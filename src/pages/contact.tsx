@@ -75,7 +75,7 @@ const Contact: NextPage = () => {
       <Header title={"Contact Us"} />
       <NavBar />
       <TopLines />
-      <div className="flex flex-col">
+      <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
           <h1 className="font-fredoka">Contact Us</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">

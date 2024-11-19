@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {Fade} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   mobileHamburgerMenu: {
@@ -26,9 +28,10 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
   return (
     <>
       <button
-        className={`nav-button p-0 font-light${
+        className={`nav-button p-0 pb-2 font-light${
           directLink ? "" : " cursor-default"
         }`}
+
         onMouseLeave={() => {
           document.getElementById(dropdownElId).setAttribute("hidden", "");
         }}
@@ -43,6 +46,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       </button>
       <ul
         id={dropdownElId}
+        style={{ boxShadow: '#aaaaaa 6px 12px 16px -8px' }}
         onMouseEnter={() => {
           document.getElementById(dropdownElId).removeAttribute("hidden");
         }}
@@ -127,11 +131,18 @@ const NavBar = (): JSX.Element => {
         className={`flex justify-between items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
       >
         <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
-          <li className={`${router.pathname == "/" ? "active" : ""}`}>
+          { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
+              <Link href="/" style={{ padding:0, margin:0 }}>
+                <Image width={40} height={40} src={'./logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
+              </Link>
+            </li>
+          }
+
+          <li className={`mt-4 ${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
           <li
-            className={`${
+            className={`mt-4 ml-4 ${
               router.pathname.startsWith("/about") ||
               router.pathname.startsWith("/advisory")
                 ? "active"
@@ -145,7 +156,7 @@ const NavBar = (): JSX.Element => {
             />
           </li>
           <li
-            className={`${
+            className={`mt-4 ml-6 ${
               router.pathname == "/fellows" ||
               router.pathname.startsWith("/showcase")
                 ? "active"
@@ -159,12 +170,12 @@ const NavBar = (): JSX.Element => {
             />
           </li>
           <li
-            className={`${router.pathname.startsWith("/news") ? "active" : ""}`}
+            className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
           >
             <Link href="/news">News</Link>
           </li>
           <li
-            className={`${
+            className={`mt-4 ml-4 ${
               router.pathname.startsWith("/contact") ? "active" : ""
             }`}
           >
@@ -178,9 +189,9 @@ const NavBar = (): JSX.Element => {
           className="block min-[768px]:hidden pl-[25px] z-50"
         >
           {nav ? (
-            <AiOutlineClose size={35} color={"white"} />
+              <AiOutlineClose size={35} color={"white"} className={'animate-fade-in'} />
           ) : (
-            <AiOutlineMenu size={35} />
+              <AiOutlineMenu size={35} className={'animate-fade-in'} />
           )}
         </div>
 
@@ -189,9 +200,15 @@ const NavBar = (): JSX.Element => {
           className={`min-[768px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 pt-100 flex justify-center items-baseline w-full
-          h-screen bg-frenchviolet text-center ease-in duration-300 `}
+          h-screen bg-frenchviolet ease-in duration-300 `}
         >
           <ul className="navbar-mobile">
+            <li>
+              <Link href="/">
+                <Image width={150} height={75} src={'./logos/sdoh-logo-navbar-mobile.svg'} alt={'LOGO'} />
+              </Link>
+            </li>
+
             <li>
               <Link href="/">Home</Link>
             </li>
