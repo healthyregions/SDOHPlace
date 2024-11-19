@@ -59,7 +59,7 @@ yarn install
 yarn dev
 ```
 
-View in browser at http://localhost:3000.
+View in browser at http://localhost:3000!
 
 To build and view the entire site locally, use
 
