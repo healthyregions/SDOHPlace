@@ -34,8 +34,8 @@ export function schemaMatch(rawSolrKey: string, schema_json: {}): string {
  * @returns the raw attribute name that should be put to solr query
  */
 export function findSolrAttribute(json_key: string, schema_json: {}): string {
-  if (json_key === "layer") json_key = "spatial_resolution"; // layer is used in URL instead of spatial_resolution
+  if (json_key === "layer") json_key = "spatial-resolution"; // layer is used in URL instead of spatial_resolution
   return schema_json["fields"].find((e) => e["id"] === json_key)
-    ? schema_json[json_key]["uri"]
+    ? schema_json["fields"].find((e) => e["id"] === json_key)["uri"]
     : json_key;
 }
