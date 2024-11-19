@@ -20,11 +20,11 @@ export function findFirstSentence(paragraph: string): string | undefined {
  * @returns: the key that matches the metadata in the schema folder, otherwise return the raw key
  */
 export function schemaMatch(rawSolrKey: string, schema_json: {}): string {
-  let result = Object.keys(schema_json).find(
-    (Key: string) => schema_json[Key].uri === rawSolrKey
+  let result = schema_json["fields"].find(
+    (item: object) => item["uri"] === rawSolrKey
   );
   if (result) {
-    return result;
+    return result.id;
   } else return rawSolrKey;
 }
 
@@ -35,7 +35,7 @@ export function schemaMatch(rawSolrKey: string, schema_json: {}): string {
  */
 export function findSolrAttribute(json_key: string, schema_json: {}): string {
   if (json_key === "layer") json_key = "spatial_resolution"; // layer is used in URL instead of spatial_resolution
-  return Object.keys(schema_json).find((e) => e === json_key)
+  return schema_json["fields"].find((e) => e["id"] === json_key)
     ? schema_json[json_key]["uri"]
     : json_key;
 }

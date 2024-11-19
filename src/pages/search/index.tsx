@@ -8,7 +8,6 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
 import Footer from "@/components/homepage/footer";
-import { SearchUIConfig } from "@/components/searchUIConfig";
 import DiscoveryArea from "@/components/search/discoveryArea";
 import SearchTopLines from "@/components/search/SearchTopLines";
 
@@ -18,7 +17,7 @@ interface SearchPageProps {
 }
 
 export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
-  let schema = getSchema();
+  let schema = await getSchema();
   return {
     props: {
       schema,
