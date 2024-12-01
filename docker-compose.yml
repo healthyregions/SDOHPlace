@@ -1,0 +1,9 @@
+services:
+
+  homepage:
+    container_name: sdoh-homepage
+    image: herop/sdoh-homepage
+    build:
+      context: .
+    ports:
+    - 8080:80
