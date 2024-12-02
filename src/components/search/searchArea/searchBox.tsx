@@ -222,11 +222,21 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
               fullWidth
               placeholder="Search"
               className={`${classes.searchBox} bg-white`}
-              sx={
-                {
-                  // ... your existing styles
-                }
-              }
+              sx={{
+                paddingRight: "0",
+                borderRadius: "1.75em",
+                border: `1px solid ${fullConfig.theme.colors["frenchviolet"]}`,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "1.75em",
+                  color: fullConfig.theme.colors["smokegray"],
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "transparent",
+                  },
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "transparent",
+                },
+              }}
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
