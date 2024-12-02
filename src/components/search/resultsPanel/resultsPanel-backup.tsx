@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ResultsPanel = (props: Props): JSX.Element => {
+const ResultsPanelBK = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
   //remove the duplicate results in the related list
@@ -211,4 +211,4 @@ const ResultsPanel = (props: Props): JSX.Element => {
     </div>
   );
 };
-export default ResultsPanel;
+export default ResultsPanelBK;

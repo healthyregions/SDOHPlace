@@ -15,7 +15,7 @@ interface Props {
   filterQueries: any;
 }
 const fullConfig = resolveConfig(tailwindConfig);
-const SpatialResolutionCheck = (props: Props): JSX.Element => {
+const SpatialResolutionCheckBK = (props: Props): JSX.Element => {
   let params = GetAllParams();
   let currentParams = reGetFilterQueries(params);
   const stableCurrentSR = React.useMemo(() => {
@@ -162,4 +162,4 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
     </div>
   );
 };
-export default SpatialResolutionCheck;
+export default SpatialResolutionCheckBK;

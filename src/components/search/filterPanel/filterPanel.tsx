@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
  * @param props
  * @returns
  */
-const FilterPanel = (props: Props): JSX.Element => {
+const FilterPanelBK = (props: Props): JSX.Element => {
   const classes = useStyles();
   const params = GetAllParams();
   const labelStyle: SxProps<Theme> = {
@@ -324,7 +324,7 @@ const FilterPanel = (props: Props): JSX.Element => {
   );
 };
 
-export default FilterPanel;
+export default FilterPanelBK;
 
 /**
  * Helper Functions

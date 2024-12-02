@@ -110,8 +110,8 @@ export default class SolrQueryBuilder {
     //if return select
     const rawSolrObjects =
       response_json &&
-      response_json["response"] &&
-      response_json["response"].docs
+        response_json["response"] &&
+        response_json["response"].docs
         ? response_json["response"].docs
         : [];
     rawSolrObjects.forEach((rawSolrObject: any) => {
@@ -185,23 +185,11 @@ export default class SolrQueryBuilder {
     return this.setQuery(filterQuery);
   }
 
-  public sortQuery(searchTerm: {
-    attribute: string;
-    order: string;
-  }): SolrQueryBuilder {
-    if (searchTerm.order != "asc" && searchTerm.order != "desc") {
-      searchTerm.order = "asc";
-    } //use asc as default
-    let sortQuery = `select?sort=${encodeURIComponent(
-      findSolrAttribute(searchTerm.attribute, this.query.schema_json)
-    )}${encodeURIComponent(" ")}${searchTerm.order}`;
-    sortQuery = sortQuery; //add rows to remove pagination
-    return this.setQuery(sortQuery);
-  }
-
   public combineQueries = (
     term: string,
-    filterQueries: Array<any>
+    filterQueries: Array<any>,
+    sortBy?: string,
+    sortOrder?: string
   ): SolrQueryBuilder => {
     if (!this.query.solrUrl) {
       console.error("Missing SOLR_URL configuration");
@@ -249,6 +237,7 @@ export default class SolrQueryBuilder {
                 f.attribute,
                 this.query.schema_json
               );
+              console.log("attr", this.query.schema_json, attr);
               return `${encodeURIComponent(attr)}:"${encodeURIComponent(
                 String(value)
               )}"`;
@@ -261,6 +250,10 @@ export default class SolrQueryBuilder {
         if (filterQuery) {
           baseQuery += filterQuery;
         }
+      }
+      // add sort query to the base query if it exists
+      if(sortBy && sortOrder) {
+        baseQuery += `&sort=${encodeURIComponent(findSolrAttribute(sortBy, this.query.schema_json))}+${sortOrder}`;
       }
       const cleanQuery = baseQuery.replace(/([^:])\/\//g, "$1/");
       return this.setQuery(
