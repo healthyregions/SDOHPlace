@@ -7,7 +7,7 @@ import GlossaryPopover from "@/components/GlossaryPopover";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SpatialResolutionCheck from "./spatialResolutionCheck";
-import SearchBox from "./searchBox-backup";
+import SearchBox from "./searchBox";
 import InfoPanel from "./infoPanel";
 import { RootState } from "@/store";
 
@@ -83,3 +83,4 @@ const SearchArea = (props: Props): JSX.Element => {
 };
 
 export default SearchArea;
+ 

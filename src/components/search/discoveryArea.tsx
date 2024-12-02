@@ -48,7 +48,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
         await dispatch(fetchRelatedResults({ query: searchQuery, schema }));
       }
       if (values.urlShowDetailPanel) {
-        dispatch(setShowDetailPanel(true));
+        dispatch(setShowDetailPanel(values.urlShowDetailPanel));
       }
     };
     const timeoutId = setTimeout(initializeAndSearch, 10);
