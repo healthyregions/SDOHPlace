@@ -33,7 +33,7 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
         })
     : [];
   result.meta = {};
-  result.years = new Set();
+  result.years = [];
   if (rawSolrObject.dct_isVersionOf_sm)
     // child object only
     result.parents = rawSolrObject.dct_isVersionOf_sm;
@@ -62,30 +62,10 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
  * @param solrObjects a list of transformed solr objects using initSolrObject
  * @returns a list of solrParent objects to create parent resource list
  */
-const generateSolrObjectList = (
-  solrObjects: SolrObject[],
-  sortBy?: string,
-  sortOrder?: string
-): SolrObject[] => {
-  //remove undefined objects
+const generateSolrObjectList = (solrObjects: SolrObject[]): SolrObject[] => {
   solrObjects = solrObjects.filter((solrObject) => solrObject !== undefined);
   let result = new Set<SolrObject>(solrObjects);
-  //For now, only handle the case when both sortBy and sortOrder are provided and they are modified
-  const finalArray = Array.from(result);
-  if (sortBy && sortOrder && sortBy === "modified") {
-    finalArray.sort((a, b) => {
-      const dateA = new Date(a.modified);
-      const dateB = new Date(b.modified);
-      if (sortOrder === "asc") {
-        return dateA.getTime() - dateB.getTime();
-      }
-      return dateB.getTime() - dateA.getTime();
-    });
-  } else {
-    // default sort by score (i.e. Relevant)
-    finalArray.sort((a, b) => b.score - a.score);
-  }
-  return finalArray;
+  return Array.from(result);
 };
 
 /**

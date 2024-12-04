@@ -5,7 +5,11 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
 import { SolrObject } from "meta/interface/SolrObject";
 import IconMatch from "../helper/IconMatch";
-import { GetAllParams } from "@/components/search/helper/ParameterList";
+import { setShowDetailPanel } from "@/store/slices/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { GetAllParams } from "../helper/ParameterList";
+import { useUrlParams } from "@/hooks/useUrlParams";
 
 interface Props {
   resultItem: SolrObject;
@@ -24,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResultCard = (props: Props): JSX.Element => {
+  const { updateUrlParams } = useUrlParams();
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const params = GetAllParams();
-
+  const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   // show the most detailed geography that a record represents
   let lyrId: string;
   const spatial_res = props.resultItem.meta.spatial_resolution
@@ -51,20 +56,21 @@ const ResultCard = (props: Props): JSX.Element => {
       <div
         className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
         onClick={() => {
-          params.setShowDetailPanel(props.resultItem.id);
+          dispatch(setShowDetailPanel(props.resultItem.id));
+          updateUrlParams({ urlShowDetailPanel: props.resultItem.id });
         }}
         style={{
-          cursor: 'pointer',
+          cursor: "pointer",
           border:
-            params.showDetailPanel === props.resultItem.id
+            showDetailPanel === props.resultItem.id
               ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
               : `1px solid white`,
           background:
-            params.showDetailPanel === props.resultItem.id
+            showDetailPanel === props.resultItem.id
               ? `${fullConfig.theme.colors["lightbisque"]}`
               : undefined,
           boxShadow:
-            params.showDetailPanel === props.resultItem.id
+            showDetailPanel === props.resultItem.id
               ? "0px 4px 4px 0px lightgray"
               : undefined,
         }}
@@ -97,7 +103,8 @@ const ResultCard = (props: Props): JSX.Element => {
             <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end font-bold">
               <button
                 onClick={() => {
-                  params.setShowDetailPanel(props.resultItem.id);
+                  dispatch(setShowDetailPanel(props.resultItem.id));
+                  updateUrlParams({ urlShowDetailPanel: props.resultItem.id });
                 }}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >

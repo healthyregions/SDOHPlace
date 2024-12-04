@@ -5,7 +5,6 @@ import IconMatch from "./IconMatch";
 import resolveConfig from "tailwindcss/resolveConfig";
 
 interface Props {
-  handleSearch(params: any, value: string, filterQueries: any): void;
   variant?: string;
 }
 const fullConfig = resolveConfig(tailwindConfig);
@@ -41,7 +40,6 @@ const ThemeIcons = (props: Props): JSX.Element => {
           labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
           labelColor={fullConfig.theme.colors["almostblack"]}
           roundBackground={true}
-          handleSearch={props.handleSearch}
         />
       ))}
     </>

@@ -33,7 +33,6 @@ const parseAsLngLatBoundsLike = createParser({
  * @returns all the query parameters as current state
  */
 export const GetAllParams = () => {
-  const [isMounted, setIsMounted] = React.useState(false);
 
   // showDetailPanel: if it is not empty, show the detail panel
   const [showDetailPanel, setShowDetailPanel] = useQueryState(
@@ -129,71 +128,71 @@ export const GetAllParams = () => {
     parseAsString.withDefault("")
   );
 
-  const checkIfParamsAreValid = () => {
-    if (!isMounted) {
-      console.log("Component not yet mounted");
-      return false;
-    }
-    const hasValidBbox =
-      bboxParam === null ||
-      (Array.isArray(bboxParam) &&
-        bboxParam.length === 4 &&
-        bboxParam.every((coord) => typeof coord === "number" && !isNaN(coord)));
-    const hasValidArrays =
-      Array.isArray(visLyrs) &&
-      Array.isArray(visOverlays) &&
-      Array.isArray(spatialResolution);
-    const hasValidStringParams =
-      typeof showDetailPanel === "string" &&
-      typeof showSharedLink === "string" &&
-      typeof showInfoPanel === "string" &&
-      typeof showFilter === "string" &&
-      typeof resourceType === "string" &&
-      typeof resourceClass === "string" &&
-      typeof format === "string" &&
-      typeof indexYear === "string" &&
-      typeof subject === "string" &&
-      typeof sortOrder === "string" &&
-      typeof sortBy === "string" &&
-      typeof query === "string";
-    const hasValidBooleanParams = typeof bboxSearch === "boolean";
-    const isValid =
-      hasValidStringParams &&
-      hasValidBooleanParams &&
-      hasValidArrays &&
-      hasValidBbox;
-    return isValid;
-  };
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  const [paramsReady, setParamsReady] = React.useState(false);
-  React.useEffect(() => {
-    if (isMounted) {
-      const isValid = checkIfParamsAreValid();
-      setParamsReady(isValid);
-    }
-  }, [
-    isMounted,
-    showDetailPanel,
-    showSharedLink,
-    showInfoPanel,
-    showFilter,
-    resourceType,
-    resourceClass,
-    format,
-    indexYear,
-    subject,
-    sortOrder,
-    sortBy,
-    query,
-    bboxSearch,
-    visLyrs,
-    spatialResolution,
-    visOverlays,
-    bboxParam,
-    prevAction,
-  ]);
+  // const checkIfParamsAreValid = () => {
+  //   if (!isMounted) {
+  //     console.log("Component not yet mounted");
+  //     return false;
+  //   }
+  //   const hasValidBbox =
+  //     bboxParam === null ||
+  //     (Array.isArray(bboxParam) &&
+  //       bboxParam.length === 4 &&
+  //       bboxParam.every((coord) => typeof coord === "number" && !isNaN(coord)));
+  //   const hasValidArrays =
+  //     Array.isArray(visLyrs) &&
+  //     Array.isArray(visOverlays) &&
+  //     Array.isArray(spatialResolution);
+  //   const hasValidStringParams =
+  //     typeof showDetailPanel === "string" &&
+  //     typeof showSharedLink === "string" &&
+  //     typeof showInfoPanel === "string" &&
+  //     typeof showFilter === "string" &&
+  //     typeof resourceType === "string" &&
+  //     typeof resourceClass === "string" &&
+  //     typeof format === "string" &&
+  //     typeof indexYear === "string" &&
+  //     typeof subject === "string" &&
+  //     typeof sortOrder === "string" &&
+  //     typeof sortBy === "string" &&
+  //     typeof query === "string";
+  //   const hasValidBooleanParams = typeof bboxSearch === "boolean";
+  //   const isValid =
+  //     hasValidStringParams &&
+  //     hasValidBooleanParams &&
+  //     hasValidArrays &&
+  //     hasValidBbox;
+  //   return isValid;
+  // };
+  // React.useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
+  // const [paramsReady, setParamsReady] = React.useState(false);
+  // React.useEffect(() => {
+  //   if (isMounted) {
+  //     const isValid = checkIfParamsAreValid();
+  //     setParamsReady(isValid);
+  //   }
+  // }, [
+  //   isMounted,
+  //   showDetailPanel,
+  //   showSharedLink,
+  //   showInfoPanel,
+  //   showFilter,
+  //   resourceType,
+  //   resourceClass,
+  //   format,
+  //   indexYear,
+  //   subject,
+  //   sortOrder,
+  //   sortBy,
+  //   query,
+  //   bboxSearch,
+  //   visLyrs,
+  //   spatialResolution,
+  //   visOverlays,
+  //   bboxParam,
+  //   prevAction,
+  // ]);
 
   return React.useMemo(
     () => ({
@@ -233,8 +232,6 @@ export const GetAllParams = () => {
       setBboxParam,
       prevAction,
       setPrevAction,
-      paramsReady,
-      isMounted,
     }),
     [
       showDetailPanel,
@@ -273,8 +270,6 @@ export const GetAllParams = () => {
       setBboxParam,
       prevAction,
       setPrevAction,
-      paramsReady,
-      isMounted,
     ]
   );
 };
