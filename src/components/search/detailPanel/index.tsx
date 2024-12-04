@@ -8,6 +8,7 @@ import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import IconMatch from "../helper/IconMatch";
 import HeaderRow from "./headerRow";
+import IconTag from "./iconTag";
 
 interface Props {
 resultList: any[];
@@ -59,7 +60,7 @@ const DetailPanel = (props:Props): JSX.Element => {
             className="flex flex-col flex-wrap sm:flex-row gap-4 mb-12 sm:gap-8"
             id="iconTagRow"
           >
-            {/* {resultItem.meta.subject.map((s, index) => (
+            {resultItem.meta.subject.map((s, index) => (
               <IconTag
                 svgIcon={IconMatch(s)}
                 key={index}
@@ -67,9 +68,8 @@ const DetailPanel = (props:Props): JSX.Element => {
                 labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                 labelColor={fullConfig.theme.colors["almostblack"]}
                 roundBackground={true}
-                handleSearch={props.handleSearch}
               />
-            ))} */}
+            ))}
           </div>
         )}
 

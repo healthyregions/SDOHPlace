@@ -110,8 +110,8 @@ export default class SolrQueryBuilder {
     //if return select
     const rawSolrObjects =
       response_json &&
-        response_json["response"] &&
-        response_json["response"].docs
+      response_json["response"] &&
+      response_json["response"].docs
         ? response_json["response"].docs
         : [];
     rawSolrObjects.forEach((rawSolrObject: any) => {
@@ -202,9 +202,7 @@ export default class SolrQueryBuilder {
       let baseQuery = this.generalQuery(safeTerm).getQuery();
       if (Array.isArray(filterQueries) && filterQueries.length > 0) {
         let filterQuery = "";
-        const bboxFilter =
-          filterQueries.find((f) => f.attribute === "bbox")
-          ;
+        const bboxFilter = filterQueries.find((f) => f.attribute === "bbox");
         if (
           filterQueries.find(
             (f) => f.attribute === "bboxSearch" && f.value === true
@@ -222,38 +220,55 @@ export default class SolrQueryBuilder {
             f.attribute !== "bboxSearch" &&
             f.attribute !== "bbox"
         );
-
         if (otherFilters.length > 0) {
           if (filterQuery) filterQuery += " AND ";
           else filterQuery = "&fq=";
-          const validFilters = otherFilters
-            .filter((f) => f.value != null)
-            .map((f) => {
-              const value =
-                f.attribute === "spatial_resolution"
-                  ? SRMatch[f.value]
-                  : f.value;
-              const attr = findSolrAttribute(
-                f.attribute,
-                this.query.schema_json
-              );
-              console.log("attr", this.query.schema_json, attr);
-              return `${encodeURIComponent(attr)}:"${encodeURIComponent(
-                String(value)
-              )}"`;
-            })
-            .filter(Boolean);
-          if (validFilters.length > 0) {
-            filterQuery += validFilters.join(" AND ");
+          // Process filters in order of appearance to main the correct 'AND/OR' relation
+          const processedAttributes = new Set();
+          const groupedFilters = otherFilters.reduce((acc, filter) => {
+            if (filter.value == null) return acc;
+            const attr = findSolrAttribute(
+              filter.attribute,
+              this.query.schema_json
+            );
+            if (!processedAttributes.has(attr)) {
+              const sameAttrFilters = otherFilters
+                .filter(
+                  (f) =>
+                    f.value != null &&
+                    findSolrAttribute(f.attribute, this.query.schema_json) ===
+                      attr
+                )
+                .map((f) => {
+                  const value =
+                    f.attribute === "spatial_resolution"
+                      ? SRMatch[f.value]
+                      : f.value;
+                  return `${encodeURIComponent(attr)}:"${encodeURIComponent(
+                    String(value)
+                  )}"`;
+                });
+              processedAttributes.add(attr);
+              if (sameAttrFilters.length > 1) {
+                acc.push(`(${sameAttrFilters.join(" OR ")})`);
+              } else {
+                acc.push(sameAttrFilters[0]);
+              }
+            }
+            return acc;
+          }, []);
+          if (groupedFilters.length > 0) {
+            filterQuery += groupedFilters.join(" AND ");
           }
         }
         if (filterQuery) {
           baseQuery += filterQuery;
         }
       }
-      // add sort query to the base query if it exists
-      if(sortBy && sortOrder) {
-        baseQuery += `&sort=${encodeURIComponent(findSolrAttribute(sortBy, this.query.schema_json))}+${sortOrder}`;
+      if (sortBy && sortOrder) {
+        baseQuery += `&sort=${encodeURIComponent(
+          findSolrAttribute(sortBy, this.query.schema_json)
+        )}+${sortOrder}`;
       }
       const cleanQuery = baseQuery.replace(/([^:])\/\//g, "$1/");
       return this.setQuery(

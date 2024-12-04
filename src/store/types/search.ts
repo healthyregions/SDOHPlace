@@ -1,4 +1,5 @@
 export interface SearchState {
+  schema: any;
   // object
   query: string;
   inputValue: string;
@@ -14,7 +15,7 @@ export interface SearchState {
   // filter
   filterQueries: any[];
   bboxParam: any;
-  bboxSearch: boolean;
+  subject: string[];
   spatialResolution: string[];
 
   // status
@@ -25,6 +26,7 @@ export interface SearchState {
 }
 
 export const initialState: SearchState = {
+  schema: null,
   query: "",
   inputValue: "",
   options: [],
@@ -35,7 +37,7 @@ export const initialState: SearchState = {
   sortBy: "score",
   sortOrder: "desc",
   bboxParam: null,
-  bboxSearch: false,
+  subject: [],
   spatialResolution: [],
   // status
   isLoading: false,

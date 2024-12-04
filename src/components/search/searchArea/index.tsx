@@ -6,10 +6,10 @@ import { SearchUIConfig } from "@/components/searchUIConfig";
 import GlossaryPopover from "@/components/GlossaryPopover";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import SpatialResolutionCheck from "./spatialResolutionCheck";
 import SearchBox from "./searchBox";
 import InfoPanel from "./infoPanel";
 import { RootState } from "@/store";
+import SpatialResolutionCheck from "./spatialResolutionCheck";
 
 interface Props {
   header: string;
@@ -61,10 +61,10 @@ const SearchArea = (props: Props): JSX.Element => {
         {!showInfoPanel ? (
           <Box width="100%">
             <Box width="100%">
-              {/* <SpatialResolutionCheck
+              <SpatialResolutionCheck
                 src={SearchUIConfig.search.searchBox.spatialResOptions}
                 schema={props.schema}
-              /> */}
+              />
             </Box>
             <Box width="100%" className="mt-[2em] sm:mt-0">
               <SearchBox schema={props.schema} />

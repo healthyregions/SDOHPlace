@@ -1,43 +1,31 @@
 import { AppDispatch, RootState } from "@/store";
 import {
-  fetchSearchResults,
   setSortBy,
   setSortOrder,
 } from "@/store/slices/searchSlice";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
-export const SortOptions = ({ schema }) => {
+export const SortOptions = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
     sortBy,
     sortOrder,
-    query,
-    filterQueries, // need these for search
+    isSearching 
   } = useSelector((state: RootState) => state.search);
 
   const handleSort = (newSortBy: string, newSortOrder: string) => {
-    console.log("SortOptions schema:", schema);
-    // remove sort from url to save length
     dispatch(setSortBy(newSortBy));
     dispatch(setSortOrder(newSortOrder));
-    // sort from server side to handle large datasets
-    dispatch(
-      fetchSearchResults({
-        query: query || "*",
-        filterQueries,
-        schema,
-        sortBy: newSortBy,
-        sortOrder: newSortOrder,
-      })
-    );
   };
 
   return (
     <Box display="flex" alignItems="center">
       <Box>
         <span
-          className="pr-5 cursor-pointer text-frenchviolet font-bold"
+          className={`pr-5 cursor-pointer text-frenchviolet font-bold ${
+            isSearching ? 'opacity-50' : ''
+          }`}
           style={{
             textDecoration: !sortBy && !sortOrder ? "underline" : "none",
           }}
@@ -47,27 +35,31 @@ export const SortOptions = ({ schema }) => {
         </span>
 
         <span
-          className="pr-5 cursor-pointer text-frenchviolet font-bold"
+          className={`pr-5 cursor-pointer text-frenchviolet font-bold ${
+            isSearching ? 'opacity-50' : ''
+          }`}
           style={{
             textDecoration:
-              sortBy === "modified" && sortOrder === "desc"
+              sortBy === "issued" && sortOrder === "desc"
                 ? "underline"
                 : "none",
           }}
-          onClick={() => handleSort("modified", "desc")}
+          onClick={() => handleSort("date_issued", "desc")}
         >
           Recent first
         </span>
 
         <span
-          className="cursor-pointer text-frenchviolet font-bold"
+          className={`cursor-pointer text-frenchviolet font-bold ${
+            isSearching ? 'opacity-50' : ''
+          }`}
           style={{
             textDecoration:
-              sortBy === "modified" && sortOrder === "asc"
+              sortBy === "issued" && sortOrder === "asc"
                 ? "underline"
                 : "none",
           }}
-          onClick={() => handleSort("modified", "asc")}
+          onClick={() => handleSort("date_issued", "asc")}
         >
           Oldest first
         </span>

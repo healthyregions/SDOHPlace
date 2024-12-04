@@ -1,59 +1,27 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
-import {
-  fetchSearchResults,
-  fetchRelatedResults,
-  setQuery,
-  setFilterQueries,
-  resetQuerySearch,
-  setInputValue,
-} from "../../store/slices/searchSlice";
 import { Grid } from "@mui/material";
 import ResultsPanel from "./resultsPanel";
 import SearchArea from "./searchArea";
 import DetailPanel from "./detailPanel";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import { setShowDetailPanel } from "@/store/slices/uiSlice";
-import { useFilterQueries } from "@/hooks/useFilterQueries";
+import { setSchema } from "@/store/slices/searchSlice";
 
 export default function DiscoveryArea({ schema }): JSX.Element {
   const [highlightIds, setHighlightIds] = useState([]);
   const [highlightLyr, setHighlightLyr] = useState("");
-  const [isInitialized, setIsInitialized] = useState(false);
-
   const dispatch = useDispatch<AppDispatch>();
-  const { query, filterQueries, results, relatedResults } = useSelector(
+  const { results, relatedResults } = useSelector(
     (state: RootState) => state.search
   );
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
-  const { values } = useUrlParams();
-
   useEffect(() => {
-    const initializeAndSearch = async () => {
-      const searchQuery =
-        values.urlQuery || window.location.search.split("=")[1];
-      console.log("searchQuery", searchQuery);
-
-      await dispatch(
-        fetchSearchResults({
-          query: searchQuery,
-          filterQueries: [],
-          schema,
-        })
-      );
-      if (searchQuery && searchQuery !== "*") {
-        dispatch(setQuery(searchQuery));
-        dispatch(setInputValue(searchQuery));
-        await dispatch(fetchRelatedResults({ query: searchQuery, schema }));
-      }
-      if (values.urlShowDetailPanel) {
-        dispatch(setShowDetailPanel(values.urlShowDetailPanel));
-      }
-    };
-    const timeoutId = setTimeout(initializeAndSearch, 10);
-    return () => clearTimeout(timeoutId);
-  }, [values.urlQuery, filterQueries]);
+    setTimeout(() => {
+      dispatch(setSchema(schema));
+    }, 0);
+  }, [schema, dispatch]); // allow a bit of time to wait for url sync
   return (
     <Grid container>
       <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
@@ -76,7 +44,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
             resultsList={results}
             handleSearch={handleSearch}
           /> */}
-            {showDetailPanel && showDetailPanel.length > 0 && (
+            { showDetailPanel && showDetailPanel.length > 0 && (
               <DetailPanel resultList={results} relatedList={relatedResults} />
             )}
           </Grid>

@@ -1,22 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "@/store";
+import { RootState, AppDispatch, store } from "@/store";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  fetchSearchResults,
-  resetQuerySearch,
-  setFilterQueries,
-} from "@/store/slices/searchSlice";
 import { setShowFilter } from "@/store/slices/uiSlice";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { Box, SvgIcon, CircularProgress } from "@mui/material";
+import { Box, SvgIcon, CircularProgress, Fade } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React from "react";
-import ThemeIcons from "../helper/themeIcons";
 import ResultCard from "./resultCard";
 import FilterPanel from "../filterPanel";
+import { 
+  selectSearchState, 
+  getFilterStatus, 
+  resetFilters 
+} from "@/middleware/filterHelper";
+import ThemeIcons from "../helper/themeIcons";
 
 interface Props {
   schema: any;
@@ -31,64 +31,53 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
   },
 }));
+
 const ResultsPanel = (props: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
-  const {
-    query,
-    results,
-    relatedResults,
-    filterQueries,
-    isSearching,
-    isSuggesting,
-  } = useSelector((state: RootState) => state.search);
+  const searchState = useSelector(selectSearchState);
+  const filterStatus = useSelector(getFilterStatus);
+  const showFilter = useSelector((state: RootState) => state.ui.showFilter);
+  const isLoading = searchState.isSearching || searchState.isSuggesting;
+  const isQuery = searchState.query !== "*" && searchState.query !== "";
+  const [previousCount, setPreviousCount] = React.useState(searchState.results.length);
 
-  const { showFilter } = useSelector((state: RootState) => state.ui);
-
-  const isLoading = isSearching || isSuggesting;
-  const isQuery = query !== "*" && query !== "";
-
-  // Remove duplicates from related results
   const uniqueRelatedList = React.useMemo(() => {
-    return relatedResults
+    return searchState.relatedResults
       .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
-      .filter((v) => results.every((t) => t.id !== v.id));
-  }, [relatedResults, results]);
-
+      .filter((v) => searchState.results.every((t) => t.id !== v.id));
+  }, [searchState.relatedResults, searchState.results]);
   const handleFilterToggle = () => {
-    dispatch(setShowFilter(showFilter ? false : true));
+    dispatch(setShowFilter(!showFilter));
   };
-
   const handleClearFilters = () => {
-    dispatch(setFilterQueries([]));
-    dispatch(
-      fetchSearchResults({
-        query,
-        filterQueries: [],
-        schema: props.schema,
-      })
-    );
+    resetFilters(store);
   };
+  React.useEffect(() => {
+    if (!isLoading) {
+      setPreviousCount(searchState.results.length);
+    }
+  }, [isLoading, searchState.results.length]);
 
   return (
-    <div
-      className="results-panel"
-      style={{ flex: "1 1 auto", overflow: "hidden" }}
-    >
+    <div className="results-panel" style={{ flex: "1 1 auto", overflow: "hidden" }}>
       <span className={classes.resultsPanel}>
         <Box>
           <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
-              {!isLoading && (
-                <Box>
-                  {isQuery
-                    ? `Results (${results.length})`
-                    : `All Data Sources (${results.length})`}
-                </Box>
-              )}
+              <Fade in={true} timeout={300}>
+                <div>
+                  {(isLoading ? previousCount : searchState.results.length) > 0 && (
+                    <Box>
+                      {isQuery
+                        ? `Results (${isLoading ? previousCount : searchState.results.length})`
+                        : `All Data Sources (${isLoading ? previousCount : searchState.results.length})`}
+                    </Box>
+                  )}
+                </div>
+              </Fade>
             </div>
-
-            {filterQueries.length > 0 && (
+            {filterStatus.hasActiveFilters && !isLoading && (
               <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
                 <div className="text-frenchviolet" onClick={handleClearFilters}>
                   Clear All
@@ -109,7 +98,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
           </div>
         </Box>
 
-        {showFilter && <FilterPanel schema={props.schema}/>}
+        {showFilter && <FilterPanel schema={props.schema} />}
 
         <Box
           height="100%"
@@ -126,7 +115,9 @@ const ResultsPanel = (props: Props): JSX.Element => {
           {isLoading ? (
             <Box className="flex justify-center items-center h-64">
               <span className="mr-4">
-                Looking for data you may be interested in...
+                {searchState.results.length > 0
+                  ? "Updating results..."
+                  : "Looking for data you may be interested in..."}
               </span>
               <CircularProgress
                 size={24}
@@ -134,32 +125,37 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 sx={{ animationDuration: "550ms" }}
               />
             </Box>
-          ) : results.length > 0 ? (
-            results.map((result) => (
-              <div key={result.id} className="mb-[0.75em]">
-                <ResultCard
-                  resultItem={result}
-                  setHighlightIds={props.setHighlightIds}
-                  setHighlightLyr={props.setHighlightLyr}
-                />
-              </div>
-            ))
           ) : (
-            <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
-              <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                <SearchIcon className="text-strongorange mb-[0.15em]" />
-                <div className="text-s">No results</div>
-              </Box>
-              <Box className="mb-[0.75em]">
-                <div className="text-s">Search for themes instead?</div>
-              </Box>
-              <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                {/* <ThemeIcons
-                  handleSearch={dispatch(fetchSearchResults())}
-                  variant="alternate"
-                /> */}
-              </Box>
-            </div>
+            <Fade in={true} timeout={300}>
+              <div>
+                {searchState.results.length > 0 ? (
+                  <div>
+                    {searchState.results.map((result) => (
+                      <div key={result.id} className="mb-[0.75em]">
+                        <ResultCard
+                          resultItem={result}
+                          setHighlightIds={props.setHighlightIds}
+                          setHighlightLyr={props.setHighlightLyr}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+                    <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                      <SearchIcon className="text-strongorange mb-[0.15em]" />
+                      <div className="text-s">No results</div>
+                    </Box>
+                    <Box className="mb-[0.75em]">
+                      <div className="text-s">Search for themes instead?</div>
+                    </Box>
+                    <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+                      <ThemeIcons variant="alternate" />
+                    </Box>
+                  </div>
+                )}
+              </div>
+            </Fade>
           )}
         </Box>
 
@@ -182,8 +178,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 sx={{
                   overflowY: "scroll",
                   paddingRight: "1em",
-                  maxHeight:
-                    SearchUIConfig.search.searchResults.relatedListHeight,
+                  maxHeight: SearchUIConfig.search.searchResults.relatedListHeight,
                 }}
               >
                 {uniqueRelatedList.map((result) => (

@@ -3,7 +3,6 @@ import SolrQueryBuilder from "../../components/search/helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import { initialState, SolrSuggestResponse } from "@/store/types/search";
 
-
 export const fetchSearchResults = createAsyncThunk(
   "search/fetchResults",
   async ({
@@ -11,7 +10,7 @@ export const fetchSearchResults = createAsyncThunk(
     filterQueries,
     schema,
     sortBy,
-    sortOrder
+    sortOrder,
   }: {
     query: string;
     filterQueries: Array<any>;
@@ -23,9 +22,11 @@ export const fetchSearchResults = createAsyncThunk(
     searchQueryBuilder.setSchema(schema);
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
     const results = await searchQueryBuilder.fetchResult();
-    return results.map(result => ({
+    return results.map((result) => ({
       ...result,
-      years: Array.isArray(result.years) ? result.years : Array.from(result.years || [])
+      years: Array.isArray(result.years)
+        ? result.years
+        : Array.from(result.years || []),
     }));
   }
 );
@@ -83,10 +84,20 @@ export const fetchRelatedResults = createAsyncThunk(
   }
 );
 
+export const atomicResetAndFetch = createAsyncThunk(
+  "search/atomicResetAndFetch",
+  async (schema: any, { dispatch }) => {
+    return { schema };
+  }
+);
+
 const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
+    setSchema: (state, action) => {
+      state.schema = action.payload;
+    },
     setQuery: (state, action) => {
       state.query = action.payload;
     },
@@ -105,8 +116,8 @@ const searchSlice = createSlice({
     setBboxParam: (state, action) => {
       state.bboxParam = action.payload;
     },
-    setBboxSearch: (state, action) => {
-      state.bboxSearch = action.payload;
+    setSubject: (state, action) => {
+      state.subject = action.payload;
     },
     setSpatialResolution: (state, action) => {
       state.spatialResolution = action.payload;
@@ -114,66 +125,72 @@ const searchSlice = createSlice({
     resetQuerySearch: (state) => {
       return {
         ...initialState,
-        query: '*'
+        query: "*",
       };
+    },
+    setIsSearching: (state, action) => {
+      state.isSearching = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSearchResults.pending, (state) => {
-      state.isSearching = true;
-      state.results = [];
-    })
-    .addCase(fetchSearchResults.fulfilled, (state, action) => {
-      state.results = generateSolrObjectList(
-        action.payload,
-        state.sortBy,
-        state.sortOrder
-      );
-      state.isSearching = false;
-    })
-    .addCase(fetchSearchResults.rejected, (state) => {
-      state.isSearching = false;
-      state.results = [];
-    })
-    .addCase (fetchRelatedResults.pending, (state) => {
-      state.isRecommending = true; 
-      state.relatedResults = [];
-    })
-    .addCase(fetchRelatedResults.fulfilled, (state, action) => {
-      state.relatedResults = generateSolrObjectList(
-        action.payload,
-        state.sortBy,
-        state.sortOrder
-      );
-      state.isRecommending = false;
-    })
-    .addCase(fetchRelatedResults.rejected, (state) => {
-      state.isRecommending = false;
-      state.relatedResults = [];
-    })
-    .addCase(fetchSuggestions.pending, (state) => {
-      
-    })
-     .addCase(fetchSuggestions.rejected, (state) => {
+        state.isSearching = true;
+        state.results = [];
+      })
+      .addCase(fetchSearchResults.fulfilled, (state, action) => {
+        state.results = generateSolrObjectList(action.payload);
+        state.isSearching = false;
+      })
+      .addCase(fetchSearchResults.rejected, (state) => {
+        state.isSearching = false;
+        state.results = [];
+      })
+      .addCase(fetchRelatedResults.pending, (state) => {
+        state.isRecommending = true;
+        state.relatedResults = [];
+      })
+      .addCase(fetchRelatedResults.fulfilled, (state, action) => {
+        state.relatedResults = generateSolrObjectList(action.payload);
+        state.isRecommending = false;
+      })
+      .addCase(fetchRelatedResults.rejected, (state) => {
+        state.isRecommending = false;
+        state.relatedResults = [];
+      })
+      .addCase(fetchSuggestions.pending, (state) => {})
+      .addCase(fetchSuggestions.rejected, (state) => {
         state.suggestions = [];
       })
-    .addCase(fetchSuggestions.fulfilled, (state, action) => {
-      state.suggestions = action.payload;
-    });
+      .addCase(fetchSuggestions.fulfilled, (state, action) => {
+        state.suggestions = action.payload;
+      })
+      .addCase(atomicResetAndFetch.pending, (state) => {
+        state.isSearching = true;
+      })
+      .addCase(atomicResetAndFetch.fulfilled, (state, action) => {
+        state.spatialResolution = null;
+        state.subject = null;
+        state.sortBy = null;
+        state.sortOrder = null;
+        state.filterQueries = [];
+        state.schema = action.payload.schema;
+      });
   },
 });
 
 export const {
+  setSchema,
   setQuery,
   setInputValue,
   setFilterQueries,
   setSortBy,
   setSortOrder,
   setBboxParam,
-  setBboxSearch,
+  setSubject,
   setSpatialResolution,
   resetQuerySearch,
+  setIsSearching,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

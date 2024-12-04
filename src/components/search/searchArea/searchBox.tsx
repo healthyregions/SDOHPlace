@@ -20,15 +20,11 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import {
   setQuery,
-  resetQuerySearch,
-  fetchSearchResults,
   fetchSuggestions,
 } from "@/store/slices/searchSlice";
 import { setInputValue } from "@/store/slices/searchSlice";
 import { setShowInfoPanel, setShowClearButton } from "@/store/slices/uiSlice";
 import { useUrlParams } from "@/hooks/useUrlParams";
-import { set } from "date-fns";
-
 interface Props {
   schema: any;
 }
@@ -96,43 +92,17 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
     }
   }, [query]);
 
-  const handleSearch = (searchValue: string) => {
-    const newQuery = searchValue || "*";
-    setters.setUrlQuery(newQuery); 
-    dispatch(
-      fetchSearchResults({
-        query: newQuery,
-        filterQueries,
-        schema,
-      })
-    );
-  };
-  
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (inputValue) {
+      dispatch(setQuery(inputValue));
       setters.setUrlQuery(inputValue);
-      dispatch(
-        fetchSearchResults({
-          query: inputValue,
-          filterQueries,
-          schema,
-        })
-      );
     }
   };
   const handleDropdownSelect = (event: any, value: string | null) => {
     if (value) {
       setters.setUrlQuery(value);
       dispatch(setQuery(value));
-      dispatch(
-        fetchSearchResults({
-          query: value,
-          filterQueries,
-          schema,
-        })
-      );
     }
   };
   const handleUserInputChange = async (
@@ -150,15 +120,8 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
       );
     } else {
       setters.setUrlQuery(null);
-      dispatch(resetQuerySearch());
+      dispatch(setQuery(null));
       dispatch(setShowClearButton(false));
-      dispatch(
-        fetchSearchResults({
-          query: "*",
-          filterQueries,
-          schema,
-        })
-      );
       if (isIOS && textFieldRef.current) {
         setTimeout(() => textFieldRef.current?.focus(), 50);
       } else {
@@ -179,15 +142,9 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
 
   const handleClear = () => {
     setters.setUrlQuery(null);
-    dispatch(resetQuerySearch());
+    dispatch(setInputValue(""));
+    dispatch(setQuery(null));
     dispatch(setShowClearButton(false));
-    dispatch(
-      fetchSearchResults({
-        query: "*",
-        filterQueries,
-        schema,
-      })
-    );
   };
 
   const isIOS = React.useMemo(() => {

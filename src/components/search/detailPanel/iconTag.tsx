@@ -2,11 +2,9 @@ import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import {
-  GetAllParams,
-  reGetFilterQueries,
-  updateAll,
-} from "../helper/ParameterList";
+import { AppDispatch, RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setSubject } from "@/store/slices/searchSlice";
 
 interface Props {
   svgIcon: any;
@@ -15,7 +13,6 @@ interface Props {
   labelClass: string;
   labelColor: string;
   roundBackground: boolean;
-  handleSearch(params: any, value: string, filterQueries: any): void;
 }
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -28,61 +25,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const IconTag = (props: Props): JSX.Element => {
-  let params = GetAllParams();
   const classes = useStyles();
-
+  const dispatch = useDispatch<AppDispatch>();
+  const {subject} = useSelector((state: RootState) => state.search);
   const handleSubjectClick = (sub: string) => {
-    let filterQueries = reGetFilterQueries(params);
-    let currentSubjects = params.subject
-      ? params.subject.split(",").map((s) => s.trim())
-      : [];
+    let currentSubjects = subject || [];
     let newSubjects: string[];
     if (currentSubjects.includes(sub)) {
       newSubjects = currentSubjects.filter((s) => s !== sub);
     } else {
       newSubjects = [...currentSubjects, sub];
     }
-    const subjectString = newSubjects.length > 0 ? newSubjects.join(",") : "";
-    filterQueries = filterQueries.filter(
-      (query) => query.attribute !== "subject"
-    );
-    if (subjectString) {
-      filterQueries.push({ attribute: "subject", value: subjectString });
-    }
-    const currentQuery = params.query ? params.query : "*";
-    updateAll(params, null, null, filterQueries, currentQuery);
-    params.setQuery(currentQuery);
-    params.setSubject(subjectString);
-    props.handleSearch(reGetFilterQueries(params), currentQuery, filterQueries);
+    // add new subjects to the url
+    dispatch(setSubject(newSubjects));
   };
 
   const isSelected = (label: string): boolean => {
-    const currentSubjects =
-      typeof params.subject === "string"
-        ? params.subject.split(",").map((s) => s.trim())
-        : params.subject
-        ? (params.subject as string[]).map((s) => s.trim())
-        : [];
+    let currentSubjects = subject || [];
     return currentSubjects.includes(label);
   };
-
-  /* Support new variant color schemes
-  *    Default => swaps colors when selected
-  *       Icon color =>
-  *           Selected => Cream/Bisque color
-  *           Not Selected => Orange
-  *       Background =>
-  *           Selected => Orange
-  *           Not Selected => Cream/Bisque color
-  *
-  *    "alternate" variant => only colors background when selected
-  *       Icon color =>
-  *           Selected => Orange
-  *           Not Selected => Orange
-  *       Background =>
-  *           Selected => Cream/Bisque color
-  *           Not Selected => White
-  */
   const getBgColorClass = () => {
     const selected = isSelected(props.label);
     if (props.variant === 'alternate') {
