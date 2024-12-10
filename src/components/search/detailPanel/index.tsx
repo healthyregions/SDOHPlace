@@ -11,8 +11,8 @@ import HeaderRow from "./headerRow";
 import IconTag from "./iconTag";
 
 interface Props {
-resultList: any[];
-relatedList: any[];
+  resultList: any[];
+  relatedList: any[];
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -24,15 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DetailPanel = (props:Props): JSX.Element => {
+const DetailPanel = (props: Props): JSX.Element => {
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
-  let resultItem = props.resultList.find(
-    (r) => r.id === showDetailPanel
-  );
+  let resultItem = props.resultList.find((r) => r.id === showDetailPanel);
   if (!resultItem) {
-    resultItem = props.relatedList.find(
-      (r) => r.id === showDetailPanel
-    );
+    resultItem = props.relatedList.find((r) => r.id === showDetailPanel);
   }
   return (
     resultItem && (

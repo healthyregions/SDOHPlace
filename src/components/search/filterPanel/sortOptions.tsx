@@ -1,18 +1,13 @@
 import { AppDispatch, RootState } from "@/store";
-import {
-  setSortBy,
-  setSortOrder,
-} from "@/store/slices/searchSlice";
+import { setSortBy, setSortOrder } from "@/store/slices/searchSlice";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 export const SortOptions = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    sortBy,
-    sortOrder,
-    isSearching 
-  } = useSelector((state: RootState) => state.search);
+  const { sortBy, sortOrder, isSearching } = useSelector(
+    (state: RootState) => state.search
+  );
 
   const handleSort = (newSortBy: string, newSortOrder: string) => {
     dispatch(setSortBy(newSortBy));
@@ -24,7 +19,7 @@ export const SortOptions = () => {
       <Box>
         <span
           className={`pr-5 cursor-pointer text-frenchviolet font-bold ${
-            isSearching ? 'opacity-50' : ''
+            isSearching ? "opacity-50" : ""
           }`}
           style={{
             textDecoration: !sortBy && !sortOrder ? "underline" : "none",
@@ -36,7 +31,7 @@ export const SortOptions = () => {
 
         <span
           className={`pr-5 cursor-pointer text-frenchviolet font-bold ${
-            isSearching ? 'opacity-50' : ''
+            isSearching ? "opacity-50" : ""
           }`}
           style={{
             textDecoration:
@@ -51,13 +46,11 @@ export const SortOptions = () => {
 
         <span
           className={`cursor-pointer text-frenchviolet font-bold ${
-            isSearching ? 'opacity-50' : ''
+            isSearching ? "opacity-50" : ""
           }`}
           style={{
             textDecoration:
-              sortBy === "issued" && sortOrder === "asc"
-                ? "underline"
-                : "none",
+              sortBy === "issued" && sortOrder === "asc" ? "underline" : "none",
           }}
           onClick={() => handleSort("date_issued", "asc")}
         >

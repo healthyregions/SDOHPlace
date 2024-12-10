@@ -39,6 +39,63 @@ export const actionConfig: Record<string, ActionConfig> = {
       fromUrl: (value: string) => value.split(",").filter(Boolean),
     },
   },
+  "search/setVisOverlays": {
+    param: "vis_overlays",
+    syncWithUrl: false,
+    requiresFetch: false,
+    isFilter: true,
+    transform: {
+      toUrl: (value: string[]) => value.join(","),
+      fromUrl: (value: string) => value.split(",").filter(Boolean),
+    },
+  },
+  "search/setVisLyrs": {
+    param: "layers",
+    syncWithUrl: true,
+    requiresFetch: false,
+    isFilter: true,
+    transform: {
+      toUrl: (value: string[]) => value.join(","),
+      fromUrl: (value: string) => value.split(",").filter(Boolean),
+    },
+  },
+  "search/setBboxSearch": {
+    param: "bbox_search",
+    syncWithUrl: true,
+    requiresFetch: true,
+    isFilter: true,
+    transform: {
+      toUrl: (value: boolean) => (value ? "true" : "false"),
+      fromUrl: (value: string) => value === "true",
+    },
+  },
+  "search/setBboxParam": {
+    param: "bbox",
+    syncWithUrl: true,
+    requiresFetch: true,
+    isFilter: true,
+    transform: {
+      toUrl: (value: number[]) => value.join(","),
+      fromUrl: (value: string) => value.split(",").map(Number),
+    },
+  },
+  "search/setIndexYear": {
+    param: "index_year",
+    syncWithUrl: true,
+    requiresFetch: true,
+    isFilter: true,
+    transform: {
+      toUrl: (value: number[]) => {
+        const min = Math.min(...value);
+        const max = Math.max(...value);
+        return `${min}-${max}`;
+      },
+      fromUrl: (value: string) => {
+        const [start, end] = value.split("-").map(Number); // use dash in url
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+      },
+    },
+  },
   /**
    * For actions that needs to read/write to URL but not trigger fetch
    */

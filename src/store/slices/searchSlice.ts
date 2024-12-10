@@ -113,14 +113,26 @@ const searchSlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
+    setBboxSearch: (state, action) => {
+      state.bboxSearch = action.payload;
+    },
     setBboxParam: (state, action) => {
       state.bboxParam = action.payload;
+    },
+    setVisOverlays: (state, action) => {
+      state.visOverlays = action.payload;
+    },
+    setVisLyrs: (state, action) => {
+      state.visLyrs = action.payload;
     },
     setSubject: (state, action) => {
       state.subject = action.payload;
     },
     setSpatialResolution: (state, action) => {
       state.spatialResolution = action.payload;
+    },
+    setIndexYear: (state, action) => {
+      state.indexYear = action.payload;
     },
     resetQuerySearch: (state) => {
       return {
@@ -186,9 +198,13 @@ export const {
   setFilterQueries,
   setSortBy,
   setSortOrder,
+  setBboxSearch,
   setBboxParam,
+  setVisOverlays,
+  setVisLyrs,
   setSubject,
   setSpatialResolution,
+  setIndexYear,
   resetQuerySearch,
   setIsSearching,
 } = searchSlice.actions;

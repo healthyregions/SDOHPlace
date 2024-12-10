@@ -18,13 +18,9 @@ import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
-import {
-  setQuery,
-  fetchSuggestions,
-} from "@/store/slices/searchSlice";
+import { setQuery, fetchSuggestions } from "@/store/slices/searchSlice";
 import { setInputValue } from "@/store/slices/searchSlice";
 import { setShowInfoPanel, setShowClearButton } from "@/store/slices/uiSlice";
-import { useUrlParams } from "@/hooks/useUrlParams";
 interface Props {
   schema: any;
 }
@@ -84,7 +80,6 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   const { query, inputValue, suggestions, filterQueries } = useSelector(
     (state: RootState) => state.search
   );
-  const { setters } = useUrlParams();
 
   React.useEffect(() => {
     if (query) {
@@ -96,12 +91,10 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
     event.preventDefault();
     if (inputValue) {
       dispatch(setQuery(inputValue));
-      setters.setUrlQuery(inputValue);
     }
   };
   const handleDropdownSelect = (event: any, value: string | null) => {
     if (value) {
-      setters.setUrlQuery(value);
       dispatch(setQuery(value));
     }
   };
@@ -119,7 +112,6 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
         })
       );
     } else {
-      setters.setUrlQuery(null);
       dispatch(setQuery(null));
       dispatch(setShowClearButton(false));
       if (isIOS && textFieldRef.current) {
@@ -141,7 +133,6 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   };
 
   const handleClear = () => {
-    setters.setUrlQuery(null);
     dispatch(setInputValue(""));
     dispatch(setQuery(null));
     dispatch(setShowClearButton(false));

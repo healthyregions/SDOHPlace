@@ -2,10 +2,11 @@ import * as React from "react";
 import { makeStyles } from "@mui/styles";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { Box, Tabs, Tab, IconButton, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setShowInfoPanel } from "@/store/slices/uiSlice";
 
 interface Props {
   children?: React.ReactNode;
@@ -40,7 +41,7 @@ function a11yProps(index: number) {
   };
 }
 export default function InfoPanel() {
-  let params = GetAllParams();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [maxHeight, setMaxHeight] = React.useState(0);
@@ -49,7 +50,7 @@ export default function InfoPanel() {
     setValue(newValue);
   };
   const handleClosePanel = () => {
-    params.setInfoPanel(null);
+    dispatch(setShowInfoPanel(false));
   };
   React.useEffect(() => {
     if (tabPanelRef.current) {

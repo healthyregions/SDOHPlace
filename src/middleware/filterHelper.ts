@@ -16,11 +16,24 @@ const getStateKeyFromAction = (actionType: string): string => {
 const selectSpatialResolution = (state: RootState) =>
   state.search.spatialResolution;
 const selectSubject = (state: RootState) => state.search.subject;
+const setBboxParam = (state: RootState) => state.search.bboxParam;
+const setBboxSearch = (state: RootState) => state.search.bboxSearch;
+const setIndexYear = (state: RootState) => state.search.indexYear;
+
 export const getFilterState = createSelector(
-  [selectSpatialResolution, selectSubject],
-  (spatialResolution, subject) => ({
+  [
+    selectSpatialResolution,
+    selectSubject,
+    setBboxParam,
+    setBboxSearch,
+    setIndexYear,
+  ],
+  (spatialResolution, subject, bboxParam, bboxSearch, indexYear) => ({
     spatialResolution,
     subject,
+    bboxParam,
+    bboxSearch,
+    indexYear,
   })
 );
 
@@ -79,6 +92,63 @@ export const generateFilterQueries = (searchState: any) => {
       });
     });
   }
+  if (searchState.bboxParam) {
+    let bboxValues: number[];
+    if (typeof searchState.bboxParam === "string") {
+      bboxValues = searchState.bboxParam.split(",").map(Number);
+    } else if (Array.isArray(searchState.bboxParam)) {
+      bboxValues = searchState.bboxParam.map(Number);
+    }
+    if (
+      bboxValues &&
+      bboxValues.length === 4 &&
+      bboxValues.every((v) => !isNaN(v))
+    ) {
+      queries.push({
+        attribute: "bbox",
+        value: bboxValues,
+      });
+    }
+    if (searchState.bboxSearch) {
+      queries.push({
+        attribute: "bboxSearch",
+        value: searchState.bboxSearch,
+      });
+    }
+  }
+  if (searchState.indexYear?.length) {
+    if (
+      typeof searchState.indexYear === "string" &&
+      searchState.indexYear.includes("-")
+    ) {
+      const [start, end] = searchState.indexYear.split("-").map(Number);
+      const years = Array.from(
+        { length: end - start + 1 },
+        (_, i) => start + i
+      );
+      years.forEach((year) => {
+        queries.push({
+          attribute: "index_year",
+          value: year.toString(),
+        });
+      });
+    } else {
+      searchState.indexYear.forEach((value: string | number) => {
+        queries.push({
+          attribute: "index_year",
+          value: value.toString(),
+        });
+      });
+    }
+  }
+  if (searchState.visLyrs?.length) {
+    searchState.visLyrs.forEach((value: string) => {
+      queries.push({
+        attribute: "vis_lyrs",
+        value,
+      });
+    });
+  }
   return queries;
 };
 
@@ -101,31 +171,46 @@ export const selectSearchState = createSelector(
   })
 );
 
-export const resetFilters = (store: any) => {
+export const resetFilters = async (store: any) => {
   const state = store.getState();
-  store.dispatch(atomicResetAndFetch(state.search.schema)).then(() => {
-    store.dispatch(
-      fetchSearchResults({
-        query: state.search.query || "*",
-        filterQueries: [],
-        schema: state.search.schema,
-        sortBy: null,
-        sortOrder: null,
-      })
-    );
-    if (isBrowser) {
-      const searchParams = new URLSearchParams(window.location.search);
-      Object.entries(actionConfig)
-        .filter(([_, config]) => config.syncWithUrl)
-        .forEach(([_, config]) => {
-          searchParams.delete(config.param);
-        });
-      const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-      window.history.pushState({}, "", newUrl);
-    }
+  await store.dispatch(atomicResetAndFetch(state.search.schema));
+  const filterActions = Object.entries(actionConfig)
+    .filter(([_, config]) => config.isFilter)
+    .map(([actionType]) => {
+      const payload =
+        actionType === "search/setBboxSearch"
+          ? false
+          : actionType === "search/setBboxParam"
+          ? null
+          : [];
+      return {
+        type: actionType,
+        payload,
+      };
+    });
+  filterActions.forEach((action) => {
+    store.dispatch(action);
   });
+  if (isBrowser) {
+    const searchParams = new URLSearchParams(window.location.search);
+    Object.entries(actionConfig)
+      .filter(([_, config]) => config.syncWithUrl)
+      .forEach(([_, config]) => {
+        searchParams.delete(config.param);
+      });
+    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState({}, "", newUrl);
+  }
+  await store.dispatch(
+    fetchSearchResults({
+      query: state.search.query || "*",
+      filterQueries: [],
+      schema: state.search.schema,
+      sortBy: null,
+      sortOrder: null,
+    })
+  );
 };
-
 export const hasActiveFilters = (state: RootState): boolean => {
   return getFilterStatus(state).hasActiveFilters;
 };

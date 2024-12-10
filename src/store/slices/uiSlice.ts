@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 interface UIState {
   pageFirstLoad: boolean;
@@ -12,14 +12,14 @@ interface UIState {
 const initialState: UIState = {
   pageFirstLoad: true,
   showInfoPanel: false,
-  showDetailPanel: '',
+  showDetailPanel: "",
   showFilter: false,
   showClearButton: false,
   showSharedLink: false,
 };
 
 const uiSlice = createSlice({
-  name: 'ui',
+  name: "ui",
   initialState,
   reducers: {
     setPageFirstLoad: (state, action) => {
@@ -39,18 +39,17 @@ const uiSlice = createSlice({
     },
     setShowSharedLink: (state, action) => {
       state.showSharedLink = action.payload;
-    }
+    },
   },
 });
 
-export const { 
+export const {
   setPageFirstLoad,
-  setShowInfoPanel, 
-  setShowDetailPanel, 
+  setShowInfoPanel,
+  setShowDetailPanel,
   setShowFilter,
   setShowClearButton,
-  setShowSharedLink
+  setShowSharedLink,
 } = uiSlice.actions;
-
 
 export default uiSlice.reducer;

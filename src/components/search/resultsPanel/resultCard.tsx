@@ -1,3 +1,4 @@
+"use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
@@ -8,8 +9,6 @@ import IconMatch from "../helper/IconMatch";
 import { setShowDetailPanel } from "@/store/slices/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
-import { GetAllParams } from "../helper/ParameterList";
-import { useUrlParams } from "@/hooks/useUrlParams";
 
 interface Props {
   resultItem: SolrObject;
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResultCard = (props: Props): JSX.Element => {
-  const { updateUrlParams } = useUrlParams();
   const dispatch = useDispatch();
   const classes = useStyles();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
@@ -57,7 +55,6 @@ const ResultCard = (props: Props): JSX.Element => {
         className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
         onClick={() => {
           dispatch(setShowDetailPanel(props.resultItem.id));
-          updateUrlParams({ urlShowDetailPanel: props.resultItem.id });
         }}
         style={{
           cursor: "pointer",
@@ -104,7 +101,6 @@ const ResultCard = (props: Props): JSX.Element => {
               <button
                 onClick={() => {
                   dispatch(setShowDetailPanel(props.resultItem.id));
-                  updateUrlParams({ urlShowDetailPanel: props.resultItem.id });
                 }}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >

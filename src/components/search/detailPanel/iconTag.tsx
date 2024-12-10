@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const IconTag = (props: Props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
-  const {subject} = useSelector((state: RootState) => state.search);
+  const { subject } = useSelector((state: RootState) => state.search);
   const handleSubjectClick = (sub: string) => {
     let currentSubjects = subject || [];
     let newSubjects: string[];
@@ -36,7 +36,6 @@ const IconTag = (props: Props): JSX.Element => {
     } else {
       newSubjects = [...currentSubjects, sub];
     }
-    // add new subjects to the url
     dispatch(setSubject(newSubjects));
   };
 
@@ -46,23 +45,21 @@ const IconTag = (props: Props): JSX.Element => {
   };
   const getBgColorClass = () => {
     const selected = isSelected(props.label);
-    if (props.variant === 'alternate') {
-      // Alternate variant
-      return selected ? 'bg-lightbisque' : 'bg-white';
+    if (props.variant === "alternate") {
+      return selected ? "bg-lightbisque" : "bg-white";
     }
-    // Default behavior
-    return selected ? 'bg-strongorange' : 'bg-lightbisque';
-  }
+    return selected ? "bg-strongorange" : "bg-lightbisque";
+  };
   const getColorName = () => {
     const selected = isSelected(props.label);
-    if (props.variant === 'alternate') {
-      return 'strongorange';
+    if (props.variant === "alternate") {
+      return "strongorange";
     }
-    return selected ? 'lightbisque' : 'strongorange';
-  }
+    return selected ? "lightbisque" : "strongorange";
+  };
   const getBorderColorClass = () => {
-    return 'border-strongorange';
-  }
+    return "border-strongorange";
+  };
 
   return (
     <div

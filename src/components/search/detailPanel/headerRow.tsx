@@ -12,8 +12,7 @@ import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../helper/ParseReferenceLink";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowDetailPanel, setShowSharedLink,  } from '@/store/slices/uiSlice';
-import { useUrlParams } from "@/hooks/useUrlParams";
+import { setShowDetailPanel, setShowSharedLink } from "@/store/slices/uiSlice";
 
 interface Props {
   resultItem: SolrObject;
@@ -33,14 +32,12 @@ const useStyles = makeStyles((theme) => ({
 const HeaderRow = (props: Props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
-  const { setters, values } = useUrlParams();
   const currentShowSharedLink = useSelector(
-      (state: RootState) => state.ui.showSharedLink
-    );
+    (state: RootState) => state.ui.showSharedLink
+  );
   const backToMapView = (e) => {
     e.preventDefault();
     dispatch(setShowDetailPanel(null));
-    setters.setUrlShowDetailPanel(null);
   };
 
   // not reflect shared link in url, only in redux
@@ -66,10 +63,9 @@ const HeaderRow = (props: Props): JSX.Element => {
           href="#"
           className="text-xl text-frenchviolet font-bold leading-8 sm:mb-1"
           onClick={backToMapView}
-          style={{ textDecoration: 'none' }}
+          style={{ textDecoration: "none" }}
         >
           Back to map view
-
         </a>
       </div>
       <div className="flex flex-col sm:mb-7 sm:flex-row items-center">

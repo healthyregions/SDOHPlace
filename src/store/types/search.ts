@@ -14,9 +14,15 @@ export interface SearchState {
 
   // filter
   filterQueries: any[];
-  bboxParam: any;
   subject: string[];
   spatialResolution: string[];
+  indexYear: string[];
+
+  // map
+  visOverlays: string[];
+  visLyrs: string[];
+  bboxSearch: boolean;
+  bboxParam: [number, number, number, number] | null;
 
   // status
   isLoading: boolean;
@@ -36,9 +42,13 @@ export const initialState: SearchState = {
   suggestions: [],
   sortBy: "score",
   sortOrder: "desc",
-  bboxParam: null,
+  bboxSearch: false,
+  bboxParam: [-125.3321, 23.8991, -65.7421, 49.4325],
   subject: [],
   spatialResolution: [],
+  visOverlays: [],
+  visLyrs: [],
+  indexYear: [],
   // status
   isLoading: false,
   isSearching: false,

@@ -1,76 +1,87 @@
-// import { useUrlParams } from "@/hooks/useUrlParams";
-// import { AppDispatch, RootState } from "@/store";
-// import { setFilterQueries } from "@/store/slices/searchSlice";
-// import { Box, Slider } from "@mui/material";
-// import { useState, useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { setIndexYear } from "@/store/slices/searchSlice";
+import { Box, debounce, Slider } from "@mui/material";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-// const YearRangeSlider = ({ minRange, maxRange }: { 
-//   minRange: number; 
-//   maxRange: number; 
-// }) => {
-//   const dispatch = useDispatch<AppDispatch>();
-//   const { query, filterQueries } = useSelector((state: RootState) => state.search);
-//   const { setters, values } = useUrlParams();
-//   const [yearRange, setYearRange] = useState([minRange, maxRange]);
-//   const [marks, setMarks] = useState([]);
+export const YearRangeSlider = ({
+  minRange,
+  maxRange,
+}: {
+  minRange: number;
+  maxRange: number;
+}) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const indexYear = useSelector((state: RootState) => state.search.indexYear);
+  const [yearRange, setYearRange] = useState([minRange, maxRange]);
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
-//   useEffect(() => {
-//     if (values.indexYear) {
-//       const years = values.indexYear.split(',').map(Number);
-//       const range = [Math.min(...years), Math.max(...years)];
-//       setYearRange(range);
-//       setMarks([
-//         { value: range[0], label: `${range[0]}` },
-//         { value: range[1], label: `${range[1]}` }
-//       ]);
-//     } else {
-//       setYearRange([minRange, maxRange]);
-//       setMarks([
-//         { value: minRange, label: `${minRange}` },
-//         { value: maxRange, label: `${maxRange}` }
-//       ]);
-//     }
-//   }, [values.indexYear, minRange, maxRange]);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const yearParam = searchParams.get("index_year");
+    if (yearParam) {
+      const [start, end] = yearParam.split("-").map(Number);
+      setYearRange([start, end]);
+    } else if (indexYear && indexYear.length > 0) {
+      setYearRange([
+        Math.min(...indexYear.map(Number)),
+        Math.max(...indexYear.map(Number)),
+      ]);
+    } else {
+      setYearRange([minRange, maxRange]);
+    }
+  }, [indexYear, minRange, maxRange]);
 
-//   const handleYearRangeChange = (event, newValue) => {
-//     setYearRange(newValue);
-    
-//     const newFilterQueries = filterQueries.filter(
-//       f => f.attribute !== "index_year"
-//     );
+  const marks = useMemo(
+    () => [
+      { value: yearRange[0], label: `${yearRange[0]}` },
+      { value: yearRange[1], label: `${yearRange[1]}` },
+    ],
+    [yearRange]
+  );
 
-//     if (newValue[0] !== minRange || newValue[1] !== maxRange) {
-//       const yearsArray = Array.from(
-//         { length: newValue[1] - newValue[0] + 1 },
-//         (_, i) => newValue[0] + i
-//       );
-      
-//       newFilterQueries.push({
-//         attribute: "index_year",
-//         value: yearsArray.join(",")
-//       });
-      
-//       setters.setUrlIndexYear(yearsArray.join(","));
-//     } else {
-//       setters.setUrlIndexYear(null);
-//     }
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
-//     dispatch(setFilterQueries(newFilterQueries));
-//   };
+  const handleYearRangeChange = useCallback(
+    (_event: Event, newValue: number | number[]) => {
+      if (!Array.isArray(newValue)) return;
+      setYearRange(newValue);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        const [start, end] = newValue;
+        const yearsArray = Array.from(
+          { length: end - start + 1 },
+          (_, i) => start + i
+        );
+        dispatch(setIndexYear(yearsArray));
+      }, 300);
+    },
+    [dispatch]
+  );
 
-//   return (
-//     <Box className="mt-6">
-//       <Box className="text-s font-bold">Year</Box>
-//       <Slider
-//         className="text-frenchviolet w-[calc(100%-22px)] ml-[11px]"
-//         min={minRange}
-//         max={maxRange}
-//         value={yearRange}
-//         onChange={handleYearRangeChange}
-//         valueLabelDisplay="off"
-//         marks={marks}
-//       />
-//     </Box>
-//   );
-// };
+  return (
+    <Box className="mt-6">
+      <Box className="text-s font-bold">Year</Box>
+      <Box display="flex" alignItems="center" className="mx-3">
+        <Slider
+          className="text-frenchviolet"
+          min={minRange}
+          max={maxRange}
+          value={yearRange}
+          onChange={handleYearRangeChange}
+          valueLabelDisplay="auto"
+          marks={marks}
+          step={1}
+        />
+      </Box>
+    </Box>
+  );
+};

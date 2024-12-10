@@ -4,7 +4,7 @@ import { Checkbox } from "@mui/material";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { RootState } from "@/store";
-import { setSpatialResolution } from "@/store/slices/searchSlice";
+import { setSpatialResolution, setVisLyrs } from "@/store/slices/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 interface SpatialResolutionCheck {
   value: string;
@@ -50,6 +50,7 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
       .filter((box) => box.checked)
       .map((box) => box.value);
     dispatch(setSpatialResolution(selectedValues));
+    dispatch(setVisLyrs(selectedValues));
   };
 
   return (

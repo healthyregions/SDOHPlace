@@ -4,7 +4,6 @@ import { Box, IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 
-
 export const FilterHeader = () => {
   const dispatch = useDispatch<AppDispatch>();
 

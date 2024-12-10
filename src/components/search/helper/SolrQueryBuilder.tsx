@@ -29,7 +29,7 @@ export default class SolrQueryBuilder {
     this.query.schema_json = schema;
     return this;
   }
-  setEnvelopeQuery(bbox: any): string {
+  setEnvelopeQuery(bbox: number[]): string {
     const encodingPart = encodeURIComponent(`Intersects(ENVELOPE`);
     return (
       `locn_geometry:"` +
@@ -215,7 +215,7 @@ export default class SolrQueryBuilder {
         }
         const otherFilters = filterQueries.filter(
           (f) =>
-            f.attribute !== "layers" &&
+            f.attribute !== "vis_lyrs" &&
             f.attribute !== "query" &&
             f.attribute !== "bboxSearch" &&
             f.attribute !== "bbox"

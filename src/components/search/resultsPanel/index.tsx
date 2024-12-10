@@ -1,3 +1,4 @@
+"use client";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch, store } from "@/store";
 import { makeStyles } from "@mui/styles";
@@ -11,10 +12,10 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React from "react";
 import ResultCard from "./resultCard";
 import FilterPanel from "../filterPanel";
-import { 
-  selectSearchState, 
-  getFilterStatus, 
-  resetFilters 
+import {
+  selectSearchState,
+  getFilterStatus,
+  resetFilters,
 } from "@/middleware/filterHelper";
 import ThemeIcons from "../helper/themeIcons";
 
@@ -40,7 +41,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
   const isLoading = searchState.isSearching || searchState.isSuggesting;
   const isQuery = searchState.query !== "*" && searchState.query !== "";
-  const [previousCount, setPreviousCount] = React.useState(searchState.results.length);
+  const [previousCount, setPreviousCount] = React.useState(
+    searchState.results.length
+  );
+  const [isResetting, setIsResetting] = React.useState(false);
 
   const uniqueRelatedList = React.useMemo(() => {
     return searchState.relatedResults
@@ -50,34 +54,45 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
-  const handleClearFilters = () => {
-    resetFilters(store);
+  const handleClearFilters = async () => {
+    setIsResetting(true);
+    await resetFilters(store);
+    setTimeout(() => {
+      setIsResetting(false);
+    }, 500);
   };
+  const displayCount = React.useMemo(() => {
+    if (isResetting) return previousCount;
+    if (isLoading) return previousCount;
+    return searchState.results.length;
+  }, [isLoading, isResetting, previousCount, searchState.results.length]);
   React.useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !isResetting) {
       setPreviousCount(searchState.results.length);
     }
-  }, [isLoading, searchState.results.length]);
-
+  }, [isLoading, searchState.results.length, isResetting]);
   return (
-    <div className="results-panel" style={{ flex: "1 1 auto", overflow: "hidden" }}>
+    <div
+      className="results-panel"
+      style={{ flex: "1 1 auto", overflow: "hidden" }}
+    >
       <span className={classes.resultsPanel}>
         <Box>
           <div className="flex flex-col sm:mb-[1.5em] sm:ml-[1.1em] sm:flex-row items-center">
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
-              <Fade in={true} timeout={300}>
+              <Fade in={!isResetting} timeout={300}>
                 <div>
-                  {(isLoading ? previousCount : searchState.results.length) > 0 && (
+                  {displayCount > 0 && (
                     <Box>
                       {isQuery
-                        ? `Results (${isLoading ? previousCount : searchState.results.length})`
-                        : `All Data Sources (${isLoading ? previousCount : searchState.results.length})`}
+                        ? `Results (${displayCount})`
+                        : `All Data Sources (${displayCount})`}
                     </Box>
                   )}
                 </div>
               </Fade>
             </div>
-            {filterStatus.hasActiveFilters && !isLoading && (
+            {filterStatus.hasActiveFilters && !isLoading && !isResetting && (
               <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
                 <div className="text-frenchviolet" onClick={handleClearFilters}>
                   Clear All
@@ -98,7 +113,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
           </div>
         </Box>
 
-        {showFilter && <FilterPanel schema={props.schema} />}
+        {showFilter && <FilterPanel />}
 
         <Box
           height="100%"
@@ -112,10 +127,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 : "100vh",
           }}
         >
-          {isLoading ? (
+          {isLoading || isResetting ? (
             <Box className="flex justify-center items-center h-64">
               <span className="mr-4">
-                {searchState.results.length > 0
+                {displayCount > 0
                   ? "Updating results..."
                   : "Looking for data you may be interested in..."}
               </span>
@@ -178,7 +193,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 sx={{
                   overflowY: "scroll",
                   paddingRight: "1em",
-                  maxHeight: SearchUIConfig.search.searchResults.relatedListHeight,
+                  maxHeight:
+                    SearchUIConfig.search.searchResults.relatedListHeight,
                 }}
               >
                 {uniqueRelatedList.map((result) => (

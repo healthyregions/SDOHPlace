@@ -3,9 +3,13 @@ import { fetchSearchResults } from "@/store/slices/searchSlice";
 import { generateFilterQueries } from "./filterHelper";
 import { ActionConfig, actionConfig } from "./actionConfig";
 
+const isClient = typeof window !== "undefined";
+
 export const createMiddleware: Middleware =
   (store) => (next) => (action: AnyAction) => {
-    //console.log("Processing action:", action.type, action.payload); // debug message only. Remove after ready for production
+    if (!isClient) {
+      return next(action);
+    }
 
     /**
      * filter reset
@@ -60,7 +64,6 @@ function initializeFromUrl(store: any) {
     .filter(([_, config]) => config.syncWithUrl)
     .forEach(([actionType, config]) => {
       const value = params.get(config.param);
-      console.log("initializeFromUrl", actionType, value);
       if (value !== null) {
         store.dispatch({
           type: actionType,
@@ -72,10 +75,7 @@ function initializeFromUrl(store: any) {
 
 function syncToUrl(action: AnyAction, config: ActionConfig) {
   const searchParams = new URLSearchParams(window.location.search);
-  if (
-    action.payload &&
-    (typeof action.payload === "string" || action.payload.length)
-  ) {
+  if (action.payload && action.payload.toString().length) {
     const paramValue = config.transform
       ? config.transform.toUrl(action.payload)
       : action.payload;

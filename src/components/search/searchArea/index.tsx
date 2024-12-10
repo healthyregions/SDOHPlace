@@ -83,4 +83,3 @@ const SearchArea = (props: Props): JSX.Element => {
 };
 
 export default SearchArea;
- 
