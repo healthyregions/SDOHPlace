@@ -3,6 +3,66 @@ import SolrQueryBuilder from "../../components/search/helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import { initialState, SolrSuggestResponse } from "@/store/types/search";
 
+export const fetchSearchAndRelatedResults = createAsyncThunk(
+  "search/fetchSearchAndRelated",
+  async (
+    {
+      query,
+      filterQueries,
+      schema,
+      sortBy,
+      sortOrder,
+    }: {
+      query: string;
+      filterQueries: Array<any>;
+      schema: any;
+      sortBy?: string;
+      sortOrder?: string;
+    },
+    { dispatch, getState }
+  ) => {
+    const searchQueryBuilder = new SolrQueryBuilder();
+    searchQueryBuilder.setSchema(schema);
+    const suggestResult = await searchQueryBuilder
+      .suggestQuery(query)
+      .fetchResult();
+    const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
+    const suggestions =
+      suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
+
+    const validSuggestions = suggestions
+      .filter((s) => s.weight > 50 && s.payload === "false")
+      .map((s) => s.term)
+      .sort((a, b) => {
+        const weightA = suggestions.find((s) => s.term === a)?.weight || 0;
+        const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
+        return weightB - weightA;
+      })
+      .slice(0, 10);
+    searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
+    const searchResults = await searchQueryBuilder.fetchResult();
+    const relatedResults = [];
+    for (const suggestion of validSuggestions) {
+      if (suggestion !== query) {
+        const results = await searchQueryBuilder
+          .generalQuery(suggestion)
+          .fetchResult();
+        relatedResults.push(...results);
+      }
+    }
+    return {
+      searchResults: searchResults.map((result) => ({
+        ...result,
+        years: Array.isArray(result.years)
+          ? result.years
+          : Array.from(result.years || []),
+      })),
+      relatedResults,
+      suggestions: validSuggestions,
+    };
+  }
+);
+
 export const fetchSearchResults = createAsyncThunk(
   "search/fetchResults",
   async ({
@@ -55,30 +115,25 @@ export const fetchSuggestions = createAsyncThunk(
 
 export const fetchRelatedResults = createAsyncThunk(
   "search/fetchRelatedResults",
-  async ({ query, schema }: { query: string; schema: any }) => {
+  async ({
+    query,
+    schema,
+    suggestions,
+  }: {
+    query: string;
+    schema: any;
+    suggestions: string[];
+  }) => {
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
-    const suggestResult = await searchQueryBuilder
-      .suggestQuery(query)
-      .fetchResult();
-    const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
-    const suggestions =
-      suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
-    const validSuggestions = suggestions
-      .filter(
-        (suggestion) =>
-          suggestion.weight >= 50 &&
-          suggestion.term !== query &&
-          suggestion.payload === "false"
-      )
-      .sort((a, b) => b.weight - a.weight)
-      .slice(0, 10);
     const relatedResults = [];
-    for (const suggestion of validSuggestions) {
-      const results = await searchQueryBuilder
-        .generalQuery(suggestion.term)
-        .fetchResult();
-      relatedResults.push(...results);
+    for (const suggestion of suggestions) {
+      if (suggestion !== query) {
+        const results = await searchQueryBuilder
+          .generalQuery(suggestion)
+          .fetchResult();
+        relatedResults.push(...results);
+      }
     }
     return relatedResults;
   }
@@ -100,6 +155,7 @@ const searchSlice = createSlice({
     },
     setQuery: (state, action) => {
       state.query = action.payload;
+      state.suggestions = [];
     },
     setInputValue: (state, action) => {
       state.inputValue = action.payload;
@@ -146,6 +202,24 @@ const searchSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchSearchAndRelatedResults.pending, (state) => {
+        state.isSearching = true;
+        state.results = [];
+        state.relatedResults = [];
+      })
+      .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
+        state.results = generateSolrObjectList(action.payload.searchResults);
+        state.relatedResults = generateSolrObjectList(
+          action.payload.relatedResults
+        );
+        state.suggestions = action.payload.suggestions;
+        state.isSearching = false;
+      })
+      .addCase(fetchSearchAndRelatedResults.rejected, (state) => {
+        state.isSearching = false;
+        state.results = [];
+        state.relatedResults = [];
+      })
       .addCase(fetchSearchResults.pending, (state) => {
         state.isSearching = true;
         state.results = [];
@@ -159,15 +233,15 @@ const searchSlice = createSlice({
         state.results = [];
       })
       .addCase(fetchRelatedResults.pending, (state) => {
-        state.isRecommending = true;
+        state.isSearching = true; // recommendations and search results should come together
         state.relatedResults = [];
       })
       .addCase(fetchRelatedResults.fulfilled, (state, action) => {
         state.relatedResults = generateSolrObjectList(action.payload);
-        state.isRecommending = false;
+        state.isSearching = false;
       })
       .addCase(fetchRelatedResults.rejected, (state) => {
-        state.isRecommending = false;
+        state.isSearching = false;
         state.relatedResults = [];
       })
       .addCase(fetchSuggestions.pending, (state) => {})

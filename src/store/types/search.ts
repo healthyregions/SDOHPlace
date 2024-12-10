@@ -27,7 +27,6 @@ export interface SearchState {
   // status
   isLoading: boolean;
   isSearching: boolean;
-  isRecommending: boolean;
   isSuggesting: boolean;
 }
 
@@ -52,7 +51,6 @@ export const initialState: SearchState = {
   // status
   isLoading: false,
   isSearching: false,
-  isRecommending: false,
   isSuggesting: false,
 };
 

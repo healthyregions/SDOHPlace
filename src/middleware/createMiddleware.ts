@@ -1,5 +1,9 @@
 import { AnyAction, Middleware } from "redux";
-import { fetchSearchResults } from "@/store/slices/searchSlice";
+import {
+  fetchSearchAndRelatedResults,
+  fetchSearchResults,
+  setIsSearching,
+} from "@/store/slices/searchSlice";
 import { generateFilterQueries } from "./filterHelper";
 import { ActionConfig, actionConfig } from "./actionConfig";
 
@@ -10,7 +14,6 @@ export const createMiddleware: Middleware =
     if (!isClient) {
       return next(action);
     }
-
     /**
      * filter reset
      */
@@ -20,7 +23,6 @@ export const createMiddleware: Middleware =
     ) {
       const result = next(action);
       if (action.type === "search/atomicResetAndFetch/fulfilled") {
-        // Clear all filter params from URL at once
         const searchParams = new URLSearchParams(window.location.search);
         Object.entries(actionConfig)
           .filter(([_, config]) => config.syncWithUrl)
@@ -51,13 +53,12 @@ export const createMiddleware: Middleware =
         syncToUrl(action, config);
       }
       if (config.requiresFetch) {
-        triggerFetch(store);
+        triggerResultsRelatesFetch(store, store.getState().search.query || "*");
       }
     }
     return result;
   };
 
-// Helper functions
 function initializeFromUrl(store: any) {
   const params = new URLSearchParams(window.location.search);
   Object.entries(actionConfig)
@@ -101,3 +102,24 @@ function triggerFetch(store: any) {
     );
   }
 }
+
+async function triggerResultsRelatesFetch(store: any, query: string) {
+  const state = store.getState();
+  if (!state.search.schema) return;
+
+  store.dispatch(setIsSearching(true));
+  try {
+    await store.dispatch(
+      fetchSearchAndRelatedResults({
+        query: query || "*",
+        filterQueries: generateFilterQueries(state.search),
+        schema: state.search.schema,
+        sortBy: state.search.sortBy,
+        sortOrder: state.search.sortOrder,
+      })
+    );
+  } finally {
+    store.dispatch(setIsSearching(false));
+  }
+}
+

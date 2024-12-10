@@ -8,6 +8,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  debounce,
   IconButton,
   InputAdornment,
   Paper,
@@ -77,25 +78,43 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   const classes = useStyles();
   const textFieldRef = React.useRef<HTMLInputElement>(null);
   const { showClearButton } = useSelector((state: RootState) => state.ui);
-  const { query, inputValue, suggestions, filterQueries } = useSelector(
+  const { query, inputValue, suggestions } = useSelector(
     (state: RootState) => state.search
   );
 
   React.useEffect(() => {
     if (query) {
-      setInputValue(query);
+      dispatch(setInputValue(query));
     }
-  }, [query]);
-
+  }, [query, dispatch]);
+  const debouncedFetchSuggestions = React.useCallback(
+    debounce((value: string, schema: any) => {
+      if (value) {
+        dispatch(
+          fetchSuggestions({
+            inputValue: value,
+            schema,
+          })
+        );
+      }
+    }, 300),
+    [dispatch]
+  );
+  const performSearch = React.useCallback(
+    (searchValue: string | null) => {
+      if (searchValue) {
+        dispatch(setQuery(searchValue));
+      }
+    },
+    [dispatch]
+  );
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (inputValue) {
-      dispatch(setQuery(inputValue));
-    }
+    performSearch(inputValue);
   };
   const handleDropdownSelect = (event: any, value: string | null) => {
-    if (value) {
-      dispatch(setQuery(value));
+    if (value && value !== query) {
+      performSearch(value);
     }
   };
   const handleUserInputChange = async (
@@ -104,13 +123,9 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   ) => {
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
+
     if (newInputValue !== "") {
-      dispatch(
-        fetchSuggestions({
-          inputValue: newInputValue,
-          schema,
-        })
-      );
+      debouncedFetchSuggestions(newInputValue, schema);
     } else {
       dispatch(setQuery(null));
       dispatch(setShowClearButton(false));
@@ -131,13 +146,11 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
       }
     }
   };
-
   const handleClear = () => {
     dispatch(setInputValue(""));
     dispatch(setQuery(null));
     dispatch(setShowClearButton(false));
   };
-
   const isIOS = React.useMemo(() => {
     if (
       typeof window !== "undefined" &&
