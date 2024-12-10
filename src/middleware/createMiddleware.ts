@@ -8,6 +8,9 @@ import { generateFilterQueries } from "./filterHelper";
 import { ActionConfig, actionConfig } from "./actionConfig";
 
 const isClient = typeof window !== "undefined";
+const isValidBbox = (bbox: number[] | undefined): boolean => {
+  return Boolean(bbox && bbox.length === 4);
+};
 
 export const createMiddleware: Middleware =
   (store) => (next) => (action: AnyAction) => {
@@ -41,6 +44,26 @@ export const createMiddleware: Middleware =
       const result = next(action);
       initializeFromUrl(store);
       triggerFetch(store);
+      return result;
+    }
+    /**
+     * Special case to handle the original bboxParam and bboxSearch mechanism, will change this later after we combine them to one action
+     */
+    if (
+      action.type === "search/setBboxParam" ||
+      action.type === "search/setBboxSearch"
+    ) {
+      const result = next(action);
+      const state = store.getState();
+      const config = actionConfig[action.type];
+      if (config.syncWithUrl) {
+        syncToUrl(action, config);
+      }
+      const bbox = state.search.bboxParam;
+      const bboxSearchEnabled = state.search.bboxSearch;
+      if (isValidBbox(bbox) && bboxSearchEnabled) {
+        triggerResultsRelatesFetch(store, store.getState().search.query || "*");
+      }
       return result;
     }
     /**

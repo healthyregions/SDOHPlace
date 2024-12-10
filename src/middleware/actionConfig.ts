@@ -62,7 +62,7 @@ export const actionConfig: Record<string, ActionConfig> = {
   "search/setBboxSearch": {
     param: "bbox_search",
     syncWithUrl: true,
-    requiresFetch: true,
+    requiresFetch: false,
     isFilter: true,
     transform: {
       toUrl: (value: boolean) => (value ? "true" : "false"),
