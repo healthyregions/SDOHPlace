@@ -42,6 +42,6 @@ export interface SolrObject {
     keyword?: string[];
     featured_variable?: string;
   };
-  years: Set<string>;
+  years: unknown[]; // will change this later after finishing the year slider refactor
   parents?: string[];
 }

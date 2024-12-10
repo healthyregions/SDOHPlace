@@ -1,103 +1,70 @@
 import * as React from "react";
 import CheckBoxObject from "../interface/CheckboxObject";
-import { Checkbox, Typography } from "@mui/material";
-
-import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
+import { Checkbox } from "@mui/material";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
+import { RootState } from "@/store";
+import { setSpatialResolution, setVisLyrs } from "@/store/slices/searchSlice";
+import { useDispatch, useSelector } from "react-redux";
 interface SpatialResolutionCheck {
   value: string;
   display_name: string;
 }
 interface Props {
   src: SpatialResolutionCheck[];
-  handleSearch(params: any, value: string, filterQueries: any): void;
-  filterQueries: any;
+  schema: any;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const SpatialResolutionCheck = (props: Props): JSX.Element => {
-  let params = GetAllParams();
-  let currentParams = reGetFilterQueries(params);
-  const stableCurrentSR = React.useMemo(() => {
-    return JSON.stringify(params.spatialResolution || []);
-  }, [params.spatialResolution]);
+  const dispatch = useDispatch();
+  const spatialResolution = useSelector(
+    (state: RootState) => state.search.spatialResolution
+  );
+
+  const [checkboxes, setCheckboxes] = React.useState(new Set<CheckBoxObject>());
+
   React.useEffect(() => {
-    const tempSRChecboxes = new Set<CheckBoxObject>();
+    const tempCheckboxes = new Set<CheckBoxObject>();
     props.src.forEach((option) => {
-      const checked = stableCurrentSR.includes(option.value.toString().trim());
-      tempSRChecboxes.add({
+      const checked =
+        spatialResolution?.includes(option.value.toString().trim()) || false;
+      tempCheckboxes.add({
         attribute: "spatial_resolution",
         value: option.value,
-        checked: checked,
+        checked,
         displayName: option.display_name,
       });
     });
-    const currentStateString = JSON.stringify(Array.from(sRCheckboxes));
-    const newStateString = JSON.stringify(Array.from(tempSRChecboxes));
-    if (currentStateString !== newStateString) {
-      setSRCheckboxes(new Set(tempSRChecboxes));
-    }
-    props.handleSearch(
-      params,
-      currentParams.find((p) => p.attribute === "query")
-        ? currentParams.find((p) => p.attribute === "query").value
-        : "*",
-      currentParams
+    setCheckboxes(tempCheckboxes);
+  }, [props.src, spatialResolution]);
+
+  const handleSelectionChange = (value: string, checked: boolean) => {
+    const updatedCheckboxes = new Set(
+      Array.from(checkboxes).map((obj) => ({
+        ...obj,
+        checked: obj.value === value ? checked : obj.checked,
+      }))
     );
-  }, [props.src, stableCurrentSR]);
-  //
-  const [sRCheckboxes, setSRCheckboxes] = React.useState(
-    new Set<CheckBoxObject>()
-  );
-  const handleSRSelectionChange = (event) => {
-    params.setPrevAction("filter");
-    params.setShowDetailPanel(null);
-    const { value, checked } = event.target;
-    const newList = checked
-      ? [...(params.spatialResolution || []), value]
-      : params.spatialResolution.filter((item) => item !== value);
-    params.setSpatialResolution(newList.length > 0 ? newList : null);
-    params.setVisLyrs(newList.length > 0 ? newList : null);
-    const updatedSet = new Set(
-      Array.from(sRCheckboxes).map((obj) => {
-        if (obj.value === value) {
-          return { ...obj, checked: checked };
-        }
-        return obj;
-      })
-    );
-    setSRCheckboxes(updatedSet);
-    const filterQueries = reGetFilterQueries(params);
-    const newFilterQueries = [
-      ...newList.map((i) => ({
-        attribute: "spatial_resolution",
-        value: i,
-      })),
-      ...filterQueries.filter((i) => i.attribute !== "spatial_resolution"),
-    ];
-    const q = newFilterQueries.find((f) => f.attribute === "query")
-      ? newFilterQueries.find((f) => f.attribute === "query").value
-      : "*";
-    props.handleSearch(params, q, newFilterQueries);
+    setCheckboxes(updatedCheckboxes);
+    const selectedValues = Array.from(updatedCheckboxes)
+      .filter((box) => box.checked)
+      .map((box) => box.value);
+    dispatch(setSpatialResolution(selectedValues));
+    dispatch(setVisLyrs(selectedValues));
   };
 
   return (
     <div className={`flex flex-col sm:flex-row items-center ml-4 space-x-7`}>
       <div className="text-l whitespace-nowrap">Spatial Resolution:</div>
       <div className="flex flex-col sm:flex-row space-x-4">
-        {Array.from(sRCheckboxes).map((checkbox, index) => (
+        {Array.from(checkboxes).map((checkbox, index) => (
           <div key={index} className="flex items-center">
             <Checkbox
               id={`sr-checkbox-${index}`}
               checked={checkbox.checked}
               value={checkbox.value}
               onChange={(event) =>
-                handleSRSelectionChange({
-                  target: {
-                    value: checkbox.value,
-                    checked: event.target.checked,
-                  },
-                })
+                handleSelectionChange(checkbox.value, event.target.checked)
               }
               icon={
                 <span
@@ -145,13 +112,8 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
             <div
               className="text-l cursor-pointer select-none pl-1 pr-2"
               style={{ letterSpacing: 0.5 }}
-              onClick={(event) =>
-                handleSRSelectionChange({
-                  target: {
-                    value: checkbox.value,
-                    checked: !checkbox.checked,
-                  },
-                })
+              onClick={() =>
+                handleSelectionChange(checkbox.value, !checkbox.checked)
               }
             >
               {checkbox.displayName}

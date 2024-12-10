@@ -4,6 +4,8 @@ import Head from "next/head";
 import { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../createEmotionCache";
+import { Provider } from "react-redux";
+import { store } from "../store";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -21,7 +23,9 @@ export default function MyApp(props: MyAppProps) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <AnyComponent {...pageProps} />
+        <Provider store={store}>
+          <AnyComponent {...pageProps} />
+        </Provider>
       </CacheProvider>
     </>
   );

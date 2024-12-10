@@ -1,22 +1,22 @@
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
-import tailwindConfig from "../../../../../tailwind.config";
+import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import { SolrObject } from "../../../../../meta/interface/SolrObject";
+import { SolrObject } from "../../../../meta/interface/SolrObject";
 import Image from "next/image";
 import DOMPurify from "dompurify";
 import CloseIcon from "@mui/icons-material/Close";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
-import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
+import { ParseReferenceLink } from "../helper/ParseReferenceLink";
+import { AppDispatch, RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowDetailPanel, setShowSharedLink } from "@/store/slices/uiSlice";
 
 interface Props {
   resultItem: SolrObject;
   headerIcon: any;
-  showDetailPanel: (value: string) => void;
-  showSharedLink: string;
-  setShowSharedLink: (value: string) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -31,16 +31,18 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderRow = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const dispatch = useDispatch<AppDispatch>();
+  const currentShowSharedLink = useSelector(
+    (state: RootState) => state.ui.showSharedLink
+  );
   const backToMapView = (e) => {
     e.preventDefault();
-    props.showDetailPanel(null);
+    dispatch(setShowDetailPanel(null));
   };
 
-  //handle share link
+  // not reflect shared link in url, only in redux
   const handleShowShareLink = () => {
-    if (props.showSharedLink === "true") {
-      props.setShowSharedLink(null);
-    } else props.setShowSharedLink("true");
+    dispatch(setShowSharedLink(!currentShowSharedLink));
   };
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -61,7 +63,7 @@ const HeaderRow = (props: Props): JSX.Element => {
           href="#"
           className="text-xl text-frenchviolet font-bold leading-8 sm:mb-1"
           onClick={backToMapView}
-          style={{ textDecoration: 'none' }}
+          style={{ textDecoration: "none" }}
         >
           Back to map view
         </a>
@@ -116,7 +118,7 @@ const HeaderRow = (props: Props): JSX.Element => {
           />
         </div>
       </div>
-      {props.showSharedLink && (
+      {currentShowSharedLink && (
         <div className={`flex w-full p-0 ${classes.introCard}`}>
           <div
             className={`flex ${classes.wide}  flex-11 sm:justify-between sm:items-center sm:px-[1em] sm:py-[0.5em] sm:my-[1.5em]`}
@@ -136,7 +138,7 @@ const HeaderRow = (props: Props): JSX.Element => {
                       backgroundColor: "transparent",
                     },
                   }}
-                  onClick={() => props.setShowSharedLink(null)}
+                  onClick={() => dispatch(setShowSharedLink(false))}
                 >
                   <CloseIcon />
                 </IconButton>

@@ -1,39 +1,29 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Autocomplete,
   Box,
   Button,
+  debounce,
   IconButton,
   InputAdornment,
   Paper,
   Popper,
   TextField,
 } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import CloseIcon from "@mui/icons-material/Close";
-import { makeStyles } from "@mui/styles";
-import { SearchObject } from "../interface/SearchObject";
-import SolrQueryBuilder from "../helper/SolrQueryBuilder";
-import { useEffect } from "react";
-import { GetAllParams, reGetFilterQueries } from "../helper/ParameterList";
-
+import { AppDispatch, RootState } from "@/store";
+import { setQuery, fetchSuggestions } from "@/store/slices/searchSlice";
+import { setInputValue } from "@/store/slices/searchSlice";
+import { setShowInfoPanel, setShowClearButton } from "@/store/slices/uiSlice";
 interface Props {
   schema: any;
-  autocompleteKey: number;
-  options: any[];
-  setOptions: React.Dispatch<React.SetStateAction<any[]>>;
-  handleInputReset: () => void;
-  inputRef: React.RefObject<HTMLInputElement>;
-  value: string | null;
-  setValue: React.Dispatch<React.SetStateAction<string | null>>;
-  inputValue: string;
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: (params, value, filterQueries) => void;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -78,101 +68,70 @@ const CustomPopper = (props) => {
     <Popper {...props} className={classes.popper} placement="bottom-start" />
   );
 };
-
 const CustomPaper = (props) => {
   const classes = useStyles();
   return <Paper {...props} className={classes.paper} />;
 };
 
-const SearchBox = (props: Props): JSX.Element => {
-  const autocompleteRef = React.useRef<any>(null);
-  const textFieldRef = React.useRef<HTMLInputElement>(null);
-  const [showClearButton, setShowClearButton] = React.useState(
-    props.value ? true : false
-  );
+const SearchBox = ({ schema }: Props): JSX.Element => {
+  const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
-  const urlParams = GetAllParams();
-  const [userInput, setUserInput] = React.useState(
-    props.value === "*" ? "" : props.value || ""
+  const textFieldRef = React.useRef<HTMLInputElement>(null);
+  const { showClearButton } = useSelector((state: RootState) => state.ui);
+  const { query, inputValue, suggestions } = useSelector(
+    (state: RootState) => state.search
   );
-  const [queryData, setQueryData] = React.useState<SearchObject>({
-    userInput: "",
-  });
-  let searchQueryBuilder = new SolrQueryBuilder();
-  searchQueryBuilder.setSchema(props.schema);
 
-  const handleSubmit = (event) => {
-    const filterQueries = reGetFilterQueries(urlParams);
-    urlParams.setPrevAction(null);
-    event.preventDefault();
-    props.setQuery(userInput);
-    props.setInputValue(userInput);
-    urlParams.setSubject(null);
-    urlParams.setShowDetailPanel(null); // always show the map panel if user searches
-    props.handleSearch(urlParams, userInput, filterQueries);
-  };
-  const handleDropdownSelect = (event, value) => {
-    const filterQueries = reGetFilterQueries(urlParams);
-    props.setInputValue(value);
-    props.setQuery(value);
-    urlParams.setPrevAction(null);
-    urlParams.setShowDetailPanel(null); // always show the map panel if user searches
-    props.handleSearch(urlParams, value, filterQueries);
-  };
-  const isIOS = React.useMemo(() => {
-    if (
-      typeof window !== "undefined" &&
-      typeof window.navigator !== "undefined"
-    ) {
-      return (
-        /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !(window as any).MSStream
-      );
+  React.useEffect(() => {
+    if (query) {
+      dispatch(setInputValue(query));
     }
-    return false;
-  }, []);
+  }, [query, dispatch]);
+  const debouncedFetchSuggestions = React.useCallback(
+    debounce((value: string, schema: any) => {
+      if (value) {
+        dispatch(
+          fetchSuggestions({
+            inputValue: value,
+            schema,
+          })
+        );
+      }
+    }, 300),
+    [dispatch]
+  );
+  const performSearch = React.useCallback(
+    (searchValue: string | null) => {
+      if (searchValue) {
+        dispatch(setQuery(searchValue));
+      }
+    },
+    [dispatch]
+  );
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    performSearch(inputValue);
+  };
+  const handleDropdownSelect = (event: any, value: string | null) => {
+    if (value && value !== query) {
+      performSearch(value);
+    }
+  };
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
   ) => {
-    setUserInput(newInputValue);
-    props.setInputValue(newInputValue);
-    setQueryData({
-      ...queryData,
-      userInput: newInputValue,
-    });
-    if (newInputValue !== "") {
-      searchQueryBuilder.suggestQuery(newInputValue);
-      const finalSuggestions = [];
-      searchQueryBuilder
-        .fetchResult()
-        .then(async (result) => {
-          result["suggest"]["sdohSuggester"][newInputValue].suggestions.forEach(
-            (suggestion) => {
-              if (suggestion.weight > 50 && suggestion.payload === "false") {
-                finalSuggestions.push(suggestion);
-              }
-            }
-          );
+    dispatch(setInputValue(newInputValue));
+    dispatch(setShowClearButton(!!newInputValue));
 
-          //remove duplicates from the finalSuggestions, rank them and get the top 10 suggestions
-          props.setOptions(
-            finalSuggestions
-              .map((s) => s.term)
-              .filter((value, index, self) => self.indexOf(value) === index)
-              .sort((a, b) => {
-                return b.weight - a.weight;
-              })
-              .slice(0, 10)
-          );
-        })
-        .catch((error) => {
-          console.error("Error fetching result:", error);
-        });
+    if (newInputValue !== "") {
+      debouncedFetchSuggestions(newInputValue, schema);
     } else {
-      props.handleInputReset();
-      if (isIOS  && textFieldRef.current) {
-      setTimeout(() => textFieldRef.current.focus(), 50);
-    } else {
+      dispatch(setQuery(null));
+      dispatch(setShowClearButton(false));
+      if (isIOS && textFieldRef.current) {
+        setTimeout(() => textFieldRef.current?.focus(), 50);
+      } else {
         requestAnimationFrame(() => {
           if (textFieldRef.current) {
             textFieldRef.current.blur();
@@ -187,38 +146,35 @@ const SearchBox = (props: Props): JSX.Element => {
       }
     }
   };
-
-  useEffect(() => {
-    if (!urlParams.query) {
-      setUserInput("");
-    } else if (urlParams.query !== userInput) {
-      setUserInput(urlParams.query === "*" ? "" : urlParams.query);
-    } else {
-      setUserInput(urlParams.query);
+  const handleClear = () => {
+    dispatch(setInputValue(""));
+    dispatch(setQuery(null));
+    dispatch(setShowClearButton(false));
+  };
+  const isIOS = React.useMemo(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof window.navigator !== "undefined"
+    ) {
+      return (
+        /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
+        !(window as any).MSStream
+      );
     }
-  }, [urlParams.query]);
-
+    return false;
+  }, []);
   return (
-    <div className={`sm:mt-6`}>
+    <div className="sm:mt-6">
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
-          ref={autocompleteRef}
           PopperComponent={CustomPopper}
           PaperComponent={CustomPaper}
-          key={props.autocompleteKey}
           freeSolo
-          options={props.options}
-          value={props.value ? props.value : ""}
-          inputValue={userInput}
-          onInputChange={(event, value, reason) => {
-            if (event && event.type === "change") {
-              handleUserInputChange(event, value);
-              setShowClearButton(value !== "");
-            }
-          }}
-          onChange={(event, value) => {
-            handleDropdownSelect(event, value);
-          }}
+          options={suggestions}
+          value={query === "*" ? "" : query}
+          inputValue={inputValue}
+          onInputChange={handleUserInputChange}
+          onChange={handleDropdownSelect}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -249,11 +205,9 @@ const SearchBox = (props: Props): JSX.Element => {
                     <SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" />
                     <Box component="span" className="mx-2">
                       <a
-                        onClick={() => {
-                          urlParams.setInfoPanel("Yes");
-                        }}
+                        onClick={() => dispatch(setShowInfoPanel(true))}
                         style={{ cursor: "pointer" }}
-                        className={`no-underline text-frenchviolet `}
+                        className="no-underline text-frenchviolet"
                       >
                         <InfoOutlinedIcon />
                       </a>
@@ -264,21 +218,13 @@ const SearchBox = (props: Props): JSX.Element => {
                   <Box display="flex" alignItems="center">
                     {showClearButton && (
                       <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => {
-                            setUserInput("");
-                            urlParams.setSubject(null);
-                            props.handleInputReset();
-                            setShowClearButton(false);
-                          }}
-                        >
+                        <IconButton onClick={handleClear}>
                           <CloseIcon className="text-2xl text-frenchviolet" />
                         </IconButton>
                       </InputAdornment>
                     )}
                     <InputAdornment position="end">
                       <Button
-                        className=""
                         type="submit"
                         variant="contained"
                         color="primary"
