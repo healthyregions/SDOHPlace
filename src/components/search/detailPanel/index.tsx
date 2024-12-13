@@ -2,24 +2,17 @@ import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import { SolrObject } from "../../../../meta/interface/SolrObject";
 import IntroCard from "./introCard";
-import IconTag from "./iconTag";
 import ParagraphCard from "./paragraphCard/paragraphCard";
-import HeaderRow from "./headerRow/headerRow";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 import IconMatch from "../helper/IconMatch";
-import { GetAllParams } from "../helper/ParameterList";
-import { url } from "inspector";
+import HeaderRow from "./headerRow";
+import IconTag from "./iconTag";
 
 interface Props {
-  //resultItem: SolrObject;
-  fetchResults: SolrObject[];
-  relatedResults: SolrObject[];
-  setShowDetailPanel: (value: string) => void;
-  showSharedLink: string;
-  setShowSharedLink: (value: string) => void;
-  handleSearch(params: any, value: string, filterQueries: any): void;
-  handleInputReset: () => void;
+  resultList: any[];
+  relatedList: any[];
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -32,14 +25,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DetailPanel = (props: Props): JSX.Element => {
-  const urlParams = GetAllParams();
-  let resultItem = props.fetchResults.find(
-    (r) => r.id === urlParams.showDetailPanel
-  );
+  const { showDetailPanel } = useSelector((state: RootState) => state.ui);
+  let resultItem = props.resultList.find((r) => r.id === showDetailPanel);
   if (!resultItem) {
-    resultItem = props.relatedResults.find(
-      (r) => r.id === urlParams.showDetailPanel
-    );
+    resultItem = props.relatedList.find((r) => r.id === showDetailPanel);
   }
   return (
     resultItem && (
@@ -56,9 +45,6 @@ const DetailPanel = (props: Props): JSX.Element => {
                   : resultItem.meta.subject[0]
                 : ""
             )}
-            showDetailPanel={props.setShowDetailPanel}
-            showSharedLink={props.showSharedLink}
-            setShowSharedLink={props.setShowSharedLink}
           />
         </div>
         <div className="flex flex-col sm:flex-row mb-12" id="introCardRow">
@@ -78,7 +64,6 @@ const DetailPanel = (props: Props): JSX.Element => {
                 labelClass={`text-s font-normal ${fullConfig.theme.fontFamily["sans"]}`}
                 labelColor={fullConfig.theme.colors["almostblack"]}
                 roundBackground={true}
-                handleSearch={props.handleSearch}
               />
             ))}
           </div>

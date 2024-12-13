@@ -19,7 +19,7 @@ export interface SchemaObject {
 
 export function getSchema(): SchemaObject {
   try {
-    const folder = path.join(process.cwd(), "meta", "_metadata");
+    const folder = path.join(process.cwd(), "meta", "_schema");
     let finalJson: SchemaObject = {};
     const files = fs.readdirSync(folder);
     files.forEach((file) => {

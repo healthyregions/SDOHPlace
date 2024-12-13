@@ -47,7 +47,7 @@ import {
   FaChevronCircleRight,
   FaPlus,
 } from "react-icons/fa";
-import {Handyman} from "@mui/icons-material";
+import { Handyman } from "@mui/icons-material";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -489,7 +489,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
                         onClick={() => {
-                          window.location.href = '/search';
+                          window.location.href = "/search";
                         }}
                         iconOpacity={0.25}
                       ></ButtonWithIcon>

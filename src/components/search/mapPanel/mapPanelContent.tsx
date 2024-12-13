@@ -1,79 +1,100 @@
-import { makeStyles } from "@mui/styles";
-import { useEffect, useState, MouseEvent } from "react";
-import tailwindConfig from "../../../../tailwind.config";
-import resolveConfig from "tailwindcss/resolveConfig";
-import { SolrObject } from "meta/interface/SolrObject";
-import MapArea from "@/components/map/mapArea";
-import { SearchUIConfig } from "@/components/searchUIConfig";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
-  IconButton,
-  SvgIcon,
-  Popover,
-  Typography,
-  ListItemIcon,
+  Button,
   Grid,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Popover,
+  SvgIcon,
 } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import CheckIcon from "@mui/icons-material/Check";
-import ButtonWithIcon from "@/components/homepage/buttonwithicon";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import {
+  ArrowDropDown as ArrowDropDownIcon,
+  Info as InfoOutlinedIcon,
+  Check as CheckIcon,
+  Construction as ConstructionIcon,
+} from "@mui/icons-material";
 import Link from "next/link";
-import { GetAllParams } from "../helper/ParameterList";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../../../../tailwind.config";
+import { SolrObject } from "meta/interface/SolrObject";
+import { SearchUIConfig } from "@/components/searchUIConfig";
+import ButtonWithIcon from "@/components/homepage/buttonwithicon";
+import { AppDispatch, RootState } from "@/store";
+import { setSchema, setVisOverlays } from "@/store/slices/searchSlice";
 import { overlayRegistry } from "../../map/helper/layers";
 import { localStyles } from "../../../lib/localStyles";
+import dynamic from "next/dynamic";
 
 interface Props {
   resultsList: SolrObject[];
   highlightLyr?: string;
   highlightIds?: string[];
   showMap: string;
-  handleSearch: any;
+  schema: any;
 }
+
 const fullConfig = resolveConfig(tailwindConfig);
 
-const MapPanel = (props: Props): JSX.Element => {
-  const params = GetAllParams();
+const DynamicMapArea = dynamic(() => import("../../map/mapArea"), {
+  ssr: false,
+});
+
+const MapPanelContent = (props: Props): JSX.Element => {
+  const dispatch = useDispatch<AppDispatch>();
+  const visOverlays = useSelector(
+    (state: RootState) => state.search.visOverlays
+  );
   const [overlaysMenuAnchorEl, setOverlaysMenuAnchorEl] =
     useState<null | HTMLElement>(null);
   const [overlaysBtnTxt, setOverlaysBtnTxt] = useState("Overlays");
+  const [infoAnchorEl, setInfoAnchorEl] = useState<HTMLButtonElement | null>(
+    null
+  );
+  const [isMounted, setIsMounted] = useState(false);
   const overlaysOpen = Boolean(overlaysMenuAnchorEl);
+  const infoOpen = Boolean(infoAnchorEl);
 
-  const handleOverlaysClick = (event: MouseEvent<HTMLButtonElement>) => {
+  useEffect(() => {
+    setIsMounted(true);
+    dispatch(setSchema(props.schema));
+  }, [dispatch]);
+  useEffect(() => {
+    if (isMounted) {
+      dispatch(setVisOverlays(visOverlays));
+    }
+  }, [dispatch, visOverlays, isMounted]);
+  useEffect(() => {
+    setOverlaysBtnTxt(
+      visOverlays.length > 0
+        ? `Overlays: ${visOverlays.join(", ")}`
+        : "Overlays"
+    );
+  }, [visOverlays]);
+
+  const handleOverlaysClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOverlaysMenuAnchorEl(event.currentTarget);
   };
   const closeOverlaysMenu = () => {
     setOverlaysMenuAnchorEl(null);
   };
-  function toggleOverlay(overlay) {
-    let newOverlays = params.visOverlays;
-    newOverlays.includes(overlay)
-      ? (newOverlays = newOverlays.filter((e) => e !== overlay))
-      : newOverlays.push(overlay);
-    params.setVisOverlays(newOverlays);
-  }
-
-  const [infoAnchorEl, setInfoAnchorEl] = useState<HTMLButtonElement | null>(
-    null
-  );
-  const infoOpen = Boolean(infoAnchorEl);
-  const handleInfoClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const toggleOverlay = (overlay: string) => {
+    const newOverlays = visOverlays.includes(overlay)
+      ? visOverlays.filter((e) => e !== overlay)
+      : [...visOverlays, overlay];
+    dispatch(setVisOverlays(newOverlays));
+  };
+  const handleInfoClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setInfoAnchorEl(event.currentTarget);
   };
-
   const handleInfoClose = () => {
     setInfoAnchorEl(null);
   };
-  const popoverId = infoOpen ? "simple-popover" : undefined;
-  useEffect(() => {
-    params.visOverlays.length > 0
-      ? setOverlaysBtnTxt("Overlays: " + params.visOverlays.join(", "))
-      : setOverlaysBtnTxt("Overlays");
-  });
+
   return (
     <Grid item className="sm:px-[2em]" xs={12} display={props.showMap}>
       <Box>
@@ -100,7 +121,7 @@ const MapPanel = (props: Props): JSX.Element => {
           </Button>
           <Button
             id="basic-button"
-            className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
+            className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]"
             style={{ color: fullConfig.theme.colors["frenchviolet"] }}
             aria-controls={infoOpen ? "info-popover" : undefined}
             aria-haspopup="true"
@@ -115,7 +136,7 @@ const MapPanel = (props: Props): JSX.Element => {
             />
           </Button>
           <Popover
-            id={popoverId}
+            id="info-popover"
             open={infoOpen}
             anchorEl={infoAnchorEl}
             onClose={handleInfoClose}
@@ -140,14 +161,12 @@ const MapPanel = (props: Props): JSX.Element => {
                 .
               </p>
             </Box>
-            {/* <p style={{ padding: "1em" }}>
-            </p> */}
           </Popover>
           <Menu
             id="basic-menu"
-            className={`flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]`}
+            className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]"
             style={{
-              boxShadow: '#aaaaaa 6px 12px 16px -8px'
+              boxShadow: "#aaaaaa 6px 12px 16px -8px",
             }}
             anchorEl={overlaysMenuAnchorEl}
             open={overlaysOpen}
@@ -157,17 +176,9 @@ const MapPanel = (props: Props): JSX.Element => {
               className: "rounded bg-lightbisque",
             }}
           >
-            {/* <Box className="py-1 px-2 rounded border bg-lightbisque"> */}
             {Object.keys(overlayRegistry).map((overlay) => (
-              <MenuItem
-                // selected={params.visOverlays.includes(overlay)}
-                key={overlay}
-                onClick={() => {
-                  // closeOverlaysMenu();
-                  toggleOverlay(overlay);
-                }}
-              >
-                {params.visOverlays.includes(overlay) && (
+              <MenuItem key={overlay} onClick={() => toggleOverlay(overlay)}>
+                {visOverlays.includes(overlay) && (
                   <ListItemIcon>
                     <CheckIcon />
                   </ListItemIcon>
@@ -175,29 +186,25 @@ const MapPanel = (props: Props): JSX.Element => {
                 {overlay}
               </MenuItem>
             ))}
-
-            {/* </Box> */}
           </Menu>
         </div>
       </Box>
-      <div></div>
       <Box
-        height={"100%"}
+        height="100%"
         sx={{
           overflowY: "scroll",
           height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
         }}
       >
-        <MapArea
-          searchResult={props.resultsList}
+        <DynamicMapArea
+          resultsList={props.resultsList}
           highlightIds={props.highlightIds}
           highlightLyr={props.highlightLyr}
-          handleSearch={props.handleSearch}
         />
       </Box>
       <Box className="sm:my-[1.68em]">
         <div className="sm:mb-[1.5em] sm:flex-col">
-          <Box height={"100%"} className="sm:mt-[4.35em] sm:ml-[2em]">
+          <Box height="100%" className="sm:mt-[4.35em] sm:ml-[2em]">
             <Box className="text-2xl sm:mb-[0.6em]">
               How to search for data...
             </Box>
@@ -219,10 +226,10 @@ const MapPanel = (props: Props): JSX.Element => {
                 constraints.
               </p>
             </Box>
-            <Box display={"flex"} flexDirection={"row"} gap={3}>
+            <Box display="flex" flexDirection="row" gap={3}>
               <ButtonWithIcon
                 label="What is SDOH and Place?"
-                labelColor={"frenchviolet"}
+                labelColor="frenchviolet"
                 borderRadius="100px"
                 noHover={true}
                 noBox={true}
@@ -233,7 +240,7 @@ const MapPanel = (props: Props): JSX.Element => {
               <ButtonWithIcon
                 muiIcon={ConstructionIcon}
                 label="Community Toolkit"
-                labelColor={"frenchviolet"}
+                labelColor="frenchviolet"
                 borderRadius="100px"
                 noHover={true}
                 noBox={true}
@@ -250,4 +257,5 @@ const MapPanel = (props: Props): JSX.Element => {
     </Grid>
   );
 };
-export default MapPanel;
+
+export default MapPanelContent;
