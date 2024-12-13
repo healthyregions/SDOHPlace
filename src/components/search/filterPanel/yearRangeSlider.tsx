@@ -1,8 +1,30 @@
 import { AppDispatch, RootState } from "@/store";
 import { setIndexYear } from "@/store/slices/searchSlice";
-import { Box, debounce, Slider } from "@mui/material";
+import {
+  Box,
+  debounce,
+  makeStyles as muiMakeStyles,
+  Slider,
+  SxProps,
+  Theme,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import tailwindConfig from "tailwind.config";
+import resolveConfig from "tailwindcss/resolveConfig";
+
+const fullConfig = resolveConfig(tailwindConfig);
+const useStyles = makeStyles((theme: Theme) => ({
+  YearRangeSlider: {
+    color: `${fullConfig.theme.colors["almostblack"]}`,
+    fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
+  },
+}));
+const labelStyle: SxProps<Theme> = {
+  fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
+  fontSize: "0.875em",
+};
 
 export const YearRangeSlider = ({
   minRange,
@@ -11,6 +33,7 @@ export const YearRangeSlider = ({
   minRange: number;
   maxRange: number;
 }) => {
+  const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
   const indexYear = useSelector((state: RootState) => state.search.indexYear);
   const [yearRange, setYearRange] = useState([minRange, maxRange]);
@@ -72,7 +95,11 @@ export const YearRangeSlider = ({
       <Box className="text-s font-bold">Year</Box>
       <Box display="flex" alignItems="center" className="mx-3">
         <Slider
-          className="text-frenchviolet"
+          sx={{
+            color: `${fullConfig.theme.colors["frenchviolet"]}`,
+            "& .MuiSlider-markLabel": labelStyle,
+            "& .MuiSlider-valueLabel": labelStyle,
+          }}
           min={minRange}
           max={maxRange}
           value={yearRange}

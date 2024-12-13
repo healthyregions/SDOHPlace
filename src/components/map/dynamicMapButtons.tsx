@@ -40,12 +40,14 @@ export default function DynamicMapButtons(props: Props): JSX.Element {
   );
   const handleBboxSearchChange = useCallback(
     (checked: boolean) => {
+      // uncheck means to reset the bbox param
+      if (!checked) dispatch(setBboxParam([]));
       dispatch(setBboxSearch(checked));
     },
     [dispatch]
   );
   return (
-    <div className="relative top-0 left-0 z-0">
+    <div className="relative top-0 left-0 z-0 flex items-center">
       <button
         onClick={() => handleZoom(contiguousBounds)}
         className={mapButtonStyle}
@@ -72,7 +74,7 @@ export default function DynamicMapButtons(props: Props): JSX.Element {
             onChange={(e) => handleBboxSearchChange(e.target.checked)}
             className="cursor-pointer"
           />
-          <span>Search this area</span>
+          <span>{bboxSearch? "Reset Area Search":"Search this Area"}</span>
         </label>
       </div>
     </div>

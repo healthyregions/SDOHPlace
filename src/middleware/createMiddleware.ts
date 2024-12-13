@@ -59,11 +59,9 @@ export const createMiddleware: Middleware =
       if (config.syncWithUrl) {
         syncToUrl(action, config);
       }
-      const bbox = state.search.bboxParam;
-      const bboxSearchEnabled = state.search.bboxSearch;
-      if (isValidBbox(bbox) && bboxSearchEnabled) {
-        triggerResultsRelatesFetch(store, store.getState().search.query || "*");
-      }
+        if(state.search.bboxSearch) {
+          triggerResultsRelatesFetch(store, store.getState().search.query || "*");
+        }
       return result;
     }
     /**
