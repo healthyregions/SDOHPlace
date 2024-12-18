@@ -169,9 +169,6 @@ const searchSlice = createSlice({
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
     },
-    setBboxSearch: (state, action) => {
-      state.bboxSearch = action.payload;
-    },
     setBboxParam: (state, action) => {
       state.bboxParam = action.payload;
     },
@@ -272,7 +269,6 @@ export const {
   setFilterQueries,
   setSortBy,
   setSortOrder,
-  setBboxSearch,
   setBboxParam,
   setVisOverlays,
   setVisLyrs,

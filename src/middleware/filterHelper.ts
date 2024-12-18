@@ -17,22 +17,14 @@ const selectSpatialResolution = (state: RootState) =>
   state.search.spatialResolution;
 const selectSubject = (state: RootState) => state.search.subject;
 const setBboxParam = (state: RootState) => state.search.bboxParam;
-const setBboxSearch = (state: RootState) => state.search.bboxSearch;
 const setIndexYear = (state: RootState) => state.search.indexYear;
 
 export const getFilterState = createSelector(
-  [
-    selectSpatialResolution,
-    selectSubject,
-    setBboxParam,
-    setBboxSearch,
-    setIndexYear,
-  ],
-  (spatialResolution, subject, bboxParam, bboxSearch, indexYear) => ({
+  [selectSpatialResolution, selectSubject, setBboxParam, setIndexYear],
+  (spatialResolution, subject, bboxParam, indexYear) => ({
     spatialResolution,
     subject,
     bboxParam,
-    bboxSearch,
     indexYear,
   })
 );
@@ -109,12 +101,6 @@ export const generateFilterQueries = (searchState: any) => {
         value: bboxValues,
       });
     }
-    if (searchState.bboxSearch) {
-      queries.push({
-        attribute: "bboxSearch",
-        value: searchState.bboxSearch,
-      });
-    }
   }
   if (searchState.indexYear?.length) {
     if (
@@ -177,12 +163,7 @@ export const resetFilters = async (store: any) => {
   const filterActions = Object.entries(actionConfig)
     .filter(([_, config]) => config.isFilter)
     .map(([actionType]) => {
-      const payload =
-        actionType === "search/setBboxSearch"
-          ? false
-          : actionType === "search/setBboxParam"
-          ? null
-          : [];
+      const payload = actionType === "search/setBboxParam" ? null : [];
       return {
         type: actionType,
         payload,
