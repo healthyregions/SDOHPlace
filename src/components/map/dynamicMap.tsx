@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Map,
@@ -8,9 +8,7 @@ import {
   MapLayerMouseEvent,
   ViewStateChangeEvent,
   Popup,
-  Layer,
   LngLatBoundsLike,
-  useControl,
 } from "react-map-gl/maplibre";
 import maplibregl, {
   FilterSpecification,
@@ -21,19 +19,15 @@ import maplibregl, {
 import { Protocol } from "pmtiles";
 import { sources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
-import {
-  setBboxParam,
-  setBboxSearch,
-  setVisLyrs,
-} from "@/store/slices/searchSlice";
+import { setBboxParam } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { overlayRegistry, layerRegistry } from "./helper/layers";
-import DynamicMapButtons from "./dynamicMapButtons";
 
-import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
 import "@maptiler/geocoding-control/style.css";
 
 import * as turf from "@turf/turf";
+
+import GeoSearchControl from "./geoSearchControl";
 
 const apiKey = "bnAOhGDLHGeqBRkYSg8l";
 
@@ -43,7 +37,7 @@ interface Props {
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { bboxParam, bboxSearch, visLyrs, visOverlays } = useSelector(
+  const { bboxParam, visLyrs, visOverlays } = useSelector(
     (state: RootState) => state.search
   );
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
@@ -53,70 +47,10 @@ export default function DynamicMap(props: Props): JSX.Element {
     LayerSpecification[]
   >([]);
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
-  const [selectedState, setSelectedState] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [currentZoom, setCurrentZoom] = useState<number>();
   const mapRef = useRef<MapRef>(null);
 
-  const handleBboxSearchChange = useCallback(
-    (checked: boolean) => {
-      // uncheck means to reset the bbox param
-      if (!checked) dispatch(setBboxParam([]));
-      dispatch(setBboxSearch(checked));
-    },
-    [dispatch]
-  );
-
-  const geocoderControl = new GeocodingControl({
-    apiKey,
-    country: "us",
-    types: ["region", "county", "postal_code", "municipality"],
-    markerOnSelected: false,
-    showResultMarkers: false,
-    fullGeometryStyle: null,
-    placeholder: "Filter by state, county, city, or zip",
-    noResultsMessage: "No matching locations found...",
-    class: "geocoding-control",
-  });
-  geocoderControl.on("pick", (e) => {
-    const map = mapRef.current.getMap();
-    const highlightSource = map.getSource(
-      "geoSearchHighlight"
-    ) as GeoJSONSource;
-    if (
-      e.feature &&
-      (e.feature.geometry.type == "MultiPolygon" ||
-        e.feature.geometry.type == "Polygon")
-    ) {
-      let feat = turf.feature(e.feature.geometry);
-      let diffGeom = turf.difference(
-        turf.featureCollection([
-          turf.polygon([
-            [
-              [180, 90],
-              [-180, 90],
-              [-180, -90],
-              [180, -90],
-              [180, 90],
-            ],
-          ]),
-          feat,
-        ])
-      );
-      highlightSource.setData(diffGeom);
-    } else {
-      highlightSource.setData({ type: "FeatureCollection", features: [] });
-    }
-    e.feature ? handleBboxSearchChange(true) : handleBboxSearchChange(false);
-  });
-
-  useEffect(() => {
-    console.log("run");
-    if (!mapLoaded) return;
-    const map = mapRef.current.getMap();
-    map.addControl(geocoderControl, "top-left");
-  }, [mapLoaded]);
-
+  // create ability to load pmtiles layers
   useEffect(() => {
     let protocol = new Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
@@ -124,40 +58,12 @@ export default function DynamicMap(props: Props): JSX.Element {
       maplibregl.removeProtocol("pmtiles");
     };
   }, []);
+
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
     const map = mapRef.current.getMap();
     const mapLyrIds = map.getStyle().layers.map((lyr) => lyr.id);
 
-    Object.keys(sources).forEach((id) => {
-      if (!map.getSource(id)) map.addSource(id, sources[id]);
-    });
-
-    if (!mapLyrIds.includes("geoSearchHighlightLyr-fill")) {
-      map.addLayer({
-        id: "geoSearchHighlightLyr-fill",
-        type: "fill",
-        source: "geoSearchHighlight",
-        // 'layout': {},
-        // filter: ["all", ["==", ["geometry-type"], "Polygon"], ["has", "isMask"]],
-        paint: {
-          "fill-color": "#000",
-          "fill-opacity": 0.1,
-        },
-      });
-      map.addLayer({
-        id: "geoSearchHighlightLyr-line",
-        type: "line",
-        source: "geoSearchHighlight",
-        // 'layout': {},
-        // filter: ["all", ["==", ["geometry-type"], "Polygon"], ["has", "isMask"]],
-        paint: {
-          "line-width": ["case", ["==", ["geometry-type"], "Polygon"], 2, 3],
-          "line-dasharray": [1, 1],
-          "line-color": "#FF9C77",
-        },
-      });
-    }
     visOverlays.forEach((lyr) => {
       if (
         overlayRegistry[lyr] &&
@@ -193,53 +99,55 @@ export default function DynamicMap(props: Props): JSX.Element {
     });
   }, [visLyrs, visOverlays, mapLoaded]);
 
-  const onHover = useCallback((event: MapLayerMouseEvent) => {
-    const parkFeat = event.features?.find((f) => f["source"] === "us-parks");
-    const stateFeat = event.features?.find((f) => f["source"] === "state");
-
-    setSelectedState(stateFeat ? stateFeat.properties.HEROP_ID : "");
-
-    if (!mapRef.current) return;
-
-    mapRef.current.getMap().getCanvas().style.cursor = parkFeat
-      ? "pointer"
-      : "grab";
-    setParkPopupInfo(
-      parkFeat
-        ? {
-            longitude: parkFeat.geometry["coordinates"][0],
-            latitude: parkFeat.geometry["coordinates"][1],
-            name: parkFeat.properties.name,
-          }
-        : null
-    );
-  }, []);
-
-  const onZoomEnd = useCallback(() => {
-    if (!mapRef.current) return;
+  const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
     const map = mapRef.current.getMap();
-    const zoom = map.getZoom();
-    setCurrentZoom(zoom);
-  }, [visLyrs, dispatch]);
+    const parkFeat = event.features?.find((f) => f["source"] === "us-parks");
 
-  const onClick = useCallback((event: MapLayerMouseEvent) => {
-    const feat = event.features?.[0];
-    if (feat?.properties.BBOX) {
-      const [minLng, minLat, maxLng, maxLat] = feat.properties.BBOX.split(",");
-      mapRef.current?.fitBounds(
-        [
-          [minLng, minLat],
-          [maxLng, maxLat],
-        ],
-        {
-          padding: 40,
-          duration: 1000,
-        }
-      );
+    if (parkFeat) {
+      map.getCanvas().style.cursor = "pointer";
+      setParkPopupInfo({
+        longitude: parkFeat.geometry["coordinates"][0],
+        latitude: parkFeat.geometry["coordinates"][1],
+        name: parkFeat.properties.name,
+      });
+    } else {
+      map.getCanvas().style.cursor = "grab";
+      setParkPopupInfo(null);
     }
   }, []);
 
-  const onMoveEnd = useCallback(
+  const onLoad = useCallback(() => {
+    const map = mapRef.current.getMap();
+
+    // add all custom sources to the map
+    Object.keys(sources).forEach((id) => {
+      map.addSource(id, sources[id]);
+    });
+
+    map.addLayer({
+      id: "geoSearchHighlightLyr-fill",
+      type: "fill",
+      source: "geoSearchHighlight",
+      paint: {
+        "fill-color": "#000",
+        "fill-opacity": 0.1,
+      },
+    });
+    map.addLayer({
+      id: "geoSearchHighlightLyr-line",
+      type: "line",
+      source: "geoSearchHighlight",
+      paint: {
+        "line-width": ["case", ["==", ["geometry-type"], "Polygon"], 2, 3],
+        "line-dasharray": [1, 1],
+        "line-color": "#FF9C77",
+      },
+    });
+
+    setMapLoaded(true);
+  }, []);
+
+  const setBboxOnMoveEnd = useCallback(
     (event: ViewStateChangeEvent) => {
       const bounds = event.target.getBounds();
       const newBbox: [number, number, number, number] = [
@@ -253,21 +161,45 @@ export default function DynamicMap(props: Props): JSX.Element {
     [dispatch]
   );
 
-  const filterState = useMemo(
-    () => ["in", "HEROP_ID", selectedState] as FilterSpecification,
-    [selectedState]
-  );
-
-  const hlStateLyr: LineLayerSpecification = {
-    id: "state-highlighted",
-    source: "state",
-    "source-layer": "state-2018",
-    type: "line",
-    paint: {
-      "line-color": "#FF9C77",
-      "line-width": 3,
+  const handleGeoSearchSelection = useCallback(
+    (e) => {
+      const map = mapRef.current.getMap();
+      const highlightSource = map.getSource(
+        "geoSearchHighlight"
+      ) as GeoJSONSource;
+      if (
+        e.feature &&
+        (e.feature.geometry.type == "MultiPolygon" ||
+          e.feature.geometry.type == "Polygon")
+      ) {
+        let feat = turf.feature(e.feature.geometry);
+        let diffGeom = turf.difference(
+          turf.featureCollection([
+            turf.polygon([
+              [
+                [180, 90],
+                [-180, 90],
+                [-180, -90],
+                [180, -90],
+                [180, 90],
+              ],
+            ]),
+            feat,
+          ])
+        );
+        highlightSource.setData(diffGeom);
+      } else {
+        highlightSource.setData({ type: "FeatureCollection", features: [] });
+      }
+      if (e.feature) {
+        map.on("moveend", setBboxOnMoveEnd);
+      } else {
+        map.off("moveend", setBboxOnMoveEnd);
+        dispatch(setBboxParam(null));
+      }
     },
-  };
+    [dispatch]
+  );
 
   return (
     <Map
@@ -278,18 +210,20 @@ export default function DynamicMap(props: Props): JSX.Element {
         bounds: props.initialBounds,
       }}
       style={{ width: "100%", height: "100%" }}
-      mapStyle="https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=bnAOhGDLHGeqBRkYSg8l"
-      onMouseMove={onHover}
-      onClick={onClick}
-      onLoad={() => setMapLoaded(true)}
-      onMoveEnd={onMoveEnd}
-      onZoomEnd={onZoomEnd}
+      mapStyle={`https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=${apiKey}`}
+      onMouseMove={onMouseMove}
+      onLoad={onLoad}
       dragRotate={false}
       touchPitch={false}
       touchZoomRotate={false}
       interactiveLayerIds={["state-interactive", "us-parks"]}
     >
       <NavigationControl position="top-right" showCompass={false} />
+      <GeoSearchControl
+        apiKey={apiKey}
+        position="top-left"
+        selectionCallback={handleGeoSearchSelection}
+      />
       {parkPopupInfo && (
         <Popup
           longitude={parkPopupInfo.longitude}
@@ -300,9 +234,9 @@ export default function DynamicMap(props: Props): JSX.Element {
           {parkPopupInfo.name}
         </Popup>
       )}
-      {bboxSearch && mapLoaded && (
+      {bboxParam && mapLoaded && (
         <div
-          className={`mt-[49px] ml-[10px] text-almostblack py-1 px-2 rounded relative font-sans text-sm bg-white bg-opacity-75 inline-flex`}
+          className={`mt-[54px] ml-[10px] text-almostblack py-1 px-2 rounded relative font-sans text-sm bg-white bg-opacity-75 inline-flex`}
         >
           <span>
             <em>results filtered by current map extent</em>
