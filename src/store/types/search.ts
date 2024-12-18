@@ -21,7 +21,6 @@ export interface SearchState {
   // map
   visOverlays: string[];
   visLyrs: string[];
-  bboxSearch: boolean;
   bboxParam: [number, number, number, number] | null;
 
   // status
@@ -41,8 +40,7 @@ export const initialState: SearchState = {
   suggestions: [],
   sortBy: "score",
   sortOrder: "desc",
-  bboxSearch: false,
-  bboxParam: [-125.3321, 23.8991, -65.7421, 49.4325],
+  bboxParam: null,
   subject: [],
   spatialResolution: [],
   visOverlays: [],

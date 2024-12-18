@@ -165,15 +165,13 @@ export default class SolrQueryBuilder {
     let filterQuery = `select?fq=`;
     if (searchTerms)
       searchTerms.forEach((term) => {
-        if (term.attribute !== "bbox" && term.attribute !== "bboxSearch")
+        if (term.attribute !== "bbox")
           filterQuery += `${encodeURIComponent(
             findSolrAttribute(term.attribute, this.query.schema_json)
           )}:"${encodeURIComponent(term.value)}" AND `;
       });
     if (
-      searchTerms.filter(
-        (term) => term.attribute === "bboxSearch" && term.value === true
-      ) &&
+      searchTerms.filter((term) => term.attribute === "bbox" && term.value) &&
       searchTerms.filter((term) => term.attribute === "bbox").length > 0
     ) {
       const bbox = searchTerms.filter((term) => term.attribute === "bbox")[0]
@@ -204,9 +202,6 @@ export default class SolrQueryBuilder {
         let filterQuery = "";
         const bboxFilter = filterQueries.find((f) => f.attribute === "bbox");
         if (
-          filterQueries.find(
-            (f) => f.attribute === "bboxSearch" && f.value === true
-          ) &&
           bboxFilter &&
           Array.isArray(bboxFilter.value) &&
           bboxFilter.value.length === 4
@@ -217,7 +212,6 @@ export default class SolrQueryBuilder {
           (f) =>
             f.attribute !== "vis_lyrs" &&
             f.attribute !== "query" &&
-            f.attribute !== "bboxSearch" &&
             f.attribute !== "bbox"
         );
         if (otherFilters.length > 0) {
