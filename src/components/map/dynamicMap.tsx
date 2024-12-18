@@ -10,32 +10,36 @@ import {
   Popup,
   Layer,
   LngLatBoundsLike,
+  useControl,
 } from "react-map-gl/maplibre";
 import maplibregl, {
   FilterSpecification,
   LayerSpecification,
   LineLayerSpecification,
+  GeoJSONSource,
 } from "maplibre-gl";
 import { Protocol } from "pmtiles";
 import { sources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
-import { setBboxParam, setVisLyrs } from "@/store/slices/searchSlice";
+import {
+  setBboxParam,
+  setBboxSearch,
+  setVisLyrs,
+} from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { overlayRegistry, layerRegistry } from "./helper/layers";
 import DynamicMapButtons from "./dynamicMapButtons";
 
+import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
+import "@maptiler/geocoding-control/style.css";
+
+import * as turf from "@turf/turf";
+
+const apiKey = "bnAOhGDLHGeqBRkYSg8l";
+
 interface Props {
   initialBounds: LngLatBoundsLike;
 }
-const contiguousBounds: LngLatBoundsLike = [
-  -125.3321, 23.8991, -65.7421, 49.4325,
-];
-const alaskaBounds: LngLatBoundsLike = [
-  -180, 50.5134265, -128.3203125, 71.3604977,
-];
-const hawaiiBounds: LngLatBoundsLike = [
-  -163.0371094, 16.5098328, -152.1826172, 25.9580447,
-];
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
@@ -54,6 +58,65 @@ export default function DynamicMap(props: Props): JSX.Element {
   const [currentZoom, setCurrentZoom] = useState<number>();
   const mapRef = useRef<MapRef>(null);
 
+  const handleBboxSearchChange = useCallback(
+    (checked: boolean) => {
+      // uncheck means to reset the bbox param
+      if (!checked) dispatch(setBboxParam([]));
+      dispatch(setBboxSearch(checked));
+    },
+    [dispatch]
+  );
+
+  const geocoderControl = new GeocodingControl({
+    apiKey,
+    country: "us",
+    types: ["region", "county", "postal_code", "municipality"],
+    markerOnSelected: false,
+    showResultMarkers: false,
+    fullGeometryStyle: null,
+    placeholder: "Filter by state, county, city, or zip",
+    noResultsMessage: "No matching locations found...",
+    class: "geocoding-control",
+  });
+  geocoderControl.on("pick", (e) => {
+    const map = mapRef.current.getMap();
+    const highlightSource = map.getSource(
+      "geoSearchHighlight"
+    ) as GeoJSONSource;
+    if (
+      e.feature &&
+      (e.feature.geometry.type == "MultiPolygon" ||
+        e.feature.geometry.type == "Polygon")
+    ) {
+      let feat = turf.feature(e.feature.geometry);
+      let diffGeom = turf.difference(
+        turf.featureCollection([
+          turf.polygon([
+            [
+              [180, 90],
+              [-180, 90],
+              [-180, -90],
+              [180, -90],
+              [180, 90],
+            ],
+          ]),
+          feat,
+        ])
+      );
+      highlightSource.setData(diffGeom);
+    } else {
+      highlightSource.setData({ type: "FeatureCollection", features: [] });
+    }
+    e.feature ? handleBboxSearchChange(true) : handleBboxSearchChange(false);
+  });
+
+  useEffect(() => {
+    console.log("run");
+    if (!mapLoaded) return;
+    const map = mapRef.current.getMap();
+    map.addControl(geocoderControl, "top-left");
+  }, [mapLoaded]);
+
   useEffect(() => {
     let protocol = new Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
@@ -65,9 +128,36 @@ export default function DynamicMap(props: Props): JSX.Element {
     if (!mapRef.current || !mapLoaded) return;
     const map = mapRef.current.getMap();
     const mapLyrIds = map.getStyle().layers.map((lyr) => lyr.id);
+
     Object.keys(sources).forEach((id) => {
       if (!map.getSource(id)) map.addSource(id, sources[id]);
     });
+
+    if (!mapLyrIds.includes("geoSearchHighlightLyr-fill")) {
+      map.addLayer({
+        id: "geoSearchHighlightLyr-fill",
+        type: "fill",
+        source: "geoSearchHighlight",
+        // 'layout': {},
+        // filter: ["all", ["==", ["geometry-type"], "Polygon"], ["has", "isMask"]],
+        paint: {
+          "fill-color": "#000",
+          "fill-opacity": 0.1,
+        },
+      });
+      map.addLayer({
+        id: "geoSearchHighlightLyr-line",
+        type: "line",
+        source: "geoSearchHighlight",
+        // 'layout': {},
+        // filter: ["all", ["==", ["geometry-type"], "Polygon"], ["has", "isMask"]],
+        paint: {
+          "line-width": ["case", ["==", ["geometry-type"], "Polygon"], 2, 3],
+          "line-dasharray": [1, 1],
+          "line-color": "#FF9C77",
+        },
+      });
+    }
     visOverlays.forEach((lyr) => {
       if (
         overlayRegistry[lyr] &&
@@ -130,12 +220,6 @@ export default function DynamicMap(props: Props): JSX.Element {
     const map = mapRef.current.getMap();
     const zoom = map.getZoom();
     setCurrentZoom(zoom);
-
-    const newVisLyrs = [...visLyrs];
-    if (zoom <= 6 && !newVisLyrs.includes("state")) {
-      newVisLyrs.push("state");
-      dispatch(setVisLyrs(newVisLyrs));
-    }
   }, [visLyrs, dispatch]);
 
   const onClick = useCallback((event: MapLayerMouseEvent) => {
@@ -200,10 +284,12 @@ export default function DynamicMap(props: Props): JSX.Element {
       onLoad={() => setMapLoaded(true)}
       onMoveEnd={onMoveEnd}
       onZoomEnd={onZoomEnd}
+      dragRotate={false}
+      touchPitch={false}
+      touchZoomRotate={false}
       interactiveLayerIds={["state-interactive", "us-parks"]}
     >
-      <NavigationControl position="top-right" />
-      <Layer {...hlStateLyr} filter={filterState} />
+      <NavigationControl position="top-right" showCompass={false} />
       {parkPopupInfo && (
         <Popup
           longitude={parkPopupInfo.longitude}
@@ -214,7 +300,15 @@ export default function DynamicMap(props: Props): JSX.Element {
           {parkPopupInfo.name}
         </Popup>
       )}
-      <DynamicMapButtons mapRef={mapRef} />
+      {bboxSearch && mapLoaded && (
+        <div
+          className={`mt-[49px] ml-[10px] text-almostblack py-1 px-2 rounded relative font-sans text-sm bg-white bg-opacity-75 inline-flex`}
+        >
+          <span>
+            <em>results filtered by current map extent</em>
+          </span>
+        </div>
+      )}
     </Map>
   );
 }
