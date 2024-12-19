@@ -19,7 +19,7 @@ import maplibregl, {
 import { Protocol } from "pmtiles";
 import { sources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
-import { setBboxParam } from "@/store/slices/searchSlice";
+import { setBbox } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { overlayRegistry, layerRegistry } from "./helper/layers";
 
@@ -37,7 +37,7 @@ interface Props {
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { bboxParam, visLyrs, visOverlays } = useSelector(
+  const { bbox, visLyrs, visOverlays } = useSelector(
     (state: RootState) => state.search
   );
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
@@ -159,7 +159,7 @@ export default function DynamicMap(props: Props): JSX.Element {
         Math.round(bounds._ne.lng * 1000) / 1000,
         Math.round(bounds._ne.lat * 1000) / 1000,
       ];
-      dispatch(setBboxParam(newBbox));
+      dispatch(setBbox(newBbox));
     },
     [dispatch]
   );
@@ -198,7 +198,7 @@ export default function DynamicMap(props: Props): JSX.Element {
         map.on("moveend", setBboxOnMoveEnd);
       } else {
         map.off("moveend", setBboxOnMoveEnd);
-        dispatch(setBboxParam(null));
+        dispatch(setBbox(null));
       }
     },
     [dispatch]
@@ -237,7 +237,7 @@ export default function DynamicMap(props: Props): JSX.Element {
           {parkPopupInfo.name}
         </Popup>
       )}
-      {bboxParam && mapLoaded && (
+      {bbox && mapLoaded && (
         <div
           className={`mt-[54px] ml-[10px] text-almostblack py-1 px-2 rounded relative font-sans text-sm bg-white bg-opacity-75 inline-flex`}
         >

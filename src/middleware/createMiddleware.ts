@@ -47,9 +47,9 @@ export const createMiddleware: Middleware =
       return result;
     }
     /**
-     * Handle bboxParam
+     * Handle bbox
      */
-    if (action.type === "search/setBboxParam") {
+    if (action.type === "search/setBbox") {
       const result = next(action);
       const config = actionConfig[action.type];
       if (config.syncWithUrl) {

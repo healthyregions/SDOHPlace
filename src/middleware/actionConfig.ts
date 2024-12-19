@@ -59,7 +59,7 @@ export const actionConfig: Record<string, ActionConfig> = {
       fromUrl: (value: string) => value.split(",").filter(Boolean),
     },
   },
-  "search/setBboxParam": {
+  "search/setBbox": {
     param: "bbox",
     syncWithUrl: true,
     requiresFetch: false,
