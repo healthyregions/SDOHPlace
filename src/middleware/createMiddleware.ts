@@ -47,21 +47,15 @@ export const createMiddleware: Middleware =
       return result;
     }
     /**
-     * Special case to handle the original bboxParam and bboxSearch mechanism, will change this later after we combine them to one action
+     * Handle bbox
      */
-    if (
-      action.type === "search/setBboxParam" ||
-      action.type === "search/setBboxSearch"
-    ) {
+    if (action.type === "search/setBbox") {
       const result = next(action);
-      const state = store.getState();
       const config = actionConfig[action.type];
       if (config.syncWithUrl) {
         syncToUrl(action, config);
       }
-        if(state.search.bboxSearch) {
-          triggerResultsRelatesFetch(store, store.getState().search.query || "*");
-        }
+      triggerResultsRelatesFetch(store, store.getState().search.query || "*");
       return result;
     }
     /**
@@ -143,4 +137,3 @@ async function triggerResultsRelatesFetch(store: any, query: string) {
     store.dispatch(setIsSearching(false));
   }
 }
-

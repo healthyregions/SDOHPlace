@@ -32,4 +32,8 @@ export const sources = {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/overlays/us-parks.pmtiles",
   },
+  geoSearchHighlight: {
+    type: "geojson",
+    data: null,
+  },
 };

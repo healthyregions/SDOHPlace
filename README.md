@@ -74,7 +74,10 @@ yarn start
 cp .env.local.example .env
 ```
 
-If you are running Solr locally, the default value should be sufficient. Otherwis, set `NEXT_PUBLIC_SOLR_URL` to `http://<your solr installation>/solr/blacklight-core`.
+Update environment variables as needed.
+
+- `NEXT_PUBLIC_SOLR_URL` - If you are running Solr locally, the default value should be sufficient. Otherwise, set to `http://<your solr installation>/solr/blacklight-core`.
+- `NEXT_PUBLIC_MAPTILER_API_KEY` - Set the API key for MapTiler services. This is used for the basemap style, as well as the geocoding service.
 
 ### Dev install - Decap CMS
 
