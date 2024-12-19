@@ -29,7 +29,7 @@ import * as turf from "@turf/turf";
 
 import GeoSearchControl from "./geoSearchControl";
 
-const apiKey = "bnAOhGDLHGeqBRkYSg8l";
+const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
 interface Props {
   initialBounds: LngLatBoundsLike;
