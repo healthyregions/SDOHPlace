@@ -100,6 +100,9 @@ export default function DynamicMap(props: Props): JSX.Element {
   }, [visLyrs, visOverlays, mapLoaded]);
 
   const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
+    if (!mapRef.current) {
+      return;
+    }
     const map = mapRef.current.getMap();
     const parkFeat = event.features?.find((f) => f["source"] === "us-parks");
 
