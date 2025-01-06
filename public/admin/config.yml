@@ -435,3 +435,46 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
+
+  - name: "research-rabbit"
+    label: "Research Rabbit"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: research-rabbit
+        label: Research Rabbit
+        file: "meta/research-rabbit.json"
+        label_singular: "item"
+        fields:
+          - name: title
+            label: Title
+            widget: string
+          - label: "Metadata Record ID"
+            name: "record_ids"
+            widget: "list"
+            summary: "{{record_id}}"
+            fields:
+              - label: Record ID
+                name: record_id
+                widget: string
+          - label: Public Link
+            name: link_url
+            widget: string
+            pattern:
+              [
+                '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                "Must be a valid URL.",
+              ]
+          - label: Collected by
+            name: collected_by
+            widget: string
+          - label: Reviewed by
+            name: reviewed_by
+            widget: string
+          - label: Documentation/Report
+            name: doc_report
+            widget: boolean
+          - label: Original peer-reviewed article by authors
+            name: peer_reviewed
+            widget: boolean
