@@ -460,11 +460,11 @@ collections:
                 widget: string
               - label: "Metadata Record ID"
                 name: "record_ids"
-                hint: >-
+                hint: |
                   Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL
                   (Example: herop-jxbloa)
                 widget: "list"
-                summary: "{{link_label}} - {{link_url}}"
+                summary: "{{record_id}}"
                 fields:
                   - label: Record ID
                     name: record_id
