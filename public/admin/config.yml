@@ -471,7 +471,7 @@ collections:
                     widget: string
               - label: Public Link
                 name: link_url
-                hint: "Public URL for this Research Rabbit entry"
+                hint: "Link to Research Rabbit URL for specific dataset of interest"
                 widget: string
                 pattern:
                   [
@@ -480,17 +480,21 @@ collections:
                   ]
               - label: Collected by
                 name: collected_by
-                hint: "Name of the collector of these record IDs"
+                hint: "Person who developed and curated the original Research Rabbit collection"
                 widget: string
               - label: Reviewed by
                 name: reviewed_by
-                hint: "Name of the reviewer of these record IDs"
+                hint: "Person who reviewed the curated Research Rabbit collection"
                 widget: string
               - label: Documentation/Report
                 name: doc_report
-                hint: "Is documentation or reprting available for these records?"
+                hint: >
+                  Some documentation/report exists that describes how the dataset was developed.
+                  This is "gray literature" that was not peer-reviewed.
                 widget: boolean
               - label: Original peer-reviewed article by authors
                 name: peer_reviewed
-                hint: "Have these record IDs been peer-reviewed?"
+                hint: >
+                  The authors of the dataset (or index featured by the dataset, for example) published a peer-reviewed article that details the development of the data of interest.
+                  This is linked in the Research Rabbit collection
                 widget: boolean
