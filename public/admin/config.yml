@@ -460,7 +460,9 @@ collections:
                 widget: string
               - label: "Metadata Record ID"
                 name: "record_ids"
-                hint: "Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL (it will look something like herop-jxbloa)"
+                hint: >-
+                  Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL
+                  (Example: herop-jxbloa)
                 widget: "list"
                 summary: "{{link_label}} - {{link_url}}"
                 fields:
