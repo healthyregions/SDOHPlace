@@ -456,9 +456,11 @@ collections:
             fields:
               - name: title
                 label: Title
+                hint: "Title for this Research Rabbit entry"
                 widget: string
               - label: "Metadata Record ID"
                 name: "record_ids"
+                hint: "Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL (it will look something like herop-jxbloa)"
                 widget: "list"
                 summary: "{{link_label}} - {{link_url}}"
                 fields:
@@ -467,6 +469,7 @@ collections:
                     widget: string
               - label: Public Link
                 name: link_url
+                hint: "Public URL for this Research Rabbit entry"
                 widget: string
                 pattern:
                   [
@@ -475,13 +478,17 @@ collections:
                   ]
               - label: Collected by
                 name: collected_by
+                hint: "Name of the collector of these record IDs"
                 widget: string
               - label: Reviewed by
                 name: reviewed_by
+                hint: "Name of the reviewer of these record IDs"
                 widget: string
               - label: Documentation/Report
                 name: doc_report
+                hint: "Is documentation or reprting available for these records?"
                 widget: boolean
               - label: Original peer-reviewed article by authors
                 name: peer_reviewed
+                hint: "Have these record IDs been peer-reviewed?"
                 widget: boolean
