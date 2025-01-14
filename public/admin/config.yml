@@ -90,6 +90,7 @@ collections:
                 widget: "string"
                 hint: "Tag name for displaying on the site"
 
+
   - name: "people"
     label: "People"
     delete: false
@@ -435,3 +436,65 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
+
+  - name: "research-rabbit"
+    label: "Research Rabbit"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: research-rabbit
+        label: Research Rabbit entries
+        file: "meta/research-rabbit.json"
+        label_singular: "Research Rabbit"
+        fields:
+          - name: research-rabbit
+            label: Research Rabbit entries
+            label_singular: "Research Rabbit entry"
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - name: title
+                label: Title
+                hint: "Title for this Research Rabbit entry"
+                widget: string
+              - label: "Metadata Record ID"
+                name: "record_ids"
+                hint: |
+                  Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL
+                  (Example: herop-jxbloa)
+                widget: "list"
+                summary: "{{record_id}}"
+                fields:
+                  - label: Record ID
+                    name: record_id
+                    widget: string
+              - label: Public Link
+                name: link_url
+                hint: "Link to Research Rabbit URL for specific dataset of interest"
+                widget: string
+                pattern:
+                  [
+                    '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                    "Must be a valid URL.",
+                  ]
+              - label: Collected by
+                name: collected_by
+                hint: "Person who developed and curated the original Research Rabbit collection"
+                widget: string
+              - label: Reviewed by
+                name: reviewed_by
+                hint: "Person who reviewed the curated Research Rabbit collection"
+                widget: string
+              - label: Documentation/Report
+                name: doc_report
+                hint: >
+                  Some documentation/report exists that describes how the dataset was developed.
+                  This is "gray literature" that was not peer-reviewed.
+                widget: boolean
+              - label: Original peer-reviewed article by authors
+                name: peer_reviewed
+                hint: >
+                  The authors of the dataset (or index featured by the dataset, for example) published a peer-reviewed article that details the development of the data of interest.
+                  This is linked in the Research Rabbit collection
+                widget: boolean
