@@ -6,6 +6,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* animation for icons on mobile navbar */
+.animate-fade-in{animation:opac 1.4s}@keyframes opac{from{opacity:0} to{opacity:1}}
+
+
 /* override the tailwind defaults to get bullets and numbers back on lists in blog posts.*/
 article ul {
   list-style: disc;
@@ -186,6 +190,10 @@ details summary {
 
 article details {
   margin-top: 1.5rem;
+}
+
+article summary {
+  cursor: pointer;
 }
 
 article summary::marker {
