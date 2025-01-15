@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
-import { BorderBottom } from "@mui/icons-material";
+import { getAllScoresSelector } from "../../../store/selectors/SearchSelector";
 
 interface Props {
   resultItem: SolrObject;
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const HighlightsTooltip = ({ q, highlights, score, avgScore, maxScore }) => {
+const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScore }) => {
   const classes = useStyles();
   const filteredHighlights = highlights.filter(
     (highlight) => highlight.trim() !== ""
@@ -79,7 +79,7 @@ const HighlightsTooltip = ({ q, highlights, score, avgScore, maxScore }) => {
   return highlights.length > 0 ? (
     <div>
       <div className={classes.scoreExplain} style={{ paddingBottom: 8, borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}` }}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, currentQuery, score, avgScore, maxScore) }} />
+        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery, score, avgScore, maxScore) }} />
         <p style={{paddingTop: 4}}>Information in this result includes:</p>
       </div>
       <ol className={classes.highlightsList}>
@@ -95,7 +95,7 @@ const HighlightsTooltip = ({ q, highlights, score, avgScore, maxScore }) => {
   ) : (
     <div>
        <div className={classes.scoreExplain}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, currentQuery , score, avgScore, maxScore) }} />
+        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery , score, avgScore, maxScore) }} />
       </div>
     </div>
   );
@@ -123,11 +123,7 @@ const ResultCard = (props: Props): JSX.Element => {
   } else if (spatial_res.includes("State")) {
     lyrId = "state";
   }
-  const allScores = useSelector((state: RootState) =>
-    state.search.results.map((r) => r.score)
-  );
-  const maxScore = Math.max(...allScores);
-  const avgScore = allScores.reduce((a, b) => a + b, 0) / allScores.length;
+  const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
   const cardContent = props.resultItem && (
     <div
@@ -239,6 +235,7 @@ const ResultCard = (props: Props): JSX.Element => {
         title={
           <HighlightsTooltip
             q={props.resultItem.q}
+            spellcheck = {props.resultItem.spellcheck}
             highlights={props.resultItem.highlights || []}
             score={props.resultItem.score}
             avgScore={avgScore}

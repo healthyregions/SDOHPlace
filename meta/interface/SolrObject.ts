@@ -4,6 +4,7 @@
  * Note that not all attributes in metadata managers are here. Only ones returned by search results are included.
  */
 export interface SolrObject {
+  spellcheck: any;
   id: string;
   title: string;
   creator: string[];
