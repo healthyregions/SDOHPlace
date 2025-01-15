@@ -7,6 +7,10 @@ export interface SearchState {
   results: any[];
   relatedResults: any[];
   suggestions: any[];
+  spellCheck: string;
+  originalQuery: string;
+  usedQuery: string;
+  usedSpellCheck: boolean;
 
   // sort
   sortBy: string;
@@ -46,6 +50,10 @@ export const initialState: SearchState = {
   visOverlays: [],
   visLyrs: [],
   indexYear: [],
+  spellCheck: "",
+  originalQuery: "",
+  usedQuery: "",
+  usedSpellCheck: false,
   // status
   isLoading: false,
   isSearching: false,

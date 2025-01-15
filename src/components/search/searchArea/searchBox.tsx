@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,7 +22,8 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import { setQuery, fetchSuggestions } from "@/store/slices/searchSlice";
 import { setInputValue } from "@/store/slices/searchSlice";
-import { setShowInfoPanel, setShowClearButton } from "@/store/slices/uiSlice";
+import { setShowInfoPanel, setShowClearButton, setShowDetailPanel } from "@/store/slices/uiSlice";
+import SpellCheckMessage from "./spellCheckMessage";
 interface Props {
   schema: any;
 }
@@ -104,6 +106,7 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
     (searchValue: string | null) => {
       if (searchValue) {
         dispatch(setQuery(searchValue));
+        dispatch(setShowDetailPanel(null));
       }
     },
     [dispatch]
@@ -149,6 +152,7 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   const handleClear = () => {
     dispatch(setInputValue(""));
     dispatch(setQuery(null));
+    dispatch(setShowDetailPanel(null));
     dispatch(setShowClearButton(false));
   };
   const isIOS = React.useMemo(() => {
@@ -164,96 +168,97 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
     return false;
   }, []);
   return (
-    <div className="sm:mt-6">
-      <form id="search-form" onSubmit={handleSubmit}>
-        <Autocomplete
-          PopperComponent={CustomPopper}
-          PaperComponent={CustomPaper}
-          freeSolo
-          options={suggestions}
-          value={query === "*" ? "" : query}
-          inputValue={inputValue}
-          onInputChange={handleUserInputChange}
-          onChange={handleDropdownSelect}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              inputRef={textFieldRef}
-              variant="outlined"
-              fullWidth
-              placeholder="Search"
-              className={`${classes.searchBox} bg-white`}
-              sx={{
-                paddingRight: "0",
-                borderRadius: "1.75em",
-                border: `1px solid ${fullConfig.theme.colors["frenchviolet"]}`,
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "1.75em",
-                  color: fullConfig.theme.colors["smokegray"],
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "transparent",
-                  },
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "transparent",
-                },
-              }}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" />
-                    <Box component="span" className="mx-2">
-                      <a
-                        onClick={() => dispatch(setShowInfoPanel(true))}
-                        style={{ cursor: "pointer" }}
-                        className="no-underline text-frenchviolet"
-                      >
-                        <InfoOutlinedIcon />
-                      </a>
-                    </Box>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <Box display="flex" alignItems="center">
-                    {showClearButton && (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleClear}>
-                          <CloseIcon className="text-2xl text-frenchviolet" />
-                        </IconButton>
-                      </InputAdornment>
-                    )}
-                    <InputAdornment position="end">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-end",
-                          justifyContent: "center",
-                          backgroundColor: "transparent",
-                          color: fullConfig.theme.colors["frenchviolet"],
-                          boxShadow: "none",
-                          "&:hover": {
-                            backgroundColor: "transparent",
-                            boxShadow: "none",
-                          },
-                        }}
-                      >
-                        <ArrowCircleRightIcon className="text-2xl" />
-                      </Button>
-                    </InputAdornment>
-                  </Box>
-                ),
-                type: "search",
-              }}
-            />
-          )}
-        />
-      </form>
-    </div>
-  );
+		<div className="sm:mt-6">
+			<SpellCheckMessage />
+			<form id="search-form" onSubmit={handleSubmit}>
+				<Autocomplete
+					PopperComponent={CustomPopper}
+					PaperComponent={CustomPaper}
+					freeSolo
+					options={suggestions}
+					value={query === "*" ? "" : query}
+					inputValue={inputValue}
+					onInputChange={handleUserInputChange}
+					onChange={handleDropdownSelect}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							inputRef={textFieldRef}
+							variant="outlined"
+							fullWidth
+							placeholder="Search"
+							className={`${classes.searchBox} bg-white`}
+							sx={{
+								paddingRight: "0",
+								borderRadius: "1.75em",
+								border: `1px solid ${fullConfig.theme.colors["frenchviolet"]}`,
+								"& .MuiOutlinedInput-root": {
+									borderRadius: "1.75em",
+									color: fullConfig.theme.colors["smokegray"],
+									"&:hover .MuiOutlinedInput-notchedOutline": {
+										borderColor: "transparent",
+									},
+								},
+								"& .MuiOutlinedInput-notchedOutline": {
+									borderColor: "transparent",
+								},
+							}}
+							InputProps={{
+								...params.InputProps,
+								startAdornment: (
+									<InputAdornment position="start">
+										<SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" />
+										<Box component="span" className="mx-2">
+											<a
+												onClick={() => dispatch(setShowInfoPanel(true))}
+												style={{ cursor: "pointer" }}
+												className="no-underline text-frenchviolet"
+											>
+												<InfoOutlinedIcon />
+											</a>
+										</Box>
+									</InputAdornment>
+								),
+								endAdornment: (
+									<Box display="flex" alignItems="center">
+										{showClearButton && (
+											<InputAdornment position="end">
+												<IconButton onClick={handleClear}>
+													<CloseIcon className="text-2xl text-frenchviolet" />
+												</IconButton>
+											</InputAdornment>
+										)}
+										<InputAdornment position="end">
+											<Button
+												type="submit"
+												variant="contained"
+												color="primary"
+												sx={{
+													display: "flex",
+													flexDirection: "column",
+													alignItems: "flex-end",
+													justifyContent: "center",
+													backgroundColor: "transparent",
+													color: fullConfig.theme.colors["frenchviolet"],
+													boxShadow: "none",
+													"&:hover": {
+														backgroundColor: "transparent",
+														boxShadow: "none",
+													},
+												}}
+											>
+												<ArrowCircleRightIcon className="text-2xl" />
+											</Button>
+										</InputAdornment>
+									</Box>
+								),
+								type: "search",
+							}}
+						/>
+					)}
+				/>
+			</form>
+		</div>
+	);
 };
 export default SearchBox;

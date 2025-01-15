@@ -2,6 +2,7 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
 import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
+import { adaptiveScoreFilter, scoreConfig } from "./FilterByScore";
 
 export default class SolrQueryBuilder {
   private query: QueryObject = {
@@ -38,7 +39,9 @@ export default class SolrQueryBuilder {
     );
   }
 
-  public fetchResult(signal?: AbortSignal): Promise<SolrObject[]> {
+  public fetchResult(
+    signal?: AbortSignal
+  ): Promise<{ results: SolrObject[]; spellCheckSuggestion?: string }> {
     return new Promise((resolve, reject) => {
       const currentUrl = this.query.query;
       console.log("Attempting to fetch URL:", currentUrl);
@@ -78,11 +81,26 @@ export default class SolrQueryBuilder {
           try {
             const jsonResponse = JSON.parse(text);
             const result = this.getSearchResult(jsonResponse);
-            resolve(result);
+            if (jsonResponse && jsonResponse["suggest"]) {
+              resolve(jsonResponse);
+              return;
+            }
+            if (!result || result.length === 0) {
+              const spellcheck =
+                jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
+              if (spellcheck) {
+                resolve({
+                  results: result,
+                  spellCheckSuggestion: spellcheck[0],
+                });
+                return;
+              }
+            }
+            resolve({ results: result });
           } catch (error) {
             console.error("Response parsing error:", error);
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
-              resolve([]);
+              resolve({ results: [] });
             } else {
               reject(new Error("Invalid response format"));
             }
@@ -105,9 +123,11 @@ export default class SolrQueryBuilder {
    */
   getSearchResult(response_json: any): any {
     let result = [] as SolrObject[];
-    //if return suggest
     if (response_json && response_json["suggest"]) return response_json;
-    //if return select
+    const q =
+      response_json &&
+      response_json["responseHeader"] &&
+      response_json["responseHeader"].params.q;
     const rawSolrObjects =
       response_json &&
       response_json["response"] &&
@@ -115,8 +135,36 @@ export default class SolrQueryBuilder {
         ? response_json["response"].docs
         : [];
     rawSolrObjects.forEach((rawSolrObject: any) => {
-      result.push(initSolrObject(rawSolrObject, this.query.schema_json));
+      if (response_json && response_json["highlighting"] && rawSolrObject.id) {
+        const highlighting = response_json["highlighting"][rawSolrObject.id];
+        if (highlighting) {
+          rawSolrObject.highlights = [] as string[];
+          Object.values(highlighting).forEach((arrayValue: any) => {
+            arrayValue.forEach((value: any) => {
+              if (value) {
+                rawSolrObject.highlights.push(value);
+              }
+            });
+          });
+          rawSolrObject.highlights = [
+            ...Array.from(new Set(rawSolrObject.highlights)),
+          ];
+        }
+      }
+      if (q) {
+        rawSolrObject.q = q;
+      }
+      if (q.includes("*") || rawSolrObject.score >= 1) {
+        result.push(initSolrObject(rawSolrObject, this.query.schema_json));
+      }
     });
+    if (!q.includes("*") && result.length > 0) {
+      result = adaptiveScoreFilter(
+        result,
+        scoreConfig.minResults || 1,
+        scoreConfig?.maxResults || 10
+      );
+    }
     return result;
   }
 

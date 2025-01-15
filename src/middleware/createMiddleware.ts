@@ -17,6 +17,19 @@ export const createMiddleware: Middleware =
     if (!isClient) {
       return next(action);
     }
+    if (
+      action.type === "search/clearSearch/pending" ||
+      action.type === "search/clearSearch/fulfilled"
+    ) {
+      const result = next(action);
+      if (action.type === "search/clearSearch/fulfilled") {
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.delete("query");
+        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+        window.history.pushState({}, "", newUrl);
+      }
+      return result;
+    }
     /**
      * filter reset
      */
@@ -131,6 +144,7 @@ async function triggerResultsRelatesFetch(store: any, query: string) {
         schema: state.search.schema,
         sortBy: state.search.sortBy,
         sortOrder: state.search.sortOrder,
+        bypassSpellCheck: false
       })
     );
   } finally {

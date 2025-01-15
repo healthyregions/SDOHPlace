@@ -2,6 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import SolrQueryBuilder from "../../components/search/helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import { initialState, SolrSuggestResponse } from "@/store/types/search";
+import { stripHtmlTags } from "@/components/search/helper/CleanHtml";
+import { generateFilterQueries } from "@/middleware/filterHelper";
+import { setShowClearButton } from "./uiSlice";
 
 export const fetchSearchAndRelatedResults = createAsyncThunk(
   "search/fetchSearchAndRelated",
@@ -12,14 +15,16 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       schema,
       sortBy,
       sortOrder,
+      bypassSpellCheck = false,
     }: {
       query: string;
       filterQueries: Array<any>;
       schema: any;
       sortBy?: string;
       sortOrder?: string;
+      bypassSpellCheck: boolean;
     },
-    { dispatch, getState }
+    { dispatch }
   ) => {
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
@@ -27,9 +32,8 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       .suggestQuery(query)
       .fetchResult();
     const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
-    const suggestions =
+    let suggestions =
       suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
-
     const validSuggestions = suggestions
       .filter((s) => s.weight > 50 && s.payload === "false")
       .map((s) => s.term)
@@ -40,18 +44,47 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       })
       .slice(0, 10);
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
-    const searchResults = await searchQueryBuilder.fetchResult();
+    const { results: searchResults, spellCheckSuggestion } =
+      await searchQueryBuilder.fetchResult();
+    if (spellCheckSuggestion) {
+      dispatch(setSpellCheck(spellCheckSuggestion));
+    }
+    let finalResults = searchResults;
+    let usedQuery = query;
+    let usedSpellCheck = false;
+
+    if (
+      !bypassSpellCheck &&
+      (!searchResults || searchResults.length === 0) &&
+      spellCheckSuggestion &&
+      spellCheckSuggestion !== query
+    ) {
+      searchQueryBuilder.combineQueries(
+        spellCheckSuggestion,
+        filterQueries,
+        sortBy,
+        sortOrder
+      );
+      const { results: spellCheckResults } =
+        await searchQueryBuilder.fetchResult();
+      if (spellCheckResults && spellCheckResults.length > 0) {
+        finalResults = spellCheckResults;
+        usedQuery = spellCheckSuggestion;
+        usedSpellCheck = true;
+      }
+    }
+
     const relatedResults = [];
     for (const suggestion of validSuggestions) {
-      if (suggestion !== query) {
-        const results = await searchQueryBuilder
+      if (suggestion !== usedQuery) {
+        const { results: suggestionResults } = await searchQueryBuilder
           .generalQuery(suggestion)
           .fetchResult();
-        relatedResults.push(...results);
+        relatedResults.push(...suggestionResults);
       }
     }
     return {
-      searchResults: searchResults.map((result) => ({
+      searchResults: finalResults.map((result) => ({
         ...result,
         years: Array.isArray(result.years)
           ? result.years
@@ -59,35 +92,86 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       })),
       relatedResults,
       suggestions: validSuggestions,
+      originalQuery: query,
+      usedQuery,
+      usedSpellCheck,
     };
   }
 );
 
 export const fetchSearchResults = createAsyncThunk(
   "search/fetchResults",
-  async ({
-    query,
-    filterQueries,
-    schema,
-    sortBy,
-    sortOrder,
-  }: {
-    query: string;
-    filterQueries: Array<any>;
-    schema: any;
-    sortBy?: string;
-    sortOrder?: string;
-  }) => {
+  async (
+    {
+      query,
+      filterQueries,
+      schema,
+      sortBy,
+      sortOrder,
+      bypassSpellCheck = false,
+    }: {
+      query: string;
+      filterQueries: Array<any>;
+      schema: any;
+      sortBy?: string;
+      sortOrder?: string;
+      bypassSpellCheck?: boolean;
+    },
+    { dispatch, getState }
+  ) => {
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
-    const results = await searchQueryBuilder.fetchResult();
-    return results.map((result) => ({
-      ...result,
-      years: Array.isArray(result.years)
-        ? result.years
-        : Array.from(result.years || []),
-    }));
+
+    const { results, spellCheckSuggestion } =
+      await searchQueryBuilder.fetchResult();
+    if (spellCheckSuggestion) {
+      dispatch(setSpellCheck(spellCheckSuggestion));
+    }
+    if (
+      !bypassSpellCheck &&
+      (!results ||
+        (results.length === 0 &&
+          spellCheckSuggestion &&
+          spellCheckSuggestion !== query))
+    ) {
+      const state = getState() as any;
+      const spellCheckSuggestion = state.search.spellCheck;
+      if (spellCheckSuggestion && spellCheckSuggestion !== query) {
+        searchQueryBuilder.combineQueries(
+          spellCheckSuggestion,
+          filterQueries,
+          sortBy,
+          sortOrder
+        );
+        const { results: spellCheckResults } =
+          await searchQueryBuilder.fetchResult();
+        if (spellCheckResults && spellCheckResults.length > 0) {
+          return {
+            results: spellCheckResults.map((result) => ({
+              ...result,
+              years: Array.isArray(result.years)
+                ? result.years
+                : Array.from(result.years || []),
+            })),
+            originalQuery: query,
+            usedQuery: spellCheckSuggestion,
+            usedSpellCheck: true,
+          };
+        }
+      }
+    }
+    return {
+      results: results.map((result) => ({
+        ...result,
+        years: Array.isArray(result.years)
+          ? result.years
+          : Array.from(result.years || []),
+      })),
+      originalQuery: query,
+      usedQuery: query,
+      usedSpellCheck: false,
+    };
   }
 );
 
@@ -109,33 +193,7 @@ export const fetchSuggestions = createAsyncThunk(
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
         return weightB - weightA;
       })
-      .slice(0, 10);
-  }
-);
-
-export const fetchRelatedResults = createAsyncThunk(
-  "search/fetchRelatedResults",
-  async ({
-    query,
-    schema,
-    suggestions,
-  }: {
-    query: string;
-    schema: any;
-    suggestions: string[];
-  }) => {
-    const searchQueryBuilder = new SolrQueryBuilder();
-    searchQueryBuilder.setSchema(schema);
-    const relatedResults = [];
-    for (const suggestion of suggestions) {
-      if (suggestion !== query) {
-        const results = await searchQueryBuilder
-          .generalQuery(suggestion)
-          .fetchResult();
-        relatedResults.push(...results);
-      }
-    }
-    return relatedResults;
+      .slice(0, 20);
   }
 );
 
@@ -145,6 +203,28 @@ export const atomicResetAndFetch = createAsyncThunk(
     return { schema };
   }
 );
+export const clearSearch = createAsyncThunk(
+  "search/clearSearch",
+  async (_, { dispatch, getState }) => {
+    const state = getState() as { search: typeof initialState };
+    dispatch(setInputValue(""));
+    dispatch(setShowClearButton(false));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    if (state.search.schema) {
+      dispatch(
+        fetchSearchAndRelatedResults({
+          query: "*",
+          filterQueries: generateFilterQueries(state.search),
+          schema: state.search.schema,
+          sortBy: state.search.sortBy,
+          sortOrder: state.search.sortOrder,
+          bypassSpellCheck: true,
+        })
+      );
+    }
+  }
+);
+
 
 const searchSlice = createSlice({
   name: "search",
@@ -152,10 +232,6 @@ const searchSlice = createSlice({
   reducers: {
     setSchema: (state, action) => {
       state.schema = action.payload;
-    },
-    setQuery: (state, action) => {
-      state.query = action.payload;
-      state.suggestions = [];
     },
     setInputValue: (state, action) => {
       state.inputValue = action.payload;
@@ -187,11 +263,40 @@ const searchSlice = createSlice({
     setIndexYear: (state, action) => {
       state.indexYear = action.payload;
     },
+    setSpellCheck: (state, action) => {
+      state.spellCheck = action.payload;
+    },
+    setOriginalQuery: (state, action) => {
+      state.originalQuery = action.payload;
+    },
+    setUsedQuery: (state, action) => {
+      state.usedQuery = action.payload;
+    },
+    setUsedSpellCheck: (state, action) => {
+      state.usedSpellCheck = action.payload;
+    },
+    setQuery: (state, action) => {
+      state.query = action.payload;
+      state.originalQuery = action.payload;
+      state.usedQuery = action.payload;
+      state.usedSpellCheck = false;
+      state.spellCheck = null;
+      state.suggestions = [];
+    },
     resetQuerySearch: (state) => {
       return {
         ...initialState,
-        query: "*",
+        schema: state.schema,
       };
+    },
+    clearSearchState: (state) => {
+      state.inputValue = "";
+      state.query = "*";
+      state.originalQuery = undefined;
+      state.usedQuery = undefined;
+      state.usedSpellCheck = false;
+      state.spellCheck = null;
+      state.suggestions = [];
     },
     setIsSearching: (state, action) => {
       state.isSearching = action.payload;
@@ -210,36 +315,32 @@ const searchSlice = createSlice({
           action.payload.relatedResults
         );
         state.suggestions = action.payload.suggestions;
+        state.originalQuery = action.payload.originalQuery;
+        state.usedQuery = action.payload.usedQuery;
+        state.usedSpellCheck = action.payload.usedSpellCheck;
         state.isSearching = false;
       })
       .addCase(fetchSearchAndRelatedResults.rejected, (state) => {
         state.isSearching = false;
         state.results = [];
         state.relatedResults = [];
+        state.usedSpellCheck = false;
       })
       .addCase(fetchSearchResults.pending, (state) => {
         state.isSearching = true;
         state.results = [];
       })
       .addCase(fetchSearchResults.fulfilled, (state, action) => {
-        state.results = generateSolrObjectList(action.payload);
+        state.results = generateSolrObjectList(action.payload.results);
+        state.originalQuery = action.payload.originalQuery;
+        state.usedQuery = action.payload.usedQuery;
+        state.usedSpellCheck = action.payload.usedSpellCheck;
         state.isSearching = false;
       })
       .addCase(fetchSearchResults.rejected, (state) => {
         state.isSearching = false;
         state.results = [];
-      })
-      .addCase(fetchRelatedResults.pending, (state) => {
-        state.isSearching = true; // recommendations and search results should come together
-        state.relatedResults = [];
-      })
-      .addCase(fetchRelatedResults.fulfilled, (state, action) => {
-        state.relatedResults = generateSolrObjectList(action.payload);
-        state.isSearching = false;
-      })
-      .addCase(fetchRelatedResults.rejected, (state) => {
-        state.isSearching = false;
-        state.relatedResults = [];
+        state.usedSpellCheck = false;
       })
       .addCase(fetchSuggestions.pending, (state) => {})
       .addCase(fetchSuggestions.rejected, (state) => {
@@ -258,6 +359,19 @@ const searchSlice = createSlice({
         state.sortOrder = null;
         state.filterQueries = [];
         state.schema = action.payload.schema;
+      })
+      .addCase(clearSearch.pending, (state) => {
+        state.inputValue = "";
+        state.suggestions = [];
+      })
+      .addCase(clearSearch.fulfilled, (state) => {
+        state.inputValue = "";
+        state.query = "*";
+        state.originalQuery = "*";
+        state.usedQuery = "*";
+        state.usedSpellCheck = false;
+        state.spellCheck = null;
+        state.suggestions = [];
       });
   },
 });
@@ -275,6 +389,10 @@ export const {
   setSubject,
   setSpatialResolution,
   setIndexYear,
+  setSpellCheck,
+  setOriginalQuery,
+  setUsedQuery,
+  setUsedSpellCheck,
   resetQuerySearch,
   setIsSearching,
 } = searchSlice.actions;
