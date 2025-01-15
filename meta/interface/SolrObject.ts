@@ -44,4 +44,6 @@ export interface SolrObject {
   };
   years: unknown[]; // will change this later after finishing the year slider refactor
   parents?: string[];
+  highlights?: string[];
+  q?: string; // query string for this search (in solr)
 }
