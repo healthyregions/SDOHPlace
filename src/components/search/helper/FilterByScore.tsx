@@ -42,18 +42,20 @@ export function adaptiveScoreFilter(
 
 export function getScoreExplanation(
   q: string,
+  currentQuery : string,
   score: number, 
   avgScore: number, 
   maxScore: number
 ): string {
-  if (score > maxScore * 0.8) {
-    return `This is a very strong match with score ${score} for <b>${q}</b> in important fields like title and description`;
+  if (score > maxScore * 0.8 && q === currentQuery) {
+    return `This is a very strong match with score <i>${score}</i> for <b>${q}</b> in important fields like title and description.`;
   }
-  if (score > avgScore) {
-    return `This is a good match with score ${score} for <b>${q}</b> that contains your search terms across multiple fields`;
+  if (score > avgScore  && q === currentQuery) {
+    return `This is a good match with score <i>${score}</i> for <b>${q}</b> that contains your search terms across multiple fields.`;
   }
-  if (score > avgScore * 0.5) {
-    return `This is a moderate match with score ${score} for <b>${q}</b>`;
+  if (score > avgScore * 0.5  && q === currentQuery) {
+    return `This is a moderate match with score <i>${score}</i> for <b>${q}</b>.`;
   }
-  return `This is a broader match with score ${score} for <b>${q}</b>`;
+  if( q === currentQuery) return `This is a broader match with score <i>${score}</i> for <b>${q}</b>.`;
+  return `You may find <b>${q}</b> in this result relevant for <i>${currentQuery}</i>.`;
 }

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
+import { BorderBottom } from "@mui/icons-material";
 
 interface Props {
   resultItem: SolrObject;
@@ -50,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "8px",
     fontSize: "0.8rem",
     color: fullConfig.theme.colors["frenchviolet"],
-    fontStyle: "italic",
   },
   highlightsList: {
     listStyleType: "decimal",
@@ -75,10 +75,12 @@ const HighlightsTooltip = ({ q, highlights, score, avgScore, maxScore }) => {
   const filteredHighlights = highlights.filter(
     (highlight) => highlight.trim() !== ""
   );
+  const currentQuery = useSelector((state: RootState) => state.search.query);
   return highlights.length > 0 ? (
     <div>
-      <div className={classes.scoreExplain}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, score, avgScore, maxScore) }} />
+      <div className={classes.scoreExplain} style={{ paddingBottom: 8, borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}` }}>
+        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, currentQuery, score, avgScore, maxScore) }} />
+        <p style={{paddingTop: 4}}>Information in this result includes:</p>
       </div>
       <ol className={classes.highlightsList}>
         {filteredHighlights.map((highlight, index) => (
@@ -93,7 +95,7 @@ const HighlightsTooltip = ({ q, highlights, score, avgScore, maxScore }) => {
   ) : (
     <div>
        <div className={classes.scoreExplain}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, score, avgScore, maxScore) }} />
+        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, currentQuery , score, avgScore, maxScore) }} />
       </div>
     </div>
   );
@@ -232,7 +234,7 @@ const ResultCard = (props: Props): JSX.Element => {
   );
   return props.resultItem ? (
     (props.resultItem.highlights && props.resultItem.highlights.length > 0) ||
-    props.resultItem.q ? (
+    props.resultItem.q && !props.resultItem.q.includes('*') ? (
       <Tooltip
         title={
           <HighlightsTooltip
