@@ -21,7 +21,7 @@ import { sources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
 import { setBbox } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { overlayRegistry, layerRegistry } from "./helper/layers";
+import { overlayRegistry, layerRegistry, LayerDef } from "./helper/layers";
 
 import "@maptiler/geocoding-control/style.css";
 
@@ -40,6 +40,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   const { bbox, visLyrs, visOverlays } = useSelector(
     (state: RootState) => state.search
   );
+  const mapPreview = useSelector((state: RootState) => state.search.mapPreview);
   const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
     LayerSpecification[]
   >([]);
@@ -49,6 +50,34 @@ export default function DynamicMap(props: Props): JSX.Element {
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
+
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded) return;
+    const map = mapRef.current.getMap();
+    map.getStyle().layers.map((lyr) => {
+      if (lyr.id.startsWith("herop-")) {
+        map.removeLayer(lyr.id);
+      }
+    });
+    mapPreview.map((layerInfo) => {
+      const newLayerSpec: LineLayerSpecification = {
+        id: layerInfo.id,
+        source: layerInfo.source,
+        "source-layer": layerInfo.source + "-2018",
+        type: "line",
+        paint: {
+          "line-color": "blue",
+          "line-width": 1.5,
+        },
+      };
+      const newLayer: LayerDef = {
+        addBefore: "Ocean labels",
+        spec: newLayerSpec,
+        specHl: null,
+      };
+      map.addLayer(newLayer.spec, newLayer.addBefore);
+    });
+  }, [mapPreview, mapLoaded]);
 
   // create ability to load pmtiles layers
   useEffect(() => {

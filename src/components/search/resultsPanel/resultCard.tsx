@@ -1,6 +1,7 @@
 "use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
@@ -12,6 +13,7 @@ import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
 import { getAllScoresSelector } from "../../../store/selectors/SearchSelector";
+import { setMapPreview } from "@/store/slices/searchSlice";
 
 interface Props {
   resultItem: SolrObject;
@@ -104,6 +106,7 @@ const ResultCard = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
+  const mapPreview = useSelector((state: RootState) => state.search.mapPreview);
   // show the most detailed geography that a record represents
   let lyrId: string;
   const spatial_res = props.resultItem.meta.spatial_resolution
@@ -183,6 +186,89 @@ const ResultCard = (props: Props): JSX.Element => {
             </button>
           </div>
         </div>
+        <FormControlLabel
+          label="Show coverage area"
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+          control={
+            <Checkbox
+              id={`sc-checkbox-${props.resultItem.id}`}
+              value={props.resultItem.meta}
+              onChange={(event) => {
+
+                // if highlight_ids are available, ignore spatial_coverage and infer
+                // layer and filterset from these ids.
+                // "add the county layer and filter by the provided ids"
+
+                // otherwise: inspect spatial_resolution to determine the correct layer to add
+                // and then add that layer without any filtering.
+
+                if (event.target.checked) {
+                  dispatch(
+                    setMapPreview([
+                      ...mapPreview,
+                      {
+                        id: props.resultItem.id,
+                        source: lyrId,
+                        filterIds: props.resultItem.meta.highlight_ids,
+                      },
+                    ])
+                  );
+                } else {
+                  dispatch(
+                    setMapPreview(
+                      mapPreview.filter(
+                        (item) => item.id != props.resultItem.id
+                      )
+                    )
+                  );
+                }
+              }}
+              icon={
+                <span
+                  style={{
+                    borderRadius: "4px",
+                    border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
+                    width: "24px",
+                    height: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "transparent",
+                  }}
+                ></span>
+              }
+              checkedIcon={
+                <span
+                  style={{
+                    borderRadius: "4px",
+                    border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
+                    width: "24px",
+                    height: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: `${fullConfig.theme.colors["frenchviolet"]}`,
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+              }
+            />
+          }
+        />
       </div>
       <div className="flex flex-col sm:flex-row sm:mt-4">
         <div className="flex-1 w-full sm:w-1/2">
