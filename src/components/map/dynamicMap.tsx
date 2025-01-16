@@ -40,7 +40,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   const { bbox, visLyrs, visOverlays } = useSelector(
     (state: RootState) => state.search
   );
-  const mapPreview = useSelector((state: RootState) => state.search.mapPreview);
+  const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
@@ -55,7 +55,6 @@ export default function DynamicMap(props: Props): JSX.Element {
     });
 
     mapPreview.map((previewLyr) => {
-
       const lookup = {
         "040": "state",
         "050": "county",
@@ -79,7 +78,7 @@ export default function DynamicMap(props: Props): JSX.Element {
         "source-layer": source + "-2018",
         type: "line",
         paint: {
-          "line-color": "#ff9c77",
+          "line-color": "#FF9C77",
           "line-width": 1,
         },
         filter: expression,

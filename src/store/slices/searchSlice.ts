@@ -254,9 +254,6 @@ const searchSlice = createSlice({
     setVisLyrs: (state, action) => {
       state.visLyrs = action.payload;
     },
-    setMapPreview: (state, action) => {
-      state.mapPreview = action.payload;
-    },
     setSubject: (state, action) => {
       state.subject = action.payload;
     },
@@ -389,7 +386,6 @@ export const {
   setBbox,
   setVisOverlays,
   setVisLyrs,
-  setMapPreview,
   setSubject,
   setSpatialResolution,
   setIndexYear,

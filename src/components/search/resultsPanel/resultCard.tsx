@@ -7,13 +7,12 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
 import { SolrObject } from "meta/interface/SolrObject";
 import IconMatch from "../helper/IconMatch";
-import { setShowDetailPanel } from "@/store/slices/uiSlice";
+import { setShowDetailPanel, setMapPreview } from "@/store/slices/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
 import { getAllScoresSelector } from "../../../store/selectors/SearchSelector";
-import { setMapPreview } from "@/store/slices/searchSlice";
 
 interface Props {
   resultItem: SolrObject;
@@ -104,7 +103,7 @@ const ResultCard = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
-  const mapPreview = useSelector((state: RootState) => state.search.mapPreview);
+  const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
   const cardContent = props.resultItem && (
@@ -166,6 +165,7 @@ const ResultCard = (props: Props): JSX.Element => {
             <Checkbox
               id={`sc-checkbox-${props.resultItem.id}`}
               value={props.resultItem.meta}
+              disabled={!props.resultItem.meta.highlight_ids?.length}
               onChange={(event) => {
 
                 if (event.target.checked) {
