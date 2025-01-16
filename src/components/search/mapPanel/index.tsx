@@ -5,8 +5,6 @@ import { SolrObject } from "meta/interface/SolrObject";
 
 interface Props {
   resultsList: SolrObject[];
-  highlightLyr?: string;
-  highlightIds?: string[];
   showMap: string;
   schema: any;
 }

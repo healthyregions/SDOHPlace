@@ -21,8 +21,6 @@ import ThemeIcons from "../helper/themeIcons";
 
 interface Props {
   schema: any;
-  setHighlightLyr: (value: string) => void;
-  setHighlightIds: (value: string[]) => void;
 }
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -167,8 +165,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         <div key={result.id} className="mb-[0.75em]">
                           <ResultCard
                             resultItem={result}
-                            setHighlightIds={props.setHighlightIds}
-                            setHighlightLyr={props.setHighlightLyr}
                           />
                         </div>
                       ))}
@@ -218,8 +214,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                             <div key={result.id} className="mb-[0.75em]">
                               <ResultCard
                                 resultItem={result}
-                                setHighlightIds={props.setHighlightIds}
-                                setHighlightLyr={props.setHighlightLyr}
                               />
                             </div>
                           ))}

@@ -41,12 +41,6 @@ export default function DynamicMap(props: Props): JSX.Element {
     (state: RootState) => state.search
   );
   const mapPreview = useSelector((state: RootState) => state.search.mapPreview);
-  const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
-    LayerSpecification[]
-  >([]);
-  const [currentInteractiveLayers, setCurrentInteractiveLayers] = useState<
-    LayerSpecification[]
-  >([]);
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);

@@ -10,13 +10,7 @@ const DynamicMap = dynamic(() => import("./dynamicMap"), {
   loading: () => <div className="h-full w-full bg-gray-100 animate-pulse" />,
 });
 
-interface Props {
-  resultsList: SolrObject[];
-  highlightLyr?: string;
-  highlightIds?: string[];
-}
-
-export default function MapArea(props: Props): JSX.Element {
+export default function MapArea(): JSX.Element {
   const [isMounted, setIsMounted] = useState(false);
   const contiguousBounds: LngLatBoundsLike = [
     -125.3321, 23.8991, -65.7421, 49.4325,

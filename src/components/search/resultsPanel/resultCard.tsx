@@ -17,8 +17,6 @@ import { setMapPreview } from "@/store/slices/searchSlice";
 
 interface Props {
   resultItem: SolrObject;
-  setHighlightLyr: (value: string) => void;
-  setHighlightIds: (value: string[]) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -148,14 +146,6 @@ const ResultCard = (props: Props): JSX.Element => {
           showDetailPanel === props.resultItem.id
             ? "0px 4px 4px 0px lightgray"
             : undefined,
-      }}
-      onMouseOver={() => {
-        props.setHighlightLyr(null);
-        props.setHighlightLyr(lyrId);
-        props.setHighlightIds(props.resultItem.meta.sdoh_highlight_ids_sm);
-      }}
-      onMouseOut={() => {
-        props.setHighlightLyr(null);
       }}
     >
       <div className="flex flex-col sm:flex-row items-center mb-2">
