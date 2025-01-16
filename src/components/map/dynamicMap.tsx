@@ -37,7 +37,7 @@ interface Props {
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { bbox, visLyrs, visOverlays } = useSelector(
+  const { bbox, visOverlays } = useSelector(
     (state: RootState) => state.search
   );
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
@@ -123,23 +123,7 @@ export default function DynamicMap(props: Props): JSX.Element {
         map.removeLayer(overlayRegistry[lyr].spec.id);
       }
     });
-    visLyrs.forEach((lyr) => {
-      if (
-        layerRegistry[lyr] &&
-        !mapLyrIds.includes(layerRegistry[lyr].spec.id)
-      ) {
-        map.addLayer(layerRegistry[lyr].spec, layerRegistry[lyr].addBefore);
-      }
-    });
-    Object.keys(layerRegistry).forEach((lyr) => {
-      if (
-        mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
-        !visLyrs.includes(lyr)
-      ) {
-        map.removeLayer(layerRegistry[lyr].spec.id);
-      }
-    });
-  }, [visLyrs, visOverlays, mapLoaded]);
+  }, [visOverlays, mapLoaded]);
 
   const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
     if (!mapRef.current) {

@@ -251,9 +251,6 @@ const searchSlice = createSlice({
     setVisOverlays: (state, action) => {
       state.visOverlays = action.payload;
     },
-    setVisLyrs: (state, action) => {
-      state.visLyrs = action.payload;
-    },
     setSubject: (state, action) => {
       state.subject = action.payload;
     },
@@ -385,7 +382,6 @@ export const {
   setSortOrder,
   setBbox,
   setVisOverlays,
-  setVisLyrs,
   setSubject,
   setSpatialResolution,
   setIndexYear,

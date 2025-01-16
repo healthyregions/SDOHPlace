@@ -127,14 +127,6 @@ export const generateFilterQueries = (searchState: any) => {
       });
     }
   }
-  if (searchState.visLyrs?.length) {
-    searchState.visLyrs.forEach((value: string) => {
-      queries.push({
-        attribute: "vis_lyrs",
-        value,
-      });
-    });
-  }
   return queries;
 };
 
