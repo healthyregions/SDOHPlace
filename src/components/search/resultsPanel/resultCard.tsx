@@ -105,25 +105,6 @@ const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const mapPreview = useSelector((state: RootState) => state.search.mapPreview);
-  // show the most detailed geography that a record represents
-  let lyrId: string;
-  const spatial_res = props.resultItem.meta.spatial_resolution
-    ? props.resultItem.meta.spatial_resolution
-    : [];
-  if (
-    spatial_res.includes("Census Block Group") ||
-    spatial_res.includes("Census Block")
-  ) {
-    lyrId = "bg";
-  } else if (spatial_res.includes("Census Tract")) {
-    lyrId = "tract";
-  } else if (spatial_res.includes("County")) {
-    lyrId = "county";
-  } else if (spatial_res.includes("Zip Code Tabulation Area (ZCTA)")) {
-    lyrId = "zcta";
-  } else if (spatial_res.includes("State")) {
-    lyrId = "state";
-  }
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
   const cardContent = props.resultItem && (
@@ -187,20 +168,12 @@ const ResultCard = (props: Props): JSX.Element => {
               value={props.resultItem.meta}
               onChange={(event) => {
 
-                // if highlight_ids are available, ignore spatial_coverage and infer
-                // layer and filterset from these ids.
-                // "add the county layer and filter by the provided ids"
-
-                // otherwise: inspect spatial_resolution to determine the correct layer to add
-                // and then add that layer without any filtering.
-
                 if (event.target.checked) {
                   dispatch(
                     setMapPreview([
                       ...mapPreview,
                       {
-                        id: props.resultItem.id,
-                        source: lyrId,
+                        lyrId: props.resultItem.id,
                         filterIds: props.resultItem.meta.highlight_ids,
                       },
                     ])
@@ -209,7 +182,7 @@ const ResultCard = (props: Props): JSX.Element => {
                   dispatch(
                     setMapPreview(
                       mapPreview.filter(
-                        (item) => item.id != props.resultItem.id
+                        (item) => item.lyrId != props.resultItem.id
                       )
                     )
                   );

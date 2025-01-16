@@ -53,16 +53,36 @@ export default function DynamicMap(props: Props): JSX.Element {
         map.removeLayer(lyr.id);
       }
     });
-    mapPreview.map((layerInfo) => {
+
+    mapPreview.map((previewLyr) => {
+
+      const lookup = {
+        "040": "state",
+        "050": "county",
+        "140": "tract",
+        "150": "bg",
+        "860": "zcta",
+      }
+      const source = lookup[previewLyr.filterIds[0].slice(0,3)]
+
+      let expression: FilterSpecification;
+      if (previewLyr.filterIds[0].endsWith("*")) {
+        const strId = previewLyr.filterIds[0].slice(0,-1)
+        expression = ["==", ["slice", ['get', 'HEROP_ID'], 0, strId.length], strId]
+      } else {
+        expression = ["in", ['get', 'HEROP_ID'], ["literal", previewLyr.filterIds]]
+      }
+
       const newLayerSpec: LineLayerSpecification = {
-        id: layerInfo.id,
-        source: layerInfo.source,
-        "source-layer": layerInfo.source + "-2018",
+        id: previewLyr.lyrId,
+        source: source,
+        "source-layer": source + "-2018",
         type: "line",
         paint: {
-          "line-color": "blue",
-          "line-width": 1.5,
+          "line-color": "#ff9c77",
+          "line-width": 1,
         },
+        filter: expression,
       };
       const newLayer: LayerDef = {
         addBefore: "Ocean labels",

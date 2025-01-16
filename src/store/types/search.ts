@@ -1,7 +1,6 @@
 interface MapPreviewLyr {
-  id: string;
-  source: string;
-  filterIds?: string[];
+  lyrId: string;
+  filterIds: string[];
 }
 
 export interface SearchState {
