@@ -1,3 +1,9 @@
+interface MapPreviewLyr {
+  id: string;
+  source: string;
+  filterIds?: string[];
+}
+
 export interface SearchState {
   schema: any;
   // object
@@ -25,6 +31,7 @@ export interface SearchState {
   // map
   visOverlays: string[];
   visLyrs: string[];
+  mapPreview: MapPreviewLyr[];
   bbox: [number, number, number, number] | null;
 
   // status
@@ -49,6 +56,7 @@ export const initialState: SearchState = {
   spatialResolution: [],
   visOverlays: [],
   visLyrs: [],
+  mapPreview: [],
   indexYear: [],
   spellCheck: "",
   originalQuery: "",
