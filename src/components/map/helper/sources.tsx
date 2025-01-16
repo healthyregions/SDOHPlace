@@ -4,27 +4,27 @@ import data from "./ks-parks-example.json";
 // that use the same source: for example a source for state boundaries can be displayed as a
 // polygon (fill) layer as well as a line (outline) layer
 export const sources = {
-  state: {
+  "state-2018": {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/state-2018.pmtiles",
   },
-  county: {
+  "county-2018": {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/county-2018.pmtiles",
   },
-  tract: {
+  "tract-2018": {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/tract-2018.pmtiles",
   },
-  bg: {
+  "blockgroup-2018": {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/bg-2018.pmtiles",
   },
-  zcta: {
+  "zcta-2018": {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/zcta-2018.pmtiles",
   },
-  place: {
+  "place-2018": {
     type: "vector",
     url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/place-2018.pmtiles",
   },

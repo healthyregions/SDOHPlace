@@ -56,11 +56,11 @@ export default function DynamicMap(props: Props): JSX.Element {
 
     mapPreview.map((previewLyr) => {
       const lookup = {
-        "040": "state",
-        "050": "county",
-        "140": "tract",
-        "150": "bg",
-        "860": "zcta",
+        "040": "state-2018",
+        "050": "county-2018",
+        "140": "tract-2018",
+        "150": "blockgroup-2018",
+        "860": "zcta-2018",
       }
       const source = lookup[previewLyr.filterIds[0].slice(0,3)]
 
@@ -73,15 +73,15 @@ export default function DynamicMap(props: Props): JSX.Element {
       }
 
       const newLayerSpec: LineLayerSpecification = {
-        id: previewLyr.lyrId,
-        source: source,
-        "source-layer": source + "-2018",
-        type: "line",
-        paint: {
+        "id": previewLyr.lyrId,
+        "source": source,
+        "source-layer": source,
+        "type": "line",
+        "paint": {
           "line-color": "#FF9C77",
           "line-width": 1,
         },
-        filter: expression,
+        "filter": expression,
       };
       const newLayer: LayerDef = {
         addBefore: "Ocean labels",
