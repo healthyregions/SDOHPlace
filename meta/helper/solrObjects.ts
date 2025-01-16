@@ -32,6 +32,7 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
           return year.toString();
         })
     : [];
+  result.highlights = rawSolrObject.highlights ? rawSolrObject.highlights : [];
   result.meta = {};
   result.years = [];
   if (rawSolrObject.dct_isVersionOf_sm)
@@ -53,7 +54,7 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
       result.meta[schemaMatch(key, schema)] = rawSolrObject[key];
     }
   });
-
+  result.q = rawSolrObject.q;
   return result;
 };
 

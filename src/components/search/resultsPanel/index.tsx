@@ -227,23 +227,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                       </div>
                     </Box>
                   )}
-                  {searchState.results.length === 0 &&
-                    uniqueRelatedList.length === 0 && (
-                      <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
-                        <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                          <SearchIcon className="text-strongorange mb-[0.15em]" />
-                          <div className="text-s">No results</div>
-                        </Box>
-                        <Box className="mb-[0.75em]">
-                          <div className="text-s">
-                            Search for themes instead?
-                          </div>
-                        </Box>
-                        <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                          <ThemeIcons variant="alternate" />
-                        </Box>
-                      </div>
-                    )}
                 </div>
               )}
             </div>

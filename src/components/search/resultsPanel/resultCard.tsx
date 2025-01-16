@@ -8,7 +8,10 @@ import { SolrObject } from "meta/interface/SolrObject";
 import IconMatch from "../helper/IconMatch";
 import { setShowDetailPanel } from "@/store/slices/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
+import { RootState } from "@/store";
+import { Tooltip } from "@mui/material";
+import { getScoreExplanation } from "../helper/FilterByScore";
+import { getAllScoresSelector } from "../../../store/selectors/SearchSelector";
 
 interface Props {
   resultItem: SolrObject;
@@ -24,8 +27,79 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.875rem",
     paddingBottom: "0.5rem",
   },
+  tooltipHeader: {
+    marginBottom: "8px",
+    fontWeight: 500,
+    color: `${fullConfig.theme.colors["almostblack"]}`,
+    borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+    paddingBottom: "4px",
+  },
+  tooltip: {
+    backgroundColor: "white !important",
+    color: `${fullConfig.theme.colors["almostblack"]}`,
+    maxWidth: 500,
+    fontSize: "0.875rem",
+    border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+    borderRadius: "4px",
+    padding: "8px",
+    boxShadow: "0px 4px 4px 0px lightgray",
+    "& .MuiTooltip-arrow": {
+      color: fullConfig.theme.colors["strongorange"],
+    },
+  },
+  scoreExplain: {
+    marginBottom: "8px",
+    fontSize: "0.8rem",
+    color: fullConfig.theme.colors["frenchviolet"],
+  },
+  highlightsList: {
+    listStyleType: "decimal",
+    paddingLeft: "20px",
+    margin: 0,
+  },
+  highlightItem: {
+    marginBottom: "8px",
+    color: `${fullConfig.theme.colors["almostblack"]}`,
+    lineHeight: "1.4",
+    "& strong": {
+      color: fullConfig.theme.colors["strongorange"],
+      fontWeight: 600,
+    },
+    "&:last-child": {
+      marginBottom: 0,
+    },
+  },
 }));
-
+const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScore }) => {
+  const classes = useStyles();
+  const filteredHighlights = highlights.filter(
+    (highlight) => highlight.trim() !== ""
+  );
+  const currentQuery = useSelector((state: RootState) => state.search.query);
+  return highlights.length > 0 ? (
+    <div>
+      <div className={classes.scoreExplain} style={{ paddingBottom: 8, borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}` }}>
+        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery, score, avgScore, maxScore) }} />
+        <p style={{paddingTop: 4}}>Information in this result includes:</p>
+      </div>
+      <ol className={classes.highlightsList}>
+        {filteredHighlights.map((highlight, index) => (
+          <li key={index} className={classes.highlightItem}>
+            ...
+            <span dangerouslySetInnerHTML={{ __html: highlight }} />
+            ...
+          </li>
+        ))}
+      </ol>
+    </div>
+  ) : (
+    <div>
+       <div className={classes.scoreExplain}>
+        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery , score, avgScore, maxScore) }} />
+      </div>
+    </div>
+  );
+};
 const ResultCard = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -49,110 +123,136 @@ const ResultCard = (props: Props): JSX.Element => {
   } else if (spatial_res.includes("State")) {
     lyrId = "state";
   }
-  return (
-    props.resultItem && (
-      <div
-        className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
-        onClick={() => {
-          dispatch(setShowDetailPanel(props.resultItem.id));
-        }}
-        style={{
-          cursor: "pointer",
-          border:
-            showDetailPanel === props.resultItem.id
-              ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
-              : `1px solid white`,
-          background:
-            showDetailPanel === props.resultItem.id
-              ? `${fullConfig.theme.colors["lightbisque"]}`
-              : undefined,
-          boxShadow:
-            showDetailPanel === props.resultItem.id
-              ? "0px 4px 4px 0px lightgray"
-              : undefined,
-        }}
-        onMouseOver={() => {
-          props.setHighlightLyr(null);
-          props.setHighlightLyr(lyrId);
-          props.setHighlightIds(props.resultItem.meta.sdoh_highlight_ids_sm);
-        }}
-        onMouseOut={() => {
-          props.setHighlightLyr(null);
-        }}
-      >
-        <div className="flex flex-col sm:flex-row items-center mb-2">
-          <div className="flex flex-col sm:flex-row items-center w-full">
-            <div className="w-full sm:w-4/5 flex items-center">
-              <IconText
-                roundBackground={true}
-                svgIcon={IconMatch(
-                  props.resultItem.meta.subject
-                    ? props.resultItem.meta.subject.length > 1
-                      ? "Composite"
-                      : props.resultItem.meta.subject[0]
-                    : ""
-                )}
-                label={props.resultItem.title}
-                labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
-                labelColor={fullConfig.theme.colors["almostblack"]}
-              />
-            </div>
-            <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end font-bold">
-              <button
-                onClick={() => {
-                  dispatch(setShowDetailPanel(props.resultItem.id));
-                }}
-                style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-              >
-                View <span className="ml-1">&#8594;</span>
-              </button>
-            </div>
+  const { maxScore, avgScore } = useSelector(getAllScoresSelector);
+
+  const cardContent = props.resultItem && (
+    <div
+      className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
+      onClick={() => {
+        dispatch(setShowDetailPanel(props.resultItem.id));
+      }}
+      style={{
+        cursor: "pointer",
+        border:
+          showDetailPanel === props.resultItem.id
+            ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
+            : `1px solid white`,
+        background:
+          showDetailPanel === props.resultItem.id
+            ? `${fullConfig.theme.colors["lightbisque"]}`
+            : undefined,
+        boxShadow:
+          showDetailPanel === props.resultItem.id
+            ? "0px 4px 4px 0px lightgray"
+            : undefined,
+      }}
+      onMouseOver={() => {
+        props.setHighlightLyr(null);
+        props.setHighlightLyr(lyrId);
+        props.setHighlightIds(props.resultItem.meta.sdoh_highlight_ids_sm);
+      }}
+      onMouseOut={() => {
+        props.setHighlightLyr(null);
+      }}
+    >
+      <div className="flex flex-col sm:flex-row items-center mb-2">
+        <div className="flex flex-col sm:flex-row items-center w-full">
+          <div className="w-full sm:w-4/5 flex items-center">
+            <IconText
+              roundBackground={true}
+              svgIcon={IconMatch(
+                props.resultItem.meta.subject
+                  ? props.resultItem.meta.subject.length > 1
+                    ? "Composite"
+                    : props.resultItem.meta.subject[0]
+                  : ""
+              )}
+              label={props.resultItem.title}
+              labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
+              labelColor={fullConfig.theme.colors["almostblack"]}
+            />
           </div>
-        </div>
-        <div className="flex flex-col sm:flex-row sm:mt-4">
-          <div className="flex-1 w-full sm:w-1/2">
-            <div className={`${classes.resultCard} truncate `}>
-              Keyword:{" "}
-              {props.resultItem.meta.keyword
-                ? props.resultItem.meta.keyword.join(", ")
-                : ""}
-            </div>
-            <div className={`${classes.resultCard} truncate `}>
-              Creator:{" "}
-              {props.resultItem.creator
-                ? props.resultItem.creator.join(", ")
-                : ""}
-            </div>
-            <div className={`${classes.resultCard} truncate `}>
-              Publisher:{" "}
-              {props.resultItem.meta.publisher
-                ? props.resultItem.meta.publisher[0]
-                : ""}
-            </div>
-          </div>
-          <div className="flex-1 w-full sm:w-1/2 sm:pl-8">
-            <div className={`${classes.resultCard} truncate `}>
-              Year:{" "}
-              {props.resultItem.index_year
-                ? props.resultItem.index_year.join(", ")
-                : ""}
-            </div>
-            <div className={`${classes.resultCard} truncate `}>
-              Spatial Res:{" "}
-              {props.resultItem.meta.spatial_resolution
-                ? props.resultItem.meta.spatial_resolution.join(", ")
-                : ""}
-            </div>
-            <div className={`${classes.resultCard} truncate`}>
-              Resource:{" "}
-              {props.resultItem.resource_class
-                ? props.resultItem.resource_class.join(", ")
-                : ""}
-            </div>
+          <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end font-bold">
+            <button
+              onClick={() => {
+                dispatch(setShowDetailPanel(props.resultItem.id));
+              }}
+              style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+            >
+              View <span className="ml-1">&#8594;</span>
+            </button>
           </div>
         </div>
       </div>
+      <div className="flex flex-col sm:flex-row sm:mt-4">
+        <div className="flex-1 w-full sm:w-1/2">
+          <div className={`${classes.resultCard} truncate `}>
+            Keyword:{" "}
+            {props.resultItem.meta.keyword
+              ? props.resultItem.meta.keyword.join(", ")
+              : ""}
+          </div>
+          <div className={`${classes.resultCard} truncate `}>
+            Creator:{" "}
+            {props.resultItem.creator
+              ? props.resultItem.creator.join(", ")
+              : ""}
+          </div>
+          <div className={`${classes.resultCard} truncate `}>
+            Publisher:{" "}
+            {props.resultItem.meta.publisher
+              ? props.resultItem.meta.publisher[0]
+              : ""}
+          </div>
+        </div>
+        <div className="flex-1 w-full sm:w-1/2 sm:pl-8">
+          <div className={`${classes.resultCard} truncate `}>
+            Year:{" "}
+            {props.resultItem.index_year
+              ? props.resultItem.index_year.join(", ")
+              : ""}
+          </div>
+          <div className={`${classes.resultCard} truncate `}>
+            Spatial Res:{" "}
+            {props.resultItem.meta.spatial_resolution
+              ? props.resultItem.meta.spatial_resolution.join(", ")
+              : ""}
+          </div>
+          <div className={`${classes.resultCard} truncate`}>
+            Resource:{" "}
+            {props.resultItem.resource_class
+              ? props.resultItem.resource_class.join(", ")
+              : ""}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  return props.resultItem ? (
+    (props.resultItem.highlights && props.resultItem.highlights.length > 0) ||
+    props.resultItem.q && !props.resultItem.q.includes('*') ? (
+      <Tooltip
+        title={
+          <HighlightsTooltip
+            q={props.resultItem.q}
+            spellcheck = {props.resultItem.spellcheck}
+            highlights={props.resultItem.highlights || []}
+            score={props.resultItem.score}
+            avgScore={avgScore}
+            maxScore={maxScore}
+          />
+        }
+        classes={{ tooltip: classes.tooltip }}
+        placement="right"
+        arrow
+      >
+        {cardContent}
+      </Tooltip>
+    ) : (
+      cardContent
     )
+  ) : (
+    <></>
   );
 };
 
