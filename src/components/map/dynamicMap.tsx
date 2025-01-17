@@ -9,19 +9,19 @@ import {
   ViewStateChangeEvent,
   Popup,
   LngLatBoundsLike,
+  Source,
 } from "react-map-gl/maplibre";
 import maplibregl, {
   FilterSpecification,
-  LayerSpecification,
   LineLayerSpecification,
   GeoJSONSource,
 } from "maplibre-gl";
 import { Protocol } from "pmtiles";
-import { sources } from "./helper/sources";
+import { overlaySources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
 import { setBbox } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { overlayRegistry, layerRegistry } from "./helper/layers";
+import { overlayRegistry, makePreviewLyr } from "./helper/layers";
 
 import "@maptiler/geocoding-control/style.css";
 
@@ -37,18 +37,45 @@ interface Props {
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { bbox, visLyrs, visOverlays } = useSelector(
+  const { bbox, visOverlays } = useSelector(
     (state: RootState) => state.search
   );
-  const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
-    LayerSpecification[]
-  >([]);
-  const [currentInteractiveLayers, setCurrentInteractiveLayers] = useState<
-    LayerSpecification[]
-  >([]);
+  const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
+
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded) return;
+    const map = mapRef.current.getMap();
+    map.getStyle().layers.map((lyr) => {
+      if (lyr.id.startsWith("herop-")) {
+        map.removeLayer(lyr.id);
+      }
+    });
+
+    mapPreview.map((previewLyr) => {
+      const lookup = {
+        "040": "state-2018",
+        "050": "county-2018",
+        "140": "tract-2018",
+        "150": "bg-2018",
+        "860": "zcta-2018",
+      }
+      const source = lookup[previewLyr.filterIds[0].slice(0,3)]
+
+      let expression: FilterSpecification;
+      if (previewLyr.filterIds[0].endsWith("*")) {
+        const strId = previewLyr.filterIds[0].slice(0,-1)
+        expression = ["==", ["slice", ['get', 'HEROP_ID'], 0, strId.length], strId]
+      } else {
+        expression = ["in", ['get', 'HEROP_ID'], ["literal", previewLyr.filterIds]]
+      }
+
+      const prevewLyr = makePreviewLyr(previewLyr.lyrId, source, expression)
+      map.addLayer(prevewLyr.spec, prevewLyr.addBefore);
+    });
+  }, [mapPreview, mapLoaded]);
 
   // create ability to load pmtiles layers
   useEffect(() => {
@@ -81,28 +108,10 @@ export default function DynamicMap(props: Props): JSX.Element {
         map.removeLayer(overlayRegistry[lyr].spec.id);
       }
     });
-    visLyrs.forEach((lyr) => {
-      if (
-        layerRegistry[lyr] &&
-        !mapLyrIds.includes(layerRegistry[lyr].spec.id)
-      ) {
-        map.addLayer(layerRegistry[lyr].spec, layerRegistry[lyr].addBefore);
-      }
-    });
-    Object.keys(layerRegistry).forEach((lyr) => {
-      if (
-        mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
-        !visLyrs.includes(lyr)
-      ) {
-        map.removeLayer(layerRegistry[lyr].spec.id);
-      }
-    });
-  }, [visLyrs, visOverlays, mapLoaded]);
+  }, [visOverlays, mapLoaded]);
 
   const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
-    if (!mapRef.current) {
-      return;
-    }
+    if (!mapRef.current || !mapLoaded) return;
     const map = mapRef.current.getMap();
     const parkFeat = event.features?.find((f) => f["source"] === "us-parks");
 
@@ -123,10 +132,11 @@ export default function DynamicMap(props: Props): JSX.Element {
     const map = mapRef.current.getMap();
 
     // add all custom sources to the map
-    Object.keys(sources).forEach((id) => {
-      map.addSource(id, sources[id]);
+    Object.keys(overlaySources).forEach((id) => {
+      map.addSource(id, overlaySources[id]);
     });
 
+    map.addSource("geoSearchHighlight", {type: "geojson", data: null});
     map.addLayer({
       id: "geoSearchHighlightLyr-fill",
       type: "fill",
@@ -221,6 +231,13 @@ export default function DynamicMap(props: Props): JSX.Element {
       touchZoomRotate={false}
       interactiveLayerIds={["state-interactive", "us-parks"]}
     >
+      <Source id="state-2018" type="vector" url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/state-2018.pmtiles" />
+      <Source id="county-2018" type="vector" url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/county-2018.pmtiles" />
+      <Source id="tract-2018" type="vector" url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/tract-2018.pmtiles" />
+      <Source id="bg-2018" type="vector" url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/bg-2018.pmtiles" />
+      <Source id="zcta-2018" type="vector" url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/zcta-2018.pmtiles" />
+      <Source id="place-2018" type="vector" url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/place-2018.pmtiles" />
+
       <NavigationControl position="top-right" showCompass={false} />
       <GeoSearchControl
         apiKey={apiKey}

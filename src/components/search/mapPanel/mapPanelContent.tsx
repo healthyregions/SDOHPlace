@@ -32,8 +32,6 @@ import dynamic from "next/dynamic";
 
 interface Props {
   resultsList: SolrObject[];
-  highlightLyr?: string;
-  highlightIds?: string[];
   showMap: string;
   schema: any;
 }
@@ -196,11 +194,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
           height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
         }}
       >
-        <DynamicMapArea
-          resultsList={props.resultsList}
-          highlightIds={props.highlightIds}
-          highlightLyr={props.highlightLyr}
-        />
+        <DynamicMapArea/>
       </Box>
       <Box className="sm:my-[1.68em]">
         <div className="sm:mb-[1.5em] sm:flex-col">

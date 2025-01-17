@@ -21,8 +21,6 @@ const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
 });
 
 export default function DiscoveryArea({ schema }): JSX.Element {
-  const [highlightIds, setHighlightIds] = useState([]);
-  const [highlightLyr, setHighlightLyr] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { results, relatedResults } = useSelector(
     (state: RootState) => state.search
@@ -57,14 +55,12 @@ export default function DiscoveryArea({ schema }): JSX.Element {
       </Grid>
       <Grid className="w-full px-[1em] sm:px-[2em]">
         <Grid container className="container mx-auto pt-[1.5rem]">
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={5}>
             <DynamicResultsPanel
               schema={schema}
-              setHighlightLyr={setHighlightLyr}
-              setHighlightIds={setHighlightIds}
             />
           </Grid>
-          <Grid item xs={12} sm={8} className="sm:ml-[0.5em]">
+          <Grid item xs={12} sm={7} className="sm:ml-[0.5em]">
             <MapPanel
               resultsList={results}
               showMap={showDetailPanel ? "none" : "block"}

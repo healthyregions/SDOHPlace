@@ -127,14 +127,6 @@ export const generateFilterQueries = (searchState: any) => {
       });
     }
   }
-  if (searchState.visLyrs?.length) {
-    searchState.visLyrs.forEach((value: string) => {
-      queries.push({
-        attribute: "vis_lyrs",
-        value,
-      });
-    });
-  }
   return queries;
 };
 
@@ -172,6 +164,7 @@ export const resetFilters = async (store: any) => {
   filterActions.forEach((action) => {
     store.dispatch(action);
   });
+  store.dispatch({type: "search/setMapPreview", payload: []})
   if (isBrowser) {
     const searchParams = new URLSearchParams(window.location.search);
     Object.entries(actionConfig)

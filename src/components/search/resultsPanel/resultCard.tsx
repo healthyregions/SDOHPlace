@@ -1,12 +1,13 @@
 "use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
+import {Checkbox, FormControlLabel, Typography} from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
 import { SolrObject } from "meta/interface/SolrObject";
 import IconMatch from "../helper/IconMatch";
-import { setShowDetailPanel } from "@/store/slices/uiSlice";
+import { setShowDetailPanel, setMapPreview } from "@/store/slices/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
@@ -15,8 +16,6 @@ import { getAllScoresSelector } from "../../../store/selectors/SearchSelector";
 
 interface Props {
   resultItem: SolrObject;
-  setHighlightLyr: (value: string) => void;
-  setHighlightIds: (value: string[]) => void;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -104,25 +103,7 @@ const ResultCard = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
-  // show the most detailed geography that a record represents
-  let lyrId: string;
-  const spatial_res = props.resultItem.meta.spatial_resolution
-    ? props.resultItem.meta.spatial_resolution
-    : [];
-  if (
-    spatial_res.includes("Census Block Group") ||
-    spatial_res.includes("Census Block")
-  ) {
-    lyrId = "bg";
-  } else if (spatial_res.includes("Census Tract")) {
-    lyrId = "tract";
-  } else if (spatial_res.includes("County")) {
-    lyrId = "county";
-  } else if (spatial_res.includes("Zip Code Tabulation Area (ZCTA)")) {
-    lyrId = "zcta";
-  } else if (spatial_res.includes("State")) {
-    lyrId = "state";
-  }
+  const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
   const cardContent = props.resultItem && (
@@ -145,14 +126,6 @@ const ResultCard = (props: Props): JSX.Element => {
           showDetailPanel === props.resultItem.id
             ? "0px 4px 4px 0px lightgray"
             : undefined,
-      }}
-      onMouseOver={() => {
-        props.setHighlightLyr(null);
-        props.setHighlightLyr(lyrId);
-        props.setHighlightIds(props.resultItem.meta.sdoh_highlight_ids_sm);
-      }}
-      onMouseOut={() => {
-        props.setHighlightLyr(null);
       }}
     >
       <div className="flex flex-col sm:flex-row items-center mb-2">
@@ -225,6 +198,92 @@ const ResultCard = (props: Props): JSX.Element => {
               : ""}
           </div>
         </div>
+      </div>
+
+      {/* Checkbox : Show coverage area on map */}
+      <div>
+        <FormControlLabel
+          disabled={!props.resultItem.meta.highlight_ids?.length}
+          title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
+          label={<div style={{
+            color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["almostblack"] : fullConfig.theme.colors["darkgray"]}`,
+            padding: 0,
+            fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+            fontWeight: 400,
+            fontSize: "0.875rem" }}>Show coverage area</div>}
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+          control={
+            <Checkbox
+              id={`sc-checkbox-${props.resultItem.id}`}
+              value={props.resultItem.meta}
+              onChange={(event) => {
+
+                if (event.target.checked) {
+                  dispatch(
+                    setMapPreview([
+                      ...mapPreview,
+                      {
+                        lyrId: props.resultItem.id,
+                        filterIds: props.resultItem.meta.highlight_ids,
+                      },
+                    ])
+                  );
+                } else {
+                  dispatch(
+                    setMapPreview(
+                      mapPreview.filter(
+                        (item) => item.lyrId != props.resultItem.id
+                      )
+                    )
+                  );
+                }
+              }}
+              icon={
+                <span
+                  style={{
+                    borderRadius: "4px",
+                    border: `2px solid ${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
+                    width: "14px",
+                    height: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "transparent",
+                  }}
+                ></span>
+              }
+              checkedIcon={
+                <span
+                  style={{
+                    borderRadius: "4px",
+                    border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
+                    width: "14px",
+                    height: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: `${fullConfig.theme.colors["frenchviolet"]}`,
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+              }
+            />
+          }
+        />
       </div>
     </div>
   );

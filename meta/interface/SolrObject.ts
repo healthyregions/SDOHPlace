@@ -32,7 +32,7 @@ export interface SolrObject {
     suppress?: boolean;
     spatial_resolution?: string[];
     spatial_coverage?: string[];
-    sdoh_highlight_ids_sm?: string[];
+    highlight_ids?: string[];
     data_usage_notes?: string;
     data_variables?: string[];
     methods_variables?: string[];
