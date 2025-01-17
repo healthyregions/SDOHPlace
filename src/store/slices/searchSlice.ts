@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import SolrQueryBuilder from "../../components/search/helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import { initialState, SolrSuggestResponse } from "@/store/types/search";
-import { stripHtmlTags } from "@/components/search/helper/CleanHtml";
 import { generateFilterQueries } from "@/middleware/filterHelper";
 import { setShowClearButton } from "./uiSlice";
 
