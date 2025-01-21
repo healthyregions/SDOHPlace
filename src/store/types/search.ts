@@ -42,7 +42,7 @@ export const initialState: SearchState = {
   results: [],
   relatedResults: [],
   suggestions: [],
-  sortBy: "score",
+  sortBy: "",
   sortOrder: "desc",
   bbox: null,
   subject: [],
