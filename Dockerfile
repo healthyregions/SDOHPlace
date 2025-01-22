@@ -1,5 +1,5 @@
 # Start with NodeJS 20 LTS
-FROM node:20 AS build
+FROM node:20-slim AS build
 WORKDIR /usr/app/
 
 # Install dependencies

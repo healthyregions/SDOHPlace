@@ -5,5 +5,7 @@ services:
     image: herop/sdoh-homepage
     build:
       context: .
+    env_file:
+    - .env
     ports:
     - 8080:80
