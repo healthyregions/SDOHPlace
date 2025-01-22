@@ -54,35 +54,44 @@ export default function DynamicMap(props: Props): JSX.Element {
       }
     });
 
+    const lookup = {
+      "040": "state-2018",
+      "050": "county-2018",
+      "140": "tract-2018",
+      "150": "bg-2018",
+      "860": "zcta-2018",
+    }
     mapPreview.map((previewLyr) => {
-      const lookup = {
-        "040": "state-2018",
-        "050": "county-2018",
-        "140": "tract-2018",
-        "150": "bg-2018",
-        "860": "zcta-2018",
-      }
-      const source = lookup[previewLyr.filterIds[0].slice(0,3)]
+      // Just look at first id here (we shouldn't see minus mixed with non-minus)
+      const source = lookup[previewLyr.filterIds[0].slice(0,3)];
+      const operator = previewLyr.filterIds[0].startsWith("-") ? "all" : "any";
+      let clauses: FilterSpecification[] = [];
+      previewLyr.filterIds.forEach((id: string) => {
 
-      // Wildcard excludes - exclude any IDs that match the wildcard if it starts with "-"
-      const wildcardExcludes = previewLyr.filterIds.filter(id => id.startsWith("-") && id.endsWith("*")).map((id: string) => id.slice(1, -1));
-      const wildcardExcludesExprArray: FilterSpecification = wildcardExcludes.map((id: string) => ["not", ["==", ["slice", ['get', 'HEROP_ID'], 0, id.length], id]]);
-
-      // Exclude any IDs that start with "-"
-      const excludes = previewLyr.filterIds.filter((id: string) => id.startsWith("-") && !id.endsWith("*")).map((id: string) => id.slice(1));
-      const excludesExprArray: FilterSpecification = excludes.map((id: string) => ["not", ["==", ['get', 'HEROP_ID'], id]]);
-
-      // "*" on the end works as a wildcard match
-      const wildcards = previewLyr.filterIds.filter((id: string) => !id.startsWith("-") && id.endsWith("*")).map((id: string) => id.slice(0, -1));
-      const wildcardsExprArray: FilterSpecification = wildcards.map((id: string) => ["==", ["slice", ['get', 'HEROP_ID'], 0, id.length], id]);
+        if (id.startsWith("-") && id.endsWith("*")) {
+          // Wildcard excludes - exclude any IDs that match the wildcard if it starts with "-"
+          clauses += ["!=", ["slice", ['get', 'HEROP_ID'], 0, id.length], id] as any;
+        } else if (id.startsWith("-") && !id.endsWith("*")) {
+          // Excludes - exclude any IDs that start with "-"
+          clauses += ["!=", ['get', 'HEROP_ID'], id] as any;
+        } else if (!id.startsWith("-") && id.endsWith("*")) {
+          // Wildcards - "*" on the end works as a wildcard match
+          clauses += ["==", ["slice", ['get', 'HEROP_ID'], 0, id.length], id] as any;
+        } else {
+          // Other values are exact matches
+          // These are handled below in bulk
+        }
+      });
 
       // Other values are exact matches
       const exactMatches = previewLyr.filterIds.filter((id: string) => !id.startsWith("-") && !id.endsWith("*"));
-      const exactMatchesExpr: FilterSpecification = ["in", ['get', 'HEROP_ID'], ["literal", exactMatches]]
+      clauses += ["in", ['get', 'HEROP_ID'], ["literal", exactMatches]] as any;
 
-      const combinedExpr: FilterSpecification = ["all", ...wildcardExcludesExprArray, ...excludesExprArray, ["any", ...wildcardsExprArray, exactMatchesExpr]]
+      // TODO: expression should be ["any" / "all"]
+      const expression = [operator, ...clauses];
+      console.log(expression);
 
-      const prevewLyr = makePreviewLyr(previewLyr.lyrId, source, combinedExpr)
+      const prevewLyr = makePreviewLyr(previewLyr.lyrId, source, expression as any);
       map.addLayer(prevewLyr.spec, prevewLyr.addBefore);
     });
   }, [mapPreview, mapLoaded]);
