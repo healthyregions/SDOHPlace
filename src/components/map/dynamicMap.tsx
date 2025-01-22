@@ -64,15 +64,25 @@ export default function DynamicMap(props: Props): JSX.Element {
       }
       const source = lookup[previewLyr.filterIds[0].slice(0,3)]
 
-      let expression: FilterSpecification;
-      if (previewLyr.filterIds[0].endsWith("*")) {
-        const strId = previewLyr.filterIds[0].slice(0,-1)
-        expression = ["==", ["slice", ['get', 'HEROP_ID'], 0, strId.length], strId]
-      } else {
-        expression = ["in", ['get', 'HEROP_ID'], ["literal", previewLyr.filterIds]]
-      }
+      // Wildcard excludes - exclude any IDs that match the wildcard if it starts with "-"
+      const wildcardExcludes = previewLyr.filterIds.filter(id => id.startsWith("-") && id.endsWith("*")).map((id: string) => id.slice(1, -1));
+      const wildcardExcludesExprArray: FilterSpecification = wildcardExcludes.map((id: string) => ["not", ["==", ["slice", ['get', 'HEROP_ID'], 0, id.length], id]]);
 
-      const prevewLyr = makePreviewLyr(previewLyr.lyrId, source, expression)
+      // Exclude any IDs that start with "-"
+      const excludes = previewLyr.filterIds.filter((id: string) => id.startsWith("-") && !id.endsWith("*")).map((id: string) => id.slice(1));
+      const excludesExprArray: FilterSpecification = excludes.map((id: string) => ["not", ["==", ['get', 'HEROP_ID'], id]]);
+
+      // "*" on the end works as a wildcard match
+      const wildcards = previewLyr.filterIds.filter((id: string) => !id.startsWith("-") && id.endsWith("*")).map((id: string) => id.slice(0, -1));
+      const wildcardsExprArray: FilterSpecification = wildcards.map((id: string) => ["==", ["slice", ['get', 'HEROP_ID'], 0, id.length], id]);
+
+      // Other values are exact matches
+      const exactMatches = previewLyr.filterIds.filter((id: string) => !id.startsWith("-") && !id.endsWith("*"));
+      const exactMatchesExpr: FilterSpecification = ["in", ['get', 'HEROP_ID'], ["literal", exactMatches]]
+
+      const combinedExpr: FilterSpecification = ["all", ...wildcardExcludesExprArray, ...excludesExprArray, ["any", ...wildcardsExprArray, exactMatchesExpr]]
+
+      const prevewLyr = makePreviewLyr(previewLyr.lyrId, source, combinedExpr)
       map.addLayer(prevewLyr.spec, prevewLyr.addBefore);
     });
   }, [mapPreview, mapLoaded]);
