@@ -126,3 +126,31 @@ npx decap-server
 ```
 
 Now, go to http://localhost:3000/admin/index.html. You will be presented with a simple Login button. Once logged in, you will find the CMS populated with all content from your local repo clone. If you edit content, you will immediately see changes in local files (the "editorial" workflow is not supported with the local backend).
+
+## Running with Docker
+We also provide a Docker Compose recipe for building and running a local instance of the app.
+
+To build the image:
+```bash
+docker compose build
+```
+NOTE: this is a shorthand for running `docker build -t herop/sdoh-homepage .`
+
+To run the application:
+```bash
+docker compose up -d
+```
+NOTE: this is a shorthand for running `docker run -it -p 8080:80 --env-file .env --name sdoh-homepage herop/sdoh-homepage`
+
+Navigate to http://localhost:8080 to access the running application
+
+To build and run in a single step:
+```bash
+docker compose up -d --build
+```
+
+To shut down the application:
+```bash
+docker compose down
+```
+NOTE: this is a shorthand for running `docker rm -f sdoh-homepage`
