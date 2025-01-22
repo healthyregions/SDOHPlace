@@ -63,20 +63,21 @@ export default function DynamicMap(props: Props): JSX.Element {
     }
     mapPreview.map((previewLyr) => {
       // Just look at first id here (we shouldn't see minus mixed with non-minus)
-      const source = lookup[previewLyr.filterIds[0].slice(0,3)];
-      const operator = previewLyr.filterIds[0].startsWith("-") ? "all" : "any";
+      const firstId = previewLyr.filterIds[0];
+      const source = firstId.startsWith("-") ? lookup[firstId.slice(1,4)] : lookup[firstId.slice(0,3)];
+      const operator = firstId.startsWith("-") ? "all" : "any";
       let clauses: FilterSpecification[] = [];
       previewLyr.filterIds.forEach((id: string) => {
 
         if (id.startsWith("-") && id.endsWith("*")) {
           // Wildcard excludes - exclude any IDs that match the wildcard if it starts with "-"
-          clauses += ["!=", ["slice", ['get', 'HEROP_ID'], 0, id.length], id] as any;
+          clauses.push(["!=", ["slice", ['get', 'HEROP_ID'], 0, id.length-2], id.slice(1, -1)]);
         } else if (id.startsWith("-") && !id.endsWith("*")) {
           // Excludes - exclude any IDs that start with "-"
-          clauses += ["!=", ['get', 'HEROP_ID'], id] as any;
+          clauses.push(["!=", ['get', 'HEROP_ID'], id]);
         } else if (!id.startsWith("-") && id.endsWith("*")) {
           // Wildcards - "*" on the end works as a wildcard match
-          clauses += ["==", ["slice", ['get', 'HEROP_ID'], 0, id.length], id] as any;
+          clauses.push(["==", ["slice", ['get', 'HEROP_ID'], 0, id.length-1], id.slice(0, -1)]);
         } else {
           // Other values are exact matches
           // These are handled below in bulk
@@ -85,11 +86,11 @@ export default function DynamicMap(props: Props): JSX.Element {
 
       // Other values are exact matches
       const exactMatches = previewLyr.filterIds.filter((id: string) => !id.startsWith("-") && !id.endsWith("*"));
-      clauses += ["in", ['get', 'HEROP_ID'], ["literal", exactMatches]] as any;
+      if (exactMatches.length) {
+        clauses.push(["in", ['get', 'HEROP_ID'], ["literal", exactMatches]]);
+      }
 
-      // TODO: expression should be ["any" / "all"]
       const expression = [operator, ...clauses];
-      console.log(expression);
 
       const prevewLyr = makePreviewLyr(previewLyr.lyrId, source, expression as any);
       map.addLayer(prevewLyr.spec, prevewLyr.addBefore);
