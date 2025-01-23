@@ -66,6 +66,7 @@ export default class SolrQueryBuilder {
       fetch(currentUrl, {
         method: "GET",
         headers: {
+          Authorization: "Basic " + btoa(`${process.env.SOLR_USERNAME}:${process.env.SOLR_PASSWORD}`),
           Accept: "application/json",
           "Content-Type": "application/json",
         },
