@@ -7,7 +7,16 @@
       "cohort": "Spring 2024",
       "title": "Executive Director",
       "project": "",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/beth-beyer-08602347/"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/hope-education-art-heat-chicago"
+        }
+      ],
       "image": "/images/headshot-bb.jpeg"
     },
     {
@@ -15,7 +24,12 @@
       "title": "Assistant Professor",
       "image": "/images/headshot-jb.jpeg",
       "desc_short": "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/braimah-joseph-asumah-75a6852b/"
+        }
+      ],
       "desc_long": "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary research interest that focuses broadly on the health and wellbeing of marginalized and structurally exposed populations in the global north and global south. He draws on multiple research methodologies and theoretical perspectives in his research projects. His work largely revolves around Aging and Health, Global Health, Social Determinants of Health, Community Health Systems, and Community-based Participatory Research. Prior to joining St. Lawrence University, Dr. Braimah was an Inclusive Excellence Postdoctoral Fellow with the Department of Health and Society at the University of Toronto Scarborough. He earned his Ph.D. in Geography from Queen’s University, Kingston, Canada.",
       "cohort": "Spring 2024",
       "project": ""
@@ -29,6 +43,10 @@
         {
           "link_label": "LinkedIn",
           "link_url": "https://www.linkedin.com/in/xiang-%E2%80%9Cpeter%E2%80%9D-chen-0429ab19/"
+        },
+        {
+          "link_url": "https://sdohplace.org/showcase/windham-willmantic-conn-food-access-map",
+          "link_label": "Project Showcase"
         }
       ],
       "desc_long": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests are focused on Geographic Information Systems (GIS) and community health. He employs both a data-driven approach and a mixed-methods approach to unveil socioeconomic and health inequities resulting from the unequal distribution of health resources.<br/><br/>His topical area is food access, evaluating whether community members can perceive and utilize healthy, affordable food provisioning from both place-based and people-based perspectives. This research theme is substantiated using GIS modeling, big data analytics, AI-based food image recognition, and community surveys.",
@@ -39,7 +57,16 @@
       "title": "Postdoctoral Scholar",
       "image": "/images/headshot-jd.jpeg",
       "desc_short": "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/jessica-a-davis-85a241204/"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/the-412-breastfeeding-resource-map"
+        }
+      ],
       "desc_long": "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for diverse populations of newborns and their families through her time as a nurse and lactation consultant at UPMC Children’s Hospital of Pittsburgh, UPMC Magee Women’s Hospital, Midwife Center for Birth and Women’s Health, and the Pacify tele-lactation network. In addition to her clinical work, she was a peer lactation mentor with La Leche League, serves as a board member to the Mid-Atlantic Mother’s Milk Bank, and has recently joined the editorial board at the Journal for Perinatal and Neonatal Nursing. She is interested in building a program of clinical research that utilizes lactation and perinatal support interventions to enhance health equity for families impacted by fetal and/or infant diagnosis of a congenital heart defect.",
       "cohort": "Spring 2024"
     },
@@ -48,7 +75,12 @@
       "title": "Data Scientist",
       "image": "/images/headshot-tg.jpeg",
       "desc_short": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/tyler-gorham/"
+        }
+      ],
       "desc_long": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as a Data Scientist at Nationwide Children’s Hospital, his work spans spatial data science, clinical prediction model development, and public health research.",
       "cohort": "Spring 2024"
     },
@@ -76,18 +108,33 @@
       "title": "Instructor",
       "image": "/images/headshot-ll.jpeg",
       "desc_short": "Latrice Landry is an instructor specializing in developing systems-based approaches to achieving equitable translation of precision medicine and precision public health at the Perelman School ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/latrice-landry-ab217a145/"
+        }
+      ],
       "desc_long": "Latrice Landry is an instructor specializing in developing systems-based approaches to achieving equitable translation of precision medicine and precision public health at the Perelman School of Medicine at the University of Pennsylvania. She received both her master's degree in policy and her PhD in Nutrition from Tufts University. Her doctoral research focused on the interactions between diet and genetics as determinants for dyslipidemia in African Americans in the Jackson Heart Study. In 2015, she was the Inaugural Food and Drug Administration's Genomic Medicine and Minority Health Fellow. She has also been recognized as a thought leader in minority health and precision medicine by the National Minority Quality Forum in 2017 and an AIM AHEAD Leadership Fellow for artificial intelligence and social determinants of health in 2022. She has a sincere passion for building equitable systems, eliminating racism from research and medicine, and expanding minority participation and leadership in the biomedical workforce. Understanding that the present moment requires difficult conversations, honest truth, and persistence, she is committed to science that improves health for all.",
       "cohort": "Spring 2024"
     },
     {
       "name": "Alex Michels",
-      "title": "Graduate Student",
+      "title": "PhD Candidate ",
       "image": "/images/headshot-am.jpeg",
       "desc_short": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/alexmichels/"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/spatial-accessibility-using-machine-learned-driving-times"
+        }
+      ],
       "desc_long": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at the CyberGIS Center for Advanced Digital and Spatial Studies and will be on the job market in Fall 2024.<br/><br/>Alex is passionate about access & cyberGIS meaning: (1) using cyberGIS to explore, model, and analyze spatial patterns and systems of inaccessibility and inequity and (2) making cyberGIS tools and technology accessible to all. His work in analysis and modeling includes Spatial Agent-Based Models (SABMs) for public health and the WhereCOVID-19 Spatial Accessibility Explorer for rapidly measuring spatial accessibility during the COVID-19 pandemic. His work on FAIR (Findable, Accessible, Interoperable, and Reproducible) computing in the geosciences includes contributions to CyberGISX, CyberGIS-Jupyter for Water (CJW), and CyberGIS-Compute.",
-      "cohort": "Spring 2024"
+      "cohort": "Spring 2024",
+      "project": ""
     },
     {
       "name": "Sarah Nelson",
@@ -98,17 +145,27 @@
         {
           "link_url": "https://www.linkedin.com/in/sarah-nelson-04a46a19/",
           "link_label": "LinkedIn"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/strengths-based-mapping-of-service-access-utilization-for-indigenous-people-with-substance-use-problems"
         }
       ],
       "desc_long": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities and populations that have experienced being underserved in health care and policy, emphasizing community engagement and collaboration in research and teaching, and community- and participant-led research priorities in choosing and designing research projects.<br/><br/>Previously, she has also worked with Indigenous-led health organizations to understand links between mental health and colonialism, as well as barriers that Indigenous clients of health care organizations experience in an urban setting, and the roles of these organizations in opening health care spaces to Indigenous community members in the city.",
-      "cohort": "Spring 2024"
+      "cohort": "Spring 2024",
+      "project": ""
     },
     {
       "name": "Kennedy Patterson",
       "title": "Graduate Student",
       "image": "/images/headshot-kp.jpeg",
       "desc_short": "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/kennedy-patterson123/"
+        }
+      ],
       "desc_long": "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” Lab under the direction of Dr. Robert Vargas, where she digitalizes, cleans, and analyzes archival records of Chicago homicides, in pursuit of curating the first analysis of Chicago homicides from 1940-1964. Furthermore, as a SDOH & Place Fellow, she aims to illuminate the racialization and gendering of unhoused deaths to draw awareness to violence endured by unhoused Black women. Prior to attending the University of Chicago, Kennedy graduated from the University of Washington as a McNair scholar with a Bachelor of Arts in Medical Anthropology & Global Health- Honors, in addition to Gender, Women's, & Sexuality studies. Kennedy is also a 2023 Fulbright recipient and was awarded the 2022 \"Outstanding Research and Presentation\" Award at the National Diversity in STEM Research Conference in San Juan, Puerto Rico, for her work in \"How do Black Women Thrive Utilizing Social Services within the Greater Seattle Area\". Within this project, she uncovers (1) how social services have been socially constructed to sustain the experience of vulnerability within the Black community, and (2) highlights that through various levels of gratitude, Black women find spiritual peace and grow new resilience to systemic challenges. Following her Master’s degree, Kennedy will be receiving her PhD in Sociology at Northwestern University.",
       "cohort": "Spring 2024"
     },
@@ -117,7 +174,12 @@
       "title": "Organizer and Graduate Student ",
       "image": "/images/headshot-sms.jpeg",
       "desc_short": "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/sonia-monet-saxon-8bb6a4257/"
+        }
+      ],
       "desc_long": "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with the grassroots organizations Neighbors for Environmental Justice and Chicago’s Coalition to End Sacrifice Zones. She is also pursuing a PhD in Anthropology and a Master’s in Public Health from the Environmental and Occupational Health Science division at the University of Illinois Chicago. Her research interrogates the power structures behind whose voices are heard and what types of data are considered valid in policy-level engagements with environmental justice issues. The focus on making information about health risks actionable and more widely accessible to the public guides her work. She uses air monitoring data, qualitative methods, and ethnography to highlight the importance of “lived experiences” when assessing environmental hazards and determining which communities are disproportionately burdened by pollution.",
       "cohort": "Spring 2024"
     },
@@ -126,7 +188,12 @@
       "title": "Graduate Student",
       "image": "/images/headshot-ss.jpeg",
       "desc_short": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/sarah-scott-mph-cph-387b56148/"
+        }
+      ],
       "desc_long": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in Epidemiology at the University of Pittsburgh School of Public Health. Ms. Scott utilizes mixed methods to explore the intersection of gender-based violence, social determinants of health, and women’s health. Her research interests include community-based participatory methods, intimate partner violence, economic abuse, mental health, and reproductive and sexual health. She received a Bachelor of Arts in Psychology from Pepperdine University and a Master of Public Health in Behavioral & Community Health Sciences from the University of Pittsburgh School of Public Health.",
       "cohort": "Spring 2024"
     },
@@ -139,6 +206,10 @@
         {
           "link_url": "https://www.linkedin.com/in/msj1/",
           "link_label": "LinkedIn"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/structural-inequality-health-by-gender-sexuality-in-the-u-s"
         }
       ],
       "desc_long": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of transgender adults in the United States. They hold a Master of Philosophy in Sociology from the University of Cambridge and a Master of Arts in Sociology from Rice University. Madeline is committed to building comprehensive and creative measures of multilevel gendered stigma to specify stigma’s impact on population health. Their research interests include LGBTQ+ population health, structural sexism, the relationship between state policies and health disparities, healthcare access and delivery, survey measurement of LGBTQ+ identity, and data visualization.",
@@ -153,6 +224,10 @@
         {
           "link_url": "https://www.linkedin.com/in/makiya-thomas-m-a-mdiv-9160331aa/",
           "link_label": "LinkedIn"
+        },
+        {
+          "link_label": "Project Showcase",
+          "link_url": "https://sdohplace.org/showcase/sharing-birth-stories-in-the-motherhood-project"
         }
       ],
       "desc_long": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending Eastern Illinois University. Makiya has also served in the Illinois Army National Guard for the past 9 years. While in the Army, she’s served as a Platoon Leader, Operations Officer in Charge while being deployed, and currently serves as a Headquarters Commander. Makiya currently works as a DEI Specialist for the Public Health District of Champaign where she lives with her beauty baby boy named Judah.",
@@ -163,7 +238,12 @@
       "title": "Professor",
       "image": "/images/headshot-wt.jpeg",
       "desc_short": "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics ...",
-      "links": [],
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/wei-tu-a8116122/"
+        }
+      ],
       "desc_long": "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics (INLA). Dr. Tu’s research focuses on how and to what extent place and space influenced health outcomes, particularly the impacts of social determinants on maternal and child health. Dr. Tu uses a variety of statistical models and Geographic Information Systems to analyze and visualize geospatial health data, with an overarching goal of reducing health disparity, promoting community health, and improving population health.",
       "cohort": "Spring 2024"
     }
