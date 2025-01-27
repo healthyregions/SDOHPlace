@@ -133,7 +133,7 @@ const NavBar = (): JSX.Element => {
         <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
           { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
               <Link href="/" style={{ padding:0, margin:0 }}>
-                <Image width={40} height={40} src={'./logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
+                <Image width={40} height={40} src={'/logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
               </Link>
             </li>
           }
