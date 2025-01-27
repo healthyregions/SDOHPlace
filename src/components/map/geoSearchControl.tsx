@@ -4,6 +4,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
 import "@maptiler/geocoding-control/style.css";
+import {clearMapPreview} from "@/store/slices/uiSlice";
 
 interface GeoSearchControlProps {
   apiKey: string;

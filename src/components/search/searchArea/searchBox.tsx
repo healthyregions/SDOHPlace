@@ -21,7 +21,13 @@ import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import { setQuery, fetchSuggestions, setInputValue } from "@/store/slices/searchSlice";
-import { setShowInfoPanel, setShowClearButton, setShowDetailPanel, setMapPreview } from "@/store/slices/uiSlice";
+import {
+  setShowInfoPanel,
+  setShowClearButton,
+  setShowDetailPanel,
+  setMapPreview,
+  clearMapPreview
+} from "@/store/slices/uiSlice";
 import SpellCheckMessage from "./spellCheckMessage";
 interface Props {
   schema: any;
@@ -104,6 +110,7 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   const performSearch = React.useCallback(
     (searchValue: string | null) => {
       if (searchValue) {
+        dispatch(clearMapPreview());
         dispatch(setQuery(searchValue));
         dispatch(setShowDetailPanel(null));
       }

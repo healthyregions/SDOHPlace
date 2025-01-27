@@ -47,6 +47,9 @@ const uiSlice = createSlice({
     setShowSharedLink: (state, action) => {
       state.showSharedLink = action.payload;
     },
+    clearMapPreview: (state, action) => {
+      state.mapPreview = [];
+    },
     setMapPreview: (state, action) => {
       state.mapPreview = action.payload;
     },
@@ -61,6 +64,7 @@ export const {
   setShowClearButton,
   setShowSharedLink,
   setMapPreview,
+  clearMapPreview
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -28,6 +28,7 @@ import "@maptiler/geocoding-control/style.css";
 import * as turf from "@turf/turf";
 
 import GeoSearchControl from "./geoSearchControl";
+import {clearMapPreview} from "@/store/slices/uiSlice";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -196,6 +197,7 @@ export default function DynamicMap(props: Props): JSX.Element {
 
   const handleGeoSearchSelection = useCallback(
     (e) => {
+      dispatch(clearMapPreview());
       const map = mapRef.current.getMap();
       const highlightSource = map.getSource(
         "geoSearchHighlight"
