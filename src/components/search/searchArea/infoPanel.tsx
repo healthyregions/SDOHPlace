@@ -5,8 +5,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { Box, Tabs, Tab, IconButton, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { setShowInfoPanel } from "@/store/slices/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setShowInfoPanel, setInfoPanelTab } from "@/store/slices/uiSlice";
 
 interface Props {
   children?: React.ReactNode;
@@ -43,11 +44,11 @@ function a11yProps(index: number) {
 export default function InfoPanel() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const { infoPanelTab } = useSelector((state: RootState) => state.ui);
   const [maxHeight, setMaxHeight] = React.useState(0);
   const tabPanelRef = React.useRef(null);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    dispatch(setInfoPanelTab(newValue));
   };
   const handleClosePanel = () => {
     dispatch(setShowInfoPanel(false));
@@ -86,7 +87,7 @@ export default function InfoPanel() {
         </IconButton>
 
         <Tabs
-          value={value}
+          value={infoPanelTab}
           onChange={handleChange}
           sx={{
             paddingLeft: "2em",
@@ -108,7 +109,7 @@ export default function InfoPanel() {
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 500,
                   color:
-                    value === 0
+                    infoPanelTab === 0
                       ? fullConfig.theme.colors["frenchviolet"]
                       : fullConfig.theme.colors["almostblack"],
                 }}
@@ -127,7 +128,7 @@ export default function InfoPanel() {
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontWeight: 500,
                   color:
-                    value === 1
+                    infoPanelTab === 1
                       ? fullConfig.theme.colors["frenchviolet"]
                       : fullConfig.theme.colors["almostblack"],
                 }}
@@ -158,14 +159,14 @@ export default function InfoPanel() {
         }}
         ref={tabPanelRef}
       >
-        <CustomTabPanel value={value} index={0}>
+        <CustomTabPanel value={infoPanelTab} index={0}>
           Spatial resolution is the level of geographic detail of how the data
           is displayed: state (largest, most general level), county (subdivision
           of a state, including multiple cities and towns), census tract
           (smaller geographical unit), block group (smallest unit, a subdivision
           of census tract), and ZIP Code.
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
+        <CustomTabPanel value={infoPanelTab} index={1}>
           If you know the general SDOH topic you are interested in finding data
           for, first try the themes in the <strong>Sort & Filter</strong> panel
           at left. Not finding the theme you want? Try typing it into the search
