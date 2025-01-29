@@ -1,7 +1,8 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import { Box, Grid } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import GlossaryPopover from "@/components/GlossaryPopover";
 import tailwindConfig from "../../../../tailwind.config";
@@ -10,6 +11,7 @@ import SearchBox from "./searchBox";
 import InfoPanel from "./infoPanel";
 import { RootState } from "@/store";
 import SpatialResolutionCheck from "./spatialResolutionCheck";
+import { setShowInfoPanel, setInfoPanelTab } from "@/store/slices/uiSlice";
 
 interface Props {
   header: string;
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchArea = (props: Props): JSX.Element => {
+  const dispatch = useDispatch()
   const classes = useStyles();
   const { showInfoPanel } = useSelector((state: RootState) => state.ui);
 
@@ -42,9 +45,17 @@ const SearchArea = (props: Props): JSX.Element => {
           className="text-s text-center sm:text-left sm:mt-[1em]"
           style={{ textWrap: "balance" }}
         >
-          Our data discovery platform provides access to spatially indexed and
-          curated databases, specifically designed for conducting{" "}
-          <GlossaryPopover entry={"health equity"} /> research.
+          This platform provides access to spatially indexed and
+          curated databases, specifically designed for conducting health equity research. <a
+          onClick={() => {
+            dispatch(setShowInfoPanel(true));
+            dispatch(setInfoPanelTab(0));
+          }}
+          style={{ cursor: "pointer" }}
+          className="no-underline text-frenchviolet"
+        >
+          Get started &rarr;
+        </a>
         </div>
       </Grid>
       <Grid
@@ -72,7 +83,7 @@ const SearchArea = (props: Props): JSX.Element => {
           </Box>
         ) : (
           <div>
-            <div className="flex items-center space-x-10 md:ml-[6em] md:mr-[5.3125em]">
+            <div className="flex items-center space-x-10">
               <InfoPanel />
             </div>
           </div>
