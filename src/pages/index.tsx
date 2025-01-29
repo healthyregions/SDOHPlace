@@ -120,6 +120,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
       text: "Areas with more trees, parks, and vegetation may provide access to recreation, improve mental health, and combat heat island effects.",
+      link: "/guides/greenspace-access",
     },
     {
       id: "2",
@@ -190,7 +191,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="absolute right-0 top-[43%] w-[5vw] max-[1150px]:hidden h-auto">
           <Image priority src={line3} alt="" className="w-full h-full" />
         </div>
-        <div className="absolute right-0 bottom-0 w-[5vw] max-md:[8vw] max-md:hidden  h-auto">
+        <div className="absolute right-0 bottom-0 w-[11vw] max-md:[8vw] max-md:hidden  h-auto">
           <Image priority src={line4} alt="" className="w-full h-full" />
         </div>
         <div className="absolute left-[80%] bottom-0 w-[7vw] max-md:hidden h-auto">
@@ -203,7 +204,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
         <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
-          <div className="mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
+          <div className="lg:pb-8 lg:mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
               src={mainLogo}
@@ -235,7 +236,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
+        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mb-[14%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-xl font-normal leading-8">
               A{" "}
