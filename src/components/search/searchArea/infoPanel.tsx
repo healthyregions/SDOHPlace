@@ -210,7 +210,7 @@ export default function InfoPanel() {
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={2}>
           Some sources provide data at the state level, while others may provide data at smaller resolutions
-          like county or tract level. The interface makes it easy to filter by this geography level, or "spatial resolution",
+          like county or tract level. The interface makes it easy to filter by this geography level, or &quot;spatial resolution&quot;,
           allowing you to find only data relevant for your work.
           <List>
             <ListItem>State (largest, most general level)</ListItem>
