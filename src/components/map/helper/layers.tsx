@@ -7,27 +7,41 @@ import {
 
 export type LayerDef = {
   addBefore: string;
-  spec: FillLayerSpecification | LineLayerSpecification | CircleLayerSpecification;
+  spec:
+    | FillLayerSpecification
+    | LineLayerSpecification
+    | CircleLayerSpecification;
 };
 
-export const makePreviewLyr = function (id: string, source: string, filter: FilterSpecification) {
-  const newLayerSpec: LineLayerSpecification = {
-    "id": id,
-    "source": source,
+export const makePreviewLyrs = function (
+  id: string,
+  source: string,
+  filter: FilterSpecification
+) {
+  const newLineLayerSpec: LineLayerSpecification = {
+    id: `${id}-line`,
+    source: source,
     "source-layer": source,
-    "type": "line",
-    "paint": {
+    type: "line",
+    paint: {
       "line-color": "#FF9C77",
       "line-width": 1,
     },
-    "filter": filter,
+    filter: filter,
   };
-  const outLayerDef: LayerDef = {
-    addBefore: "Ocean labels",
-    spec: newLayerSpec,
+  const newFillLayerSpec: FillLayerSpecification = {
+    id: `${id}-fill`,
+    source: source,
+    "source-layer": source,
+    type: "fill",
+    paint: {
+      "fill-color": "#FF9C77",
+      "fill-opacity": 0.25,
+    },
+    filter: filter,
   };
-  return outLayerDef
-}
+  return [newLineLayerSpec, newFillLayerSpec];
+};
 
 // demo POI layer
 const parksSpec: CircleLayerSpecification = {
