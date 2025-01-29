@@ -53,9 +53,9 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
   };
 
   return (
-    <div className={`flex flex-col sm:flex-row items-center ml-4 space-x-7`}>
-      <div className="text-l whitespace-nowrap">Spatial Resolution:</div>
-      <div className="flex flex-col sm:flex-row space-x-4">
+    <div className={`flex flex-col items-start ml-4`}>
+      <div className="text-sm whitespace-nowrap">Filter by geography:</div>
+      <div className="flex flex-col sm:flex-row flex-wrap">
         {Array.from(checkboxes).map((checkbox, index) => (
           <div key={index} className="flex items-center">
             <Checkbox
