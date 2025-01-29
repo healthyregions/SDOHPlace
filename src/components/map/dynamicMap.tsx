@@ -9,25 +9,26 @@ import {
   ViewStateChangeEvent,
   Popup,
   LngLatBoundsLike,
+  Source,
 } from "react-map-gl/maplibre";
 import maplibregl, {
   FilterSpecification,
-  LayerSpecification,
   LineLayerSpecification,
   GeoJSONSource,
 } from "maplibre-gl";
 import { Protocol } from "pmtiles";
-import { sources } from "./helper/sources";
+import { overlaySources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
 import { setBbox } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { overlayRegistry, layerRegistry } from "./helper/layers";
+import { overlayRegistry, makePreviewLyrs } from "./helper/layers";
 
 import "@maptiler/geocoding-control/style.css";
 
 import * as turf from "@turf/turf";
 
 import GeoSearchControl from "./geoSearchControl";
+import { clearMapPreview } from "@/store/slices/uiSlice";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -37,18 +38,81 @@ interface Props {
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { bbox, visLyrs, visOverlays } = useSelector(
-    (state: RootState) => state.search
-  );
-  const [currentDisplayLayers, setCurrentDisplayLayers] = useState<
-    LayerSpecification[]
-  >([]);
-  const [currentInteractiveLayers, setCurrentInteractiveLayers] = useState<
-    LayerSpecification[]
-  >([]);
+  const { bbox, visOverlays } = useSelector((state: RootState) => state.search);
+  const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
+
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded) return;
+    const map = mapRef.current.getMap();
+    map.getStyle().layers.map((lyr) => {
+      if (lyr.id.startsWith("herop-")) {
+        map.removeLayer(lyr.id);
+      }
+    });
+
+    const lookup = {
+      "040": "state-2018",
+      "050": "county-2018",
+      "140": "tract-2018",
+      "150": "bg-2018",
+      "860": "zcta-2018",
+    };
+    mapPreview.map((previewLyr) => {
+      // Just look at first id here (we shouldn't see minus mixed with non-minus)
+      const firstId = previewLyr.filterIds[0];
+      const source = firstId.startsWith("-")
+        ? lookup[firstId.slice(1, 4)]
+        : lookup[firstId.slice(0, 3)];
+      const operator = firstId.startsWith("-") ? "all" : "any";
+      let clauses: FilterSpecification[] = [];
+      previewLyr.filterIds.forEach((id: string) => {
+        if (id.startsWith("-") && id.endsWith("*")) {
+          // Wildcard excludes - exclude any IDs that match the wildcard if it starts with "-"
+          clauses.push([
+            "!=",
+            ["slice", ["get", "HEROP_ID"], 0, id.length - 2],
+            id.slice(1, -1),
+          ]);
+        } else if (id.startsWith("-") && !id.endsWith("*")) {
+          // Excludes - exclude any IDs that start with "-"
+          clauses.push(["!=", ["get", "HEROP_ID"], id.slice(1, id.length)]);
+        } else if (!id.startsWith("-") && id.endsWith("*")) {
+          // Wildcards - "*" on the end works as a wildcard match
+          clauses.push([
+            "==",
+            ["slice", ["get", "HEROP_ID"], 0, id.length - 1],
+            id.slice(0, -1),
+          ]);
+        } else {
+          // Other values are exact matches
+          // These are handled below in bulk
+        }
+      });
+
+      // Other values are exact matches
+      const exactMatches = previewLyr.filterIds.filter(
+        (id: string) => !id.startsWith("-") && !id.endsWith("*")
+      );
+      if (exactMatches.length) {
+        clauses.push(["in", ["get", "HEROP_ID"], ["literal", exactMatches]]);
+      }
+
+      const expression = [operator, ...clauses];
+      console.log(expression);
+
+      const previewLyrs = makePreviewLyrs(
+        previewLyr.lyrId,
+        source,
+        expression as any
+      );
+      previewLyrs.forEach((lyr) => {
+        map.addLayer(lyr, "Ocean labels");
+      });
+    });
+  }, [mapPreview, mapLoaded]);
 
   // create ability to load pmtiles layers
   useEffect(() => {
@@ -81,28 +145,10 @@ export default function DynamicMap(props: Props): JSX.Element {
         map.removeLayer(overlayRegistry[lyr].spec.id);
       }
     });
-    visLyrs.forEach((lyr) => {
-      if (
-        layerRegistry[lyr] &&
-        !mapLyrIds.includes(layerRegistry[lyr].spec.id)
-      ) {
-        map.addLayer(layerRegistry[lyr].spec, layerRegistry[lyr].addBefore);
-      }
-    });
-    Object.keys(layerRegistry).forEach((lyr) => {
-      if (
-        mapLyrIds.includes(layerRegistry[lyr].spec.id) &&
-        !visLyrs.includes(lyr)
-      ) {
-        map.removeLayer(layerRegistry[lyr].spec.id);
-      }
-    });
-  }, [visLyrs, visOverlays, mapLoaded]);
+  }, [visOverlays, mapLoaded]);
 
   const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
-    if (!mapRef.current) {
-      return;
-    }
+    if (!mapRef.current || !mapLoaded) return;
     const map = mapRef.current.getMap();
     const parkFeat = event.features?.find((f) => f["source"] === "us-parks");
 
@@ -123,10 +169,11 @@ export default function DynamicMap(props: Props): JSX.Element {
     const map = mapRef.current.getMap();
 
     // add all custom sources to the map
-    Object.keys(sources).forEach((id) => {
-      map.addSource(id, sources[id]);
+    Object.keys(overlaySources).forEach((id) => {
+      map.addSource(id, overlaySources[id]);
     });
 
+    map.addSource("geoSearchHighlight", { type: "geojson", data: null });
     map.addLayer({
       id: "geoSearchHighlightLyr-fill",
       type: "fill",
@@ -166,6 +213,7 @@ export default function DynamicMap(props: Props): JSX.Element {
 
   const handleGeoSearchSelection = useCallback(
     (e) => {
+      dispatch(clearMapPreview());
       const map = mapRef.current.getMap();
       const highlightSource = map.getSource(
         "geoSearchHighlight"
@@ -221,6 +269,37 @@ export default function DynamicMap(props: Props): JSX.Element {
       touchZoomRotate={false}
       interactiveLayerIds={["state-interactive", "us-parks"]}
     >
+      <Source
+        id="state-2018"
+        type="vector"
+        url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/state-2018.pmtiles"
+      />
+      <Source
+        id="county-2018"
+        type="vector"
+        url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/county-2018.pmtiles"
+      />
+      <Source
+        id="tract-2018"
+        type="vector"
+        url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/tract-2018.pmtiles"
+      />
+      <Source
+        id="bg-2018"
+        type="vector"
+        url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/bg-2018.pmtiles"
+      />
+      <Source
+        id="zcta-2018"
+        type="vector"
+        url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/zcta-2018.pmtiles"
+      />
+      <Source
+        id="place-2018"
+        type="vector"
+        url="pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/place-2018.pmtiles"
+      />
+
       <NavigationControl position="top-right" showCompass={false} />
       <GeoSearchControl
         apiKey={apiKey}

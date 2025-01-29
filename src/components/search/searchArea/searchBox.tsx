@@ -20,9 +20,14 @@ import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
-import { setQuery, fetchSuggestions } from "@/store/slices/searchSlice";
-import { setInputValue } from "@/store/slices/searchSlice";
-import { setShowInfoPanel, setShowClearButton, setShowDetailPanel } from "@/store/slices/uiSlice";
+import { setQuery, fetchSuggestions, setInputValue } from "@/store/slices/searchSlice";
+import {
+  setShowInfoPanel,
+  setShowClearButton,
+  setShowDetailPanel,
+  setMapPreview,
+  clearMapPreview
+} from "@/store/slices/uiSlice";
 import SpellCheckMessage from "./spellCheckMessage";
 interface Props {
   schema: any;
@@ -105,6 +110,7 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
   const performSearch = React.useCallback(
     (searchValue: string | null) => {
       if (searchValue) {
+        dispatch(clearMapPreview());
         dispatch(setQuery(searchValue));
         dispatch(setShowDetailPanel(null));
       }
@@ -154,6 +160,7 @@ const SearchBox = ({ schema }: Props): JSX.Element => {
     dispatch(setQuery(null));
     dispatch(setShowDetailPanel(null));
     dispatch(setShowClearButton(false));
+    dispatch(setMapPreview([]))
   };
   const isIOS = React.useMemo(() => {
     if (
