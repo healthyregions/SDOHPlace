@@ -36,7 +36,7 @@ export const makePreviewLyrs = function (
     type: "fill",
     paint: {
       "fill-color": "#FF9C77",
-      "fill-opacity": 0.25,
+      "fill-opacity": 0.1,
     },
     filter: filter,
   };

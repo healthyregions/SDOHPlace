@@ -78,7 +78,7 @@ export default function DynamicMap(props: Props): JSX.Element {
           ]);
         } else if (id.startsWith("-") && !id.endsWith("*")) {
           // Excludes - exclude any IDs that start with "-"
-          clauses.push(["!=", ["get", "HEROP_ID"], id]);
+          clauses.push(["!=", ["get", "HEROP_ID"], id.slice(1, id.length)]);
         } else if (!id.startsWith("-") && id.endsWith("*")) {
           // Wildcards - "*" on the end works as a wildcard match
           clauses.push([
@@ -101,6 +101,7 @@ export default function DynamicMap(props: Props): JSX.Element {
       }
 
       const expression = [operator, ...clauses];
+      console.log(expression);
 
       const previewLyrs = makePreviewLyrs(
         previewLyr.lyrId,
