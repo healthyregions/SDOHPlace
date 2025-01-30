@@ -29,6 +29,7 @@ import { setSchema, setVisOverlays } from "@/store/slices/searchSlice";
 import { overlayRegistry } from "../../map/helper/layers";
 import { localStyles } from "../../../lib/localStyles";
 import dynamic from "next/dynamic";
+import { setShowInfoPanel, setInfoPanelTab } from "@/store/slices/uiSlice";
 
 interface Props {
   resultsList: SolrObject[];
@@ -117,49 +118,18 @@ const MapPanelContent = (props: Props): JSX.Element => {
             />
             {overlaysBtnTxt}
           </Button>
-          <Button
-            id="basic-button"
-            className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]"
-            style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-            aria-controls={infoOpen ? "info-popover" : undefined}
-            aria-haspopup="true"
-            aria-expanded={infoOpen ? "true" : undefined}
-            onClick={handleInfoClick}
-          >
-            <SvgIcon
-              component={InfoOutlinedIcon}
-              sx={{
-                color: fullConfig.theme.colors["frenchviolet"],
+          <Box component="span" className="mx-2">
+            <a
+              onClick={() => {
+                dispatch(setShowInfoPanel(true));
+                dispatch(setInfoPanelTab(3))
               }}
-            />
-          </Button>
-          <Popover
-            id="info-popover"
-            open={infoOpen}
-            anchorEl={infoAnchorEl}
-            onClose={handleInfoClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-          >
-            <Box className="py-2 px-4 rounded bg-lightbisque">
-              <p className="text-almostblack font-sans text-sm">
-                Overlays created from{" "}
-                <Link
-                  href="https://docs.overturemaps.org/guides/places/"
-                  target="_blank"
-                >
-                  Places
-                </Link>{" "}
-                theme,{" "}
-                <Link href="https://overturemaps.org" target="_blank">
-                  Overture Maps Foundation
-                </Link>
-                .
-              </p>
-            </Box>
-          </Popover>
+              style={{ cursor: "pointer" }}
+              className="no-underline text-frenchviolet"
+            >
+              <InfoOutlinedIcon />
+            </a>
+          </Box>
           <Menu
             id="basic-menu"
             className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]"
