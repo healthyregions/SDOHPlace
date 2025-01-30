@@ -11,6 +11,7 @@ export interface SearchState {
   originalQuery: string;
   usedQuery: string;
   usedSpellCheck: boolean;
+  thoughts: string;
 
   // sort
   sortBy: string;
@@ -34,6 +35,7 @@ export interface SearchState {
 }
 
 export const initialState: SearchState = {
+  thoughts: "",
   schema: null,
   query: "",
   inputValue: "",

@@ -1,2 +1,30 @@
+[build]
+command = "npm run build"
+publish = "out"
+
+[[edge_functions]]
+path = "/.netlify/edge-functions/chat-search"
+function = "chat-search"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+[functions]
+directory = "netlify/edge-functions"
+
+[build.environment]
+NEXT_USE_NETLIFY_EDGE = "true"
+NODE_VERSION = "18"
+
+[dev]
+framework = "#static"
+targetPort = 3000
+port = 8888
+publish = "out"
+
 [[plugins]]
 package = "@netlify/plugin-nextjs"
