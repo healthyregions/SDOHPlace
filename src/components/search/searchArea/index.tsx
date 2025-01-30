@@ -10,6 +10,7 @@ import SearchBox from "./searchBox";
 import InfoPanel from "./infoPanel";
 import { RootState } from "@/store";
 import SpatialResolutionCheck from "./spatialResolutionCheck";
+import EnhancedSearch from "./enhancedSearch";
 
 interface Props {
   header: string;
@@ -66,8 +67,11 @@ const SearchArea = (props: Props): JSX.Element => {
                 schema={props.schema}
               />
             </Box>
-            <Box width="100%" className="mt-[2em] sm:mt-0">
+            {/* <Box width="100%" className="mt-[2em] sm:mt-0">
               <SearchBox schema={props.schema} />
+            </Box> */}
+            <Box width="100%" className="mt-[2em] sm:mt-0">
+              < EnhancedSearch schema={props.schema}/>
             </Box>
           </Box>
         ) : (
