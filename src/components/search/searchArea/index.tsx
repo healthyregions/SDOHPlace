@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchArea = (props: Props): JSX.Element => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { showInfoPanel } = useSelector((state: RootState) => state.ui);
 
@@ -45,17 +45,19 @@ const SearchArea = (props: Props): JSX.Element => {
           className="text-s text-center sm:text-left sm:mt-[1em]"
           style={{ textWrap: "balance" }}
         >
-          This platform provides access to spatially indexed and
-          curated databases, specifically designed for conducting health equity research. <a
-          onClick={() => {
-            dispatch(setShowInfoPanel(true));
-            dispatch(setInfoPanelTab(0));
-          }}
-          style={{ cursor: "pointer" }}
-          className="no-underline text-frenchviolet"
-        >
-          Get started &rarr;
-        </a>
+          This platform provides access to spatially indexed and curated
+          databases, specifically designed for conducting health equity
+          research.{" "}
+          <a
+            onClick={() => {
+              dispatch(setShowInfoPanel(true));
+              dispatch(setInfoPanelTab(0));
+            }}
+            style={{ cursor: "pointer" }}
+            className="no-underline text-frenchviolet"
+          >
+            <strong>Get started &rarr;</strong>
+          </a>
         </div>
       </Grid>
       <Grid
