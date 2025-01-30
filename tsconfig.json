@@ -17,8 +17,6 @@
     "incremental": true,
     "paths": {
       "@/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/hooks/*": ["src/hooks/*"],
       "@/public/*": ["public/*"]
     }
   },

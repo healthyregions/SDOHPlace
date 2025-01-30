@@ -39,26 +39,6 @@ export const actionConfig: Record<string, ActionConfig> = {
       fromUrl: (value: string) => value.split(",").filter(Boolean),
     },
   },
-  "search/setVisOverlays": {
-    param: "vis_overlays",
-    syncWithUrl: false,
-    requiresFetch: false,
-    isFilter: true,
-    transform: {
-      toUrl: (value: string[]) => value.join(","),
-      fromUrl: (value: string) => value.split(",").filter(Boolean),
-    },
-  },
-  "search/setVisLyrs": {
-    param: "layers",
-    syncWithUrl: true,
-    requiresFetch: false,
-    isFilter: true,
-    transform: {
-      toUrl: (value: string[]) => value.join(","),
-      fromUrl: (value: string) => value.split(",").filter(Boolean),
-    },
-  },
   "search/setBbox": {
     param: "bbox",
     syncWithUrl: true,

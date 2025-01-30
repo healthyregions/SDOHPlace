@@ -5,6 +5,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setSubject } from "@/store/slices/searchSlice";
+import {clearMapPreview} from "@/store/slices/uiSlice";
 
 interface Props {
   svgIcon: any;
@@ -36,6 +37,7 @@ const IconTag = (props: Props): JSX.Element => {
     } else {
       newSubjects = [...currentSubjects, sub];
     }
+    dispatch(clearMapPreview());
     dispatch(setSubject(newSubjects));
   };
 
