@@ -100,7 +100,7 @@ const HeaderRow = (props: Props): JSX.Element => {
             />
           </div>
           <ButtonWithIcon
-            label={"Go to dataset"}
+            label={"Go to Resource"}
             borderRadius={"0.25rem"}
             width={"100%"}
             justifyContent="space-between"
@@ -180,8 +180,8 @@ const HeaderRow = (props: Props): JSX.Element => {
         </div>
       ) : null}
       {links.archiveUrl ? (
-        <div className="flex flex-col sm:flex-row items-center">
-          <strong>Data Offline?</strong> Checkout a copy of this dataset in our <a href={links.archiveUrl}>Data Archive</a>
+        <div className="mt-2">
+          <em><strong>Data Offline?</strong> Checkout a copy of this dataset in our <a href={links.archiveUrl}>Data Archive</a></em>
         </div>
       ) : null}
     </div>

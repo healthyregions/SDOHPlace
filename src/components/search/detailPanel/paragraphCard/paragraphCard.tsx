@@ -91,7 +91,7 @@ const Link = ({ value }) => {
             <ListItem><a
               href={String(links.dataDictionaryUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
-            >Data Dictionary</a></ListItem>)
+            >Technical Documentation</a></ListItem>)
           }
         </List>
       </div>
@@ -114,17 +114,16 @@ const ParagraphCard = (props: Props): JSX.Element => {
         <div className={`container`}>
           {props.collapsible ? (
             <details>
-              <summary className="text-s"><b>{props.title}:</b></summary>
+              <summary className="text-s"><b>{props.title}</b></summary>
             <span className={classes.paragraphCard}>{props.value}</span>
             </details>
           ) : (
             <>
-            <b className="text-s">{props.title}:</b>
+            <b className="text-s">{props.title}</b>
           <span className={classes.paragraphCard}>{props.value}</span>
             </>
           )
           }
-          
         </div>
       )}
     </div>

@@ -27,7 +27,7 @@ const DetailPanel = (props: Props): JSX.Element => {
       <div
         className={`container sm:px-11 sm:mb-60 mx-auto bg-white shadow-none aspect-ratio`}
       >
-        <div className="flex flex-col sm:flex-row mb-8" id="introCardRow">
+        <div className="flex flex-col sm:flex-row mb-4" id="introCardRow">
           <HeaderRow
             resultItem={resultItem}
             headerIcon={IconMatch(
@@ -91,7 +91,7 @@ const DetailPanel = (props: Props): JSX.Element => {
           {resultItem.meta.featured_variable && (
             <ParagraphCard
               type="rest"
-              title="Featured variable(s)"
+              title="Featured variable(s):"
               value={resultItem.meta.featured_variable}
             />
           )}
@@ -106,7 +106,7 @@ const DetailPanel = (props: Props): JSX.Element => {
           {resultItem.meta.methods_variables && (
             <ParagraphCard
               type="rest"
-              title="Measures and data input"
+              title="Measures and data input:"
               value={resultItem.meta.methods_variables.join(", ")}
               collapsible={true}
             />
