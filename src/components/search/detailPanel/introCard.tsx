@@ -42,6 +42,12 @@ const IntroCard = (props: Props): JSX.Element => {
               ? props.resultItem.meta.publisher
               : ""}
           </div>
+          <div className={`${classes.introCard}`}>
+            <b>Preferred Citation:</b>{" "}
+            {props.resultItem.meta.preferred_citation
+              ? props.resultItem.meta.preferred_citation
+              : ""}
+          </div>
         </div>
         <div className="flex-1 w-full sm:w-1/3  sm:pl-6 sm:pr-2.25 sm:pt-5 bg-lightbisque">
           <div className={`${classes.introCard}`}>
