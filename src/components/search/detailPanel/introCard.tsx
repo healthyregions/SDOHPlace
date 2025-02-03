@@ -70,8 +70,8 @@ const IntroCard = (props: Props): JSX.Element => {
           </div>
           <div className={`${classes.introCard}`}>
             <b>Access:</b>{" "}
-            {props.resultItem.meta.access_rights
-              ? props.resultItem.meta.access_rights
+            {props.resultItem.access_rights
+              ? props.resultItem.access_rights
               : ""}
           </div>
         </div>
