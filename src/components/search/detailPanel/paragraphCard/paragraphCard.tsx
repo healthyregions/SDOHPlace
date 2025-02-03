@@ -88,7 +88,7 @@ const Link = ({ value }) => {
             >{links.dataDictionaryUrl}</a></ListItem>)
           }
           {links.archiveUrl && (
-            <ListItem>Archived download URL: <a
+            <ListItem>Data offline? Check out our Data Archive: <a
               href={String(links.archiveUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
             >{links.archiveUrl}</a></ListItem>)
