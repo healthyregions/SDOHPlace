@@ -98,22 +98,17 @@ const HeaderRow = (props: Props): JSX.Element => {
             />
           </div>
           <ButtonWithIcon
-            label={"Access"}
+            label={"Go to dataset"}
             borderRadius={"0.25rem"}
             width={"100%"}
             justifyContent="space-between"
             fillColor={"frenchviolet"}
             labelColor={"white"}
             noBox={true}
+            disabled={true}
             onClick={() => {
-              const link = ParseReferenceLink(
-                props.resultItem.meta.references
-              )[1]
-                ? String(
-                    ParseReferenceLink(props.resultItem.meta.references)[1]
-                  )
-                : "#";
-              window.open(link, "_blank");
+              const links = ParseReferenceLink(props.resultItem.meta.references)
+              window.open(links.homepageUrl, "_blank").focus();
             }}
           />
         </div>

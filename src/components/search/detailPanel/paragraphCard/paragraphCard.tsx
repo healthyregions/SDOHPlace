@@ -5,11 +5,13 @@ import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { displayNotesIcons } from "./displayNotesIcons";
 import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
+import { List, ListItem } from "@mui/material";
 
 interface Props {
   type: string;
   title: string;
   value: string;
+  collapsible?: boolean;
 }
 interface LinkProps {
   value: string | Record<string, any>;
@@ -67,24 +69,42 @@ const UsageTip = ({ value }) => {
 
 const Link = ({ value }) => {
   const classes = useStyles();
-  const [key, url] = ParseReferenceLink(value);
-  return (
-    <div className="container">
-      <b>Link:</b>
-      <a
-        href={String(url)}
-        className={`${classes.paragraphCard} ${classes.link}`}
-      >
-        {String(url)}
-      </a>
-    </div>
-  );
+  const links = ParseReferenceLink(value);
+  if (links.downloadUrl || links.dataDictionaryUrl || links.archiveUrl) {
+    return (
+      <div className="container">
+        <b className="text-s">More links:</b>
+        <List>
+          {links.downloadUrl && (
+            <ListItem>Download: <a
+              href={String(links.downloadUrl)}
+              className={`${classes.paragraphCard} ${classes.link}`}
+            >{links.downloadUrl}</a></ListItem>)
+          }
+          {links.dataDictionaryUrl && (
+            <ListItem>Data dictionary: <a
+              href={String(links.dataDictionaryUrl)}
+              className={`${classes.paragraphCard} ${classes.link}`}
+            >{links.dataDictionaryUrl}</a></ListItem>)
+          }
+          {links.archiveUrl && (
+            <ListItem>Archived download URL: <a
+              href={String(links.archiveUrl)}
+              className={`${classes.paragraphCard} ${classes.link}`}
+            >{links.archiveUrl}</a></ListItem>)
+          }
+        </List>
+      </div>
+    )
+  } else {
+    return <></> ;
+  }
 };
 
 const ParagraphCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
-    <div className={`container mx-auto bg-white shadow-none aspect-ratio mb-6`}>
+    <div className="container mx-auto bg-white shadow-none aspect-ratio mb-6">
       {props.type === "display_note" && (
         <DisplayNote title={props.title} value={props.value} />
       )}
@@ -92,8 +112,19 @@ const ParagraphCard = (props: Props): JSX.Element => {
       {props.type === "references" && <Link value={props.value} />}
       {props.type === "rest" && (
         <div className={`container`}>
-          <b>{props.title}:</b>
+          {props.collapsible ? (
+            <details>
+              <summary className="text-s"><b>{props.title}:</b></summary>
+            <span className={classes.paragraphCard}>{props.value}</span>
+            </details>
+          ) : (
+            <>
+            <b className="text-s">{props.title}:</b>
           <span className={classes.paragraphCard}>{props.value}</span>
+            </>
+          )
+          }
+          
         </div>
       )}
     </div>

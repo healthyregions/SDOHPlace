@@ -15,14 +15,6 @@ interface Props {
   relatedList: any[];
 }
 const fullConfig = resolveConfig(tailwindConfig);
-const useStyles = makeStyles((theme) => ({
-  detailPanel: {
-    color: `${fullConfig.theme.colors["almostblack"]}`,
-    fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-    fontWeight: 400,
-    fontSize: "0.875rem",
-  },
-}));
 
 const DetailPanel = (props: Props): JSX.Element => {
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
@@ -99,22 +91,24 @@ const DetailPanel = (props: Props): JSX.Element => {
           {resultItem.meta.featured_variable && (
             <ParagraphCard
               type="rest"
-              title="Featured Variable"
+              title="Featured variable(s)"
               value={resultItem.meta.featured_variable}
             />
           )}
+            {resultItem.meta.data_variables && (
+              <ParagraphCard
+                type="rest"
+                title="What's in this dataset?"
+                value={resultItem.meta.data_variables.join(", ")}
+                collapsible={true}
+              />
+            )}
           {resultItem.meta.methods_variables && (
             <ParagraphCard
               type="rest"
               title="Measures and data input"
               value={resultItem.meta.methods_variables.join(", ")}
-            />
-          )}
-          {resultItem.meta.data_variables && (
-            <ParagraphCard
-              type="rest"
-              title="What's in this dataset"
-              value={resultItem.meta.data_variables.join(", ")}
+              collapsible={true}
             />
           )}
           {resultItem.meta.references && (
