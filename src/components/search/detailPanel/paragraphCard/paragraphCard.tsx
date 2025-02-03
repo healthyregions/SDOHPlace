@@ -76,22 +76,22 @@ const Link = ({ value }) => {
         <b className="text-s">More links:</b>
         <List>
           {links.downloadUrl && (
-            <ListItem>Download: <a
+            <ListItem><a
               href={String(links.downloadUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
-            >{links.downloadUrl}</a></ListItem>)
-          }
-          {links.dataDictionaryUrl && (
-            <ListItem>Data dictionary: <a
-              href={String(links.dataDictionaryUrl)}
-              className={`${classes.paragraphCard} ${classes.link}`}
-            >{links.dataDictionaryUrl}</a></ListItem>)
+            >Data Download (Official)</a></ListItem>)
           }
           {links.archiveUrl && (
-            <ListItem>Data offline? Check out our Data Archive: <a
+            <ListItem><a
               href={String(links.archiveUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
-            >{links.archiveUrl}</a></ListItem>)
+            >Data Archival Copy</a></ListItem>)
+          }
+          {links.dataDictionaryUrl && (
+            <ListItem><a
+              href={String(links.dataDictionaryUrl)}
+              className={`${classes.paragraphCard} ${classes.link}`}
+            >Data Dictionary</a></ListItem>)
           }
         </List>
       </div>

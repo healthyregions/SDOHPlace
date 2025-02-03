@@ -56,6 +56,8 @@ const HeaderRow = (props: Props): JSX.Element => {
       ALLOWED_ATTR: ["href", "title", "target", "class"],
     }
   );
+
+  const links = ParseReferenceLink(props.resultItem.meta.references)
   return (
     <div className={`container mx-auto shadow-none aspect-ratio`}>
       <div className="flex flex-col sm:mb-5 sm:flex-row">
@@ -105,9 +107,8 @@ const HeaderRow = (props: Props): JSX.Element => {
             fillColor={"frenchviolet"}
             labelColor={"white"}
             noBox={true}
-            disabled={true}
+            disabled={links.homepageUrl ? false : true}
             onClick={() => {
-              const links = ParseReferenceLink(props.resultItem.meta.references)
               window.open(links.homepageUrl, "_blank").focus();
             }}
           />
@@ -176,6 +177,11 @@ const HeaderRow = (props: Props): JSX.Element => {
             className="text-base"
             dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
           />
+        </div>
+      ) : null}
+      {links.archiveUrl ? (
+        <div className="flex flex-col sm:flex-row items-center">
+          <strong>Data Offline?</strong> Checkout a copy of this dataset in our <a href={links.archiveUrl}>Data Archive</a>
         </div>
       ) : null}
     </div>
