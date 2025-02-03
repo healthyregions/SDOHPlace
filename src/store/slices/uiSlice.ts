@@ -8,6 +8,7 @@ interface MapPreviewLyr {
 interface UIState {
   pageFirstLoad: boolean;
   showInfoPanel: boolean;
+  infoPanelTab: number;
   showDetailPanel: string;
   showFilter: boolean;
   showClearButton: boolean;
@@ -18,6 +19,7 @@ interface UIState {
 const initialState: UIState = {
   pageFirstLoad: true,
   showInfoPanel: false,
+  infoPanelTab: 0,
   showDetailPanel: "",
   showFilter: false,
   showClearButton: false,
@@ -34,6 +36,9 @@ const uiSlice = createSlice({
     },
     setShowInfoPanel: (state, action) => {
       state.showInfoPanel = action.payload;
+    },
+    setInfoPanelTab: (state, action) => {
+      state.infoPanelTab = action.payload;
     },
     setShowDetailPanel: (state, action) => {
       state.showDetailPanel = action.payload;
@@ -59,6 +64,7 @@ const uiSlice = createSlice({
 export const {
   setPageFirstLoad,
   setShowInfoPanel,
+  setInfoPanelTab,
   setShowDetailPanel,
   setShowFilter,
   setShowClearButton,
