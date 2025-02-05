@@ -122,7 +122,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
             <a
               onClick={() => {
                 dispatch(setShowInfoPanel(true));
-                dispatch(setInfoPanelTab(3))
+                dispatch(setInfoPanelTab(4))
               }}
               style={{ cursor: "pointer" }}
               className="no-underline text-frenchviolet"

@@ -43,9 +43,9 @@ const IntroCard = (props: Props): JSX.Element => {
               : ""}
           </div>
           <div className={`${classes.introCard}`}>
-            <b>Provider:</b>{" "}
-            {props.resultItem.meta.provider
-              ? props.resultItem.meta.provider
+            <b>Preferred Citation:</b>{" "}
+            {props.resultItem.meta.preferred_citation
+              ? props.resultItem.meta.preferred_citation
               : ""}
           </div>
         </div>
@@ -70,8 +70,8 @@ const IntroCard = (props: Props): JSX.Element => {
           </div>
           <div className={`${classes.introCard}`}>
             <b>Access:</b>{" "}
-            {props.resultItem.meta.access_rights
-              ? props.resultItem.meta.access_rights
+            {props.resultItem.access_rights
+              ? props.resultItem.access_rights
               : ""}
           </div>
         </div>
