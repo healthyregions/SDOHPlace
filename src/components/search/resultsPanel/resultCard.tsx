@@ -129,8 +129,8 @@ const ResultCard = (props: Props): JSX.Element => {
       }}
     >
       <div className="flex flex-col sm:flex-row items-center px-2">
-        <div className="flex flex-col sm:flex-row items-center w-full">
-          <div className="w-full sm:w-4/5 flex items-start flex-col">
+        <Grid container spacing={0} className="flex flex-col sm:flex-row items-center">
+          <Grid item sm={10} className="items-start">
             <IconText
               roundBackground={true}
               svgIcon={IconMatch(
@@ -150,9 +150,9 @@ const ResultCard = (props: Props): JSX.Element => {
                 ? props.resultItem.meta.publisher[0]
                 : ""}
             </div>
-          </div>
-          <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end font-bold">
-            <div className={'flex flex-col'}>
+          </Grid>
+          <Grid item sm={2} className=" order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold">
+            <div className={'flex justify-end'}>
               <button
                 onClick={() => {
                   dispatch(setShowDetailPanel(props.resultItem.id));
@@ -161,9 +161,12 @@ const ResultCard = (props: Props): JSX.Element => {
               >
                 Details <span className="ml-1">&#8594;</span>
               </button>
+            </div>
 
+            <div className={'flex justify-end'}>
               {/* Checkbox : Show coverage area on map */}
               <FormControlLabel
+                className={'nomargin'}
                 disabled={!props.resultItem.meta.highlight_ids?.length}
                 title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
                 label={<div style={{
@@ -171,7 +174,7 @@ const ResultCard = (props: Props): JSX.Element => {
                   padding: 0,
                   fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                   fontSize: "0.875rem" }}>
-                  {mapPreview.find(p => p.lyrId === props.resultItem.id) ? 'Hide' : 'Show'} on map
+                  {mapPreview.find(p => p.lyrId === props.resultItem.id) ? 'Remove preview' : 'Show on map'}
               </div>}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -247,9 +250,9 @@ const ResultCard = (props: Props): JSX.Element => {
                 }
               />
             </div>
-          </div>
+          </Grid>
 
-        </div>
+        </Grid>
       </div>
       <Grid spacing={0} container className="flex flex-col sm:flex-row px-2 mt-1">
         <Grid item spacing={0} xs={7} className="flex-1">
@@ -269,9 +272,9 @@ const ResultCard = (props: Props): JSX.Element => {
         <Grid spacing={0} xs={5} className="flex-1 w-1/3 sm:pl-8">
           <div className={`${classes.resultCard} truncate `}>
             Year:{" "}
-            {props.resultItem.index_year
-              ? props.resultItem.index_year.join(", ")
-              : ""}
+            {props.resultItem.index_year?.length > 1
+              ? `${Math.min(...props.resultItem.index_year.map(y => Number(y)))} - ${Math.max(...props.resultItem.index_year.map(y => Number(y)))}`
+              : props.resultItem.index_year}
           </div>
           <div className={`${classes.resultCard} truncate `}>
             Spatial Res:{" "}
