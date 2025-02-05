@@ -921,6 +921,23 @@
       ]
     },
     {
+      "label": "Preferred Citation",
+      "uri": "sdoh_preferred_citation_s",
+      "data_type": "string",
+      "multiple": false,
+      "obligation": "required",
+      "controlled": false,
+      "controlled_options": [],
+      "schema": "SDOH Place",
+      "display_group": "SDOH Place Project",
+      "slug": "preferred-citation",
+      "widget": "text-simple.html",
+      "id": "preferred_citation",
+      "help_text": [
+          "Please enter a citation line for this data source, preferable directly from the source website itself."
+      ]
+  },
+    {
       "label": "Data Usage Notes",
       "uri": "sdoh_data_usage_notes_s",
       "data_type": "string",
