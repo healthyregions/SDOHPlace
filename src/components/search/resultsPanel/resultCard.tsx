@@ -255,7 +255,7 @@ const ResultCard = (props: Props): JSX.Element => {
         </Grid>
       </div>
       <Grid spacing={0} container className="flex flex-col sm:flex-row px-2 mt-1">
-        <Grid item spacing={0} xs={7} className="flex-1">
+        <Grid item xs={8}>
           <div className={`${classes.resultCard} truncate `}>
             Keywords:{" "}
             {props.resultItem.meta.keyword
@@ -269,7 +269,7 @@ const ResultCard = (props: Props): JSX.Element => {
               : ""}
           </div>
         </Grid>
-        <Grid spacing={0} xs={5} className="flex-1 w-1/3 sm:pl-8">
+        <Grid item xs={4}>
           <div className={`${classes.resultCard} truncate `}>
             Year:{" "}
             {props.resultItem.index_year?.length > 1
