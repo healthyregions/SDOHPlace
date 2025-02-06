@@ -1,7 +1,7 @@
 "use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
-import {Checkbox, FormControlLabel, Typography} from "@mui/material";
+import {Checkbox, FormControlLabel, Grid, Typography} from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
@@ -108,7 +108,7 @@ const ResultCard = (props: Props): JSX.Element => {
 
   const cardContent = props.resultItem && (
     <div
-      className={`container mx-auto p-5 bg-lightbisque shadow-none rounded aspect-ratio`}
+      className={`container mx-auto p-3 bg-lightbisque shadow-none rounded aspect-ratio`}
       onClick={() => {
         dispatch(setShowDetailPanel(props.resultItem.id));
       }}
@@ -128,9 +128,9 @@ const ResultCard = (props: Props): JSX.Element => {
             : undefined,
       }}
     >
-      <div className="flex flex-col sm:flex-row items-center mb-2">
-        <div className="flex flex-col sm:flex-row items-center w-full">
-          <div className="w-full sm:w-4/5 flex items-center">
+      <div className="flex flex-col sm:flex-row items-center px-2">
+        <Grid container spacing={0} className="flex flex-col sm:flex-row items-center">
+          <Grid item sm={10} className="items-start">
             <IconText
               roundBackground={true}
               svgIcon={IconMatch(
@@ -144,23 +144,120 @@ const ResultCard = (props: Props): JSX.Element => {
               labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
               labelColor={fullConfig.theme.colors["almostblack"]}
             />
-          </div>
-          <div className="sm:w-1/5 order-1 sm:order-none w-full sm:ml-auto flex items-center justify-center sm:justify-end font-bold">
-            <button
-              onClick={() => {
-                dispatch(setShowDetailPanel(props.resultItem.id));
-              }}
-              style={{ color: fullConfig.theme.colors["frenchviolet"] }}
-            >
-              View <span className="ml-1">&#8594;</span>
-            </button>
-          </div>
-        </div>
+            <div className={`${classes.resultCard} truncate ml-12`} style={{ marginTop: '-0.5rem'}}>
+              by{" "}
+              {props.resultItem.meta.publisher
+                ? props.resultItem.meta.publisher[0]
+                : ""}
+            </div>
+          </Grid>
+          <Grid item sm={2} className=" order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold">
+            <div className={'flex justify-end'}>
+              <button
+                onClick={() => {
+                  dispatch(setShowDetailPanel(props.resultItem.id));
+                }}
+                style={{ color: fullConfig.theme.colors["frenchviolet"] }}
+              >
+                Details <span className="ml-1">&#8594;</span>
+              </button>
+            </div>
+
+            <div className={'flex justify-end'}>
+              {/* Checkbox : Show coverage area on map */}
+              <FormControlLabel
+                className={'nomargin'}
+                disabled={!props.resultItem.meta.highlight_ids?.length}
+                title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
+                label={<div style={{
+                  color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
+                  padding: 0,
+                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+                  fontSize: "0.875rem" }}>
+                  {mapPreview.find(p => p.lyrId === props.resultItem.id) ? 'Remove preview' : 'Show on map'}
+              </div>}
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+                control={
+                  <Checkbox
+                    id={`sc-checkbox-${props.resultItem.id}`}
+                    value={props.resultItem.meta}
+                    style={{display: 'none'}}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        dispatch(
+                          setMapPreview([
+                            ...mapPreview,
+                            {
+                              lyrId: props.resultItem.id,
+                              filterIds: props.resultItem.meta.highlight_ids,
+                            },
+                          ])
+                        );
+                      } else {
+                        dispatch(
+                          setMapPreview(
+                            mapPreview.filter(
+                              (item) => item.lyrId != props.resultItem.id
+                            )
+                          )
+                        );
+                      }
+                    }}
+                    icon={
+                      <span
+                        style={{
+                          borderRadius: "4px",
+                          border: `2px solid ${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
+                          width: "14px",
+                          height: "14px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "transparent",
+                        }}
+                      ></span>
+                    }
+                    checkedIcon={
+                      <span
+                        style={{
+                          borderRadius: "4px",
+                          border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
+                          width: "14px",
+                          height: "14px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: `${fullConfig.theme.colors["frenchviolet"]}`,
+                        }}
+                      >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ width: "16px", height: "16px" }}
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+                    }
+                  />
+                }
+              />
+            </div>
+          </Grid>
+
+        </Grid>
       </div>
-      <div className="flex flex-col sm:flex-row sm:mt-4">
-        <div className="flex-1 w-full sm:w-1/2">
+      <Grid spacing={0} container className="flex flex-col sm:flex-row px-2 mt-1">
+        <Grid item xs={8}>
           <div className={`${classes.resultCard} truncate `}>
-            Keyword:{" "}
+            Keywords:{" "}
             {props.resultItem.meta.keyword
               ? props.resultItem.meta.keyword.join(", ")
               : ""}
@@ -171,19 +268,13 @@ const ResultCard = (props: Props): JSX.Element => {
               ? props.resultItem.creator.join(", ")
               : ""}
           </div>
-          <div className={`${classes.resultCard} truncate `}>
-            Publisher:{" "}
-            {props.resultItem.meta.publisher
-              ? props.resultItem.meta.publisher[0]
-              : ""}
-          </div>
-        </div>
-        <div className="flex-1 w-full sm:w-1/2 sm:pl-8">
+        </Grid>
+        <Grid item xs={4}>
           <div className={`${classes.resultCard} truncate `}>
             Year:{" "}
-            {props.resultItem.index_year
-              ? props.resultItem.index_year.join(", ")
-              : ""}
+            {props.resultItem.index_year?.length > 1
+              ? `${Math.min(...props.resultItem.index_year.map(y => Number(y)))} - ${Math.max(...props.resultItem.index_year.map(y => Number(y)))}`
+              : props.resultItem.index_year}
           </div>
           <div className={`${classes.resultCard} truncate `}>
             Spatial Res:{" "}
@@ -191,100 +282,14 @@ const ResultCard = (props: Props): JSX.Element => {
               ? props.resultItem.meta.spatial_resolution.join(", ")
               : ""}
           </div>
-          <div className={`${classes.resultCard} truncate`}>
+          {/*<div className={`${classes.resultCard} truncate`}>
             Resource:{" "}
             {props.resultItem.resource_class
               ? props.resultItem.resource_class.join(", ")
               : ""}
-          </div>
-        </div>
-      </div>
-
-      {/* Checkbox : Show coverage area on map */}
-      <div>
-        <FormControlLabel
-          disabled={!props.resultItem.meta.highlight_ids?.length}
-          title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
-          label={<div style={{
-            color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["almostblack"] : fullConfig.theme.colors["darkgray"]}`,
-            padding: 0,
-            fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-            fontWeight: 400,
-            fontSize: "0.875rem" }}>Show coverage area</div>}
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-          control={
-            <Checkbox
-              id={`sc-checkbox-${props.resultItem.id}`}
-              value={props.resultItem.meta}
-              onChange={(event) => {
-
-                if (event.target.checked) {
-                  dispatch(
-                    setMapPreview([
-                      ...mapPreview,
-                      {
-                        lyrId: props.resultItem.id,
-                        filterIds: props.resultItem.meta.highlight_ids,
-                      },
-                    ])
-                  );
-                } else {
-                  dispatch(
-                    setMapPreview(
-                      mapPreview.filter(
-                        (item) => item.lyrId != props.resultItem.id
-                      )
-                    )
-                  );
-                }
-              }}
-              icon={
-                <span
-                  style={{
-                    borderRadius: "4px",
-                    border: `2px solid ${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
-                    width: "14px",
-                    height: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "transparent",
-                  }}
-                ></span>
-              }
-              checkedIcon={
-                <span
-                  style={{
-                    borderRadius: "4px",
-                    border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
-                    width: "14px",
-                    height: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: `${fullConfig.theme.colors["frenchviolet"]}`,
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{ width: "16px", height: "16px" }}
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </span>
-              }
-            />
-          }
-        />
-      </div>
+          </div>*/}
+        </Grid>
+      </Grid>
     </div>
   );
   return props.resultItem ? (

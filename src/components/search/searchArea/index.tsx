@@ -35,7 +35,7 @@ const SearchArea = (props: Props): JSX.Element => {
       <Grid
         item
         xs={12}
-        sm={4}
+        sm={6}
         display="flex"
         flexDirection="column"
         className="py-[2em] sm:px-[1.1em] xs:text-center sm:text-left"
@@ -63,7 +63,7 @@ const SearchArea = (props: Props): JSX.Element => {
       <Grid
         item
         xs={12}
-        sm={8}
+        sm={6}
         display="flex"
         flexDirection="column"
         justifyContent="flex-start"
