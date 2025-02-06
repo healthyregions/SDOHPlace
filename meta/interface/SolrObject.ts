@@ -42,6 +42,7 @@ export interface SolrObject {
     display_note?: string[];
     keyword?: string[];
     featured_variable?: string;
+    preferred_citation?: string;
   };
   years: unknown[]; // will change this later after finishing the year slider refactor
   parents?: string[];

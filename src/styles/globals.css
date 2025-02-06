@@ -25,6 +25,10 @@
   text-transform: uppercase;
 }
 
+.nomargin {
+  margin: 0 !important;
+}
+
 
 /* override the tailwind defaults to get bullets and numbers back on lists in blog posts.*/
 article ul {
