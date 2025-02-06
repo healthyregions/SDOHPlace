@@ -1,6 +1,7 @@
 export interface SearchState {
   schema: any;
   // object
+  aiSearch: boolean;
   query: string;
   inputValue: string;
   options: any[];
@@ -34,6 +35,7 @@ export interface SearchState {
 }
 
 export const initialState: SearchState = {
+  aiSearch: false,
   thoughts: "",
   schema: null,
   query: "",

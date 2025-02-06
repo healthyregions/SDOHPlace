@@ -16,25 +16,26 @@ import {
   Paper,
   Popper,
   TextField,
-  Tooltip,
-  Typography,
+  Tooltip
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import {
-  performChatGptSearch,
   fetchSearchAndRelatedResults,
   setQuery,
   fetchSuggestions,
   setInputValue,
   setThoughts,
+  setAISearch,
+  clearSearch,
 } from "@/store/slices/searchSlice";
 import {
   setShowInfoPanel,
   setShowClearButton,
   setShowDetailPanel,
+  clearMapPreview,
 } from "@/store/slices/uiSlice";
 import SpellCheckMessage from "./spellCheckMessage";
 
@@ -69,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
   popper: {
     borderRadius: "1em !important",
+    zIndex: 1000,
   },
   paper: {
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
@@ -77,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "0.1em",
     width: "80%",
     transform: "translateX(5%)",
+    zIndex: 1000,
   },
   aiModeButton: {
     color: fullConfig.theme.colors["frenchviolet"],
@@ -115,10 +118,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
   const textFieldRef = React.useRef<HTMLInputElement>(null);
-  const [isAskingQuestion, setIsAskingQuestion] = React.useState(true);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLocalLoading, setIsLocalLoading] = React.useState(false);
   const { showClearButton } = useSelector((state: RootState) => state.ui);
   const {
+    aiSearch,
     query,
     inputValue,
     suggestions,
@@ -126,38 +129,31 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     sortBy,
     sortOrder,
     thoughts,
+    isSearching,
   } = useSelector((state: RootState) => state.search);
-
   React.useEffect(() => {
     if (query) {
       dispatch(setInputValue(query));
     }
   }, [query, dispatch]);
-
   const debouncedFetchSuggestions = React.useCallback(
     debounce((value: string, schema: any) => {
-      if (value && !isAskingQuestion) {
+      if (value && !aiSearch) {
         dispatch(fetchSuggestions({ inputValue: value, schema }));
       }
     }, 300),
-    [dispatch, isAskingQuestion]
+    [dispatch]
   );
-
   const performSearch = React.useCallback(
     async (searchValue: string | null) => {
       if (searchValue) {
-        setIsLoading(true);
+        dispatch(clearMapPreview());
+        dispatch(setQuery(searchValue));
+        dispatch(setShowDetailPanel(null));
+        setIsLocalLoading(true);
         dispatch(setThoughts(""));
         try {
-          if (isAskingQuestion) {
-            await dispatch(
-              performChatGptSearch({
-                question: searchValue,
-                schema,
-              })
-            );
-          } else {
-            await dispatch(
+          await dispatch(
               fetchSearchAndRelatedResults({
                 query: searchValue,
                 filterQueries,
@@ -167,14 +163,12 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                 bypassSpellCheck: false,
               })
             );
-          }
-          dispatch(setShowDetailPanel(null));
         } finally {
-          setIsLoading(false);
+          setIsLocalLoading(false);
         }
       }
     },
-    [dispatch, isAskingQuestion, schema, filterQueries, sortBy, sortOrder]
+    [dispatch, aiSearch, schema, filterQueries, sortBy, sortOrder]
   );
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -194,13 +188,12 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   ) => {
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
-
     if (newInputValue !== "") {
-      debouncedFetchSuggestions(newInputValue, schema);
+      if (!aiSearch) {
+        debouncedFetchSuggestions(newInputValue, schema);
+      }
     } else {
-      dispatch(setThoughts(""));
-      dispatch(setQuery(null));
-      dispatch(setShowClearButton(false));
+      handleClear();
       if (isIOS && textFieldRef.current) {
         setTimeout(() => textFieldRef.current?.focus(), 50);
       } else {
@@ -219,12 +212,15 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     }
   };
 
+  const isBrowser = typeof window !== "undefined";
   const handleClear = () => {
-    dispatch(setInputValue(""));
-    dispatch(setQuery(null));
-    dispatch(setShowDetailPanel(null));
-    dispatch(setShowClearButton(false));
-    dispatch(setThoughts(""));
+     dispatch(clearSearch());
+    if (isBrowser) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.delete('query');
+      const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+      window.history.pushState({}, "", newUrl);
+    }
   };
 
   const isIOS = React.useMemo(() => {
@@ -240,6 +236,8 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     return false;
   }, []);
 
+  const isLoading = isLocalLoading || isSearching;
+  const maxLength = 50;
   return (
     <div className="sm:mt-6">
       <SpellCheckMessage />
@@ -248,9 +246,9 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
           PopperComponent={CustomPopper}
           PaperComponent={CustomPaper}
           freeSolo
-          options={isAskingQuestion ? [] : suggestions}
+          options={aiSearch ? [] : suggestions}
           value={query === "*" ? "" : query}
-          inputValue={inputValue}
+          inputValue={inputValue === "*" ? "" : inputValue}
           onInputChange={handleUserInputChange}
           onChange={handleDropdownSelect}
           renderInput={(params) => (
@@ -259,9 +257,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               inputRef={textFieldRef}
               variant="outlined"
               fullWidth
-              placeholder={
-                isAskingQuestion ? "Ask a question..." : "Type terms..."
-              }
+              placeholder={aiSearch ? "Ask a question within 50 characters..." : "Type keyword..."}
               className={`${classes.searchBox} bg-white`}
               sx={{
                 paddingRight: "0",
@@ -286,19 +282,20 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                     <Box component="span" className="mx-2">
                       <Tooltip
                         title={
-                          isAskingQuestion
-                            ? "Switch to term search"
-                            : "Switch to AI search"
+                          aiSearch
+                            ? "Switch to keyword search"
+                            : "Try AI-Inspired search"
                         }
                       >
                         <IconButton
-                          sx={{ mr: "1em" }}
+                          sx={{ mr: "1em", cursor: "pointer" }}
                           onClick={() => {
-                            setIsAskingQuestion(!isAskingQuestion);
+                            dispatch(setAISearch(!aiSearch));
                             dispatch(setThoughts(""));
+                            setInputValue("");
                           }}
                           className={`${classes.aiModeButton} ${
-                            isAskingQuestion ? "active" : ""
+                            aiSearch ? "active" : ""
                           }`}
                         >
                           <QuestionAnswerIcon />
@@ -349,10 +346,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                               size={24}
                               className={classes.loadingButton}
                             />
-
-                            <Typography variant="caption" display="block">
-                              Analyzing your search with AI...
-                            </Typography>
                           </span>
                         ) : (
                           <ArrowCircleRightIcon className="text-xxl" />
@@ -368,12 +361,12 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         />
       </form>
 
-      {thoughts && isAskingQuestion && (
+      {thoughts && aiSearch && (
         <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-frenchviolet/20">
-          <h3 className="text-md text-frenchviolet">About your search:</h3>
+          <h3 className="text-md text-frenchviolet">Inspired by your search:</h3>
           <p className="text-sm text-gray-600">
-              <span dangerouslySetInnerHTML={{ __html: thoughts }} />
-           </p>
+            <span dangerouslySetInnerHTML={{ __html: thoughts }} />
+          </p>
         </div>
       )}
     </div>

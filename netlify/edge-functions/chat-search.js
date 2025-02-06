@@ -54,7 +54,6 @@ export default async (request, context) => {
     if (!apiKey) {
       throw new Error('OpenAI API key is not configured. Please check environment setup.');
     }
-
     let questionData;
     try {
       questionData = await request.json();
@@ -100,7 +99,9 @@ export default async (request, context) => {
             content: questionData.question
           }
         ],
-        temperature: 1.0
+        temperature: 0,
+        top_p: 0.01,
+        seed: 0
       })
     });
     if (!response.ok) {

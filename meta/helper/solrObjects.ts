@@ -64,6 +64,9 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
  * @returns a list of solrParent objects to create parent resource list
  */
 const generateSolrObjectList = (solrObjects: SolrObject[]): SolrObject[] => {
+  if (!solrObjects || !Array.isArray(solrObjects)) {
+    return [];
+  }
   solrObjects = solrObjects.filter((solrObject) => solrObject !== undefined);
   let result = new Set<SolrObject>(solrObjects);
   return Array.from(result);

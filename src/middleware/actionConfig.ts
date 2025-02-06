@@ -79,6 +79,16 @@ export const actionConfig: Record<string, ActionConfig> = {
       fromUrl: (value: string) => value,
     },
   },
+  "search/setAISearch": {
+    param: "ai_search",
+    syncWithUrl: true,
+    requiresFetch: false,
+    isFilter: false,
+    transform: {
+      toUrl: (value: boolean) => value.toString(),
+      fromUrl: (value: string) => value === "true",
+    },
+  },
 
   /**
    * For actions that needs to trigger fetch but not read/write to URL

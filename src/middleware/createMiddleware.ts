@@ -2,6 +2,7 @@ import { AnyAction, Middleware } from "redux";
 import {
   fetchSearchAndRelatedResults,
   fetchSearchResults,
+  performChatGptSearch,
   setIsSearching,
 } from "@/store/slices/searchSlice";
 import { generateFilterQueries } from "./filterHelper";
@@ -54,9 +55,13 @@ export const createMiddleware: Middleware =
      * Page initialization actions
      */
     if (action.type === "search/setSchema") {
+      console.log("setSchema");
       const result = next(action);
       initializeFromUrl(store);
-      triggerFetch(store);
+      store.dispatch(setIsSearching(true));
+      if(!store.getState().search.aiSearch) {
+        triggerFetch(store);
+      }
       return result;
     }
     /**
@@ -144,9 +149,11 @@ async function triggerResultsRelatesFetch(store: any, query: string) {
         schema: state.search.schema,
         sortBy: state.search.sortBy,
         sortOrder: state.search.sortOrder,
-        bypassSpellCheck: false
+        bypassSpellCheck: false,
       })
     );
+  } catch (error) {
+    console.error("Search failed:", error);
   } finally {
     store.dispatch(setIsSearching(false));
   }
