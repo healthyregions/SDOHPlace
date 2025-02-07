@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-//output: export
 module.exports = {
   output: "export",
   reactStrictMode: true,

@@ -434,25 +434,14 @@ const searchSlice = createSlice({
         state.relatedResults = [];
       })
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
-        // state.results = generateSolrObjectList(action.payload.searchResults);
-        // state.relatedResults = generateSolrObjectList(
-        //   action.payload.relatedResults
-        // );
-        // state.suggestions = action.payload.suggestions;
-        // state.originalQuery = Array.isArray(action.payload.originalQuery) ? action.payload.originalQuery.join(", ") : action.payload.originalQuery;
-        // state.usedQuery = Array.isArray(action.payload.usedQuery) ? action.payload.usedQuery.join(", ") : action.payload.usedQuery;
-        // state.usedSpellCheck = action.payload.usedSpellCheck;
-        // state.isSearching = false;
         const searchResults = action.payload.searchResults || [];
         const relatedResults = action.payload.relatedResults || [];
-
         state.results =
           searchResults.length > 0 ? generateSolrObjectList(searchResults) : [];
         state.relatedResults =
           relatedResults.length > 0
             ? generateSolrObjectList(relatedResults)
             : [];
-
         state.suggestions = action.payload.suggestions || [];
         state.originalQuery = Array.isArray(action.payload.originalQuery)
           ? action.payload.originalQuery.join(", ")
