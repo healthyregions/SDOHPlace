@@ -82,7 +82,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (hasSearchParams) {
       setIsInitialLoad(true);
     }
-    if (!isLoading && searchState.results.length > 0) {
+    if (!isLoading) {
       setIsInitialLoad(false);
       setPreviousCount(searchState.results.length);
     }

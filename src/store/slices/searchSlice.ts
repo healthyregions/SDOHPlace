@@ -102,7 +102,7 @@ export const performChatGptSearch = createAsyncThunk(
       const uniqueResults = Array.from(
         new Map(combinedResults.map((item) => [item.id, item])).values()
       );
-      
+
       return {
         searchResults: uniqueResults,
         relatedResults: [],
@@ -110,7 +110,7 @@ export const performChatGptSearch = createAsyncThunk(
         originalQuery: question,
         usedQuery: analysis.suggestedQueries.join(", "),
         usedSpellCheck: false,
-        analysis,
+        analysis
       };
     } catch (error) {
       throw new Error(`ChatGPT search failed: ${error.message}`);
@@ -141,16 +141,16 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     const isAISearch = state.search.aiSearch;
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
-     if (isAISearch && !Array.isArray(query)) {
-       const aiResponse = await dispatch(
-         performChatGptSearch({
-           question: query,
-           filterQueries,
-           schema,
-         })
-       ).unwrap();
-       return aiResponse;
-     }
+    if (isAISearch && !Array.isArray(query)) {
+      const aiResponse = await dispatch(
+        performChatGptSearch({
+          question: query,
+          filterQueries,
+          schema,
+        })
+      ).unwrap();
+      return aiResponse;
+    }
     const suggestResult = await searchQueryBuilder
       .suggestQuery(query)
       .fetchResult();
@@ -175,7 +175,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     let finalResults = searchResults;
     let usedQuery = query;
     let usedSpellCheck = false;
-
     if (
       !bypassSpellCheck &&
       (!searchResults || searchResults.length === 0) &&
@@ -217,7 +216,7 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       suggestions: validSuggestions,
       originalQuery: query,
       usedQuery,
-      usedSpellCheck,
+      usedSpellCheck
     };
   }
 );
@@ -436,6 +435,8 @@ const searchSlice = createSlice({
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
         const searchResults = action.payload.searchResults || [];
         const relatedResults = action.payload.relatedResults || [];
+        state.results = generateSolrObjectList(searchResults);
+        state.relatedResults = generateSolrObjectList(relatedResults);
         state.results =
           searchResults.length > 0 ? generateSolrObjectList(searchResults) : [];
         state.relatedResults =

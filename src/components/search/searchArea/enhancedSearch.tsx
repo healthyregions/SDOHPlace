@@ -30,6 +30,7 @@ import {
   setThoughts,
   setAISearch,
   clearSearch,
+  setUsedSpellCheck,
 } from "@/store/slices/searchSlice";
 import {
   setShowInfoPanel,
@@ -171,18 +172,15 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     },
     [dispatch, aiSearch, schema, filterQueries, sortBy, sortOrder]
   );
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     performSearch(inputValue);
   };
-
   const handleDropdownSelect = (event: any, value: string | null) => {
     if (value && value !== query) {
       performSearch(value);
     }
   };
-
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
@@ -212,9 +210,14 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       }
     }
   };
-
   const isBrowser = typeof window !== "undefined";
+  const isSearchBlocked = React.useMemo(() => {
+    return (isLocalLoading || isSearching) && aiSearch;
+  }, [isLocalLoading, isSearching, aiSearch]);
   const handleClear = () => {
+    if (isSearchBlocked) {
+      return;
+    }
     dispatch(clearSearch());
     if (isBrowser) {
       const searchParams = new URLSearchParams(window.location.search);
@@ -223,7 +226,15 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       window.history.pushState({}, "", newUrl);
     }
   };
-
+  const handleModeSwitch = () => {
+    if (isSearchBlocked) {
+      return;
+    }
+    dispatch(setAISearch(!aiSearch));
+    dispatch(setThoughts(""));
+    setInputValue("");
+    dispatch(setUsedSpellCheck(false));
+  };
   const isIOS = React.useMemo(() => {
     if (
       typeof window !== "undefined" &&
@@ -288,18 +299,20 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                     <Box component="span" className="mx-2">
                       <Tooltip
                         title={
-                          aiSearch
+                          isSearchBlocked
+                            ? "Please wait for the current search to complete"
+                            : aiSearch
                             ? "Switch to keyword search"
                             : "Try AI-Inspired search"
                         }
                       >
                         <IconButton
-                          sx={{ mr: "1em", cursor: "pointer" }}
-                          onClick={() => {
-                            dispatch(setAISearch(!aiSearch));
-                            dispatch(setThoughts(""));
-                            setInputValue("");
+                          sx={{
+                            mr: "1em",
+                            cursor: isSearchBlocked ? "not-allowed" : "pointer",
+                            opacity: isSearchBlocked ? 0.5 : 1,
                           }}
+                          onClick={handleModeSwitch}
                           className={`${classes.aiModeButton} ${
                             aiSearch ? "active" : ""
                           }`}
@@ -321,9 +334,28 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                   <Box display="flex" alignItems="center">
                     {showClearButton && (
                       <InputAdornment position="end">
-                        <IconButton onClick={handleClear}>
-                          <CloseIcon className="text-2xl text-frenchviolet" />
-                        </IconButton>
+                        <Tooltip
+                          title={
+                            isSearchBlocked
+                              ? "Please wait for the current search to complete"
+                              : "Clear search"
+                          }
+                        >
+                          <span>
+                            <IconButton
+                              onClick={handleClear}
+                              disabled={isSearchBlocked}
+                              sx={{
+                                opacity: isSearchBlocked ? 0.5 : 1,
+                                cursor: isSearchBlocked
+                                  ? "not-allowed"
+                                  : "pointer",
+                              }}
+                            >
+                              <CloseIcon className="text-2xl text-frenchviolet" />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
                       </InputAdornment>
                     )}
                     <InputAdornment position="end">
@@ -347,9 +379,11 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                         }}
                       >
                         {isLoading ? (
+                          <span>
                             <CircularProgress
-                              className={`text-xxl ${classes.loadingButton}`}
+                              className={`text-l ${classes.loadingButton}`}
                             />
+                          </span>
                         ) : (
                           <ArrowCircleRightIcon className="text-xxl" />
                         )}
