@@ -16,7 +16,7 @@ import {
   Paper,
   Popper,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
@@ -48,6 +48,7 @@ const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
   searchBox: {
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
+    // remove the button border and 'x' sign in the input field and other default hover settings
     "& input": {
       fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
       "&:focus": {
@@ -154,15 +155,15 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         dispatch(setThoughts(""));
         try {
           await dispatch(
-              fetchSearchAndRelatedResults({
-                query: searchValue,
-                filterQueries,
-                schema,
-                sortBy,
-                sortOrder,
-                bypassSpellCheck: false,
-              })
-            );
+            fetchSearchAndRelatedResults({
+              query: searchValue,
+              filterQueries,
+              schema,
+              sortBy,
+              sortOrder,
+              bypassSpellCheck: false,
+            })
+          );
         } finally {
           setIsLocalLoading(false);
         }
@@ -214,10 +215,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
 
   const isBrowser = typeof window !== "undefined";
   const handleClear = () => {
-     dispatch(clearSearch());
+    dispatch(clearSearch());
     if (isBrowser) {
       const searchParams = new URLSearchParams(window.location.search);
-      searchParams.delete('query');
+      searchParams.delete("query");
       const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
       window.history.pushState({}, "", newUrl);
     }
@@ -239,7 +240,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const isLoading = isLocalLoading || isSearching;
   const maxLength = 50;
   return (
-    <div className="sm:mt-6">
+    <div className="flex flex-col w-full sm:mt-6">
       <SpellCheckMessage />
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
@@ -257,8 +258,13 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               inputRef={textFieldRef}
               variant="outlined"
               fullWidth
-              placeholder={aiSearch ? "Ask a question within 50 characters..." : "Type keyword..."}
+              placeholder={
+                aiSearch
+                  ? `Ask a question within ${maxLength} characters...`
+                  : "Type keyword..."
+              }
               className={`${classes.searchBox} bg-white`}
+              inputProps={{ maxLength: maxLength, ...params.inputProps }}
               sx={{
                 paddingRight: "0",
                 borderRadius: "1.75em",
@@ -341,12 +347,9 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                         }}
                       >
                         {isLoading ? (
-                          <span>
                             <CircularProgress
-                              size={24}
-                              className={classes.loadingButton}
+                              className={`text-xxl ${classes.loadingButton}`}
                             />
-                          </span>
                         ) : (
                           <ArrowCircleRightIcon className="text-xxl" />
                         )}
@@ -360,13 +363,16 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
           )}
         />
       </form>
-
       {thoughts && aiSearch && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-frenchviolet/20">
-          <h3 className="text-md text-frenchviolet">Inspired by your search:</h3>
-          <p className="text-sm text-gray-600">
-            <span dangerouslySetInnerHTML={{ __html: thoughts }} />
-          </p>
+        <div className="w-full bg-gray-50 rounded-lg border border-frenchviolet/20 mt-2">
+          <div className="p-4">
+            <h3 className="text-md text-frenchviolet mb-2">
+              Inspired by your search:
+            </h3>
+            <p className="text-sm text-gray-600 break-words">
+              <span dangerouslySetInnerHTML={{ __html: thoughts }} />
+            </p>
+          </div>
         </div>
       )}
     </div>

@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
-import {Collapse, Grid} from "@mui/material";
+import { Collapse, Grid } from "@mui/material";
 import SearchArea from "./searchArea";
 import DetailPanel from "./detailPanel";
-import { setSchema } from "@/store/slices/searchSlice";
+import { initializeSearch, setSchema } from "@/store/slices/searchSlice";
 import MapPanel from "./mapPanel/mapPanelContent";
 import dynamic from "next/dynamic";
 import * as React from "react";
@@ -22,14 +22,25 @@ const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
 });
 
 export default function DiscoveryArea({ schema }): JSX.Element {
-  const [checked, setChecked] = useState(true);
   const dispatch = useDispatch<AppDispatch>();
-  const { showInfoPanel } = useSelector((state: RootState) => state.ui);
-  const { results, relatedResults } = useSelector(
+  const { showInfoPanel, showDetailPanel } = useSelector(
+    (state: RootState) => state.ui
+  );
+  const { results, relatedResults, thoughts, spellCheck } = useSelector(
     (state: RootState) => state.search
   );
-  const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (isMounted && typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      dispatch(initializeSearch({ schema, urlParams }));
+    }
+  }, [schema, dispatch, isMounted]);
+
+  const collapsedSize = React.useMemo(() => {
+    return thoughts ? 500 : spellCheck? 400 : 350;
+  }, [thoughts, spellCheck]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,7 +62,11 @@ export default function DiscoveryArea({ schema }): JSX.Element {
   }
   return (
     <Grid container>
-      <Collapse className={'w-full'} in={showInfoPanel} collapsedSize={350}>
+      <Collapse
+        className={"w-full"}
+        in={showInfoPanel}
+        collapsedSize={collapsedSize}
+      >
         <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
           <Grid container className="container mx-auto pt-[2em] sm:pt-0">
             <SearchArea schema={schema} header="Data Discovery" />
@@ -61,9 +76,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
       <Grid className="w-full px-[1em] sm:px-[2em]">
         <Grid container className="container mx-auto pt-[1.5rem]">
           <Grid item xs={12} sm={6}>
-            <DynamicResultsPanel
-              schema={schema}
-            />
+            <DynamicResultsPanel schema={schema} />
           </Grid>
           <Grid item xs={12} sm={6} className="sm:ml-[0.5em]">
             <MapPanel

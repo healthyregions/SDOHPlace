@@ -2,17 +2,14 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import { Box, Grid } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import GlossaryPopover from "@/components/GlossaryPopover";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import SearchBox from "./searchBox";
 import InfoPanel from "./infoPanel";
 import { RootState } from "@/store";
 import SpatialResolutionCheck from "./spatialResolutionCheck";
-import EnhancedSearch from "./enhancedSearch";
 import { setShowInfoPanel, setInfoPanelTab } from "@/store/slices/uiSlice";
+import EnhancedSearchBox from "./enhancedSearch";
 
 interface Props {
   header: string;
@@ -80,11 +77,8 @@ const SearchArea = (props: Props): JSX.Element => {
                 schema={props.schema}
               />
             </Box>
-            {/* <Box width="100%" className="mt-[2em] sm:mt-0">
-              <SearchBox schema={props.schema} />
-            </Box> */}
             <Box width="100%" className="mt-[2em] sm:mt-0">
-              < EnhancedSearch schema={props.schema}/>
+              <EnhancedSearchBox schema={props.schema} />
             </Box>
           </Box>
         ) : (

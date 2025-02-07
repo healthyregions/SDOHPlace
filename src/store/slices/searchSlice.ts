@@ -5,7 +5,43 @@ import { initialState, SolrSuggestResponse } from "@/store/types/search";
 import { generateFilterQueries } from "@/middleware/filterHelper";
 import { setShowClearButton } from "./uiSlice";
 import { RootState } from "..";
-import { reGetFilterQueries } from '../../../../SDOHPlace/src/components/search/helper/ParameterList';
+
+export const initializeSearch = createAsyncThunk(
+  "search/initialize",
+  async (
+    { schema, urlParams }: { schema: any; urlParams: URLSearchParams },
+    { dispatch }
+  ) => {
+    const searchParams = {
+      aiSearch: urlParams.get("ai_search") === "true",
+      query: urlParams.get("query") || "*",
+    };
+    dispatch(setSchema(schema));
+    dispatch(setAISearch(searchParams.aiSearch));
+    dispatch(setQuery(searchParams.query));
+    if (searchParams.query && searchParams.query !== "*") {
+      if (searchParams.aiSearch) {
+        return dispatch(
+          performChatGptSearch({
+            question: searchParams.query,
+            filterQueries: [],
+            schema,
+          })
+        ).unwrap();
+      } else {
+        return dispatch(
+          fetchSearchAndRelatedResults({
+            query: searchParams.query,
+            filterQueries: [],
+            schema,
+            bypassSpellCheck: false,
+          })
+        ).unwrap();
+      }
+    }
+    return null;
+  }
+);
 
 export const performChatGptSearch = createAsyncThunk(
   "search/performChatGptSearch",
@@ -22,7 +58,6 @@ export const performChatGptSearch = createAsyncThunk(
     { dispatch }
   ) => {
     try {
-      console.log("performChatGptSearch");
       const baseUrl =
         process.env.NODE_ENV === "development" ? "http://localhost:8888" : "";
       const response = await fetch(
@@ -102,14 +137,11 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     },
     { dispatch, getState }
   ) => {
-    console.log("fetchSearchAndRelatedResults");
     const state = getState() as RootState;
     const isAISearch = state.search.aiSearch;
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
      if (isAISearch && !Array.isArray(query)) {
-       // if AI search, use the AI response
-       console.log("AI search", filterQueries, sortBy, sortOrder);
        const aiResponse = await dispatch(
          performChatGptSearch({
            question: query,
