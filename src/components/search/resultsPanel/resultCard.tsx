@@ -188,7 +188,6 @@ const ResultCard = (props: Props): JSX.Element => {
                       if (event.target.checked) {
                         dispatch(
                           setMapPreview([
-                            ...mapPreview,
                             {
                               lyrId: props.resultItem.id,
                               filterIds: props.resultItem.meta.highlight_ids,
