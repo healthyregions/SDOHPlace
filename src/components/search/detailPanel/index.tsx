@@ -31,10 +31,8 @@ const DetailPanel = (props: Props): JSX.Element => {
           <HeaderRow
             resultItem={resultItem}
             headerIcon={IconMatch(
-              resultItem.meta.subject
-                ? resultItem.meta.subject.length > 1
-                  ? "Composite"
-                  : resultItem.meta.subject[0]
+              resultItem.meta.subject?.length > 0
+                ? resultItem.meta.subject[0]
                 : ""
             )}
           />

@@ -3,7 +3,6 @@ import {
   Paid,
   Work,
   School,
-  Restaurant,
   LocalHospital,
   Home,
   LocationCity,
@@ -11,7 +10,7 @@ import {
   Security,
   Forum,
   DirectionsBus,
-  AutoAwesomeMosaic,
+  AutoAwesomeMosaic, ShoppingCart,
 } from "@mui/icons-material";
 
 /**
@@ -29,7 +28,7 @@ const IconMatch = (icon: string): JSX.Element => {
     case "Education":
       return <School />;
     case "Food Environment":
-      return <Restaurant />;
+      return <ShoppingCart />;
     case "Health and Healthcare":
       return <LocalHospital />;
     case "Housing":
@@ -44,8 +43,10 @@ const IconMatch = (icon: string): JSX.Element => {
       return <Forum />;
     case "Transportation and Infrastructure":
       return <DirectionsBus />;
-    default:
+    case "Composite Index":
       return <AutoAwesomeMosaic />; // Composite
+    default:
+      return <AutoAwesomeMosaic />;
   }
 };
 
