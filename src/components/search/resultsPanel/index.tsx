@@ -149,7 +149,14 @@ const ResultsPanel = (props: Props): JSX.Element => {
           </div>
         </Box>
 
-        {showFilter && <FilterPanel />}
+        <Collapse
+          className={"relative w-full"}
+          in={showFilter}
+          timeout={300}
+          easing={"linear"}
+        >
+          <FilterPanel />
+        </Collapse>
 
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>
