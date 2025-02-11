@@ -272,7 +272,7 @@ export default function InfoPanel() {
           </em>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={5}>
-          <p>In addition to a standard keyword search, we also have an an experimental "chat search" mode that
+          <p>In addition to a standard keyword search, we also have an an experimental &quot;chat search&quot; mode that
           interfaces with OpenAI and allows you to ask questions like <em>where is healthcare access the most limited?</em>
           {" "}But how does this work?
           </p>
@@ -280,8 +280,8 @@ export default function InfoPanel() {
           When a question like this is submitted, we combine it with our
           {" "}<Link href="https://github.com/healthyregions/SDOHPlace/blob/discovery_app/config/prompt/prompt_message.js" target={"_blank"}>
           prepared prompt</Link> and send it to a large language model (LLM).
-          The model "thinks" and returns to us a constructed set of query parameters that we then send to our search engine, Solr,
-          and the response from Solr updates the search results. From the LLM we also get the "thought process" behind its response,
+          The model &quot;thinks&quot; and returns to us a constructed set of query parameters that we then send to our search engine, Solr,
+          and the response from Solr updates the search results. From the LLM we also get the &quot;thought process&quot; behind its response,
           which will appear below the search box.</p>
           <p><em>Currently, we use the OpenAI backend.</em></p>
           <p><em>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</em></p>
