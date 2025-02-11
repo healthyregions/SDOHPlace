@@ -41,6 +41,9 @@ const tabTitles = [
 function CustomTabPanel(props: Props) {
   const dispatch = useDispatch();
   const { children, value, index, ...other } = props;
+  const handleClosePanel = () => {
+    dispatch(setShowInfoPanel(false));
+  };
   return (
     <div
       role="tabpanel"
@@ -53,28 +56,54 @@ function CustomTabPanel(props: Props) {
         <Box sx={{ py: 1 }}>
           <Box sx={{ height: "200px", overflowY: "auto" }}>{children}</Box>
           <Divider sx={{ mb: 1 }} />
-          {value != 0 && (
-            <a
-              onClick={() => {
-                dispatch(setInfoPanelTab(value - 1));
-              }}
-              style={{ cursor: "pointer" }}
-              className="no-underline text-frenchviolet"
-            >
-              &larr; Previous&nbsp;&nbsp;
-            </a>
-          )}
-          {value != tabTitles.length - 1 && (
-            <a
-              onClick={() => {
-                dispatch(setInfoPanelTab(value + 1));
-              }}
-              style={{ cursor: "pointer" }}
-              className="no-underline text-frenchviolet"
-            >
-              Next &rarr;
-            </a>
-          )}
+          <Box className={"flex flex-row justify-between"}>
+            <Box>
+              {value != 0 && (
+                <a
+                  onClick={() => {
+                    dispatch(setInfoPanelTab(value - 1));
+                  }}
+                  style={{ cursor: "pointer" }}
+                  className="no-underline text-frenchviolet"
+                >
+                  &larr; Previous&nbsp;&nbsp;
+                </a>
+              )}
+              {value != tabTitles.length - 1 && (
+                <a
+                  onClick={() => {
+                    dispatch(setInfoPanelTab(value + 1));
+                  }}
+                  style={{ cursor: "pointer" }}
+                  className="no-underline text-frenchviolet"
+                >
+                  Next &rarr;
+                </a>
+              )}
+            </Box>
+            <Box>
+              {/* <a
+                  onClick={() => {
+                    dispatch(setShowInfoPanel(false));
+                  }}
+                  style={{ cursor: "pointer" }}
+                  className="no-underline text-frenchviolet"
+                >
+                  Hide
+                </a> */}
+              <IconButton
+                onClick={() => {
+                  dispatch(setShowInfoPanel(false));
+                }}
+                style={{
+                  padding: 0,
+                  color: fullConfig.theme.colors["frenchviolet"],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          </Box>
         </Box>
       )}
     </div>
@@ -118,6 +147,8 @@ export default function InfoPanel() {
               height: "0.2em",
             },
           }}
+          scrollButtons
+          variant="scrollable"
         >
           {tabTitles.map((title, index) => (
             <Tab
@@ -144,17 +175,17 @@ export default function InfoPanel() {
           ))}
         </Tabs>
 
-        <IconButton
+        {/* <IconButton
           onClick={handleClosePanel}
           style={{
             position: "absolute",
-            right: 0,
+            right: -35,
             top: 4,
             color: fullConfig.theme.colors["frenchviolet"],
           }}
         >
           <CloseIcon />
-        </IconButton>
+        </IconButton> */}
       </Box>
       <Box
         sx={{
@@ -261,7 +292,7 @@ export default function InfoPanel() {
             </ListItem>
           </List>
           <em>
-            This is a feature we hope to expand in the future. Please don&quot;t
+            This is a feature we hope to expand in the future. Please don&apos;t
             hesitate to <Link href="/contact">get in touch</Link> if you have
             ideas for more overlays you would like to see or contribute.
           </em>
