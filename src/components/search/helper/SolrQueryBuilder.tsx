@@ -177,9 +177,8 @@ export default class SolrQueryBuilder {
     )}&fq=-gbl_suppressed_b:true`;
     return this.setQuery(suggestQuery);
   }
-  public contentQuery(searchTerm: string): SolrQueryBuilder {
-    const contentQuery = `select?q=content:"${encodeURIComponent(searchTerm)}"`;
-    return this.setQuery(contentQuery);
+  public directlyQuery(searchTerm: string): SolrQueryBuilder {
+    return this.setQuery(searchTerm);
   }
   public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
     let generalQuery = "select?q=";
@@ -206,7 +205,6 @@ export default class SolrQueryBuilder {
     generalQuery += "&fq=(gbl_suppressed_b:false)&rows=1000";
     return this.setQuery(generalQuery);
   }
-
   public filterQuery(
     searchTerms: { attribute: string; value: any }[]
   ): SolrQueryBuilder {

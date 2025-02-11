@@ -2,6 +2,7 @@ import { AnyAction, Middleware } from "redux";
 import {
   fetchSearchAndRelatedResults,
   fetchSearchResults,
+  performChatGptSearch,
   setIsSearching,
 } from "@/store/slices/searchSlice";
 import { generateFilterQueries } from "./filterHelper";
@@ -53,12 +54,15 @@ export const createMiddleware: Middleware =
     /**
      * Page initialization actions
      */
-    if (action.type === "search/setSchema") {
-      const result = next(action);
-      initializeFromUrl(store);
-      triggerFetch(store);
-      return result;
-    }
+     if (
+       action.type === "search/initialize/pending" ||
+       action.type === "search/initialize/fulfilled"
+     ) {
+       return next(action);
+     }
+     if (action.type === "search/setSchema") {
+       return next(action);
+     }
     /**
      * Handle bbox
      */
@@ -119,15 +123,29 @@ function syncToUrl(action: AnyAction, config: ActionConfig) {
 function triggerFetch(store: any) {
   const state = store.getState();
   if (state.search.schema) {
-    store.dispatch(
-      fetchSearchResults({
-        query: state.search.query || "*",
-        filterQueries: generateFilterQueries(state.search),
-        schema: state.search.schema,
-        sortBy: state.search.sortBy,
-        sortOrder: state.search.sortOrder,
-      })
-    );
+    if (
+      !store.getState().search.aiSearch ||
+      !state.search.query ||
+      state.search.query == '*'
+    ) {
+      store.dispatch(
+        fetchSearchResults({
+          query: state.search.query || "*",
+          filterQueries: generateFilterQueries(state.search),
+          schema: state.search.schema,
+          sortBy: state.search.sortBy,
+          sortOrder: state.search.sortOrder,
+        })
+      );
+    } else {
+      store.dispatch(
+        performChatGptSearch({
+          question: state.search.query,
+          filterQueries: generateFilterQueries(state.search),
+          schema: state.search.schema,
+        })
+      );
+    }
   }
 }
 
@@ -144,9 +162,11 @@ async function triggerResultsRelatesFetch(store: any, query: string) {
         schema: state.search.schema,
         sortBy: state.search.sortBy,
         sortOrder: state.search.sortOrder,
-        bypassSpellCheck: false
+        bypassSpellCheck: false,
       })
     );
+  } catch (error) {
+    console.error("Search failed:", error);
   } finally {
     store.dispatch(setIsSearching(false));
   }

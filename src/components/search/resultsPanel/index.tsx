@@ -5,7 +5,7 @@ import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
-import {clearMapPreview, setShowFilter} from "@/store/slices/uiSlice";
+import { clearMapPreview, setShowFilter } from "@/store/slices/uiSlice";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import { Box, SvgIcon, CircularProgress, Fade, Skeleton } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -43,6 +43,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length
   );
   const [isResetting, setIsResetting] = React.useState(false);
+  const [isInitialLoad, setIsInitialLoad] = React.useState(true);
 
   const uniqueRelatedList = React.useMemo(() => {
     const uniqueResults = searchState.relatedResults.filter(
@@ -75,7 +76,14 @@ const ResultsPanel = (props: Props): JSX.Element => {
     return searchState.results.length;
   }, [isLoading, isResetting, previousCount, searchState.results.length]);
   React.useEffect(() => {
-    if (!isLoading && !isResetting) {
+    const params = new URLSearchParams(window.location.search);
+    const hasSearchParams = params.has("query") || params.has("ai_search");
+    // leave time for ai_search to be set
+    if (hasSearchParams) {
+      setIsInitialLoad(true);
+    }
+    if (!isLoading) {
+      setIsInitialLoad(false);
       setPreviousCount(searchState.results.length);
     }
   }, [isLoading, searchState.results.length, isResetting]);
@@ -86,6 +94,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <span className="mr-4">
           {displayCount > 0
             ? "Updating results..."
+            : isInitialLoad
+            ? "Searching for data you may be interested in..."
             : "Looking for data you may be interested in..."}
         </span>
         <CircularProgress
@@ -96,6 +106,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       </Box>
     </Box>
   );
+
   return (
     <div
       className="results-panel"
@@ -143,11 +154,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>
             <div>
-              {isLoading || isResetting ? (
+              {isLoading || isResetting || isInitialLoad ? (
                 renderLoadingState()
               ) : (
                 <div>
-                  {searchState.results.length > 0 && (
+                  {searchState.results.length > 0 ? (
                     <Box
                       height="100%"
                       sx={{
@@ -164,27 +175,29 @@ const ResultsPanel = (props: Props): JSX.Element => {
                     >
                       {searchState.results.map((result) => (
                         <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard
-                            resultItem={result}
-                          />
+                          <ResultCard resultItem={result} />
                         </div>
                       ))}
                     </Box>
+                  ) : (
+                    !isInitialLoad && (
+                      <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+                        <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                          <SearchIcon className="text-strongorange mb-[0.15em]" />
+                          <div className="text-s">No results</div>
+                        </Box>
+                        <Box className="mb-[0.75em]">
+                          <div className="text-s">
+                            Search for themes instead?
+                          </div>
+                        </Box>
+                        <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+                          <ThemeIcons variant="alternate" />
+                        </Box>
+                      </div>
+                    )
                   )}
-                  {searchState.results.length === 0 && (
-                    <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
-                      <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                        <SearchIcon className="text-strongorange mb-[0.15em]" />
-                        <div className="text-s">No results</div>
-                      </Box>
-                      <Box className="mb-[0.75em]">
-                        <div className="text-s">Search for themes instead?</div>
-                      </Box>
-                      <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                        <ThemeIcons variant="alternate" />
-                      </Box>
-                    </div>
-                  )}
+
                   {showRelatedSection && (
                     <Box className="sm:my-[1.68em]">
                       <div className="sm:mb-[1.5em] sm:flex-col">
@@ -208,14 +221,12 @@ const ResultsPanel = (props: Props): JSX.Element => {
                             paddingRight: "1em",
                             maxHeight:
                               SearchUIConfig.search.searchResults
-                                    .relatedListHeight
+                                .relatedListHeight,
                           }}
                         >
                           {uniqueRelatedList.map((result) => (
                             <div key={result.id} className="mb-[0.75em]">
-                              <ResultCard
-                                resultItem={result}
-                              />
+                              <ResultCard resultItem={result} />
                             </div>
                           ))}
                         </Box>

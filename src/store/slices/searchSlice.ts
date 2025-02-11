@@ -4,7 +4,119 @@ import { generateSolrObjectList } from "meta/helper/solrObjects";
 import { initialState, SolrSuggestResponse } from "@/store/types/search";
 import { generateFilterQueries } from "@/middleware/filterHelper";
 import { setShowClearButton } from "./uiSlice";
+import { RootState } from "..";
 
+export const initializeSearch = createAsyncThunk(
+  "search/initialize",
+  async (
+    { schema, urlParams }: { schema: any; urlParams: URLSearchParams },
+    { dispatch }
+  ) => {
+    const searchParams = {
+      aiSearch: urlParams.get("ai_search") === "true",
+      query: urlParams.get("query") || "*",
+    };
+    dispatch(setSchema(schema));
+    dispatch(setAISearch(searchParams.aiSearch));
+    dispatch(setQuery(searchParams.query));
+    if (searchParams.query && searchParams.query !== "*") {
+      if (searchParams.aiSearch) {
+        return dispatch(
+          performChatGptSearch({
+            question: searchParams.query,
+            filterQueries: [],
+            schema,
+          })
+        ).unwrap();
+      } else {
+        return dispatch(
+          fetchSearchAndRelatedResults({
+            query: searchParams.query,
+            filterQueries: [],
+            schema,
+            bypassSpellCheck: false,
+          })
+        ).unwrap();
+      }
+    }
+    return null;
+  }
+);
+
+export const performChatGptSearch = createAsyncThunk(
+  "search/performChatGptSearch",
+  async (
+    {
+      question,
+      filterQueries,
+      schema,
+    }: {
+      question: string;
+      filterQueries: Array<any>;
+      schema: any;
+    },
+    { dispatch }
+  ) => {
+    try {
+      const baseUrl =
+        process.env.NODE_ENV === "development" ? "http://localhost:8888" : "";
+      const response = await fetch(
+        `${baseUrl}/.netlify/edge-functions/chat-search`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to get search strategy");
+      }
+      const analysis = await response.json();
+      dispatch(setThoughts(analysis.thoughts));
+      const searchQueryBuilder = new SolrQueryBuilder();
+      searchQueryBuilder.setSchema(schema);
+      const results = await Promise.all(
+        analysis.suggestedQueries.map(async (q: string) => {
+          try {
+            const result = await searchQueryBuilder
+              .directlyQuery(q)
+              .fetchResult();
+            return result.results || [];
+          } catch (error) {
+            console.error(`Error fetching results for query "${q}":`, error);
+            return [];
+          }
+        })
+      );
+      // sort results based on the score from the AI
+      results.sort((a, b) => {
+        const scoreA = analysis.suggestedQueries.findIndex(
+          (q: string) => q === a.query
+        );
+        const scoreB = analysis.suggestedQueries.findIndex(
+          (q: string) => q === b.query
+        );
+        return scoreA - scoreB;
+      });
+      const combinedResults = results.flat();
+      const uniqueResults = Array.from(
+        new Map(combinedResults.map((item) => [item.id, item])).values()
+      );
+
+      return {
+        searchResults: uniqueResults,
+        relatedResults: [],
+        suggestions: [],
+        originalQuery: question,
+        usedQuery: analysis.suggestedQueries.join(", "),
+        usedSpellCheck: false,
+        analysis
+      };
+    } catch (error) {
+      throw new Error(`ChatGPT search failed: ${error.message}`);
+    }
+  }
+);
 export const fetchSearchAndRelatedResults = createAsyncThunk(
   "search/fetchSearchAndRelated",
   async (
@@ -23,10 +135,22 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       sortOrder?: string;
       bypassSpellCheck: boolean;
     },
-    { dispatch }
+    { dispatch, getState }
   ) => {
+    const state = getState() as RootState;
+    const isAISearch = state.search.aiSearch;
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
+    if (isAISearch && !Array.isArray(query)) {
+      const aiResponse = await dispatch(
+        performChatGptSearch({
+          question: query,
+          filterQueries,
+          schema,
+        })
+      ).unwrap();
+      return aiResponse;
+    }
     const suggestResult = await searchQueryBuilder
       .suggestQuery(query)
       .fetchResult();
@@ -34,14 +158,14 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     let suggestions =
       suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
     const validSuggestions = suggestions
-      .filter((s) => s.weight > 50 && s.payload === "false")
+      .filter((s) => s.payload === "false")
+      .filter((s) => s.weight >= 50) // Only show suggestions with weight >= 50 but no limitation on the number of suggestions
       .map((s) => s.term)
       .sort((a, b) => {
         const weightA = suggestions.find((s) => s.term === a)?.weight || 0;
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
         return weightB - weightA;
-      })
-      .slice(0, 10);
+      });
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
     const { results: searchResults, spellCheckSuggestion } =
       await searchQueryBuilder.fetchResult();
@@ -51,7 +175,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     let finalResults = searchResults;
     let usedQuery = query;
     let usedSpellCheck = false;
-
     if (
       !bypassSpellCheck &&
       (!searchResults || searchResults.length === 0) &&
@@ -93,7 +216,7 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       suggestions: validSuggestions,
       originalQuery: query,
       usedQuery,
-      usedSpellCheck,
+      usedSpellCheck
     };
   }
 );
@@ -183,16 +306,14 @@ export const fetchSuggestions = createAsyncThunk(
     const suggestResponse = result as unknown as SolrSuggestResponse;
     const suggestions =
       suggestResponse.suggest?.sdohSuggester[inputValue]?.suggestions || [];
-
     return suggestions
-      .filter((s) => s.weight > 50 && s.payload === "false")
+      .filter((s) => s.weight >= 50 && s.payload === "false")
       .map((s) => s.term)
       .sort((a, b) => {
         const weightA = suggestions.find((s) => s.term === a)?.weight || 0;
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
         return weightB - weightA;
-      })
-      .slice(0, 20);
+      });
   }
 );
 
@@ -208,10 +329,11 @@ export const clearSearch = createAsyncThunk(
     const state = getState() as { search: typeof initialState };
     dispatch(setInputValue(""));
     dispatch(setShowClearButton(false));
+    dispatch(setThoughts(""));
     await new Promise((resolve) => setTimeout(resolve, 0));
     if (state.search.schema) {
       dispatch(
-        fetchSearchAndRelatedResults({
+        fetchSearchResults({
           query: "*",
           filterQueries: generateFilterQueries(state.search),
           schema: state.search.schema,
@@ -223,7 +345,6 @@ export const clearSearch = createAsyncThunk(
     }
   }
 );
-
 
 const searchSlice = createSlice({
   name: "search",
@@ -259,6 +380,9 @@ const searchSlice = createSlice({
     setIndexYear: (state, action) => {
       state.indexYear = action.payload;
     },
+    setThoughts: (state, action) => {
+      state.thoughts = action.payload;
+    },
     setSpellCheck: (state, action) => {
       state.spellCheck = action.payload;
     },
@@ -270,6 +394,9 @@ const searchSlice = createSlice({
     },
     setUsedSpellCheck: (state, action) => {
       state.usedSpellCheck = action.payload;
+    },
+    setAISearch: (state, action) => {
+      state.aiSearch = action.payload;
     },
     setQuery: (state, action) => {
       state.query = action.payload;
@@ -306,14 +433,24 @@ const searchSlice = createSlice({
         state.relatedResults = [];
       })
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
-        state.results = generateSolrObjectList(action.payload.searchResults);
-        state.relatedResults = generateSolrObjectList(
-          action.payload.relatedResults
-        );
-        state.suggestions = action.payload.suggestions;
-        state.originalQuery = action.payload.originalQuery;
-        state.usedQuery = action.payload.usedQuery;
-        state.usedSpellCheck = action.payload.usedSpellCheck;
+        const searchResults = action.payload.searchResults || [];
+        const relatedResults = action.payload.relatedResults || [];
+        state.results = generateSolrObjectList(searchResults);
+        state.relatedResults = generateSolrObjectList(relatedResults);
+        state.results =
+          searchResults.length > 0 ? generateSolrObjectList(searchResults) : [];
+        state.relatedResults =
+          relatedResults.length > 0
+            ? generateSolrObjectList(relatedResults)
+            : [];
+        state.suggestions = action.payload.suggestions || [];
+        state.originalQuery = Array.isArray(action.payload.originalQuery)
+          ? action.payload.originalQuery.join(", ")
+          : action.payload.originalQuery;
+        state.usedQuery = Array.isArray(action.payload.usedQuery)
+          ? action.payload.usedQuery.join(", ")
+          : action.payload.usedQuery;
+        state.usedSpellCheck = action.payload.usedSpellCheck || false;
         state.isSearching = false;
       })
       .addCase(fetchSearchAndRelatedResults.rejected, (state) => {
@@ -376,6 +513,7 @@ export const {
   setSchema,
   setQuery,
   setInputValue,
+  setThoughts,
   setFilterQueries,
   setSortBy,
   setSortOrder,
@@ -388,6 +526,7 @@ export const {
   setOriginalQuery,
   setUsedQuery,
   setUsedSpellCheck,
+  setAISearch,
   resetQuerySearch,
   setIsSearching,
 } = searchSlice.actions;
