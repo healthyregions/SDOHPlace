@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 const tabTitles = [
   "Getting started",
-  "Search results",
-  "Keyword searches",
+  "Keyword search",
+  "AI search (experimental)",
   "Geography filters",
+  "Search results",
   "Map overlays",
-  "Chat search (experimental)",
 ];
 function CustomTabPanel(props: Props) {
   const dispatch = useDispatch();
@@ -168,6 +168,7 @@ export default function InfoPanel() {
         ref={tabPanelRef}
       >
         <CustomTabPanel value={infoPanelTab} index={0}>
+          {/* Intro tab */}
           Welcome to our data discovery application. Here are a few ways for you
           to get started:
           <List>
@@ -195,6 +196,59 @@ export default function InfoPanel() {
           </List>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={1}>
+          As you type search terms into the main search box, you will notice
+          that suggestions appear below the input box. This suggestion list is
+          pulled straight from the data itself (we have tried to index a lot of
+          information about each record) but there may still be times that your
+          search turns up no results. In this case, it never hurts to try
+          another word for your topic, or even just go ahead with a theme filter
+          and browse through all results.
+          <List>
+            <ListItem>
+              Tip: If you have used the search bar to make your query, you will
+              then be able to hover each result to learn more about why that
+              item matched your query.
+            </ListItem>
+          </List>
+        </CustomTabPanel>
+        <CustomTabPanel value={infoPanelTab} index={2}>
+          {/* AI search tab */}
+          <p>In addition to a standard keyword search, we also have an an experimental &quot;chat search&quot; mode that
+          interfaces with OpenAI and allows you to ask questions like <em>where is healthcare access the most limited?</em>
+          {" "}But how does this work?
+          </p>
+          <p>
+          When a question like this is submitted, we combine it with our
+          {" "}<Link href="https://github.com/healthyregions/SDOHPlace/blob/discovery_app/config/prompt/prompt_message.js" target={"_blank"}>
+          prepared prompt</Link> and send it to a large language model (LLM). The
+          LLM analyzes queries through semantic mapping and term relationship scoring to generate optimized
+          Solr search parameters and retrieve relevant results from our database. It applies defined
+          scoring algorithms and SDOH domain knowledge to enhance search accuracy. The analytical process,
+          particularly query construction logic, is displayed below the search box to make the &quot;thinking&quot;
+          process clearer and eliminate potential doubts about the LLM&apos;s function.
+          </p>
+          <p><em>Currently, we use the OpenAI backend.</em></p>
+          <p><em>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</em></p>
+          <p><em>We'd love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></em></p>
+        </CustomTabPanel>
+        <CustomTabPanel value={infoPanelTab} index={3}>
+          Some sources provide data at the state level, while others may provide
+          data at smaller resolutions like county or tract level. The interface
+          makes it easy to filter by this geography level, or &quot;spatial
+          resolution&quot;, allowing you to find only data relevant for your
+          work.
+          <List>
+            <ListItem>State (largest, most general level)</ListItem>
+            <ListItem>County (subdivision of a state)</ListItem>
+            <ListItem>Census Tract (smaller geographical unit),</ListItem>
+            <ListItem>
+              Block Group (smallest unit, a subdivision of census tract)
+            </ListItem>
+            <ListItem>ZIP Code Tabulation Area (ZCTA)</ListItem>
+          </List>
+        </CustomTabPanel>
+        <CustomTabPanel value={infoPanelTab} index={4}>
+          {/* Results tab */}
           Once you have performed a search or set a filter, you will get a list
           of the items matching your query. Each item will have a collection of
           metadata associated with it, as well as actions for further
@@ -221,39 +275,7 @@ export default function InfoPanel() {
             </ListItem>
           </List>
         </CustomTabPanel>
-        <CustomTabPanel value={infoPanelTab} index={2}>
-          As you type search terms into the main search box, you will notice
-          that suggestions appear below the input box. This suggestion list is
-          pulled straight from the data itself (we have tried to index a lot of
-          information about each record) but there may still be times that your
-          search turns up no results. In this case, it never hurts to try
-          another word for your topic, or even just go ahead with a theme filter
-          and browse through all results.
-          <List>
-            <ListItem>
-              Tip: If you have used the search bar to make your query, you will
-              then be able to hover each result to learn more about why that
-              item matched your query.
-            </ListItem>
-          </List>
-        </CustomTabPanel>
-        <CustomTabPanel value={infoPanelTab} index={3}>
-          Some sources provide data at the state level, while others may provide
-          data at smaller resolutions like county or tract level. The interface
-          makes it easy to filter by this geography level, or &quot;spatial
-          resolution&quot;, allowing you to find only data relevant for your
-          work.
-          <List>
-            <ListItem>State (largest, most general level)</ListItem>
-            <ListItem>County (subdivision of a state)</ListItem>
-            <ListItem>Census Tract (smaller geographical unit),</ListItem>
-            <ListItem>
-              Block Group (smallest unit, a subdivision of census tract)
-            </ListItem>
-            <ListItem>ZIP Code Tabulation Area (ZCTA)</ListItem>
-          </List>
-        </CustomTabPanel>
-        <CustomTabPanel value={infoPanelTab} index={4}>
+        <CustomTabPanel value={infoPanelTab} index={5}>
           We provide a few map overlay layers that can be used as reference data
           during your search.
           <List>
@@ -270,21 +292,6 @@ export default function InfoPanel() {
             hesitate to <Link href="/contact">get in touch</Link> if you have
             ideas for more overlays you would like to see or contribute.
           </em>
-        </CustomTabPanel>
-        <CustomTabPanel value={infoPanelTab} index={5}>
-          <p>In addition to a standard keyword search, we also have an an experimental &quot;chat search&quot; mode that
-          interfaces with OpenAI and allows you to ask questions like <em>where is healthcare access the most limited?</em>
-          {" "}But how does this work?
-          </p>
-          <p>
-          When a question like this is submitted, we combine it with our
-          {" "}<Link href="https://github.com/healthyregions/SDOHPlace/blob/discovery_app/config/prompt/prompt_message.js" target={"_blank"}>
-          prepared prompt</Link> and send it to a large language model (LLM).
-          The model &quot;thinks&quot; and returns to us a constructed set of query parameters that we then send to our search engine, Solr,
-          and the response from Solr updates the search results. From the LLM we also get the &quot;thought process&quot; behind its response,
-          which will appear below the search box.</p>
-          <p><em>Currently, we use the OpenAI backend.</em></p>
-          <p><em>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</em></p>
         </CustomTabPanel>
       </Box>
     </div>
