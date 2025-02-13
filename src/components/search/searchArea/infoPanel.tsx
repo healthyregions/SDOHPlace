@@ -229,7 +229,7 @@ export default function InfoPanel() {
           </p>
           <p><em>Currently, we use the OpenAI backend.</em></p>
           <p><em>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</em></p>
-          <p><em>We'd love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></em></p>
+          <p><em>We&apos;d love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></em></p>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={3}>
           Some sources provide data at the state level, while others may provide
