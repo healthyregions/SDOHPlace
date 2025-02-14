@@ -29,6 +29,8 @@ import * as turf from "@turf/turf";
 
 import GeoSearchControl from "./geoSearchControl";
 import { clearMapPreview } from "@/store/slices/uiSlice";
+import {EventType} from "@/lib/event";
+import {usePlausible} from "next-plausible";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -38,6 +40,7 @@ interface Props {
 
 export default function DynamicMap(props: Props): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
+  const plausible = usePlausible();
   const { bbox, visOverlays } = useSelector((state: RootState) => state.search);
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const [parkPopupInfo, setParkPopupInfo] = useState(null);
@@ -247,7 +250,13 @@ export default function DynamicMap(props: Props): JSX.Element {
       } else {
         map.off("moveend", setBboxOnMoveEnd);
         dispatch(setBbox(null));
-      }
+      };
+
+      plausible(EventType.SubmittedLocationSearch, {
+        props: {
+          ...e.feature.properties
+        }
+      });
     },
     [dispatch]
   );

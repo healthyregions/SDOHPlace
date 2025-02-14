@@ -13,6 +13,8 @@ import { ParseReferenceLink } from "../helper/ParseReferenceLink";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowDetailPanel, setShowSharedLink } from "@/store/slices/uiSlice";
+import {EventType} from "@/lib/event";
+import {usePlausible} from "next-plausible";
 
 interface Props {
   resultItem: SolrObject;
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const HeaderRow = (props: Props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
+  const plausible = usePlausible();
   const currentShowSharedLink = useSelector(
     (state: RootState) => state.ui.showSharedLink
   );
@@ -43,6 +46,11 @@ const HeaderRow = (props: Props): JSX.Element => {
   // not reflect shared link in url, only in redux
   const handleShowShareLink = () => {
     dispatch(setShowSharedLink(!currentShowSharedLink));
+    plausible(EventType.ClickedShareButton, {
+      props: {
+        resourceId: props.resultItem.id
+      }
+    });
   };
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -110,6 +118,11 @@ const HeaderRow = (props: Props): JSX.Element => {
             disabled={links.homepageUrl ? false : true}
             onClick={() => {
               window.open(links.homepageUrl, "_blank").focus();
+              plausible(EventType.ClickedGoToResource, {
+                props: {
+                  resourceId: props.resultItem.id
+                }
+              });
             }}
           />
         </div>

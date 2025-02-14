@@ -6,6 +6,8 @@ import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setSubject } from "@/store/slices/searchSlice";
 import {clearMapPreview} from "@/store/slices/uiSlice";
+import {EventType} from "@/lib/event";
+import {usePlausible} from "next-plausible";
 
 interface Props {
   svgIcon: any;
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const IconTag = (props: Props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
+  const plausible = usePlausible();
   const { subject } = useSelector((state: RootState) => state.search);
   const handleSubjectClick = (sub: string) => {
     let currentSubjects = subject || [];
@@ -39,6 +42,11 @@ const IconTag = (props: Props): JSX.Element => {
     }
     dispatch(clearMapPreview());
     dispatch(setSubject(newSubjects));
+    plausible(EventType.ChangedThemeFilter, {
+      props: {
+        themes: newSubjects.join(", "),
+      },
+    });
   };
 
   const isSelected = (label: string): boolean => {

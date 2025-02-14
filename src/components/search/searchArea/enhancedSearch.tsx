@@ -40,6 +40,8 @@ import {
   clearMapPreview,
 } from "@/store/slices/uiSlice";
 import SpellCheckMessage from "./spellCheckMessage";
+import {usePlausible} from "next-plausible";
+import {EventType} from "@/lib/event";
 
 interface Props {
   schema: any;
@@ -125,6 +127,7 @@ const CustomPaper = (props) => {
 
 const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
+  const plausible = usePlausible();
   const classes = useStyles();
   const textFieldRef = React.useRef<HTMLInputElement>(null);
   const [isLocalLoading, setIsLocalLoading] = React.useState(false);
@@ -172,6 +175,13 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               bypassSpellCheck: false,
             })
           );
+
+          const searchEventType = aiSearch ? EventType.SubmittedChatSearch : EventType.SubmittedKeywordSearch;
+          plausible(searchEventType, {
+            props: {
+              searchQuery: searchValue,
+            },
+          });
         } finally {
           setIsLocalLoading(false);
         }
@@ -237,10 +247,16 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     if (isSearchBlocked) {
       return;
     }
-    dispatch(setAISearch(!aiSearch));
+    const newValue = !aiSearch;
+    dispatch(setAISearch(newValue));
     dispatch(setThoughts(""));
     setInputValue("");
     dispatch(setUsedSpellCheck(false));
+    plausible(EventType.ChangedSearchMode, {
+      props: {
+        aiSearch: !!newValue
+      }
+    });
   };
   const isIOS = React.useMemo(() => {
     if (

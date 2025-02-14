@@ -6,6 +6,8 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { RootState } from "@/store";
 import { setSpatialResolution } from "@/store/slices/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
+import {usePlausible} from "next-plausible";
+import {EventType} from "@/lib/event";
 interface SpatialResolutionCheck {
   value: string;
   display_name: string;
@@ -17,6 +19,7 @@ interface Props {
 const fullConfig = resolveConfig(tailwindConfig);
 const SpatialResolutionCheck = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
+  const plausible = usePlausible();
   const spatialResolution = useSelector(
     (state: RootState) => state.search.spatialResolution
   );
@@ -50,6 +53,11 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
       .filter((box) => box.checked)
       .map((box) => box.value);
     dispatch(setSpatialResolution(selectedValues));
+    plausible(EventType.ChangedSpatialResolution, {
+      props: {
+        spatialResolution: selectedValues.join(', '),
+      },
+    });
   };
 
   return (
