@@ -37,7 +37,7 @@ export default function BasicMeta({
       <script
         defer
         data-domain="sdohplace.org"
-        src="https://plausible.io/js/script.js"
+        src="https://plausible.io/js/script.tagged-events.js"
       ></script>
     </Head>
   );

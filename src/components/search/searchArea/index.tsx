@@ -10,6 +10,8 @@ import { RootState } from "@/store";
 import SpatialResolutionCheck from "./spatialResolutionCheck";
 import { setShowInfoPanel, setInfoPanelTab } from "@/store/slices/uiSlice";
 import EnhancedSearchBox from "./enhancedSearch";
+import {usePlausible} from "next-plausible";
+import {EventType} from "@/lib/event";
 
 interface Props {
   header: string;
@@ -26,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const SearchArea = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const plausible = usePlausible();
   const { showInfoPanel } = useSelector((state: RootState) => state.ui);
 
   return (
@@ -64,6 +67,7 @@ const SearchArea = (props: Props): JSX.Element => {
             onClick={() => {
               dispatch(setShowInfoPanel(true));
               dispatch(setInfoPanelTab(0));
+              plausible(EventType.ClickedGetStarted);
             }}
             style={{ cursor: "pointer" }}
             className="no-underline text-frenchviolet"
