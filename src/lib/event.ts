@@ -22,7 +22,9 @@ export enum EventType {
   SubmittedChatSearch = "Submitted.ChatSearch",            // props => send search query?
   ChangedSearchMode = "Changed.SearchMode",                // props => send new value(s)?
   SubmittedLocationSearch = "Submitted.LocationSearch",    // props => send search query?
-  ClickedGoToResource = "Clicked.GoToResource",            // props => send resource name?
-  ClickedShareButton = "Clicked.ShareButton",              // props => send resource name?
+  ClickedGoToResource = "Clicked.GoToResource",            // props => send resource name? --> use resource id ("herop-<etc>")
+  ClickedShareButton = "Clicked.ShareButton",              // props => send resource name? --> use resource id
   ReceivedNoSearchResults = "Received.NoSearchResults",    // props => send search query?
+  ClickedItemDetails = "Clicked.ItemDetails",              // props => send resource name? --> use resource id
+  ClickedMapPreview = "Clicked.MapPreview",                // props => send resource name? --> use resource id
 }
