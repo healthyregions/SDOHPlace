@@ -33,6 +33,7 @@ import {
   setUsedSpellCheck,
 } from "@/store/slices/searchSlice";
 import {
+  setInfoPanelTab,
   setShowInfoPanel,
   setShowClearButton,
   setShowDetailPanel,
@@ -89,6 +90,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fullConfig.theme.colors["frenchviolet"],
       color: "white",
     },
+    "&:hover": {
+      color: fullConfig.theme.colors["frenchviolet"],
+    },
+    "&:hover&.active": {
+      color:"white"
+    }
   },
   loadingButton: {
     color: fullConfig.theme.colors["frenchviolet"],
@@ -295,20 +302,43 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" />
+                    {/* <SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" /> */}
+                    <Tooltip
+                        title={
+                          isSearchBlocked
+                            ? "Please wait for the current search to complete"
+                            : !aiSearch
+                            ? "Currently using keyword search"
+                            : "Switch to keyword search"
+                        }
+                      >
+                        <IconButton
+                          sx={{
+                            mr: "m",
+                            cursor: isSearchBlocked ? "not-allowed" : "pointer",
+                            opacity: isSearchBlocked ? 0.5 : 1,
+                          }}
+                          onClick={handleModeSwitch}
+                          className={`${classes.aiModeButton} ${
+                            !aiSearch ? "active" : ""
+                          }`}
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                      </Tooltip>
                     <Box component="span" className="mx-2">
                       <Tooltip
                         title={
                           isSearchBlocked
                             ? "Please wait for the current search to complete"
                             : aiSearch
-                            ? "Switch to keyword search"
-                            : "Try AI-Inspired search"
+                            ? "Currently using AI-Inspired search"
+                            : "Switch to AI-Inspired search"
                         }
                       >
                         <IconButton
                           sx={{
-                            mr: "1em",
+                            mr: ".2em",
                             cursor: isSearchBlocked ? "not-allowed" : "pointer",
                             opacity: isSearchBlocked ? 0.5 : 1,
                           }}
@@ -320,13 +350,30 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                           <QuestionAnswerIcon />
                         </IconButton>
                       </Tooltip>
-                      <a
+                      {/* <a
                         onClick={() => dispatch(setShowInfoPanel(true))}
                         style={{ cursor: "pointer" }}
                         className="no-underline text-frenchviolet"
                       >
                         <InfoOutlinedIcon />
-                      </a>
+                      </a> */}
+                      <Tooltip
+                        title={
+                          aiSearch
+                            ? "Learn more about AI-Inspired search"
+                            : "Learn more about keyword search"
+                        }
+                      >
+                        <IconButton
+                          className={classes.aiModeButton}
+                          onClick={() => {
+                            dispatch(setShowInfoPanel(true));
+                            dispatch(setInfoPanelTab(aiSearch ? 2: 1))
+                          }}
+                        >
+                          <InfoOutlinedIcon />
+                        </IconButton>
+                      </Tooltip>
                     </Box>
                   </InputAdornment>
                 ),

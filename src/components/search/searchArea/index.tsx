@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Collapse } from "@mui/material";
 import { SearchUIConfig } from "@/components/searchUIConfig";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
@@ -38,6 +38,20 @@ const SearchArea = (props: Props): JSX.Element => {
         flexDirection="column"
         className="py-[2em] sm:px-[1.1em] xs:text-center sm:text-left"
       >
+        <Collapse
+          className={"relative w-full"}
+          in={showInfoPanel}
+          timeout={300}
+          easing={"linear"}
+        >
+          <InfoPanel />
+        </Collapse>
+        <Collapse
+          className={"relative w-full"}
+          in={!showInfoPanel}
+          timeout={300}
+          easing={"linear"}
+        >
         <h2>{props.header}</h2>
         <div
           className="text-s text-center sm:text-left sm:mt-[1em]"
@@ -57,6 +71,7 @@ const SearchArea = (props: Props): JSX.Element => {
             <strong>Get started &rarr;</strong>
           </a>
         </div>
+        </Collapse>
       </Grid>
       <Grid
         item
@@ -69,7 +84,20 @@ const SearchArea = (props: Props): JSX.Element => {
         order={{ xs: 1, sm: 0 }}
         className={`py-[2em] px-8 ${classes.searchArea}`}
       >
-        {!showInfoPanel ? (
+        {/* <Collapse
+          className={"relative w-full"}
+          in={showInfoPanel}
+          timeout={300}
+          easing={"linear"}
+        >
+          <InfoPanel />
+        </Collapse>
+        <Collapse
+          className={"relative w-full"}
+          in={!showInfoPanel}
+          timeout={300}
+          easing={"linear"}
+        > */}
           <Box width="100%">
             <Box width="100%">
               <SpatialResolutionCheck
@@ -81,13 +109,7 @@ const SearchArea = (props: Props): JSX.Element => {
               <EnhancedSearchBox schema={props.schema} />
             </Box>
           </Box>
-        ) : (
-          <div>
-            <div className="flex items-center space-x-10">
-              <InfoPanel />
-            </div>
-          </div>
-        )}
+        {/* </Collapse> */}
       </Grid>
     </>
   );

@@ -7,7 +7,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { clearMapPreview, setShowFilter } from "@/store/slices/uiSlice";
 import { SearchUIConfig } from "@/components/searchUIConfig";
-import { Box, SvgIcon, CircularProgress, Fade, Skeleton } from "@mui/material";
+import { Box, SvgIcon, CircularProgress, Fade, Collapse } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React from "react";
 import ResultCard from "./resultCard";
@@ -149,7 +149,14 @@ const ResultsPanel = (props: Props): JSX.Element => {
           </div>
         </Box>
 
-        {showFilter && <FilterPanel />}
+        <Collapse
+          className={"relative w-full"}
+          in={showFilter}
+          timeout={300}
+          easing={"linear"}
+        >
+          <FilterPanel />
+        </Collapse>
 
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>

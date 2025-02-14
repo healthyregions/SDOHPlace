@@ -122,7 +122,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
             <a
               onClick={() => {
                 dispatch(setShowInfoPanel(true));
-                dispatch(setInfoPanelTab(4))
+                dispatch(setInfoPanelTab(5))
               }}
               style={{ cursor: "pointer" }}
               className="no-underline text-frenchviolet"
@@ -170,27 +170,25 @@ const MapPanelContent = (props: Props): JSX.Element => {
         <div className="sm:mb-[1.5em] sm:flex-col">
           <Box height="100%" className="sm:mt-[4.35em] sm:ml-[2em]">
             <Box className="text-2xl sm:mb-[0.6em]">
-              How to search for data...
+              Want to learn more about SDOH data?
             </Box>
             <Box className="text-s sm:mb-[1.5em]">
               <p className="mb-[1em]">
-                Users have the option to refine their search by first selecting
-                a geographic scale, such as state, county, or census tract, as
-                an initial filter. This allows them to narrow down the scope of
-                their query to a specific level of spatial detail. After
-                applying this geographic filter, they can then enter keywords of
-                interest to search within the filtered results.
-              </p>
-              <p>
-                However, this two-step process is not mandatory. Users also have
-                the flexibility to bypass the spatial resolution filter entirely
-                and conduct their search directly. They can simply enter their
-                keywords or search terms into the main search bar, which will
-                query the entire database without any predetermined geographic
-                constraints.
+                We have a selection of resource guides available for different SDOH topics, like {" "}
+                <Link href="/guides/greenspace-access">Greenspace Access</Link> and {" "}<Link href="/guides/transportation-equity">Transportation Equity</Link>.
+                More guides are in the works! If you would like to collaborate on a research guide, please {" "}<Link href="/contact">get in touch</Link>.
               </p>
             </Box>
-            <Box display="flex" flexDirection="row" gap={3}>
+            <Box className="text-2xl sm:mb-[0.6em]">
+              Unsure how to use SDOH data?
+            </Box>
+            <Box className="text-s sm:mb-[1.5em]">
+              <p className="mb-[1em]">
+                Checkout our <Link href="https://toolkit.sdohplace.org">Community Toolkit</Link> for walkthroughs and examples of how you can use datasets
+                you find in this discovery application in your own research and web applications.
+              </p>
+            </Box>
+            {/* <Box display="flex" flexDirection="row" gap={3}>
               <ButtonWithIcon
                 label="What is SDOH and Place?"
                 labelColor="frenchviolet"
@@ -214,7 +212,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
                   window.open("https://toolkit.sdohplace.org", "_blank")
                 }
               />
-            </Box>
+            </Box> */}
           </Box>
         </div>
       </Box>
