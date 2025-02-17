@@ -18,6 +18,8 @@ import {
   resetFilters,
 } from "@/middleware/filterHelper";
 import ThemeIcons from "../helper/themeIcons";
+import {EventType} from "@/lib/event";
+import {usePlausible} from "next-plausible";
 
 interface Props {
   schema: any;
@@ -36,6 +38,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const classes = useStyles();
   const searchState = useSelector(selectSearchState);
   const filterStatus = useSelector(getFilterStatus);
+  const plausible = usePlausible();
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
   const isLoading = searchState.isSearching || searchState.isSuggesting;
   const isQuery = searchState.query !== "*" && searchState.query !== "";
@@ -192,6 +195,13 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         <Box className="flex flex-col justify-center items-center mb-[1.5em]">
                           <SearchIcon className="text-strongorange mb-[0.15em]" />
                           <div className="text-s">No results</div>
+                          {
+                            plausible(EventType.ReceivedNoSearchResults, {
+                              props: {
+                                searchQuery: searchState.query
+                              }
+                            })
+                          }
                         </Box>
                         <Box className="mb-[0.75em]">
                           <div className="text-s">

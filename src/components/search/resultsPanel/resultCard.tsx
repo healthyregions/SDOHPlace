@@ -13,6 +13,8 @@ import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
 import { getAllScoresSelector } from "@/store/selectors/SearchSelector";
+import {EventType} from "@/lib/event";
+import {usePlausible} from "next-plausible";
 
 interface Props {
   resultItem: SolrObject;
@@ -102,6 +104,7 @@ const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScor
 const ResultCard = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const plausible = usePlausible();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
@@ -154,6 +157,11 @@ const ResultCard = (props: Props): JSX.Element => {
               <button
                 onClick={() => {
                   dispatch(setShowDetailPanel(props.resultItem.id));
+                  plausible(EventType.ClickedItemDetails, {
+                    props: {
+                      resourceId: props.resultItem.id
+                    }
+                  });
                 }}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >
@@ -192,6 +200,12 @@ const ResultCard = (props: Props): JSX.Element => {
                             },
                           ])
                         );
+
+                        plausible(EventType.ClickedMapPreview, {
+                          props: {
+                            resourceId: props.resultItem.id
+                          }
+                        });
                       } else {
                         dispatch(
                           setMapPreview(
