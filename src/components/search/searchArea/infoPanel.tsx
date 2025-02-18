@@ -214,7 +214,7 @@ export default function InfoPanel() {
         <CustomTabPanel value={infoPanelTab} index={2}>
           {/* AI search tab */}
           <p>In addition to a standard keyword search, we also have an an experimental AI search mode that
-          allows you to ask questions like &quot;where is children's food access the most limited?&quot;
+          allows you to ask questions like &quot;where is children&apos;s food access the most limited?&quot;
           {" "}But how does this work?
           </p>
           <p>
