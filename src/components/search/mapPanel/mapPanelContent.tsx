@@ -9,15 +9,16 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  Popover,
+  IconButton,
   SvgIcon,
 } from "@mui/material";
 import {
   ArrowDropDown as ArrowDropDownIcon,
-  Info as InfoOutlinedIcon,
+  InfoOutlined as InfoOutlinedIcon,
   Check as CheckIcon,
   Construction as ConstructionIcon,
 } from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
 import Link from "next/link";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../../../tailwind.config";
@@ -39,11 +40,29 @@ interface Props {
 
 const fullConfig = resolveConfig(tailwindConfig);
 
+const useStyles = makeStyles((theme) => ({
+  aiModeButton: {
+    color: fullConfig.theme.colors["frenchviolet"],
+    "&.active": {
+      backgroundColor: fullConfig.theme.colors["frenchviolet"],
+      color: "white",
+    },
+    "&:hover": {
+      color: fullConfig.theme.colors["frenchviolet"],
+    },
+    "&:hover&.active": {
+      backgroundColor: fullConfig.theme.colors["frenchviolet"],
+      color:"white"
+    }
+  },
+}))
+
 const DynamicMapArea = dynamic(() => import("../../map/mapArea"), {
   ssr: false,
 });
 
 const MapPanelContent = (props: Props): JSX.Element => {
+  const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
   const visOverlays = useSelector(
     (state: RootState) => state.search.visOverlays
@@ -119,16 +138,18 @@ const MapPanelContent = (props: Props): JSX.Element => {
             {overlaysBtnTxt}
           </Button>
           <Box component="span" className="mx-2">
-            <a
+            <IconButton
+              sx={{
+                color: fullConfig.theme.colors["frenchviolet"],
+              }}
+              className={classes.aiModeButton}
               onClick={() => {
                 dispatch(setShowInfoPanel(true));
                 dispatch(setInfoPanelTab(5))
               }}
-              style={{ cursor: "pointer" }}
-              className="no-underline text-frenchviolet"
             >
               <InfoOutlinedIcon />
-            </a>
+            </IconButton>
           </Box>
           <Menu
             id="basic-menu"
@@ -160,7 +181,6 @@ const MapPanelContent = (props: Props): JSX.Element => {
       <Box
         height="100%"
         sx={{
-          overflowY: "scroll",
           height: `${SearchUIConfig.search.searchResults.resultListHeight}`,
         }}
       >
@@ -168,7 +188,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
       </Box>
       <Box className="sm:my-[1.68em]">
         <div className="sm:mb-[1.5em] sm:flex-col">
-          <Box height="100%" className="sm:mt-[4.35em] sm:ml-[2em]">
+          <Box height="100%" className="sm:mt-[2em] sm:ml-[1.1em]">
             <Box className="text-2xl sm:mb-[0.6em]">
               Want to learn more about SDOH data?
             </Box>
