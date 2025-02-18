@@ -214,7 +214,7 @@ export default function InfoPanel() {
         <CustomTabPanel value={infoPanelTab} index={2}>
           {/* AI search tab */}
           <p>In addition to a standard keyword search, we also have an an experimental &quot;chat search&quot; mode that
-          interfaces with OpenAI and allows you to ask questions like <em>where is healthcare access the most limited?</em>
+          interfaces with OpenAI and allows you to ask questions like &quot;where is healthcare access the most limited?&quot;
           {" "}But how does this work?
           </p>
           <p>
@@ -227,9 +227,8 @@ export default function InfoPanel() {
           particularly query construction logic, is displayed below the search box to make the &quot;thinking&quot;
           process clearer and eliminate potential doubts about the LLM&apos;s function.
           </p>
-          <p><em>Currently, we use the OpenAI backend.</em></p>
-          <p><em>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</em></p>
-          <p><em>We&apos;d love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></em></p>
+          <p>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</p>
+          <p>We&apos;d love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></p>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={3}>
           Some sources provide data at the state level, while others may provide
@@ -287,11 +286,9 @@ export default function InfoPanel() {
               )
             </ListItem>
           </List>
-          <em>
             This is a feature we hope to expand in the future. Please don&apos;t
             hesitate to <Link href="/contact">get in touch</Link> if you have
             ideas for more overlays you would like to see or contribute.
-          </em>
         </CustomTabPanel>
       </Box>
     </div>

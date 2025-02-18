@@ -199,7 +199,7 @@ const HeaderRow = (props: Props): JSX.Element => {
       ) : null}
       {links.archiveUrl ? (
         <div className="mt-2">
-          <em><strong>Data Offline?</strong> Checkout a copy of this dataset in our <a href={links.archiveUrl}>Data Archive</a></em>
+          <strong>Data Offline?</strong> Checkout a copy of this dataset in our <a href={links.archiveUrl}>Data Archive</a>
         </div>
       ) : null}
     </div>
