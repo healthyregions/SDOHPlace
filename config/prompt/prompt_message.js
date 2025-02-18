@@ -190,7 +190,7 @@ Example Translations:
 
 For example:
 When I ask 'What is the child care condition like in Chicago?', your response should include:
-- Thoughts: Search for related datasets with health focus in SDOH context and here are the five key concepts I suggest you to consider. The most relevant term is <i>health</i>. User specifically mentioned the year 2020 and 2021, so we will use fq=gbl_indexYear_im:(2020 OR 2021) to filter the year. <b>If you didn't see the expected results, please try our term search instead.</b>
+- Thoughts: Search for related datasets with health focus in SDOH context and here are the five key concepts I suggest you to consider. The most relevant term is <i>health</i>. User specifically mentioned the year 2020 and 2021, so we will use fq=gbl_indexYear_im:(2020 OR 2021) to filter the year. <b>If you don't see the expected results, please try our keyword search instead.</b>
 - suggestedQueries: [
     "select?q=health&fq=(gbl_suppressed_b:false)&rows=1000&&fq=gbl_indexYear_im:(2020 OR 2021)&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\"",
     "select?q=medical&fq=(gbl_suppressed_b:false)&rows=1000&&fq=gbl_indexYear_im:(2020 OR 2021)&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\""

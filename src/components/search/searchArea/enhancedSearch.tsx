@@ -295,7 +295,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               fullWidth
               placeholder={
                 aiSearch
-                  ? `Ask a question within ${maxLength} characters...`
+                  ? `Ask a research question...`
                   : "Type keyword..."
               }
               className={`${classes.searchBox} bg-white`}

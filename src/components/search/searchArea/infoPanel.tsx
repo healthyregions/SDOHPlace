@@ -213,8 +213,8 @@ export default function InfoPanel() {
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={2}>
           {/* AI search tab */}
-          <p>In addition to a standard keyword search, we also have an an experimental &quot;chat search&quot; mode that
-          interfaces with OpenAI and allows you to ask questions like &quot;where is healthcare access the most limited?&quot;
+          <p>In addition to a standard keyword search, we also have an an experimental AI search mode that
+          allows you to ask questions like &quot;where is children's food access the most limited?&quot;
           {" "}But how does this work?
           </p>
           <p>
@@ -222,12 +222,12 @@ export default function InfoPanel() {
           {" "}<Link href="https://github.com/healthyregions/SDOHPlace/blob/discovery_app/config/prompt/prompt_message.js" target={"_blank"}>
           prepared prompt</Link> and send it to a large language model (LLM). The
           LLM analyzes queries through semantic mapping and term relationship scoring to generate optimized
-          Solr search parameters and retrieve relevant results from our database. It applies defined
+          Solr search parameters and retrieve relevant results from our database, while also applying
           scoring algorithms and SDOH domain knowledge to enhance search accuracy. The analytical process,
           particularly query construction logic, is displayed below the search box to make the &quot;thinking&quot;
           process clearer and eliminate potential doubts about the LLM&apos;s function.
           </p>
-          <p>No queries or information of any kind are sent to the OpenAI backend if you use the standard keyword search mode.</p>
+          <p>No queries or information of any kind are sent to the LLM backend if you use the standard keyword search mode.</p>
           <p>We&apos;d love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></p>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={3}>
