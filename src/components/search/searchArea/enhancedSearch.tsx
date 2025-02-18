@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
       color: fullConfig.theme.colors["frenchviolet"],
     },
     "&:hover&.active": {
+      backgroundColor: fullConfig.theme.colors["frenchviolet"],
       color:"white"
     }
   },
@@ -333,6 +334,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                             mr: "m",
                             cursor: isSearchBlocked ? "not-allowed" : "pointer",
                             opacity: isSearchBlocked ? 0.5 : 1,
+                            color: fullConfig.theme.colors["frenchviolet"],
                           }}
                           onClick={handleModeSwitch}
                           className={`${classes.aiModeButton} ${
@@ -357,6 +359,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                             mr: ".2em",
                             cursor: isSearchBlocked ? "not-allowed" : "pointer",
                             opacity: isSearchBlocked ? 0.5 : 1,
+                            color: fullConfig.theme.colors["frenchviolet"],
                           }}
                           onClick={handleModeSwitch}
                           className={`${classes.aiModeButton} ${
@@ -366,13 +369,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                           <QuestionAnswerIcon />
                         </IconButton>
                       </Tooltip>
-                      {/* <a
-                        onClick={() => dispatch(setShowInfoPanel(true))}
-                        style={{ cursor: "pointer" }}
-                        className="no-underline text-frenchviolet"
-                      >
-                        <InfoOutlinedIcon />
-                      </a> */}
                       <Tooltip
                         title={
                           aiSearch
@@ -381,7 +377,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                         }
                       >
                         <IconButton
-                          className={classes.aiModeButton}
+                          sx={{
+                            color: fullConfig.theme.colors["frenchviolet"],
+                          }}
+                          className={`${classes.aiModeButton} font-black`}
                           onClick={() => {
                             dispatch(setShowInfoPanel(true));
                             dispatch(setInfoPanelTab(aiSearch ? 2: 1))
