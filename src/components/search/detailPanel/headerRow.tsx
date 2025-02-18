@@ -7,7 +7,7 @@ import Image from "next/image";
 import DOMPurify from "dompurify";
 import CloseIcon from "@mui/icons-material/Close";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
-import { Box, Container, IconButton, Typography } from "@mui/material";
+import { Box, Container, IconButton, Collapse } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../helper/ParseReferenceLink";
 import { AppDispatch, RootState } from "@/store";
@@ -127,7 +127,12 @@ const HeaderRow = (props: Props): JSX.Element => {
           />
         </div>
       </div>
-      {currentShowSharedLink && (
+      <Collapse
+          className={"relative w-full"}
+          in={currentShowSharedLink}
+          timeout={150}
+          easing={"linear"}
+        >
         <div className={`flex w-full p-0 ${classes.introCard}`}>
           <div
             className={`flex ${classes.wide}  flex-11 sm:justify-between sm:items-center sm:px-[1em] sm:py-[0.5em] sm:my-[1.5em]`}
@@ -183,7 +188,7 @@ const HeaderRow = (props: Props): JSX.Element => {
             </IconButton>
           </div>
         </div>
-      )}
+      </Collapse>
       {props.resultItem.description ? (
         <div className="flex flex-col sm:flex-row items-center">
           <div
