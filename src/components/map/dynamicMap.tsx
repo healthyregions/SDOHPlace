@@ -17,7 +17,6 @@ import maplibregl, {
   GeoJSONSource,
 } from "maplibre-gl";
 import { Protocol } from "pmtiles";
-import { overlaySources } from "./helper/sources";
 import { AppDispatch, RootState } from "@/store";
 import { setBbox } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -104,7 +103,6 @@ export default function DynamicMap(props: Props): JSX.Element {
       }
 
       const expression = [operator, ...clauses];
-      console.log(expression);
 
       const previewLyrs = makePreviewLyrs(
         previewLyr.lyrId,
@@ -132,22 +130,25 @@ export default function DynamicMap(props: Props): JSX.Element {
     const mapLyrIds = map.getStyle().layers.map((lyr) => lyr.id);
 
     visOverlays.forEach((lyr) => {
-      if (
-        overlayRegistry[lyr] &&
-        !mapLyrIds.includes(overlayRegistry[lyr].spec.id)
-      ) {
-        map.addLayer(overlayRegistry[lyr].spec, overlayRegistry[lyr].addBefore);
+      if (overlayRegistry[lyr]) {
+        overlayRegistry[lyr].layers.forEach((lyrDef) => {
+          if (!mapLyrIds.includes(lyrDef.spec.id)) {
+            map.addLayer(lyrDef.spec, lyrDef.addBefore);
+          }
+        })
       }
     });
 
-    Object.keys(overlayRegistry).forEach((lyr) => {
-      if (
-        mapLyrIds.includes(overlayRegistry[lyr].spec.id) &&
-        !visOverlays.includes(lyr)
-      ) {
-        map.removeLayer(overlayRegistry[lyr].spec.id);
-      }
-    });
+    for (const [key, data] of Object.entries(overlayRegistry)) {
+      data.layers.forEach((lyrDef) => {
+        if (
+          mapLyrIds.includes(lyrDef.spec.id) &&
+          !visOverlays.includes(key)
+        ) {
+          map.removeLayer(lyrDef.spec.id);
+        }
+      })
+    }
   }, [visOverlays, mapLoaded]);
 
   const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
@@ -171,10 +172,9 @@ export default function DynamicMap(props: Props): JSX.Element {
   const onLoad = useCallback(() => {
     const map = mapRef.current.getMap();
 
-    // add all custom sources to the map
-    Object.keys(overlaySources).forEach((id) => {
-      map.addSource(id, overlaySources[id]);
-    });
+    for (const [key, data] of Object.entries(overlayRegistry)) {
+      map.addSource(data.source.id, overlayRegistry[key].source.spec);
+    }
 
     map.addSource("geoSearchHighlight", { type: "geojson", data: null });
     map.addLayer({
