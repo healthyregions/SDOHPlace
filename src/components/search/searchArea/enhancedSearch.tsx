@@ -320,13 +320,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                   "&:hover .MuiOutlinedInput-notchedOutline": {
                     borderColor: "transparent",
                   },
-                  // borderRadius: "1.75em",
-                  // borderColor: noSearchAllowed
-                  //   ? fullConfig.theme.colors["frenchviolet"]
-                  //   : fullConfig.theme.colors["smokegray"],
-                  // boxShadow: noSearchAllowed
-                  //   ? "0 0 0 1px rgba(248,113,113,0.4)"
-                  //   : "none",
                   transition: "all 0.2s ease-in-out",
                 },
                 "& .MuiOutlinedInput-notchedOutline": {

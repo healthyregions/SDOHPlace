@@ -154,20 +154,4 @@ async function triggerResultsRelatesFetch(store: any, query: string) {
   } finally {
     store.dispatch(setIsSearching(false));
   }
-  // try {
-  //   await store.dispatch(
-  //     fetchSearchAndRelatedResults({
-  //       query: query || "*",
-  //       filterQueries: generateFilterQueries(state.search),
-  //       schema: state.search.schema,
-  //       sortBy: state.search.sortBy,
-  //       sortOrder: state.search.sortOrder,
-  //       bypassSpellCheck: false,
-  //     })
-  //   );
-  // } catch (error) {
-  //   console.error("Search failed:", error);
-  // } finally {
-  //   store.dispatch(setIsSearching(false));
-  // }
 }
