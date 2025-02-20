@@ -340,17 +340,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                           : "Switch to keyword search"
                       }
                     >
-                      <IconButton
-                        sx={{
-                          mr: "m",
-                          cursor: isSearchBlocked ? "not-allowed" : "pointer",
-                          opacity: isSearchBlocked ? 0.5 : 1,
-                        }}
-                        onClick={handleModeSwitch}
-                        className={`${classes.aiModeButton} ${
-                          !aiSearch ? "active" : ""
-                        }`}
-                      >
                         <IconButton
                           sx={{
                             mr: "m",
