@@ -96,8 +96,9 @@ const useStyles = makeStyles((theme) => ({
       color: fullConfig.theme.colors["frenchviolet"],
     },
     "&:hover&.active": {
-      color: "white",
-    },
+      backgroundColor: fullConfig.theme.colors["frenchviolet"],
+      color:"white"
+    }
   },
   loadingButton: {
     color: fullConfig.theme.colors["frenchviolet"],
@@ -305,7 +306,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               fullWidth
               placeholder={
                 aiSearch
-                  ? `Ask a question within ${maxLength} characters...`
+                  ? `Ask a research question...`
                   : "Type keyword..."
               }
               className={`${classes.searchBox} bg-white`}
@@ -350,9 +351,21 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                           !aiSearch ? "active" : ""
                         }`}
                       >
-                        <SearchIcon />
-                      </IconButton>
-                    </Tooltip>
+                        <IconButton
+                          sx={{
+                            mr: "m",
+                            cursor: isSearchBlocked ? "not-allowed" : "pointer",
+                            opacity: isSearchBlocked ? 0.5 : 1,
+                            color: fullConfig.theme.colors["frenchviolet"],
+                          }}
+                          onClick={handleModeSwitch}
+                          className={`${classes.aiModeButton} ${
+                            !aiSearch ? "active" : ""
+                          }`}
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                      </Tooltip>
                     <Box component="span" className="mx-2">
                       <Tooltip
                         title={
@@ -368,6 +381,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                             mr: ".2em",
                             cursor: isSearchBlocked ? "not-allowed" : "pointer",
                             opacity: isSearchBlocked ? 0.5 : 1,
+                            color: fullConfig.theme.colors["frenchviolet"],
                           }}
                           onClick={handleModeSwitch}
                           className={`${classes.aiModeButton} ${
@@ -385,7 +399,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                         }
                       >
                         <IconButton
-                          className={classes.aiModeButton}
+                          sx={{
+                            color: fullConfig.theme.colors["frenchviolet"],
+                          }}
+                          className={`${classes.aiModeButton} font-black`}
                           onClick={() => {
                             dispatch(setShowInfoPanel(true));
                             dispatch(setInfoPanelTab(aiSearch ? 2 : 1));

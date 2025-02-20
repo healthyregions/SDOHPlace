@@ -330,7 +330,7 @@ export default function DynamicMap(props: Props): JSX.Element {
           className={`mt-[54px] ml-[10px] text-almostblack py-1 px-2 rounded relative font-sans text-sm bg-white bg-opacity-75 inline-flex`}
         >
           <span>
-            <em>results filtered by current map extent</em>
+            results filtered by current map extent
           </span>
         </div>
       )}

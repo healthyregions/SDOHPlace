@@ -174,7 +174,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                       sx={{
                         overflowY: "scroll",
                         paddingRight: "1.25em",
-                        marginTop: "1.5em",
                         maxHeight:
                           (isQuery && uniqueRelatedList.length > 0) ||
                           showFilter
