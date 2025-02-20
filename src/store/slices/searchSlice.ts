@@ -141,7 +141,7 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     const isAISearch = state.search.aiSearch;
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
-    if (isAISearch && !Array.isArray(query)) {
+    if (isAISearch && !Array.isArray(query) && query !== "*") {
       const aiResponse = await dispatch(
         performChatGptSearch({
           question: query,
@@ -161,6 +161,8 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       .filter((s) => s.payload === "false")
       .filter((s) => s.weight >= 50) // Only show suggestions with weight >= 50 but no limitation on the number of suggestions
       .map((s) => s.term)
+      // #444: for extra long terms, only get the first 5 words to search to avoid SOLR query length limit problem
+      .map((s) => s.split(" ").slice(0, 5).join(" "))
       .sort((a, b) => {
         const weightA = suggestions.find((s) => s.term === a)?.weight || 0;
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
