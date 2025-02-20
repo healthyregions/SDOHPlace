@@ -120,54 +120,54 @@ function syncToUrl(action: AnyAction, config: ActionConfig) {
   window.history.pushState({}, "", newUrl);
 }
 
-function triggerFetch(store: any) {
-  const state = store.getState();
-  if (state.search.schema) {
-    if (
-      !store.getState().search.aiSearch ||
-      !state.search.query ||
-      state.search.query == '*'
-    ) {
-      store.dispatch(
-        fetchSearchResults({
-          query: state.search.query || "*",
-          filterQueries: generateFilterQueries(state.search),
-          schema: state.search.schema,
-          sortBy: state.search.sortBy,
-          sortOrder: state.search.sortOrder,
-        })
-      );
-    } else {
-      store.dispatch(
-        performChatGptSearch({
-          question: state.search.query,
-          filterQueries: generateFilterQueries(state.search),
-          schema: state.search.schema,
-        })
-      );
-    }
-  }
-}
-
 async function triggerResultsRelatesFetch(store: any, query: string) {
   const state = store.getState();
   if (!state.search.schema) return;
 
   store.dispatch(setIsSearching(true));
   try {
-    await store.dispatch(
-      fetchSearchAndRelatedResults({
-        query: query || "*",
-        filterQueries: generateFilterQueries(state.search),
-        schema: state.search.schema,
-        sortBy: state.search.sortBy,
-        sortOrder: state.search.sortOrder,
-        bypassSpellCheck: false,
-      })
-    );
+    if (state.search.aiSearch && (!query || query === "*")) {
+      await store.dispatch(
+        fetchSearchAndRelatedResults({
+          query: "*",
+          filterQueries: generateFilterQueries(state.search),
+          schema: state.search.schema,
+          sortBy: state.search.sortBy,
+          sortOrder: state.search.sortOrder,
+          bypassSpellCheck: false,
+        })
+      );
+    } else {
+      await store.dispatch(
+        fetchSearchAndRelatedResults({
+          query: query || "*",
+          filterQueries: generateFilterQueries(state.search),
+          schema: state.search.schema,
+          sortBy: state.search.sortBy,
+          sortOrder: state.search.sortOrder,
+          bypassSpellCheck: false,
+        })
+      );
+    }
   } catch (error) {
     console.error("Search failed:", error);
   } finally {
     store.dispatch(setIsSearching(false));
   }
+  // try {
+  //   await store.dispatch(
+  //     fetchSearchAndRelatedResults({
+  //       query: query || "*",
+  //       filterQueries: generateFilterQueries(state.search),
+  //       schema: state.search.schema,
+  //       sortBy: state.search.sortBy,
+  //       sortOrder: state.search.sortOrder,
+  //       bypassSpellCheck: false,
+  //     })
+  //   );
+  // } catch (error) {
+  //   console.error("Search failed:", error);
+  // } finally {
+  //   store.dispatch(setIsSearching(false));
+  // }
 }

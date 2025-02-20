@@ -55,12 +55,12 @@ export function getScoreExplanation(
 ): string {
   if (!spellcheck || q === currentQuery) {
     if (score > maxScore * 0.8) {
-      return `This is a very strong match for <b>${q}</b> in important fields like title and description.`;
+      return `This is a strong match for <b>${q}</b> in important fields like title and description.`;
     }
     if (score > avgScore) {
       return `This is a good match for <b>${q}</b> that contains your search terms across multiple fields.`;
     }
-    if (score > avgScore) {
+    if (score == avgScore) {
       return `This is a moderate match for <b>${q}</b>.`;
     }
     return `This is a broader match for <b>${q}</b>.`;
