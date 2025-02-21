@@ -1,5 +1,5 @@
 import { message } from "../../config/prompt/prompt_message.js";
-import { gptBasedMessage } from "../../config/prompt/prompt_message_chatgpt.js";
+import { message as gptBasedMessage } from "../../config/prompt/prompt_message_chatgpt.js";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -162,7 +162,6 @@ export default async (request, context) => {
           `GPT-BASED API responded with status: ${response.status}`
         );
       }
-
       if (analysis.suggestedQueries) {
         analysis.suggestedQueries = analysis.suggestedQueries.map((query) =>
           query.replace(/'/g, '"')
