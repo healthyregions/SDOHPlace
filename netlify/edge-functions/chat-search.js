@@ -1,4 +1,5 @@
-import { message } from "../../config/prompt/prompt_message_backup.js";
+import { message } from "../../config/prompt/prompt_message.js";
+import { gptBasedMessage } from "../../config/prompt/prompt_message_chatgpt.js";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -69,7 +70,7 @@ export default async (request, context) => {
     );
   }
   let questionData;
-  if (modelName.includes("gpt")) {
+  if (modelName.indexOf("gpt") > -1) {
     try {
       try {
         questionData = await request.json();
@@ -97,35 +98,71 @@ export default async (request, context) => {
           }
         );
       }
-      const response = await fetch(llmEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: modelName,
-          messages: [
-            {
-              role: "system",
-              content: message,
-            },
-            {
-              role: "user",
-              content: questionData.question,
-            },
-          ],
-          temperature: 0,
-          retrieval_only: false,
-          stream: true,
-          openai_key: openAPIKey,
-          api_key: uiucChatAPIKey,
-          course_name: courseName,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error(`API responded with status: ${response.status}`);
+      let response, analysis;
+      if (llmEndpoint.indexOf("uiuc") > -1) {
+        response = await fetch(llmEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: modelName,
+            messages: [
+              {
+                role: "system",
+                content: gptBasedMessage,
+              },
+              {
+                role: "user",
+                content: questionData.question,
+              },
+            ],
+            temperature: 0,
+            retrieval_only: false,
+            stream: true,
+            openai_key: openAPIKey,
+            api_key: uiucChatAPIKey,
+            course_name: courseName,
+          }),
+        });
+        analysis = await response.json();
+      } else {
+        response = await fetch(llmEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${openAPIKey}`,
+          },
+          body: JSON.stringify({
+            model: modelName,
+            messages: [
+              {
+                role: "system",
+                content: gptBasedMessage,
+              },
+              {
+                role: "user",
+                content: questionData.question,
+              },
+            ],
+            temperature: 0,
+            top_p: 0.01,
+            seed: 0,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            max_tokens: 1000,
+          }),
+        });
+        const completion = await response.json();
+        let content = completion.choices[0].message.content;
+        analysis = JSON.parse(content);
       }
-      const analysis = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          `GPT-BASED API responded with status: ${response.status}`
+        );
+      }
+
       if (analysis.suggestedQueries) {
         analysis.suggestedQueries = analysis.suggestedQueries.map((query) =>
           query.replace(/'/g, '"')
@@ -184,7 +221,9 @@ export default async (request, context) => {
         }),
       });
       if (!response.ok) {
-        throw new Error(`API responded with status: ${response.status}`);
+        throw new Error(
+          `UIUC.CHAT API responded with status: ${response.status}`
+        );
       }
       const reader = response.body.getReader();
       currentReader = reader;
