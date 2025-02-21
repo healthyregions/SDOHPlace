@@ -166,9 +166,9 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
         return weightB - weightA;
       });
-    // #444: for extra long terms, only get the first 5 words to search to avoid SOLR query length limit problem
-    if (query.split(" ").length > 5) {
-      query = query.split(" ").slice(0, 5).join(" ");
+    // #444: for extra long terms, only get the first 10 words to search to avoid SOLR query length limit problem
+    if (query.split(" ").length > 10) {
+      query = query.split(" ").slice(0, 10).join(" ");
     }
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
     const { results: searchResults, spellCheckSuggestion } =
