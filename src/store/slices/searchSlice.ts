@@ -5,6 +5,7 @@ import { initialState, SolrSuggestResponse } from "@/store/types/search";
 import { generateFilterQueries } from "@/middleware/filterHelper";
 import { setShowClearButton } from "./uiSlice";
 import { RootState } from "..";
+import { parseSolrQuery } from "@/components/search/helper/ParsingMethods";
 
 export const initializeSearch = createAsyncThunk(
   "search/initialize",
@@ -166,10 +167,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
         return weightB - weightA;
       });
-    // #444: for extra long terms, only get the first 10 words to search to avoid SOLR query length limit problem
-    if (query.split(" ").length > 10) {
-      query = query.split(" ").slice(0, 10).join(" ");
-    }
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
     const { results: searchResults, spellCheckSuggestion } =
       await searchQueryBuilder.fetchResult();
@@ -199,7 +196,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         usedSpellCheck = true;
       }
     }
-
     const relatedResults = [];
     for (const suggestion of validSuggestions) {
       if (suggestion !== usedQuery) {
