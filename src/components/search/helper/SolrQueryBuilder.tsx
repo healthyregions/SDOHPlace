@@ -3,6 +3,7 @@ import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
 import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
 import { adaptiveScoreFilter, scoreConfig } from "./FilterByScore";
+import { parseSolrQuery } from "./ParsingMethods";
 
 export default class SolrQueryBuilder {
   private query: QueryObject = {
@@ -181,6 +182,9 @@ export default class SolrQueryBuilder {
     return this.setQuery(searchTerm);
   }
   public generalQuery(searchTerms: string | string[]): SolrQueryBuilder {
+    // #444: for extra long terms, only get the first 100 characters and remove invalid characters
+    if (typeof searchTerms === "string")
+      searchTerms = parseSolrQuery(searchTerms.substring(0, 100));
     let generalQuery = "select?q=";
     if (searchTerms && searchTerms !== "*") {
       if (typeof searchTerms === "string") {
@@ -242,6 +246,7 @@ export default class SolrQueryBuilder {
       );
     }
     try {
+      term = parseSolrQuery(term.substring(0, 100));
       const safeTerm = term || "*";
       let baseQuery = this.generalQuery(safeTerm).getQuery();
       if (Array.isArray(filterQueries) && filterQueries.length > 0) {

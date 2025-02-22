@@ -16,7 +16,6 @@ import {
   Paper,
   Popper,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
@@ -40,8 +39,9 @@ import {
   clearMapPreview,
 } from "@/store/slices/uiSlice";
 import SpellCheckMessage from "./spellCheckMessage";
-import {usePlausible} from "next-plausible";
-import {EventType} from "@/lib/event";
+import { usePlausible } from "next-plausible";
+import { EventType } from "@/lib/event";
+import { Tooltip } from "@mui/material";
 
 interface Props {
   schema: any;
@@ -133,6 +133,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const textFieldRef = React.useRef<HTMLInputElement>(null);
   const [isLocalLoading, setIsLocalLoading] = React.useState(false);
   const { showClearButton } = useSelector((state: RootState) => state.ui);
+  const maxLength = 50;
   const {
     aiSearch,
     query,
@@ -177,7 +178,9 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
             })
           );
 
-          const searchEventType = aiSearch ? EventType.SubmittedChatSearch : EventType.SubmittedKeywordSearch;
+          const searchEventType = aiSearch
+            ? EventType.SubmittedChatSearch
+            : EventType.SubmittedKeywordSearch;
           plausible(searchEventType, {
             props: {
               searchQuery: searchValue,
@@ -188,7 +191,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         }
       }
     },
-    [dispatch, aiSearch, schema, filterQueries, sortBy, sortOrder]
+    [dispatch, filterQueries, schema, sortBy, sortOrder, aiSearch, plausible]
   );
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -232,6 +235,15 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const isSearchBlocked = React.useMemo(() => {
     return (isLocalLoading || isSearching) && aiSearch;
   }, [isLocalLoading, isSearching, aiSearch]);
+  const noSearchAllowed = React.useMemo(() => {
+    return (
+      aiSearch &&
+      (!inputValue ||
+        inputValue.length > maxLength ||
+        inputValue.length === 0 ||
+        inputValue === "*")
+    );
+  }, [aiSearch, inputValue]);
   const handleClear = () => {
     if (isSearchBlocked) {
       return;
@@ -255,8 +267,8 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     dispatch(setUsedSpellCheck(false));
     plausible(EventType.ChangedSearchMode, {
       props: {
-        aiSearch: !!newValue
-      }
+        aiSearch: !!newValue,
+      },
     });
   };
   const isIOS = React.useMemo(() => {
@@ -273,7 +285,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   }, []);
 
   const isLoading = isLocalLoading || isSearching;
-  const maxLength = 50;
   return (
     <div className="flex flex-col w-full sm:mt-6">
       <SpellCheckMessage />
@@ -310,6 +321,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                   "&:hover .MuiOutlinedInput-notchedOutline": {
                     borderColor: "transparent",
                   },
+                  transition: "all 0.2s ease-in-out",
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "transparent",
@@ -319,16 +331,15 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    {/* <SearchIcon className="text-2xl mr-2 ml-2 text-frenchviolet" /> */}
                     <Tooltip
-                        title={
-                          isSearchBlocked
-                            ? "Please wait for the current search to complete"
-                            : !aiSearch
-                            ? "Currently using keyword search"
-                            : "Switch to keyword search"
-                        }
-                      >
+                      title={
+                        isSearchBlocked
+                          ? "Please wait for the current search to complete"
+                          : !aiSearch
+                          ? "Currently using keyword search"
+                          : "Switch to keyword search"
+                      }
+                    >
                         <IconButton
                           sx={{
                             mr: "m",
@@ -383,7 +394,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                           className={`${classes.aiModeButton} font-black`}
                           onClick={() => {
                             dispatch(setShowInfoPanel(true));
-                            dispatch(setInfoPanelTab(aiSearch ? 2: 1))
+                            dispatch(setInfoPanelTab(aiSearch ? 2 : 1));
                           }}
                         >
                           <InfoOutlinedIcon />
@@ -421,35 +432,61 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                       </InputAdornment>
                     )}
                     <InputAdornment position="end">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        disabled={isLoading}
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-end",
-                          justifyContent: "center",
-                          backgroundColor: "transparent",
-                          color: fullConfig.theme.colors["frenchviolet"],
-                          boxShadow: "none",
-                          "&:hover": {
-                            backgroundColor: "transparent",
-                            boxShadow: "none",
-                          },
-                        }}
+                      <Tooltip
+                        title={
+                          isLoading || noSearchAllowed
+                            ? aiSearch &&
+                              (!inputValue ||
+                                inputValue === "*" ||
+                                inputValue.length > maxLength)
+                              ? !inputValue
+                                ? "Please enter your question first"
+                                : inputValue.length > maxLength
+                                ? `Question must be within ${maxLength} characters`
+                                : "Please enter a valid question"
+                              : ""
+                            : ""
+                        }
+                        enterDelay={0}
+                        leaveDelay={200}
                       >
-                        {isLoading ? (
-                          <span>
-                            <CircularProgress
-                              className={`text-l ${classes.loadingButton}`}
-                            />
-                          </span>
-                        ) : (
-                          <ArrowCircleRightIcon className="text-xxl" />
-                        )}
-                      </Button>
+                        <span style={{ display: "inline-flex" }}>
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            disabled={isLoading || noSearchAllowed}
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "flex-end",
+                              justifyContent: "center",
+                              backgroundColor: "transparent",
+                              color: fullConfig.theme.colors["frenchviolet"],
+                              boxShadow: "none",
+                              "&:hover": {
+                                backgroundColor: "transparent",
+                                boxShadow: "none",
+                              },
+                              "&:disabled": {
+                                color: fullConfig.theme.colors["frenchviolet"],
+                                opacity: noSearchAllowed ? 0.1 : 1.0,
+                                backgroundColor: "transparent",
+                              },
+                            }}
+                          >
+                            {isLoading ? (
+                              <span>
+                                <CircularProgress
+                                  className={`text-l ${classes.loadingButton}`}
+                                />
+                              </span>
+                            ) : (
+                              <ArrowCircleRightIcon className="text-xxl" />
+                            )}
+                          </Button>
+                        </span>
+                      </Tooltip>
                     </InputAdornment>
                   </Box>
                 ),

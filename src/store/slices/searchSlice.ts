@@ -5,6 +5,7 @@ import { initialState, SolrSuggestResponse } from "@/store/types/search";
 import { generateFilterQueries } from "@/middleware/filterHelper";
 import { setShowClearButton } from "./uiSlice";
 import { RootState } from "..";
+import { parseSolrQuery } from "@/components/search/helper/ParsingMethods";
 
 export const initializeSearch = createAsyncThunk(
   "search/initialize",
@@ -141,7 +142,7 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     const isAISearch = state.search.aiSearch;
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
-    if (isAISearch && !Array.isArray(query)) {
+    if (isAISearch && !Array.isArray(query) && query !== "*") {
       const aiResponse = await dispatch(
         performChatGptSearch({
           question: query,
@@ -195,7 +196,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         usedSpellCheck = true;
       }
     }
-
     const relatedResults = [];
     for (const suggestion of validSuggestions) {
       if (suggestion !== usedQuery) {

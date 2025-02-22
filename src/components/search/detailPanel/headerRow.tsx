@@ -9,7 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import { Box, Container, IconButton, Collapse } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
-import { ParseReferenceLink } from "../helper/ParseReferenceLink";
+import { ParseReferenceLink } from "../helper/ParsingMethods";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowDetailPanel, setShowSharedLink } from "@/store/slices/uiSlice";
