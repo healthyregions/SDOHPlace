@@ -4,7 +4,7 @@ import DOMPurify from "dompurify";
 import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { displayNotesIcons } from "./displayNotesIcons";
-import { ParseReferenceLink } from "../../helper/ParseReferenceLink";
+import { ParseReferenceLink } from "../../helper/ParsingMethods";
 import { List, ListItem } from "@mui/material";
 
 interface Props {

@@ -4,7 +4,7 @@ import {
   fetchSearchResults,
 } from "@/store/slices/searchSlice";
 import { actionConfig } from "./actionConfig";
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector, isFulfilled } from "@reduxjs/toolkit";
 
 const isBrowser = typeof window !== "undefined"; // prevent build error
 
@@ -34,7 +34,7 @@ export const getFilterStatus = createSelector(
   (filterState) => {
     const activeFilters: { [key: string]: boolean } = {};
     Object.entries(actionConfig)
-      .filter(([_, config]) => config.syncWithUrl)
+      .filter(([_, config]) => config.syncWithUrl && config.isFilter)
       .forEach(([actionType]) => {
         const stateKey = getStateKeyFromAction(actionType);
         const value = filterState[stateKey];
@@ -45,7 +45,7 @@ export const getFilterStatus = createSelector(
     if (isBrowser) {
       const urlParams = new URLSearchParams(window.location.search);
       Object.entries(actionConfig)
-        .filter(([_, config]) => config.syncWithUrl)
+        .filter(([_, config]) => config.syncWithUrl && config.isFilter)
         .forEach(([actionType, config]) => {
           const stateKey = getStateKeyFromAction(actionType);
           const urlValue = urlParams.get(config.param);
