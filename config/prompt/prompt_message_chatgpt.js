@@ -68,6 +68,7 @@ setEnvelopeQuery(bbox: number[]): string {
       '(\${bbox[0]},\${bbox[2]},\${bbox[3]},\${bbox[1]}))"'
     );
 }
+Make sure to make the Top latitude higher than bottom latitude input. If not, re-check your location bbox coordinates.
 
 3. Use the resulting string as a filter query (fq) parameter
 Format: fq=locn_geometry:"Intersects(ENVELOPE(minX,maxX,maxY,minY))"

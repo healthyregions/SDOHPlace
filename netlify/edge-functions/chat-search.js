@@ -64,7 +64,12 @@ export default async (request, context) => {
 
   const [openAPIKey, uiucChatAPIKey, llmEndpoint, courseName, modelName] =
     getLLMInfo();
-  if (!openAPIKey || !uiucChatAPIKey || !llmEndpoint || !courseName) {
+  if (
+    !llmEndpoint ||
+    !modelName ||
+    (modelName.indexOf("gpt") > -1 && !openAPIKey) ||
+    (llmEndpoint.indexOf("uiuc") > -1 && !uiucChatAPIKey & !courseName)
+  ) {
     throw new Error(
       "OpenAI API key is not configured. Please check environment setup."
     );

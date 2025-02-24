@@ -105,7 +105,7 @@ You are an expert Solr searcher for an SDOH database. Analyze user questions to 
 
 **Task:**
 Return a JSON object with:
-- **"thoughts"**: 3 sentences explaining your strategy, using HTML tags (e.g., `<i>`, `<b>`) for emphasis.
+- **"thoughts"**: 3 sentences explaining your strategy, using HTML tags (e.g., '<i>', '<b>') for emphasis.
 - **"keyTerms"**: Array of 5 terms with scores (0.01-100) and reasons.
 - **"suggestedQueries"**: 5 ranked Solr queries using available fields.
 - **"bbox"**: Bounding box coordinates (e.g., "minX,minY,maxX,maxY") if geographic context applies.
