@@ -13,7 +13,6 @@ import {
 } from "react-map-gl/maplibre";
 import maplibregl, {
   FilterSpecification,
-  LineLayerSpecification,
   GeoJSONSource,
 } from "maplibre-gl";
 import { Protocol } from "pmtiles";
@@ -38,13 +37,21 @@ interface Props {
 }
 
 export default function DynamicMap(props: Props): JSX.Element {
+  const [cursor, setCursor] = useState<string>('auto');
   const dispatch = useDispatch<AppDispatch>();
   const plausible = usePlausible();
   const { bbox, visOverlays } = useSelector((state: RootState) => state.search);
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
-  const [parkPopupInfo, setParkPopupInfo] = useState(null);
+  const [popupInfo, setPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<MapRef>(null);
+
+  const overlayLayerIds = []
+  Object.keys(overlayRegistry).forEach(key => {
+    overlayRegistry[key].layers.forEach(layer => {
+      overlayLayerIds.push(layer.spec.id)
+    })
+  })
 
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
@@ -134,6 +141,17 @@ export default function DynamicMap(props: Props): JSX.Element {
         overlayRegistry[lyr].layers.forEach((lyrDef) => {
           if (!mapLyrIds.includes(lyrDef.spec.id)) {
             map.addLayer(lyrDef.spec, lyrDef.addBefore);
+            if(lyrDef.spec.id.endsWith("-clusters")) {
+              map.on('click', lyrDef.spec.id, async (e) => {
+                const features = map.queryRenderedFeatures(e.point, {
+                    layers: [lyrDef.spec.id]
+                });
+                map.easeTo({
+                    center: features[0].toJSON().geometry.coordinates,
+                    zoom: map.getZoom() + 1
+                });
+              })
+            };
           }
         })
       }
@@ -151,21 +169,19 @@ export default function DynamicMap(props: Props): JSX.Element {
     }
   }, [visOverlays, mapLoaded]);
 
-  const onMouseMove = useCallback((event: MapLayerMouseEvent) => {
-    if (!mapRef.current || !mapLoaded) return;
-    const map = mapRef.current.getMap();
-    const parkFeat = event.features?.find((f) => f["source"] === "us-parks");
+  const onMouseEnter = useCallback(() => setCursor('pointer'), []);
+  const onMouseLeave = useCallback(() => setCursor('auto'), []);
 
-    if (parkFeat) {
-      map.getCanvas().style.cursor = "pointer";
-      setParkPopupInfo({
-        longitude: parkFeat.geometry["coordinates"][0],
-        latitude: parkFeat.geometry["coordinates"][1],
-        name: parkFeat.properties.name,
-      });
-    } else {
-      map.getCanvas().style.cursor = "grab";
-      setParkPopupInfo(null);
+  const onClick = useCallback((event: MapLayerMouseEvent) => {
+    if (event.features.length != 0) {
+      const feat = event.features[0]
+      if (!feat.layer.id.includes("-clustered") && !feat.layer.id.includes("-cluster-count")) {
+        setPopupInfo({
+          longitude: feat.geometry["coordinates"][0],
+          latitude: feat.geometry["coordinates"][1],
+          content: `<ul>${Object.keys(feat.properties).map(key => `<li><strong>${key}:</strong> ${feat.properties[key]}</li>`).join("")}</ul>`,
+        })
+      }
     }
   }, []);
 
@@ -271,12 +287,16 @@ export default function DynamicMap(props: Props): JSX.Element {
       }}
       style={{ width: "100%", height: "100%" }}
       mapStyle={`https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=${apiKey}`}
-      onMouseMove={onMouseMove}
+      // onMouseMove={onMouseMove}
       onLoad={onLoad}
+      onClick={onClick}
+      cursor={cursor}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       dragRotate={false}
       touchPitch={false}
       touchZoomRotate={false}
-      interactiveLayerIds={["state-interactive", "us-parks"]}
+      interactiveLayerIds={overlayLayerIds}
     >
       <Source
         id="state-2018"
@@ -315,14 +335,17 @@ export default function DynamicMap(props: Props): JSX.Element {
         position="top-left"
         selectionCallback={handleGeoSearchSelection}
       />
-      {parkPopupInfo && (
+      {popupInfo && (
         <Popup
-          longitude={parkPopupInfo.longitude}
-          latitude={parkPopupInfo.latitude}
+          longitude={popupInfo.longitude}
+          latitude={popupInfo.latitude}
           closeButton={false}
-          className="county-info"
+          onClose={() => setPopupInfo(null)}
         >
-          {parkPopupInfo.name}
+          <div
+            className="text-base"
+            dangerouslySetInnerHTML={{ __html: popupInfo.content }}
+          />
         </Popup>
       )}
       {bbox && mapLoaded && (
