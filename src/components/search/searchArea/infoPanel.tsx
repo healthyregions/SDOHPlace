@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setShowInfoPanel, setInfoPanelTab } from "@/store/slices/uiSlice";
+import { overlayRegistry } from "@/components/map/helper/layers";
 
 interface Props {
   children?: React.ReactNode;
@@ -275,16 +276,15 @@ export default function InfoPanel() {
           </List>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={5}>
-          We provide a few map overlay layers that can be used as reference data
-          during your search.
+          We provide a few map overlay layers that can be used for contextual reference
+          during your data search. Please see the &quot;source&quot; link for more about each overlay.
           <List>
-            <ListItem>
-              Parks (
-              <Link href="https://overturemaps.org/">
-                Overture Maps foundation
-              </Link>
-              )
+            {Object.keys(overlayRegistry).map((key, index) => (
+            <ListItem key={index}>
+              {key}: {overlayRegistry[key].description}&ndash;
+              <Link href={overlayRegistry[key].url}>source</Link>
             </ListItem>
+            ))}
           </List>
             This is a feature we hope to expand in the future. Please don&apos;t
             hesitate to <Link href="/contact">get in touch</Link> if you have
