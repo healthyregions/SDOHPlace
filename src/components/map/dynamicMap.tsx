@@ -252,11 +252,13 @@ export default function DynamicMap(props: Props): JSX.Element {
         dispatch(setBbox(null));
       };
 
-      plausible(EventType.SubmittedLocationSearch, {
-        props: {
-          ...e.feature.properties
-        }
-      });
+      if (e?.feature?.properties) {
+        plausible(EventType.SubmittedLocationSearch, {
+          props: {
+            ...e.feature.properties
+          }
+        });
+      }
     },
     [dispatch]
   );
