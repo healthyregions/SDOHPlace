@@ -83,7 +83,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
       setPreviousCount(searchState.results.length);
     }
   }, [isLoading, searchState.results.length, isResetting]);
-  console.log("searchState.results.length", searchState.results, "uniqueRelatedList", uniqueRelatedList);
   const renderLoadingState = () => (
     <Box className="flex flex-col w-full">
       <Box className="flex justify-center items-center h-64">
