@@ -6,7 +6,6 @@ import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { clearMapPreview, setShowFilter } from "@/store/slices/uiSlice";
-import { SearchUIConfig } from "@/components/searchUIConfig";
 import { Box, SvgIcon, CircularProgress, Fade, Collapse } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React from "react";
@@ -18,8 +17,8 @@ import {
   resetFilters,
 } from "@/middleware/filterHelper";
 import ThemeIcons from "../helper/themeIcons";
-import {EventType} from "@/lib/event";
-import {usePlausible} from "next-plausible";
+import { EventType } from "@/lib/event";
+import { usePlausible } from "next-plausible";
 
 interface Props {
   schema: any;
@@ -56,11 +55,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
       (v) => !searchState.results.some((t) => t.id === v.id)
     );
   }, [searchState.relatedResults, searchState.results]);
-  // const showRelatedSection = React.useMemo(() => {
-  //   return (
-  //     isQuery && !isLoading && !isResetting && uniqueRelatedList.length > 0
-  //   );
-  // }, [isQuery, isLoading, isResetting, uniqueRelatedList.length]);
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
@@ -75,8 +69,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const displayCount = React.useMemo(() => {
     if (isResetting) return previousCount;
     if (isLoading) return previousCount;
-    return searchState.results.length;
-  }, [isLoading, isResetting, previousCount, searchState.results.length]);
+    return searchState.results.length + uniqueRelatedList.length;
+  }, [isLoading, isResetting, previousCount, searchState.results.length, uniqueRelatedList.length]);
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
@@ -89,7 +83,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       setPreviousCount(searchState.results.length);
     }
   }, [isLoading, searchState.results.length, isResetting]);
-
+  console.log("searchState.results.length", searchState.results, "uniqueRelatedList", uniqueRelatedList);
   const renderLoadingState = () => (
     <Box className="flex flex-col w-full">
       <Box className="flex justify-center items-center h-64">
@@ -173,15 +167,15 @@ const ResultsPanel = (props: Props): JSX.Element => {
                       sx={{
                         overflowY: "scroll",
                         paddingRight: "1.25em",
-                        maxHeight:
-                          (isQuery && uniqueRelatedList.length > 0) ||
-                          showFilter
-                            ? SearchUIConfig.search.searchResults
-                                .resultListHeight
-                            : "100vh",
+                        maxHeight: "100vh",
                       }}
                     >
                       {searchState.results.map((result) => (
+                        <div key={result.id} className="mb-[0.75em]">
+                          <ResultCard resultItem={result} />
+                        </div>
+                      ))}
+                      {uniqueRelatedList.map((result) => (
                         <div key={result.id} className="mb-[0.75em]">
                           <ResultCard resultItem={result} />
                         </div>
@@ -193,13 +187,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         <Box className="flex flex-col justify-center items-center mb-[1.5em]">
                           <SearchIcon className="text-strongorange mb-[0.15em]" />
                           <div className="text-s">No results</div>
-                          {
-                            plausible(EventType.ReceivedNoSearchResults, {
-                              props: {
-                                searchQuery: searchState.query
-                              }
-                            })
-                          }
+                          {plausible(EventType.ReceivedNoSearchResults, {
+                            props: {
+                              searchQuery: searchState.query,
+                            },
+                          })}
                         </Box>
                         <Box className="mb-[0.75em]">
                           <div className="text-s">

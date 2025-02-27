@@ -53,21 +53,22 @@ export function getScoreExplanation(
   avgScore: number,
   maxScore: number
 ): string {
-  if (!spellcheck || q === currentQuery) {
+  if (!q || q === "*" || currentQuery === "*") return;
+  if (!spellcheck && q === currentQuery) {
     q = q
       .replace(/,/g, '"')
       .replace(/"/g, " ")
       ;
     if (score > maxScore * 0.8) {
-      return `This is a strong match for <b>${q}...</b> in important fields like title and description.`;
+      return `This is a strong match for <b>${q}</b> in important fields like title and description.`;
     }
     if (score > avgScore) {
-      return `This is a good match for <b>${q}...</b> that contains your search terms across multiple fields.`;
+      return `This is a good match for <b>${q}</b> that contains your search terms across multiple fields.`;
     }
     if (score == avgScore) {
-      return `This is a moderate match for <b>${q}...</b>.`;
+      return `This is a moderate match for <b>${q}</b>.`;
     }
-    return `This is a broader match for <b>${q}...</b>.`;
+    return `This is a broader match for <b>${q}</b>.`;
   }
   return `You may find <b>${q}</b> in this result relevant for <i>${currentQuery}</i>.`;
 }
