@@ -205,14 +205,17 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         relatedResults.push(...suggestionResults);
       }
     }
-    return {
-      searchResults: finalResults.map((result) => ({
+    finalResults = finalResults.map((result) => ({
         ...result,
         years: Array.isArray(result.years)
           ? result.years
           : Array.from(result.years || []),
-      })),
-      relatedResults,
+      }));
+    // #460: Append related results (you may interested in...) to the end of the search results
+    finalResults.push(...relatedResults);
+    return {
+      searchResults: finalResults,
+      relatedResults: [],
       suggestions: validSuggestions,
       originalQuery: query,
       usedQuery,

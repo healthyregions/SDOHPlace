@@ -56,12 +56,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
       (v) => !searchState.results.some((t) => t.id === v.id)
     );
   }, [searchState.relatedResults, searchState.results]);
-  const showRelatedSection = React.useMemo(() => {
-    return (
-      isQuery && !isLoading && !isResetting && uniqueRelatedList.length > 0
-    );
-  }, [isQuery, isLoading, isResetting, uniqueRelatedList.length]);
-
+  // const showRelatedSection = React.useMemo(() => {
+  //   return (
+  //     isQuery && !isLoading && !isResetting && uniqueRelatedList.length > 0
+  //   );
+  // }, [isQuery, isLoading, isResetting, uniqueRelatedList.length]);
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
@@ -212,42 +211,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         </Box>
                       </div>
                     )
-                  )}
-
-                  {showRelatedSection && (
-                    <Box className="sm:my-[1.68em]">
-                      <div className="sm:mb-[1.5em] sm:flex-col">
-                        <div className="flex flex-grow sm:ml-[0.7em] items-center text-2xl">
-                          <span className="mr-4">
-                            You may be interested in...
-                          </span>
-                          <div
-                            className="flex-grow border-b-2 sm:mr-[2.3em]"
-                            style={{
-                              height: "1px",
-                              border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
-                            }}
-                          />
-                        </div>
-                        <Box
-                          height="100%"
-                          className="sm:mt-[0.875em]"
-                          sx={{
-                            overflowY: "scroll",
-                            paddingRight: "1em",
-                            maxHeight:
-                              SearchUIConfig.search.searchResults
-                                .relatedListHeight,
-                          }}
-                        >
-                          {uniqueRelatedList.map((result) => (
-                            <div key={result.id} className="mb-[0.75em]">
-                              <ResultCard resultItem={result} />
-                            </div>
-                          ))}
-                        </Box>
-                      </div>
-                    </Box>
                   )}
                 </div>
               )}
