@@ -54,15 +54,16 @@ export const createMiddleware: Middleware =
     /**
      * Page initialization actions
      */
-     if (
-       action.type === "search/initialize/pending" ||
-       action.type === "search/initialize/fulfilled"
-     ) {
-       return next(action);
-     }
-     if (action.type === "search/setSchema") {
-       return next(action);
-     }
+    if (action.type === "search/initialize/pending") {
+      initializeFromUrl(store);
+      return next(action);
+    }
+    if (
+      action.type === "search/initialize/fulfilled" ||
+      action.type === "search/setSchema"
+    ) {
+      return next(action);
+    }
     /**
      * Handle bbox
      */
