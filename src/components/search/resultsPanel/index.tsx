@@ -18,8 +18,8 @@ import {
   resetFilters,
 } from "@/middleware/filterHelper";
 import ThemeIcons from "../helper/themeIcons";
-import {EventType} from "@/lib/event";
-import {usePlausible} from "next-plausible";
+import { EventType } from "@/lib/event";
+import { usePlausible } from "next-plausible";
 
 interface Props {
   schema: any;
@@ -153,7 +153,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
         </Box>
 
         <Collapse
-          className={"relative w-full"}
+          className={`relative w-full ${showFilter ? "mb-4" : ""}`}
           in={showFilter}
           timeout={300}
           easing={"linear"}
@@ -194,13 +194,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         <Box className="flex flex-col justify-center items-center mb-[1.5em]">
                           <SearchIcon className="text-strongorange mb-[0.15em]" />
                           <div className="text-s">No results</div>
-                          {
-                            plausible(EventType.ReceivedNoSearchResults, {
-                              props: {
-                                searchQuery: searchState.query
-                              }
-                            })
-                          }
+                          {plausible(EventType.ReceivedNoSearchResults, {
+                            props: {
+                              searchQuery: searchState.query,
+                            },
+                          })}
                         </Box>
                         <Box className="mb-[0.75em]">
                           <div className="text-s">
