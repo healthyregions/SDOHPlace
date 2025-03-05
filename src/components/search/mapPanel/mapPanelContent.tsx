@@ -155,6 +155,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
             id="basic-menu"
             className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]"
             style={{
+              margin: 0,
               boxShadow: "#aaaaaa 6px 12px 16px -8px",
             }}
             anchorEl={overlaysMenuAnchorEl}
