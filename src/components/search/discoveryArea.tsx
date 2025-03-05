@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../store";
+import type { AppDispatch, RootState } from "@/store";
 import { Collapse, Grid } from "@mui/material";
 import SearchArea from "./searchArea";
 import DetailPanel from "./detailPanel";
@@ -12,6 +12,7 @@ import * as React from "react";
 import styled from "@emotion/styled";
 
 const BannerLink = styled.a`
+  margin-left: 0.25rem;
   :link { text-decoration: none; }
   :visited { text-decoration: none; }
   :hover { text-decoration: underline; }
@@ -70,12 +71,14 @@ export default function DiscoveryArea({ schema }): JSX.Element {
           <SearchArea schema={schema} header="Data Discovery" />
         </Grid>
       </Grid>
-      <Grid container spacing={0} className={'container mx-auto px-12 py-4 bg-lightbisque'}>
-        <Grid item xs={12}>
-          This platform is under development, feel free to{" "}
+
+      <Grid className="w-full px-[1em] sm:px-[2em] max-md:max-w-full shadow-none aspect-ratio bg-lightbisque">
+        <Grid container className="container mx-auto py-[1em] px-4">
+          This platform is under development, feel free to
           <BannerLink href={'#'} target={'_blank'}>share your feedback &rarr;</BannerLink>
         </Grid>
       </Grid>
+
       <Grid
         className="w-full px-[1em] sm:px-[2em] transition-all duration-300"
       >
