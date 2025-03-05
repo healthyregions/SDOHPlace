@@ -73,7 +73,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
       <Grid container spacing={0} className={'container mx-auto px-12 py-4 bg-lightbisque'}>
         <Grid item xs={12}>
           This platform is under development, feel free to{" "}
-          <BannerLink href={'#'}>share your feedback &rarr;</BannerLink>
+          <BannerLink href={'#'} target={'_blank'}>share your feedback &rarr;</BannerLink>
         </Grid>
       </Grid>
       <Grid
