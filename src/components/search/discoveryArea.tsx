@@ -9,6 +9,14 @@ import { initializeSearch, setSchema } from "@/store/slices/searchSlice";
 import MapPanel from "./mapPanel/mapPanelContent";
 import dynamic from "next/dynamic";
 import * as React from "react";
+import styled from "@emotion/styled";
+
+const BannerLink = styled.a`
+  :link { text-decoration: none; }
+  :visited { text-decoration: none; }
+  :hover { text-decoration: underline; }
+  :active { text-decoration: underline; }
+`
 
 const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
   ssr: false,
@@ -57,11 +65,17 @@ export default function DiscoveryArea({ schema }): JSX.Element {
   }
   return (
     <Grid container>
-        <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
-          <Grid container className="container mx-auto pt-[2em] sm:pt-0">
-            <SearchArea schema={schema} header="Data Discovery" />
-          </Grid>
+      <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
+        <Grid container className="container mx-auto pt-[2em] sm:pt-0">
+          <SearchArea schema={schema} header="Data Discovery" />
         </Grid>
+      </Grid>
+      <Grid container spacing={0} className={'container mx-auto px-12 py-4 bg-lightbisque'}>
+        <Grid item xs={12}>
+          This platform is under development, feel free to{" "}
+          <BannerLink href={'#'}>share your feedback &rarr;</BannerLink>
+        </Grid>
+      </Grid>
       <Grid
         className="w-full px-[1em] sm:px-[2em] transition-all duration-300"
       >
