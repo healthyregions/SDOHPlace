@@ -17,7 +17,11 @@ const BannerLink = styled.a`
   :visited { text-decoration: none; }
   :hover { text-decoration: underline; }
   :active { text-decoration: underline; }
-`
+`;
+
+const Banner = styled.div`
+  font-size: 14px;
+`;
 
 const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
   ssr: false,
@@ -74,8 +78,10 @@ export default function DiscoveryArea({ schema }): JSX.Element {
 
       <Grid className="w-full px-[1em] sm:px-[2em] max-md:max-w-full shadow-none aspect-ratio bg-lightbisque">
         <Grid container className="container mx-auto py-[1em] px-4">
-          This platform is under development, feel free to
-          <BannerLink href={'#'} target={'_blank'}>share your feedback &rarr;</BannerLink>
+          <Banner>
+            This platform is under development, feel free to
+            <BannerLink href={'#'} target={'_blank'}>share your feedback &rarr;</BannerLink>
+          </Banner>
         </Grid>
       </Grid>
 
