@@ -177,14 +177,16 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
             })
           );
 
-          const searchEventType = aiSearch
-            ? EventType.SubmittedChatSearch
-            : EventType.SubmittedKeywordSearch;
-          plausible(searchEventType, {
-            props: {
-              searchQuery: searchValue,
-            },
-          });
+          if (searchValue) {
+            const searchEventType = aiSearch
+              ? EventType.SubmittedChatSearch
+              : EventType.SubmittedKeywordSearch;
+            plausible(searchEventType, {
+              props: {
+                searchQuery: searchValue,
+              },
+            });
+          }
         } finally {
           setIsLocalLoading(false);
         }
