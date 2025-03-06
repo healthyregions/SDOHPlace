@@ -1,17 +1,18 @@
 import { AppDispatch, RootState } from "@/store";
-import { setSortBy, setSortOrder } from "@/store/slices/searchSlice";
+import { setSort } from "@/store/slices/searchSlice";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 export const SortOptions = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { sortBy, sortOrder, isSearching } = useSelector(
+  const { sort, isSearching, initializing } = useSelector(
     (state: RootState) => state.search
   );
 
-  const handleSort = (newSortBy: string, newSortOrder: string) => {
-    dispatch(setSortBy(newSortBy));
-    dispatch(setSortOrder(newSortOrder));
+  const handleSort = (field: string, direction: string) => {
+    if (isSearching || initializing) return;
+    if (isSearching || initializing) return;
+    dispatch(setSort({ field, direction }));
   };
 
   return (
@@ -22,7 +23,7 @@ export const SortOptions = () => {
             isSearching ? "opacity-50" : ""
           }`}
           style={{
-            textDecoration: !sortBy && !sortOrder ? "underline" : "none",
+            textDecoration: sort.sortBy === "score" ? "underline" : "none",
           }}
           onClick={() => handleSort("score", "desc")}
         >
@@ -35,7 +36,7 @@ export const SortOptions = () => {
           }`}
           style={{
             textDecoration:
-              sortBy === "issued" && sortOrder === "desc"
+              sort.sortBy !== "score" && sort.sortOrder === "desc"
                 ? "underline"
                 : "none",
           }}
@@ -50,7 +51,9 @@ export const SortOptions = () => {
           }`}
           style={{
             textDecoration:
-              sortBy === "issued" && sortOrder === "asc" ? "underline" : "none",
+              sort.sortBy !== "score" && sort.sortOrder !== "desc"
+                ? "underline"
+                : "none",
           }}
           onClick={() => handleSort("date_issued", "asc")}
         >

@@ -15,9 +15,11 @@ export interface SearchState {
   thoughts: string;
 
   // sort
-  sortBy: string;
-  sortOrder: string;
-
+  sort: {
+    sortBy: string;
+    sortOrder: string;
+  };
+  
   // filter
   filterQueries: any[];
   subject: string[];
@@ -29,6 +31,8 @@ export interface SearchState {
   bbox: [number, number, number, number] | null;
 
   // status
+  currentRequestId: string;
+  initializing: boolean;
   isLoading: boolean;
   isSearching: boolean;
   isSuggesting: boolean;
@@ -45,8 +49,11 @@ export const initialState: SearchState = {
   results: [],
   relatedResults: [],
   suggestions: [],
-  sortBy: "",
-  sortOrder: "desc",
+  // sort
+  sort: {
+    sortBy: "score",
+    sortOrder: "desc",
+  },
   bbox: null,
   subject: [],
   spatialResolution: [],
@@ -57,6 +64,8 @@ export const initialState: SearchState = {
   usedQuery: "",
   usedSpellCheck: false,
   // status
+  currentRequestId: null,
+  initializing: false,
   isLoading: false,
   isSearching: false,
   isSuggesting: false,
@@ -77,4 +86,9 @@ export interface SolrSuggestResponse {
       };
     };
   };
+}
+
+export interface BatchResetFiltersPayload {
+  schema: any;
+  query: string;
 }

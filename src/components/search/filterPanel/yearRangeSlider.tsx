@@ -2,8 +2,6 @@ import { AppDispatch, RootState } from "@/store";
 import { setIndexYear } from "@/store/slices/searchSlice";
 import {
   Box,
-  debounce,
-  makeStyles as muiMakeStyles,
   Slider,
   SxProps,
   Theme,
@@ -38,21 +36,15 @@ export const YearRangeSlider = ({
   const indexYear = useSelector((state: RootState) => state.search.indexYear);
   const [yearRange, setYearRange] = useState([minRange, maxRange]);
   const timeoutRef = useRef<NodeJS.Timeout>();
-
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const yearParam = searchParams.get("index_year");
-    if (yearParam) {
-      const [start, end] = yearParam.split("-").map(Number);
-      setYearRange([start, end]);
-    } else if (indexYear && indexYear.length > 0) {
-      setYearRange([
-        Math.min(...indexYear.map(Number)),
-        Math.max(...indexYear.map(Number)),
-      ]);
-    } else {
+    if (!indexYear || indexYear.length === 0) {
       setYearRange([minRange, maxRange]);
+      return;
     }
+    const years = indexYear.map(Number);
+    const min = Math.min(...years);
+    const max = Math.max(...years);
+    setYearRange([min, max]);
   }, [indexYear, minRange, maxRange]);
 
   const marks = useMemo(

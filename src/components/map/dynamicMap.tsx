@@ -31,6 +31,7 @@ import GeoSearchControl from "./geoSearchControl";
 import { clearMapPreview } from "@/store/slices/uiSlice";
 import {EventType} from "@/lib/event";
 import {usePlausible} from "next-plausible";
+import { debounce } from "@mui/material";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -201,7 +202,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   }, []);
 
   const setBboxOnMoveEnd = useCallback(
-    (event: ViewStateChangeEvent) => {
+     debounce((event: ViewStateChangeEvent) => {
       const bounds = event.target.getBounds();
       const newBbox: [number, number, number, number] = [
         Math.round(bounds._sw.lng * 1000) / 1000,
@@ -210,8 +211,7 @@ export default function DynamicMap(props: Props): JSX.Element {
         Math.round(bounds._ne.lat * 1000) / 1000,
       ];
       dispatch(setBbox(newBbox));
-    },
-    [dispatch]
+    }, 300),[dispatch]
   );
 
   const handleGeoSearchSelection = useCallback(

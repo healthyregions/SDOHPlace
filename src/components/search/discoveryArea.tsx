@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
-import { Collapse, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import SearchArea from "./searchArea";
 import DetailPanel from "./detailPanel";
 import { initializeSearch, setSchema } from "@/store/slices/searchSlice";
@@ -23,19 +23,15 @@ const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
 
 export default function DiscoveryArea({ schema }): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { showDetailPanel } = useSelector(
-    (state: RootState) => state.ui
-  );
+  const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const { results, relatedResults } = useSelector(
     (state: RootState) => state.search
   );
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (isMounted && typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-      dispatch(initializeSearch({ schema, urlParams }));
-    }
+    if (isMounted && typeof window !== "undefined")
+      dispatch(initializeSearch({ schema }));
   }, [schema, dispatch, isMounted]);
 
   useEffect(() => {
@@ -58,14 +54,12 @@ export default function DiscoveryArea({ schema }): JSX.Element {
   }
   return (
     <Grid container>
-        <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
-          <Grid container className="container mx-auto pt-[2em] sm:pt-0">
-            <SearchArea schema={schema} header="Data Discovery" />
-          </Grid>
+      <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
+        <Grid container className="container mx-auto pt-[2em] sm:pt-0">
+          <SearchArea schema={schema} header="Data Discovery" />
         </Grid>
-      <Grid
-        className="w-full px-[1em] sm:px-[2em] transition-all duration-300"
-      >
+      </Grid>
+      <Grid className="w-full px-[1em] sm:px-[2em] transition-all duration-300">
         <Grid container className="container mx-auto pt-[1.5rem]">
           <Grid item xs={12} sm={6}>
             <DynamicResultsPanel schema={schema} />

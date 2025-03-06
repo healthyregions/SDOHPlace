@@ -1,46 +1,59 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import SolrQueryBuilder from "../../components/search/helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
-import { initialState, SolrSuggestResponse } from "@/store/types/search";
+import {
+  BatchResetFiltersPayload,
+  initialState,
+  SolrSuggestResponse,
+} from "@/store/types/search";
 import { generateFilterQueries } from "@/middleware/filterHelper";
 import { setShowClearButton } from "./uiSlice";
 import { RootState } from "..";
-import { parseSolrQuery } from "@/components/search/helper/ParsingMethods";
 
 export const initializeSearch = createAsyncThunk(
   "search/initialize",
-  async (
-    { schema, urlParams }: { schema: any; urlParams: URLSearchParams },
-    { dispatch }
-  ) => {
-    const searchParams = {
-      aiSearch: urlParams.get("ai_search") === "true",
-      query: urlParams.get("query") || "*",
-    };
+  async ({ schema }: { schema: any }, { dispatch, getState }) => {
+    dispatch(setInitializing(true));
     dispatch(setSchema(schema));
-    dispatch(setAISearch(searchParams.aiSearch));
-    dispatch(setQuery(searchParams.query));
-    if (searchParams.query && searchParams.query !== "*") {
-      if (searchParams.aiSearch) {
-        return dispatch(
-          performChatGptSearch({
-            question: searchParams.query,
-            filterQueries: [],
-            schema,
-          })
-        ).unwrap();
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const state = getState() as RootState;
+      const filterQueries = generateFilterQueries(state.search);
+      const hasRealQuery = state.search.query && state.search.query !== "*";
+      const hasActiveFilters = filterQueries.length > 0;
+      if (hasRealQuery || hasActiveFilters) {
+        if (state.search.aiSearch && hasRealQuery) {
+          await dispatch(
+            performChatGptSearch({
+              question: state.search.query,
+              filterQueries,
+              schema,
+            })
+          ).unwrap();
+        } else {
+          await dispatch(
+            fetchSearchAndRelatedResults({
+              query: state.search.query || "*",
+              filterQueries,
+              schema,
+              bypassSpellCheck: false,
+            })
+          ).unwrap();
+        }
       } else {
-        return dispatch(
+        await dispatch(
           fetchSearchAndRelatedResults({
-            query: searchParams.query,
+            query: "*",
             filterQueries: [],
             schema,
             bypassSpellCheck: false,
           })
         ).unwrap();
       }
+      return { success: true };
+    } finally {
+      dispatch(setInitializing(false));
     }
-    return null;
   }
 );
 
@@ -103,7 +116,6 @@ export const performChatGptSearch = createAsyncThunk(
       const uniqueResults = Array.from(
         new Map(combinedResults.map((item) => [item.id, item])).values()
       );
-
       return {
         searchResults: uniqueResults,
         relatedResults: [],
@@ -111,7 +123,7 @@ export const performChatGptSearch = createAsyncThunk(
         originalQuery: question,
         usedQuery: analysis.suggestedQueries.join(", "),
         usedSpellCheck: false,
-        analysis
+        analysis,
       };
     } catch (error) {
       throw new Error(`ChatGPT search failed: ${error.message}`);
@@ -136,9 +148,13 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       sortOrder?: string;
       bypassSpellCheck: boolean;
     },
-    { dispatch, getState }
+    { dispatch, getState, requestId }
   ) => {
     const state = getState() as RootState;
+    const currentRequestId = state.search.currentRequestId;
+    if (currentRequestId !== requestId && !bypassSpellCheck) {
+      return;
+    }
     const isAISearch = state.search.aiSearch;
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
@@ -216,7 +232,7 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       suggestions: validSuggestions,
       originalQuery: query,
       usedQuery,
-      usedSpellCheck
+      usedSpellCheck,
     };
   }
 );
@@ -244,7 +260,6 @@ export const fetchSearchResults = createAsyncThunk(
     const searchQueryBuilder = new SolrQueryBuilder();
     searchQueryBuilder.setSchema(schema);
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
-
     const { results, spellCheckSuggestion } =
       await searchQueryBuilder.fetchResult();
     if (spellCheckSuggestion) {
@@ -323,6 +338,7 @@ export const atomicResetAndFetch = createAsyncThunk(
     return { schema };
   }
 );
+
 export const clearSearch = createAsyncThunk(
   "search/clearSearch",
   async (_, { dispatch, getState }) => {
@@ -337,13 +353,17 @@ export const clearSearch = createAsyncThunk(
           query: "*",
           filterQueries: generateFilterQueries(state.search),
           schema: state.search.schema,
-          sortBy: state.search.sortBy,
-          sortOrder: state.search.sortOrder,
+          sortBy: state.search.sort.sortBy,
+          sortOrder: state.search.sort.sortOrder,
           bypassSpellCheck: true,
         })
       );
     }
   }
+);
+
+export const batchResetFilters = createAction<BatchResetFiltersPayload>(
+  "search/batchResetFilters"
 );
 
 const searchSlice = createSlice({
@@ -359,11 +379,10 @@ const searchSlice = createSlice({
     setFilterQueries: (state, action) => {
       state.filterQueries = action.payload;
     },
-    setSortBy: (state, action) => {
-      state.sortBy = action.payload;
-    },
-    setSortOrder: (state, action) => {
-      state.sortOrder = action.payload;
+    setSort: (state, action) => {
+      const { field, direction } = action.payload;
+      state.sort.sortBy = field;
+      state.sort.sortOrder = direction;
     },
     setBbox: (state, action) => {
       state.bbox = action.payload;
@@ -424,40 +443,56 @@ const searchSlice = createSlice({
     setIsSearching: (state, action) => {
       state.isSearching = action.payload;
     },
+    setInitializing: (state, action) => {
+      state.initializing = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSearchAndRelatedResults.pending, (state) => {
-        state.isSearching = true;
-        state.results = [];
-        state.relatedResults = [];
+      .addCase(fetchSearchAndRelatedResults.pending, (state, action) => {
+        if (
+          state.currentRequestId === null ||
+          state.currentRequestId === action.meta.requestId ||
+          action.meta.arg.bypassSpellCheck
+        ) {
+          state.isSearching = true;
+          state.currentRequestId = action.meta.requestId;
+        }
       })
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
-        const searchResults = action.payload.searchResults || [];
-        const relatedResults = action.payload.relatedResults || [];
-        state.results = generateSolrObjectList(searchResults);
-        state.relatedResults = generateSolrObjectList(relatedResults);
-        state.results =
-          searchResults.length > 0 ? generateSolrObjectList(searchResults) : [];
-        state.relatedResults =
-          relatedResults.length > 0
-            ? generateSolrObjectList(relatedResults)
-            : [];
-        state.suggestions = action.payload.suggestions || [];
-        state.originalQuery = Array.isArray(action.payload.originalQuery)
-          ? action.payload.originalQuery.join(", ")
-          : action.payload.originalQuery;
-        state.usedQuery = Array.isArray(action.payload.usedQuery)
-          ? action.payload.usedQuery.join(", ")
-          : action.payload.usedQuery;
-        state.usedSpellCheck = action.payload.usedSpellCheck || false;
-        state.isSearching = false;
+        if (
+          state.currentRequestId === action.meta.requestId ||
+          action.meta.arg.bypassSpellCheck
+        ) {
+          state.results = generateSolrObjectList(
+            action.payload.searchResults || []
+          );
+          state.relatedResults = generateSolrObjectList(
+            action.payload.relatedResults || []
+          );
+          state.suggestions = action.payload.suggestions || [];
+          state.originalQuery = Array.isArray(action.payload.originalQuery)
+            ? action.payload.originalQuery.join(", ")
+            : action.payload.originalQuery;
+          state.usedQuery = Array.isArray(action.payload.usedQuery)
+            ? action.payload.usedQuery.join(", ")
+            : action.payload.usedQuery;
+          state.usedSpellCheck = action.payload.usedSpellCheck || false;
+          state.isSearching = false;
+          state.currentRequestId = null;
+        }
       })
-      .addCase(fetchSearchAndRelatedResults.rejected, (state) => {
-        state.isSearching = false;
-        state.results = [];
-        state.relatedResults = [];
-        state.usedSpellCheck = false;
+      .addCase(fetchSearchAndRelatedResults.rejected, (state, action) => {
+        if (
+          state.currentRequestId === action.meta.requestId ||
+          action.meta.arg.bypassSpellCheck
+        ) {
+          state.isSearching = false;
+          state.results = [];
+          state.relatedResults = [];
+          state.usedSpellCheck = false;
+          state.currentRequestId = null;
+        }
       })
       .addCase(fetchSearchResults.pending, (state) => {
         state.isSearching = true;
@@ -488,8 +523,8 @@ const searchSlice = createSlice({
       .addCase(atomicResetAndFetch.fulfilled, (state, action) => {
         state.spatialResolution = null;
         state.subject = null;
-        state.sortBy = null;
-        state.sortOrder = null;
+        state.sort.sortBy = "score";
+        state.sort.sortOrder = "desc";
         state.filterQueries = [];
         state.schema = action.payload.schema;
       })
@@ -505,6 +540,18 @@ const searchSlice = createSlice({
         state.usedSpellCheck = false;
         state.spellCheck = null;
         state.suggestions = [];
+      })
+      .addCase(batchResetFilters, (state, action) => {
+        // Reset all filter-related state
+        state.bbox = null;
+        state.subject = [];
+        state.spatialResolution = [];
+        state.indexYear = [];
+        state.filterQueries = [];
+        state.schema = action.payload.schema;
+        state.query = action.payload.query;
+        state.sort.sortBy = "score";
+        state.sort.sortOrder = "desc";
       });
   },
 });
@@ -515,8 +562,7 @@ export const {
   setInputValue,
   setThoughts,
   setFilterQueries,
-  setSortBy,
-  setSortOrder,
+  setSort,
   setBbox,
   setVisOverlays,
   setSubject,
@@ -529,6 +575,7 @@ export const {
   setAISearch,
   resetQuerySearch,
   setIsSearching,
+  setInitializing,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;
