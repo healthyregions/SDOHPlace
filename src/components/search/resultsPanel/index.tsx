@@ -145,7 +145,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
         </Box>
 
         <Collapse
-          className={"relative w-full"}
+          className={`relative w-full ${showFilter ? "mb-4" : ""}`}
           in={showFilter}
           timeout={300}
           easing={"linear"}

@@ -30,7 +30,6 @@ export default function DiscoveryArea({ schema }): JSX.Element {
     (state: RootState) => state.search
   );
   const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
     if (isMounted && typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
