@@ -280,9 +280,9 @@ export default function InfoPanel() {
           during your data search. Please see the &quot;source&quot; link for more about each overlay.
           <List>
             {Object.keys(overlayRegistry).map((key, index) => (
-            <ListItem key={index}>
-              {key}: {overlayRegistry[key].description}&ndash;
-              <Link href={overlayRegistry[key].url}>source</Link>
+            <ListItem key={index}><span>
+              <strong>{key}:</strong> {overlayRegistry[key].description} [<Link href={overlayRegistry[key].url}>learn more</Link>]
+            </span>
             </ListItem>
             ))}
           </List>

@@ -140,7 +140,7 @@ export const makePreviewLyrs = function (
 
 export const overlayRegistry = {
   "Adult Education": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-adult-education-source",
@@ -157,7 +157,7 @@ export const overlayRegistry = {
     })
   },
   Airports: {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-airports-source",
@@ -174,7 +174,7 @@ export const overlayRegistry = {
     })
   },
   "Child Enrichment": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-child-enrichment-source",
@@ -208,7 +208,7 @@ export const overlayRegistry = {
     })
   },
   "Exercise/Gyms": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-exercise-source",
@@ -225,7 +225,7 @@ export const overlayRegistry = {
     })
   },
   "Schools": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-schools-source",
@@ -242,7 +242,7 @@ export const overlayRegistry = {
     })
   },
   "Supermarkets/Grocery": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-grocery-source",
@@ -259,7 +259,7 @@ export const overlayRegistry = {
     })
   },
   "Libraries": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-libraries-source",
@@ -277,7 +277,7 @@ export const overlayRegistry = {
     })
   },
   Parks: {
-    url: "https://github.com/healthyregions/overture-poi-extract",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
     source: {
       id: "us-parks-source",
