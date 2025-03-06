@@ -255,7 +255,7 @@ export const overlayRegistry = {
       layerId: "us-grocery",
       sourceId: "us-grocery-source",
       sourceLayerId: "resources",
-      circleColor: "#FCC1E5",
+      circleColor: "#24e8c8",
     })
   },
   "Libraries": {
@@ -290,7 +290,7 @@ export const overlayRegistry = {
       layerId: "us-parks",
       sourceId: "us-parks-source",
       sourceLayerId: "resources",
-      circleColor: "#24e8c8",
+      circleColor: "#80BD8A",
     })
   },
 };
