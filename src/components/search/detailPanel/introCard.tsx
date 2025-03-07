@@ -23,7 +23,7 @@ const IntroCard = (props: Props): JSX.Element => {
   return (
     <div className={`container mx-auto shadow-none aspect-ratio`}>
       <div className="flex flex-col sm:flex-row border-t border-t-1 border-strongorange">
-        <div className="flex-1 w-full sm:w-2/3  sm:pl-3.5 sm:pr-6 sm:pt-5">
+        <div className="flex-1 w-full sm:w-2/3 sm:pr-6 sm:pt-5">
           <div className={`${classes.introCard}`}>
             <b>Keyword:</b>{" "}
             {props.resultItem.meta.keyword

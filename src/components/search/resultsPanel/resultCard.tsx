@@ -265,7 +265,7 @@ const ResultCard = (props: Props): JSX.Element => {
 
         </Grid>
       </div>
-      <Grid spacing={0} container className="flex flex-col sm:flex-row px-2 mt-1">
+      <Grid spacing={2} container className="flex flex-col sm:flex-row px-2 mt-1">
         <Grid item xs={8}>
           <div className={`${classes.resultCard} truncate `}>
             Keywords:{" "}
