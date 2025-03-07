@@ -140,8 +140,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     inputValue,
     suggestions,
     filterQueries,
-    sortBy,
-    sortOrder,
+    sort,
     thoughts,
     isSearching,
   } = useSelector((state: RootState) => state.search);
@@ -172,8 +171,8 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               query: searchValue,
               filterQueries,
               schema,
-              sortBy,
-              sortOrder,
+              sortBy: sort.sortBy,
+              sortOrder: sort.sortOrder,
               bypassSpellCheck: false,
             })
           );
@@ -193,7 +192,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         }
       }
     },
-    [dispatch, filterQueries, schema, sortBy, sortOrder, aiSearch, plausible]
+    [dispatch, filterQueries, schema, sort.sortBy, sort.sortOrder, aiSearch, plausible]
   );
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

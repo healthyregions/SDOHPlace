@@ -42,7 +42,7 @@ export const actionConfig: Record<string, ActionConfig> = {
   "search/setBbox": {
     param: "bbox",
     syncWithUrl: true,
-    requiresFetch: false,
+    requiresFetch: true,
     isFilter: true,
     transform: {
       toUrl: (value: number[]) => value.join(","),
@@ -96,17 +96,11 @@ export const actionConfig: Record<string, ActionConfig> = {
   "search/setSchema": {
     param: "schema",
     syncWithUrl: false,
-    requiresFetch: true,
+    requiresFetch: false,
     isFilter: false,
   },
-  "search/setSortBy": {
-    param: "sortBy",
-    syncWithUrl: false,
-    requiresFetch: true,
-    isFilter: false,
-  },
-  "search/setSortOrder": {
-    param: "sortOrder",
+  "search/setSort": {
+    param: "sort",
     syncWithUrl: false,
     requiresFetch: true,
     isFilter: false,

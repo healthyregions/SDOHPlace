@@ -1,8 +1,5 @@
 import { RootState } from "@/store";
-import {
-  atomicResetAndFetch,
-  fetchSearchResults,
-} from "@/store/slices/searchSlice";
+import { batchResetFilters } from "@/store/slices/searchSlice";
 import { actionConfig } from "./actionConfig";
 import { createSelector, isFulfilled } from "@reduxjs/toolkit";
 
@@ -151,21 +148,13 @@ export const selectSearchState = createSelector(
 
 export const resetFilters = async (store: any) => {
   const state = store.getState();
-  await store.dispatch(atomicResetAndFetch(state.search.schema));
-  const filterActions = Object.entries(actionConfig)
-    .filter(([_, config]) => config.isFilter)
-    .map(([actionType]) => {
-      const payload = actionType === "search/setBbox" ? null : [];
-      return {
-        type: actionType,
-        payload,
-      };
-    });
-  filterActions.forEach((action) => {
-    store.dispatch(action);
-  });
-  store.dispatch({type: "search/setMapPreview", payload: []})
-  if (isBrowser) {
+  await store.dispatch(
+    batchResetFilters({
+      schema: state.search.schema,
+      query: state.search.query || "*",
+    })
+  );
+  if (typeof window !== "undefined") {
     const searchParams = new URLSearchParams(window.location.search);
     Object.entries(actionConfig)
       .filter(([_, config]) => config.syncWithUrl)
@@ -175,16 +164,8 @@ export const resetFilters = async (store: any) => {
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
     window.history.pushState({}, "", newUrl);
   }
-  await store.dispatch(
-    fetchSearchResults({
-      query: state.search.query || "*",
-      filterQueries: [],
-      schema: state.search.schema,
-      sortBy: null,
-      sortOrder: null,
-    })
-  );
 };
+
 export const hasActiveFilters = (state: RootState): boolean => {
   return getFilterStatus(state).hasActiveFilters;
 };

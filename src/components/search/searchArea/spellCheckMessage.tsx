@@ -11,8 +11,7 @@ const SpellCheckMessage = () => {
     usedSpellCheck,
     filterQueries,
     schema,
-    sortBy,
-    sortOrder
+    sort
   } = useSelector((state: RootState) => state.search);
   if (!usedSpellCheck) return null;
   const handleOriginalSearch = () => {
@@ -22,8 +21,8 @@ const SpellCheckMessage = () => {
         query: originalQuery,
         filterQueries,
         schema,
-        sortBy,
-        sortOrder,
+        sortBy: sort.sortBy,
+        sortOrder: sort.sortOrder,
         bypassSpellCheck: true
       })
     );
