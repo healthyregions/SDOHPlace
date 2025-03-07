@@ -66,7 +66,11 @@ export default function DiscoveryArea({ schema }): JSX.Element {
           <Grid item xs={12} sm={6} className="sm:ml-[0.5em]">
             <MapPanel
               resultsList={results}
-              showMap={showDetailPanel ? "none" : "block"}
+              showMap={
+                showDetailPanel && (results && results.find((r) => r.id === showDetailPanel))
+                  ? "none"
+                  : "block"
+              }
               schema={schema}
             />
             {showDetailPanel && showDetailPanel.length > 0 && (
