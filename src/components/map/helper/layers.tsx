@@ -141,7 +141,7 @@ export const makePreviewLyrs = function (
 export const overlayRegistry = {
   "Adult Education": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Places related to adult education extracted from Overture Maps Foundation open data.",
     source: {
       id: "us-adult-education-source",
       spec: {
@@ -156,23 +156,23 @@ export const overlayRegistry = {
       circleColor: "#FC6DC3",
     })
   },
-  Airports: {
-    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
-    source: {
-      id: "us-airports-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-airports.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "us-airports",
-      sourceId: "us-airports-source",
-      sourceLayerId: "resources",
-      circleColor: "#BE6DFC",
-    })
-  },
+  // Airports: {
+  //   url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+  //   description: "Thematic extract from Overture Maps Foundation open data.",
+  //   source: {
+  //     id: "us-airports-source",
+  //     spec: {
+  //       type: "vector",
+  //       url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-airports.pmtiles",
+  //     }
+  //   },
+  //   layers: makeClusteredLayerSet({
+  //     layerId: "us-airports",
+  //     sourceId: "us-airports-source",
+  //     sourceLayerId: "resources",
+  //     circleColor: "#BE6DFC",
+  //   })
+  // },
   "Child Enrichment": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
@@ -190,23 +190,23 @@ export const overlayRegistry = {
       circleColor: "#FCB76D",
     })
   },
-  "Emissions": {
-    url: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei",
-    description: "Facilities emitting PM2.5, from National Emissions Inventory (NEI)",
-    source: {
-      id: "nei-facilities-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/overlays/nei-facilities.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "nei-facilities",
-      sourceId: "nei-facilities-source",
-      sourceLayerId: "resources",
-      circleColor: "#ff6666",
-    })
-  },
+  // "Emissions": {
+  //   url: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei",
+  //   description: "Facilities emitting PM2.5, from National Emissions Inventory (NEI)",
+  //   source: {
+  //     id: "nei-facilities-source",
+  //     spec: {
+  //       type: "vector",
+  //       url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/overlays/nei-facilities.pmtiles",
+  //     }
+  //   },
+  //   layers: makeClusteredLayerSet({
+  //     layerId: "nei-facilities",
+  //     sourceId: "nei-facilities-source",
+  //     sourceLayerId: "resources",
+  //     circleColor: "#ff6666",
+  //   })
+  // },
   "Exercise/Gyms": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
     description: "Thematic extract from Overture Maps Foundation open data.",
@@ -222,40 +222,6 @@ export const overlayRegistry = {
       sourceId: "us-exercise-source",
       sourceLayerId: "resources",
       circleColor: "#FCC1B9",
-    })
-  },
-  "Schools": {
-    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
-    source: {
-      id: "us-schools-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-schools.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "us-schools",
-      sourceId: "us-schools-source",
-      sourceLayerId: "resources",
-      circleColor: "#C398A0",
-    })
-  },
-  "Supermarkets/Grocery": {
-    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
-    source: {
-      id: "us-grocery-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-grocery.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "us-grocery",
-      sourceId: "us-grocery-source",
-      sourceLayerId: "resources",
-      circleColor: "#24e8c8",
     })
   },
   "Libraries": {
@@ -291,6 +257,40 @@ export const overlayRegistry = {
       sourceId: "us-parks-source",
       sourceLayerId: "resources",
       circleColor: "#80BD8A",
+    })
+  },
+  "Schools": {
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Thematic extract from Overture Maps Foundation open data.",
+    source: {
+      id: "us-schools-source",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-schools.pmtiles",
+      }
+    },
+    layers: makeClusteredLayerSet({
+      layerId: "us-schools",
+      sourceId: "us-schools-source",
+      sourceLayerId: "resources",
+      circleColor: "#C398A0",
+    })
+  },
+  "Supermarkets/Grocery": {
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Thematic extract from Overture Maps Foundation open data.",
+    source: {
+      id: "us-grocery-source",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-grocery.pmtiles",
+      }
+    },
+    layers: makeClusteredLayerSet({
+      layerId: "us-grocery",
+      sourceId: "us-grocery-source",
+      sourceLayerId: "resources",
+      circleColor: "#24e8c8",
     })
   },
 };

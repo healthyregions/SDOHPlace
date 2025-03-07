@@ -90,8 +90,8 @@ const MapPanelContent = (props: Props): JSX.Element => {
   useEffect(() => {
     setOverlaysBtnTxt(
       visOverlays.length > 0
-        ? `Overlays: ${visOverlays.slice(0,3).join(", ")}${visOverlays.length > 3 ? "..." : ""}`
-        : "Overlays"
+        ? `Community Assets: ${visOverlays.slice(0,3).join(", ")}${visOverlays.length > 3 ? "..." : ""}`
+        : "Community Assets"
     );
   }, [visOverlays]);
 
