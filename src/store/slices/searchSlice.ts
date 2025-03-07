@@ -221,14 +221,15 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         relatedResults.push(...suggestionResults);
       }
     }
+    finalResults = finalResults.map((result) => ({
+      ...result,
+      years: Array.isArray(result.years)
+        ? result.years
+        : Array.from(result.years || []),
+    }));
     return {
-      searchResults: finalResults.map((result) => ({
-        ...result,
-        years: Array.isArray(result.years)
-          ? result.years
-          : Array.from(result.years || []),
-      })),
-      relatedResults,
+      searchResults: finalResults,
+      relatedResults: relatedResults,
       suggestions: validSuggestions,
       originalQuery: query,
       usedQuery,
