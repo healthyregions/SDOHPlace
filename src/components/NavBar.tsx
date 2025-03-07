@@ -126,8 +126,8 @@ const NavBar = (): JSX.Element => {
   ];
 
   const communityItems = [
-    { title: "Fellows", url: "/showcase" },
-    { title: "Past Fellows", url: "/fellows" },
+    { title: "Fellows", url: "/fellows" },
+    { title: "Past Fellows", url: "/showcase" },
     //{ title: "Place Mini-Projects", url: "/fellows" },
     //{ title: "Recommended Projects", url: "/fellows" },
   ];
