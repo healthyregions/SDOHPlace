@@ -173,30 +173,35 @@ export default function InfoPanel() {
           Welcome to our data discovery application. Here are a few ways for you
           to get started:
           <List>
-            <ListItem>
-              Search by terms and keywords: Use the main search bar to search
+            <ListItem><span>
+            <strong>Search by terms:</strong> Use the main search bar to search
               for a concept you are interested in. As you type, a dropdown will
               appear with suggestions pulled directly from the datasets
               themselves.
+              </span>
             </ListItem>
-            <ListItem>
-              Filter by geography: Are you looking only for county-level data?
+            <ListItem><span>
+              <strong>Filter by geography:</strong> Are you looking only for county-level data?
               Use the &quot;County&quot; filter to only show datasets at that
               level.
+            </span>
             </ListItem>
-            <ListItem>
-              Filter by theme or year: Researching food access? Only want the
+            <ListItem><span>
+            <strong>Filter by theme or year:</strong> Researching food access? Only want the
               latest data? Click the &quot;Sort & Filter&quot; button to narrow
               results by theme and date.
+              </span>
             </ListItem>
-            <ListItem>
-              Filter by location: Only looking for datasets that cover your
+            <ListItem><span>
+            <strong>Filter by location:</strong> Only looking for datasets that cover your
               state or city? Use the search box within the map to find a place
               and filter for datasets that geographically overlap it.
+              </span>
             </ListItem>
           </List>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={1}>
+          <Typography sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>
           As you type search terms into the main search box, you will notice
           that suggestions appear below the input box. This suggestion list is
           pulled straight from the data itself (we have tried to index a lot of
@@ -204,6 +209,7 @@ export default function InfoPanel() {
           search turns up no results. In this case, it never hurts to try
           another word for your topic, or even just go ahead with a theme filter
           and browse through all results.
+          </Typography>
           <List>
             <ListItem>
               Tip: If you have used the search bar to make your query, you will
@@ -214,11 +220,10 @@ export default function InfoPanel() {
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={2}>
           {/* AI search tab */}
-          <p>In addition to a standard keyword search, we also have an an experimental AI search mode that
-          allows you to ask questions like &quot;where is children&apos;s food access the most limited?&quot;
-          {" "}But how does this work?
-          </p>
-          <p>
+          <Typography className="pb-1" sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>In addition to a standard keyword search, we also have an an experimental AI search mode that
+          allows you to ask questions like <strong>Where is children&apos;s food access the most limited?</strong>{" "}
+          But how does this work?</Typography>
+          <Typography className="pb-1" sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>
           When a question like this is submitted, we combine it with our
           {" "}<Link href="https://github.com/healthyregions/SDOHPlace/blob/discovery_app/config/prompt/prompt_message.js" target={"_blank"}>
           prepared prompt</Link> and send it to a large language model (LLM). The
@@ -227,9 +232,9 @@ export default function InfoPanel() {
           scoring algorithms and SDOH domain knowledge to enhance search accuracy. The analytical process,
           particularly query construction logic, is displayed below the search box to make the &quot;thinking&quot;
           process clearer and eliminate potential doubts about the LLM&apos;s function.
-          </p>
-          <p>No queries or information of any kind are sent to the LLM backend if you use the standard keyword search mode.</p>
-          <p>We&apos;d love to hear your thoughts on this feature! <Link href="/contact">Contact Us</Link></p>
+          </Typography>
+          <Typography className="pb-1" sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>No queries or information of any kind are sent to the LLM backend if you use the standard keyword search mode.</Typography>
+          <Typography className="pb-1" sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>We&apos;d love to hear your thoughts on this feature! Please <Link href="/contact">get in touch</Link>.</Typography>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={3}>
           Some sources provide data at the state level, while others may provide
@@ -237,58 +242,67 @@ export default function InfoPanel() {
           makes it easy to filter by this geography level, or &quot;spatial
           resolution&quot;, allowing you to find only data relevant for your
           work.
-          <List>
-            <ListItem>State (largest, most general level)</ListItem>
-            <ListItem>County (subdivision of a state)</ListItem>
-            <ListItem>Census Tract (smaller geographical unit),</ListItem>
-            <ListItem>
+          <List sx={{
+              listStyleType: 'disc',
+              listStylePosition: 'inside'
+            }}>
+            <ListItem sx={{ display: 'list-item' }}>State (largest, most general level)</ListItem>
+            <ListItem sx={{ display: 'list-item' }}>County (subdivision of a state)</ListItem>
+            <ListItem sx={{ display: 'list-item' }}>Census Tract (smaller geographical unit),</ListItem>
+            <ListItem sx={{ display: 'list-item' }}>
               Block Group (smallest unit, a subdivision of census tract)
             </ListItem>
-            <ListItem>ZIP Code Tabulation Area (ZCTA)</ListItem>
+            <ListItem sx={{ display: 'list-item' }}>ZIP Code Tabulation Area (ZCTA)</ListItem>
           </List>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={4}>
-          {/* Results tab */}
+        <Typography sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>
           Once you have performed a search or set a filter, you will get a list
           of the items matching your query. Each item will have a collection of
           metadata associated with it, as well as actions for further
-          exploration:
-          <List>
-            <ListItem>
-              Click &quot;Show on map&quot; to get a preview of what areas the
-              dataset covers.
+          exploration:</Typography>
+          <List sx={{
+              listStyleType: 'disc',
+              listStylePosition: 'inside'
+            }}>
+            <ListItem sx={{ display: 'list-item' }}>
+              <span><strong>Show on map:</strong> Display a preview of what areas the
+              dataset covers.</span>
             </ListItem>
-            <ListItem>
-              Click &quot;Details&quot; to open the item details panel and learn
-              more about the dataset.
+            <ListItem sx={{ display: 'list-item' }}>
+              <span><strong>Details:</strong> Open the item details panel and learn
+              more about the dataset.</span>
             </ListItem>
-            <ListItem>
-              Click &quot;Access&quot; to leave the discovery app and head to
+            <ListItem sx={{ display: 'list-item' }}>
+              <span><strong>Access:</strong> Leave the discovery app and head to
               the source location of this dataset, for download and further
-              analysis. Note: we do not store any raw data in this system, we
-              only help you find and link out to the source repositories.
+              analysis.</span>
             </ListItem>
-            <ListItem>
-              Click &quot;Share&quot; to acquire a shareable link you can send
+            <ListItem sx={{ display: 'list-item' }}>
+              <span><strong>Share:</strong> Get a shareable link you can send
               to colleagues, the URL will bring them right to the same record
-              you are looking at.
+              you are looking at.</span>
             </ListItem>
           </List>
         </CustomTabPanel>
         <CustomTabPanel value={infoPanelTab} index={5}>
-          We provide a few map overlay layers that can be used for contextual reference
-          during your data search. Please see the &quot;source&quot; link for more about each overlay.
-          <List>
+          <Typography className="pb-1" sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}>We provide a number of map overlay layers that can be used for contextual reference
+          during your data search. This is a feature we hope to expand in the future, so please{" "}
+            <Link href="/contact">get in touch</Link> if you have
+            ideas for more overlays you would like to see or contribute. A short description of each overlay can be found below.
+            </Typography>
+          <Typography sx={{fontFamily: fullConfig.theme.fontFamily['sans']}}><strong>Available overlays:</strong></Typography>
+          <List sx={{
+              listStyleType: 'disc',
+              listStylePosition: 'inside'
+            }}>
             {Object.keys(overlayRegistry).map((key, index) => (
             <ListItem key={index}><span>
-              <strong>{key}:</strong> {overlayRegistry[key].description} [<Link href={overlayRegistry[key].url}>learn more</Link>]
+              <strong>{key}:</strong> {overlayRegistry[key].description} [<Link href={overlayRegistry[key].url} target="_blank">learn more</Link>]
             </span>
             </ListItem>
             ))}
           </List>
-            This is a feature we hope to expand in the future. Please don&apos;t
-            hesitate to <Link href="/contact">get in touch</Link> if you have
-            ideas for more overlays you would like to see or contribute.
         </CustomTabPanel>
       </Box>
     </div>
