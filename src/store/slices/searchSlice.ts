@@ -103,7 +103,6 @@ export const performChatGptSearch = createAsyncThunk(
       const uniqueResults = Array.from(
         new Map(combinedResults.map((item) => [item.id, item])).values()
       );
-
       return {
         searchResults: uniqueResults,
         relatedResults: [],
@@ -111,7 +110,7 @@ export const performChatGptSearch = createAsyncThunk(
         originalQuery: question,
         usedQuery: analysis.suggestedQueries.join(", "),
         usedSpellCheck: false,
-        analysis
+        analysis,
       };
     } catch (error) {
       throw new Error(`ChatGPT search failed: ${error.message}`);
@@ -205,18 +204,19 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         relatedResults.push(...suggestionResults);
       }
     }
+    finalResults = finalResults.map((result) => ({
+      ...result,
+      years: Array.isArray(result.years)
+        ? result.years
+        : Array.from(result.years || []),
+    }));
     return {
-      searchResults: finalResults.map((result) => ({
-        ...result,
-        years: Array.isArray(result.years)
-          ? result.years
-          : Array.from(result.years || []),
-      })),
-      relatedResults,
+      searchResults: finalResults,
+      relatedResults: relatedResults,
       suggestions: validSuggestions,
       originalQuery: query,
       usedQuery,
-      usedSpellCheck
+      usedSpellCheck,
     };
   }
 );

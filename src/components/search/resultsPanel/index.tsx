@@ -6,7 +6,6 @@ import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { clearMapPreview, setShowFilter } from "@/store/slices/uiSlice";
-import { SearchUIConfig } from "@/components/searchUIConfig";
 import { Box, SvgIcon, CircularProgress, Fade, Collapse } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React from "react";
@@ -56,12 +55,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
       (v) => !searchState.results.some((t) => t.id === v.id)
     );
   }, [searchState.relatedResults, searchState.results]);
-  const showRelatedSection = React.useMemo(() => {
-    return (
-      isQuery && !isLoading && !isResetting && uniqueRelatedList.length > 0
-    );
-  }, [isQuery, isLoading, isResetting, uniqueRelatedList.length]);
-
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
@@ -76,8 +69,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const displayCount = React.useMemo(() => {
     if (isResetting) return previousCount;
     if (isLoading) return previousCount;
-    return searchState.results.length;
-  }, [isLoading, isResetting, previousCount, searchState.results.length]);
+    return searchState.results.length + uniqueRelatedList.length;
+  }, [isLoading, isResetting, previousCount, searchState.results.length, uniqueRelatedList.length]);
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
@@ -90,7 +83,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
       setPreviousCount(searchState.results.length);
     }
   }, [isLoading, searchState.results.length, isResetting]);
-
   const renderLoadingState = () => (
     <Box className="flex flex-col w-full">
       <Box className="flex justify-center items-center h-64">
@@ -174,15 +166,15 @@ const ResultsPanel = (props: Props): JSX.Element => {
                       sx={{
                         overflowY: "scroll",
                         paddingRight: "1.25em",
-                        maxHeight:
-                          (isQuery && uniqueRelatedList.length > 0) ||
-                          showFilter
-                            ? SearchUIConfig.search.searchResults
-                                .resultListHeight
-                            : "100vh",
+                        maxHeight: "100vh",
                       }}
                     >
                       {searchState.results.map((result) => (
+                        <div key={result.id} className="mb-[0.75em]">
+                          <ResultCard resultItem={result} />
+                        </div>
+                      ))}
+                      {uniqueRelatedList.map((result) => (
                         <div key={result.id} className="mb-[0.75em]">
                           <ResultCard resultItem={result} />
                         </div>
@@ -210,42 +202,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         </Box>
                       </div>
                     )
-                  )}
-
-                  {showRelatedSection && (
-                    <Box className="sm:my-[1.68em]">
-                      <div className="sm:mb-[1.5em] sm:flex-col">
-                        <div className="flex flex-grow sm:ml-[0.7em] items-center text-2xl">
-                          <span className="mr-4">
-                            You may be interested in...
-                          </span>
-                          <div
-                            className="flex-grow border-b-2 sm:mr-[2.3em]"
-                            style={{
-                              height: "1px",
-                              border: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
-                            }}
-                          />
-                        </div>
-                        <Box
-                          height="100%"
-                          className="sm:mt-[0.875em]"
-                          sx={{
-                            overflowY: "scroll",
-                            paddingRight: "1em",
-                            maxHeight:
-                              SearchUIConfig.search.searchResults
-                                .relatedListHeight,
-                          }}
-                        >
-                          {uniqueRelatedList.map((result) => (
-                            <div key={result.id} className="mb-[0.75em]">
-                              <ResultCard resultItem={result} />
-                            </div>
-                          ))}
-                        </Box>
-                      </div>
-                    </Box>
                   )}
                 </div>
               )}
