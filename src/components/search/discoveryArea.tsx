@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../store";
+import type { AppDispatch, RootState } from "@/store";
 import { Collapse, Grid } from "@mui/material";
 import SearchArea from "./searchArea";
 import DetailPanel from "./detailPanel";
@@ -9,6 +9,19 @@ import { initializeSearch, setSchema } from "@/store/slices/searchSlice";
 import MapPanel from "./mapPanel/mapPanelContent";
 import dynamic from "next/dynamic";
 import * as React from "react";
+import styled from "@emotion/styled";
+
+const BannerLink = styled.a`
+  margin-left: 0.25rem;
+  :link { text-decoration: none; }
+  :visited { text-decoration: none; }
+  :hover { text-decoration: underline; }
+  :active { text-decoration: underline; }
+`;
+
+const Banner = styled.div`
+  font-size: 14px;
+`;
 
 const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
   ssr: false,
@@ -57,11 +70,21 @@ export default function DiscoveryArea({ schema }): JSX.Element {
   }
   return (
     <Grid container>
-        <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
-          <Grid container className="container mx-auto pt-[2em] sm:pt-0">
-            <SearchArea schema={schema} header="Data Discovery" />
-          </Grid>
+      <Grid className="w-full px-[1em] sm:px-[2em] sm:mt-32 max-md:max-w-full shadow-none aspect-ratio bg-lightviolet">
+        <Grid container className="container mx-auto pt-[2em] sm:pt-0">
+          <SearchArea schema={schema} header="Data Discovery" />
         </Grid>
+      </Grid>
+
+      <Grid className="w-full px-[1em] sm:px-[2em] max-md:max-w-full shadow-none aspect-ratio bg-lightbisque">
+        <Grid container className="container mx-auto py-[1em] px-4">
+          <Banner>
+            This platform is under development, feel free to
+            <BannerLink href={'https://go.illinois.edu/DATA-DISCOVERY-FEEDBACK'} target={'_blank'}>share your feedback &rarr;</BannerLink>
+          </Banner>
+        </Grid>
+      </Grid>
+
       <Grid
         className="w-full px-[1em] sm:px-[2em] transition-all duration-300"
       >
