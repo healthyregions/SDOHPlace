@@ -113,14 +113,23 @@ const NavBar = (): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
 
-  const fellowItems = [
-    { title: "2024 Cohort", url: "/fellows" },
-    { title: "Showcase", url: "/showcase" },
+  const aboutItems = [
+    { title: "Project", url: "/about" },
+    // { title: "Core Team", url: "/about" },
+    { title: "Advisory", url: "/advisory" },
   ];
 
-  const aboutItems = [
-    { title: "Advisory", url: "/advisory" },
-    { title: "SDOH & Place Project", url: "/about" },
+  const resourcesItems = [
+    //{ title: "Data Discovery", url: "/search" },
+    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
+    //{ title: "SDOH Guides", url: "/guides" },
+  ];
+
+  const communityItems = [
+    { title: "Fellows", url: "/showcase" },
+    { title: "Past Fellows", url: "/fellows" },
+    //{ title: "Place Mini-Projects", url: "/fellows" },
+    //{ title: "Recommended Projects", url: "/fellows" },
   ];
 
   return (
@@ -138,9 +147,50 @@ const NavBar = (): JSX.Element => {
             </li>
           }
 
+          {/* Home Link */}
           <li className={`mt-4 ${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
+
+          {/* Resources Menu */}
+          <li
+            className={`mt-4 ml-6 ${
+              router.pathname == "/search"
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Resources"
+              dropdownElId="resources-dd"
+              items={resourcesItems}
+            />
+          </li>
+
+          {/* Community Menu */}
+          <li
+            className={`mt-4 ml-6 ${
+              router.pathname == "/fellows" ||
+              router.pathname.startsWith("/showcase")
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Community"
+              dropdownElId="fellows-dd"
+              items={communityItems}
+            />
+          </li>
+
+          {/* News Link */}
+          <li
+            className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
+          >
+            <Link href="/news">News</Link>
+          </li>
+
+          {/* About Menu */}
           <li
             className={`mt-4 ml-4 ${
               router.pathname.startsWith("/about") ||
@@ -155,25 +205,8 @@ const NavBar = (): JSX.Element => {
               items={aboutItems}
             />
           </li>
-          <li
-            className={`mt-4 ml-6 ${
-              router.pathname == "/fellows" ||
-              router.pathname.startsWith("/showcase")
-                ? "active"
-                : ""
-            }`}
-          >
-            <NavDropdownButton
-              title="Fellows"
-              dropdownElId="fellows-dd"
-              items={fellowItems}
-            />
-          </li>
-          <li
-            className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
-          >
-            <Link href="/news">News</Link>
-          </li>
+
+          {/* Contact Us Link */}
           <li
             className={`mt-4 ml-4 ${
               router.pathname.startsWith("/contact") ? "active" : ""
@@ -209,9 +242,31 @@ const NavBar = (): JSX.Element => {
               </Link>
             </li>
 
+            {/* Home Link */}
+            <li className={'text-uppercase'}>
+              <Link href="/">Home</Link>
+            </li>
+
+            {/* Resources Menu */}
             <li>
               <Link href="/">Home</Link>
             </li>
+
+            {/* Community Menu */}
+            <li>
+              <NavDropdownMobile
+                title="Community"
+                dropdownElId="fellows-dd-mobile"
+                items={communityItems}
+              />
+            </li>
+
+            {/* News Link */}
+            <li className={'text-uppercase'}>
+              <Link href="/news">News</Link>
+            </li>
+
+            {/* About Menu */}
             <li>
               <NavDropdownMobile
                 title="About"
@@ -219,17 +274,9 @@ const NavBar = (): JSX.Element => {
                 items={aboutItems}
               />
             </li>
-            <li>
-              <NavDropdownMobile
-                title="Fellows"
-                dropdownElId="fellows-dd-mobile"
-                items={fellowItems}
-              />
-            </li>
-            <li>
-              <Link href="/news">News</Link>
-            </li>
-            <li>
+
+            {/* Contact Us Link */}
+            <li className={'text-uppercase'}>
               <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
