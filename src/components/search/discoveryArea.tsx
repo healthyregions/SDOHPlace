@@ -80,7 +80,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
         <Grid container className="container mx-auto py-[1em] px-4">
           <Banner>
             This platform is under development, feel free to
-            <BannerLink href={'#'} target={'_blank'}>share your feedback &rarr;</BannerLink>
+            <BannerLink href={'https://go.illinois.edu/DATA-DISCOVERY-FEEDBACK'} target={'_blank'}>share your feedback &rarr;</BannerLink>
           </Banner>
         </Grid>
       </Grid>
