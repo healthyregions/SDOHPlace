@@ -146,7 +146,7 @@ export const overlayRegistry = {
       id: "us-adult-education-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-adult-education.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-adult-education.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -163,7 +163,7 @@ export const overlayRegistry = {
       id: "us-airports-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-airports.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-airports.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -180,7 +180,7 @@ export const overlayRegistry = {
       id: "us-child-enrichment-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-child-enrichment.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-child-enrichment.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -214,7 +214,7 @@ export const overlayRegistry = {
       id: "us-exercise-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-exercise.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-exercise.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -231,7 +231,7 @@ export const overlayRegistry = {
       id: "us-schools-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-schools.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-schools.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -248,7 +248,7 @@ export const overlayRegistry = {
       id: "us-grocery-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-grocery.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-grocery.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -265,7 +265,7 @@ export const overlayRegistry = {
       id: "us-libraries-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-libraries.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-libraries.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
@@ -283,7 +283,7 @@ export const overlayRegistry = {
       id: "us-parks-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-parks.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-parks.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
