@@ -110,7 +110,7 @@ export const makeClusteredLayerSet = function (props: ClusteredLayerProps) {
         'circle-color': circleColor,
         'circle-radius': 4,
         'circle-stroke-width': 1,
-        'circle-stroke-color': outlineColor,
+        'circle-stroke-color': "#333333",
     }
   }
   const unclusteredLayerDef: LayerDef = {
@@ -155,7 +155,7 @@ export const makePreviewLyrs = function (
 export const overlayRegistry = {
   "Adult Education": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Places related to adult education extracted from Overture Maps Foundation open data.",
+    description: "Education and career growth opportunities for adults",
     source: {
       id: "us-adult-education-source",
       spec: {
@@ -189,7 +189,7 @@ export const overlayRegistry = {
   // },
   "Child Enrichment": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Education and social opportunities for children and teens",
     source: {
       id: "us-child-enrichment-source",
       spec: {
@@ -223,7 +223,7 @@ export const overlayRegistry = {
   // },
   "Exercise/Gyms": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Gyms, public courts, athletic clubs, and additional fitness groups and spaces",
     source: {
       id: "us-exercise-source",
       spec: {
@@ -241,7 +241,7 @@ export const overlayRegistry = {
   },
   "Libraries": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Public library locations",
     source: {
       id: "us-libraries-source",
       spec: {
@@ -258,7 +258,7 @@ export const overlayRegistry = {
   },
   Parks: {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Parks, playgrounds, and other public outdoor spaces",
     source: {
       id: "us-parks-source",
       spec: {
@@ -275,7 +275,7 @@ export const overlayRegistry = {
   },
   "Schools": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Public and private K-12 and pre-school locations",
     source: {
       id: "us-schools-source",
       spec: {
@@ -293,7 +293,7 @@ export const overlayRegistry = {
   },
   "Supermarkets/Grocery": {
     url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    description: "Supermarkets, grocery stores, and ethnic grocery stores",
     source: {
       id: "us-grocery-source",
       spec: {
