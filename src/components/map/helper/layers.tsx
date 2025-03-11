@@ -21,6 +21,7 @@ type ClusteredLayerProps = {
   sourceId: string,
   sourceLayerId?: string,
   circleColor: string,
+  addLabels?: boolean,
   labelColor?: string,
   outlineColor?: string,
 }
@@ -32,6 +33,7 @@ export const makeClusteredLayerSet = function (props: ClusteredLayerProps) {
     sourceId,
     sourceLayerId,
     circleColor,
+    addLabels = false,
     labelColor = "#000000",
     outlineColor = "#FFFFFF",
   } = props;
@@ -116,7 +118,7 @@ export const makeClusteredLayerSet = function (props: ClusteredLayerProps) {
     spec: unclusteredLayer
   }
 
-  return [clusteredLayerDef, labelLayerDef, unclusteredLayerDef]
+  return addLabels ? [clusteredLayerDef, labelLayerDef, unclusteredLayerDef] : [clusteredLayerDef, unclusteredLayerDef]
 }
 
 export const makePreviewLyrs = function (
