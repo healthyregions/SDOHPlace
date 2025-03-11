@@ -29,6 +29,7 @@ import GeoSearchControl from "./geoSearchControl";
 import { clearMapPreview } from "@/store/slices/uiSlice";
 import {EventType} from "@/lib/event";
 import {usePlausible} from "next-plausible";
+import { ConstructionOutlined, Layers } from "@mui/icons-material";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -116,8 +117,26 @@ export default function DynamicMap(props: Props): JSX.Element {
         source,
         expression as any
       );
+
+      // determine where in the layer stack to add the preview layers.
+      // they must be before any overlay clusters for the best presentation.
+      // get list of all currently visible overlay ids
+      const overlayLayerIds = visOverlays.map(overlayName => {
+        return overlayRegistry[overlayName].layers.map(layer => layer.spec.id)
+      }).flat()
+
+      // find the first overlay id in the overall list of map layers.
+      // if no overlays, this will be undefined.
+      const firstOverlay = map.getStyle().layers.find(function (lyr) {
+        return overlayLayerIds.includes(lyr.id);
+      });
+
+      // get the id of the first overlay, if exists, otherwise default to "Ocean labels"
+      const addBefore = firstOverlay ? firstOverlay.id : "Ocean labels";
+
+      // now add the preview layers to the map
       previewLyrs.forEach((lyr) => {
-        map.addLayer(lyr, "Ocean labels");
+        map.addLayer(lyr, addBefore);
       });
     });
   }, [mapPreview, mapLoaded]);
