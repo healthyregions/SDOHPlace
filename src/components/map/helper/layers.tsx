@@ -16,18 +16,30 @@ export type LayerDef = {
     | SymbolLayerSpecification;
 };
 
-export const makeClusteredLayerSet = function (props: {
+type ClusteredLayerProps = {
   layerId: string,
   sourceId: string,
   sourceLayerId?: string,
   circleColor: string,
   labelColor?: string,
-}) {
+  outlineColor?: string,
+}
+
+export const makeClusteredLayerSet = function (props: ClusteredLayerProps) {
+
+  const {
+    layerId,
+    sourceId,
+    sourceLayerId,
+    circleColor,
+    labelColor = "#000000",
+    outlineColor = "#FFFFFF",
+  } = props;
 
   const clusteredLayer: CircleLayerSpecification = {
-    id: props.layerId + "-clusters",
-    source: props.sourceId,
-    "source-layer": props.sourceLayerId,
+    id: layerId + "-clusters",
+    source: sourceId,
+    "source-layer": sourceLayerId,
     type: "circle",
     filter: ['has', 'point_count'],
     paint: {
@@ -36,9 +48,9 @@ export const makeClusteredLayerSet = function (props: {
         //   * Blue, 20px circles when point count is less than 100
         //   * Yellow, 30px circles when point count is between 100 and 750
         //   * Pink, 40px circles when point count is greater than or equal to 750
-        'circle-color': props.circleColor,
+        'circle-color': circleColor,
         'circle-stroke-width': 1,
-        'circle-stroke-color': "#1e1e1e",
+        'circle-stroke-color': outlineColor,
         // [
         //     'step',
         //     ['get', 'point_count'],
@@ -59,17 +71,17 @@ export const makeClusteredLayerSet = function (props: {
         ]
     }
   }
-  // if (props.sourceLayerId) {clusteredLayer["source-layer"] = props.sourceLayerId}
+
   const clusteredLayerDef: LayerDef = {
     addBefore: "Ocean labels",
     spec: clusteredLayer
   }
 
   const labelLayer: SymbolLayerSpecification = {
-    id: props.layerId + '-cluster-count',
+    id: layerId + '-cluster-count',
     type: 'symbol',
-    source: props.sourceId,
-    "source-layer": props.sourceLayerId,
+    source: sourceId,
+    "source-layer": sourceLayerId,
     filter: ['has', 'point_count'],
     layout: {
       'text-field': '{point_count_abbreviated}',
@@ -77,26 +89,26 @@ export const makeClusteredLayerSet = function (props: {
       'text-size': 8
     },
     paint: {
-      'text-color': props.labelColor ? props.labelColor : "#000000",
+      'text-color': labelColor,
     }
   }
-  // if (props.sourceLayerId) {clusteredLayer["source-layer"] = props.sourceLayerId}
+
   const labelLayerDef: LayerDef = {
     addBefore: "Ocean labels",
     spec: labelLayer
   }
 
   const unclusteredLayer: CircleLayerSpecification = {
-    id: props.layerId + '-unclustered',
+    id: layerId + '-unclustered',
     type: 'circle',
-    source: props.sourceId,
-    "source-layer": props.sourceLayerId,
+    source: sourceId,
+    "source-layer": sourceLayerId,
     filter: ['!', ['has', 'point_count']],
     paint: {
-        'circle-color': props.circleColor,
+        'circle-color': circleColor,
         'circle-radius': 4,
         'circle-stroke-width': 1,
-        'circle-stroke-color': "#1e1e1e",
+        'circle-stroke-color': outlineColor,
     }
   }
   const unclusteredLayerDef: LayerDef = {
@@ -153,7 +165,7 @@ export const overlayRegistry = {
       layerId: "us-adult-education",
       sourceId: "us-adult-education-source",
       sourceLayerId: "resources",
-      circleColor: "#FC6DC3",
+      circleColor: "#AAAAAA",
     })
   },
   // Airports: {
@@ -187,7 +199,7 @@ export const overlayRegistry = {
       layerId: "us-child-enrichment",
       sourceId: "us-child-enrichment-source",
       sourceLayerId: "resources",
-      circleColor: "#FCB76D",
+      circleColor: "#95D5FF",
     })
   },
   // "Emissions": {
@@ -221,7 +233,8 @@ export const overlayRegistry = {
       layerId: "us-exercise",
       sourceId: "us-exercise-source",
       sourceLayerId: "resources",
-      circleColor: "#FCC1B9",
+      circleColor: "#B769CA",
+      labelColor: "#FFFFFF",
     })
   },
   "Libraries": {
@@ -238,8 +251,7 @@ export const overlayRegistry = {
       layerId: "us-libraries",
       sourceId: "us-libraries-source",
       sourceLayerId: "resources",
-      circleColor: "#6BAABF",
-      // labelColor: "#FFFFFF",
+      circleColor: "#FFDA95",
     })
   },
   Parks: {
@@ -256,7 +268,7 @@ export const overlayRegistry = {
       layerId: "us-parks",
       sourceId: "us-parks-source",
       sourceLayerId: "resources",
-      circleColor: "#80BD8A",
+      circleColor: "#8BC980",
     })
   },
   "Schools": {
@@ -273,7 +285,8 @@ export const overlayRegistry = {
       layerId: "us-schools",
       sourceId: "us-schools-source",
       sourceLayerId: "resources",
-      circleColor: "#C398A0",
+      circleColor: "#D07778",
+      labelColor: "#FFFFFF",
     })
   },
   "Supermarkets/Grocery": {
@@ -290,7 +303,8 @@ export const overlayRegistry = {
       layerId: "us-grocery",
       sourceId: "us-grocery-source",
       sourceLayerId: "resources",
-      circleColor: "#24e8c8",
+      circleColor: "#5557BE",
+      labelColor: "#FFFFFF",
     })
   },
 };
