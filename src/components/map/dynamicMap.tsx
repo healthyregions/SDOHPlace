@@ -29,6 +29,7 @@ import GeoSearchControl from "./geoSearchControl";
 import { clearMapPreview } from "@/store/slices/uiSlice";
 import {EventType} from "@/lib/event";
 import {usePlausible} from "next-plausible";
+import { ConstructionOutlined, Layers } from "@mui/icons-material";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -116,8 +117,26 @@ export default function DynamicMap(props: Props): JSX.Element {
         source,
         expression as any
       );
+
+      // determine where in the layer stack to add the preview layers.
+      // they must be before any overlay clusters for the best presentation.
+      // get list of all currently visible overlay ids
+      const currentOverlayLayerIds = visOverlays.map(overlayName => {
+        return overlayRegistry[overlayName].layers.map(layer => layer.spec.id)
+      }).flat()
+
+      // find the first overlay id in the overall list of map layers.
+      // if no overlays, this will be undefined.
+      const firstOverlay = map.getStyle().layers.find(function (lyr) {
+        return currentOverlayLayerIds.includes(lyr.id);
+      });
+
+      // get the id of the first overlay, if exists, otherwise default to "Ocean labels"
+      const addBefore = firstOverlay ? firstOverlay.id : "Ocean labels";
+
+      // now add the preview layers to the map
       previewLyrs.forEach((lyr) => {
-        map.addLayer(lyr, "Ocean labels");
+        map.addLayer(lyr, addBefore);
       });
     });
   }, [mapPreview, mapLoaded]);
@@ -141,6 +160,8 @@ export default function DynamicMap(props: Props): JSX.Element {
         overlayRegistry[lyr].layers.forEach((lyrDef) => {
           if (!mapLyrIds.includes(lyrDef.spec.id)) {
             map.addLayer(lyrDef.spec, lyrDef.addBefore);
+
+            // set the click handling for the cluster layer
             if(lyrDef.spec.id.endsWith("-clusters")) {
               map.on('click', lyrDef.spec.id, async (e) => {
                 const features = map.queryRenderedFeatures(e.point, {
@@ -151,7 +172,20 @@ export default function DynamicMap(props: Props): JSX.Element {
                     zoom: map.getZoom() + 1
                 });
               })
-            };
+            }
+            // set the click handling for the non-clustered or label layer, this sets the pop content
+            else if (!lyrDef.spec.id.includes("-clustered") && !lyrDef.spec.id.includes("-cluster-count")) {
+              map.on('click', lyrDef.spec.id, async (e) => {
+                const features = map.queryRenderedFeatures(e.point, {
+                    layers: [lyrDef.spec.id]
+                });
+                setPopupInfo({
+                  longitude: features[0].geometry["coordinates"][0],
+                  latitude: features[0].geometry["coordinates"][1],
+                  content: `<ul>${Object.keys(features[0].properties).map(key => `<li><strong>${key}:</strong> ${features[0].properties[key]}</li>`).join("")}</ul>`,
+                })
+              })
+            }
           }
         })
       }
@@ -173,16 +207,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   const onMouseLeave = useCallback(() => setCursor('auto'), []);
 
   const onClick = useCallback((event: MapLayerMouseEvent) => {
-    if (event.features.length != 0) {
-      const feat = event.features[0]
-      if (!feat.layer.id.includes("-clustered") && !feat.layer.id.includes("-cluster-count")) {
-        setPopupInfo({
-          longitude: feat.geometry["coordinates"][0],
-          latitude: feat.geometry["coordinates"][1],
-          content: `<ul>${Object.keys(feat.properties).map(key => `<li><strong>${key}:</strong> ${feat.properties[key]}</li>`).join("")}</ul>`,
-        })
-      }
-    }
+    setPopupInfo(null)
   }, []);
 
   const onLoad = useCallback(() => {
@@ -289,7 +314,6 @@ export default function DynamicMap(props: Props): JSX.Element {
       }}
       style={{ width: "100%", height: "100%" }}
       mapStyle={`https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=${apiKey}`}
-      // onMouseMove={onMouseMove}
       onLoad={onLoad}
       onClick={onClick}
       cursor={cursor}
@@ -342,6 +366,7 @@ export default function DynamicMap(props: Props): JSX.Element {
           longitude={popupInfo.longitude}
           latitude={popupInfo.latitude}
           closeButton={false}
+          closeOnClick={false}
           onClose={() => setPopupInfo(null)}
         >
           <div
