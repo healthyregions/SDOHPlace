@@ -16,18 +16,32 @@ export type LayerDef = {
     | SymbolLayerSpecification;
 };
 
-export const makeClusteredLayerSet = function (props: {
+type ClusteredLayerProps = {
   layerId: string,
   sourceId: string,
   sourceLayerId?: string,
   circleColor: string,
+  addLabels?: boolean,
   labelColor?: string,
-}) {
+  outlineColor?: string,
+}
+
+export const makeClusteredLayerSet = function (props: ClusteredLayerProps) {
+
+  const {
+    layerId,
+    sourceId,
+    sourceLayerId,
+    circleColor,
+    addLabels = false,
+    labelColor = "#000000",
+    outlineColor = "#FFFFFF",
+  } = props;
 
   const clusteredLayer: CircleLayerSpecification = {
-    id: props.layerId + "-clusters",
-    source: props.sourceId,
-    "source-layer": props.sourceLayerId,
+    id: layerId + "-clusters",
+    source: sourceId,
+    "source-layer": sourceLayerId,
     type: "circle",
     filter: ['has', 'point_count'],
     paint: {
@@ -36,9 +50,9 @@ export const makeClusteredLayerSet = function (props: {
         //   * Blue, 20px circles when point count is less than 100
         //   * Yellow, 30px circles when point count is between 100 and 750
         //   * Pink, 40px circles when point count is greater than or equal to 750
-        'circle-color': props.circleColor,
+        'circle-color': circleColor,
         'circle-stroke-width': 1,
-        'circle-stroke-color': "#1e1e1e",
+        'circle-stroke-color': outlineColor,
         // [
         //     'step',
         //     ['get', 'point_count'],
@@ -59,17 +73,17 @@ export const makeClusteredLayerSet = function (props: {
         ]
     }
   }
-  // if (props.sourceLayerId) {clusteredLayer["source-layer"] = props.sourceLayerId}
+
   const clusteredLayerDef: LayerDef = {
     addBefore: "Ocean labels",
     spec: clusteredLayer
   }
 
   const labelLayer: SymbolLayerSpecification = {
-    id: props.layerId + '-cluster-count',
+    id: layerId + '-cluster-count',
     type: 'symbol',
-    source: props.sourceId,
-    "source-layer": props.sourceLayerId,
+    source: sourceId,
+    "source-layer": sourceLayerId,
     filter: ['has', 'point_count'],
     layout: {
       'text-field': '{point_count_abbreviated}',
@@ -77,26 +91,26 @@ export const makeClusteredLayerSet = function (props: {
       'text-size': 8
     },
     paint: {
-      'text-color': props.labelColor ? props.labelColor : "#000000",
+      'text-color': labelColor,
     }
   }
-  // if (props.sourceLayerId) {clusteredLayer["source-layer"] = props.sourceLayerId}
+
   const labelLayerDef: LayerDef = {
     addBefore: "Ocean labels",
     spec: labelLayer
   }
 
   const unclusteredLayer: CircleLayerSpecification = {
-    id: props.layerId + '-unclustered',
+    id: layerId + '-unclustered',
     type: 'circle',
-    source: props.sourceId,
-    "source-layer": props.sourceLayerId,
+    source: sourceId,
+    "source-layer": sourceLayerId,
     filter: ['!', ['has', 'point_count']],
     paint: {
-        'circle-color': props.circleColor,
+        'circle-color': circleColor,
         'circle-radius': 4,
         'circle-stroke-width': 1,
-        'circle-stroke-color': "#1e1e1e",
+        'circle-stroke-color': "#333333",
     }
   }
   const unclusteredLayerDef: LayerDef = {
@@ -104,7 +118,7 @@ export const makeClusteredLayerSet = function (props: {
     spec: unclusteredLayer
   }
 
-  return [clusteredLayerDef, labelLayerDef, unclusteredLayerDef]
+  return addLabels ? [clusteredLayerDef, labelLayerDef, unclusteredLayerDef] : [clusteredLayerDef, unclusteredLayerDef]
 }
 
 export const makePreviewLyrs = function (
@@ -140,157 +154,159 @@ export const makePreviewLyrs = function (
 
 export const overlayRegistry = {
   "Adult Education": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Education and career growth opportunities for adults",
     source: {
       id: "us-adult-education-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-adult-education.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-adult-education.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
       layerId: "us-adult-education",
       sourceId: "us-adult-education-source",
       sourceLayerId: "resources",
-      circleColor: "#FC6DC3",
+      circleColor: "#AAAAAA",
     })
   },
-  Airports: {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
-    source: {
-      id: "us-airports-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-airports.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "us-airports",
-      sourceId: "us-airports-source",
-      sourceLayerId: "resources",
-      circleColor: "#BE6DFC",
-    })
-  },
+  // Airports: {
+  //   url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+  //   description: "Thematic extract from Overture Maps Foundation open data.",
+  //   source: {
+  //     id: "us-airports-source",
+  //     spec: {
+  //       type: "vector",
+  //       url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-airports.pmtiles",
+  //     }
+  //   },
+  //   layers: makeClusteredLayerSet({
+  //     layerId: "us-airports",
+  //     sourceId: "us-airports-source",
+  //     sourceLayerId: "resources",
+  //     circleColor: "#BE6DFC",
+  //   })
+  // },
   "Child Enrichment": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Education and social opportunities for children and teens",
     source: {
       id: "us-child-enrichment-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-child-enrichment.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-child-enrichment.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
       layerId: "us-child-enrichment",
       sourceId: "us-child-enrichment-source",
       sourceLayerId: "resources",
-      circleColor: "#FCB76D",
+      circleColor: "#95D5FF",
     })
   },
-  "Emissions": {
-    url: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei",
-    description: "Facilities emitting PM2.5, from National Emissions Inventory (NEI)",
-    source: {
-      id: "nei-facilities-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/overlays/nei-facilities.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "nei-facilities",
-      sourceId: "nei-facilities-source",
-      sourceLayerId: "resources",
-      circleColor: "#ff6666",
-    })
-  },
+  // "Emissions": {
+  //   url: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei",
+  //   description: "Facilities emitting PM2.5, from National Emissions Inventory (NEI)",
+  //   source: {
+  //     id: "nei-facilities-source",
+  //     spec: {
+  //       type: "vector",
+  //       url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/overlays/nei-facilities.pmtiles",
+  //     }
+  //   },
+  //   layers: makeClusteredLayerSet({
+  //     layerId: "nei-facilities",
+  //     sourceId: "nei-facilities-source",
+  //     sourceLayerId: "resources",
+  //     circleColor: "#ff6666",
+  //   })
+  // },
   "Exercise/Gyms": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Gyms, public courts, athletic clubs, and additional fitness groups and spaces",
     source: {
       id: "us-exercise-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-exercise.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-exercise.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
       layerId: "us-exercise",
       sourceId: "us-exercise-source",
       sourceLayerId: "resources",
-      circleColor: "#FCC1B9",
-    })
-  },
-  "Schools": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
-    source: {
-      id: "us-schools-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-schools.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "us-schools",
-      sourceId: "us-schools-source",
-      sourceLayerId: "resources",
-      circleColor: "#C398A0",
-    })
-  },
-  "Supermarkets/Grocery": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
-    source: {
-      id: "us-grocery-source",
-      spec: {
-        type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-grocery.pmtiles",
-      }
-    },
-    layers: makeClusteredLayerSet({
-      layerId: "us-grocery",
-      sourceId: "us-grocery-source",
-      sourceLayerId: "resources",
-      circleColor: "#FCC1E5",
+      circleColor: "#B769CA",
+      labelColor: "#FFFFFF",
     })
   },
   "Libraries": {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Public library locations",
     source: {
       id: "us-libraries-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-libraries.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-libraries.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
       layerId: "us-libraries",
       sourceId: "us-libraries-source",
       sourceLayerId: "resources",
-      circleColor: "#6BAABF",
-      // labelColor: "#FFFFFF",
+      circleColor: "#FFDA95",
     })
   },
   Parks: {
-    url: "https://github.com/healthyregions/overture-poi-extract",
-    description: "Thematic extract from Overture Maps Foundation open data.",
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Parks, playgrounds, and other public outdoor spaces",
     source: {
       id: "us-parks-source",
       spec: {
         type: "vector",
-        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/main/output/us-parks.pmtiles",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-parks.pmtiles",
       }
     },
     layers: makeClusteredLayerSet({
       layerId: "us-parks",
       sourceId: "us-parks-source",
       sourceLayerId: "resources",
-      circleColor: "#24e8c8",
+      circleColor: "#8BC980",
+    })
+  },
+  "Schools": {
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Public and private K-12 and pre-school locations",
+    source: {
+      id: "us-schools-source",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-schools.pmtiles",
+      }
+    },
+    layers: makeClusteredLayerSet({
+      layerId: "us-schools",
+      sourceId: "us-schools-source",
+      sourceLayerId: "resources",
+      circleColor: "#D07778",
+      labelColor: "#FFFFFF",
+    })
+  },
+  "Supermarkets/Grocery": {
+    url: "https://github.com/healthyregions/overture-poi-extract?tab=readme-ov-file#sdoh--place-project-layers",
+    description: "Supermarkets, grocery stores, and ethnic grocery stores",
+    source: {
+      id: "us-grocery-source",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://raw.githubusercontent.com/healthyregions/overture-poi-extract/v0.0.1/output/us-grocery.pmtiles",
+      }
+    },
+    layers: makeClusteredLayerSet({
+      layerId: "us-grocery",
+      sourceId: "us-grocery-source",
+      sourceLayerId: "resources",
+      circleColor: "#5557BE",
+      labelColor: "#FFFFFF",
     })
   },
 };

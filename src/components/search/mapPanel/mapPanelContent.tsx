@@ -11,6 +11,7 @@ import {
   ListItemIcon,
   IconButton,
   SvgIcon,
+  MenuList,
 } from "@mui/material";
 import {
   ArrowDropDown as ArrowDropDownIcon,
@@ -88,9 +89,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
   }, [dispatch, visOverlays, isMounted]);
   useEffect(() => {
     setOverlaysBtnTxt(
-      visOverlays.length > 0
-        ? `Overlays: ${visOverlays.join(", ")}`
-        : "Overlays"
+      `Community Assets${visOverlays.length > 0 ? ": " + visOverlays.slice(0,2).join(", ") : ""}${visOverlays.length > 2 ? "..." : ""}`
     );
   }, [visOverlays]);
 
@@ -128,6 +127,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
             aria-expanded={overlaysOpen ? "true" : undefined}
             onClick={handleOverlaysClick}
           >
+            {overlaysBtnTxt}
             <SvgIcon
               component={ArrowDropDownIcon}
               sx={{
@@ -135,7 +135,6 @@ const MapPanelContent = (props: Props): JSX.Element => {
                 fontSize: 40,
               }}
             />
-            {overlaysBtnTxt}
           </Button>
           <Box component="span" className="mx-2">
             <IconButton
@@ -153,12 +152,20 @@ const MapPanelContent = (props: Props): JSX.Element => {
           </Box>
           <Menu
             id="basic-menu"
-            className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[2.3em]"
+            className="flex items-center sm:justify-end mt-0 order-1 sm:order-none flex-none text-l-500 sm:mr-[5em]"
             style={{
               margin: 0,
               boxShadow: "#aaaaaa 6px 12px 16px -8px",
             }}
             anchorEl={overlaysMenuAnchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
             open={overlaysOpen}
             onClose={closeOverlaysMenu}
             MenuListProps={{
@@ -166,8 +173,9 @@ const MapPanelContent = (props: Props): JSX.Element => {
               className: "rounded bg-lightbisque",
             }}
           >
+            <MenuList>
             {Object.keys(overlayRegistry).map((overlay) => (
-              <MenuItem key={overlay} onClick={() => toggleOverlay(overlay)}>
+              <MenuItem key={overlay} onClick={() => toggleOverlay(overlay)} sx={{fontFamily:fullConfig.theme.fontFamily["sans"]}}>
                 {visOverlays.includes(overlay) && (
                   <ListItemIcon>
                     <CheckIcon />
@@ -176,6 +184,7 @@ const MapPanelContent = (props: Props): JSX.Element => {
                 {overlay}
               </MenuItem>
             ))}
+            </MenuList>
           </Menu>
         </div>
       </Box>
