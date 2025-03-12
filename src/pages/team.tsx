@@ -127,9 +127,9 @@ const Team: NextPage = () => {
         </Box>
       </Modal>
       <div className="flex flex-col pt-12">
-        <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-10 mb-[200px] px-5 max-md:max-w-full max-md:mt-10">
-          <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Core Team</h2>
+        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 pb-[8rem] max-md:max-w-full mt-[100px]">
+          <div className="self-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] ml-18 max-md:ml-2.5">
+            <h1 className="font-fredoka">Core Team</h1>
           </div>
           <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Our team is based out of the University of Illinois at
