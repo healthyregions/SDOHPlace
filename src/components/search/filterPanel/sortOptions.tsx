@@ -40,7 +40,7 @@ export const SortOptions = () => {
                 ? "underline"
                 : "none",
           }}
-          onClick={() => handleSort("date_issued", "desc")}
+          onClick={() => handleSort("index_year", "desc")}
         >
           Recent first
         </span>
@@ -55,7 +55,7 @@ export const SortOptions = () => {
                 ? "underline"
                 : "none",
           }}
-          onClick={() => handleSort("date_issued", "asc")}
+          onClick={() => handleSort("index_year", "asc")}
         >
           Oldest first
         </span>
