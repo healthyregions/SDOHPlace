@@ -36,18 +36,14 @@ const DynamicResultsPanel = dynamic(() => import("./resultsPanel"), {
 
 export default function DiscoveryArea({ schema }): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { showDetailPanel } = useSelector(
-    (state: RootState) => state.ui
-  );
+  const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const { results, relatedResults } = useSelector(
     (state: RootState) => state.search
   );
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    if (isMounted && typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-      dispatch(initializeSearch({ schema, urlParams }));
-    }
+    if (isMounted && typeof window !== "undefined")
+      dispatch(initializeSearch({ schema }));
   }, [schema, dispatch, isMounted]);
 
   useEffect(() => {
@@ -95,7 +91,11 @@ export default function DiscoveryArea({ schema }): JSX.Element {
           <Grid item xs={12} sm={6} className="sm:ml-[0.5em]">
             <MapPanel
               resultsList={results}
-              showMap={showDetailPanel ? "none" : "block"}
+              showMap={
+                showDetailPanel && (results && results.find((r) => r.id === showDetailPanel))
+                  ? "none"
+                  : "block"
+              }
               schema={schema}
             />
             {showDetailPanel && showDetailPanel.length > 0 && (
