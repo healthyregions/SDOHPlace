@@ -78,8 +78,8 @@ const HeaderRow = (props: Props): JSX.Element => {
           Back to map view
         </a>
       </div>
-      <div className="flex flex-col sm:mb-7 sm:flex-row items-center">
-        <div className="flex flex-col sm:flex-row items-center flex-grow">
+      <div className="flex flex-col sm:mb-7 sm:flex-row items-start">
+        <div className="flex flex-col sm:flex-row items-start flex-grow">
           <div
             className="flex items-center sm:text-[4em]"
             style={{ color: fullConfig.theme.colors["strongorange"] }}
