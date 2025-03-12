@@ -23,8 +23,8 @@ export default function Index({}) {
       {/* TODO: source Recommendations from DecapCMS */}
       <div className={'pb-[8rem]'}>
         {
-          recommendations.map(rec =>
-            <Grid spacing={4} container>
+          recommendations.map((rec, index) =>
+            <Grid key={`recommendation-${index}`} spacing={4} container>
               <Grid item xs={2}>
                 <img src={rec.thumbnail} />
               </Grid>
