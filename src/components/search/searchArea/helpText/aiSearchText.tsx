@@ -11,8 +11,7 @@ export const AiSearchText = () => {
         className="pb-1"
         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
       >
-        We&apos;ve added an AI-powered search option that helps you find answers, not
-        just keywords!
+       Try our AI-powered search that helps you find data by simply asking a question.
       </Typography>
 
       <div className="my-3 p-3 bg-gray-50 rounded-lg">
@@ -76,90 +75,17 @@ export const AiSearchText = () => {
         className="pb-1"
         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
       >
-        Don&apos;t want to use AI? No problem! Our standard search mode is
-        always available and doesn&apos;t send any queries to AI systems.
+        Don&apos;t want to use AI? Our standard search mode is
+        always available and does not send any queries to AI systems.
       </Typography>
 
       <Typography
         className="pb-1"
         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
       >
-        We&apos;d love to hear your thoughts on this feature! Please{" "}
+        We would love to hear your thoughts on this feature. Please{" "}
         <Link href="/contact">get in touch</Link>.
       </Typography>
     </>
   );
-
-  //   <>
-  //     <Typography
-  //       className="pb-1"
-  //       sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //     >
-  //       We&apos;ve added an AI-powered search option that helps you find answers, not just keywords!
-  //     </Typography>
-
-  //     <div className="my-3 p-3 bg-gray-50 rounded-lg">
-  //       <Typography
-  //         className="font-medium mb-2"
-  //         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //       >
-  //         See the difference:
-  //       </Typography>
-
-  //       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  //         <div className="p-3 bg-white rounded border border-gray-200">
-  //           <Typography
-  //             className="font-medium mb-1"
-  //             sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //           >
-  //             Standard Search:
-  //           </Typography>
-  //           <div className="italic text-sm mb-2">You type: "children food access limited"</div>
-  //           <div className="text-sm">
-  //             Looks for exact words "children," "food," "access," and "limited"
-  //             in our database
-  //           </div>
-  //         </div>
-
-  //         <div className="p-3 bg-white rounded border border-gray-200">
-  //           <Typography
-  //             className="font-medium mb-1"
-  //             sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //           >
-  //             AI Search:
-  //           </Typography>
-  //           <div className="italic text-sm mb-2">You ask: "Where is children's food access the most limited?"</div>
-  //           <div className="text-sm">
-  //             Understands your question and finds areas with high childhood food insecurity,
-  //             food deserts affecting youth, and related health outcomes
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-
-  //     <Typography
-  //       className="pb-1"
-  //       sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //     >
-  //       Our AI search helper takes your question and translates it into the best possible search terms.
-  //       We show you exactly how it interpreted your question right below the search box.
-  //     </Typography>
-
-  //     <Typography
-  //       className="pb-1"
-  //       sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //     >
-  //       Privacy note: AI search is optional. Standard keyword search doesn't send any information
-  //       to AI systems.
-  //     </Typography>
-
-  //     <Typography
-  //       className="pb-1"
-  //       sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
-  //     >
-  //       We'd love to hear your thoughts on this feature! Please{" "}
-  //       <Link href="/contact">get in touch</Link>.
-  //     </Typography>
-  //   </>
-  // );
 };
