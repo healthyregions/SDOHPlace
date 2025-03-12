@@ -115,7 +115,7 @@ const NavBar = (): JSX.Element => {
   const classes = useStyles();
 
   const aboutItems = [
-    { title: "Project", url: "/project" },
+    { title: "Project", url: "/about" },
     { title: "Core Team", url: "/team" },
     { title: "Advisory", url: "/advisory" },
   ];
@@ -129,7 +129,7 @@ const NavBar = (): JSX.Element => {
   const communityItems = [
     { title: "Fellows", url: "/fellows" },
     { title: "Showcase", url: "/showcase" },
-    //{ title: "Place Mini-Projects", url: "/fellows" },
+    //{ title: "Place Mini-Projects", url: "/mini-projects" },
     { title: "Things We Like!", url: "/recommendations" },
   ];
 
