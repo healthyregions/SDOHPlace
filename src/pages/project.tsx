@@ -50,12 +50,12 @@ const pastTeam = team.team.filter((p) => p.status == "past");
 const Project: NextPage = () => {
   return (
     <>
-      <Header title={"Project"} />
+      <Header title={"About SDOH&Place"} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 pb-[8rem] max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">About</h1>
+          <h1 className="font-fredoka">About SDOH & Place</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
