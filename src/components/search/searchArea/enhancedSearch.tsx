@@ -133,7 +133,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const textFieldRef = React.useRef<HTMLInputElement>(null);
   const [isLocalLoading, setIsLocalLoading] = React.useState(false);
   const { showClearButton } = useSelector((state: RootState) => state.ui);
-  const maxLength = 50;
+  const maxLength = 100;
   const {
     aiSearch,
     query,
@@ -307,7 +307,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               fullWidth
               placeholder={
                 aiSearch
-                  ? `Ask a research question...`
+                  ? `Ask a research question (max ${maxLength} characters)...`
                   : "Type keyword..."
               }
               className={`${classes.searchBox} bg-white`}
