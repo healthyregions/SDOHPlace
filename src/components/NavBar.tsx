@@ -115,7 +115,7 @@ const NavBar = (): JSX.Element => {
   const classes = useStyles();
 
   const aboutItems = [
-    { title: "Project", url: "/about" },
+    { title: "Project", url: "/project" },
     { title: "Core Team", url: "/team" },
     { title: "Advisory", url: "/advisory" },
   ];

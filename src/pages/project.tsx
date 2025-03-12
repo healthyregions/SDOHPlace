@@ -47,10 +47,10 @@ const useStyles = makeStyles(() => ({
 const currentTeam = team.team.filter((p) => p.status == "current");
 const pastTeam = team.team.filter((p) => p.status == "past");
 
-const About: NextPage = () => {
+const Project: NextPage = () => {
   return (
     <>
-      <Header title={"About"} />
+      <Header title={"Project"} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">
@@ -100,4 +100,4 @@ const About: NextPage = () => {
   );
 };
 
-export default About;
+export default Project;
