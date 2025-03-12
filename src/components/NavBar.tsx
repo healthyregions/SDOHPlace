@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 type NavLinkType = {
   title: string;
   url: string;
+  target?: string;
 };
 type Props = {
   title: string;
@@ -57,7 +58,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       >
         {items.map((item, index) => (
           <li key={index}>
-            <Link href={item.url}>{item.title}</Link>
+            <Link href={item.url} target={item.target || ''}>{item.title}</Link>
           </li>
         ))}
       </ul>
@@ -114,22 +115,22 @@ const NavBar = (): JSX.Element => {
   const classes = useStyles();
 
   const aboutItems = [
-    { title: "Project", url: "/about" },
-    // { title: "Core Team", url: "/about" },
+    { title: "Project", url: "/project" },
+    { title: "Core Team", url: "/team" },
     { title: "Advisory", url: "/advisory" },
   ];
 
   const resourcesItems = [
     //{ title: "Data Discovery", url: "/search" },
-    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
+    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org", target: '_blank' },
     //{ title: "SDOH Guides", url: "/guides" },
   ];
 
   const communityItems = [
     { title: "Fellows", url: "/fellows" },
-    { title: "Past Fellows", url: "/showcase" },
+    { title: "Showcase", url: "/showcase" },
     //{ title: "Place Mini-Projects", url: "/fellows" },
-    //{ title: "Recommended Projects", url: "/fellows" },
+    { title: "Things We Like!", url: "/recommendations" },
   ];
 
   return (
