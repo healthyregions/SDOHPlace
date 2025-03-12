@@ -49,7 +49,7 @@ const IntroCard = (props: Props): JSX.Element => {
               : ""}
           </div>
         </div>
-        <div className="flex-1 w-full sm:w-1/3 sm:pl-6 sm:pr-2.25 sm:pt-5 bg-lightbisque">
+        <div className="flex-1 w-full sm:w-1/3 sm:pl-6 p-5 bg-lightbisque">
           <div className={`${classes.introCard}`}>
             <b>Year:</b>{" "}
             {props.resultItem.index_year
