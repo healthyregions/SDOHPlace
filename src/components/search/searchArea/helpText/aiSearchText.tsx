@@ -75,7 +75,7 @@ export const AiSearchText = () => {
         className="pb-1"
         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
       >
-        Don&apos;t want to use AI? Our standard search mode is
+        Don&apos;t want to use AI? Our keyword search mode is
         always available and does not send any queries to AI systems.
       </Typography>
 
