@@ -297,3 +297,46 @@ article table tbody tr:last-child {
 article table td {
   text-align: left;
 }
+
+/* Scrollbar */
+.force-scrollbar ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px
+}
+
+.force-scrollbar ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0
+}
+
+.force-scrollbar ::-webkit-scrollbar-thumb {
+    background: #dad8d8;
+    border: 0 none #fff;
+    border-radius: 0
+}
+
+.force-scrollbar ::-webkit-scrollbar-thumb:hover {
+    background: #dad8d8
+}
+
+.force-scrollbar ::-webkit-scrollbar-thumb:active {
+    background: #000
+}
+
+.force-scrollbar ::-webkit-scrollbar-track {
+    background: #f4f6f9;
+    border: 0 none #fff;
+    border-radius: 0
+}
+
+.force-scrollbar ::-webkit-scrollbar-track:hover {
+    background: #f4f6f9
+}
+
+.force-scrollbar ::-webkit-scrollbar-track:active {
+    background: #333
+}
+
+.force-scrollbar ::-webkit-scrollbar-corner {
+    background: 0 0
+}
