@@ -163,6 +163,7 @@ export default function InfoPanel() {
         </Tabs>
       </Box>
       <Box
+        className="force-scrollbar"
         sx={{
           transition: "left 0.3s linear",
         }}
