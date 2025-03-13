@@ -11,9 +11,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import Header from "@/components/Header";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
-import people from "../../meta/people.json";
-import techAdvisorData from "../../meta/tech_advisory.json";
-import stakeholderData from "../../meta/stakeholder_advisory.json";
+import advisorData from "../../meta/advisory.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -48,10 +46,10 @@ const useStyles = makeStyles(() => ({
 
 const Advisory: NextPage = () => {
   const classes = useStyles();
-  const stakeholderList = stakeholderData.stakeholder_advisory;
-  const technicalList = techAdvisorData.tech_advisory;
+  const currentAdvisors = advisorData.advisory?.filter(a => a.status === 'current');
+  const pastAdvisors = advisorData.advisory?.filter(a => a.status === 'past');
   const [open, setOpen] = React.useState(false);
-  const [modalData, setModalData] = React.useState(stakeholderList[0]);
+  const [modalData, setModalData] = React.useState(currentAdvisors[0]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -155,7 +153,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Stakeholder Team</h2>
+            <h2 className="font-fredoka">Advisory Board</h2>
           </div>
           <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
@@ -165,7 +163,7 @@ const Advisory: NextPage = () => {
               >
                 <div className="self-center w-full max-md:max-w-full">
                   <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                    {stakeholderList.map((item, index) => (
+                    {currentAdvisors.map((item, index) => (
                       <div
                         key={index}
                         className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -214,7 +212,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Technical Team</h2>
+            <h2 className="font-fredoka">Past Advisory Board Members</h2>
           </div>
         </div>
         <div className="bg-lightbisque self-stretch flex mt-0 w-full flex-col px-5 max-md:max-w-full">
@@ -224,7 +222,7 @@ const Advisory: NextPage = () => {
           >
             <div className="self-center w-full max-md:max-w-full">
               <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                {technicalList.map((item, index) => (
+                {pastAdvisors.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"

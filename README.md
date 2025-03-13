@@ -83,7 +83,7 @@ In `public/admin/config.yml` change `name: github` to `name: test-repo`, such th
 ```
 backend:
   name: github
-  repo: repo: healthyregions/SDOHPlace
+  repo: healthyregions/SDOHPlace
   branch: publish
 ```
 
@@ -105,7 +105,7 @@ In this case, Decap needs to be reading from your local filesystem. First add `l
 ```
 backend:
   name: github
-  repo: repo: healthyregions/SDOHPlace
+  repo: healthyregions/SDOHPlace
   branch: publish
 ```
 
@@ -115,7 +115,7 @@ becomes
 local_backend: true
 backend:
   name: github
-  repo: repo: healthyregions/SDOHPlace
+  repo: healthyregions/SDOHPlace
   branch: publish
 ```
 
