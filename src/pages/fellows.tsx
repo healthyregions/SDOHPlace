@@ -58,10 +58,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 // List/order to display the cohorts in this view
-const cohorts = [
-  //'Fall 2024',
-  'Spring 2024',
-];
+const cohorts = [];
 
 // Map of cohort to fellows in the cohort
 // This will be built up when the view loads
@@ -69,19 +66,44 @@ const fellows = {};
 
 const Fellows: NextPage = () => {
   const classes = useStyles();
-  // Merge all cohorts into our map (grouped by cohort)
-  cohorts.forEach((cohort: string) => {
-    console.log(`Computing ${cohort}...`);
-    const cohortFellows = fellowsData.fellows.filter(f => f.cohort === cohort);
-    console.log(`Found: ${fellows}...`);
-    fellows[cohort] = cohortFellows;
+  // Fellow all cohorts in the CMS system and group them by cohort
+  fellowsData.fellows.forEach((fellow) => {
+    const cohort = fellow.cohort;
+    fellows[cohort] = fellows[cohort] || [];
+    if (!fellows[cohort]?.includes(fellow)) {
+      fellows[cohort].push(fellow);
+    }
+
+    // Add to the list of cohorts if this is not already present
+    if (!cohorts.includes(cohort)) {
+      cohorts.push(cohort);
+    }
   });
-  console.log(`Cohorts: ${cohorts}`);
-  console.log(`Fellows: ${fellows}`);
+  console.log(`Cohorts:`, cohorts);
+  console.log(`Fellows:`, fellows);
   const [open, setOpen] = React.useState(false);
   const [modalData, setModalData] = React.useState(fellows[cohorts[0]]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const sortByYearAndSeason = () => {
+    return cohorts.sort((c1, c2) => {
+      const [s1, y1] = c1.split(' ');
+      const [s2, y2] = c2.split(' ');
+
+      // Main comparison uses year
+      if (y1 > y2) { return 1; }
+      if (y2 < y1) { return -1; }
+
+      // Break ties in year using season
+      if (s1 > s2) { return 1; }
+      if (s2 < s1) { return -1; }
+
+      // Same year, same season => same cohort
+      return 0;
+    });
+  }
+
   return (
     <>
       <Header title={"Fellowship Program"} />
@@ -178,7 +200,7 @@ const Fellows: NextPage = () => {
           </div>
         </div>
         {
-          cohorts.map((cohort, index) =>
+          sortByYearAndSeason(cohorts).map((cohort, index) =>
             <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10" key={`cohort-${cohort}-${index}`}>
               <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
                 <h2 className="font-fredoka">{cohort} Fellow Cohort</h2>
