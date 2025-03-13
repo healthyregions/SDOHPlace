@@ -57,36 +57,26 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-// List/order to display the cohorts in this view
-const cohorts = [];
-
-// Map of cohort to fellows in the cohort
-// This will be built up when the view loads
-const fellows = {};
-
 const Fellows: NextPage = () => {
+  // Map of cohort to fellows in the cohort
+  // This will be built up when the view loads
+  const fellows = {};
+
   const classes = useStyles();
   // Fellow all cohorts in the CMS system and group them by cohort
   fellowsData.fellows.forEach((fellow) => {
-    const cohort = fellow.cohort;
-    fellows[cohort] = fellows[cohort] || [];
-    if (!fellows[cohort]?.includes(fellow)) {
-      fellows[cohort].push(fellow);
-    }
-
-    // Add to the list of cohorts if this is not already present
-    if (!cohorts.includes(cohort)) {
-      cohorts.push(cohort);
-    }
+    // Add to the running list of fellows if this is not already present
+    fellows[fellow.cohort] = fellows[fellow.cohort] || [];
+    fellows[fellow.cohort]?.includes(fellow) || fellows[fellow.cohort].push(fellow);
   });
-  console.log(`Cohorts:`, cohorts);
-  console.log(`Fellows:`, fellows);
+  const [firstCohort] = Object.keys(fellows);
+
   const [open, setOpen] = React.useState(false);
-  const [modalData, setModalData] = React.useState(fellows[cohorts[0]]);
+  const [modalData, setModalData] = React.useState(fellows[firstCohort][0]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const sortByYearAndSeason = () => {
+  const sortByYearAndSeason = (cohorts) => {
     return cohorts.sort((c1, c2) => {
       const [s1, y1] = c1.split(' ');
       const [s2, y2] = c2.split(' ');
@@ -200,7 +190,7 @@ const Fellows: NextPage = () => {
           </div>
         </div>
         {
-          sortByYearAndSeason(cohorts).map((cohort, index) =>
+          sortByYearAndSeason(Object.keys(fellows)).map((cohort, index) =>
             <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10" key={`cohort-${cohort}-${index}`}>
               <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
                 <h2 className="font-fredoka">{cohort} Fellow Cohort</h2>
