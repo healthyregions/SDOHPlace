@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
     color: `${fullConfig.theme.colors["almostblack"]}`,
     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
     fontSize: "0.875rem",
-    marginLeft: "0.25rem",
   },
   link: {
     color: `${fullConfig.theme.colors["frenchviolet"]}`,
@@ -74,26 +73,26 @@ const Link = ({ value }) => {
     return (
       <div className="container">
         <b className="text-s">More links:</b>
-        <List>
+        <ul className={'py-2'}>
           {links.downloadUrl && (
-            <ListItem><a
+            <li><a
               href={String(links.downloadUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
-            >Data Download (Official)</a></ListItem>)
+            >Data Download (Official)</a></li>)
           }
           {links.archiveUrl && (
-            <ListItem><a
+            <li><a
               href={String(links.archiveUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
-            >Data Archival Copy</a></ListItem>)
+            >Data Archival Copy</a></li>)
           }
           {links.dataDictionaryUrl && (
-            <ListItem><a
+            <li><a
               href={String(links.dataDictionaryUrl)}
               className={`${classes.paragraphCard} ${classes.link}`}
-            >Technical Documentation</a></ListItem>)
+            >Technical Documentation</a></li>)
           }
-        </List>
+        </ul>
       </div>
     )
   } else {

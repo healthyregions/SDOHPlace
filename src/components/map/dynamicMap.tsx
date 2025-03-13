@@ -182,7 +182,7 @@ export default function DynamicMap(props: Props): JSX.Element {
                 setPopupInfo({
                   longitude: features[0].geometry["coordinates"][0],
                   latitude: features[0].geometry["coordinates"][1],
-                  content: `<ul>${Object.keys(features[0].properties).map(key => `<li><strong>${key}:</strong> ${features[0].properties[key]}</li>`).join("")}</ul>`,
+                  content: `<ul style="font-family:Nunito;">${Object.keys(features[0].properties).map(key => `<li><strong>${key}:</strong> ${features[0].properties[key]}</li>`).join("")}</ul>`,
                 })
               })
             }

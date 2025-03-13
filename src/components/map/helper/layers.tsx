@@ -167,7 +167,7 @@ export const overlayRegistry = {
       layerId: "us-adult-education",
       sourceId: "us-adult-education-source",
       sourceLayerId: "resources",
-      circleColor: "#AAAAAA",
+      circleColor: "#D3DF85",
     })
   },
   // Airports: {
@@ -305,8 +305,7 @@ export const overlayRegistry = {
       layerId: "us-grocery",
       sourceId: "us-grocery-source",
       sourceLayerId: "resources",
-      circleColor: "#5557BE",
-      labelColor: "#FFFFFF",
+      circleColor: "#A6A7F9",
     })
   },
 };

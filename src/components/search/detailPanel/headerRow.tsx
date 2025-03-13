@@ -7,6 +7,7 @@ import Image from "next/image";
 import DOMPurify from "dompurify";
 import CloseIcon from "@mui/icons-material/Close";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
+import LaunchIcon from '@mui/icons-material/Launch';
 import { Box, Container, IconButton, Collapse } from "@mui/material";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import { ParseReferenceLink } from "../helper/ParsingMethods";
@@ -78,8 +79,8 @@ const HeaderRow = (props: Props): JSX.Element => {
           Back to map view
         </a>
       </div>
-      <div className="flex flex-col sm:mb-7 sm:flex-row items-center">
-        <div className="flex flex-col sm:flex-row items-center flex-grow">
+      <div className="flex flex-col sm:mb-7 sm:flex-row items-start">
+        <div className="flex flex-col sm:flex-row items-start flex-grow">
           <div
             className="flex items-center sm:text-[4em]"
             style={{ color: fullConfig.theme.colors["strongorange"] }}
@@ -87,13 +88,14 @@ const HeaderRow = (props: Props): JSX.Element => {
             {React.cloneElement(props.headerIcon, { fontSize: "inherit" })}
           </div>
           <Box
-            sx={{ display: "inline" }}
+            sx={{ display: "inline",
+            marginTop: "0.75rem"}}
             className={`text-4xl leading-10 ml-[0.5em] ${classes.introCard}`}
           >
             {props.resultItem.title}
           </Box>
         </div>
-        <div className="flex items-start justify-center sm:justify-end md:mt-4 sm:mt-0 order-1 sm:order-none flex-none">
+        <div className="flex items-start justify-center sm:justify-end order-1 sm:order-none flex-none">
           <div className="mr-7">
             <ButtonWithIcon
               label={"Share"}
@@ -108,14 +110,16 @@ const HeaderRow = (props: Props): JSX.Element => {
             />
           </div>
           <ButtonWithIcon
+            className={'max-w-min'}
             label={"Go to Resource"}
             borderRadius={"0.25rem"}
             width={"100%"}
             justifyContent="space-between"
             fillColor={"frenchviolet"}
             labelColor={"white"}
+            endIcon={<LaunchIcon />}
             noBox={true}
-            disabled={links.homepageUrl ? false : true}
+            disabled={!links.homepageUrl}
             onClick={() => {
               window.open(links.homepageUrl, "_blank").focus();
               plausible(EventType.ClickedGoToResource, {

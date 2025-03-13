@@ -6,6 +6,7 @@ import { makeStyles } from "@mui/styles";
 
 const fullConfig = resolveConfig(tailwindConfig);
 interface Props {
+  className?: string;
   svgIcon?: any;
   muiIcon?: any;
   label: string;
@@ -36,17 +37,18 @@ const useStyles = makeStyles((theme) => ({
       right: "1.5rem",
     },
     "& .button-content": {
+      textWrap: "pretty",
       position: "absolute",
       left: "4rem",
     },
-  },
+  }
 }));
 const ButtonWithIcon = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div>
       <Button
-        className={props.endIcon ? classes.buttonWithEndIcon : ""}
+        className={props.className || ''}
         variant="contained"
         startIcon={
           props.svgIcon ? props.svgIcon : null
@@ -89,7 +91,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           },
         }}
       >
-        <span className="button-content">{props.label}</span>
+        <span className="buttonContent">{props.label}</span>
       </Button>
     </div>
   );
