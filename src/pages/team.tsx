@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
 const currentTeam = team.team.filter((p) => p.status == "current");
 const pastTeam = team.team.filter((p) => p.status == "past");
 
-const About: NextPage = () => {
+const Team: NextPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [modalData, setModalData] = React.useState(currentTeam[0]);
@@ -127,49 +127,9 @@ const About: NextPage = () => {
         </Box>
       </Modal>
       <div className="flex flex-col pt-12">
-        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">About</h1>
-          <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
-            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  <p style={{ marginBottom: "10px" }}>
-                    The SDOH & Place Project provides access to spatially
-                    indexed and curated databases, specifically designed for
-                    conducting health equity research. We will achieve this goal
-                    by:
-                  </p>
-                  <ol
-                    style={{
-                      paddingLeft: "25px",
-                      marginBottom: "10px",
-                      listStyle: "numbered",
-                    }}
-                  >
-                    <li>
-                      Developing and disseminating a toolkit on integrating
-                      User-Centered Design principles in place-based web
-                      applications.
-                    </li>
-                    <li>
-                      Creating an innovative product for place-based data
-                      discovery to link data needed for app development and
-                      related neighborhood health data exploration.
-                    </li>
-                  </ol>
-                  <p>
-                    Our mission is to make the process of building web
-                    applications that support community health by being more
-                    accessible, enjoyable, and empowering.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-10 mb-[200px] px-5 max-md:max-w-full max-md:mt-10">
-          <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Core Team</h2>
+        <div className="self-center flex w-full max-w-[1068px] flex-col px-5 pb-[8rem] max-md:max-w-full mt-[100px]">
+          <div className="self-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] ml-18 max-md:ml-2.5">
+            <h1 className="font-fredoka">Core Team</h1>
           </div>
           <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Our team is based out of the University of Illinois at
@@ -322,4 +282,4 @@ const About: NextPage = () => {
   );
 };
 
-export default About;
+export default Team;
