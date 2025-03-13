@@ -70,6 +70,17 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
     },
   },
+  mapPreviewControl: {
+    padding: "6px",
+    cursor: "pointer",
+    borderRadius: "4px",
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.04)",
+    },
+    width: "fit-content",
+    marginLeft: "auto",
+  },
 }));
 const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScore }) => {
   const classes = useStyles();
@@ -108,13 +119,56 @@ const ResultCard = (props: Props): JSX.Element => {
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
+  
+  const isInMapPreview = React.useMemo(() => {
+    return mapPreview.some(p => p.lyrId === props.resultItem.id);
+  }, [mapPreview, props.resultItem.id]);
+  
+  const handleMapPreviewToggle = React.useCallback((event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (!props.resultItem.meta.highlight_ids?.length) return;
+    
+    if (isInMapPreview) {
+      dispatch(
+        setMapPreview(
+          mapPreview.filter(
+            (item) => item.lyrId != props.resultItem.id
+          )
+        )
+      );
+    } else {
+      dispatch(
+        setMapPreview([
+          {
+            lyrId: props.resultItem.id,
+            filterIds: props.resultItem.meta.highlight_ids,
+          },
+        ])
+      );
+      
+      plausible(EventType.ClickedMapPreview, {
+        props: {
+          resourceId: props.resultItem.id
+        }
+      });
+    }
+  }, [dispatch, isInMapPreview, mapPreview, plausible, props.resultItem]);
+  
+  const handleShowDetails = React.useCallback((event) => {
+    dispatch(setShowDetailPanel(props.resultItem.id));
+    plausible(EventType.ClickedItemDetails, {
+      props: {
+        resourceId: props.resultItem.id
+      }
+    });
+  }, [dispatch, plausible, props.resultItem.id]);
 
   const cardContent = props.resultItem && (
     <div
       className={`container mx-auto p-3 bg-lightbisque shadow-none rounded aspect-ratio`}
-      onClick={() => {
-        dispatch(setShowDetailPanel(props.resultItem.id));
-      }}
+      onClick={handleShowDetails}
       style={{
         cursor: "pointer",
         border:
@@ -152,17 +206,10 @@ const ResultCard = (props: Props): JSX.Element => {
                 : ""}
             </div>
           </Grid>
-          <Grid item sm={2} className=" order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold">
+          <Grid item sm={2} className="order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold">
             <div className={'flex justify-end'}>
               <button
-                onClick={() => {
-                  dispatch(setShowDetailPanel(props.resultItem.id));
-                  plausible(EventType.ClickedItemDetails, {
-                    props: {
-                      resourceId: props.resultItem.id
-                    }
-                  });
-                }}
+                onClick={handleShowDetails}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >
                 Details <span className="ml-1">&#8594;</span>
@@ -170,96 +217,23 @@ const ResultCard = (props: Props): JSX.Element => {
             </div>
 
             <div className={'flex justify-end'}>
-              {/* Checkbox : Show coverage area on map */}
-              <FormControlLabel
-                className={'nomargin'}
-                disabled={!props.resultItem.meta.highlight_ids?.length}
-                title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
-                label={<div style={{
-                  color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
-                  padding: 0,
-                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-                  fontSize: "0.875rem" }}>
-                  {mapPreview.find(p => p.lyrId === props.resultItem.id) ? 'Remove preview' : 'Show on map'}
-              </div>}
-                onClick={(event) => {
-                  event.stopPropagation();
+              <div 
+                className={classes.mapPreviewControl}
+                onClick={handleMapPreviewToggle}
+                style={{
+                  cursor: props.resultItem.meta.highlight_ids?.length ? 'pointer' : 'default',
+                  opacity: props.resultItem.meta.highlight_ids?.length ? 1 : 0.5,
                 }}
-                control={
-                  <Checkbox
-                    id={`sc-checkbox-${props.resultItem.id}`}
-                    value={props.resultItem.meta}
-                    style={{display: 'none'}}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        dispatch(
-                          setMapPreview([
-                            {
-                              lyrId: props.resultItem.id,
-                              filterIds: props.resultItem.meta.highlight_ids,
-                            },
-                          ])
-                        );
-
-                        plausible(EventType.ClickedMapPreview, {
-                          props: {
-                            resourceId: props.resultItem.id
-                          }
-                        });
-                      } else {
-                        dispatch(
-                          setMapPreview(
-                            mapPreview.filter(
-                              (item) => item.lyrId != props.resultItem.id
-                            )
-                          )
-                        );
-                      }
-                    }}
-                    icon={
-                      <span
-                        style={{
-                          borderRadius: "4px",
-                          border: `2px solid ${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
-                          width: "14px",
-                          height: "14px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "transparent",
-                        }}
-                      ></span>
-                    }
-                    checkedIcon={
-                      <span
-                        style={{
-                          borderRadius: "4px",
-                          border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
-                          width: "14px",
-                          height: "14px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: `${fullConfig.theme.colors["frenchviolet"]}`,
-                        }}
-                      >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ width: "16px", height: "16px" }}
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-                    }
-                  />
-                }
-              />
+                title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
+              >
+                <div style={{
+                  color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
+                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+                  fontSize: "0.875rem"
+                }}>
+                  {isInMapPreview ? 'Remove preview' : 'Show on map'}
+                </div>
+              </div>
             </div>
           </Grid>
 
@@ -293,12 +267,6 @@ const ResultCard = (props: Props): JSX.Element => {
               ? props.resultItem.meta.spatial_resolution.join(", ")
               : ""}
           </div>
-          {/*<div className={`${classes.resultCard} truncate`}>
-            Resource:{" "}
-            {props.resultItem.resource_class
-              ? props.resultItem.resource_class.join(", ")
-              : ""}
-          </div>*/}
         </Grid>
       </Grid>
     </div>
