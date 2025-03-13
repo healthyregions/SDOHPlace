@@ -298,7 +298,8 @@ article table td {
   text-align: left;
 }
 
-/* Scrollbar */
+/* Force Scrollbar */
+
 .force-scrollbar ::-webkit-scrollbar {
     width: 5px;
     height: 5px
@@ -339,4 +340,14 @@ article table td {
 
 .force-scrollbar ::-webkit-scrollbar-corner {
     background: 0 0
+}
+
+/* for non-webkit browsers, but not work for Firefox */
+.force-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #dad8d8 #f4f6f9;
+    scrollbar-gutter: stable;
+}
+.force-scrollbar {
+    -ms-overflow-style: scrollbar;
 }
