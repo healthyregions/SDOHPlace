@@ -159,7 +159,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
               {isLoading || isResetting || isInitialLoad ? (
                 renderLoadingState()
               ) : (
-                <div>
+                <div className="force-scrollbar">
                   {searchState.results.length > 0 ? (
                     <Box
                       height="100%"
