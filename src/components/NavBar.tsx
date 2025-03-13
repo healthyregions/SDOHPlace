@@ -130,7 +130,7 @@ const NavBar = (): JSX.Element => {
     { title: "Fellows", url: "/fellows" },
     { title: "Showcase", url: "/showcase" },
     //{ title: "Place Mini-Projects", url: "/mini-projects" },
-    { title: "Things We Like!", url: "/recommendations" },
+    //{ title: "Things We Like!", url: "/recommendations" },
   ];
 
   return (
