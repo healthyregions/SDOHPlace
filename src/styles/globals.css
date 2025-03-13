@@ -342,12 +342,3 @@ article table td {
     background: 0 0
 }
 
-/* for non-webkit browsers, but not work for Firefox */
-.force-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #dad8d8 #f4f6f9;
-    scrollbar-gutter: stable;
-}
-.force-scrollbar {
-    -ms-overflow-style: scrollbar;
-}
