@@ -321,7 +321,7 @@ article table td {
 }
 
 .force-scrollbar ::-webkit-scrollbar-thumb:active {
-    background: #000
+    background:  #dad8d8;
 }
 
 .force-scrollbar ::-webkit-scrollbar-track {
@@ -331,11 +331,11 @@ article table td {
 }
 
 .force-scrollbar ::-webkit-scrollbar-track:hover {
-    background: #f4f6f9
+    background: #f4f6f9;
 }
 
 .force-scrollbar ::-webkit-scrollbar-track:active {
-    background: #333
+    background: #f4f6f9;
 }
 
 .force-scrollbar ::-webkit-scrollbar-corner {
