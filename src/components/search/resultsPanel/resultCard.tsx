@@ -1,7 +1,7 @@
 "use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
-import {Checkbox, FormControlLabel, Grid, Typography} from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
@@ -13,8 +13,8 @@ import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
 import { getAllScoresSelector } from "@/store/selectors/SearchSelector";
-import {EventType} from "@/lib/event";
-import {usePlausible} from "next-plausible";
+import { EventType } from "@/lib/event";
+import { usePlausible } from "next-plausible";
 
 interface Props {
   resultItem: SolrObject;
@@ -82,7 +82,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
   },
 }));
-const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScore }) => {
+const HighlightsTooltip = ({
+  q,
+  spellcheck,
+  highlights,
+  score,
+  avgScore,
+  maxScore,
+}) => {
   const classes = useStyles();
   const filteredHighlights = highlights.filter(
     (highlight) => highlight.trim() !== ""
@@ -90,9 +97,26 @@ const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScor
   const currentQuery = useSelector((state: RootState) => state.search.query);
   return highlights.length > 0 ? (
     <div>
-      <div className={classes.scoreExplain} style={{ paddingBottom: 8, borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}` }}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery, score, avgScore, maxScore) }} />
-        <p style={{paddingTop: 4}}>Information in this result includes:</p>
+      <div
+        className={classes.scoreExplain}
+        style={{
+          paddingBottom: 8,
+          borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+        }}
+      >
+        <span
+          dangerouslySetInnerHTML={{
+            __html: getScoreExplanation(
+              q,
+              spellcheck,
+              currentQuery,
+              score,
+              avgScore,
+              maxScore
+            ),
+          }}
+        />
+        <p style={{ paddingTop: 4 }}>Information in this result includes:</p>
       </div>
       <ol className={classes.highlightsList}>
         {filteredHighlights.map((highlight, index) => (
@@ -106,8 +130,19 @@ const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScor
     </div>
   ) : (
     <div>
-       <div className={classes.scoreExplain}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery , score, avgScore, maxScore) }} />
+      <div className={classes.scoreExplain}>
+        <span
+          dangerouslySetInnerHTML={{
+            __html: getScoreExplanation(
+              q,
+              spellcheck,
+              currentQuery,
+              score,
+              avgScore,
+              maxScore
+            ),
+          }}
+        />
       </div>
     </div>
   );
@@ -119,55 +154,53 @@ const ResultCard = (props: Props): JSX.Element => {
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
-  
-  // Check if this item is currently in the map preview
+
   const isInMapPreview = React.useMemo(() => {
-    return mapPreview.some(p => p.lyrId === props.resultItem.id);
+    return mapPreview.some((p) => p.lyrId === props.resultItem.id);
   }, [mapPreview, props.resultItem.id]);
-  
-  // Handler for toggling map preview
-  const handleMapPreviewToggle = React.useCallback((event) => {
-    // Prevent the card click event from firing
-    event.preventDefault();
-    event.stopPropagation();
-    
-    if (!props.resultItem.meta.highlight_ids?.length) return;
-    
-    if (isInMapPreview) {
-      dispatch(
-        setMapPreview(
-          mapPreview.filter(
-            (item) => item.lyrId != props.resultItem.id
+
+  const handleMapPreviewToggle = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!props.resultItem.meta.highlight_ids?.length) return;
+      if (isInMapPreview) {
+        dispatch(
+          setMapPreview(
+            mapPreview.filter((item) => item.lyrId != props.resultItem.id)
           )
-        )
-      );
-    } else {
-      dispatch(
-        setMapPreview([
-          {
-            lyrId: props.resultItem.id,
-            filterIds: props.resultItem.meta.highlight_ids,
+        );
+      } else {
+        dispatch(
+          setMapPreview([
+            {
+              lyrId: props.resultItem.id,
+              filterIds: props.resultItem.meta.highlight_ids,
+            },
+          ])
+        );
+
+        plausible(EventType.ClickedMapPreview, {
+          props: {
+            resourceId: props.resultItem.id,
           },
-        ])
-      );
-      
-      plausible(EventType.ClickedMapPreview, {
-        props: {
-          resourceId: props.resultItem.id
-        }
-      });
-    }
-  }, [dispatch, isInMapPreview, mapPreview, plausible, props.resultItem]);
-  
-  // Handler for showing details
-  const handleShowDetails = React.useCallback((event) => {
-    dispatch(setShowDetailPanel(props.resultItem.id));
-    plausible(EventType.ClickedItemDetails, {
-      props: {
-        resourceId: props.resultItem.id
+        });
       }
-    });
-  }, [dispatch, plausible, props.resultItem.id]);
+    },
+    [dispatch, isInMapPreview, mapPreview, plausible, props.resultItem]
+  );
+
+  const handleShowDetails = React.useCallback(
+    (event) => {
+      dispatch(setShowDetailPanel(props.resultItem.id));
+      plausible(EventType.ClickedItemDetails, {
+        props: {
+          resourceId: props.resultItem.id,
+        },
+      });
+    },
+    [dispatch, plausible, props.resultItem.id]
+  );
 
   const cardContent = props.resultItem && (
     <div
@@ -190,7 +223,11 @@ const ResultCard = (props: Props): JSX.Element => {
       }}
     >
       <div className="flex flex-col sm:flex-row items-center px-2">
-        <Grid container spacing={0} className="flex flex-col sm:flex-row items-center">
+        <Grid
+          container
+          spacing={0}
+          className="flex flex-col sm:flex-row items-center"
+        >
           <Grid item sm={10} className="items-start">
             <IconText
               roundBackground={true}
@@ -203,15 +240,22 @@ const ResultCard = (props: Props): JSX.Element => {
               labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
               labelColor={fullConfig.theme.colors["almostblack"]}
             />
-            <div className={`${classes.resultCard} truncate ml-12`} style={{ marginTop: '-0.5rem'}}>
+            <div
+              className={`${classes.resultCard} truncate ml-12`}
+              style={{ marginTop: "-0.5rem" }}
+            >
               by{" "}
               {props.resultItem.meta.publisher
                 ? props.resultItem.meta.publisher[0]
                 : ""}
             </div>
           </Grid>
-          <Grid item sm={2} className="order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold">
-            <div className={'flex justify-end'}>
+          <Grid
+            item
+            sm={2}
+            className="order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold"
+          >
+            <div className={"flex justify-end"}>
               <button
                 onClick={handleShowDetails}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
@@ -220,30 +264,47 @@ const ResultCard = (props: Props): JSX.Element => {
               </button>
             </div>
 
-            <div className={'flex justify-end'}>
-              <div 
+            <div className={"flex justify-end"}>
+              <div
                 className={classes.mapPreviewControl}
                 onClick={handleMapPreviewToggle}
                 style={{
-                  cursor: props.resultItem.meta.highlight_ids?.length ? 'pointer' : 'default',
-                  opacity: props.resultItem.meta.highlight_ids?.length ? 1 : 0.5,
+                  cursor: props.resultItem.meta.highlight_ids?.length
+                    ? "pointer"
+                    : "default",
+                  opacity: props.resultItem.meta.highlight_ids?.length
+                    ? 1
+                    : 0.5,
                 }}
-                title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
+                title={
+                  !props.resultItem.meta.highlight_ids?.length
+                    ? "No geographic areas have been defined for this dataset"
+                    : "Preview the geographic areas that this dataset covers"
+                }
               >
-                <div style={{
-                  color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
-                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-                  fontSize: "0.875rem"
-                }}>
-                  {isInMapPreview ? 'Remove preview' : 'Show on map'}
+                <div
+                  style={{
+                    color: `${
+                      props.resultItem.meta.highlight_ids?.length
+                        ? fullConfig.theme.colors["frenchviolet"]
+                        : fullConfig.theme.colors["darkgray"]
+                    }`,
+                    fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  {isInMapPreview ? "Remove preview" : "Show on map"}
                 </div>
               </div>
             </div>
           </Grid>
-
         </Grid>
       </div>
-      <Grid spacing={2} container className="flex flex-col sm:flex-row px-2 mt-1">
+      <Grid
+        spacing={2}
+        container
+        className="flex flex-col sm:flex-row px-2 mt-1"
+      >
         <Grid item xs={8} sx={{ mt: "1em", pt: "0 !important" }}>
           <div className={`${classes.resultCard} truncate `}>
             Keywords:{" "}
@@ -262,7 +323,11 @@ const ResultCard = (props: Props): JSX.Element => {
           <div className={`${classes.resultCard} truncate `}>
             Year:{" "}
             {props.resultItem.index_year?.length > 1
-              ? `${Math.min(...props.resultItem.index_year.map(y => Number(y)))} - ${Math.max(...props.resultItem.index_year.map(y => Number(y)))}`
+              ? `${Math.min(
+                  ...props.resultItem.index_year.map((y) => Number(y))
+                )} - ${Math.max(
+                  ...props.resultItem.index_year.map((y) => Number(y))
+                )}`
               : props.resultItem.index_year}
           </div>
           <div className={`${classes.resultCard} truncate `}>
@@ -277,12 +342,12 @@ const ResultCard = (props: Props): JSX.Element => {
   );
   return props.resultItem ? (
     (props.resultItem.highlights && props.resultItem.highlights.length > 0) ||
-    props.resultItem.q && !props.resultItem.q.includes('*') ? (
+    (props.resultItem.q && !props.resultItem.q.includes("*")) ? (
       <Tooltip
         title={
           <HighlightsTooltip
             q={props.resultItem.q}
-            spellcheck = {props.resultItem.spellcheck}
+            spellcheck={props.resultItem.spellcheck}
             highlights={props.resultItem.highlights || []}
             score={props.resultItem.score}
             avgScore={avgScore}
