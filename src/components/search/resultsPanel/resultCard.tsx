@@ -1,7 +1,7 @@
 "use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
-import {Checkbox, FormControlLabel, Grid, Typography} from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
@@ -13,8 +13,8 @@ import { RootState } from "@/store";
 import { Tooltip } from "@mui/material";
 import { getScoreExplanation } from "../helper/FilterByScore";
 import { getAllScoresSelector } from "@/store/selectors/SearchSelector";
-import {EventType} from "@/lib/event";
-import {usePlausible} from "next-plausible";
+import { EventType } from "@/lib/event";
+import { usePlausible } from "next-plausible";
 
 interface Props {
   resultItem: SolrObject;
@@ -70,8 +70,26 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
     },
   },
+  mapPreviewControl: {
+    padding: "6px",
+    cursor: "pointer",
+    borderRadius: "4px",
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.04)",
+    },
+    width: "fit-content",
+    marginLeft: "auto",
+  },
 }));
-const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScore }) => {
+const HighlightsTooltip = ({
+  q,
+  spellcheck,
+  highlights,
+  score,
+  avgScore,
+  maxScore,
+}) => {
   const classes = useStyles();
   const filteredHighlights = highlights.filter(
     (highlight) => highlight.trim() !== ""
@@ -79,9 +97,26 @@ const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScor
   const currentQuery = useSelector((state: RootState) => state.search.query);
   return highlights.length > 0 ? (
     <div>
-      <div className={classes.scoreExplain} style={{ paddingBottom: 8, borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}` }}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery, score, avgScore, maxScore) }} />
-        <p style={{paddingTop: 4}}>Information in this result includes:</p>
+      <div
+        className={classes.scoreExplain}
+        style={{
+          paddingBottom: 8,
+          borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
+        }}
+      >
+        <span
+          dangerouslySetInnerHTML={{
+            __html: getScoreExplanation(
+              q,
+              spellcheck,
+              currentQuery,
+              score,
+              avgScore,
+              maxScore
+            ),
+          }}
+        />
+        <p style={{ paddingTop: 4 }}>Information in this result includes:</p>
       </div>
       <ol className={classes.highlightsList}>
         {filteredHighlights.map((highlight, index) => (
@@ -95,8 +130,19 @@ const HighlightsTooltip = ({ q, spellcheck, highlights, score, avgScore, maxScor
     </div>
   ) : (
     <div>
-       <div className={classes.scoreExplain}>
-        <span dangerouslySetInnerHTML={{ __html: getScoreExplanation(q, spellcheck, currentQuery , score, avgScore, maxScore) }} />
+      <div className={classes.scoreExplain}>
+        <span
+          dangerouslySetInnerHTML={{
+            __html: getScoreExplanation(
+              q,
+              spellcheck,
+              currentQuery,
+              score,
+              avgScore,
+              maxScore
+            ),
+          }}
+        />
       </div>
     </div>
   );
@@ -109,12 +155,57 @@ const ResultCard = (props: Props): JSX.Element => {
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
+  const isInMapPreview = React.useMemo(() => {
+    return mapPreview.some((p) => p.lyrId === props.resultItem.id);
+  }, [mapPreview, props.resultItem.id]);
+
+  const handleMapPreviewToggle = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!props.resultItem.meta.highlight_ids?.length) return;
+      if (isInMapPreview) {
+        dispatch(
+          setMapPreview(
+            mapPreview.filter((item) => item.lyrId != props.resultItem.id)
+          )
+        );
+      } else {
+        dispatch(
+          setMapPreview([
+            {
+              lyrId: props.resultItem.id,
+              filterIds: props.resultItem.meta.highlight_ids,
+            },
+          ])
+        );
+
+        plausible(EventType.ClickedMapPreview, {
+          props: {
+            resourceId: props.resultItem.id,
+          },
+        });
+      }
+    },
+    [dispatch, isInMapPreview, mapPreview, plausible, props.resultItem]
+  );
+
+  const handleShowDetails = React.useCallback(
+    (event) => {
+      dispatch(setShowDetailPanel(props.resultItem.id));
+      plausible(EventType.ClickedItemDetails, {
+        props: {
+          resourceId: props.resultItem.id,
+        },
+      });
+    },
+    [dispatch, plausible, props.resultItem.id]
+  );
+
   const cardContent = props.resultItem && (
     <div
       className={`container mx-auto p-3 bg-lightbisque shadow-none rounded aspect-ratio`}
-      onClick={() => {
-        dispatch(setShowDetailPanel(props.resultItem.id));
-      }}
+      onClick={handleShowDetails}
       style={{
         cursor: "pointer",
         border:
@@ -132,7 +223,11 @@ const ResultCard = (props: Props): JSX.Element => {
       }}
     >
       <div className="flex flex-col sm:flex-row items-center px-2">
-        <Grid container spacing={0} className="flex flex-col sm:flex-row items-center">
+        <Grid
+          container
+          spacing={0}
+          className="flex flex-col sm:flex-row items-center"
+        >
           <Grid item sm={10} className="items-start">
             <IconText
               roundBackground={true}
@@ -145,128 +240,72 @@ const ResultCard = (props: Props): JSX.Element => {
               labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
               labelColor={fullConfig.theme.colors["almostblack"]}
             />
-            <div className={`${classes.resultCard} truncate ml-12`} style={{ marginTop: '-0.5rem'}}>
+            <div
+              className={`${classes.resultCard} truncate ml-12`}
+              style={{ marginTop: "-0.5rem" }}
+            >
               by{" "}
               {props.resultItem.meta.publisher
                 ? props.resultItem.meta.publisher[0]
                 : ""}
             </div>
           </Grid>
-          <Grid item sm={2} className=" order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold">
-            <div className={'flex justify-end'}>
+          <Grid
+            item
+            sm={2}
+            className="order-1 sm:order-none sm:ml-auto items-center justify-center sm:justify-end font-bold"
+          >
+            <div className={"flex justify-end"}>
               <button
-                onClick={() => {
-                  dispatch(setShowDetailPanel(props.resultItem.id));
-                  plausible(EventType.ClickedItemDetails, {
-                    props: {
-                      resourceId: props.resultItem.id
-                    }
-                  });
-                }}
+                onClick={handleShowDetails}
                 style={{ color: fullConfig.theme.colors["frenchviolet"] }}
               >
                 Details <span className="ml-1">&#8594;</span>
               </button>
             </div>
 
-            <div className={'flex justify-end'}>
-              {/* Checkbox : Show coverage area on map */}
-              <FormControlLabel
-                className={'nomargin'}
-                disabled={!props.resultItem.meta.highlight_ids?.length}
-                title={!props.resultItem.meta.highlight_ids?.length ? 'No geographic areas have been defined for this dataset' : 'Preview the geographic areas that this dataset covers'}
-                label={<div style={{
-                  color: `${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
-                  padding: 0,
-                  fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
-                  fontSize: "0.875rem" }}>
-                  {mapPreview.find(p => p.lyrId === props.resultItem.id) ? 'Remove preview' : 'Show on map'}
-              </div>}
-                onClick={(event) => {
-                  event.stopPropagation();
+            <div className={"flex justify-end"}>
+              <div
+                className={classes.mapPreviewControl}
+                onClick={handleMapPreviewToggle}
+                style={{
+                  cursor: props.resultItem.meta.highlight_ids?.length
+                    ? "pointer"
+                    : "default",
+                  opacity: props.resultItem.meta.highlight_ids?.length
+                    ? 1
+                    : 0.5,
                 }}
-                control={
-                  <Checkbox
-                    id={`sc-checkbox-${props.resultItem.id}`}
-                    value={props.resultItem.meta}
-                    style={{display: 'none'}}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        dispatch(
-                          setMapPreview([
-                            {
-                              lyrId: props.resultItem.id,
-                              filterIds: props.resultItem.meta.highlight_ids,
-                            },
-                          ])
-                        );
-
-                        plausible(EventType.ClickedMapPreview, {
-                          props: {
-                            resourceId: props.resultItem.id
-                          }
-                        });
-                      } else {
-                        dispatch(
-                          setMapPreview(
-                            mapPreview.filter(
-                              (item) => item.lyrId != props.resultItem.id
-                            )
-                          )
-                        );
-                      }
-                    }}
-                    icon={
-                      <span
-                        style={{
-                          borderRadius: "4px",
-                          border: `2px solid ${props.resultItem.meta.highlight_ids?.length ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]}`,
-                          width: "14px",
-                          height: "14px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "transparent",
-                        }}
-                      ></span>
-                    }
-                    checkedIcon={
-                      <span
-                        style={{
-                          borderRadius: "4px",
-                          border: `2px solid ${fullConfig.theme.colors["frenchviolet"]}`,
-                          width: "14px",
-                          height: "14px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: `${fullConfig.theme.colors["frenchviolet"]}`,
-                        }}
-                      >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ width: "16px", height: "16px" }}
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-                    }
-                  />
+                title={
+                  !props.resultItem.meta.highlight_ids?.length
+                    ? "No geographic areas have been defined for this dataset"
+                    : "Preview the geographic areas that this dataset covers"
                 }
-              />
+              >
+                <div
+                  style={{
+                    color: `${
+                      props.resultItem.meta.highlight_ids?.length
+                        ? fullConfig.theme.colors["frenchviolet"]
+                        : fullConfig.theme.colors["darkgray"]
+                    }`,
+                    fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  {isInMapPreview ? "Remove preview" : "Show on map"}
+                </div>
+              </div>
             </div>
           </Grid>
-
         </Grid>
       </div>
-      <Grid spacing={2} container className="flex flex-col sm:flex-row px-2 mt-1">
-        <Grid item xs={8}>
+      <Grid
+        spacing={2}
+        container
+        className="flex flex-col sm:flex-row px-2 mt-1"
+      >
+        <Grid item xs={8} sx={{ mt: "1em", pt: "0 !important" }}>
           <div className={`${classes.resultCard} truncate `}>
             Keywords:{" "}
             {props.resultItem.meta.keyword
@@ -280,11 +319,15 @@ const ResultCard = (props: Props): JSX.Element => {
               : ""}
           </div>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} sx={{ mt: "1em", pt: "0 !important" }}>
           <div className={`${classes.resultCard} truncate `}>
             Year:{" "}
             {props.resultItem.index_year?.length > 1
-              ? `${Math.min(...props.resultItem.index_year.map(y => Number(y)))} - ${Math.max(...props.resultItem.index_year.map(y => Number(y)))}`
+              ? `${Math.min(
+                  ...props.resultItem.index_year.map((y) => Number(y))
+                )} - ${Math.max(
+                  ...props.resultItem.index_year.map((y) => Number(y))
+                )}`
               : props.resultItem.index_year}
           </div>
           <div className={`${classes.resultCard} truncate `}>
@@ -293,24 +336,18 @@ const ResultCard = (props: Props): JSX.Element => {
               ? props.resultItem.meta.spatial_resolution.join(", ")
               : ""}
           </div>
-          {/*<div className={`${classes.resultCard} truncate`}>
-            Resource:{" "}
-            {props.resultItem.resource_class
-              ? props.resultItem.resource_class.join(", ")
-              : ""}
-          </div>*/}
         </Grid>
       </Grid>
     </div>
   );
   return props.resultItem ? (
     (props.resultItem.highlights && props.resultItem.highlights.length > 0) ||
-    props.resultItem.q && !props.resultItem.q.includes('*') ? (
+    (props.resultItem.q && !props.resultItem.q.includes("*")) ? (
       <Tooltip
         title={
           <HighlightsTooltip
             q={props.resultItem.q}
-            spellcheck = {props.resultItem.spellcheck}
+            spellcheck={props.resultItem.spellcheck}
             highlights={props.resultItem.highlights || []}
             score={props.resultItem.score}
             avgScore={avgScore}
