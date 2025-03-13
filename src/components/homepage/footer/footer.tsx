@@ -277,7 +277,7 @@ const Footer = (): JSX.Element => {
               <li className="leading-4">
                 <Link
                   className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
-                  href="/about"
+                  href="/project"
                 >
                   About
                 </Link>
