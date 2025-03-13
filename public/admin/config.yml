@@ -240,15 +240,15 @@ collections:
                 fields:
                   - { label: Label, name: link_label, widget: string }
                   - {
-                    label: URL,
-                    name: link_url,
-                    widget: string,
-                    pattern:
-                      [
-                        '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
-                        "Must be a valid URL.",
-                      ],
-                  }
+                      label: URL,
+                      name: link_url,
+                      widget: string,
+                      pattern:
+                        [
+                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                          "Must be a valid URL.",
+                        ],
+                    }
               - label: "Short Description"
                 name: "desc_short"
                 widget: "text"
