@@ -29,7 +29,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
   return (
     <>
       <button
-        className={`nav-button p-0 pb-2 font-light${
+        className={`nav-button p-0 pb-3 font-light${
           directLink ? "" : " cursor-default"
         }`}
 
@@ -70,6 +70,7 @@ function NavDropdownMobile({ title, dropdownElId, items }: Props) {
   return (
     <>
       <button
+        className={'text-uppercase'}
         onClick={() => {
           document.getElementById(dropdownElId).toggleAttribute("hidden");
         }}
@@ -121,7 +122,7 @@ const NavBar = (): JSX.Element => {
   ];
 
   const resourcesItems = [
-    //{ title: "Data Discovery", url: "/search" },
+    { title: "Data Discovery", url: "/search" },
     { title: "Community Toolkit", url: "https://toolkit.sdohplace.org", target: '_blank' },
     //{ title: "SDOH Guides", url: "/guides" },
   ];
@@ -138,7 +139,7 @@ const NavBar = (): JSX.Element => {
       className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
-        className={`flex justify-between items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
+        className={`flex justify-between items-center 2xl:max-w-[1536px] mt-8 pl-0 pr-0 mx-auto`}
       >
         <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
           { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
@@ -243,14 +244,20 @@ const NavBar = (): JSX.Element => {
               </Link>
             </li>
 
-            {/* Home Link */}
-            <li className={'text-uppercase'}>
-              <Link href="/">Home</Link>
-            </li>
-
             {/* Resources Menu */}
             <li>
-              <Link href="/">Home</Link>
+              <NavDropdownMobile
+                title="Resources"
+                dropdownElId="resources-dd-mobile"
+                items={resourcesItems}
+              />
+            </li>
+            <li>
+              <NavDropdownMobile
+                title="About"
+                dropdownElId="about-dd-mobile"
+                items={aboutItems}
+              />
             </li>
 
             {/* Community Menu */}
