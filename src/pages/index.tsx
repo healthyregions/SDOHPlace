@@ -120,6 +120,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
       text: "Areas with more trees, parks, and vegetation may provide access to recreation, improve mental health, and combat heat island effects.",
+      link: "/guides/greenspace-access",
     },
     {
       id: "2",

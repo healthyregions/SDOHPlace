@@ -90,6 +90,7 @@ collections:
                 widget: "string"
                 hint: "Tag name for displaying on the site"
 
+
   - name: "people"
     label: "People"
     delete: false
@@ -106,6 +107,7 @@ collections:
             label_singular: "Fellow"
             widget: list
             summary: "{{name}} - {{cohort}}"
+            add_to_top: true
             fields:
               - label: "Name"
                 name: "name"
@@ -121,7 +123,7 @@ collections:
               - label: "Cohort"
                 name: "cohort"
                 widget: "select"
-                options: ["Spring 2024", "Fall 2024"]
+                options: ["Spring 2024", "Fall 2024", "Spring 2025"]
               - label: "Links"
                 name: "links"
                 widget: "list"
@@ -202,15 +204,17 @@ collections:
                 name: "desc_long"
                 widget: "text"
                 hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
-      - name: tech_advisory
-        label: Technical Advisory Group
-        file: "meta/tech_advisory.json"
+
+      - name: advisory
+        label: Advisory Board
+        file: "meta/advisory.json"
         fields:
-          - name: tech_advisory
-            label: Tech Advisory Group
-            label_singular: "Tech Advisor"
+          - name: advisory
+            label: Advisory Board
+            label_singular: "Advisor"
             summary: "{{name}} - {{affiliation}}"
             widget: list
+            add_to_top: true
             fields:
               - label: "Name"
                 name: "name"
@@ -218,50 +222,13 @@ collections:
               - label: "Affiliation"
                 name: "affiliation"
                 widget: "string"
-              - label: "Profile Image"
-                name: "image"
-                widget: "image"
-                choose_url: true
-                default: "/images/missing-headshot.png"
-              - label: "Links"
-                name: "links"
-                widget: "list"
-                summary: "{{link_label}} - {{link_url}}"
-                fields:
-                  - { label: Label, name: link_label, widget: string }
-                  - {
-                      label: URL,
-                      name: link_url,
-                      widget: string,
-                      pattern:
-                        [
-                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
-                          "Must be a valid URL.",
-                        ],
-                    }
-              - label: "Short Description"
-                name: "desc_short"
-                widget: "text"
-              - label: "Full Description"
-                name: "desc_long"
-                widget: "text"
-                hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
-      - name: stakeholder_advisory
-        label: Stakeholder Advisory Group
-        file: "meta/stakeholder_advisory.json"
-        fields:
-          - name: stakeholder_advisory
-            label: Stakeholder Advisory Group
-            label_singular: "Stakeholder Advisor"
-            summary: "{{name}} - {{affiliation}}"
-            widget: list
-            fields:
-              - label: "Name"
-                name: "name"
-                widget: "string"
-              - label: "Affiliation"
-                name: "affiliation"
-                widget: "string"
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                default: "current"
+                options:
+                  - { label: "Current", value: "current" }
+                  - { label: "Past", value: "past" }
               - label: "Profile Image"
                 name: "image"
                 widget: "image"
@@ -435,3 +402,65 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
+
+  - name: "research-rabbit"
+    label: "Research Rabbit"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: research-rabbit
+        label: Research Rabbit entries
+        file: "meta/research-rabbit.json"
+        label_singular: "Research Rabbit"
+        fields:
+          - name: research-rabbit
+            label: Research Rabbit entries
+            label_singular: "Research Rabbit entry"
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - name: title
+                label: Title
+                hint: "Title for this Research Rabbit entry"
+                widget: string
+              - label: "Metadata Record ID"
+                name: "record_ids"
+                hint: |
+                  Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL
+                  (Example: herop-jxbloa)
+                widget: "list"
+                summary: "{{record_id}}"
+                fields:
+                  - label: Record ID
+                    name: record_id
+                    widget: string
+              - label: Public Link
+                name: link_url
+                hint: "Link to Research Rabbit URL for specific dataset of interest"
+                widget: string
+                pattern:
+                  [
+                    '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                    "Must be a valid URL.",
+                  ]
+              - label: Collected by
+                name: collected_by
+                hint: "Person who developed and curated the original Research Rabbit collection"
+                widget: string
+              - label: Reviewed by
+                name: reviewed_by
+                hint: "Person who reviewed the curated Research Rabbit collection"
+                widget: string
+              - label: Documentation/Report
+                name: doc_report
+                hint: >
+                  Some documentation/report exists that describes how the dataset was developed.
+                  This is "gray literature" that was not peer-reviewed.
+                widget: boolean
+              - label: Original peer-reviewed article by authors
+                name: peer_reviewed
+                hint: >
+                  The authors of the dataset (or index featured by the dataset, for example) published a peer-reviewed article that details the development of the data of interest.
+                  This is linked in the Research Rabbit collection
+                widget: boolean
