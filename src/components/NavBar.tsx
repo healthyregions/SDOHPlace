@@ -168,16 +168,6 @@ const NavBar = (): JSX.Element => {
               items={resourcesItems}
             />
           </li>
-                ? "active"
-                : ""
-            }`}
-          >
-            <NavDropdownButton
-              title="Resources"
-              dropdownElId="resources-dd"
-              items={resourcesItems}
-            />
-          </li>
 
           {/* Community Menu */}
           <li
