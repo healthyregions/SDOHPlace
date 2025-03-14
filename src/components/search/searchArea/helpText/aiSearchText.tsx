@@ -106,15 +106,10 @@ export const AiSearchText = () => {
             fontSize: "0.8em",
           }}
         >
-          When you include location terms in your questions (like Chicago), our
-          AI will find location-relevant results, but this isn&apos;t yet
-          connected to the map display and the filter panel. The AI translates
-          locations into geographic boundaries for searching, though these
-          filters aren&apos;t visible in the map interface.{" "}
-          <b>
-            We&apos;re working to fully integrate these features in our next
-            update.
-          </b>
+          While AI results will translate location names like &quot;Chicago&quot;
+          into a geographic filter, this filter will not be visually depicted in
+          the map interface and the filter panel. We&apos;re working toward
+          better integration in our next update.
         </Typography>
       </div>
     </>
