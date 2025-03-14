@@ -1,3 +1,4 @@
+import * as React from "react";
 import Image from "next/image";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";

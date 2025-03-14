@@ -1,18 +1,18 @@
 /** @type {import('next').NextConfig} */
+
 module.exports = {
   output: "export",
   reactStrictMode: true,
   swcMinify: true,
-  pageExtensions: ["tsx"],
+  pageExtensions: ["tsx", "ts"],
   images: {
     unoptimized: true,
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: (config, { buildId, defaultLoaders, webpack, isServer, dev }) => {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg'),
     )
-
     config.module.rules.push(
       ...[
         {
