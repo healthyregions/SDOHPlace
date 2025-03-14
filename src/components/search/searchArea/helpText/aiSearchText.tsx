@@ -11,7 +11,8 @@ export const AiSearchText = () => {
         className="pb-1"
         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
       >
-       Try our AI-powered search that helps you find data by simply asking a question.
+        Try our AI-powered search that helps you find data by simply asking a
+        question.
       </Typography>
 
       <div className="my-3 p-3 bg-gray-50 rounded-lg">
@@ -48,14 +49,14 @@ export const AiSearchText = () => {
               AI Search:
             </Typography>
             <div className="italic text-sm mb-2">
-              You ask: &quot;What could cause housing instability and poor
-              health outcomes?&quot;
+              You ask: &quot;What health outcomes are linked to housing
+              instability in Chicago?&quot;
             </div>
             <div className="text-sm">
               Understands your question and finds information about
-              &quot;housing&quot;, &quot;economic stability&quot;, and
-              &quot;health outcomes&quot; within the Social Determinants of
-              Health context to help you answer your question.
+              &quot;housing&quot;, &quot;health outcomes&quot;, and location
+              references within the Social Determinants of Health context to
+              help you answer your question with answers filtered by location.
             </div>
           </div>
         </div>
@@ -75,8 +76,8 @@ export const AiSearchText = () => {
         className="pb-1"
         sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}
       >
-        Don&apos;t want to use AI? Our keyword search mode is
-        always available and does not send any queries to AI systems.
+        Don&apos;t want to use AI? Our keyword search mode is always available
+        and does not send any queries to AI systems.
       </Typography>
 
       <Typography
@@ -86,6 +87,31 @@ export const AiSearchText = () => {
         We would love to hear your thoughts on this feature. Please{" "}
         <Link href="/contact">get in touch</Link>.
       </Typography>
+
+      <div className="my-3 mx-3 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+        <Typography
+          className="mb-2"
+          sx={{
+            fontFamily: fullConfig.theme.fontFamily["sans"],
+            fontSize: "0.8em",
+            fontWeight: "bold",
+          }}
+        >
+          Note About Location Search:
+        </Typography>
+        <Typography
+          className="pb-1"
+          sx={{
+            fontFamily: fullConfig.theme.fontFamily["sans"],
+            fontSize: "0.8em",
+          }}
+        >
+          While AI results will translate location names like &quot;Chicago&quot;
+          into a geographic filter, this filter will not be visually depicted in
+          the map interface and the filter panel. We&apos;re working toward
+          better integration in our next update.
+        </Typography>
+      </div>
     </>
   );
 };
