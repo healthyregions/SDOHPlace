@@ -1,13 +1,7 @@
 "use client";
 import { makeStyles } from "@mui/styles";
 import * as React from "react";
-import {
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  hexToRgb,
-  Typography,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import IconText from "../iconText";
@@ -170,9 +164,7 @@ const ResultCard = (props: Props): JSX.Element => {
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-
       if (!props.resultItem.meta.highlight_ids?.length) return;
-
       if (isInMapPreview) {
         dispatch(
           setMapPreview(
@@ -314,7 +306,7 @@ const ResultCard = (props: Props): JSX.Element => {
         container
         className="flex flex-col sm:flex-row px-2 mt-1"
       >
-        <Grid item xs={8}>
+        <Grid item xs={8} sx={{ mt: "1em", pt: "0 !important" }}>
           <div className={`${classes.resultCard} truncate `}>
             Keywords:{" "}
             {props.resultItem.meta.keyword
@@ -328,7 +320,7 @@ const ResultCard = (props: Props): JSX.Element => {
               : ""}
           </div>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} sx={{ mt: "1em", pt: "0 !important" }}>
           <div className={`${classes.resultCard} truncate `}>
             Year:{" "}
             {props.resultItem.index_year?.length > 1

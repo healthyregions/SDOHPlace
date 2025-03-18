@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 type NavLinkType = {
   title: string;
   url: string;
+  target?: string;
 };
 type Props = {
   title: string;
@@ -57,7 +58,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       >
         {items.map((item, index) => (
           <li key={index}>
-            <Link href={item.url}>{item.title}</Link>
+            <Link href={item.url} target={item.target || ''}>{item.title}</Link>
           </li>
         ))}
       </ul>
@@ -114,19 +115,23 @@ const NavBar = (): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
 
-  const fellowItems = [
-    { title: "2024 Cohort", url: "/fellows" },
-    { title: "Showcase", url: "/showcase" },
-  ];
-
   const aboutItems = [
+    { title: "Project", url: "/project" },
+    { title: "Core Team", url: "/team" },
     { title: "Advisory", url: "/advisory" },
-    { title: "SDOH & Place Project", url: "/about" },
   ];
 
   const resourcesItems = [
     { title: "Data Discovery", url: "/search" },
-    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
+    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org", target: '_blank' },
+    //{ title: "SDOH Guides", url: "/guides" },
+  ];
+
+  const communityItems = [
+    { title: "Fellows", url: "/fellows" },
+    { title: "Showcase", url: "/showcase" },
+    //{ title: "Place Mini-Projects", url: "/mini-projects" },
+    //{ title: "Things We Like!", url: "/recommendations" },
   ];
 
   return (
@@ -139,14 +144,17 @@ const NavBar = (): JSX.Element => {
         <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
           { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
               <Link href="/" style={{ padding:0, margin:0 }}>
-                <Image width={40} height={40} src={'./logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
+                <Image width={40} height={40} src={'/logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
               </Link>
             </li>
           }
 
+          {/* Home Link */}
           <li className={`mt-4 ${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
+
+          {/* Resources Menu */}
           <li
             className={`mt-4 ml-6 ${
               router.pathname == "/search"
@@ -160,6 +168,31 @@ const NavBar = (): JSX.Element => {
               items={resourcesItems}
             />
           </li>
+
+          {/* Community Menu */}
+          <li
+            className={`mt-4 ml-6 ${
+              router.pathname == "/fellows" ||
+              router.pathname.startsWith("/showcase")
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Community"
+              dropdownElId="fellows-dd"
+              items={communityItems}
+            />
+          </li>
+
+          {/* News Link */}
+          <li
+            className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
+          >
+            <Link href="/news">News</Link>
+          </li>
+
+          {/* About Menu */}
           <li
             className={`mt-4 ml-4 ${
               router.pathname.startsWith("/about") ||
@@ -174,25 +207,8 @@ const NavBar = (): JSX.Element => {
               items={aboutItems}
             />
           </li>
-          <li
-            className={`mt-4 ml-6 ${
-              router.pathname == "/fellows" ||
-              router.pathname.startsWith("/showcase")
-                ? "active"
-                : ""
-            }`}
-          >
-            <NavDropdownButton
-              title="Fellows"
-              dropdownElId="fellows-dd"
-              items={fellowItems}
-            />
-          </li>
-          <li
-            className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
-          >
-            <Link href="/news">News</Link>
-          </li>
+
+          {/* Contact Us Link */}
           <li
             className={`mt-4 ml-4 ${
               router.pathname.startsWith("/contact") ? "active" : ""
@@ -228,9 +244,7 @@ const NavBar = (): JSX.Element => {
               </Link>
             </li>
 
-            <li className={'text-uppercase'}>
-              <Link href="/">Home</Link>
-            </li>
+            {/* Resources Menu */}
             <li>
               <NavDropdownMobile
                 title="Resources"
@@ -245,16 +259,31 @@ const NavBar = (): JSX.Element => {
                 items={aboutItems}
               />
             </li>
+
+            {/* Community Menu */}
             <li>
               <NavDropdownMobile
-                title="Fellows"
+                title="Community"
                 dropdownElId="fellows-dd-mobile"
-                items={fellowItems}
+                items={communityItems}
               />
             </li>
+
+            {/* News Link */}
             <li className={'text-uppercase'}>
               <Link href="/news">News</Link>
             </li>
+
+            {/* About Menu */}
+            <li>
+              <NavDropdownMobile
+                title="About"
+                dropdownElId="about-dd-mobile"
+                items={aboutItems}
+              />
+            </li>
+
+            {/* Contact Us Link */}
             <li className={'text-uppercase'}>
               <Link href="/contact">Contact Us</Link>
             </li>
