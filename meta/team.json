@@ -59,20 +59,6 @@
       "status": "current"
     },
     {
-      "desc_long": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated with the Carl R. Woese Institute for Genomic Biology, Department of Statistics, and the School of Information Sciences. Before joining UIUC in 2002, he worked at Clairvoyance Corp. as a Research Scientist and a Senior Research Scientist from 1997 to 2000. His research interests are in the general area of intelligent information systems, including specifically intelligent information retrieval, data mining, natural language processing, machine learning, and their applications in domains such as biomedical and health informatics, and intelligent education systems. He has published over 300 papers in these areas and holds 6 patents. He was a key contributor of the Lemur text retrieval and mining toolkit. He is a Fellow of the Association for Computing Machinery (ACM) and a member of ACM SIGIR Academy. He received numerous awards, including ACM SIGIR Gerard Salton Award, ACM SIGIR Test of Time Paper Award (three times), the 2004 Presidential Early Career Award for Scientists and Engineers (PECASE), Alfred P. Sloan Research Fellowship, IBM Faculty Award, and HP Innovation Research Award.",
-      "name": "ChengXiang Zhai",
-      "desc_short": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
-      "status": "past",
-      "title": "Co-Investigator",
-      "links": [
-        {
-          "link_label": "Profile",
-          "link_url": "https://czhai.cs.illinois.edu/"
-        }
-      ],
-      "image": "/images/headshot-cz.png"
-    },
-    {
       "name": "José Alavez",
       "title": "Postdoctoral Scholar",
       "image": "/images/headshot-ja.png",
@@ -80,15 +66,6 @@
       "links": [],
       "desc_long": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives. During his doctoral dissertation, he charted the global and intimate posthumous geographies of migrants who faced the loss of a loved one in Quebec, Canada. In his earlier academic pursuits, he examined the domestic spaces inhabited by the homeless community in Mexico City, and he also developed methodological frameworks to bridge the realms of digital humanities and cartography.",
       "status": "current"
-    },
-    {
-      "name": "Kamaria Barronville",
-      "title": "Instructional Designer",
-      "image": "/images/headshot-kb.png",
-      "desc_short": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
-      "links": [],
-      "desc_long": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap between urban education and policy by exploring innovative approaches to promote equitable and inclusive educational practices. At HeRoP, Kamaria leverages her knowledge and skills to contribute to the development and implementation of effective instructional strategies within the lab’s research initiatives.",
-      "status": "past"
     },
     {
       "name": "Shubham Kumar",
@@ -144,6 +121,29 @@
       "links": [],
       "desc_long": "Andre is a self-employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet highly functional. He also enjoys helping people do what they love by connecting them with others through branding and art.",
       "status": "current"
+    },
+    {
+      "desc_long": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated with the Carl R. Woese Institute for Genomic Biology, Department of Statistics, and the School of Information Sciences. Before joining UIUC in 2002, he worked at Clairvoyance Corp. as a Research Scientist and a Senior Research Scientist from 1997 to 2000. His research interests are in the general area of intelligent information systems, including specifically intelligent information retrieval, data mining, natural language processing, machine learning, and their applications in domains such as biomedical and health informatics, and intelligent education systems. He has published over 300 papers in these areas and holds 6 patents. He was a key contributor of the Lemur text retrieval and mining toolkit. He is a Fellow of the Association for Computing Machinery (ACM) and a member of ACM SIGIR Academy. He received numerous awards, including ACM SIGIR Gerard Salton Award, ACM SIGIR Test of Time Paper Award (three times), the 2004 Presidential Early Career Award for Scientists and Engineers (PECASE), Alfred P. Sloan Research Fellowship, IBM Faculty Award, and HP Innovation Research Award.",
+      "name": "ChengXiang Zhai",
+      "desc_short": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
+      "status": "past",
+      "title": "Co-Investigator",
+      "links": [
+        {
+          "link_label": "Profile",
+          "link_url": "https://czhai.cs.illinois.edu/"
+        }
+      ],
+      "image": "/images/headshot-cz.png"
+    },
+    {
+      "name": "Kamaria Barronville",
+      "title": "Instructional Designer",
+      "image": "/images/headshot-kb.png",
+      "desc_short": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
+      "links": [],
+      "desc_long": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap between urban education and policy by exploring innovative approaches to promote equitable and inclusive educational practices. At HeRoP, Kamaria leverages her knowledge and skills to contribute to the development and implementation of effective instructional strategies within the lab’s research initiatives.",
+      "status": "past"
     },
     {
       "name": "Mukesh Chugani",
