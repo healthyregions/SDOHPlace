@@ -91,6 +91,14 @@
       "status": "current"
     },
     {
+      "image": "/images/sara.jpg",
+      "status": "current",
+      "name": "Sara Lambert",
+      "title": "Sr. Research Software Engineer",
+      "desc_long": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer. Over the past decade, she has contributed to dozens of research projects across many different programming languages. She assists with HEROP on various front-end development efforts, including the ChiVes project.",
+      "desc_short": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer..."
+    },
+    {
       "name": "Mandela Gadri",
       "title": "PhD Student",
       "image": "/images/headshot-mg.png",
@@ -112,14 +120,6 @@
       ],
       "desc_long": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors.",
       "status": "current"
-    },
-    {
-      "image": "/images/sara.jpg",
-      "status": "current",
-      "name": "Sara Lambert",
-      "title": "Sr. Research Software Engineer",
-      "desc_long": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer. Over the past decade, she has contributed to dozens of research projects across many different programming languages. She assists with HEROP on various front-end development efforts, including the ChiVes project.",
-      "desc_short": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer..."
     },
     {
       "image": "/images/adrita.jpg",
