@@ -170,6 +170,14 @@
       "title": "Sr. Research Software Engineer",
       "desc_long": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer. Over the past decade, she has contributed to dozens of research projects across many different programming languages. She assists with HEROP on various front-end development efforts, including the ChiVes project.",
       "desc_short": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer..."
+    },
+    {
+      "image": "/images/adrita.jpg",
+      "status": "current",
+      "name": "Mahjabin Kabir Adrita, MS",
+      "title": "Graduate Research Assistant ",
+      "desc_long": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches. She is passionate about leveraging her expertise in community-based research, data analysis, and interdisciplinary collaboration to make a meaningful impact.",
+      "desc_short": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches..."
     }
   ]
 }
