@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "4px",
   },
   tooltip: {
-    backgroundColor: "white !important",
+    backgroundColor: "rgba(255, 255, 255, 0.9) !important",
     color: `${fullConfig.theme.colors["almostblack"]}`,
     maxWidth: 500,
     fontSize: "0.875rem",
@@ -152,6 +152,7 @@ const ResultCard = (props: Props): JSX.Element => {
   const classes = useStyles();
   const plausible = usePlausible();
   const { showDetailPanel } = useSelector((state: RootState) => state.ui);
+  const showTooltips = useSelector((state: RootState) => state.ui.showTooltips);
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
@@ -341,8 +342,9 @@ const ResultCard = (props: Props): JSX.Element => {
     </div>
   );
   return props.resultItem ? (
-    (props.resultItem.highlights && props.resultItem.highlights.length > 0) ||
-    (props.resultItem.q && !props.resultItem.q.includes("*")) ? (
+    showTooltips &&
+    ((props.resultItem.highlights && props.resultItem.highlights.length > 0) ||
+      (props.resultItem.q && !props.resultItem.q.includes("*"))) ? (
       <Tooltip
         title={
           <HighlightsTooltip
