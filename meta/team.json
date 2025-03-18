@@ -162,6 +162,14 @@
       "links": [],
       "desc_long": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project.",
       "status": "past"
+    },
+    {
+      "image": "/images/sara.jpg",
+      "status": "current",
+      "name": "Sara Lambert",
+      "title": "Sr. Research Software Engineer",
+      "desc_long": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer. Over the past decade, she has contributed to dozens of research projects across many different programming languages. She assists with HEROP on various front-end development efforts, including the ChiVes project.",
+      "desc_short": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer..."
     }
   ]
 }
