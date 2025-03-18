@@ -66,7 +66,7 @@ export default function ShowcaseLayout({
             </Link>
           </div>
           <header>
-            <h1 className={'showcase-header'}>{title}</h1>
+            <h1 className={"showcase-header"}>{title}</h1>
           </header>
           <div className="relative">
             <Image

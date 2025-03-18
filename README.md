@@ -51,18 +51,45 @@ To contribute code to this repo:
 
 We've chosen this setup to keep code development history on the main branch, and isolate all of the blog-authored commit activity to the publish branch.
 
-## Dev install
+## Dev install - Discovery App
+
+We use the latest Netlify Edge feature [netlify edge](https://www.netlify.com/platform/core/edge) to host the middle-layer API for LLM calls while keeping the site statically hosted, maintaining our existing setup. Netlify Edge is an advanced feature that will also allow us to localize content, serve relevant ads, authenticate users, personalize content, redirect visitors, and much more in the future. This feature allows us to implement, test and deploy both server-based api calls and static content in the same environment.
+
+1. (One-time setup) To install the app locally, run:
 
 ```
 git clone https://github.com/healthyregions/SDOHPlace && cd SDOHPlace
 yarn install
-yarn dev
 ```
 
-View in browser at http://localhost:3000.
+2. Set up environment variables:
 
-To build and view the entire site locally, use
+```
+cp .env.local.example .env
+```
 
+Update environment variables as needed.
+
+- `NEXT_PUBLIC_SOLR_URL` - If you are running Solr locally, the default value should be sufficient. Otherwise, set to `http://<your solr installation>/solr/blacklight-core`.
+- `NEXT_PUBLIC_MAPTILER_API_KEY` - Set the API key for MapTiler services. This is used for the basemap style, as well as the geocoding service.
+- `SOLR_USERNAME` - If you are running Solr with basic auth, set the username here.
+- `SOLR_PASSWORD` - If you are running Solr with basic auth, set the password here.
+- `LLM_ENDPOINT` - Set the endpoint for the LLM API. This is used for the API calls to the LLM.
+- `OPENAI_API_KEY` - Set the API key for OpenAI services. This is used for the LLM API calls if the model is OpenAI-based.
+- `UIUC_CHAT_API_EKY` - Set the API key for the UIUC Chatbot service. This is used for the chatbot API calls.
+- `COURSE_NAME` - Set the name of the course for the UIUC chatbot service. This is used for the chatbot API calls.
+- `MODEL_NAME` - Set the name of the model for the LLM API. This is used for the API calls to the LLM.
+
+2. To run the app locally, use:
+```
+npm run dev:full
+```
+
+This will start both the API and the display layer. Navigate to `localhost:3000` to view the front end. 
+
+Note: Your browser may automatically open `localhost:8888`, but that’s for the API—you can close it. You can also monitor API results in the console.
+
+3. To build and view the entire site locally, use
 ```
 yarn build
 yarn start

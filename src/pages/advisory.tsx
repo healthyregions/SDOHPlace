@@ -212,7 +212,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Past Advisory Board Members</h2>
+            <h2 className="font-fredoka">Project Launch Advisory</h2>
           </div>
         </div>
         <div className="bg-lightbisque self-stretch flex mt-0 w-full flex-col px-5 max-md:max-w-full">
