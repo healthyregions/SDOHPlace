@@ -130,6 +130,14 @@
       "desc_short": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches..."
     },
     {
+      "image": "/images/missing-headshot.png",
+      "status": "current",
+      "name": "Camrin G., MA",
+      "title": "Graduate Research Assistant ",
+      "desc_long": "Camrin has a BA and MA in urban planning from the University of Illinois at Urbana-Champaign. He is interested in GIS, spatial analysis, public libraries, public transportation, and education. He wants to analyze the ways in which inequality shows itself in everyday life and what can be done to limit the impact.",
+      "desc_short": "Camrin has a BA and MA in urban planning from the University of Illinois at Urbana-Champaign..."
+    },
+    {
       "name": "Andre Vines",
       "title": "Graphic Designer",
       "image": "/images/headshot-av.png",
@@ -178,14 +186,6 @@
       "links": [],
       "desc_long": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project.",
       "status": "past"
-    },
-    {
-      "image": "/images/missing-headshot.png",
-      "status": "current",
-      "name": "Camrin G., MA",
-      "title": "Graduate Research Assistant ",
-      "desc_long": "Camrin has a BA and MA in urban planning from the University of Illinois at Urbana-Champaign. He is interested in GIS, spatial analysis, public libraries, public transportation, and education. He wants to analyze the ways in which inequality shows itself in everyday life and what can be done to limit the impact.",
-      "desc_short": "Camrin has a BA and MA in urban planning from the University of Illinois at Urbana-Champaign..."
     }
   ]
 }
