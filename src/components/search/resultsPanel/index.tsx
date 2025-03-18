@@ -176,8 +176,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
                     />
                   }
                   label={
-                    <div className="flex items-center text-frenchviolet">
-                      Result Previews
+                    <div 
+                      className="flex items-center text-frenchviolet text-l-500"
+                      style={{ fontFamily: `${fullConfig.theme.fontFamily["sans"]}` }}
+                    >
+                      {showTooltips ? "Content Preview Hover Enabled" : "Content Preview Hover Disabled"}
                     </div>
                   }
                   labelPlacement="start"
