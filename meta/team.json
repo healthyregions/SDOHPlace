@@ -127,7 +127,13 @@
       "name": "Mahjabin Kabir Adrita, MS",
       "title": "Graduate Research Assistant ",
       "desc_long": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches. She is passionate about leveraging her expertise in community-based research, data analysis, and interdisciplinary collaboration to make a meaningful impact.",
-      "desc_short": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches..."
+      "desc_short": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": " https://www.linkedin.com/in/mahjabin-kabir-adrita"
+        }
+      ]
     },
     {
       "image": "/images/missing-headshot.png",
