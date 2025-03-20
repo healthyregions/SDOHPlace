@@ -1,5 +1,5 @@
 const themeList =
-  "'Demographics', 'Economic Stability', 'Employment', 'Food Environmental', 'Education', 'Health and Health Care', 'Neighborhood and Build Environment', 'Social and Community Context', 'Transportation and Infrastructure', 'Safety', 'Housing', 'Physical Activity and Lifestyle', 'Social and Community Context'";
+  "'Demographics', 'Economic Stability', 'Employment', 'Food Environmental', 'Education', 'Health and Health Care', 'Natural Environment', 'Neighborhood and Build Environment', 'Social and Community Context', 'Transportation and Infrastructure', 'Safety', 'Housing', 'Physical Activity and Lifestyle', 'Social and Community Context'";
 
 const termScoring = `
 EXACT TERM SCORING TABLE:

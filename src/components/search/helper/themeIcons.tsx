@@ -23,6 +23,7 @@ const ThemeIcons = (props: Props): JSX.Element => {
     "Food Environment",
     "Health and Healthcare",
     "Housing",
+    "Natural Environment",
     "Neighborhood and Built Environment",
     "Physical Activity and Lifestyle",
     "Safety",

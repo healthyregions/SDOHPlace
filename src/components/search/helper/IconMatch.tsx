@@ -5,6 +5,7 @@ import {
   School,
   LocalHospital,
   Home,
+  Park,
   LocationCity,
   DirectionsBike,
   Security,
@@ -33,6 +34,8 @@ const IconMatch = (icon: string): JSX.Element => {
       return <LocalHospital />;
     case "Housing":
       return <Home />;
+    case "Natural Environment":
+      return <Park />;
     case "Neighborhood and Built Environment":
       return <LocationCity />;
     case "Physical Activity and Lifestyle":
