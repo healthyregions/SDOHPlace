@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { AiOutlineClose } from "react-icons/ai";
 import Footer from "@/components/homepage/footer";
-import Header from "@/components/Header";
+import Header from "@/components/meta/Header";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 
@@ -56,7 +56,7 @@ const Team: NextPage = () => {
 
   return (
     <>
-      <Header title={"About"} />
+      <Header title={"Team"} />
       <NavBar />
       <TopLines />
       <Modal

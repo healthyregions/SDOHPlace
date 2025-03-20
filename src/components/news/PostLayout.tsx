@@ -5,10 +5,10 @@ import Author from "./Author";
 import Copyright from "./Copyright";
 import Date from "./Date";
 import Layout from "../Layout";
-import BasicMeta from "./meta/BasicMeta";
-import JsonLdMeta from "./meta/JsonLdMeta";
-import OpenGraphMeta from "./meta/OpenGraphMeta";
-import TwitterCardMeta from "./meta/TwitterCardMeta";
+import Header from "../meta/Header";
+import JsonLdMeta from "@/components/meta/JsonLdMeta";
+import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
+import TwitterCardMeta from "@/components/meta/TwitterCardMeta";
 import TagButton from "./TagButton";
 import { getAuthor } from "../../lib/authors";
 import { getTag } from "../../lib/tags";
@@ -37,7 +37,7 @@ export default function PostLayout({
   const authorName = getAuthor(author).name;
   return (
     <>
-      <BasicMeta
+      <Header
         url={`/news/${slug}`}
         title={title}
         keywords={keywords}

@@ -3,10 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/posts.module.css";
 import Copyright from "../news/Copyright";
-import Date from "../news/Date";
-import BasicMeta from "../news/meta/BasicMeta";
-import OpenGraphMeta from "../news/meta/OpenGraphMeta";
-import TwitterCardMeta from "../news/meta/TwitterCardMeta";
 import { getFellow } from "../../lib/people";
 import { getTag } from "../../lib/tags";
 
@@ -38,22 +34,6 @@ export default function ShowcaseLayout({
   const fellow = getFellow(fellowName);
   return (
     <>
-      <BasicMeta
-        url={`/showcase/${slug}`}
-        title={title}
-        keywords={keywords}
-        description={description}
-      />
-      <TwitterCardMeta
-        url={`/showcase/${slug}`}
-        title={title}
-        description={description}
-      />
-      <OpenGraphMeta
-        url={`/showcase/${slug}`}
-        title={title}
-        description={description}
-      />
       <div className={styles.container}>
         <article
           className={

@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
-import BasicMeta from "@/components/news/meta/BasicMeta";
-import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
-import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
+import Header from "@/components/meta/Header";
+import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
+import TwitterCardMeta from "@/components/meta/TwitterCardMeta";
 import PostList from "@/components/news/PostList";
 import config from "../../lib/config";
 import { countPosts, listPostContent, PostContent } from "../../lib/posts";
@@ -21,7 +21,7 @@ export default function Index({ posts, tags, pagination }: Props) {
   const title = "All posts";
   return (
     <Layout page_header={"Project News"}>
-      <BasicMeta url={url} title={title} />
+      <Header url={url} title={title} />
       <OpenGraphMeta url={url} title={title} />
       <TwitterCardMeta url={url} title={title} />
       <PostList posts={posts} tags={tags} pagination={pagination} />

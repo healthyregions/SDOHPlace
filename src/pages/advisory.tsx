@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { AiOutlineClose } from "react-icons/ai";
 
-import Header from "@/components/Header";
+import Header from "@/components/meta/Header";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 import advisorData from "../../meta/advisory.json";
