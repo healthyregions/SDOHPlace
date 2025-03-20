@@ -39,7 +39,7 @@ export default function Layout({
 
   return (
     <>
-      <Header title={title} />
+      <Header title={title} url={url}/>
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">
