@@ -12,7 +12,7 @@ import { makeStyles } from "@mui/styles";
 import { AiOutlineClose } from "react-icons/ai";
 import { Typography } from "@mui/material";
 
-import Header from "@/components/Header";
+import Header from "@/components/meta/Header";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 import people from "../../meta/people.json";

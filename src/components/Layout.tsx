@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import Footer from "./homepage/footer";
@@ -23,22 +23,19 @@ export default function Layout({
   page_header,
   children,
 }: Props) {
-  const getTitle = (type: string) => {
-    switch (type) {
-      case "news":
-        return "News";
-      case "showcase":
-        return "Showcase";
-      case "guides":
-        return "Guides";
-      default:
-        return undefined;
-    }
-  };
+
+  let title = ""
+  if (type === "news") {
+    title = news_props ? news_props.title : "N88ews";
+  } else if (type === "showcase") {
+    title = news_props ? news_props.title : "Showcase";
+  } else if (type === "guide") {
+    title = news_props ? news_props.title : "Guides";
+  }
 
   return (
     <>
-      <Header title={getTitle(type)} />
+      <Header title={title} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">

@@ -1,6 +1,7 @@
 "use client";
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
+import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import * as React from "react";
 import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
@@ -24,6 +25,7 @@ export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
 const Search: NextPage<SearchPageProps> = ({ schema }) => {
   return (
     <>
+      <Header title={"Data Discovery"} />
       <NavBar />
       <SearchTopLines />
       <div className="flex flex-col">
