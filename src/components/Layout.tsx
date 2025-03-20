@@ -24,13 +24,17 @@ export default function Layout({
   children,
 }: Props) {
 
-  let title = ""
+  let title = "";
+  let url = "";
   if (type === "news") {
-    title = news_props ? news_props.title : "N88ews";
+    title = news_props.title;
+    url = "/news/" + news_props.slug;
   } else if (type === "showcase") {
-    title = news_props ? news_props.title : "Showcase";
+    title = showcase_props.title;
+    url = "/showcase/" + showcase_props.slug;
   } else if (type === "guide") {
-    title = news_props ? news_props.title : "Guides";
+    title = guide_props.title;
+    url = "/guides/" + guide_props.slug;
   }
 
   return (
