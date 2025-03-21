@@ -72,7 +72,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
         </Grid>
       </Grid>
 
-      <Grid className="w-full px-[1em] sm:px-[2em] max-md:max-w-full shadow-none aspect-ratio bg-lightbisque">
+      <Grid className="w-full px-[1em] sm:px-[2em] max-md:max-w-full shadow-none aspect-ratio">
         <Grid container className="container mx-auto py-[1em] px-4">
           <Banner>
             This platform is under development, feel free to

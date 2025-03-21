@@ -29,7 +29,7 @@ import line5 from "@/public/logos/line5.svg";
 import line6 from "@/public/logos/line6.svg";
 
 import { GetStaticProps } from "next";
-import Header from "@/components/Header";
+import Header from "@/components/meta/Header";
 import { PostData, getSortedPostsData } from "@/components/Posts";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import CardWithImage from "@/components/homepage/cardwithimage/cardwithimage";
@@ -179,7 +179,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const classes = useStyles();
   return (
     <>
-      <Header title={null} />
+      <Header />
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
         <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">

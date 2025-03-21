@@ -183,7 +183,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               : EventType.SubmittedKeywordSearch;
             plausible(searchEventType, {
               props: {
-                searchQuery: searchValue,
+                searchEvent: searchEventType + ": " + searchValue + " & " + filterQueries.join(" ")
               },
             });
           }
