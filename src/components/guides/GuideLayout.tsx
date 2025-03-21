@@ -1,20 +1,8 @@
 import React from "react";
-import Link from "next/link";
 import styles from "@/public/styles/posts.module.css";
 import Author from "../news/Author";
 import Copyright from "../news/Copyright";
 import Date from "../news//Date";
-import Layout from "../Layout";
-import BasicMeta from "../news/meta/BasicMeta";
-import JsonLdMeta from "../news/meta/JsonLdMeta";
-import OpenGraphMeta from "../news/meta/OpenGraphMeta";
-import TwitterCardMeta from "../news/meta/TwitterCardMeta";
-import TagButton from "../news/TagButton";
-import { getAuthor } from "../../lib/authors";
-import { getTag } from "../../lib/tags";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import Footer from "../homepage/footer";
-import Image from "next/image";
 
 export type GuideLayoutProps = {
   title: string;
@@ -37,30 +25,6 @@ export default function GuideLayout({
   const authorObject = { name: author, slug: null, introduction: null };
   return (
     <>
-      {/*<BasicMeta
-        url={`/guides/${slug}`}
-        title={title}
-        keywords={keywords}
-        description={description}
-      />
-      <TwitterCardMeta
-        url={`/guides/${slug}`}
-        title={title}
-        description={description}
-      />
-      <OpenGraphMeta
-        url={`/guides/${slug}`}
-        title={title}
-        description={description}
-      />
-      <JsonLdMeta
-        url={`/guides/${slug}`}
-        title={title}
-        keywords={keywords}
-        date={date}
-        author={authorName}
-        description={description}
-      />*/}
       <div className={styles.container}>
         <article
           className={

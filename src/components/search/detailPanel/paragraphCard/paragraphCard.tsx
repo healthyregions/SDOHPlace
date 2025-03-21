@@ -118,7 +118,7 @@ const ParagraphCard = (props: Props): JSX.Element => {
             </details>
           ) : (
             <>
-            <b className="text-s">{props.title}</b>
+            <b className="text-s">{props.title}</b>{" "}
           <span className={classes.paragraphCard}>{props.value}</span>
             </>
           )

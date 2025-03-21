@@ -1,12 +1,8 @@
 import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
-import BasicMeta from "@/components/news/meta/BasicMeta";
-import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
-import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
-import PostList from "@/components/news/PostList";
-import config from "../../lib/config";
-import { countPosts, listPostContent, PostContent } from "../../lib/posts";
-import { listTags, TagContent } from "../../lib/tags";
+import config from "@/lib/config";
+import { countPosts, listPostContent } from "../../lib/posts";
+import { listTags } from "../../lib/tags";
 import {Grid} from "@mui/material";
 import Link from "next/link";
 

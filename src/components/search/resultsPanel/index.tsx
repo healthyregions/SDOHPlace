@@ -70,7 +70,13 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (isResetting) return previousCount;
     if (isLoading) return previousCount;
     return searchState.results.length + uniqueRelatedList.length;
-  }, [isLoading, isResetting, previousCount, searchState.results.length, uniqueRelatedList.length]);
+  }, [
+    isLoading,
+    isResetting,
+    previousCount,
+    searchState.results.length,
+    uniqueRelatedList.length,
+  ]);
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
@@ -189,6 +195,13 @@ const ResultsPanel = (props: Props): JSX.Element => {
                           {plausible(EventType.ReceivedNoSearchResults, {
                             props: {
                               searchQuery: searchState.query,
+                              searchFilter: filterStatus.activeFilters,
+                              fullSearchStates:
+                                searchState.query +
+                                " || " +
+                                Object.entries(filterStatus.activeFilters)
+                                  .map(([key, value]) => `${key}: ${value}`)
+                                  .join(" || "),
                             },
                           })}
                         </Box>

@@ -1,14 +1,15 @@
 import Head from "next/head";
-import config from "../../../lib/config";
+import config from "@/lib/config";
 
 type Props = {
   title?: string;
   description?: string;
   keywords?: string[];
   author?: string;
-  url: string;
+  url?: string;
 };
-export default function BasicMeta({
+
+export default function Header({
   title,
   description,
   keywords,
@@ -33,7 +34,7 @@ export default function BasicMeta({
         }
       />
       {author ? <meta name="author" content={author} /> : null}
-      <link rel="canonical" href={config.base_url + url} />
+      {url ? <link rel="canonical" href={config.base_url + url} /> : null}
       <script
         defer
         data-domain="sdohplace.org"
