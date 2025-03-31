@@ -1,12 +1,21 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch, store } from "@/store";
+import { setShowTooltips } from "@/store/slices/uiSlice";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { clearMapPreview, setShowFilter } from "@/store/slices/uiSlice";
-import { Box, SvgIcon, CircularProgress, Fade, Collapse } from "@mui/material";
+import {
+  Box,
+  SvgIcon,
+  CircularProgress,
+  Fade,
+  Collapse,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React from "react";
 import ResultCard from "./resultCard";
@@ -46,6 +55,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
   );
   const [isResetting, setIsResetting] = React.useState(false);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+  const showTooltips = useSelector((state: RootState) => state.ui.showTooltips);
+  const showDetailPanel = useSelector(
+    (state: RootState) => state.ui.showDetailPanel
+  );
 
   const uniqueRelatedList = React.useMemo(() => {
     const uniqueResults = searchState.relatedResults.filter(
@@ -107,7 +120,13 @@ const ResultsPanel = (props: Props): JSX.Element => {
       </Box>
     </Box>
   );
-
+  React.useEffect(() => {
+    if (showDetailPanel) {
+      dispatch(setShowTooltips(false));
+    } else if (showDetailPanel === null && !isInitialLoad) {
+      dispatch(setShowTooltips(true));
+    }
+  }, [showDetailPanel, dispatch, isInitialLoad]);
   return (
     <div
       className="results-panel"
@@ -129,11 +148,43 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 </div>
               </Fade>
             </div>
+
             {filterStatus.hasActiveFilters && !isLoading && !isResetting && (
               <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
                 <div className="text-frenchviolet" onClick={handleClearFilters}>
                   Clear All
                 </div>
+              </div>
+            )}
+
+            {isQuery && !isInitialLoad && (
+              <div className="flex sm:justify-end items-center mt-0 order-1 sm:order-none flex-none ml-2 mr-4">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={showTooltips}
+                      onChange={(e) =>
+                        dispatch(setShowTooltips(e.target.checked))
+                      }
+                      sx={{
+                        color: fullConfig.theme.colors["frenchviolet"],
+                        "&.Mui-checked": {
+                          color: fullConfig.theme.colors["frenchviolet"],
+                        },
+                      }}
+                      size="small"
+                    />
+                  }
+                  label={
+                    <div 
+                      className="flex items-center text-frenchviolet text-l-500"
+                      style={{ fontFamily: `${fullConfig.theme.fontFamily["sans"]}` }}
+                    >
+                      {showTooltips ? "Content Preview Hover Enabled" : "Content Preview Hover Disabled"}
+                    </div>
+                  }
+                  labelPlacement="start"
+                />
               </div>
             )}
 
