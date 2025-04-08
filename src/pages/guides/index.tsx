@@ -11,6 +11,7 @@ import {
   GuidesContent
 } from "@/lib/guides";
 import { listTags, TagContent } from "@/lib/tags";
+import {Grid} from "@mui/material";
 
 type Props = {
   guides: GuidesContent[];
@@ -25,10 +26,30 @@ export default function Index({ guides, tags, pagination }: Props) {
   const title = "SDOH Guides";
   return (
     <Layout page_header={"SDOH Guides"}>
-      <Header url={url} title={title} />
-      <OpenGraphMeta url={url} title={title} />
-      <TwitterCardMeta url={url} title={title} />
-      <GuidesList guides={guides} pagination={pagination} />
+      <Grid container spacing={8}>
+        <Grid item xs={4}>
+          <Header url={url} title={title} />
+
+          {/*
+          <OpenGraphMeta url={url} title={title} />
+          <TwitterCardMeta url={url} title={title} />
+          */}
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit. Proin et erat pellentesque augue consequat
+            tincidunt vulputate ut metus. In mollis, dolor a
+            molestie gravida, diam nunc tincidunt quam, id
+            faucibus magna nisi sollicitudin velit. Sed mollis bibendum ullamcorper. Proin placerat
+            dolor sed sagittis maximus. Pellentesque habitant
+            morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas.
+          </p>
+        </Grid>
+
+        <Grid item xs={12}>
+          <GuidesList guides={guides} pagination={pagination} />
+        </Grid>
+      </Grid>
     </Layout>
   );
 }
