@@ -2,7 +2,7 @@ import React from "react";
 import styles from "@/public/styles/posts.module.css";
 import Author from "../news/Author";
 import Copyright from "../news/Copyright";
-import Date from "../news//Date";
+import DateComponent from "../news//Date";
 
 export type GuideLayoutProps = {
   title: string;
@@ -13,7 +13,7 @@ export type GuideLayoutProps = {
   body: any;
   children: React.ReactNode;
 };
-export default function GuideLayout({
+export default function GuidesLayout({
   title,
   last_updated,
   slug,
@@ -40,7 +40,7 @@ export default function GuideLayout({
             <h1 className={"guide-header"}>{title}</h1>
             <div className={"metadata"}>
               <div>
-                <Date date={last_updated} />
+                <DateComponent date={last_updated} />
               </div>
               <div>
                 <Author author={authorObject} />
