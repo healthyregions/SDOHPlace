@@ -4,7 +4,7 @@ import GuidesItem from "./GuidesItem";
 import Pagination from "../news/Pagination";
 
 type Props = {
-  posts: GuidesContent[];
+  guides: GuidesContent[];
   pagination: {
     current: number;
     pages: number;
