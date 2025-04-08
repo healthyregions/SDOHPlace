@@ -3,10 +3,9 @@ import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
-import { fetchGuideContent } from "../../lib/guides";
+import { fetchGuidesContent } from "@/lib/guides";
 import fs from "fs";
 import yaml from "js-yaml";
-import { parseISO } from "date-fns";
 
 import InstagramEmbed from "react-instagram-embed";
 import YouTube from "react-youtube";
@@ -32,7 +31,7 @@ const slugToGuideContent = ((guideContents) => {
   const hash = {};
   guideContents.forEach((it) => (hash[it.slug] = it));
   return hash;
-})(fetchGuideContent());
+})(fetchGuidesContent());
 
 export default function Guide({
   title,
@@ -60,7 +59,7 @@ export default function Guide({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchGuideContent().map((it) => "/guides/" + it.slug);
+  const paths = fetchGuidesContent().map((it) => "/guides/" + it.slug);
   return {
     paths,
     fallback: false,
