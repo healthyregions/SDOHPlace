@@ -1,12 +1,22 @@
 {
   "fellows": [
     {
+      "image": "/images/image-4-17-25-at-1.31-pm-3-.jpg",
+      "name": "Mallory Sagehorn",
+      "title": "PhD Student",
+      "cohort": "Spring 2025",
+      "project": "",
+      "desc_long": "Mallory A. P. Sagehorn, MA (she/her) is a PhD student in Geography at the University of Colorado Boulder. Her research explores the relationship between social infrastructure, neighborhoods, and health, with a particular focus on emerging adults (ages 18-29). She utilizes mixed methods to examine how neighborhood environments shape social, mental, and physical well-being across the life course. Her dissertation will investigate how access to social infrastructure in emerging adulthood influences long-term health and wellbeing outcomes, combining geospatial analysis with qualitative approaches to understand place-based health inequities at the neighborhood-level. Mallory received a Bachelors of Arts in International Studies and History from Colorado State University, a Master of Arts in Applied Geography & Geospatial Science from University of Colorado Denver, and is also pursuing a Graduate Certificate of Population Mental Health from the Colorado School of Public Health.",
+      "desc_short": "Mallory A. P. Sagehorn, MA (she/her) is a PhD student in Geography at the University of Colorado Boulder. Her research explores the relationship between social infrastructure, neighborhoods, and health, with a particular focus on emerging adults (ages 18-29)"
+    },
+    {
       "image": "/images/missing-headshot.png",
       "name": "Jacob M. Gizamba",
       "title": "PhD Candidate, Population Health & Place",
       "cohort": "Spring 2025",
       "desc_short": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.",
-      "desc_long": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.\nPositioned at the intersection of epidemiology, spatiotemporal analysis, and health equity, his work leverages spatial and epidemiological methods to inform targeted interventions that address health disparities. He holds a Master of Public Health specializing in Epidemiology from the\nUniversity of Cape Town, South Africa. His previous research has explored the epidemiology of infectious diseases such as leptospirosis and HIV, as well as non-communicable diseases, applying geospatial methods to enhance disease prevention and population health. He is also interested in\nadvancing spatial and syndemic analyses through methodological innovations, including machine learning applications in public health. He is also dedicated to advancing spatial epidemiology in public health education."
+      "desc_long": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.\nPositioned at the intersection of epidemiology, spatiotemporal analysis, and health equity, his work leverages spatial and epidemiological methods to inform targeted interventions that address health disparities. He holds a Master of Public Health specializing in Epidemiology from the\nUniversity of Cape Town, South Africa. His previous research has explored the epidemiology of infectious diseases such as leptospirosis and HIV, as well as non-communicable diseases, applying geospatial methods to enhance disease prevention and population health. He is also interested in\nadvancing spatial and syndemic analyses through methodological innovations, including machine learning applications in public health. He is also dedicated to advancing spatial epidemiology in public health education.",
+      "project": ""
     },
     {
       "image": "/images/image-4-17-25-at-1.31-pm-1-.jpg",
