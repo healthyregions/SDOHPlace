@@ -1,6 +1,14 @@
 {
   "fellows": [
     {
+      "image": "/images/missing-headshot.png",
+      "name": "Jacob M. Gizamba",
+      "title": "PhD Candidate, Population Health & Place",
+      "cohort": "Spring 2025",
+      "desc_short": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.",
+      "desc_long": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.\nPositioned at the intersection of epidemiology, spatiotemporal analysis, and health equity, his work leverages spatial and epidemiological methods to inform targeted interventions that address health disparities. He holds a Master of Public Health specializing in Epidemiology from the\nUniversity of Cape Town, South Africa. His previous research has explored the epidemiology of infectious diseases such as leptospirosis and HIV, as well as non-communicable diseases, applying geospatial methods to enhance disease prevention and population health. He is also interested in\nadvancing spatial and syndemic analyses through methodological innovations, including machine learning applications in public health. He is also dedicated to advancing spatial epidemiology in public health education."
+    },
+    {
       "image": "/images/image-4-17-25-at-1.31-pm-1-.jpg",
       "name": "Hannah Cordeiro",
       "title": "Assistant Program Manager",
