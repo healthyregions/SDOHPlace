@@ -1,6 +1,15 @@
 {
   "fellows": [
     {
+      "image": "/images/image-4-17-25-at-1.32-pm-2-.jpg",
+      "name": "Zoe Maxwell",
+      "title": "MPH Candidate 2025 | Research Assistant ",
+      "cohort": "Spring 2025",
+      "desc_long": "Zoe (she/her) received her Bachelor of Arts in Public Health from Brown University in December 2022. She is currently pursuing her Master of Public Health (MPH) at Brown University and is expected to graduate in May 2025. Zoe's interdisciplinary concentration focuses on physical activity and nutrition. She aims to promote health equity by developing innovative interventions that provide disadvantaged communities with access to essential health resources and knowledge. As part of the Social Epi Lab at Brown University, Zoe is a Research Assistant on Project G-SPACE, an ongoing NIH funded study investigating the influence green space has on children’s sleep, physical activity, and mental health. Outside of academia, Zoe enjoys running, soccer, hiking, and music!",
+      "desc_short": "Zoe (she/her) received her Bachelor of Arts in Public Health from Brown University in December 2022. She is currently pursuing her Master of Public Health (MPH) at Brown University and is expected to graduate in May 2025. Zoe's interdisciplinary concentration focuses on physical activity and nutrition.",
+      "project": ""
+    },
+    {
       "image": "/images/image-4-17-25-at-1.32-pm-1-.jpg",
       "name": "Ya Yang",
       "title": "Ph.D. Student",
