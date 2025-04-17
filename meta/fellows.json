@@ -1,6 +1,15 @@
 {
   "fellows": [
     {
+      "image": "/images/image-4-17-25-at-1.32-pm-1-.jpg",
+      "name": "Ya Yang",
+      "title": "Ph.D. Student",
+      "desc_long": "Ya Yang is a Ph.D. student in Public Health Sciences at the University of California, Davis. His research interests focus on social behaviors that contribute to substance use among marginalized communities, including low-income populations, sexual and gender minorities, people living with HIV, individuals with disabilities, and immigrants. He holds a Master of Science in Global Health with a concentration in Disease Prevention from Georgetown University and dual bachelor’s degrees in Public Health and Psychology from the University of California, Merced.\n\nYa is a former University of California Presidential Public Service Fellow and has received numerous prestigious scholarships, including the Coca-Cola Foundation Scholarship, Asian Pacific Islander American Scholarship, Tzu Chi Scholarship, Avalos Foundation Scholarship, and Ronald McDonald Scholarship.",
+      "desc_short": "Ya Yang is a Ph.D. student in Public Health Sciences at the University of California, Davis. His research interests focus on social behaviors that contribute to substance use among marginalized communities, including low-income populations, sexual and gender minorities, people living with HIV, individuals with disabilities, and immigrants.",
+      "project": "",
+      "cohort": "Spring 2025"
+    },
+    {
       "image": "/images/image-4-17-25-at-1.32-pm.jpg",
       "name": "Olivia Steidl",
       "title": "Outreach Specialist",
