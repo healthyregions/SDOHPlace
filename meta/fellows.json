@@ -1,12 +1,22 @@
 {
   "fellows": [
     {
+      "image": "/images/image-4-17-25-at-1.30-pm-1-.jpg",
+      "name": "Cheng-Chia \"Brian\" Chen",
+      "title": "Associate Professor of Public Health",
+      "cohort": "Spring 2025",
+      "desc_long": "Dr. Chen is an Associate Professor of Public Health at the University of Illinois Springfield (UIS) and a dedicated public health educator with over a decade of experience. His research centers on behavioral health, social determinants of health, health disparities, and innovations in online public health education. Drawing on methods from epidemiology, health economics, and educational technology, Dr. Chen’s work aims to improve population health and enhance the effectiveness of public health practice and education. Through applied statistics and evaluation research, Dr. Chen investigates complex public health issues with a focus on alleviating public health issues. He is particularly committed to preparing future public health professionals through student-centered, active learning that cultivates critical thinking and analytical skills. Beyond his academic role, Dr. Chen fosters sustainable collaborations among educators, researchers, and public health practitioners at the local, state, national, and global levels. His work is grounded in a lifelong commitment to excellence in health education and promotion, meaningful engagement, and advancing the field of public health through impactful scholarship.",
+      "desc_short": "Dr. Chen is an Associate Professor of Public Health at the University of Illinois Springfield (UIS) and a dedicated public health educator with over a decade of experience. His research centers on behavioral health, social determinants of health, health disparities, and innovations in online public health education. ",
+      "project": ""
+    },
+    {
       "image": "/images/image-4-17-25-at-1.30-pm.jpg",
       "name": "Carlyse Cheshier",
       "title": "Ph.D. Student",
       "cohort": "Spring 2025",
       "desc_long": "Carlyse Cheshier is a Ph.D. student in Earth, Environment and Society at Portland State University. Her research examines human-nature interactions in urban environments through participatory visual methods that promote sustainable environmental behaviors, build shared knowledge, and enhance community and ecological health and well-being. Her work aims to advance environmental justice and resilience across the Pacific Northwest. Her current work focuses on how urbanization impacts collaborative governance and the diverse ways communities value, utilize, and recreate in the lower Clackamas River Basin Watershed. Through this research, she seeks to foster equitable outcomes and shared ecological, health, and social benefits from communal natural resources.\n",
-      "desc_short": "Carlyse Cheshier is a Ph.D. student in Earth, Environment and Society at Portland State University. Her research examines human-nature interactions in urban environments through participatory visual methods that promote sustainable environmental behaviors, build shared knowledge, and enhance community and ecological health and well-being. "
+      "desc_short": "Carlyse Cheshier is a Ph.D. student in Earth, Environment and Society at Portland State University. Her research examines human-nature interactions in urban environments through participatory visual methods that promote sustainable environmental behaviors, build shared knowledge, and enhance community and ecological health and well-being. ",
+      "project": ""
     },
     {
       "image": "/images/image-4-17-25-at-1.29-pm.jpg",
