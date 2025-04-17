@@ -1,6 +1,14 @@
 {
   "fellows": [
     {
+      "image": "/images/image-4-17-25-at-1.30-pm.jpg",
+      "name": "Carlyse Cheshier",
+      "title": "Ph.D. Student",
+      "cohort": "Spring 2025",
+      "desc_long": "Carlyse Cheshier is a Ph.D. student in Earth, Environment and Society at Portland State University. Her research examines human-nature interactions in urban environments through participatory visual methods that promote sustainable environmental behaviors, build shared knowledge, and enhance community and ecological health and well-being. Her work aims to advance environmental justice and resilience across the Pacific Northwest. Her current work focuses on how urbanization impacts collaborative governance and the diverse ways communities value, utilize, and recreate in the lower Clackamas River Basin Watershed. Through this research, she seeks to foster equitable outcomes and shared ecological, health, and social benefits from communal natural resources.\n",
+      "desc_short": "Carlyse Cheshier is a Ph.D. student in Earth, Environment and Society at Portland State University. Her research examines human-nature interactions in urban environments through participatory visual methods that promote sustainable environmental behaviors, build shared knowledge, and enhance community and ecological health and well-being. "
+    },
+    {
       "image": "/images/image-4-17-25-at-1.29-pm.jpg",
       "name": "Bryce Takenaka",
       "title": "PhD Student",
