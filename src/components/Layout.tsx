@@ -5,7 +5,7 @@ import Footer from "./homepage/footer";
 import React from "react";
 import PostLayout, { PostLayoutProps } from "./news/PostLayout";
 import ShowcaseLayout, { ShowcaseLayoutProps } from "./showcase/ShowcaseLayout";
-import GuideLayout, { GuideLayoutProps } from "./guides/GuideLayout";
+import GuidesLayout, { GuideLayoutProps } from "./guides/GuidesLayout";
 
 type Props = {
   type?: "news" | "showcase" | "guide";
@@ -57,9 +57,9 @@ export default function Layout({
                 </ShowcaseLayout>
               )}
               {type === "guide" && (
-                <GuideLayout {...guide_props}>
+                <GuidesLayout {...guide_props}>
                   {guide_props.children}
-                </GuideLayout>
+                </GuidesLayout>
               )}
             </div>
           </div>
