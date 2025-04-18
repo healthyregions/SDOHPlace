@@ -67,7 +67,8 @@ const Fellows: NextPage = () => {
   fellowsData.fellows.forEach((fellow) => {
     // Add to the running list of fellows if this is not already present
     fellows[fellow.cohort] = fellows[fellow.cohort] || [];
-    fellows[fellow.cohort]?.includes(fellow) || fellows[fellow.cohort].push(fellow);
+    fellows[fellow.cohort]?.includes(fellow) ||
+      fellows[fellow.cohort].push(fellow);
   });
   const [firstCohort] = Object.keys(fellows);
 
@@ -78,21 +79,29 @@ const Fellows: NextPage = () => {
 
   const sortByYearAndSeason = (cohorts) => {
     return cohorts.sort((c1, c2) => {
-      const [s1, y1] = c1.split(' ');
-      const [s2, y2] = c2.split(' ');
+      const [s1, y1] = c1.split(" ");
+      const [s2, y2] = c2.split(" ");
 
       // Main comparison uses year
-      if (y1 > y2) { return 1; }
-      if (y2 < y1) { return -1; }
+      if (y1 < y2) {
+        return 1;
+      }
+      if (y2 > y1) {
+        return -1;
+      }
 
       // Break ties in year using season
-      if (s1 > s2) { return 1; }
-      if (s2 < s1) { return -1; }
+      if (s1 > s2) {
+        return 1;
+      }
+      if (s2 < s1) {
+        return -1;
+      }
 
       // Same year, same season => same cohort
       return 0;
     });
-  }
+  };
 
   return (
     <>
@@ -189,69 +198,68 @@ const Fellows: NextPage = () => {
             </div>
           </div>
         </div>
-        {
-          sortByYearAndSeason(Object.keys(fellows)).map((cohort, index) =>
-            <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10" key={`cohort-${cohort}-${index}`}>
-              <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-                <h2 className="font-fredoka">{cohort} Fellow Cohort</h2>
-              </div>
-              <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
-                <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
-                  <div
-                    className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
-                    style={{ marginTop: "-110px" }}
-                  >
-                    <div className="self-center w-full max-md:max-w-full">
-                      <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                        {
-                          fellows[cohort]?.map((fellow, index) =>
+        {sortByYearAndSeason(Object.keys(fellows)).map((cohort, index) => (
+          <div
+            className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10"
+            key={`cohort-${cohort}-${index}`}
+          >
+            <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
+              <h2 className="font-fredoka">{cohort} Fellow Cohort</h2>
+            </div>
+            <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
+              <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
+                <div
+                  className="self-center flex w-full max-w-[1246px] flex-col mt-0.5 max-md:max-w-full"
+                  style={{ marginTop: "-110px" }}
+                >
+                  <div className="self-center w-full max-md:max-w-full">
+                    <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
+                      {fellows[cohort]?.map((fellow, index) => (
+                        <div
+                          key={`fellow-${cohort}-${index}`}
+                          className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
+                        >
+                          <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
                             <div
-                              key={`fellow-${cohort}-${index}`}
-                              className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
+                              className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
+                              style={{ paddingRight: "100px" }}
                             >
-                              <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
-                                <div
-                                  className="flex flex-col items-stretch mb-[30px] max-md:w-full max-md:ml-0"
-                                  style={{ paddingRight: "100px" }}
-                                >
-                                  <ProfileImage
-                                    src={fellow.image}
-                                    alt={fellow.name}
-                                    rounded={true}
-                                  />
-                                </div>
-                                <div className="flex grow flex-col max-md:mt-10">
-                                  <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
-                                    {fellow.name}
-                                  </div>
-                                  <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
-                                    {fellow.title}
-                                  </div>
-                                  <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
-                                    {fellow.desc_short}
-                                  </div>
-                                  <div
-                                    className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
-                                    onClick={() => {
-                                      setModalData(fellow);
-                                      handleOpen();
-                                    }}
-                                  >
-                                    Read More
-                                  </div>
-                                </div>
+                              <ProfileImage
+                                src={fellow.image}
+                                alt={fellow.name}
+                                rounded={true}
+                              />
+                            </div>
+                            <div className="flex grow flex-col max-md:mt-10">
+                              <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
+                                {fellow.name}
+                              </div>
+                              <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
+                                {fellow.title}
+                              </div>
+                              <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-6">
+                                {fellow.desc_short}
+                              </div>
+                              <div
+                                className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                                onClick={() => {
+                                  setModalData(fellow);
+                                  handleOpen();
+                                }}
+                              >
+                                Read More
                               </div>
                             </div>
-                          )
-                        }
-                      </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          )
-        }
+          </div>
+        ))}
         <Footer />
       </div>
     </>
