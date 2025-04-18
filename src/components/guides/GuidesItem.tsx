@@ -7,7 +7,7 @@ type Props = {
 };
 export default function GuidesItem({ item }: Props) {
   return (
-    <Link href={"/showcase/" + item.slug} legacyBehavior>
+    <Link href={"/guides/" + item.slug} legacyBehavior>
       <a className={"no-underline"}>
         <div style={{ display: "flex" }}>
           <div>
