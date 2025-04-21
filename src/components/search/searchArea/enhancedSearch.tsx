@@ -171,6 +171,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
 
   const debouncedFetchSuggestions = React.useCallback(
     debounce((value: string, schema: any, prevValue: string) => {
+      if (isSearching || isLocalLoading) {
+        return;
+      }
+      
       const isDifferentInput =
         !prevValue.includes(value) && !value.includes(prevValue);
       if (isDifferentInput) {
@@ -183,7 +187,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         setShouldShowDropdown(false);
       }
     }, 300),
-    [dispatch, aiSearch, clearSuggestions]
+    [dispatch, aiSearch, clearSuggestions, isSearching, isLocalLoading]
   );
 
   React.useEffect(() => {
@@ -193,16 +197,11 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   }, [query, dispatch]);
 
   React.useEffect(() => {
-    if (!isSearching && !isLocalLoading) {
-      setShouldShowDropdown(false);
-    }
-  }, [isSearching, isLocalLoading]);
-
-  React.useEffect(() => {
     if (isSearching || isLocalLoading) {
       setShouldShowDropdown(false);
+      clearSuggestions();
     }
-  }, [isSearching, isLocalLoading, query]);
+  }, [isSearching, isLocalLoading, clearSuggestions]);
 
   const handleInputReset = () => {
     if (hasSelectedItem) {
@@ -271,11 +270,14 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     async (searchValue: string | null) => {
       if (searchValue) {
         setShouldShowDropdown(false);
+        clearSuggestions();
         dispatch(clearMapPreview());
         dispatch(setQuery(searchValue));
         dispatch(setShowDetailPanel(null));
+        
         dispatch(setIsSearching(true));
         setIsLocalLoading(true);
+        
         dispatch(setThoughts(""));
         try {
           const result = await dispatch(
@@ -320,6 +322,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       sort.sortOrder,
       aiSearch,
       plausible,
+      clearSuggestions
     ]
   );
 
@@ -358,12 +361,19 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const handleDropdownSelect = (event: any, value: string | null) => {
     setHasSelectedItem(true);
     setShouldShowDropdown(false);
+    clearSuggestions();
+    
     if (isLocalLoading || isSearching) {
       return;
     }
+    
     if (value) {
       dispatch(setInputValue(value));
       if (value !== query) {
+        setIsLocalLoading(true);
+        dispatch(setIsSearching(true));
+        
+        const prevInput = inputValue;
         performSearch(value);
       }
     }
@@ -376,6 +386,14 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     const inputChanged = newInputValue !== inputValue;
     const lengthChanged = newInputValue.length !== inputValue.length;
     const becameShorter = newInputValue.length < inputValue.length;
+    
+    if (hasSelectedItem && event && event.type === "change") {
+      handleInputReset();
+      dispatch(setInputValue(newInputValue));
+      dispatch(setShowClearButton(!!newInputValue));
+      return;
+    }
+    
     if (
       inputChanged &&
       (lengthChanged || !newInputValue.includes(inputValue))
@@ -383,12 +401,11 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       clearSuggestions();
       setShouldShowDropdown(false);
     }
+    
     setPreviousInput(inputValue);
-    if (hasSelectedItem && event && event.type === "change") {
-      handleInputReset();
-    }
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
+    
     if (newInputValue !== "") {
       if (!aiSearch) {
         if (newInputValue.length >= 2) {
@@ -506,6 +523,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   };
 
   const handleAutocompleteFocus = (event: React.FocusEvent) => {
+    if (hasSelectedItem) {
+      return;
+    }
+    
     if (inputValue && inputValue.length >= 2 && !aiSearch) {
       debouncedFetchSuggestions(inputValue, schema, previousInput);
     }
@@ -550,8 +571,13 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                 {...otherProps}
                 onClick={(e) => {
                   setHasSelectedItem(true);
-
                   setShouldShowDropdown(false);
+                  clearSuggestions();
+                  
+                  if (!isLocalLoading && !isSearching) {
+                    setIsLocalLoading(true);
+                    dispatch(setIsSearching(true));
+                  }
 
                   if (onClick) onClick(e);
                 }}

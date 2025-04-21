@@ -523,7 +523,6 @@ const searchSlice = createSlice({
       })
       .addCase(batchResetFilters, (state, action) => {
         state.bbox = null;
-        state.subject = [];
         state.spatialResolution = [];
         state.indexYear = [];
         state.filterQueries = [];
@@ -531,6 +530,11 @@ const searchSlice = createSlice({
         state.query = action.payload.query;
         state.sort.sortBy = "score";
         state.sort.sortOrder = "desc";
+        if (action.payload.preserveSubject && action.payload.subject) {
+          state.subject = action.payload.subject;
+        } else {
+          state.subject = [];
+        }
       });
   },
 });

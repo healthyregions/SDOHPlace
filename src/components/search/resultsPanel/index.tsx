@@ -48,34 +48,30 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const [isResetting, setIsResetting] = React.useState(false);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
   const [, forceUpdate] = React.useState({});
-  const [loadingTerms, setLoadingTerms] = React.useState<string[]>([
-    "data",
-    "health",
-    "statistics",
-    "research",
-    "demographics",
-    "counties",
-  ]);
-  const [currentTermIndex, setCurrentTermIndex] = React.useState(0);
 
   const uniqueRelatedList = React.useMemo(() => {
-    const relatedResults = Array.isArray(searchState.relatedResults)
-      ? searchState.relatedResults
-      : [];
+    try {
+      const relatedResults = Array.isArray(searchState.relatedResults)
+        ? searchState.relatedResults
+        : [];
 
-    const uniqueResults = relatedResults.filter(
-      (v, i, a) => a.findIndex((t) => t.id === v.id) === i
-    );
+      const uniqueResults = relatedResults.filter(
+        (v, i, a) => a.findIndex((t) => (t && t.id) === (v && v.id)) === i
+      );
 
-    const results = Array.isArray(searchState.results)
-      ? searchState.results
-      : [];
+      const results = Array.isArray(searchState.results)
+        ? searchState.results
+        : [];
 
-    const filtered = uniqueResults.filter(
-      (v) => !results.some((t) => t.id === v.id)
-    );
+      const filtered = uniqueResults.filter(
+        (v) => v && !results.some((t) => t && t.id === v.id)
+      );
 
-    return filtered;
+      return filtered.filter((item) => item && item.id);
+    } catch (error) {
+      console.error("Error processing related results:", error);
+      return [];
+    }
   }, [searchState.relatedResults, searchState.results]);
 
   const handleFilterToggle = () => {
@@ -234,54 +230,65 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         maxHeight: "100vh",
                       }}
                     >
-                      {searchState.results.length > 0 && (
+                      {searchState.results &&
+                        searchState.results.length > 0 && (
+                          <>
+                            {searchState.results.map((result) =>
+                              result && result.id ? (
+                                <div key={result.id} className="mb-[0.75em]">
+                                  <ResultCard resultItem={result} />
+                                </div>
+                              ) : null
+                            )}
+                          </>
+                        )}
+                      {uniqueRelatedList && uniqueRelatedList.length > 0 && (
                         <>
-                          {searchState.results.map((result) => (
-                            <div key={result.id} className="mb-[0.75em]">
-                              <ResultCard resultItem={result} />
-                            </div>
-                          ))}
-                        </>
-                      )}
-                      {uniqueRelatedList.length > 0 && (
-                        <>
-                          {uniqueRelatedList.map((result) => (
-                            <div key={result.id} className="mb-[0.75em]">
-                              <ResultCard resultItem={result} />
-                            </div>
-                          ))}
+                          {uniqueRelatedList.map((result) =>
+                            result && result.id ? (
+                              <div key={result.id} className="mb-[0.75em]">
+                                <ResultCard resultItem={result} />
+                              </div>
+                            ) : null
+                          )}
                         </>
                       )}
                     </Box>
                   ) : (
-                    !isInitialLoad && (
-                      <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
-                        <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                          <SearchIcon className="text-strongorange mb-[0.15em]" />
-                          <div className="text-s">No results</div>
-                          {plausible(EventType.ReceivedNoSearchResults, {
-                            props: {
-                              searchQuery: searchState.query,
-                              searchFilter: filterStatus.activeFilters,
-                              fullSearchStates:
-                                searchState.query +
-                                " || " +
-                                Object.entries(filterStatus.activeFilters)
-                                  .map(([key, value]) => `${key}: ${value}`)
-                                  .join(" || "),
-                            },
-                          })}
-                        </Box>
-                        <Box className="mb-[0.75em]">
-                          <div className="text-s">
-                            Search for themes instead?
-                          </div>
-                        </Box>
-                        <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                          <ThemeIcons variant="alternate" />
-                        </Box>
-                      </div>
-                    )
+                    <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+                      <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                        <SearchIcon className="text-strongorange mb-[0.15em]" />
+                        <div className="text-s">No results</div>
+                        {(() => {
+                          try {
+                            if (process.env.NODE_ENV !== "development") {
+                              plausible(EventType.ReceivedNoSearchResults, {
+                                props: {
+                                  searchQuery: searchState.query,
+                                  searchFilter: filterStatus.activeFilters,
+                                  fullSearchStates:
+                                    searchState.query +
+                                    " || " +
+                                    Object.entries(filterStatus.activeFilters)
+                                      .map(([key, value]) => `${key}: ${value}`)
+                                      .join(" || "),
+                                },
+                              });
+                            }
+                            return null;
+                          } catch (error) {
+                            console.error("Analytics error:", error);
+                            return null;
+                          }
+                        })()}
+                      </Box>
+                      <Box className="mb-[0.75em]">
+                        <div className="text-s">Search for themes instead?</div>
+                      </Box>
+                      <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+                        <ThemeIcons variant="alternate" themeOnly={true} />
+                      </Box>
+                    </div>
                   )}
                 </div>
               )}
