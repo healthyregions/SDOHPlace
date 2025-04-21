@@ -451,65 +451,44 @@ const searchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchSearchAndRelatedResults.pending, (state, action) => {
-        if (
-          state.currentRequestId === null ||
-          state.currentRequestId === action.meta.requestId ||
-          action.meta.arg.bypassSpellCheck
-        ) {
-          state.isSearching = true;
-          state.currentRequestId = action.meta.requestId;
-        }
+        state.isSearching = true;
+        state.currentRequestId = action.meta.requestId;
       })
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
-        if (
-          state.currentRequestId === action.meta.requestId ||
-          action.meta.arg.bypassSpellCheck
-        ) {
-          state.results = generateSolrObjectList(
-            action.payload.searchResults || []
-          );
-          state.relatedResults = generateSolrObjectList(
-            action.payload.relatedResults || []
-          );
-          state.suggestions = action.payload.suggestions || [];
-          state.originalQuery = Array.isArray(action.payload.originalQuery)
-            ? action.payload.originalQuery.join(", ")
-            : action.payload.originalQuery;
-          state.usedQuery = Array.isArray(action.payload.usedQuery)
-            ? action.payload.usedQuery.join(", ")
-            : action.payload.usedQuery;
-          state.usedSpellCheck = action.payload.usedSpellCheck || false;
+        if (state.currentRequestId === action.meta.requestId) {
+          if (action.payload) {
+            state.results = generateSolrObjectList(action.payload.searchResults || []);
+            state.relatedResults = generateSolrObjectList(action.payload.relatedResults || []);
+            state.suggestions = action.payload.suggestions || [];
+            state.originalQuery = action.payload.originalQuery;
+            state.usedQuery = action.payload.usedQuery;
+            state.usedSpellCheck = action.payload.usedSpellCheck || false;
+          }
           state.isSearching = false;
-          state.currentRequestId = null;
         }
       })
       .addCase(fetchSearchAndRelatedResults.rejected, (state, action) => {
-        if (
-          state.currentRequestId === action.meta.requestId ||
-          action.meta.arg.bypassSpellCheck
-        ) {
+        if (state.currentRequestId === action.meta.requestId) {
           state.isSearching = false;
           state.results = [];
           state.relatedResults = [];
-          state.usedSpellCheck = false;
-          state.currentRequestId = null;
         }
       })
       .addCase(fetchSearchResults.pending, (state) => {
         state.isSearching = true;
-        state.results = [];
       })
       .addCase(fetchSearchResults.fulfilled, (state, action) => {
-        state.results = generateSolrObjectList(action.payload.results);
-        state.originalQuery = action.payload.originalQuery;
-        state.usedQuery = action.payload.usedQuery;
-        state.usedSpellCheck = action.payload.usedSpellCheck;
+        if (action.payload) {
+          state.results = generateSolrObjectList(action.payload.results || []);
+          state.originalQuery = action.payload.originalQuery;
+          state.usedQuery = action.payload.usedQuery;
+          state.usedSpellCheck = action.payload.usedSpellCheck || false;
+        }
         state.isSearching = false;
       })
       .addCase(fetchSearchResults.rejected, (state) => {
         state.isSearching = false;
         state.results = [];
-        state.usedSpellCheck = false;
       })
       .addCase(fetchSuggestions.pending, (state) => {})
       .addCase(fetchSuggestions.rejected, (state) => {
@@ -543,7 +522,6 @@ const searchSlice = createSlice({
         state.suggestions = [];
       })
       .addCase(batchResetFilters, (state, action) => {
-        // Reset all filter-related state
         state.bbox = null;
         state.subject = [];
         state.spatialResolution = [];

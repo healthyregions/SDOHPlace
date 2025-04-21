@@ -40,24 +40,48 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const plausible = usePlausible();
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
   const isLoading = searchState.isSearching || searchState.isSuggesting;
-  const isQuery = searchState.query !== "*" && searchState.query !== "";
+  const isQuery =
+    searchState.query && searchState.query !== "*" && searchState.query !== "";
   const [previousCount, setPreviousCount] = React.useState(
     searchState.results.length
   );
   const [isResetting, setIsResetting] = React.useState(false);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+  const [, forceUpdate] = React.useState({});
+  const [loadingTerms, setLoadingTerms] = React.useState<string[]>([
+    "data",
+    "health",
+    "statistics",
+    "research",
+    "demographics",
+    "counties",
+  ]);
+  const [currentTermIndex, setCurrentTermIndex] = React.useState(0);
 
   const uniqueRelatedList = React.useMemo(() => {
-    const uniqueResults = searchState.relatedResults.filter(
+    const relatedResults = Array.isArray(searchState.relatedResults)
+      ? searchState.relatedResults
+      : [];
+
+    const uniqueResults = relatedResults.filter(
       (v, i, a) => a.findIndex((t) => t.id === v.id) === i
     );
-    return uniqueResults.filter(
-      (v) => !searchState.results.some((t) => t.id === v.id)
+
+    const results = Array.isArray(searchState.results)
+      ? searchState.results
+      : [];
+
+    const filtered = uniqueResults.filter(
+      (v) => !results.some((t) => t.id === v.id)
     );
+
+    return filtered;
   }, [searchState.relatedResults, searchState.results]);
+
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
+
   const handleClearFilters = async () => {
     dispatch(clearMapPreview());
     setIsResetting(true);
@@ -66,10 +90,14 @@ const ResultsPanel = (props: Props): JSX.Element => {
       setIsResetting(false);
     }, 500);
   };
+
   const displayCount = React.useMemo(() => {
-    if (isResetting) return previousCount;
-    if (isLoading) return previousCount;
-    return searchState.results.length + uniqueRelatedList.length;
+    if (isResetting || isLoading) {
+      return previousCount;
+    }
+
+    const totalCount = searchState.results.length + uniqueRelatedList.length;
+    return totalCount;
   }, [
     isLoading,
     isResetting,
@@ -77,36 +105,59 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length,
     uniqueRelatedList.length,
   ]);
+
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
-    // leave time for ai_search to be set
+
     if (hasSearchParams) {
       setIsInitialLoad(true);
     }
     if (!isLoading) {
       setIsInitialLoad(false);
-      setPreviousCount(searchState.results.length);
+      const totalCount = searchState.results.length + uniqueRelatedList.length;
+      setPreviousCount(totalCount);
+    } else {
+      setIsInitialLoad(true);
     }
-  }, [isLoading, searchState.results.length, isResetting]);
-  const renderLoadingState = () => (
-    <Box className="flex flex-col w-full">
-      <Box className="flex justify-center items-center h-64">
-        <span className="mr-4">
-          {displayCount > 0
-            ? "Updating results..."
-            : isInitialLoad
-            ? "Searching for data you may be interested in..."
-            : "Looking for data you may be interested in..."}
-        </span>
-        <CircularProgress
-          size={24}
-          className="text-strongorange ml-2"
-          sx={{ animationDuration: "550ms" }}
-        />
+  }, [
+    isLoading,
+    searchState.results.length,
+    uniqueRelatedList.length,
+    isResetting,
+  ]);
+
+  React.useEffect(() => {
+    if (isLoading) {
+      forceUpdate({});
+      setIsInitialLoad(true);
+    }
+  }, [isLoading]);
+
+  const renderLoadingState = () => {
+    return (
+      <Box className="flex flex-col w-full">
+        <Box className="flex justify-center items-center h-64">
+          <div className="text-center w-full px-4 py-3 rounded-lg bg-white">
+            <span className="mr-4 text-lg transition-all duration-300 ease-in-out">
+              {displayCount > 0
+                ? "Updating results..."
+                : isInitialLoad
+                ? "Searching for data you may be interested in..."
+                : "Looking for data you may be interested in..."}
+            </span>
+            <div className="mt-3">
+              <CircularProgress
+                size={24}
+                className="text-strongorange ml-2"
+                sx={{ animationDuration: "550ms" }}
+              />
+            </div>
+          </div>
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  };
 
   return (
     <div
@@ -162,11 +213,19 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>
             <div>
-              {isLoading || isResetting || isInitialLoad ? (
-                renderLoadingState()
+              {isLoading ? (
+                <div className="transition-opacity duration-500">
+                  {renderLoadingState()}
+                </div>
+              ) : isResetting || isInitialLoad ? (
+                <div className="transition-opacity duration-500">
+                  {renderLoadingState()}
+                </div>
               ) : (
-                <div className="force-scrollbar">
-                  {searchState.results.length > 0 ? (
+                <div className="force-scrollbar transition-opacity duration-500">
+                  {searchState.results.length > 0 ||
+                  uniqueRelatedList.length > 0 ||
+                  displayCount > 0 ? (
                     <Box
                       height="100%"
                       sx={{
@@ -175,16 +234,24 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         maxHeight: "100vh",
                       }}
                     >
-                      {searchState.results.map((result) => (
-                        <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard resultItem={result} />
-                        </div>
-                      ))}
-                      {uniqueRelatedList.map((result) => (
-                        <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard resultItem={result} />
-                        </div>
-                      ))}
+                      {searchState.results.length > 0 && (
+                        <>
+                          {searchState.results.map((result) => (
+                            <div key={result.id} className="mb-[0.75em]">
+                              <ResultCard resultItem={result} />
+                            </div>
+                          ))}
+                        </>
+                      )}
+                      {uniqueRelatedList.length > 0 && (
+                        <>
+                          {uniqueRelatedList.map((result) => (
+                            <div key={result.id} className="mb-[0.75em]">
+                              <ResultCard resultItem={result} />
+                            </div>
+                          ))}
+                        </>
+                      )}
                     </Box>
                   ) : (
                     !isInitialLoad && (

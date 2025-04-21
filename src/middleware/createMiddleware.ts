@@ -37,7 +37,10 @@ export const createMiddleware: Middleware = (store) => {
         syncToUrl(action, config);
       }
       if (config.requiresFetch && !isInitializing) {
-        triggerResultsRelatesFetch(store, store.getState().search.query || "*");
+        const state = store.getState();
+        if (!state.search.isSearching) {
+          triggerResultsRelatesFetch(store, store.getState().search.query || "*");
+        }
       }
     }
     return result;
@@ -93,8 +96,13 @@ function syncToUrl(action: AnyAction, config: ActionConfig) {
 async function triggerResultsRelatesFetch(store: any, query: string, bypassSpellCheck = false) {
   const state = store.getState();
   if (!state.search.schema) return;
+  
+  if (state.search.isSearching) return;
+  
   const filterQueries = generateFilterQueries(state.search);
   try {
+    store.dispatch(setIsSearching(true));
+    
     if (state.search.aiSearch && (!query || query === "*")) {
       await store.dispatch(
         fetchSearchAndRelatedResults({

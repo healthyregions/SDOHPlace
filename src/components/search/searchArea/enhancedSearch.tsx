@@ -30,6 +30,7 @@ import {
   setAISearch,
   clearSearch,
   setUsedSpellCheck,
+  setIsSearching,
 } from "@/store/slices/searchSlice";
 import {
   setInfoPanelTab,
@@ -52,7 +53,6 @@ const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
   searchBox: {
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
-    // remove the button border and 'x' sign in the input field and other default hover settings
     "& input": {
       fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
       "&:focus": {
@@ -70,6 +70,20 @@ const useStyles = makeStyles((theme) => ({
       },
       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
         borderColor: "transparent",
+      },
+    },
+    "& .MuiAutocomplete-option": {
+      "&[aria-selected='true']": {
+        backgroundColor: "transparent !important",
+      },
+      "&:hover": {
+        backgroundColor: "#f0f0f0 !important",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "transparent !important",
+      },
+      "&[data-focus='true']": {
+        backgroundColor: "transparent !important",
       },
     },
   },
@@ -97,8 +111,8 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:hover&.active": {
       backgroundColor: fullConfig.theme.colors["frenchviolet"],
-      color:"white"
-    }
+      color: "white",
+    },
   },
   loadingButton: {
     color: fullConfig.theme.colors["frenchviolet"],
@@ -131,7 +145,11 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const plausible = usePlausible();
   const classes = useStyles();
   const textFieldRef = React.useRef<HTMLInputElement>(null);
+  const autocompleteRef = React.useRef<HTMLDivElement>(null);
   const [isLocalLoading, setIsLocalLoading] = React.useState(false);
+  const [isMouseInDropdown, setIsMouseInDropdown] = React.useState(false);
+  const [shouldShowDropdown, setShouldShowDropdown] = React.useState(false);
+  const [hasSelectedItem, setHasSelectedItem] = React.useState(false);
   const { showClearButton } = useSelector((state: RootState) => state.ui);
   const maxLength = 100;
   const {
@@ -144,29 +162,123 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     thoughts,
     isSearching,
   } = useSelector((state: RootState) => state.search);
+
+  const [previousInput, setPreviousInput] = React.useState("");
+
+  const clearSuggestions = React.useCallback(() => {
+    dispatch({ type: "search/fetchSuggestions/fulfilled", payload: [] });
+  }, [dispatch]);
+
+  const debouncedFetchSuggestions = React.useCallback(
+    debounce((value: string, schema: any, prevValue: string) => {
+      const isDifferentInput =
+        !prevValue.includes(value) && !value.includes(prevValue);
+      if (isDifferentInput) {
+        clearSuggestions();
+      }
+      if (value && value.length >= 2 && !aiSearch) {
+        dispatch(fetchSuggestions({ inputValue: value, schema }));
+      } else {
+        clearSuggestions();
+        setShouldShowDropdown(false);
+      }
+    }, 300),
+    [dispatch, aiSearch, clearSuggestions]
+  );
+
   React.useEffect(() => {
     if (query) {
       dispatch(setInputValue(query));
     }
   }, [query, dispatch]);
-  const debouncedFetchSuggestions = React.useCallback(
-    debounce((value: string, schema: any) => {
-      if (value && !aiSearch) {
-        dispatch(fetchSuggestions({ inputValue: value, schema }));
+
+  React.useEffect(() => {
+    if (!isSearching && !isLocalLoading) {
+      setShouldShowDropdown(false);
+    }
+  }, [isSearching, isLocalLoading]);
+
+  React.useEffect(() => {
+    if (isSearching || isLocalLoading) {
+      setShouldShowDropdown(false);
+    }
+  }, [isSearching, isLocalLoading, query]);
+
+  const handleInputReset = () => {
+    if (hasSelectedItem) {
+      setHasSelectedItem(false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (!aiSearch) {
+      if (hasSelectedItem) {
+        setShouldShowDropdown(false);
+        return;
       }
-    }, 300),
-    [dispatch]
-  );
+
+      if (
+        suggestions &&
+        Array.isArray(suggestions) &&
+        suggestions.length > 0 &&
+        inputValue.length >= 2
+      ) {
+        setShouldShowDropdown(true);
+      } else {
+        setShouldShowDropdown(false);
+      }
+    } else {
+      setShouldShowDropdown(false);
+    }
+  }, [
+    suggestions,
+    aiSearch,
+    inputValue,
+    hasSelectedItem,
+    isSearching,
+    isLocalLoading,
+  ]);
+
+  React.useEffect(() => {
+    const handleDocumentClick = (e: MouseEvent) => {
+      if (!isMouseInDropdown && shouldShowDropdown) {
+        const target = e.target as HTMLElement;
+        const searchInput = textFieldRef.current;
+        const autocomplete = autocompleteRef.current;
+        if (
+          searchInput &&
+          autocomplete &&
+          !searchInput.contains(target) &&
+          !autocomplete.contains(target)
+        ) {
+          setShouldShowDropdown(false);
+        }
+        const elements = document.querySelectorAll(".MuiAutocomplete-option");
+        elements.forEach((element) => {
+          element.setAttribute("aria-selected", "false");
+          element.classList.remove("Mui-focused");
+          (element as HTMLElement).style.backgroundColor = "transparent";
+        });
+      }
+    };
+    document.addEventListener("click", handleDocumentClick);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [isMouseInDropdown, shouldShowDropdown]);
+
   const performSearch = React.useCallback(
     async (searchValue: string | null) => {
       if (searchValue) {
+        setShouldShowDropdown(false);
         dispatch(clearMapPreview());
         dispatch(setQuery(searchValue));
         dispatch(setShowDetailPanel(null));
+        dispatch(setIsSearching(true));
         setIsLocalLoading(true);
         dispatch(setThoughts(""));
         try {
-          await dispatch(
+          const result = await dispatch(
             fetchSearchAndRelatedResults({
               query: searchValue,
               filterQueries,
@@ -175,43 +287,119 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
               sortOrder: sort.sortOrder,
               bypassSpellCheck: false,
             })
-          );
-
+          ).unwrap();
           if (searchValue) {
             const searchEventType = aiSearch
               ? EventType.SubmittedChatSearch
               : EventType.SubmittedKeywordSearch;
             plausible(searchEventType, {
               props: {
-                searchEvent: searchEventType + ": " + searchValue + " & " + filterQueries.join(" ")
+                searchEvent:
+                  searchEventType +
+                  ": " +
+                  searchValue +
+                  " & " +
+                  filterQueries.join(" "),
               },
             });
           }
+        } catch (error) {
+          console.error("Search failed:", error);
         } finally {
           setIsLocalLoading(false);
+          dispatch(setIsSearching(false));
+          setShouldShowDropdown(false);
         }
       }
     },
-    [dispatch, filterQueries, schema, sort.sortBy, sort.sortOrder, aiSearch, plausible]
+    [
+      dispatch,
+      filterQueries,
+      schema,
+      sort.sortBy,
+      sort.sortOrder,
+      aiSearch,
+      plausible,
+    ]
   );
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    performSearch(inputValue);
+
+    setShouldShowDropdown(false);
+
+    if (isLoading) return;
+
+    setIsLocalLoading(true);
+    dispatch(setIsSearching(true));
+
+    const originalValue = inputValue;
+
+    performSearch(originalValue);
   };
-  const handleDropdownSelect = (event: any, value: string | null) => {
-    if (value && value !== query) {
-      performSearch(value);
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      setShouldShowDropdown(false);
+
+      if (isLocalLoading || isSearching) return;
+      const currentInputValue = inputValue;
+      if (!isMouseInDropdown) {
+        dispatch(setInputValue(currentInputValue));
+        performSearch(currentInputValue);
+      } else {
+        performSearch(inputValue);
+      }
     }
   };
+
+  const handleDropdownSelect = (event: any, value: string | null) => {
+    setHasSelectedItem(true);
+    setShouldShowDropdown(false);
+    if (isLocalLoading || isSearching) {
+      return;
+    }
+    if (value) {
+      dispatch(setInputValue(value));
+      if (value !== query) {
+        performSearch(value);
+      }
+    }
+  };
+
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
   ) => {
+    const inputChanged = newInputValue !== inputValue;
+    const lengthChanged = newInputValue.length !== inputValue.length;
+    const becameShorter = newInputValue.length < inputValue.length;
+    if (
+      inputChanged &&
+      (lengthChanged || !newInputValue.includes(inputValue))
+    ) {
+      clearSuggestions();
+      setShouldShowDropdown(false);
+    }
+    setPreviousInput(inputValue);
+    if (hasSelectedItem && event && event.type === "change") {
+      handleInputReset();
+    }
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
     if (newInputValue !== "") {
       if (!aiSearch) {
-        debouncedFetchSuggestions(newInputValue, schema);
+        if (newInputValue.length >= 2) {
+          if (becameShorter) {
+            clearSuggestions();
+          }
+          debouncedFetchSuggestions(newInputValue, schema, inputValue);
+        } else if (newInputValue.length === 1) {
+          setShouldShowDropdown(false);
+          clearSuggestions();
+        }
       }
     } else {
       handleClear();
@@ -232,10 +420,13 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       }
     }
   };
+
   const isBrowser = typeof window !== "undefined";
+
   const isSearchBlocked = React.useMemo(() => {
     return (isLocalLoading || isSearching) && aiSearch;
   }, [isLocalLoading, isSearching, aiSearch]);
+
   const noSearchAllowed = React.useMemo(() => {
     return (
       aiSearch &&
@@ -244,7 +435,8 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         inputValue.length === 0 ||
         inputValue === "*")
     );
-  }, [aiSearch, inputValue]);
+  }, [aiSearch, inputValue, maxLength]);
+
   const handleClear = () => {
     if (isSearchBlocked) {
       return;
@@ -257,6 +449,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       window.history.pushState({}, "", newUrl);
     }
   };
+
   const handleModeSwitch = () => {
     if (isSearchBlocked) {
       return;
@@ -272,6 +465,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       },
     });
   };
+
   const isIOS = React.useMemo(() => {
     if (
       typeof window !== "undefined" &&
@@ -286,19 +480,96 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   }, []);
 
   const isLoading = isLocalLoading || isSearching;
+
+  const CustomListbox = React.forwardRef<
+    HTMLUListElement,
+    React.HTMLAttributes<HTMLUListElement>
+  >((props, ref) => {
+    return (
+      <ul
+        ref={ref}
+        {...props}
+        onMouseEnter={() => setIsMouseInDropdown(true)}
+        onMouseLeave={() => {
+          setIsMouseInDropdown(false);
+        }}
+        className={`${props.className || ""} custom-autocomplete-listbox`}
+      />
+    );
+  });
+  CustomListbox.displayName = "CustomListbox";
+
+  const handleAutocompleteBlur = (event: React.FocusEvent) => {
+    if (!isMouseInDropdown) {
+      setShouldShowDropdown(false);
+    }
+  };
+
+  const handleAutocompleteFocus = (event: React.FocusEvent) => {
+    if (inputValue && inputValue.length >= 2 && !aiSearch) {
+      debouncedFetchSuggestions(inputValue, schema, previousInput);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full sm:mt-6">
       <SpellCheckMessage />
       <form id="search-form" onSubmit={handleSubmit}>
         <Autocomplete
+          ref={autocompleteRef}
           PopperComponent={CustomPopper}
           PaperComponent={CustomPaper}
           freeSolo
+          open={shouldShowDropdown && !aiSearch}
           options={aiSearch ? [] : suggestions}
           value={query === "*" ? "" : query}
           inputValue={inputValue === "*" ? "" : inputValue}
           onInputChange={handleUserInputChange}
           onChange={handleDropdownSelect}
+          filterOptions={(options) => options}
+          autoSelect={false}
+          disablePortal={false}
+          disableListWrap={true}
+          selectOnFocus={false}
+          blurOnSelect="touch"
+          includeInputInList={true}
+          openOnFocus={false}
+          disableCloseOnSelect={false}
+          ListboxComponent={CustomListbox}
+          clearOnBlur={false}
+          clearOnEscape={false}
+          forcePopupIcon={false}
+          handleHomeEndKeys={false}
+          onKeyDown={handleKeyDown}
+          onFocus={handleAutocompleteFocus}
+          onBlur={handleAutocompleteBlur}
+          renderOption={(props, option) => {
+            const { "aria-selected": _, onClick, ...otherProps } = props;
+            return (
+              <li
+                {...otherProps}
+                onClick={(e) => {
+                  setHasSelectedItem(true);
+
+                  setShouldShowDropdown(false);
+
+                  if (onClick) onClick(e);
+                }}
+                className={`${props.className} hover:bg-[#f0f0f0] cursor-pointer`}
+                key={option}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.backgroundColor =
+                    "#f0f0f0";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.backgroundColor =
+                    "transparent";
+                }}
+              >
+                <span className="px-1">{option}</span>
+              </li>
+            );
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -341,21 +612,21 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                           : "Switch to keyword search"
                       }
                     >
-                        <IconButton
-                          sx={{
-                            mr: "m",
-                            cursor: isSearchBlocked ? "not-allowed" : "pointer",
-                            opacity: isSearchBlocked ? 0.5 : 1,
-                            color: fullConfig.theme.colors["frenchviolet"],
-                          }}
-                          onClick={handleModeSwitch}
-                          className={`${classes.aiModeButton} ${
-                            !aiSearch ? "active" : ""
-                          }`}
-                        >
-                          <SearchIcon />
-                        </IconButton>
-                      </Tooltip>
+                      <IconButton
+                        sx={{
+                          mr: "m",
+                          cursor: isSearchBlocked ? "not-allowed" : "pointer",
+                          opacity: isSearchBlocked ? 0.5 : 1,
+                          color: fullConfig.theme.colors["frenchviolet"],
+                        }}
+                        onClick={handleModeSwitch}
+                        className={`${classes.aiModeButton} ${
+                          !aiSearch ? "active" : ""
+                        }`}
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                    </Tooltip>
                     <Box component="span" className="mx-2">
                       <Tooltip
                         title={
