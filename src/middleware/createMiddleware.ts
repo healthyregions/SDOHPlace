@@ -12,63 +12,51 @@ const isClient = typeof window !== "undefined";
 export const createMiddleware: Middleware = (store) => {
   let isInitializing = false;
   let pendingFetchTimer: NodeJS.Timeout | null = null;
-  
+
   return (next) => (action: AnyAction) => {
     if (!isClient) {
       return next(action);
     }
-    
     if (action.type === "search/initialize/pending") {
       isInitializing = true;
       initializeFromUrl(store);
       return next(action);
     }
-    
     if (action.type === "search/initialize/fulfilled") {
       isInitializing = false;
       return next(action);
     }
-    
-    // Handle batchResetFilters case specially
     if (action.type === batchResetFilters.type) {
       const result = next(action);
-      
-      // Clear any pending fetch timer
       if (pendingFetchTimer) {
         clearTimeout(pendingFetchTimer);
         pendingFetchTimer = null;
       }
-      
-      // Use the query from the action payload
       triggerResultsRelatesFetch(store, action.payload.query);
       return result;
     }
-    
     const result = next(action);
     const config = actionConfig[action.type];
-    
     if (config) {
       if (config.syncWithUrl) {
         syncToUrl(action, config);
       }
-      
       if (config.requiresFetch && !isInitializing) {
         const state = store.getState();
         if (!state.search.isSearching) {
-          // Clear any pending fetch timer
           if (pendingFetchTimer) {
             clearTimeout(pendingFetchTimer);
           }
-          
-          // Debounce the fetch request to avoid multiple consecutive fetches
           pendingFetchTimer = setTimeout(() => {
-            triggerResultsRelatesFetch(store, store.getState().search.query || "*");
+            triggerResultsRelatesFetch(
+              store,
+              store.getState().search.query || "*"
+            );
             pendingFetchTimer = null;
           }, 50);
         }
       }
     }
-    
     return result;
   };
 };
@@ -119,16 +107,18 @@ function syncToUrl(action: AnyAction, config: ActionConfig) {
   window.history.pushState({}, "", newUrl);
 }
 
-async function triggerResultsRelatesFetch(store: any, query: string, bypassSpellCheck = false) {
+async function triggerResultsRelatesFetch(
+  store: any,
+  query: string,
+  bypassSpellCheck = false
+) {
   const state = store.getState();
   if (!state.search.schema) return;
-  
   if (state.search.isSearching) return;
-  
   const filterQueries = generateFilterQueries(state.search);
   try {
     store.dispatch(setIsSearching(true));
-    
+
     if (state.search.aiSearch && (!query || query === "*")) {
       await store.dispatch(
         fetchSearchAndRelatedResults({

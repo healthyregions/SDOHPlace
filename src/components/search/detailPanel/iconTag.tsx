@@ -5,7 +5,6 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { batchResetFilters, setQuery, setSubject } from "@/store/slices/searchSlice";
-import {clearMapPreview} from "@/store/slices/uiSlice";
 import {EventType} from "@/lib/event";
 import {usePlausible} from "next-plausible";
 
