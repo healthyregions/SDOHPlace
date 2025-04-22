@@ -32,6 +32,28 @@ export const createMiddleware: Middleware = (store) => {
         clearTimeout(pendingFetchTimer);
         pendingFetchTimer = null;
       }
+      // batch reset filters
+      const searchParams = new URLSearchParams(window.location.search);
+      if (action.payload.query === "*") {
+        searchParams.delete("query");
+      } else if (action.payload.query) {
+        searchParams.set("query", action.payload.query);
+      }
+      if (action.payload.preserveSubject && action.payload.subject) {
+        if (Array.isArray(action.payload.subject) && action.payload.subject.length > 0) {
+          searchParams.set("subject", action.payload.subject.join(","));
+        } else {
+          searchParams.delete("subject");
+        }
+      } else {
+        searchParams.delete("subject");
+      }
+      searchParams.delete("spatial_resolution");
+      searchParams.delete("bbox");
+      searchParams.delete("index_year");
+      const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+      window.history.pushState({}, "", newUrl);
+      
       triggerResultsRelatesFetch(store, action.payload.query);
       return result;
     }

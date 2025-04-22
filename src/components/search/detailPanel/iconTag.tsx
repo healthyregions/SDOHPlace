@@ -41,6 +41,7 @@ const IconTag = (props: Props): JSX.Element => {
       newSubjects = [...currentSubjects, sub];
     }
     if (props.themeOnly) {
+      dispatch(setQuery("*"));
       dispatch(batchResetFilters({
         schema: schema,
         query: "*",
@@ -50,7 +51,6 @@ const IconTag = (props: Props): JSX.Element => {
     } else {
       dispatch(setSubject(newSubjects));
     }
-    
     plausible(EventType.ChangedThemeFilter, {
       props: {
         themes: newSubjects.join(", "),
