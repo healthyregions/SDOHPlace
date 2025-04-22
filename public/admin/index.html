@@ -30,7 +30,8 @@
         "https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap"
       );
       CMS.registerPreviewStyle("/styles/posts.module.css");
-      // Register custom Editor Components
+
+      // Register custom Editor Component: Toggle Section
       CMS.registerEditorComponent({
         // Internal id of the component
         id: "toggle-section",
@@ -75,7 +76,7 @@
         //
         // This is used to populate the custom widget in the markdown editor in the CMS.
         fromBlock: function(match) {
-          console.log('Matches: ', match);
+          //console.log('Matches: ', match);
           return {
             title: match[3],
             content: match[4],
@@ -166,9 +167,30 @@ ${marked.parse(data.content)}
       var GuidePreview = createClass({
         render: function () {
           var entry = this.props.entry;
+          var sdohGuideTheme = entry.getIn(["data", "theme"]);
           return h(
             "div",
             { className: "container" },
+            !sdohGuideTheme ? "" : h("div", { className: "sdoh-theme-banner" },
+              h('h4', { className: "sdoh-theme-banner-header" }, `Looking for data on ${sdohGuideTheme}?`),
+              h("div", { className: "sdoh-theme-banner-content" },
+                h('img', {
+                  className: "sdoh-theme-banner-logo",
+                  src: "/images/place-project-logo.png"
+                }),
+                h("span", {},
+                  h("p", { className: "sdoh-theme-banner-caption" },
+                    'Our Data Discovery platform helps you search for data on ',
+                    h("strong", {}, sdohGuideTheme),
+                    ' along with 12 other social determinants of health. Search for KEYWORD 1, KEYWORD 2, KEYWORD 3, etc. on the platform for your analysis. More text comes here. More text comes here.'
+                  ),
+                  h("a", {
+                    className: "sdoh-theme-banner-link",
+                    href: `/search?subject=${encodeURIComponent(sdohGuideTheme)}`
+                  }, `Search for ${sdohGuideTheme} on Data Discovery →`),
+                ),
+              ),
+            ),
             h("h1", {}, entry.getIn(["data", "title"])),
             h(
               "div",
