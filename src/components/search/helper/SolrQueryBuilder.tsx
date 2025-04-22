@@ -44,7 +44,8 @@ export default class SolrQueryBuilder {
   }
 
   public fetchResult(
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    skipCache: boolean = false
   ): Promise<{ results: SolrObject[]; spellCheckSuggestion?: string }> {
     return new Promise((resolve, reject) => {
       const currentUrl = this.query.query;
@@ -68,7 +69,7 @@ export default class SolrQueryBuilder {
         return;
       }
       
-      if (requestCache.has(currentUrl)) {
+      if (!skipCache && requestCache.has(currentUrl)) {
         const cachedData = requestCache.get(currentUrl);
         const now = Date.now();
         // if there is a cached response and it is still within the cache TTL (2 seconds), use the cached response, otherwise remove the cached response

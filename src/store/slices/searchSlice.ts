@@ -220,12 +220,12 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       }
     }
     const relatedResults = [];
-    if (finalResults && finalResults.length > 0) {
+    if (validSuggestions.length > 0) {
       for (const suggestion of validSuggestions) {
         if (suggestion !== usedQuery) {
           const { results: suggestionResults } = await searchQueryBuilder
             .generalQuery(suggestion)
-            .fetchResult();
+            .fetchResult(undefined, true);
           relatedResults.push(...suggestionResults);
         }
       }
