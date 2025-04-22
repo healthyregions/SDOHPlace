@@ -9,7 +9,13 @@
 /* animation for icons on mobile navbar */
 .animate-fade-in{animation:opac 1.4s}@keyframes opac{from{opacity:0} to{opacity:1}}
 
-
+/* Support decorative images in rendered markdown */
+/* Smaller screens will still use 100% width */
+@media (min-width: 769px) {
+  .decorative-image {
+    width: 50%;
+  }
+}
 
 /*  WIP: Scalable background image for top lines?
 
