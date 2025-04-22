@@ -396,6 +396,26 @@ collections:
         time_format: "HH:mm" # e.g. 21:07
         format: "LLL"
         picker_utc: false
+      - label: "Social Determinant Theme"
+        name: "theme"
+        widget: "select"
+        multiple: false
+        # See src/components/search/helper/themeIcons.tsx for copy/paste list
+        options: [
+          "Demographics",
+          "Economic Stability",
+          "Employment",
+          "Education",
+          "Food Environment",
+          "Health and Healthcare",
+          "Housing",
+          "Natural Environment",
+          "Neighborhood and Built Environment",
+          "Physical Activity and Lifestyle",
+          "Safety",
+          "Social and Community Context",
+          "Transportation and Infrastructure",
+        ]
       - label: Author
         name: "author"
         widget: string
