@@ -174,7 +174,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       if (isSearching || isLocalLoading) {
         return;
       }
-      
+
       const isDifferentInput =
         !prevValue.includes(value) && !value.includes(prevValue);
       if (isDifferentInput) {
@@ -268,50 +268,48 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
 
   const performSearch = React.useCallback(
     async (searchValue: string | null) => {
-      if (searchValue) {
-        setShouldShowDropdown(false);
-        clearSuggestions();
-        dispatch(clearMapPreview());
-        dispatch(setQuery(searchValue));
-        dispatch(setShowDetailPanel(null));
-        
-        dispatch(setIsSearching(true));
-        setIsLocalLoading(true);
-        
-        dispatch(setThoughts(""));
-        try {
-          const result = await dispatch(
-            fetchSearchAndRelatedResults({
-              query: searchValue,
-              filterQueries,
-              schema,
-              sortBy: sort.sortBy,
-              sortOrder: sort.sortOrder,
-              bypassSpellCheck: false,
-            })
-          ).unwrap();
-          if (searchValue) {
-            const searchEventType = aiSearch
-              ? EventType.SubmittedChatSearch
-              : EventType.SubmittedKeywordSearch;
-            plausible(searchEventType, {
-              props: {
-                searchEvent:
-                  searchEventType +
-                  ": " +
-                  searchValue +
-                  " & " +
-                  filterQueries.join(" "),
-              },
-            });
-          }
-        } catch (error) {
-          console.error("Search failed:", error);
-        } finally {
-          setIsLocalLoading(false);
-          dispatch(setIsSearching(false));
-          setShouldShowDropdown(false);
+      if (!searchValue) return;
+      if (searchValue === query && !isLocalLoading && !isSearching) return;
+      setShouldShowDropdown(false);
+      clearSuggestions();
+      dispatch(clearMapPreview());
+      dispatch(setQuery(searchValue));
+      dispatch(setShowDetailPanel(null));
+      dispatch(setIsSearching(true));
+      setIsLocalLoading(true);
+      dispatch(setThoughts(""));
+      try {
+        const result = await dispatch(
+          fetchSearchAndRelatedResults({
+            query: searchValue,
+            filterQueries,
+            schema,
+            sortBy: sort.sortBy,
+            sortOrder: sort.sortOrder,
+            bypassSpellCheck: false,
+          })
+        ).unwrap();
+        if (searchValue) {
+          const searchEventType = aiSearch
+            ? EventType.SubmittedChatSearch
+            : EventType.SubmittedKeywordSearch;
+          plausible(searchEventType, {
+            props: {
+              searchEvent:
+                searchEventType +
+                ": " +
+                searchValue +
+                " & " +
+                filterQueries.join(" "),
+            },
+          });
         }
+      } catch (error) {
+        console.error("Search failed:", error);
+      } finally {
+        setIsLocalLoading(false);
+        dispatch(setIsSearching(false));
+        setShouldShowDropdown(false);
       }
     },
     [
@@ -322,8 +320,19 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       sort.sortOrder,
       aiSearch,
       plausible,
-      clearSuggestions
+      clearSuggestions,
+      query,
+      isLocalLoading,
+      isSearching,
     ]
+  );
+
+  // Avoid multiple requests
+  const debouncedPerformSearch = React.useCallback(
+    debounce((searchValue: string | null) => {
+      performSearch(searchValue);
+    }, 10),
+    [performSearch]
   );
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -338,7 +347,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
 
     const originalValue = inputValue;
 
-    performSearch(originalValue);
+    debouncedPerformSearch(originalValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -351,9 +360,9 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       const currentInputValue = inputValue;
       if (!isMouseInDropdown) {
         dispatch(setInputValue(currentInputValue));
-        performSearch(currentInputValue);
+        debouncedPerformSearch(currentInputValue);
       } else {
-        performSearch(inputValue);
+        debouncedPerformSearch(inputValue);
       }
     }
   };
@@ -362,19 +371,19 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     setHasSelectedItem(true);
     setShouldShowDropdown(false);
     clearSuggestions();
-    
+
     if (isLocalLoading || isSearching) {
       return;
     }
-    
+
     if (value) {
       dispatch(setInputValue(value));
       if (value !== query) {
         setIsLocalLoading(true);
         dispatch(setIsSearching(true));
-        
+
         const prevInput = inputValue;
-        performSearch(value);
+        debouncedPerformSearch(value);
       }
     }
   };
@@ -386,14 +395,14 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     const inputChanged = newInputValue !== inputValue;
     const lengthChanged = newInputValue.length !== inputValue.length;
     const becameShorter = newInputValue.length < inputValue.length;
-    
+
     if (hasSelectedItem && event && event.type === "change") {
       handleInputReset();
       dispatch(setInputValue(newInputValue));
       dispatch(setShowClearButton(!!newInputValue));
       return;
     }
-    
+
     if (
       inputChanged &&
       (lengthChanged || !newInputValue.includes(inputValue))
@@ -401,11 +410,11 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       clearSuggestions();
       setShouldShowDropdown(false);
     }
-    
+
     setPreviousInput(inputValue);
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
-    
+
     if (newInputValue !== "") {
       if (!aiSearch) {
         if (newInputValue.length >= 2) {
@@ -526,7 +535,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     if (hasSelectedItem) {
       return;
     }
-    
+
     if (inputValue && inputValue.length >= 2 && !aiSearch) {
       debouncedFetchSuggestions(inputValue, schema, previousInput);
     }
@@ -573,7 +582,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
                   setHasSelectedItem(true);
                   setShouldShowDropdown(false);
                   clearSuggestions();
-                  
+
                   if (!isLocalLoading && !isSearching) {
                     setIsLocalLoading(true);
                     dispatch(setIsSearching(true));

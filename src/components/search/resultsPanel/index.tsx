@@ -101,6 +101,15 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length,
     uniqueRelatedList.length,
   ]);
+  const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+  
+  React.useEffect(() => {
+    if (isLoading) {
+      setHasCompletedSearch(false);
+    } else if (!isInitialLoad) {
+      setHasCompletedSearch(true);
+    }
+  }, [isLoading, isInitialLoad]);
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -155,6 +164,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
     );
   };
 
+  const shouldShowResultsCount = React.useMemo(() => {
+    return !isLoading && !isResetting && hasCompletedSearch && displayCount > 0;
+  }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
+
   return (
     <div
       className="results-panel"
@@ -166,7 +179,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
               <Fade in={!isResetting} timeout={300}>
                 <div>
-                  {displayCount > 0 && (
+                  {shouldShowResultsCount && (
                     <Box>
                       {isQuery
                         ? `Results (${displayCount})`

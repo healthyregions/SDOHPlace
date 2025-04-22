@@ -102,7 +102,6 @@ export const performChatGptSearch = createAsyncThunk(
           }
         })
       );
-      // sort results based on the score from the AI
       results.sort((a, b) => {
         const scoreA = analysis.suggestedQueries.findIndex(
           (q: string) => q === a.query
@@ -168,30 +167,38 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       ).unwrap();
       return aiResponse;
     }
-    const suggestResult = await searchQueryBuilder
-      .suggestQuery(query)
-      .fetchResult();
-    const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
-    let suggestions =
-      suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
+    let suggestions = [];
+    if (query && query !== "*") {
+      const suggestResult = await searchQueryBuilder
+        .suggestQuery(query)
+        .fetchResult();
+      const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
+      suggestions =
+        suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
+    }
+    
     const validSuggestions = suggestions
       .filter((s) => s.payload === "false")
-      .filter((s) => s.weight >= 50) // Only show suggestions with weight >= 50 but no limitation on the number of suggestions
+      .filter((s) => s.weight >= 50)
       .map((s) => s.term)
       .sort((a, b) => {
         const weightA = suggestions.find((s) => s.term === a)?.weight || 0;
         const weightB = suggestions.find((s) => s.term === b)?.weight || 0;
         return weightB - weightA;
       });
+    
     searchQueryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
     const { results: searchResults, spellCheckSuggestion } =
       await searchQueryBuilder.fetchResult();
+    
     if (spellCheckSuggestion) {
       dispatch(setSpellCheck(spellCheckSuggestion));
     }
+    
     let finalResults = searchResults;
     let usedQuery = query;
     let usedSpellCheck = false;
+    
     if (
       !bypassSpellCheck &&
       (!searchResults || searchResults.length === 0) &&
@@ -213,20 +220,24 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       }
     }
     const relatedResults = [];
-    for (const suggestion of validSuggestions) {
-      if (suggestion !== usedQuery) {
-        const { results: suggestionResults } = await searchQueryBuilder
-          .generalQuery(suggestion)
-          .fetchResult();
-        relatedResults.push(...suggestionResults);
+    if (finalResults && finalResults.length > 0) {
+      for (const suggestion of validSuggestions) {
+        if (suggestion !== usedQuery) {
+          const { results: suggestionResults } = await searchQueryBuilder
+            .generalQuery(suggestion)
+            .fetchResult();
+          relatedResults.push(...suggestionResults);
+        }
       }
     }
+    
     finalResults = finalResults.map((result) => ({
       ...result,
       years: Array.isArray(result.years)
         ? result.years
         : Array.from(result.years || []),
     }));
+    
     return {
       searchResults: finalResults,
       relatedResults: relatedResults,

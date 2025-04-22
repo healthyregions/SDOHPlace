@@ -9,6 +9,11 @@ import { ActionConfig, actionConfig } from "./actionConfig";
 
 const isClient = typeof window !== "undefined";
 
+// Keep track of in-flight queries to prevent duplicates
+const inFlightQueries = new Map(); // queries that are currently being fetched but not yet completed
+const recentQueries = new Map(); // queries that were recently fetched and completed
+const RECENT_QUERY_TTL = 200;
+
 export const createMiddleware: Middleware = (store) => {
   let isInitializing = false;
   let pendingFetchTimer: NodeJS.Timeout | null = null;
@@ -40,7 +45,10 @@ export const createMiddleware: Middleware = (store) => {
         searchParams.set("query", action.payload.query);
       }
       if (action.payload.preserveSubject && action.payload.subject) {
-        if (Array.isArray(action.payload.subject) && action.payload.subject.length > 0) {
+        if (
+          Array.isArray(action.payload.subject) &&
+          action.payload.subject.length > 0
+        ) {
           searchParams.set("subject", action.payload.subject.join(","));
         } else {
           searchParams.delete("subject");
@@ -53,7 +61,7 @@ export const createMiddleware: Middleware = (store) => {
       searchParams.delete("index_year");
       const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
       window.history.pushState({}, "", newUrl);
-      
+
       triggerResultsRelatesFetch(store, action.payload.query);
       return result;
     }
@@ -137,10 +145,21 @@ async function triggerResultsRelatesFetch(
   const state = store.getState();
   if (!state.search.schema) return;
   if (state.search.isSearching) return;
-  const filterQueries = generateFilterQueries(state.search);
-  try {
-    store.dispatch(setIsSearching(true));
 
+  const filterQueries = generateFilterQueries(state.search);
+  const queryKey = `${query}:${JSON.stringify(filterQueries)}:${
+    state.search.sort.sortBy
+  }:${state.search.sort.sortOrder}`; // create a unique key for the query using all what we need to fetch the query
+  if (inFlightQueries.has(queryKey)) return; // if the query is already being fetched, don't fetch it again
+  if (recentQueries.has(queryKey)) {
+    const timestamp = recentQueries.get(queryKey);
+    if (Date.now() - timestamp < RECENT_QUERY_TTL) return; // if the query was recently fetched and completed within the last 200ms, don't fetch it again
+    recentQueries.delete(queryKey);
+  }
+  try {
+    inFlightQueries.set(queryKey, true); // add the query to the in-flight queries
+    recentQueries.set(queryKey, Date.now()); // add the query to the recent queries
+    store.dispatch(setIsSearching(true));
     if (state.search.aiSearch && (!query || query === "*")) {
       await store.dispatch(
         fetchSearchAndRelatedResults({
@@ -167,6 +186,14 @@ async function triggerResultsRelatesFetch(
   } catch (error) {
     console.error("Search failed:", error);
   } finally {
+    inFlightQueries.delete(queryKey); // remove the query from the in-flight queries
     store.dispatch(setIsSearching(false));
+    const now = Date.now();
+    Array.from(recentQueries.entries()).forEach(([key, timestamp]) => {
+      // remove the query from the recent queries if it was completed more than 200ms ago
+      if (now - timestamp > RECENT_QUERY_TTL) {
+        recentQueries.delete(key);
+      }
+    });
   }
 }
