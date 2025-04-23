@@ -1,69 +1,6 @@
 {
   "fellows": [
     {
-      "image": "/images/image-4-17-25-at-1.32-pm-2-.jpg",
-      "name": "Zoe Maxwell",
-      "title": "MPH Candidate 2025 | Research Assistant ",
-      "cohort": "Spring 2025",
-      "desc_long": "Zoe (she/her) received her Bachelor of Arts in Public Health from Brown University in December 2022. She is currently pursuing her Master of Public Health (MPH) at Brown University and is expected to graduate in May 2025. Zoe's interdisciplinary concentration focuses on physical activity and nutrition. She aims to promote health equity by developing innovative interventions that provide disadvantaged communities with access to essential health resources and knowledge. As part of the Social Epi Lab at Brown University, Zoe is a Research Assistant on Project G-SPACE, an ongoing NIH funded study investigating the influence green space has on children’s sleep, physical activity, and mental health. Outside of academia, Zoe enjoys running, soccer, hiking, and music!",
-      "desc_short": "Zoe (she/her) received her Bachelor of Arts in Public Health from Brown University in December 2022. She is currently pursuing her Master of Public Health (MPH) at Brown University and is expected to graduate in May 2025. Zoe's interdisciplinary concentration focuses on physical activity and nutrition.",
-      "project": ""
-    },
-    {
-      "image": "/images/image-4-17-25-at-1.32-pm-1-.jpg",
-      "name": "Ya Yang",
-      "title": "Ph.D. Student",
-      "desc_long": "Ya Yang is a Ph.D. student in Public Health Sciences at the University of California, Davis. His research interests focus on social behaviors that contribute to substance use among marginalized communities, including low-income populations, sexual and gender minorities, people living with HIV, individuals with disabilities, and immigrants. He holds a Master of Science in Global Health with a concentration in Disease Prevention from Georgetown University and dual bachelor’s degrees in Public Health and Psychology from the University of California, Merced.\n\nYa is a former University of California Presidential Public Service Fellow and has received numerous prestigious scholarships, including the Coca-Cola Foundation Scholarship, Asian Pacific Islander American Scholarship, Tzu Chi Scholarship, Avalos Foundation Scholarship, and Ronald McDonald Scholarship.",
-      "desc_short": "Ya Yang is a Ph.D. student in Public Health Sciences at the University of California, Davis. His research interests focus on social behaviors that contribute to substance use among marginalized communities, including low-income populations, sexual and gender minorities, people living with HIV, individuals with disabilities, and immigrants.",
-      "project": "",
-      "cohort": "Spring 2025"
-    },
-    {
-      "image": "/images/image-4-17-25-at-1.32-pm.jpg",
-      "name": "Olivia Steidl",
-      "title": "Outreach Specialist",
-      "desc_long": "Olivia Steidl, MPH (she/her) is an Outreach Specialist for the Wisconsin Cancer Collaborative. She supports WCC’s work in cancer risk reduction and end of life care, engaging partner organizations all over the state. Olivia received her Master of Public Health from the University of Wisconsin-Madison. During her professional program, she worked at University Health Services designing a vaping prevention campaign geared towards undergraduate students. Most recently, Olivia worked as a Prevention and Harm Reduction consultant at Public Health Madison and Dane County, conducting an environmental scan of hemp derivative products sold throughout Dane County.\n",
-      "desc_short": "Olivia Steidl, MPH (she/her) is an Outreach Specialist for the Wisconsin Cancer Collaborative. She supports WCC’s work in cancer risk reduction and end of life care, engaging partner organizations all over the state.",
-      "project": "",
-      "cohort": "Spring 2025"
-    },
-    {
-      "image": "/images/image-4-17-25-at-1.31-pm-3-.jpg",
-      "name": "Mallory Sagehorn",
-      "title": "PhD Student",
-      "cohort": "Spring 2025",
-      "project": "",
-      "desc_long": "Mallory A. P. Sagehorn, MA (she/her) is a PhD student in Geography at the University of Colorado Boulder. Her research explores the relationship between social infrastructure, neighborhoods, and health, with a particular focus on emerging adults (ages 18-29). She utilizes mixed methods to examine how neighborhood environments shape social, mental, and physical well-being across the life course. Her dissertation will investigate how access to social infrastructure in emerging adulthood influences long-term health and wellbeing outcomes, combining geospatial analysis with qualitative approaches to understand place-based health inequities at the neighborhood-level. Mallory received a Bachelors of Arts in International Studies and History from Colorado State University, a Master of Arts in Applied Geography & Geospatial Science from University of Colorado Denver, and is also pursuing a Graduate Certificate of Population Mental Health from the Colorado School of Public Health.",
-      "desc_short": "Mallory A. P. Sagehorn, MA (she/her) is a PhD student in Geography at the University of Colorado Boulder. Her research explores the relationship between social infrastructure, neighborhoods, and health, with a particular focus on emerging adults (ages 18-29)"
-    },
-    {
-      "image": "/images/missing-headshot.png",
-      "name": "Jacob M. Gizamba",
-      "title": "PhD Candidate, Population Health & Place",
-      "cohort": "Spring 2025",
-      "desc_short": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.",
-      "desc_long": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.\nPositioned at the intersection of epidemiology, spatiotemporal analysis, and health equity, his work leverages spatial and epidemiological methods to inform targeted interventions that address health disparities. He holds a Master of Public Health specializing in Epidemiology from the\nUniversity of Cape Town, South Africa. His previous research has explored the epidemiology of infectious diseases such as leptospirosis and HIV, as well as non-communicable diseases, applying geospatial methods to enhance disease prevention and population health. He is also interested in\nadvancing spatial and syndemic analyses through methodological innovations, including machine learning applications in public health. He is also dedicated to advancing spatial epidemiology in public health education.",
-      "project": ""
-    },
-    {
-      "image": "/images/image-4-17-25-at-1.31-pm-1-.jpg",
-      "name": "Hannah Cordeiro",
-      "title": "Assistant Program Manager",
-      "cohort": "Spring 2025",
-      "desc_long": "Hannah Cordeiro is the Assistant Program Manager for the San Diego County alcohol harm prevention program, the Binge and Underage Drinking Initiative. She has a Bachelor of Science in Public Health Epidemiology from the University of California in San Diego and experience in public health upstream prevention methods, evaluation research, and Geographic Information Systems (GIS). Hannah's passions lie in environmental justice, data presentation, increasing access to credible health information, and health equity. Hannah's work contributes towards a future of public health where all communities have equal access to a healthy and safe life.\n",
-      "desc_short": "Hannah Cordeiro is the Assistant Program Manager for the San Diego County alcohol harm prevention program, the Binge and Underage Drinking Initiative. She has a Bachelor of Science in Public Health Epidemiology from the University of California in San Diego and experience in public health upstream prevention methods, evaluation research, and Geographic Information Systems (GIS). ",
-      "project": ""
-    },
-    {
-      "image": "/images/image-4-17-25-at-1.31-pm.jpg",
-      "name": "Georgie Kinsman",
-      "title": "Chronic Disease Evaluator",
-      "cohort": "Spring 2025",
-      "desc_long": "Georgie Kinsman is a public health evaluator and practitioner currently working on initiatives aimed at preventing and managing chronic disease (particularly diabetes and arthritis) within disproportionately affected populations in Minnesota. Georgie has been particularly interested in chronic disease because of the strong ties to the social determinants of health (SDOH) . She recognizes that public health programming needs to address SDOH to improve health outcomes equitably, effectively, and sustainably. As an SDOH & Place Fellow, Georgie looks forward to building capacity within Tribal and community-based partner organizations to effectively screen and refer for social needs like food insecurity.\n",
-      "desc_short": "Georgie Kinsman is a public health evaluator and practitioner currently working on initiatives aimed at preventing and managing chronic disease (particularly diabetes and arthritis) within disproportionately affected populations in Minnesota.",
-      "project": ""
-    },
-    {
       "image": "/images/image-4-17-25-at-1.30-pm-1-.jpg",
       "name": "Cheng-Chia \"Brian\" Chen",
       "title": "Associate Professor of Public Health",
@@ -82,22 +19,94 @@
       "project": ""
     },
     {
+      "image": "/images/image-4-17-25-at-1.31-pm-1-.jpg",
+      "name": "Hannah Cordeiro",
+      "title": "Assistant Program Manager",
+      "cohort": "Spring 2025",
+      "desc_long": "Hannah Cordeiro is the Assistant Program Manager for the San Diego County alcohol harm prevention program, the Binge and Underage Drinking Initiative. She has a Bachelor of Science in Public Health Epidemiology from the University of California in San Diego and experience in public health upstream prevention methods, evaluation research, and Geographic Information Systems (GIS). Hannah's passions lie in environmental justice, data presentation, increasing access to credible health information, and health equity. Hannah's work contributes towards a future of public health where all communities have equal access to a healthy and safe life.\n",
+      "desc_short": "Hannah Cordeiro is the Assistant Program Manager for the San Diego County alcohol harm prevention program, the Binge and Underage Drinking Initiative. She has a Bachelor of Science in Public Health Epidemiology from the University of California in San Diego and experience in public health upstream prevention methods, evaluation research, and Geographic Information Systems (GIS). ",
+      "project": ""
+    },
+    {
+      "image": "/images/image-4-20-25-at-2.00-pm.jpg",
+      "name": "Montana Gill",
+      "title": "Social Impact Evaluation Manager",
+      "cohort": "Spring 2025",
+      "desc_long": "Montana Gill, MPH, is a Social Impact Evaluation Manager at Cardea (a national women of color-led organization with over 50 years of experience in social impact evaluation, policy advancement, capacity development, and professional learning). Montana works on mixed methods evaluation projects in the spaces of maternal and child health, social determinants of health, and related areas. She collaborates with a range of partners, including state, Tribal, and local organizations, to design and implement effective evaluation strategies.\n\nIn partnership with the Raven Collective, Montana is working to highlight the systemic barriers to care access for pregnant people in Indian Country. She hopes to illustrate the structural barriers that contribute to disparities in syphilis and congenital syphilis rates among American Indian/Alaska Native communities.",
+      "desc_short": "Montana Gill, MPH, is a Social Impact Evaluation Manager at Cardea (a national women of color-led organization with over 50 years of experience in social impact evaluation, policy advancement, capacity development, and professional learning). Montana works on mixed methods evaluation projects in the spaces of maternal and child health, social determinants of health, and related areas",
+      "project": ""
+    },
+    {
+      "image": "/images/image-4-17-25-at-1.31-pm-2-.jpg",
+      "name": "Jacob M. Gizamba",
+      "title": "Ph.D. Candidate, Population Health & Place",
+      "cohort": "Spring 2025",
+      "desc_short": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.",
+      "desc_long": "Jacob Gizamba is a PhD candidate in Population Health and Place at the Spatial Sciences Institute, University of Southern California. His research focuses on the spatial epidemiology of hepatitis C (HCV), examining how place-based factors shape disease syndemics and access to care.\nPositioned at the intersection of epidemiology, spatiotemporal analysis, and health equity, his work leverages spatial and epidemiological methods to inform targeted interventions that address health disparities. He holds a Master of Public Health specializing in Epidemiology from the\nUniversity of Cape Town, South Africa. His previous research has explored the epidemiology of infectious diseases such as leptospirosis and HIV, as well as non-communicable diseases, applying geospatial methods to enhance disease prevention and population health. He is also interested in\nadvancing spatial and syndemic analyses through methodological innovations, including machine learning applications in public health. He is also dedicated to advancing spatial epidemiology in public health education.",
+      "project": ""
+    },
+    {
+      "image": "/images/image-4-17-25-at-1.28-pm.jpg",
+      "name": "Babu Gounder",
+      "title": "Ph.D. Student",
+      "cohort": "Spring 2025",
+      "project": "",
+      "desc_long": "Babu Gounder is pursuing a PhD in Social Work at the University of Illinois Urbana-Champaign\n(UIUC). His community engagement at UIUC involves working with and supporting community\nfoundations, school districts, and youth clubs in underserved locations in Illinois. Babu\nresearches community well-being with a focus on neighborhood environments, climate\ndisasters, and public health. Using spatial data science, policy analysis, and community-\ncentered approaches, his research identifies opportunities for improving health outcomes and\nadvancing environmental health and disaster resilience. He is also interested in open-source\nresearch tools and data accessibility to support communities. Babu has been selected as a\nDoctoral Scholar at the Center for Social Development at Washington University-St. Louis and\nas a Doctoral Student Policy Fellow with the Council for Social Work Education. Before his\ndoctoral studies, Babu earned a Master’s in Management and Behavioral Sciences from the\nEuropean Institute of Administration and Business (INSEAD) and volunteered in social service\norganizations in Singapore. He holds a Bachelor’s in Business Administration from the\nUniversity of Wisconsin-Madison.",
+      "desc_short": "Babu Gounder is pursuing a PhD in Social Work at the University of Illinois Urbana-Champaign\n(UIUC). His community engagement at UIUC involves working with and supporting community\nfoundations, school districts, and youth clubs in underserved locations in Illinois. Babu\nresearches community well-being with a focus on neighborhood environments, climate\ndisasters, and public health."
+    },
+    {
+      "image": "/images/image-4-17-25-at-1.31-pm.jpg",
+      "name": "Georgie Kinsman",
+      "title": "Chronic Disease Evaluator",
+      "cohort": "Spring 2025",
+      "desc_long": "Georgie Kinsman is a public health evaluator and practitioner currently working on initiatives aimed at preventing and managing chronic disease (particularly diabetes and arthritis) within disproportionately affected populations in Minnesota. Georgie has been particularly interested in chronic disease because of the strong ties to the social determinants of health (SDOH) . She recognizes that public health programming needs to address SDOH to improve health outcomes equitably, effectively, and sustainably. As an SDOH & Place Fellow, Georgie looks forward to building capacity within Tribal and community-based partner organizations to effectively screen and refer for social needs like food insecurity.\n",
+      "desc_short": "Georgie Kinsman is a public health evaluator and practitioner currently working on initiatives aimed at preventing and managing chronic disease (particularly diabetes and arthritis) within disproportionately affected populations in Minnesota.",
+      "project": ""
+    },
+    {
+      "image": "/images/image-4-17-25-at-1.32-pm-2-.jpg",
+      "name": "Zoe Maxwell",
+      "title": "MPH Candidate 2025 | Research Assistant ",
+      "cohort": "Spring 2025",
+      "desc_long": "Zoe (she/her) received her Bachelor of Arts in Public Health from Brown University in December 2022. She is currently pursuing her Master of Public Health (MPH) at Brown University and is expected to graduate in May 2025. Zoe's interdisciplinary concentration focuses on physical activity and nutrition. She aims to promote health equity by developing innovative interventions that provide disadvantaged communities with access to essential health resources and knowledge. As part of the Social Epi Lab at Brown University, Zoe is a Research Assistant on Project G-SPACE, an ongoing NIH funded study investigating the influence green space has on children’s sleep, physical activity, and mental health. Outside of academia, Zoe enjoys running, soccer, hiking, and music!",
+      "desc_short": "Zoe (she/her) received her Bachelor of Arts in Public Health from Brown University in December 2022. She is currently pursuing her Master of Public Health (MPH) at Brown University and is expected to graduate in May 2025. Zoe's interdisciplinary concentration focuses on physical activity and nutrition.",
+      "project": ""
+    },
+    {
+      "image": "/images/image-4-17-25-at-1.31-pm-3-.jpg",
+      "name": "Mallory Sagehorn",
+      "title": "Ph.D. Student",
+      "cohort": "Spring 2025",
+      "project": "",
+      "desc_long": "Mallory A. P. Sagehorn, MA (she/her) is a PhD student in Geography at the University of Colorado Boulder. Her research explores the relationship between social infrastructure, neighborhoods, and health, with a particular focus on emerging adults (ages 18-29). She utilizes mixed methods to examine how neighborhood environments shape social, mental, and physical well-being across the life course. Her dissertation will investigate how access to social infrastructure in emerging adulthood influences long-term health and wellbeing outcomes, combining geospatial analysis with qualitative approaches to understand place-based health inequities at the neighborhood-level. Mallory received a Bachelors of Arts in International Studies and History from Colorado State University, a Master of Arts in Applied Geography & Geospatial Science from University of Colorado Denver, and is also pursuing a Graduate Certificate of Population Mental Health from the Colorado School of Public Health.",
+      "desc_short": "Mallory A. P. Sagehorn, MA (she/her) is a PhD student in Geography at the University of Colorado Boulder. Her research explores the relationship between social infrastructure, neighborhoods, and health, with a particular focus on emerging adults (ages 18-29)"
+    },
+    {
+      "image": "/images/image-4-17-25-at-1.32-pm.jpg",
+      "name": "Olivia Steidl",
+      "title": "Outreach Specialist",
+      "desc_long": "Olivia Steidl, MPH (she/her) is an Outreach Specialist for the Wisconsin Cancer Collaborative. She supports WCC’s work in cancer risk reduction and end of life care, engaging partner organizations all over the state. Olivia received her Master of Public Health from the University of Wisconsin-Madison. During her professional program, she worked at University Health Services designing a vaping prevention campaign geared towards undergraduate students. Most recently, Olivia worked as a Prevention and Harm Reduction consultant at Public Health Madison and Dane County, conducting an environmental scan of hemp derivative products sold throughout Dane County.\n",
+      "desc_short": "Olivia Steidl, MPH (she/her) is an Outreach Specialist for the Wisconsin Cancer Collaborative. She supports WCC’s work in cancer risk reduction and end of life care, engaging partner organizations all over the state.",
+      "project": "",
+      "cohort": "Spring 2025"
+    },
+    {
       "image": "/images/image-4-17-25-at-1.29-pm.jpg",
       "name": "Bryce Takenaka",
-      "title": "PhD Student",
+      "title": "Ph.D. Student",
       "cohort": "Spring 2025",
       "desc_long": "Bryce Puesta Takenaka is a PhD student in the Department of Social and Behavioral Sciences at Yale School of Public Health and a fellow in the Yale AIDS Prevention Training Program at the Center for Interdisciplinary Research on AIDS. They are drawn to questions and debates that contend how Black and Pasifika Indigenous queer and trans geographies are created, represented, transformed, and imaginged alongside movements towards anti-colonial and abolitionist futures. Through participatory and radical spatial practiceis, their research contends with questions and debates related to the impacts of settler colonialism, racial capitalism militarism, tourism, and environmental justice on skewed life chances and health inequities. Their dissertation explores how militourism impacts HIV prevention and treatment among māhū in Hawaiʻi, and the indirect dynamics of neighborhoods disadvantage.",
       "desc_short": "Bryce Puesta Takenaka is a PhD student in the Department of Social and Behavioral Sciences at Yale School of Public Health and a fellow in the Yale AIDS Prevention Training Program at the Center for Interdisciplinary Research on AIDS. ",
       "project": ""
     },
     {
-      "image": "/images/image-4-17-25-at-1.28-pm.jpg",
-      "name": "Babu Gounder",
-      "title": "PhD Student",
-      "cohort": "Spring 2025",
+      "image": "/images/image-4-17-25-at-1.32-pm-1-.jpg",
+      "name": "Ya Yang",
+      "title": "Ph.D. Student",
+      "desc_long": "Ya Yang is a Ph.D. student in Public Health Sciences at the University of California, Davis. His research interests focus on social behaviors that contribute to substance use among marginalized communities, including low-income populations, sexual and gender minorities, people living with HIV, individuals with disabilities, and immigrants. He holds a Master of Science in Global Health with a concentration in Disease Prevention from Georgetown University and dual bachelor’s degrees in Public Health and Psychology from the University of California, Merced.\n\nYa is a former University of California Presidential Public Service Fellow and has received numerous prestigious scholarships, including the Coca-Cola Foundation Scholarship, Asian Pacific Islander American Scholarship, Tzu Chi Scholarship, Avalos Foundation Scholarship, and Ronald McDonald Scholarship.",
+      "desc_short": "Ya Yang is a Ph.D. student in Public Health Sciences at the University of California, Davis. His research interests focus on social behaviors that contribute to substance use among marginalized communities, including low-income populations, sexual and gender minorities, people living with HIV, individuals with disabilities, and immigrants.",
       "project": "",
-      "desc_long": "Babu Gounder is pursuing a PhD in Social Work at the University of Illinois Urbana-Champaign\n(UIUC). His community engagement at UIUC involves working with and supporting community\nfoundations, school districts, and youth clubs in underserved locations in Illinois. Babu\nresearches community well-being with a focus on neighborhood environments, climate\ndisasters, and public health. Using spatial data science, policy analysis, and community-\ncentered approaches, his research identifies opportunities for improving health outcomes and\nadvancing environmental health and disaster resilience. He is also interested in open-source\nresearch tools and data accessibility to support communities. Babu has been selected as a\nDoctoral Scholar at the Center for Social Development at Washington University-St. Louis and\nas a Doctoral Student Policy Fellow with the Council for Social Work Education. Before his\ndoctoral studies, Babu earned a Master’s in Management and Behavioral Sciences from the\nEuropean Institute of Administration and Business (INSEAD) and volunteered in social service\norganizations in Singapore. He holds a Bachelor’s in Business Administration from the\nUniversity of Wisconsin-Madison.",
-      "desc_short": "Babu Gounder is pursuing a PhD in Social Work at the University of Illinois Urbana-Champaign\n(UIUC). His community engagement at UIUC involves working with and supporting community\nfoundations, school districts, and youth clubs in underserved locations in Illinois. Babu\nresearches community well-being with a focus on neighborhood environments, climate\ndisasters, and public health."
+      "cohort": "Spring 2025"
     },
     {
       "desc_long": "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and extend educational opportunities. As the executive director of The Technology Alliance, a small nonprofit organization whose mission is to “open new worlds through technology,” Beth actively directs projects and pursues partnerships with organizations, schools, and community members. Beth's work in collaboration with the Erikson Institute for Early Childhood Development in inner-city Chicago Public Schools earned her recognition and a 3-year Kellogg Foundation Leadership Fellowship program. During her Masters in Learning Sciences at Northwestern University, her research focused on using GIS technologies, including ArcView GIS, Google Earth Engine, Google My Maps, and mapping software prototypes under development. Her thesis explored the use of coloration in mapping and cognitive understanding of how maps work. Recently, she was nominated and accepted into the Alliance for Leadership Fellows, an organization that brings graduates of leadership fellowships together to further their development and work collaboratively to \"increase knowledge and skills that lead to equitable and sustainable flourishing within human communities.\" Beth is currently working on developing and reviewing the Climate Action Plan for People and Nature (CAPN) in collaboration with the Chicago Wilderness Alliance (CWA). This effort brings together community partners, including the Field Museum, The Nature Conservancy (TNC), Peggy Notebaert Nature Museum, The Technology Alliance, and more to ensure the success of people and nature. She co-taught a high school seminar on Environmental Justice, where she highlighted the importance of prioritizing communities struggling with air and water quality in future climate planning. Her current SDOH and Place project, HEAT (Hope, Education, and ArT), aims to highlight and celebrate art co-created in these communities to build community, connect with nature, and promote healing.",
