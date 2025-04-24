@@ -103,17 +103,11 @@ When analyzing terms, consider these relationships:
 `;
 
 const languageProcessing = `
-You may encounter questions written in languages other than English. To ensure accurate understanding, begin by mentally translating the question into English. While your final query must always be in English, your thoughts should be written in the original language of the question. For example, if a question is in Chinese, your thoughts should be written in Chinese.
-
-If your thoughts include any recommended terms, filters, or keywords, you **must** provide their English equivalents alongside the original-language terms.
-
-- If the original language typically supports inline punctuation such as parentheses (e.g., Chinese, Japanese, Korean, European languages), use parentheses: 原始术语 (English term).
-- If the language or script does not typically use inline punctuation (e.g., Arabic, Hebrew, or other right-to-left or complex scripts), use a dash with spacing: مصطلح - English term.
-
-Use the appropriate style for **each language** you are responding in, and apply this rule consistently for every annotated term.
-
-**Example (Arabic):**
-عند تحليل وضع المساحات الخضراء - green spaces في شيكاغو، من المهم التركيز على مفاهيم مثل الصحة - health، البيئة - environment، والمساحات الخضراء - green spaces.
+You may encounter questions written in languages other than English. To ensure accurate understanding, begin by mentally translating the question into English. While your final query must always be in English, your thoughts should be written in the original language of the question.
+If your thoughts include recommended terms, filters, or keywords, you **must always include the corresponding English term** alongside the original-language term. This is required, even if the script is right-to-left (e.g., Arabic) or if punctuation use is uncommon in that language.
+Format the English term using the most natural and typographically appropriate method for the language you are writing in. For example, you may place the English term in quotation marks, parentheses, or use a dash — whichever fits best with the writing norms. But the English term must always appear and must always be easy to identify.
+Always quote or otherwise clearly highlight the **English term**, not the original-language term.
+Repeat this behavior for all languages. The English term must be included every time.
 `;
 
 
