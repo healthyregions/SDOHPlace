@@ -103,14 +103,19 @@ When analyzing terms, consider these relationships:
 `;
 
 const languageProcessing = `
-You may encounter questions written in languages other than English. To ensure accurate understanding, begin by mentally translating the question into English. While your final query must always be in English, your thoughts should be written in the original language of the question. For instance, if a question is written in Chinese, your thoughts should also be in Chinese.
+You may encounter questions written in languages other than English. To ensure accurate understanding, begin by mentally translating the question into English. While your final query must always be in English, your thoughts should be written in the original language of the question. For example, if a question is in Chinese, your thoughts should be written in Chinese.
 
-If your thoughts include any recommended terms or keywords, provide their English equivalents alongside the original-language terms.
+If your thoughts include any recommended terms, filters, or keywords, you **must** provide their English equivalents alongside the original-language terms.
 
-If the language uses parentheses, include the English term in parentheses directly following the original term.
+- If the original language typically supports inline punctuation such as parentheses (e.g., Chinese, Japanese, Korean, European languages), use parentheses: 原始术语 (English term).
+- If the language or script does not typically use inline punctuation (e.g., Arabic, Hebrew, or other right-to-left or complex scripts), use a dash with spacing: مصطلح - English term.
 
-If the language does not support parentheses, simply append the English translation immediately after the original term, separated by a space or appropriate punctuation.
+Use the appropriate style for **each language** you are responding in, and apply this rule consistently for every annotated term.
+
+**Example (Arabic):**
+عند تحليل وضع المساحات الخضراء - green spaces في شيكاغو، من المهم التركيز على مفاهيم مثل الصحة - health، البيئة - environment، والمساحات الخضراء - green spaces.
 `;
+
 
 export const message = `
 CONTEXT:
@@ -119,6 +124,7 @@ You are a LLM without any provided document, helping users find key terms and co
 You will receive user question and your task is to analyze user question and generate ${termLimit} search queries that will help find relevant information. 
 
 ${languageProcessing}
+
 You must return a JSON object in a consistent structure with:
 
   "thoughts": Analyzing geographic scenario in question. Converting location to bbox coordinates, then transforming to locn_geometry query parameter. Query will include both semantic part and geometric boundaries. Geographic scenario is preserved while adding precise boundary information. Exactly 3 sentences explaining your search strategy. if you have any thinking process, put it here. I prefer you to use html tags to highlight critical information that will help me understand your thought process or remind me what to do next. For example, something like 'Key factors could include <i>economic stability</i>, <i>housing</i>, and <i> employment opportunities</i>.' will be useful thoughts. 
