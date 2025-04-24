@@ -32,14 +32,16 @@
       CMS.registerPreviewStyle("/styles/posts.module.css");
 
       const toPanelHtml = (data, parse) => {
+        // Include style tags for raw HTML and override with JSX style for React mode
+        // This allows us to support both the preview in DecapCMS + the rendered markdown in SDOH
         return `
-<div class='sdoh-panel' style='background-color:${data.backgroundColor}'>
+<div class='sdoh-panel' style='background-color:${data.backgroundColor}' style={{ backgroundColor: '${data.backgroundColor}' }}>
 <h4 class='sdoh-panel-header'>${data.title}</h4>
 <div class='sdoh-panel-content'>
 <img class='sdoh-panel-image' src='${data.image}' />
 <div class='sdoh-panel-body'>
 <span class='sdoh-panel-markdown'>${parse ? marked.parse(data.content || '') : data.content}</span>
-<br>
+<br/>
 <a class='sdoh-panel-link' href='${data.link}'>${data.linkText || data.link}</a>
 </div></div></div>`;
       };
@@ -91,7 +93,7 @@
         // newline becomes \n*
         // () matches a value
         // ? makes it optional
-        pattern: /<div class='sdoh-panel' style='background-color:([^']+)?'>\n*<h4 class='sdoh-panel-header'>(.*?)<\/h4>\n*<div class='sdoh-panel-content'>\n*<img class='sdoh-panel-image' src='([^']+)?' \/>\n*<div class='sdoh-panel-body'>\n*<span class='sdoh-panel-markdown'>(.+?)<\/span>\n*<br>\n*<a class='sdoh-panel-link' href='([^']+)?'>(.*?)<\/a>\n*<\/div>\n*<\/div>\n*<\/div>/ms,
+        pattern: /<div class='sdoh-panel' style='background-color:([^']+)?' style={{ backgroundColor: '.*' }}>\n*<h4 class='sdoh-panel-header'>(.*?)<\/h4>\n*<div class='sdoh-panel-content'>\n*<img class='sdoh-panel-image' src='([^']+)?' \/>\n*<div class='sdoh-panel-body'>\n*<span class='sdoh-panel-markdown'>(.+?)<\/span>\n*<br\/>\n*<a class='sdoh-panel-link' href='([^']+)?'>(.*?)<\/a>\n*<\/div>\n*<\/div>\n*<\/div>/ms,
         //pattern: /<div\s+class='sdoh-panel'\s+style='background-color:([^']+)?'>\n*<h4\s+class='sdoh-panel-header'>\n*(.*?)\n*<\/h4>\n*<div\s+class='sdoh-panel-content'>\n*<img\s+class='sdoh-panel-image'\s+src='([^']+)?'\s+\/>\n*(.*?)\n*<\/div>\n*(<a\s+class='sdoh-panel-link'\s+href='([^']+)?'\s+>(.*?)<\/a>)?\n*<\/div>/,
         //pattern: /<details(\sname='([^']+)?')?>\n*<summary>\n*(.*?)\n*<\/summary>\n*(.*?)\n*<\/details>/ms,
         fromBlock: (match) => {
