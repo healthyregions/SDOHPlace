@@ -189,12 +189,12 @@
   margin: 1.5em 0;
 }
 
-.sdoh-theme-banner {
+.sdoh-panel {
   padding: 1rem 2rem;
   border-radius: 10px;
-  background-color: #ECE6F0;
+  /*background-color: #ECE6F0;*/
 
-  .sdoh-theme-banner-header {
+  .sdoh-panel-header {
     font-family: Nunito;
     font-weight: 700;
     font-size: 14pt;
@@ -202,22 +202,28 @@
     letter-spacing: 0;
     margin: 0;
   }
-  .sdoh-theme-banner-content {
+  .sdoh-panel-content {
     display: flex;
     flex-direction: row;
     margin: 0.5rem 0 1rem 0;
 
-    .sdoh-theme-banner-logo {
+    .sdoh-panel-image {
       width: 7rem;
       height: 7rem;
       margin: 0 2rem 1rem 0;
     }
-    .sdoh-theme-banner-link {
-      width: 7rem;
-      height: 7rem;
-      color: #7E1CC4;
-      font-weight: bolder;
-      text-decoration: none;
+    .sdoh-panel-body {
+      display: flex;
+      flex-direction: column;
+      .sdoh-panel-markdown {
+
+      }
+      .sdoh-panel-link {
+        width: 7rem;
+        color: #7E1CC4;
+        font-weight: bolder;
+        text-decoration: none;
+      }
     }
   }
 }
