@@ -5,20 +5,21 @@ import yaml from "js-yaml";
 
 const guidesDirectory = path.join(process.cwd(), "content/guides");
 
-export type GuideContent = {
+export type GuidesContent = {
   readonly last_updated: string;
   readonly title: string;
   readonly slug: string;
   readonly featured_image: string;
+  readonly author: string;
   //readonly body: string;
   readonly fullPath: string;
 };
 
-let guideCache: GuideContent[];
+let guidesCache: GuidesContent[];
 
-export function fetchGuideContent(): GuideContent[] {
-  if (guideCache) {
-    return guideCache;
+export function fetchGuidesContent(): GuidesContent[] {
+  if (guidesCache) {
+    return guidesCache;
   }
   // Get file names under /posts
   const fileNames = fs.readdirSync(guidesDirectory);
@@ -39,6 +40,7 @@ export function fetchGuideContent(): GuideContent[] {
         last_updated: string;
         title: string;
         featured_image: string;
+        author: string;
         slug: string;
         fullPath: string;
       };
@@ -48,24 +50,24 @@ export function fetchGuideContent(): GuideContent[] {
       return matterData;
     });
   // Sort posts by date
-  guideCache = allGuidesData.sort((a, b) => {
+  guidesCache = allGuidesData.sort((a, b) => {
     if (a.last_updated < b.last_updated) {
       return 1;
     } else {
       return -1;
     }
   });
-  return guideCache;
+  return guidesCache;
 }
 
 export function countGuides(): number {
-  return fetchGuideContent().length;
+  return fetchGuidesContent().length;
 }
 
-export function listGuideContent(
+export function listGuidesContent(
   page: number,
   limit: number
-): GuideContent[] {
-  return fetchGuideContent()
+): GuidesContent[] {
+  return fetchGuidesContent()
     .slice((page - 1) * limit, page * limit);
 }

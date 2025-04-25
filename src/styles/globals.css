@@ -348,3 +348,42 @@ article table td {
     background: 0 0
 }
 
+.sdoh-panel {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  /*background-color: #ECE6F0;*/
+
+  .sdoh-panel-header {
+    font-family: Nunito;
+    font-weight: 700;
+    font-size: 14pt;
+    line-height: 100%;
+    letter-spacing: 0;
+    margin: 0;
+  }
+  .sdoh-panel-content {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem 0 1rem 0;
+
+    .sdoh-panel-image {
+      width: 7rem;
+      height: 7rem;
+      margin: 0 2rem 1rem 0;
+    }
+    .sdoh-panel-body {
+      display: flex;
+      flex-direction: column;
+      .sdoh-panel-markdown {
+
+      }
+      .sdoh-panel-link {
+        width: 7rem;
+        color: #7E1CC4;
+        font-weight: bolder;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
