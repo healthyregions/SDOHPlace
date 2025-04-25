@@ -91,11 +91,28 @@ const HighlightsTooltip = ({
   maxScore,
 }) => {
   const classes = useStyles();
-  const filteredHighlights = highlights.filter(
-    (highlight) => highlight.trim() !== ""
-  );
   const currentQuery = useSelector((state: RootState) => state.search.query);
-  return highlights.length > 0 ? (
+  const safeHighlights = Array.isArray(highlights) ? highlights : [];
+  const filteredHighlights = safeHighlights.filter(
+    (highlight) => highlight && highlight.trim() !== ""
+  );
+  const scoreExplanation = React.useMemo(() => {
+    try {
+      return getScoreExplanation(
+        q || "",
+        spellcheck,
+        currentQuery || "",
+        score || 0,
+        avgScore || 0,
+        maxScore || 0
+      );
+    } catch (error) {
+      console.error("Error generating score explanation:", error);
+      return "This item matches your search.";
+    }
+  }, [q, spellcheck, currentQuery, score, avgScore, maxScore]);
+  
+  return filteredHighlights.length > 0 ? (
     <div>
       <div
         className={classes.scoreExplain}
@@ -104,18 +121,9 @@ const HighlightsTooltip = ({
           borderBottom: `1px solid ${fullConfig.theme.colors["strongorange"]}`,
         }}
       >
-        <span
-          dangerouslySetInnerHTML={{
-            __html: getScoreExplanation(
-              q,
-              spellcheck,
-              currentQuery,
-              score,
-              avgScore,
-              maxScore
-            ),
-          }}
-        />
+        {scoreExplanation && (
+          <span dangerouslySetInnerHTML={{ __html: scoreExplanation }} />
+        )}
         <p style={{ paddingTop: 4 }}>Information in this result includes:</p>
       </div>
       <ol className={classes.highlightsList}>
@@ -131,18 +139,9 @@ const HighlightsTooltip = ({
   ) : (
     <div>
       <div className={classes.scoreExplain}>
-        <span
-          dangerouslySetInnerHTML={{
-            __html: getScoreExplanation(
-              q,
-              spellcheck,
-              currentQuery,
-              score,
-              avgScore,
-              maxScore
-            ),
-          }}
-        />
+        {scoreExplanation && (
+          <span dangerouslySetInnerHTML={{ __html: scoreExplanation }} />
+        )}
       </div>
     </div>
   );
@@ -155,52 +154,78 @@ const ResultCard = (props: Props): JSX.Element => {
   const mapPreview = useSelector((state: RootState) => state.ui.mapPreview);
   const { maxScore, avgScore } = useSelector(getAllScoresSelector);
 
+  const itemId = props.resultItem?.id;
+  const itemTitle = props.resultItem?.title || "Untitled";
+  const itemPublisher = props.resultItem?.meta?.publisher?.[0] || "Unknown";
+  const itemSubject = props.resultItem?.meta?.subject?.[0] || "";
+  const hasHighlightIds = props.resultItem?.meta?.highlight_ids?.length > 0;
+
   const isInMapPreview = React.useMemo(() => {
-    return mapPreview.some((p) => p.lyrId === props.resultItem.id);
-  }, [mapPreview, props.resultItem.id]);
+    if (!itemId) return false;
+    return mapPreview.some((p) => p.lyrId === itemId);
+  }, [mapPreview, itemId]);
+
+  // prevent analytics errors
+  const safeTrackEvent = (eventName, props) => {
+    try {
+      if (process.env.NODE_ENV !== 'development') {
+        plausible(eventName, props);
+      }
+    } catch (error) {
+      console.error("Analytics error:", error);
+    }
+  };
 
   const handleMapPreviewToggle = React.useCallback(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      if (!props.resultItem.meta.highlight_ids?.length) return;
+      
+      if (!itemId || !hasHighlightIds) return;
+      
       if (isInMapPreview) {
         dispatch(
           setMapPreview(
-            mapPreview.filter((item) => item.lyrId != props.resultItem.id)
+            mapPreview.filter((item) => item.lyrId != itemId)
           )
         );
       } else {
         dispatch(
           setMapPreview([
             {
-              lyrId: props.resultItem.id,
+              lyrId: itemId,
               filterIds: props.resultItem.meta.highlight_ids,
             },
           ])
         );
-
-        plausible(EventType.ClickedMapPreview, {
+        // prevent analytics errors
+        safeTrackEvent(EventType.ClickedMapPreview, {
           props: {
-            resourceId: props.resultItem.id,
+            resourceId: itemId,
           },
         });
       }
     },
-    [dispatch, isInMapPreview, mapPreview, plausible, props.resultItem]
+    [dispatch, isInMapPreview, mapPreview, plausible, itemId, hasHighlightIds, props.resultItem?.meta?.highlight_ids]
   );
 
   const handleShowDetails = React.useCallback(
     (event) => {
-      dispatch(setShowDetailPanel(props.resultItem.id));
-      plausible(EventType.ClickedItemDetails, {
+      if (!itemId) return;
+      dispatch(setShowDetailPanel(itemId));
+      // prevent analytics errors
+      safeTrackEvent(EventType.ClickedItemDetails, {
         props: {
-          resourceId: props.resultItem.id,
+          resourceId: itemId,
         },
       });
     },
-    [dispatch, plausible, props.resultItem.id]
+    [dispatch, plausible, itemId]
   );
+
+  if (!props.resultItem || !itemId || !itemTitle) {
+    return null;
+  }
 
   const cardContent = props.resultItem && (
     <div
@@ -209,15 +234,15 @@ const ResultCard = (props: Props): JSX.Element => {
       style={{
         cursor: "pointer",
         border:
-          showDetailPanel === props.resultItem.id
+          showDetailPanel === itemId
             ? `1px solid ${fullConfig.theme.colors["strongorange"]}`
             : `1px solid white`,
         background:
-          showDetailPanel === props.resultItem.id
+          showDetailPanel === itemId
             ? `${fullConfig.theme.colors["lightbisque"]}`
             : undefined,
         boxShadow:
-          showDetailPanel === props.resultItem.id
+          showDetailPanel === itemId
             ? "0px 4px 4px 0px lightgray"
             : undefined,
       }}
@@ -231,12 +256,8 @@ const ResultCard = (props: Props): JSX.Element => {
           <Grid item sm={10} className="items-start">
             <IconText
               roundBackground={true}
-              svgIcon={IconMatch(
-                props.resultItem.meta.subject?.length > 0
-                  ? props.resultItem.meta.subject[0]
-                  : ""
-              )}
-              label={props.resultItem.title}
+              svgIcon={IconMatch(itemSubject)}
+              label={itemTitle}
               labelClass={`text-l font-medium ${fullConfig.theme.fontFamily["sans"]}`}
               labelColor={fullConfig.theme.colors["almostblack"]}
             />
@@ -245,9 +266,7 @@ const ResultCard = (props: Props): JSX.Element => {
               style={{ marginTop: "-0.5rem" }}
             >
               by{" "}
-              {props.resultItem.meta.publisher
-                ? props.resultItem.meta.publisher[0]
-                : ""}
+              {itemPublisher}
             </div>
           </Grid>
           <Grid
@@ -269,15 +288,11 @@ const ResultCard = (props: Props): JSX.Element => {
                 className={classes.mapPreviewControl}
                 onClick={handleMapPreviewToggle}
                 style={{
-                  cursor: props.resultItem.meta.highlight_ids?.length
-                    ? "pointer"
-                    : "default",
-                  opacity: props.resultItem.meta.highlight_ids?.length
-                    ? 1
-                    : 0.5,
+                  cursor: hasHighlightIds ? "pointer" : "default",
+                  opacity: hasHighlightIds ? 1 : 0.5,
                 }}
                 title={
-                  !props.resultItem.meta.highlight_ids?.length
+                  !hasHighlightIds
                     ? "No geographic areas have been defined for this dataset"
                     : "Preview the geographic areas that this dataset covers"
                 }
@@ -285,9 +300,7 @@ const ResultCard = (props: Props): JSX.Element => {
                 <div
                   style={{
                     color: `${
-                      props.resultItem.meta.highlight_ids?.length
-                        ? fullConfig.theme.colors["frenchviolet"]
-                        : fullConfig.theme.colors["darkgray"]
+                      hasHighlightIds ? fullConfig.theme.colors["frenchviolet"] : fullConfig.theme.colors["darkgray"]
                     }`,
                     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
                     fontSize: "0.875rem",

@@ -5,6 +5,9 @@ import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
 import { adaptiveScoreFilter, scoreConfig } from "./FilterByScore";
 import { parseSolrQuery } from "./ParsingMethods";
 
+const requestCache = new Map();
+const REQUEST_CACHE_TTL = 2000; // caching to resolve request duplicates
+
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -41,7 +44,8 @@ export default class SolrQueryBuilder {
   }
 
   public fetchResult(
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    skipCache: boolean = false
   ): Promise<{ results: SolrObject[]; spellCheckSuggestion?: string }> {
     return new Promise((resolve, reject) => {
       const currentUrl = this.query.query;
@@ -64,6 +68,19 @@ export default class SolrQueryBuilder {
         reject(new Error(`Invalid URL: ${currentUrl}`));
         return;
       }
+      
+      if (!skipCache && requestCache.has(currentUrl)) {
+        const cachedData = requestCache.get(currentUrl);
+        const now = Date.now();
+        // if there is a cached response and it is still within the cache TTL (2 seconds), use the cached response, otherwise remove the cached response
+        if (now - cachedData.timestamp < REQUEST_CACHE_TTL) {
+          resolve(JSON.parse(JSON.stringify(cachedData.data)));
+          return;
+        } else {
+          requestCache.delete(currentUrl);
+        }
+      }
+      // if there is no cached response, fetch the data from the server
       fetch(currentUrl, {
         method: "GET",
         headers: {
@@ -81,23 +98,37 @@ export default class SolrQueryBuilder {
         .then((text) => {
           try {
             const jsonResponse = JSON.parse(text);
-            const result = this.getSearchResult(jsonResponse);
             if (jsonResponse && jsonResponse["suggest"]) {
+              requestCache.set(currentUrl, {
+                data: jsonResponse,
+                timestamp: Date.now()
+              });
               resolve(jsonResponse);
               return;
             }
+            const result = this.getSearchResult(jsonResponse);
             if (!result || result.length === 0) {
               const spellcheck =
                 jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
               if (spellcheck) {
-                resolve({
+                const responseData = {
                   results: result,
                   spellCheckSuggestion: spellcheck[0],
+                };
+                requestCache.set(currentUrl, {
+                  data: responseData,
+                  timestamp: Date.now()
                 });
+                resolve(responseData);
                 return;
               }
             }
-            resolve({ results: result });
+            const responseData = { results: result };
+            requestCache.set(currentUrl, {
+              data: responseData,
+              timestamp: Date.now()
+            });
+            resolve(responseData);
           } catch (error) {
             console.error("Response parsing error:", error);
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {

@@ -91,4 +91,6 @@ export interface SolrSuggestResponse {
 export interface BatchResetFiltersPayload {
   schema: any;
   query: string;
+  preserveSubject?: boolean;
+  subject?: string[];
 }
