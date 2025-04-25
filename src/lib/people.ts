@@ -14,7 +14,7 @@ const fellowMap: { [key: string]: FellowContent } = generateFellowMap();
 function generateFellowMap(): { [key: string]: FellowContent } {
   let result: { [key: string]: FellowContent } = {};
   for (const fellow of fellowsData.fellows) {
-    const link = fellow.links.length > 0 ? fellow.links[0].link_url : "";
+    const link = fellow.links?.length > 0 ? fellow.links[0].link_url : "";
 
     result[fellow.name] = {
       name: fellow.name,

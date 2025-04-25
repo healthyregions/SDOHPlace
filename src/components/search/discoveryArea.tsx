@@ -50,11 +50,6 @@ export default function DiscoveryArea({ schema }): JSX.Element {
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (isMounted) {
-      dispatch(setSchema(schema));
-    }
-  }, [schema, dispatch, isMounted]);
   if (!isMounted) {
     return (
       <Grid container>

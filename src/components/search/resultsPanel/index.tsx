@@ -40,24 +40,44 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const plausible = usePlausible();
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
   const isLoading = searchState.isSearching || searchState.isSuggesting;
-  const isQuery = searchState.query !== "*" && searchState.query !== "";
+  const isQuery =
+    searchState.query && searchState.query !== "*" && searchState.query !== "";
   const [previousCount, setPreviousCount] = React.useState(
     searchState.results.length
   );
   const [isResetting, setIsResetting] = React.useState(false);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+  const [, forceUpdate] = React.useState({});
 
   const uniqueRelatedList = React.useMemo(() => {
-    const uniqueResults = searchState.relatedResults.filter(
-      (v, i, a) => a.findIndex((t) => t.id === v.id) === i
-    );
-    return uniqueResults.filter(
-      (v) => !searchState.results.some((t) => t.id === v.id)
-    );
+    try {
+      const relatedResults = Array.isArray(searchState.relatedResults)
+        ? searchState.relatedResults
+        : [];
+
+      const uniqueResults = relatedResults.filter(
+        (v, i, a) => a.findIndex((t) => (t && t.id) === (v && v.id)) === i
+      );
+
+      const results = Array.isArray(searchState.results)
+        ? searchState.results
+        : [];
+
+      const filtered = uniqueResults.filter(
+        (v) => v && !results.some((t) => t && t.id === v.id)
+      );
+
+      return filtered.filter((item) => item && item.id);
+    } catch (error) {
+      console.error("Error processing related results:", error);
+      return [];
+    }
   }, [searchState.relatedResults, searchState.results]);
+
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
+
   const handleClearFilters = async () => {
     dispatch(clearMapPreview());
     setIsResetting(true);
@@ -66,10 +86,14 @@ const ResultsPanel = (props: Props): JSX.Element => {
       setIsResetting(false);
     }, 500);
   };
+
   const displayCount = React.useMemo(() => {
-    if (isResetting) return previousCount;
-    if (isLoading) return previousCount;
-    return searchState.results.length + uniqueRelatedList.length;
+    if (isResetting || isLoading) {
+      return previousCount;
+    }
+
+    const totalCount = searchState.results.length + uniqueRelatedList.length;
+    return totalCount;
   }, [
     isLoading,
     isResetting,
@@ -77,36 +101,72 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length,
     uniqueRelatedList.length,
   ]);
+  const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+  
+  React.useEffect(() => {
+    if (isLoading) {
+      setHasCompletedSearch(false);
+    } else if (!isInitialLoad) {
+      setHasCompletedSearch(true);
+    }
+  }, [isLoading, isInitialLoad]);
+
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
-    // leave time for ai_search to be set
+
     if (hasSearchParams) {
       setIsInitialLoad(true);
     }
     if (!isLoading) {
       setIsInitialLoad(false);
-      setPreviousCount(searchState.results.length);
+      const totalCount = searchState.results.length + uniqueRelatedList.length;
+      setPreviousCount(totalCount);
+    } else {
+      setIsInitialLoad(true);
     }
-  }, [isLoading, searchState.results.length, isResetting]);
-  const renderLoadingState = () => (
-    <Box className="flex flex-col w-full">
-      <Box className="flex justify-center items-center h-64">
-        <span className="mr-4">
-          {displayCount > 0
-            ? "Updating results..."
-            : isInitialLoad
-            ? "Searching for data you may be interested in..."
-            : "Looking for data you may be interested in..."}
-        </span>
-        <CircularProgress
-          size={24}
-          className="text-strongorange ml-2"
-          sx={{ animationDuration: "550ms" }}
-        />
+  }, [
+    isLoading,
+    searchState.results.length,
+    uniqueRelatedList.length,
+    isResetting,
+  ]);
+
+  React.useEffect(() => {
+    if (isLoading) {
+      forceUpdate({});
+      setIsInitialLoad(true);
+    }
+  }, [isLoading]);
+
+  const renderLoadingState = () => {
+    return (
+      <Box className="flex flex-col w-full">
+        <Box className="flex justify-center items-center h-64">
+          <div className="text-center w-full px-4 py-3 rounded-lg bg-white">
+            <span className="mr-4 text-lg transition-all duration-300 ease-in-out">
+              {displayCount > 0
+                ? "Updating results..."
+                : isInitialLoad
+                ? "Searching for data you may be interested in..."
+                : "Looking for data you may be interested in..."}
+            </span>
+            <div className="mt-3">
+              <CircularProgress
+                size={24}
+                className="text-strongorange ml-2"
+                sx={{ animationDuration: "550ms" }}
+              />
+            </div>
+          </div>
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  };
+
+  const shouldShowResultsCount = React.useMemo(() => {
+    return !isLoading && !isResetting && hasCompletedSearch && displayCount > 0;
+  }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
 
   return (
     <div
@@ -119,7 +179,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
               <Fade in={!isResetting} timeout={300}>
                 <div>
-                  {displayCount > 0 && (
+                  {shouldShowResultsCount && (
                     <Box>
                       {isQuery
                         ? `Results (${displayCount})`
@@ -162,11 +222,19 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>
             <div>
-              {isLoading || isResetting || isInitialLoad ? (
-                renderLoadingState()
+              {isLoading ? (
+                <div className="transition-opacity duration-500">
+                  {renderLoadingState()}
+                </div>
+              ) : isResetting || isInitialLoad ? (
+                <div className="transition-opacity duration-500">
+                  {renderLoadingState()}
+                </div>
               ) : (
-                <div className="force-scrollbar">
-                  {searchState.results.length > 0 ? (
+                <div className="force-scrollbar transition-opacity duration-500">
+                  {searchState.results.length > 0 ||
+                  uniqueRelatedList.length > 0 ||
+                  displayCount > 0 ? (
                     <Box
                       height="100%"
                       sx={{
@@ -175,46 +243,65 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         maxHeight: "100vh",
                       }}
                     >
-                      {searchState.results.map((result) => (
-                        <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard resultItem={result} />
-                        </div>
-                      ))}
-                      {uniqueRelatedList.map((result) => (
-                        <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard resultItem={result} />
-                        </div>
-                      ))}
+                      {searchState.results &&
+                        searchState.results.length > 0 && (
+                          <>
+                            {searchState.results.map((result) =>
+                              result && result.id ? (
+                                <div key={result.id} className="mb-[0.75em]">
+                                  <ResultCard resultItem={result} />
+                                </div>
+                              ) : null
+                            )}
+                          </>
+                        )}
+                      {uniqueRelatedList && uniqueRelatedList.length > 0 && (
+                        <>
+                          {uniqueRelatedList.map((result) =>
+                            result && result.id ? (
+                              <div key={result.id} className="mb-[0.75em]">
+                                <ResultCard resultItem={result} />
+                              </div>
+                            ) : null
+                          )}
+                        </>
+                      )}
                     </Box>
                   ) : (
-                    !isInitialLoad && (
-                      <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
-                        <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                          <SearchIcon className="text-strongorange mb-[0.15em]" />
-                          <div className="text-s">No results</div>
-                          {plausible(EventType.ReceivedNoSearchResults, {
-                            props: {
-                              searchQuery: searchState.query,
-                              searchFilter: filterStatus.activeFilters,
-                              fullSearchStates:
-                                searchState.query +
-                                " || " +
-                                Object.entries(filterStatus.activeFilters)
-                                  .map(([key, value]) => `${key}: ${value}`)
-                                  .join(" || "),
-                            },
-                          })}
-                        </Box>
-                        <Box className="mb-[0.75em]">
-                          <div className="text-s">
-                            Search for themes instead?
-                          </div>
-                        </Box>
-                        <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                          <ThemeIcons variant="alternate" />
-                        </Box>
-                      </div>
-                    )
+                    <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+                      <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                        <SearchIcon className="text-strongorange mb-[0.15em]" />
+                        <div className="text-s">No results</div>
+                        {(() => {
+                          try {
+                            if (process.env.NODE_ENV !== "development") {
+                              plausible(EventType.ReceivedNoSearchResults, {
+                                props: {
+                                  searchQuery: searchState.query,
+                                  searchFilter: filterStatus.activeFilters,
+                                  fullSearchStates:
+                                    searchState.query +
+                                    " || " +
+                                    Object.entries(filterStatus.activeFilters)
+                                      .map(([key, value]) => `${key}: ${value}`)
+                                      .join(" || "),
+                                },
+                              });
+                            }
+                            return null;
+                          } catch (error) {
+                            console.error("Analytics error:", error);
+                            return null;
+                          }
+                        })()}
+                      </Box>
+                      <Box className="mb-[0.75em]">
+                        <div className="text-s">Search for themes instead?</div>
+                      </Box>
+                      <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+                        <ThemeIcons variant="alternate" themeOnly={true} />
+                      </Box>
+                    </div>
                   )}
                 </div>
               )}
