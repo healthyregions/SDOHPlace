@@ -31,7 +31,7 @@ export default function Index({ guides, tags, pagination }: Props) {
             <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
                 <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                     <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
-                        <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-8">
+                        <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-16">
                             <p>
                             While there exists a long and complex history studying the role of place, social context, and the built environment within health, current and common frameworks of the “social determinants of health” (SDOH) tend to be simplistic in application. The SDOH & Place Project works to build a community of practice around the definition & use of community-level SDOH data. To support these efforts, our SDOH Research Guides help focus and refine best practices and approaches in measuring distinct SDOH indicators or structural drivers of health at community or regional scales.
                             </p>
