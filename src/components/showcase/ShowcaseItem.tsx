@@ -10,7 +10,7 @@ export default function ShowcaseItem({ item }: Props) {
     <Link href={"/showcase/" + item.slug} legacyBehavior>
       <a className={"no-underline"}>
         <div style={{ display: "flex" }}>
-          <div>
+          <div style={{minWidth:'200px'}}>
             <Image src={item.image} alt={item.title} width={200} height={25} />
           </div>
           <div style={{ paddingLeft: "2rem" }}>
