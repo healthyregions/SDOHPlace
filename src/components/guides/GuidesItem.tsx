@@ -1,21 +1,21 @@
-import { ShowcaseContent } from "../../lib/showcases";
+import { GuidesContent } from "@/lib/guides";
 import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  item: ShowcaseContent;
+  item: GuidesContent;
 };
-export default function ShowcaseItem({ item }: Props) {
+export default function GuidesItem({ item }: Props) {
   return (
-    <Link href={"/showcase/" + item.slug} legacyBehavior>
+    <Link href={"/guides/" + item.slug} legacyBehavior>
       <a className={"no-underline"}>
         <div style={{ display: "flex" }}>
-          <div style={{minWidth:'200px'}}>
-            <Image src={item.image} alt={item.title} width={200} height={25} />
+          <div>
+            <Image src={item.featured_image} alt={item.title} width={200} height={25} />
           </div>
           <div style={{ paddingLeft: "2rem" }}>
             <h2>{item.title}</h2>
-            <p>{item.fellow}</p>
+            <p>{item.author}</p>
           </div>
         </div>
         <style jsx>
