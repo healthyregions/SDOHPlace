@@ -6,7 +6,16 @@ import { adaptiveScoreFilter, scoreConfig } from "./FilterByScore";
 import { parseSolrQuery } from "./ParsingMethods";
 
 const requestCache = new Map();
-const REQUEST_CACHE_TTL = 2000; // caching to resolve request duplicates
+const REQUEST_CACHE_TTL = 60000;
+const pendingRequests = new Map();
+
+// Add global debug stats
+const cacheStats = {
+  hits: 0,
+  misses: 0,
+  pendingReuse: 0,
+  totalRequests: 0
+};
 
 export default class SolrQueryBuilder {
   private query: QueryObject = {
@@ -48,8 +57,9 @@ export default class SolrQueryBuilder {
     skipCache: boolean = false
   ): Promise<{ results: SolrObject[]; spellCheckSuggestion?: string }> {
     return new Promise((resolve, reject) => {
+      cacheStats.totalRequests++;
       const currentUrl = this.query.query;
-      console.log("Attempting to fetch URL:", currentUrl);
+      const shortUrl = currentUrl.replace(/^.*\/solr\//, '/solr/').substring(0, 80) + '...';
       if (!currentUrl || !this.query.solrUrl) {
         console.error("Invalid URL configuration:", {
           currentUrl,
@@ -68,19 +78,26 @@ export default class SolrQueryBuilder {
         reject(new Error(`Invalid URL: ${currentUrl}`));
         return;
       }
-      
       if (!skipCache && requestCache.has(currentUrl)) {
         const cachedData = requestCache.get(currentUrl);
         const now = Date.now();
-        // if there is a cached response and it is still within the cache TTL (2 seconds), use the cached response, otherwise remove the cached response
         if (now - cachedData.timestamp < REQUEST_CACHE_TTL) {
+          cacheStats.hits++;
           resolve(JSON.parse(JSON.stringify(cachedData.data)));
           return;
         } else {
           requestCache.delete(currentUrl);
         }
+      } else if (!skipCache) {
+        cacheStats.misses++;
       }
-      // if there is no cached response, fetch the data from the server
+
+      if (pendingRequests.has(currentUrl)) {
+        cacheStats.pendingReuse++;
+        pendingRequests.get(currentUrl).push({ resolve, reject });
+        return;
+      }
+      pendingRequests.set(currentUrl, [{ resolve, reject }]);
       fetch(currentUrl, {
         method: "GET",
         headers: {
@@ -98,44 +115,46 @@ export default class SolrQueryBuilder {
         .then((text) => {
           try {
             const jsonResponse = JSON.parse(text);
+            let responseData;
+            
             if (jsonResponse && jsonResponse["suggest"]) {
-              requestCache.set(currentUrl, {
-                data: jsonResponse,
-                timestamp: Date.now()
-              });
-              resolve(jsonResponse);
-              return;
-            }
-            const result = this.getSearchResult(jsonResponse);
-            if (!result || result.length === 0) {
-              const spellcheck =
-                jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
-              if (spellcheck) {
-                const responseData = {
-                  results: result,
-                  spellCheckSuggestion: spellcheck[0],
-                };
-                requestCache.set(currentUrl, {
-                  data: responseData,
-                  timestamp: Date.now()
-                });
-                resolve(responseData);
-                return;
+              responseData = jsonResponse;
+            } else {
+              const result = this.getSearchResult(jsonResponse);
+              
+              if (!result || result.length === 0) {
+                const spellcheck =
+                  jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
+                if (spellcheck) {
+                  responseData = {
+                    results: result,
+                    spellCheckSuggestion: spellcheck[0],
+                  };
+                } else {
+                  responseData = { results: result };
+                }
+              } else {
+                responseData = { results: result };
               }
             }
-            const responseData = { results: result };
             requestCache.set(currentUrl, {
               data: responseData,
               timestamp: Date.now()
             });
-            resolve(responseData);
+            const subscribers = pendingRequests.get(currentUrl) || [];
+            subscribers.forEach(sub => sub.resolve(JSON.parse(JSON.stringify(responseData))));
+            pendingRequests.delete(currentUrl);
+            
           } catch (error) {
             console.error("Response parsing error:", error);
+            const subscribers = pendingRequests.get(currentUrl) || [];
+            
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
-              resolve({ results: [] });
+              subscribers.forEach(sub => sub.resolve({ results: [] }));
             } else {
-              reject(new Error("Invalid response format"));
+              subscribers.forEach(sub => sub.reject(new Error("Invalid response format")));
             }
+            pendingRequests.delete(currentUrl);
           }
         })
         .catch((error) => {
@@ -144,7 +163,9 @@ export default class SolrQueryBuilder {
             message: error.message,
             url: currentUrl,
           });
-          reject(error);
+          const subscribers = pendingRequests.get(currentUrl) || [];
+          subscribers.forEach(sub => sub.reject(error));
+          pendingRequests.delete(currentUrl);
         });
     });
   }
@@ -299,7 +320,6 @@ export default class SolrQueryBuilder {
         if (otherFilters.length > 0) {
           if (filterQuery) filterQuery += " AND ";
           else filterQuery = "&fq=";
-          // Process filters in order of appearance to main the correct 'AND/OR' relation
           const processedAttributes = new Set();
           const groupedFilters = otherFilters.reduce((acc, filter) => {
             if (filter.value == null) return acc;

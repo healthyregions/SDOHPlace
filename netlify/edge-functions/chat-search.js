@@ -171,7 +171,30 @@ export default async (request, context) => {
         analysis.suggestedQueries = analysis.suggestedQueries.map((query) =>
           query.replace(/'/g, '"')
         );
+        
+        if (!analysis.bbox || analysis.bbox.trim() === "") {
+          analysis.suggestedQueries = analysis.suggestedQueries.map((query) => {
+            return query.replace(/&fq=locn_geometry:[^&]+/g, "");
+          });
+        }
+      } else {
+        // Ensure analysis always has suggestedQueries, even if empty
+        analysis.suggestedQueries = [];
       }
+      
+      // Ensure analysis has all required fields for stable UI rendering
+      if (!analysis.thoughts) {
+        analysis.thoughts = "Analysis completed";
+      }
+      
+      if (!analysis.keyTerms) {
+        analysis.keyTerms = [];
+      }
+      
+      if (!analysis.bbox) {
+        analysis.bbox = "";
+      }
+      
       return new Response(JSON.stringify(analysis), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -183,6 +206,11 @@ export default async (request, context) => {
           details: error.message,
           env: typeof Deno !== "undefined" ? "edge" : "local",
           time: new Date().toISOString(),
+          // Add default fields that the UI expects to prevent errors
+          thoughts: "Search processing encountered an error. Please try again.",
+          suggestedQueries: [],
+          keyTerms: [],
+          bbox: ""
         }),
         {
           status: 500,
@@ -291,6 +319,11 @@ export default async (request, context) => {
           details: error.message,
           env: typeof Deno !== "undefined" ? "edge" : "local",
           time: new Date().toISOString(),
+          // Add default fields that the UI expects to prevent errors
+          thoughts: "Search processing encountered an error. Please try again.",
+          suggestedQueries: [],
+          keyTerms: [],
+          bbox: ""
         }),
         {
           status: 500,

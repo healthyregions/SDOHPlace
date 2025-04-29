@@ -3,7 +3,7 @@ import { batchResetFilters } from "@/store/slices/searchSlice";
 import { actionConfig } from "./actionConfig";
 import { createSelector, isFulfilled } from "@reduxjs/toolkit";
 
-const isBrowser = typeof window !== "undefined"; // prevent build error
+const isBrowser = typeof window !== "undefined";
 
 const getStateKeyFromAction = (actionType: string): string => {
   const key = actionType.split("/")[1];
@@ -135,14 +135,16 @@ export const selectSearchState = createSelector(
     (state: RootState) => state.search.query,
     (state: RootState) => state.search.relatedResults,
     (state: RootState) => state.search.schema,
+    (state: RootState) => state.search.aiSearch,
   ],
-  (isSearching, isSuggesting, results, query, relatedResults, schema) => ({
+  (isSearching, isSuggesting, results, query, relatedResults, schema, aiSearch) => ({
     isSearching,
     isSuggesting,
     results,
     query,
     relatedResults,
     schema,
+    aiSearch,
   })
 );
 

@@ -269,15 +269,20 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const performSearch = React.useCallback(
     async (searchValue: string | null) => {
       if (!searchValue) return;
-      if (searchValue === query && !isLocalLoading && !isSearching) return;
       setShouldShowDropdown(false);
       clearSuggestions();
       dispatch(clearMapPreview());
-      dispatch(setQuery(searchValue));
       dispatch(setShowDetailPanel(null));
+      if (aiSearch) {
+        dispatch(setThoughts(""));
+      }
+      const uniqueSearchId = Date.now().toString();
+      dispatch(setQuery(searchValue + ":" + uniqueSearchId));
+      setTimeout(() => dispatch(setQuery(searchValue)), 0);
+      
       dispatch(setIsSearching(true));
       setIsLocalLoading(true);
-      dispatch(setThoughts(""));
+      
       try {
         const result = await dispatch(
           fetchSearchAndRelatedResults({
@@ -312,26 +317,13 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         setShouldShowDropdown(false);
       }
     },
-    [
-      dispatch,
-      filterQueries,
-      schema,
-      sort.sortBy,
-      sort.sortOrder,
-      aiSearch,
-      plausible,
-      clearSuggestions,
-      query,
-      isLocalLoading,
-      isSearching,
-    ]
+    [dispatch, filterQueries, schema, sort.sortBy, sort.sortOrder, aiSearch, plausible, clearSuggestions]
   );
-
-  // Avoid multiple requests
+  
   const debouncedPerformSearch = React.useCallback(
     debounce((searchValue: string | null) => {
       performSearch(searchValue);
-    }, 10),
+    }, 300),
     [performSearch]
   );
 

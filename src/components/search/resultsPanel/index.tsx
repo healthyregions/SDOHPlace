@@ -19,6 +19,7 @@ import {
 import ThemeIcons from "../helper/themeIcons";
 import { EventType } from "@/lib/event";
 import { usePlausible } from "next-plausible";
+import { reloadAiSearchFromUrl } from "@/store/slices/searchSlice";
 
 interface Props {
   schema: any;
@@ -47,7 +48,32 @@ const ResultsPanel = (props: Props): JSX.Element => {
   );
   const [isResetting, setIsResetting] = React.useState(false);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+  const [hasTriedUrlReload, setHasTriedUrlReload] = React.useState(false);
   const [, forceUpdate] = React.useState({});
+  const [hasSearchBeenInitiated, setHasSearchBeenInitiated] = React.useState(false);
+  const [showNoResults, setShowNoResults] = React.useState(false);
+  const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!hasTriedUrlReload && !searchState.isSearching) {
+      const params = new URLSearchParams(window.location.search);
+      const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
+      const query = params.get("query");    
+      if (hasAiSearch && query && query.trim() !== "" && searchState.results.length === 0) {
+        setHasTriedUrlReload(true);
+        setTimeout(() => {
+          dispatch(
+            reloadAiSearchFromUrl({
+              query: query,
+              schema: props.schema,
+            })
+          );
+        }, 300);
+      } else {
+        setHasTriedUrlReload(true);
+      }
+    }
+  }, [dispatch, hasTriedUrlReload, searchState.isSearching, searchState.results.length, props.schema]);
 
   const uniqueRelatedList = React.useMemo(() => {
     try {
@@ -101,15 +127,35 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length,
     uniqueRelatedList.length,
   ]);
-  const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+  
+  React.useEffect(() => {
+    if (searchState.query && searchState.query !== "" && searchState.query !== "*") {
+      const isForceRefresh = searchState.query.includes(":");
+      if (isForceRefresh) {
+        setHasCompletedSearch(false);
+        setIsInitialLoad(true);
+        forceUpdate({});
+      }
+      setHasSearchBeenInitiated(true);
+    }
+  }, [searchState.query]);
   
   React.useEffect(() => {
     if (isLoading) {
       setHasCompletedSearch(false);
+      setShowNoResults(false);
+      setIsInitialLoad(true);
     } else if (!isInitialLoad) {
       setHasCompletedSearch(true);
+      if (hasSearchBeenInitiated && searchState.results.length === 0 && uniqueRelatedList.length === 0) {
+        setTimeout(() => {
+          setShowNoResults(true);
+        }, 500);
+      } else {
+        setShowNoResults(true);
+      }
     }
-  }, [isLoading, isInitialLoad]);
+  }, [isLoading, isInitialLoad, hasSearchBeenInitiated, searchState.results.length, uniqueRelatedList.length]);
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -118,8 +164,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (hasSearchParams) {
       setIsInitialLoad(true);
     }
+    
     if (!isLoading) {
-      setIsInitialLoad(false);
+      if (searchState.results.length > 0 || searchState.relatedResults.length > 0 || hasCompletedSearch) {
+        setIsInitialLoad(false);
+      }
       const totalCount = searchState.results.length + uniqueRelatedList.length;
       setPreviousCount(totalCount);
     } else {
@@ -128,16 +177,22 @@ const ResultsPanel = (props: Props): JSX.Element => {
   }, [
     isLoading,
     searchState.results.length,
+    searchState.relatedResults.length, 
     uniqueRelatedList.length,
     isResetting,
+    hasCompletedSearch
   ]);
 
   React.useEffect(() => {
     if (isLoading) {
       forceUpdate({});
       setIsInitialLoad(true);
+      setShowNoResults(false);
+      if (searchState.aiSearch) {
+        setPreviousCount(0);
+      }
     }
-  }, [isLoading]);
+  }, [isLoading, searchState.aiSearch]);
 
   const renderLoadingState = () => {
     return (
@@ -167,6 +222,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const shouldShowResultsCount = React.useMemo(() => {
     return !isLoading && !isResetting && hasCompletedSearch && displayCount > 0;
   }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
+
+  const shouldShowLoading = isLoading || isResetting || isInitialLoad || !showNoResults;
 
   return (
     <div
@@ -222,11 +279,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>
             <div>
-              {isLoading ? (
-                <div className="transition-opacity duration-500">
-                  {renderLoadingState()}
-                </div>
-              ) : isResetting || isInitialLoad ? (
+              {shouldShowLoading ? (
                 <div className="transition-opacity duration-500">
                   {renderLoadingState()}
                 </div>
