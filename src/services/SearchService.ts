@@ -1,0 +1,180 @@
+import SolrQueryBuilder from "../components/search/helper/SolrQueryBuilder";
+import { 
+  SearchResult, 
+  deduplicateResults, 
+  executeQueries, 
+  fetchChatGptAnalysis, 
+  fetchSuggestionsFromSolr, 
+  processSolrResults 
+} from "../components/search/helper/SearchUtils";
+import suggestionManager from "../components/search/helper/SuggestionManager";
+import { SolrSuggestResponse } from "@/store/types/search";
+
+export class SearchService {
+  private queryBuilder: SolrQueryBuilder;
+  constructor(schema: any) {
+    this.queryBuilder = new SolrQueryBuilder();
+    this.queryBuilder.setSchema(schema);
+  }
+  async performChatGptSearch(
+    question: string,
+    filterQueries: Array<any>
+  ): Promise<SearchResult> {
+    try {
+      const analysis = await fetchChatGptAnalysis(question);
+      if (!analysis.suggestedQueries || analysis.suggestedQueries.length === 0) {
+        return {
+          searchResults: [],
+          relatedResults: [],
+          suggestions: [],
+          originalQuery: question,
+          usedQuery: "",
+          usedSpellCheck: false,
+          analysis,
+        };
+      }      
+      const combinedResults = await executeQueries(
+        analysis.suggestedQueries,
+        this.queryBuilder
+      );
+      let uniqueResults = deduplicateResults(combinedResults);
+      let relatedResults = [];
+      if ((uniqueResults.length === 0 || analysis.keyTerms) && analysis.keyTerms && analysis.keyTerms.length > 0) {
+        relatedResults = await this.getRelatedResultsFromKeyTerms(analysis.keyTerms, filterQueries, uniqueResults);
+      }
+      return {
+        searchResults: uniqueResults,
+        relatedResults,
+        suggestions: [],
+        originalQuery: question,
+        usedQuery: analysis.suggestedQueries.join(", "),
+        usedSpellCheck: false,
+        analysis,
+      };
+    } catch (error) {
+      throw new Error(`ChatGPT search failed: ${error.message}`);
+    }
+  }
+
+  private async getRelatedResultsFromKeyTerms(
+    keyTerms: any[],
+    filterQueries: Array<any>,
+    mainResults: any[]
+  ): Promise<any[]> {
+    const processedKeyTerms = keyTerms
+      .map(term => typeof term === 'object' ? term.term : term)
+      .filter(Boolean);
+    const relatedSuggestions = await Promise.all(
+      processedKeyTerms.map(term => fetchSuggestionsFromSolr(term, this.queryBuilder))
+    );
+    const allSuggestions = relatedSuggestions.flat();
+    const relatedSearchResults = [];
+    for (const term of allSuggestions) {
+      if (suggestionManager.hasSuggestion(term)) continue;
+      try {
+        suggestionManager.addSuggestion(term);
+        this.queryBuilder.combineQueries(term, filterQueries);
+        const { results } = await this.queryBuilder.fetchResult();
+        suggestionManager.removeSuggestion(term);
+        if (results && results.length > 0) {
+          relatedSearchResults.push(...results);
+        }
+      } catch (error) {
+        suggestionManager.removeSuggestion(term);
+        console.error(`Error fetching related results for term "${term}":`, error);
+      }
+    }
+    const combinedRelatedResults = relatedSearchResults;
+    let relatedResults = deduplicateResults(combinedRelatedResults);
+    const mainResultIds = new Set(mainResults.map(item => item.id));
+    return relatedResults.filter(item => !mainResultIds.has(item.id));
+  }
+
+  async fetchSearchWithRelated(
+    query: string,
+    filterQueries: Array<any>,
+    sortBy?: string,
+    sortOrder?: string,
+    skipCache: boolean = false
+  ): Promise<SearchResult> {
+    let suggestions = [];
+    
+    if (query && query !== "*") {
+      const suggestResult = await this.queryBuilder
+        .suggestQuery(query)
+        .fetchResult();
+      const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
+      suggestions = suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
+    }
+    const validSuggestions = fetchSuggestionsFromSolr(query, this.queryBuilder);
+    this.queryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
+    const { results: searchResults, spellCheckSuggestion } =
+      await this.queryBuilder.fetchResult(undefined, skipCache);
+    let finalResults = searchResults;
+    let usedQuery = query;
+    let usedSpellCheck = false;
+    if (
+      (!searchResults || searchResults.length === 0) &&
+      spellCheckSuggestion &&
+      spellCheckSuggestion !== query
+    ) {
+      this.queryBuilder.combineQueries(
+        spellCheckSuggestion,
+        filterQueries,
+        sortBy,
+        sortOrder
+      );
+      const { results: spellCheckResults } =
+        await this.queryBuilder.fetchResult(undefined, skipCache);
+      
+      if (spellCheckResults && spellCheckResults.length > 0) {
+        finalResults = spellCheckResults;
+        usedQuery = spellCheckSuggestion;
+        usedSpellCheck = true;
+      }
+    }
+    finalResults = processSolrResults(finalResults);
+    return {
+      searchResults: finalResults,
+      relatedResults: [],
+      suggestions: await validSuggestions,
+      originalQuery: query,
+      usedQuery,
+      usedSpellCheck,
+    };
+  }
+
+  async fetchRelatedResults(
+    validSuggestions: string[],
+    usedQuery: string,
+    skipCache: boolean = false
+  ): Promise<any[]> {
+    const uniqueSuggestions = validSuggestions.filter(s => s !== usedQuery);
+    const allRelatedResults = [];
+    for (const suggestion of uniqueSuggestions) {
+      if (suggestionManager.hasSuggestion(suggestion)) continue;
+      try {
+        suggestionManager.addSuggestion(suggestion);
+        const { results: suggestionResults } = await this.queryBuilder
+          .generalQuery(suggestion)
+          .fetchResult(undefined, skipCache);
+        suggestionManager.removeSuggestion(suggestion);
+        
+        if (suggestionResults && suggestionResults.length > 0) {
+          allRelatedResults.push(...suggestionResults);
+        }
+      } catch (error) {
+        suggestionManager.removeSuggestion(suggestion);
+        console.error(`Error fetching related results for "${suggestion}":`, error);
+      }
+    }
+    if (allRelatedResults.length > 0) {
+      return deduplicateResults(allRelatedResults);
+    }
+    return [];
+  }
+
+  async getSearchSuggestions(term: string): Promise<string[]> {
+    return fetchSuggestionsFromSolr(term, this.queryBuilder);
+  }
+} 

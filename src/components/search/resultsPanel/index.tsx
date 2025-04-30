@@ -60,6 +60,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     React.useState(false);
   const [showNoResults, setShowNoResults] = React.useState(false);
   const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+  const [prevResults, setPrevResults] = React.useState([]);
 
   const isNonLatinSearch = React.useMemo(() => {
     if (!searchState.query) return false;
@@ -69,10 +70,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
   }, [searchState.query]);
 
   React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
+
     if (!hasTriedUrlReload && !searchState.isSearching) {
-      const params = new URLSearchParams(window.location.search);
-      const hasAiSearch =
-        params.has("ai_search") && params.get("ai_search") === "true";
       const query = params.get("query");
       if (
         hasAiSearch &&
@@ -81,6 +82,9 @@ const ResultsPanel = (props: Props): JSX.Element => {
         searchState.results.length === 0
       ) {
         setHasTriedUrlReload(true);
+        if (hasAiSearch) {
+          setIsInitialLoad(false);
+        }
         setTimeout(() => {
           dispatch(
             reloadAiSearchFromUrl({
@@ -100,6 +104,12 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length,
     props.schema,
   ]);
+
+  React.useEffect(() => {
+    if (searchState.results.length > 0 && !isLoading) {
+      setPrevResults(searchState.results);
+    }
+  }, [searchState.results, isLoading]);
 
   const uniqueRelatedList = React.useMemo(() => {
     try {
@@ -180,51 +190,34 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (isLoading) {
       setHasCompletedSearch(false);
       setShowNoResults(false);
-      setIsInitialLoad(true);
+      if (!(searchState.aiSearch && prevResults.length > 0)) {
+        setIsInitialLoad(true);
+      }
     } else if (!isInitialLoad) {
       if (isNonLatinSearch && searchState.aiSearch) {
         setTimeout(() => {
           setHasCompletedSearch(true);
-          if (
-            hasSearchBeenInitiated &&
-            searchState.results.length === 0 &&
-            uniqueRelatedList.length === 0
-          ) {
-            setShowNoResults(true);
-          } else {
-            setShowNoResults(true);
-          }
+          setShowNoResults(true);
         }, 1000);
       } else {
         setHasCompletedSearch(true);
-        if (
-          hasSearchBeenInitiated &&
-          searchState.results.length === 0 &&
-          uniqueRelatedList.length === 0
-        ) {
-          setTimeout(() => {
-            setShowNoResults(true);
-          }, 500);
-        } else {
-          setShowNoResults(true);
-        }
+        setShowNoResults(true);
       }
     }
   }, [
     isLoading,
     isInitialLoad,
-    hasSearchBeenInitiated,
-    searchState.results.length,
-    uniqueRelatedList.length,
     isNonLatinSearch,
     searchState.aiSearch,
+    prevResults.length
   ]);
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
+    const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
 
-    if (hasSearchParams) {
+    if (hasSearchParams && !hasAiSearch) {
       setIsInitialLoad(true);
     }
 
@@ -241,12 +234,18 @@ const ResultsPanel = (props: Props): JSX.Element => {
         } else {
           setIsInitialLoad(false);
         }
+      } else if (hasSearchBeenInitiated) {
+        setTimeout(() => {
+          setIsInitialLoad(false);
+          setHasCompletedSearch(true);
+          setShowNoResults(true);
+        }, 500);
       }
 
       const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
       const totalCount = searchState.results.length + relatedCount;
       setPreviousCount(totalCount);
-    } else {
+    } else if (!(searchState.aiSearch && prevResults.length > 0)) {
       setIsInitialLoad(true);
     }
   }, [
@@ -257,20 +256,40 @@ const ResultsPanel = (props: Props): JSX.Element => {
     isResetting,
     hasCompletedSearch,
     relatedResultsLoading,
-    isNonLatinSearch,
+    isNonLatinSearch, 
     searchState.aiSearch,
+    hasSearchBeenInitiated,
+    prevResults.length
   ]);
 
   React.useEffect(() => {
     if (isLoading) {
       forceUpdate({});
-      setIsInitialLoad(true);
+      if (!(searchState.aiSearch && prevResults.length > 0)) {
+        setIsInitialLoad(true);
+      }
       setShowNoResults(false);
-      if (searchState.aiSearch) {
+      if (searchState.aiSearch && !prevResults.length) {
         setPreviousCount(0);
       }
+    } else if (hasSearchBeenInitiated && !relatedResultsLoading) {
+      setTimeout(() => {
+        if (searchState.results.length === 0 && uniqueRelatedList.length === 0) {
+          setIsInitialLoad(false);
+          setHasCompletedSearch(true);
+          setShowNoResults(true);
+        }
+      }, 300);
     }
-  }, [isLoading, searchState.aiSearch]);
+  }, [
+    isLoading, 
+    searchState.aiSearch, 
+    searchState.results.length, 
+    uniqueRelatedList.length, 
+    hasSearchBeenInitiated, 
+    relatedResultsLoading,
+    prevResults.length
+  ]);
 
   const renderLoadingState = () => {
     let loadingMessage;
@@ -303,8 +322,16 @@ const ResultsPanel = (props: Props): JSX.Element => {
     return !isLoading && !isResetting && hasCompletedSearch && displayCount > 0;
   }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
 
-  const shouldShowLoading =
-    isLoading || isResetting || isInitialLoad || !showNoResults;
+  const shouldShowLoading = React.useMemo(() => {
+    return isLoading || isResetting || isInitialLoad || !showNoResults;
+  }, [isLoading, isResetting, isInitialLoad, showNoResults]);
+
+  const resultsToShow = React.useMemo(() => {
+    if (searchState.aiSearch && isLoading && prevResults.length > 0) {
+      return prevResults;
+    }
+    return searchState.results;
+  }, [searchState.aiSearch, isLoading, prevResults, searchState.results]);
 
   return (
     <div
@@ -366,7 +393,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 </div>
               ) : (
                 <div className="force-scrollbar transition-opacity duration-500">
-                  {searchState.results.length > 0 ||
+                  {resultsToShow.length > 0 ||
                   uniqueRelatedList.length > 0 ||
                   displayCount > 0 ? (
                     <Box
@@ -377,10 +404,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         maxHeight: "100vh",
                       }}
                     >
-                      {searchState.results &&
-                        searchState.results.length > 0 && (
+                      {resultsToShow &&
+                        resultsToShow.length > 0 && (
                           <>
-                            {searchState.results.map((result) =>
+                            {resultsToShow.map((result) =>
                               result && result.id ? (
                                 <div key={result.id} className="mb-[0.75em]">
                                   <ResultCard resultItem={result} />

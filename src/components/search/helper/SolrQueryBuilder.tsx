@@ -9,14 +9,6 @@ const requestCache = new Map();
 const REQUEST_CACHE_TTL = 60000;
 const pendingRequests = new Map();
 
-// Add global debug stats
-const cacheStats = {
-  hits: 0,
-  misses: 0,
-  pendingReuse: 0,
-  totalRequests: 0
-};
-
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -57,7 +49,6 @@ export default class SolrQueryBuilder {
     skipCache: boolean = false
   ): Promise<{ results: SolrObject[]; spellCheckSuggestion?: string }> {
     return new Promise((resolve, reject) => {
-      cacheStats.totalRequests++;
       const currentUrl = this.query.query;
       if (!currentUrl || !this.query.solrUrl) {
         console.error("Invalid URL configuration:", {
@@ -81,18 +72,15 @@ export default class SolrQueryBuilder {
         const cachedData = requestCache.get(currentUrl);
         const now = Date.now();
         if (now - cachedData.timestamp < REQUEST_CACHE_TTL) {
-          cacheStats.hits++;
           resolve(JSON.parse(JSON.stringify(cachedData.data)));
           return;
         } else {
           requestCache.delete(currentUrl);
         }
       } else if (!skipCache) {
-        cacheStats.misses++;
       }
       console.log("search query: ", currentUrl);
       if (pendingRequests.has(currentUrl)) {
-        cacheStats.pendingReuse++;
         pendingRequests.get(currentUrl).push({ resolve, reject });
         return;
       }

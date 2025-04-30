@@ -1,0 +1,64 @@
+import * as React from "react";
+import { CircularProgress } from "@mui/material";
+import tailwindConfig from "../../../../tailwind.config";
+import resolveConfig from "tailwindcss/resolveConfig";
+
+const fullConfig = resolveConfig(tailwindConfig);
+
+interface AIThoughtsPanelProps {
+  isLoading: boolean;
+  thoughts: string;
+  aiSearch: boolean;
+}
+
+const AIThoughtsPanel: React.FC<AIThoughtsPanelProps> = ({
+  isLoading,
+  thoughts,
+  aiSearch,
+}) => {
+  if (!aiSearch) {
+    return null;
+  }
+
+  return (
+    <div className="w-full bg-gray-50 rounded-lg border border-frenchviolet/20 mt-2">
+      <div className="p-4">
+        <h3 className="text-md text-frenchviolet mb-2">
+          Inspired by your search:
+        </h3>
+        <p className="text-sm text-gray-600 break-words">
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full py-2">
+              <CircularProgress
+                size={20}
+                className="text-frenchviolet"
+                sx={{ animationDuration: "550ms" }}
+              />
+            </div>
+          ) : thoughts ? (
+            <span dangerouslySetInnerHTML={{ __html: thoughts }} />
+          ) : (
+            <div>
+              <p>
+                Type a research question to get AI-inspired suggestion.
+              </p>
+              <p className="text-sm text-gray-600">
+                e.g.
+                <i>
+                  &quot;What impact does housing stability have on the
+                  health outcomes of low-income populations?&quot;,
+                </i>
+                <i>
+                  &quot;¿Cómo influye el nivel educativo en el acceso a
+                  servicios de salud en comunidades rurales?&quot;
+                </i>
+              </p>
+            </div>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AIThoughtsPanel; 
