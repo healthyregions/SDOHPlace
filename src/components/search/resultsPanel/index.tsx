@@ -37,10 +37,16 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
   const searchState = useSelector(selectSearchState);
+  const { relatedResultsLoading } = useSelector(
+    (state: RootState) => state.search
+  );
   const filterStatus = useSelector(getFilterStatus);
   const plausible = usePlausible();
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
-  const isLoading = searchState.isSearching || searchState.isSuggesting;
+  const isLoading =
+    searchState.isSearching ||
+    searchState.isSuggesting ||
+    relatedResultsLoading;
   const isQuery =
     searchState.query && searchState.query !== "*" && searchState.query !== "";
   const [previousCount, setPreviousCount] = React.useState(
@@ -50,16 +56,30 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
   const [hasTriedUrlReload, setHasTriedUrlReload] = React.useState(false);
   const [, forceUpdate] = React.useState({});
-  const [hasSearchBeenInitiated, setHasSearchBeenInitiated] = React.useState(false);
+  const [hasSearchBeenInitiated, setHasSearchBeenInitiated] =
+    React.useState(false);
   const [showNoResults, setShowNoResults] = React.useState(false);
   const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+
+  const isNonLatinSearch = React.useMemo(() => {
+    if (!searchState.query) return false;
+
+    const nonLatinRegex = /[^\u0000-\u007F]/;
+    return nonLatinRegex.test(searchState.query);
+  }, [searchState.query]);
 
   React.useEffect(() => {
     if (!hasTriedUrlReload && !searchState.isSearching) {
       const params = new URLSearchParams(window.location.search);
-      const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
-      const query = params.get("query");    
-      if (hasAiSearch && query && query.trim() !== "" && searchState.results.length === 0) {
+      const hasAiSearch =
+        params.has("ai_search") && params.get("ai_search") === "true";
+      const query = params.get("query");
+      if (
+        hasAiSearch &&
+        query &&
+        query.trim() !== "" &&
+        searchState.results.length === 0
+      ) {
         setHasTriedUrlReload(true);
         setTimeout(() => {
           dispatch(
@@ -73,10 +93,20 @@ const ResultsPanel = (props: Props): JSX.Element => {
         setHasTriedUrlReload(true);
       }
     }
-  }, [dispatch, hasTriedUrlReload, searchState.isSearching, searchState.results.length, props.schema]);
+  }, [
+    dispatch,
+    hasTriedUrlReload,
+    searchState.isSearching,
+    searchState.results.length,
+    props.schema,
+  ]);
 
   const uniqueRelatedList = React.useMemo(() => {
     try {
+      if (relatedResultsLoading) {
+        return [];
+      }
+
       const relatedResults = Array.isArray(searchState.relatedResults)
         ? searchState.relatedResults
         : [];
@@ -98,7 +128,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       console.error("Error processing related results:", error);
       return [];
     }
-  }, [searchState.relatedResults, searchState.results]);
+  }, [searchState.relatedResults, searchState.results, relatedResultsLoading]);
 
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
@@ -118,7 +148,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
       return previousCount;
     }
 
-    const totalCount = searchState.results.length + uniqueRelatedList.length;
+    const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
+    const totalCount = searchState.results.length + relatedCount;
     return totalCount;
   }, [
     isLoading,
@@ -126,10 +157,15 @@ const ResultsPanel = (props: Props): JSX.Element => {
     previousCount,
     searchState.results.length,
     uniqueRelatedList.length,
+    relatedResultsLoading,
   ]);
-  
+
   React.useEffect(() => {
-    if (searchState.query && searchState.query !== "" && searchState.query !== "*") {
+    if (
+      searchState.query &&
+      searchState.query !== "" &&
+      searchState.query !== "*"
+    ) {
       const isForceRefresh = searchState.query.includes(":");
       if (isForceRefresh) {
         setHasCompletedSearch(false);
@@ -139,23 +175,50 @@ const ResultsPanel = (props: Props): JSX.Element => {
       setHasSearchBeenInitiated(true);
     }
   }, [searchState.query]);
-  
+
   React.useEffect(() => {
     if (isLoading) {
       setHasCompletedSearch(false);
       setShowNoResults(false);
       setIsInitialLoad(true);
     } else if (!isInitialLoad) {
-      setHasCompletedSearch(true);
-      if (hasSearchBeenInitiated && searchState.results.length === 0 && uniqueRelatedList.length === 0) {
+      if (isNonLatinSearch && searchState.aiSearch) {
         setTimeout(() => {
-          setShowNoResults(true);
-        }, 500);
+          setHasCompletedSearch(true);
+          if (
+            hasSearchBeenInitiated &&
+            searchState.results.length === 0 &&
+            uniqueRelatedList.length === 0
+          ) {
+            setShowNoResults(true);
+          } else {
+            setShowNoResults(true);
+          }
+        }, 1000);
       } else {
-        setShowNoResults(true);
+        setHasCompletedSearch(true);
+        if (
+          hasSearchBeenInitiated &&
+          searchState.results.length === 0 &&
+          uniqueRelatedList.length === 0
+        ) {
+          setTimeout(() => {
+            setShowNoResults(true);
+          }, 500);
+        } else {
+          setShowNoResults(true);
+        }
       }
     }
-  }, [isLoading, isInitialLoad, hasSearchBeenInitiated, searchState.results.length, uniqueRelatedList.length]);
+  }, [
+    isLoading,
+    isInitialLoad,
+    hasSearchBeenInitiated,
+    searchState.results.length,
+    uniqueRelatedList.length,
+    isNonLatinSearch,
+    searchState.aiSearch,
+  ]);
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -164,12 +227,24 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (hasSearchParams) {
       setIsInitialLoad(true);
     }
-    
+
     if (!isLoading) {
-      if (searchState.results.length > 0 || searchState.relatedResults.length > 0 || hasCompletedSearch) {
-        setIsInitialLoad(false);
+      if (
+        searchState.results.length > 0 ||
+        (searchState.relatedResults.length > 0 && !relatedResultsLoading) ||
+        hasCompletedSearch
+      ) {
+        if (isNonLatinSearch && searchState.aiSearch) {
+          setTimeout(() => {
+            setIsInitialLoad(false);
+          }, 500);
+        } else {
+          setIsInitialLoad(false);
+        }
       }
-      const totalCount = searchState.results.length + uniqueRelatedList.length;
+
+      const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
+      const totalCount = searchState.results.length + relatedCount;
       setPreviousCount(totalCount);
     } else {
       setIsInitialLoad(true);
@@ -177,10 +252,13 @@ const ResultsPanel = (props: Props): JSX.Element => {
   }, [
     isLoading,
     searchState.results.length,
-    searchState.relatedResults.length, 
+    searchState.relatedResults.length,
     uniqueRelatedList.length,
     isResetting,
-    hasCompletedSearch
+    hasCompletedSearch,
+    relatedResultsLoading,
+    isNonLatinSearch,
+    searchState.aiSearch,
   ]);
 
   React.useEffect(() => {
@@ -195,16 +273,18 @@ const ResultsPanel = (props: Props): JSX.Element => {
   }, [isLoading, searchState.aiSearch]);
 
   const renderLoadingState = () => {
+    let loadingMessage;
+    if (displayCount > 0) {
+      loadingMessage = "Updating results...";
+    } else {
+      loadingMessage = "Searching for data you may be interested in...";
+    }
     return (
       <Box className="flex flex-col w-full">
         <Box className="flex justify-center items-center h-64">
           <div className="text-center w-full px-4 py-3 rounded-lg bg-white">
             <span className="mr-4 text-lg transition-all duration-300 ease-in-out">
-              {displayCount > 0
-                ? "Updating results..."
-                : isInitialLoad
-                ? "Searching for data you may be interested in..."
-                : "Looking for data you may be interested in..."}
+              {loadingMessage}
             </span>
             <div className="mt-3">
               <CircularProgress
@@ -223,7 +303,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
     return !isLoading && !isResetting && hasCompletedSearch && displayCount > 0;
   }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
 
-  const shouldShowLoading = isLoading || isResetting || isInitialLoad || !showNoResults;
+  const shouldShowLoading =
+    isLoading || isResetting || isInitialLoad || !showNoResults;
 
   return (
     <div

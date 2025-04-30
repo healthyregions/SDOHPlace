@@ -59,7 +59,6 @@ export default class SolrQueryBuilder {
     return new Promise((resolve, reject) => {
       cacheStats.totalRequests++;
       const currentUrl = this.query.query;
-      const shortUrl = currentUrl.replace(/^.*\/solr\//, '/solr/').substring(0, 80) + '...';
       if (!currentUrl || !this.query.solrUrl) {
         console.error("Invalid URL configuration:", {
           currentUrl,
@@ -91,7 +90,7 @@ export default class SolrQueryBuilder {
       } else if (!skipCache) {
         cacheStats.misses++;
       }
-
+      console.log("search query: ", currentUrl);
       if (pendingRequests.has(currentUrl)) {
         cacheStats.pendingReuse++;
         pendingRequests.get(currentUrl).push({ resolve, reject });
@@ -148,7 +147,6 @@ export default class SolrQueryBuilder {
           } catch (error) {
             console.error("Response parsing error:", error);
             const subscribers = pendingRequests.get(currentUrl) || [];
-            
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
               subscribers.forEach(sub => sub.resolve({ results: [] }));
             } else {
