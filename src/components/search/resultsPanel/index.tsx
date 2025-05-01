@@ -20,7 +20,6 @@ import ThemeIcons from "../helper/themeIcons";
 import { EventType } from "@/lib/event";
 import { usePlausible } from "next-plausible";
 import { reloadAiSearchFromUrl } from "@/store/slices/searchSlice";
-import { adaptiveScoreFilter, scoreConfig } from "../helper/FilterByScore";
 
 interface Props {
   schema: any;
@@ -70,15 +69,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const getSortedResults = React.useCallback((directResults, relatedResults) => {
     const allResults = [...directResults, ...relatedResults];
     if (sortConfig.sortBy === "score") {
-      if (isAiSearch) {
-        return allResults.sort((a, b) => (b.score || 0) - (a.score || 0));
-      }
-      const filteredDirectResults = adaptiveScoreFilter(
-        directResults, 
-        scoreConfig.minResults,
-        scoreConfig.maxResults
-      );
-      return [...filteredDirectResults, ...relatedResults].sort((a, b) => (b.score || 0) - (a.score || 0));
+      return allResults.sort((a, b) => (b.score || 0) - (a.score || 0));
     } else if (sortConfig.sortBy === "index_year") {
       return allResults.sort((a, b) => {
         const aYears = a.index_year || [];
@@ -97,7 +88,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       });
     }
     return allResults;
-  }, [sortConfig.sortBy, sortConfig.sortOrder, isAiSearch]);
+  }, [sortConfig.sortBy, sortConfig.sortOrder]);
   
   const isNonLatinSearch = React.useMemo(() => {
     if (!searchState.query) return false;

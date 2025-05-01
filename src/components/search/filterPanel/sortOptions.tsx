@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "@/store";
-import { setSortAndFetch } from "@/store/slices/searchSlice";
+import { setSort } from "@/store/slices/searchSlice";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,7 +11,7 @@ export const SortOptions = () => {
 
   const handleSort = (field: string, direction: string) => {
     if (isSearching || initializing) return;
-    dispatch(setSortAndFetch({ field, direction }));
+    dispatch(setSort({ field, direction }));
   };
 
   return (
