@@ -3,7 +3,8 @@ import {
   clearSearch, 
   setAISearch, 
   setThoughts, 
-  setUsedSpellCheck 
+  setUsedSpellCheck,
+  setInputValue
 } from "@/store/slices/searchSlice";
 
 export const MAX_SEARCH_LENGTH = 100;
@@ -38,6 +39,7 @@ export const handleModeSwitch = (
   const newValue = !aiSearch;
   dispatch(setAISearch(newValue));
   dispatch(setThoughts(""));
+  dispatch(setInputValue(""));
   dispatch(setUsedSpellCheck(false));
   plausible(eventType, {
     props: {

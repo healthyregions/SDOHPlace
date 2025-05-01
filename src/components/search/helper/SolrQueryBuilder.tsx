@@ -347,11 +347,6 @@ export default class SolrQueryBuilder {
           baseQuery += filterQuery;
         }
       }
-      if (sortBy && sortOrder) {
-        baseQuery += `&sort=${encodeURIComponent(
-          findSolrAttribute(sortBy, this.query.schema_json)
-        )}+${sortOrder}`;
-      }
       const cleanQuery = baseQuery.replace(/([^:])\/\//g, "$1/");
       return this.setQuery(
         cleanQuery.replace(this.query.solrUrl, "").replace(/^\//, "")

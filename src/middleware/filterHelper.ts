@@ -44,7 +44,7 @@ export const selectSearchState = createSelector(
   })
 );
 
-export default {
+export const filterHelper = {
   generateFilterQueries,
   getFilterStatus,
   resetFilters,

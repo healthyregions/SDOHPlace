@@ -135,12 +135,16 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       }
       
       const searchService = new SearchService(schema);
+      const currentSort = state.search.sort;
+      const effectiveSortBy = sortBy || currentSort.sortBy;
+      const effectiveSortOrder = sortOrder || currentSort.sortOrder;
       const searchResult = await searchService.fetchSearchWithRelated(
         cleanQuery, 
         filterQueries, 
-        sortBy, 
-        sortOrder, 
-        isForceRefresh
+        effectiveSortBy, 
+        effectiveSortOrder, 
+        isForceRefresh,
+        state.search.aiSearch
       );
       
       if (searchResult.usedSpellCheck && searchResult.usedQuery) {
@@ -242,13 +246,19 @@ export const fetchSearchResults = createAsyncThunk(
     },
     { dispatch, getState }
   ) => {
+    const state = getState() as RootState;
     const searchService = new SearchService(schema);
-    const result = await searchService.fetchSearchWithRelated(query, filterQueries, sortBy, sortOrder);
-    
+    const result = await searchService.fetchSearchWithRelated(
+      query, 
+      filterQueries, 
+      sortBy, 
+      sortOrder,
+      false,
+      state.search.aiSearch
+    );
     if (result.usedSpellCheck && result.usedQuery) {
       dispatch(setSpellCheck(result.usedQuery));
     }
-    
     return {
       results: result.searchResults,
       originalQuery: result.originalQuery,
@@ -349,6 +359,22 @@ export const reloadAiSearchFromUrl = createAsyncThunk(
       dispatch(setRelatedResultsLoading(false));
       return null;
     }
+  }
+);
+
+export const setSortAndFetch = createAsyncThunk(
+  "search/setSortAndFetch",
+  async (
+    {
+      field,
+      direction,
+    }: {
+      field: string;
+      direction: string;
+    },
+    { dispatch }
+  ) => {
+    dispatch(setSort({ field, direction }));
   }
 );
 

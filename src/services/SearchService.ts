@@ -9,6 +9,7 @@ import {
 } from "../components/search/helper/SearchUtils";
 import suggestionManager from "../components/search/helper/SuggestionManager";
 import { SolrSuggestResponse } from "@/store/types/search";
+import { adaptiveScoreFilter, scoreConfig } from "../components/search/helper/FilterByScore";
 
 export class SearchService {
   private queryBuilder: SolrQueryBuilder;
@@ -95,7 +96,8 @@ export class SearchService {
     filterQueries: Array<any>,
     sortBy?: string,
     sortOrder?: string,
-    skipCache: boolean = false
+    skipCache: boolean = false,
+    isAiSearch: boolean = false
   ): Promise<SearchResult> {
     let suggestions = [];
     
@@ -107,7 +109,7 @@ export class SearchService {
       suggestions = suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
     }
     const validSuggestions = fetchSuggestionsFromSolr(query, this.queryBuilder);
-    this.queryBuilder.combineQueries(query, filterQueries, sortBy, sortOrder);
+    this.queryBuilder.combineQueries(query, filterQueries);
     const { results: searchResults, spellCheckSuggestion } =
       await this.queryBuilder.fetchResult(undefined, skipCache);
     let finalResults = searchResults;
@@ -120,9 +122,7 @@ export class SearchService {
     ) {
       this.queryBuilder.combineQueries(
         spellCheckSuggestion,
-        filterQueries,
-        sortBy,
-        sortOrder
+        filterQueries
       );
       const { results: spellCheckResults } =
         await this.queryBuilder.fetchResult(undefined, skipCache);
@@ -134,6 +134,13 @@ export class SearchService {
       }
     }
     finalResults = processSolrResults(finalResults);
+    if ((!sortBy || sortBy === "score") && !isAiSearch) {
+      finalResults = adaptiveScoreFilter(
+        finalResults,
+        scoreConfig.minResults,
+        scoreConfig.maxResults
+      );
+    }
     return {
       searchResults: finalResults,
       relatedResults: [],

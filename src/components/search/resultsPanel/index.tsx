@@ -20,6 +20,7 @@ import ThemeIcons from "../helper/themeIcons";
 import { EventType } from "@/lib/event";
 import { usePlausible } from "next-plausible";
 import { reloadAiSearchFromUrl } from "@/store/slices/searchSlice";
+import { adaptiveScoreFilter, scoreConfig } from "../helper/FilterByScore";
 
 interface Props {
   schema: any;
@@ -40,7 +41,10 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const { relatedResultsLoading } = useSelector(
     (state: RootState) => state.search
   );
-  const filterStatus = useSelector(getFilterStatus);
+  const filterStatus = useSelector(getFilterStatus) as {
+    hasActiveFilters: boolean;
+    activeFilters: { [key: string]: boolean };
+  };
   const plausible = usePlausible();
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
   const isLoading =
@@ -61,10 +65,42 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const [showNoResults, setShowNoResults] = React.useState(false);
   const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
   const [prevResults, setPrevResults] = React.useState([]);
-
+  const sortConfig = useSelector((state: RootState) => state.search.sort);
+  const isAiSearch = useSelector((state: RootState) => state.search.aiSearch);
+  const getSortedResults = React.useCallback((directResults, relatedResults) => {
+    const allResults = [...directResults, ...relatedResults];
+    if (sortConfig.sortBy === "score") {
+      if (isAiSearch) {
+        return allResults.sort((a, b) => (b.score || 0) - (a.score || 0));
+      }
+      const filteredDirectResults = adaptiveScoreFilter(
+        directResults, 
+        scoreConfig.minResults,
+        scoreConfig.maxResults
+      );
+      return [...filteredDirectResults, ...relatedResults].sort((a, b) => (b.score || 0) - (a.score || 0));
+    } else if (sortConfig.sortBy === "index_year") {
+      return allResults.sort((a, b) => {
+        const aYears = a.index_year || [];
+        const bYears = b.index_year || [];
+        if (aYears.length === 0 && bYears.length === 0) return 0;
+        if (aYears.length === 0) return 1;
+        if (bYears.length === 0) return -1;
+        const aYearsNum = aYears.map(year => parseInt(year, 10)).filter(y => !isNaN(y));
+        const bYearsNum = bYears.map(year => parseInt(year, 10)).filter(y => !isNaN(y));
+        if (aYearsNum.length === 0 && bYearsNum.length === 0) return 0;
+        if (aYearsNum.length === 0) return 1;
+        if (bYearsNum.length === 0) return -1;
+        const aValue = sortConfig.sortOrder === "desc" ? Math.max(...aYearsNum) : Math.min(...aYearsNum);
+        const bValue = sortConfig.sortOrder === "desc" ? Math.max(...bYearsNum) : Math.min(...bYearsNum);
+        return sortConfig.sortOrder === "desc" ? (bValue - aValue) : (aValue - bValue);
+      });
+    }
+    return allResults;
+  }, [sortConfig.sortBy, sortConfig.sortOrder, isAiSearch]);
+  
   const isNonLatinSearch = React.useMemo(() => {
     if (!searchState.query) return false;
-
     const nonLatinRegex = /[^\u0000-\u007F]/;
     return nonLatinRegex.test(searchState.query);
   }, [searchState.query]);
@@ -72,7 +108,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
-
     if (!hasTriedUrlReload && !searchState.isSearching) {
       const query = params.get("query");
       if (
@@ -150,14 +185,33 @@ const ResultsPanel = (props: Props): JSX.Element => {
     await resetFilters(store);
     setTimeout(() => {
       setIsResetting(false);
+      setIsInitialLoad(false);
+      setHasCompletedSearch(true);
+      setShowNoResults(true);
     }, 500);
   };
+
+  const resultsToShow = React.useMemo(() => {
+    if (searchState.aiSearch && isLoading && prevResults.length > 0) {
+      return prevResults;
+    }
+    return searchState.results;
+  }, [searchState.aiSearch, isLoading, prevResults, searchState.results]);
+  
+ 
+  const sortedResults = React.useMemo(() => {
+    const directResults = resultsToShow;
+    const relatedResults = uniqueRelatedList;
+    return getSortedResults(directResults, relatedResults);
+  }, [resultsToShow, uniqueRelatedList, getSortedResults]);
 
   const displayCount = React.useMemo(() => {
     if (isResetting || isLoading) {
       return previousCount;
     }
-
+    if (sortedResults && sortedResults.length > 0) {
+      return sortedResults.length;
+    }
     const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
     const totalCount = searchState.results.length + relatedCount;
     return totalCount;
@@ -168,6 +222,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length,
     uniqueRelatedList.length,
     relatedResultsLoading,
+    sortedResults
   ]);
 
   React.useEffect(() => {
@@ -272,7 +327,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       if (searchState.aiSearch && !prevResults.length) {
         setPreviousCount(0);
       }
-    } else if (hasSearchBeenInitiated && !relatedResultsLoading) {
+    } else if (hasSearchBeenInitiated || (filterStatus && filterStatus.hasActiveFilters)) {
       setTimeout(() => {
         if (searchState.results.length === 0 && uniqueRelatedList.length === 0) {
           setIsInitialLoad(false);
@@ -288,7 +343,8 @@ const ResultsPanel = (props: Props): JSX.Element => {
     uniqueRelatedList.length, 
     hasSearchBeenInitiated, 
     relatedResultsLoading,
-    prevResults.length
+    prevResults.length,
+    filterStatus
   ]);
 
   const renderLoadingState = () => {
@@ -323,15 +379,25 @@ const ResultsPanel = (props: Props): JSX.Element => {
   }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
 
   const shouldShowLoading = React.useMemo(() => {
-    return isLoading || isResetting || isInitialLoad || !showNoResults;
-  }, [isLoading, isResetting, isInitialLoad, showNoResults]);
-
-  const resultsToShow = React.useMemo(() => {
-    if (searchState.aiSearch && isLoading && prevResults.length > 0) {
-      return prevResults;
+    if (filterStatus && 
+        filterStatus.hasActiveFilters && 
+        !isLoading && 
+        !isResetting && 
+        searchState.results.length === 0 && 
+        uniqueRelatedList.length === 0) {
+      return false;
     }
-    return searchState.results;
-  }, [searchState.aiSearch, isLoading, prevResults, searchState.results]);
+    
+    return isLoading || isResetting || isInitialLoad || !showNoResults;
+  }, [
+    isLoading, 
+    isResetting, 
+    isInitialLoad, 
+    showNoResults, 
+    filterStatus, 
+    searchState.results.length, 
+    uniqueRelatedList.length
+  ]);
 
   return (
     <div
@@ -354,7 +420,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 </div>
               </Fade>
             </div>
-            {filterStatus.hasActiveFilters && !isLoading && !isResetting && (
+            {filterStatus && filterStatus.hasActiveFilters && !isLoading && !isResetting && (
               <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
                 <div className="text-frenchviolet" onClick={handleClearFilters}>
                   Clear All
@@ -393,9 +459,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 </div>
               ) : (
                 <div className="force-scrollbar transition-opacity duration-500">
-                  {resultsToShow.length > 0 ||
-                  uniqueRelatedList.length > 0 ||
-                  displayCount > 0 ? (
+                  {sortedResults.length > 0 || displayCount > 0 ? (
                     <Box
                       height="100%"
                       sx={{
@@ -404,34 +468,18 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         maxHeight: "100vh",
                       }}
                     >
-                      {resultsToShow &&
-                        resultsToShow.length > 0 && (
-                          <>
-                            {resultsToShow.map((result) =>
-                              result && result.id ? (
-                                <div key={result.id} className="mb-[0.75em]">
-                                  <ResultCard resultItem={result} />
-                                </div>
-                              ) : null
-                            )}
-                          </>
-                        )}
-                      {uniqueRelatedList && uniqueRelatedList.length > 0 && (
-                        <>
-                          {uniqueRelatedList.map((result) =>
-                            result && result.id ? (
-                              <div key={result.id} className="mb-[0.75em]">
-                                <ResultCard resultItem={result} />
-                              </div>
-                            ) : null
-                          )}
-                        </>
+                      {sortedResults.map((result) =>
+                        result && result.id ? (
+                          <div key={result.id} className="mb-[0.75em]">
+                            <ResultCard resultItem={result} />
+                          </div>
+                        ) : null
                       )}
                     </Box>
                   ) : (
                     <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
                       <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                        <SearchIcon className="text-strongorange mb-[0.15em]" />
+                        <SearchIcon className="text-strongorange my-[0.15em]" />
                         <div className="text-s">No results</div>
                         {(() => {
                           try {
@@ -439,11 +487,11 @@ const ResultsPanel = (props: Props): JSX.Element => {
                               plausible(EventType.ReceivedNoSearchResults, {
                                 props: {
                                   searchQuery: searchState.query,
-                                  searchFilter: filterStatus.activeFilters,
+                                  searchFilter: filterStatus?.activeFilters || {},
                                   fullSearchStates:
                                     searchState.query +
                                     " || " +
-                                    Object.entries(filterStatus.activeFilters)
+                                    Object.entries(filterStatus?.activeFilters || {})
                                       .map(([key, value]) => `${key}: ${value}`)
                                       .join(" || "),
                                 },
