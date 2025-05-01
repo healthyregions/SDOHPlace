@@ -134,13 +134,6 @@ export class SearchService {
       }
     }
     finalResults = processSolrResults(finalResults);
-    if ((!sortBy || sortBy === "score") && !isAiSearch) {
-      finalResults = adaptiveScoreFilter(
-        finalResults,
-        scoreConfig.minResults,
-        scoreConfig.maxResults
-      );
-    }
     return {
       searchResults: finalResults,
       relatedResults: [],

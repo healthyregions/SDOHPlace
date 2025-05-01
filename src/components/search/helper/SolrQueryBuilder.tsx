@@ -193,17 +193,8 @@ export default class SolrQueryBuilder {
       if (q) {
         rawSolrObject.q = q;
       }
-      if (q.includes("*") || rawSolrObject.score >= 1) {
-        result.push(initSolrObject(rawSolrObject, this.query.schema_json));
-      }
+      result.push(initSolrObject(rawSolrObject, this.query.schema_json));
     });
-    if (!q.includes("*") && result.length > 0) {
-      result = adaptiveScoreFilter(
-        result,
-        scoreConfig.minResults || 1,
-        scoreConfig?.maxResults || 10
-      );
-    }
     return result;
   }
 

@@ -1,9 +1,5 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Paper,
-  Popper
-} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
@@ -219,6 +215,16 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!aiSearch) {
+      setShouldShowDropdown(false);
+      if (isLoading) return;
+      clearSuggestions();
+      setIsLocalLoading(true);
+      dispatch(setIsSearching(true));
+      dispatch(setRelatedResultsLoading(true));
+      const originalValue = inputValue;
+      if (originalValue) {
+        debouncedPerformSearch(originalValue);
+      }
       return;
     }
     setShouldShowDropdown(false);
@@ -237,6 +243,23 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     if (event.key === "Enter") {
       event.preventDefault();
       if (!aiSearch) {
+        setShouldShowDropdown(false);
+        if (isLocalLoading || isSearching) return;
+        clearSuggestions();
+        const currentInputValue = inputValue;
+        setIsLocalLoading(true);
+        dispatch(setIsSearching(true));
+        dispatch(setRelatedResultsLoading(true));
+        if (!isMouseInDropdown) {
+          dispatch(setInputValue(currentInputValue));
+          if (currentInputValue) {
+            debouncedPerformSearch(currentInputValue);
+          }
+        } else {
+          if (inputValue) {
+            debouncedPerformSearch(inputValue);
+          }
+        }
         return;
       }
       setShouldShowDropdown(false);
