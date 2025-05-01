@@ -1,23 +1,17 @@
 import { SolrObject } from "meta/interface/SolrObject";
 
 interface ScoreFilterConfig {
-  minResults: number;
-  maxResults: number;
   dropThreshold: number;
   minimumScore: number;
 }
 
 export const scoreConfig: ScoreFilterConfig = {
-  minResults: 20,
-  maxResults: 50,
   dropThreshold: 1.5,
   minimumScore: 1,
 };
 
 export function adaptiveScoreFilter(
-  docs: SolrObject[],
-  minResults: number = scoreConfig.minResults,
-  maxResults: number = scoreConfig.maxResults
+  docs: SolrObject[]
 ): SolrObject[] {
   return docs;
 }
