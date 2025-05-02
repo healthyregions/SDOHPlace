@@ -1,6 +1,15 @@
 {
   "fellows": [
     {
+      "image": "/images/kl-headshot_apr2025.jpg",
+      "name": "Katie Lynch",
+      "title": "Ph.D. Candidate, New York University",
+      "cohort": "Spring 2025",
+      "desc_long": "Katie is a PhD Candidate in the Social and Behavioral Sciences Department at the New York University School of Global Public Health, with a passion for improving environmental justice and health equity. Throughout her doctoral studies, Katie has worked as a graduate research assistant in the NYU Climate Justice and Health Lab, supporting mixed-methods projects that assess the health impacts of climate change on socially vulnerable populations. Her dissertation research examines the physical and social impact of recurrent wildfire smoke exposure across the life course, using ethnographic, qualitative, and spatial epidemiology approaches. Katie holds an MPH from New York University, an MS in Medical Anthropology from Boston University, and a BA in History and Anthropology from the University of Connecticut.",
+      "desc_short": "Katie is a PhD Candidate in the Social and Behavioral Sciences Department at the New York University School of Global Public Health, with a passion for improving environmental justice and health equity. Throughout her doctoral studies, Katie has worked as a graduate research assistant in the NYU Climate Justice and Health Lab, supporting mixed-methods projects that assess the health impacts of climate change on socially vulnerable populations.",
+      "project": ""
+    },
+    {
       "image": "/images/image-4-17-25-at-1.30-pm-1-.jpg",
       "name": "Cheng-Chia \"Brian\" Chen",
       "title": "Associate Professor of Public Health",
