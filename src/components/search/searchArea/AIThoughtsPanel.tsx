@@ -39,15 +39,19 @@ const AIThoughtsPanel: React.FC<AIThoughtsPanelProps> = ({
             <span dangerouslySetInnerHTML={{ __html: thoughts }} />
           ) : (
             <div>
-              <p>
-                Type a research question to get AI-inspired suggestion.
-              </p>
+              <p>Type a research question to get AI-inspired suggestions.</p>
               <p className="text-sm text-gray-600">
-                e.g.
+                e.g.{" "}
                 <i>
-                  &quot;What impact does housing stability have on the
-                  health outcomes of low-income populations?&quot;,
+                  &quot;What impact does housing stability have on the health
+                  outcomes of low-income populations?&quot;
                 </i>
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                You can also ask questions in your native language to find the
+                information you need more easily.
+                <br />
+                e.g.{" "}
                 <i>
                   &quot;¿Cómo influye el nivel educativo en el acceso a
                   servicios de salud en comunidades rurales?&quot;
@@ -61,4 +65,4 @@ const AIThoughtsPanel: React.FC<AIThoughtsPanelProps> = ({
   );
 };
 
-export default AIThoughtsPanel; 
+export default AIThoughtsPanel;
