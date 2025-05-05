@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store";
-import { Collapse, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import SearchArea from "./searchArea";
 import DetailPanel from "./detailPanel";
-import { initializeSearch, setSchema } from "@/store/slices/searchSlice";
+import { initializeSearch } from "@/store/slices/searchSlice";
 import MapPanel from "./mapPanel/mapPanelContent";
 import dynamic from "next/dynamic";
 import * as React from "react";
@@ -87,7 +87,7 @@ export default function DiscoveryArea({ schema }): JSX.Element {
             <MapPanel
               resultsList={results}
               showMap={
-                showDetailPanel && (results && results.find((r) => r.id === showDetailPanel))
+                showDetailPanel && showDetailPanel.length > 0 && (results && results.find((r) => r.id === showDetailPanel))
                   ? "none"
                   : "block"
               }

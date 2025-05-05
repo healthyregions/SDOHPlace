@@ -10,26 +10,20 @@ export class QueryTracker {
   addInFlight(queryKey: string): void {
     this.inFlightQueries.set(queryKey, true);
   }
-
   removeInFlight(queryKey: string): void {
     this.inFlightQueries.delete(queryKey);
   }
-
   isInFlight(queryKey: string): boolean {
     return this.inFlightQueries.has(queryKey);
   }
-
   addRecent(queryKey: string): void {
     this.recentQueries.set(queryKey, Date.now());
   }
-
   isRecentlyCompleted(queryKey: string): boolean {
     if (!this.recentQueries.has(queryKey)) return false;
-    
     const timestamp = this.recentQueries.get(queryKey);
     return Date.now() - timestamp < this.TTL;
   }
-
   cleanup(): void {
     const now = Date.now();
     Array.from(this.recentQueries.entries()).forEach(([key, timestamp]) => {
@@ -38,13 +32,11 @@ export class QueryTracker {
       }
     });
   }
-
   shouldExecuteQuery(queryKey: string): boolean {
     if (this.isInFlight(queryKey)) return false;
     if (this.isRecentlyCompleted(queryKey)) return false;
     return true;
   }
-
   generateQueryKey(query: string, filterQueries: any[], sortBy?: string, sortOrder?: string): string {
     return `${query}:${JSON.stringify(filterQueries)}:${sortBy || ''}:${sortOrder || ''}`;
   }
