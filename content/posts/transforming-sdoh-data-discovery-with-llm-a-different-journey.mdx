@@ -7,22 +7,16 @@ tags:
   - research
 thumbnail: /images/default.jpg
 excerpt: We recently released the first version of our SDOH & Place Data
-  Discovery platform, a searchable interface for finding and accessing SDOH data
-  from many different sources. Inspired by Geoblacklight, a multiinstitutional,
-  world-class open-source discovery platform for geospatial (GIS) holdings, we
-  implemented this module, a highly customizable data discovery platform with
-  Next.js Reach framework, with the search feature powered by Apache Solr, a
-  open-source search engine full-text, vector and geospatial search feature for
-  document indexing and retrieval. We provide traditional keyword search
-  capabilities, allowing researchers to enter terms and find datasets that are
-  directly related or relevant to those terms.
+  Discovery platform with traditional keyword search feature and LLM-based Q&A
+  styled search feature. This post aims to introdyce both feature and highlight
+  how we use AI to provide an new data discovery expereince
 ---
 We recently released the first version of our [SDOH & Place Data Discovery platform](https://sdohplace.org/search), a searchable interface for finding and accessing SDOH data from many different sources. Inspired by [Geoblacklight](https://geoblacklight.org/), a multiinstitutional, world-class open-source discovery platform for geospatial (GIS) holdings, we implemented this module, a highly customizable data discovery platform with [Next.js](http://next.js) Reach framework, with the search feature powered by [Apache Solr](https://solr.apache.org/), a open-source search engine full-text, vector and geospatial search feature for document indexing and retrieval. We provide traditional keyword search capabilities, allowing researchers to enter terms and find datasets that are directly related or relevant to those terms.
 
 ## Traditional Keyword Search Mode
 
 <figure>
-  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-1.png" alt="Keyword search mode in the SDOH Data Discovery Platform" title="Keyword search mode in the SDOH Data Discovery Platform" />
+  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-1.png" alt="Keyword search mode in the SDOH Data Discovery Platform. User can type in terms and get suggestions or conduct search" title="Keyword search mode in the SDOH Data Discovery Platform" />
   <figcaption>Keyword search mode in the SDOH Data Discovery Platform</figcaption>
 </figure>
 
@@ -32,20 +26,35 @@ To save users' time and expand the scope of their searches, we implemented a sug
 
 For example, when a user begins typing “food access,” the system will display a list of suggestions, including “Food Access Research Atlas.” By selecting this exact term, the platform returns documents containing that phrase. Users can then refine the results further by applying geographic filters to focus on specific communities.
 
+<figure>
+  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-2.png" alt="A type of “Food Access” in the keyword search mode will trigger the suggested term “Food Access Research Atlas” if user use the keyword search mode" title="A type of “Food Access” in the keyword search mode will trigger the suggested term “Food Access Research Atlas”" />
+  <figcaption>A type of “Food Access” in the keyword search mode will trigger the suggested term “Food Access Research Atlas”</figcaption>
+</figure>
+
 Similar to many existing term-based search systems, the traditional search mode is highly efficient when users know the exact term they want to search for. **However, it becomes time-consuming and less effective when users are unsure of the precise terminology or when relevant information is described using a different language.**
 
 For instance, a document about “poverty” might be highly relevant but would not appear in results for “food insecurity”. If a user wants to explore a question like “What factors influence food insecurity in the U.S. ?”, they first need to construct multiple search terms—such as “food access,” “economic stability”, and “poverty”. Each of these searches returns a separate set of documents based on exact term matching, requiring the user to perform multiple searches and mentally synthesize the results.
 
 ## AI-Inspired Search Mode
 
-Our natural language approach allows users to ask conversational questions such as: 
+<figure>
+  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-3.png" alt="AI-Inspired Search Mode in the SDOH Data Discovery Platform can be triggered by clicking the message shaped button and user can then ask human language question" title="AI-Inspired Search Mode in the SDOH Data Discovery Platform" />
+  <figcaption>AI-Inspired Search Mode in the SDOH Data Discovery Platform</figcaption>
+</figure>
+
+Our natural language approach allows users to ask conversational questions in any human language, including English and Non-English language, such as: 
 
 * "How does public transportation availability affect healthcare utilization in Chicago?" 
-* "What are the existing childcare resources in Illinois?" 
+* "¿Cuáles son los recursos de cuidado infantil existentes en Illinois?" *("What are the existing childcare resources in Illinois?" in Spanish)*
 
 The platform uses a large language model (LLM) to interpret users' natural language questions and translate them into precise search queries optimized for the system's underlying search engine. These queries—formulated in a structured format similar to what's used in Solr—capture the intent and context of the original question, enabling the system to understand conceptual relationships across SDOH domains. This allows it to retrieve relevant documents even when they use different terminology from the user. 
 
 The platform also incorporates features like automatic spell correction, sentence reconstruction, and summarization to accurately interpret questions, even when they contain typos or grammatical errors.
+
+<figure>
+  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-4.png" alt="The system processes after receiving the user’s question: system will analyze the question and identify SDOH concepts, related ideas and relationships, then transform it into search query and return relevant document" title="The system processes after receiving the user’s question" />
+  <figcaption>The system processes after receiving the user’s question</figcaption>
+</figure>
 
 **This process retains the detailed query capabilities of traditional keyword search while adding a layer of semantic understanding to deliver more comprehensive results.** We also prompt the LLM to demonstrate the reasoning process to give users insights into how the question is interpreted. Additionally, we enable a highlight feature that allows users to hover over each result card to see which aspects of the data are relevant to their question.
 
@@ -54,6 +63,12 @@ While the SDOH & Place Data Discovery tool may not have the direct answer to a r
 ### How It Looks
 
 For example, with this mode enabled, a user can simply ask: “*What factors influence food insecurity in the U.S. ?*” The LLM translates this natural-language question into multiple related search terms in the background. The platform then displays a series of datasets that offer different perspectives on the question, such as child care (*the direct interpretation of the question*), social services, and education. Users can hover over each dataset to understand how it contributes to answering the question. If they wish to explore further, they can click “Details” to view more in-depth information.
+
+<figure>
+  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-5.png" alt="A snapshot of the results answering the question “What factors influence food insecurity in the U.S. ?” in AI-inspired search mode" title="A snapshot of the results answering the question “What factors influence food insecurity in the U.S. ?” in AI-inspired search mode" />
+  <figcaption>A snapshot of the results answering the question “What factors influence food insecurity in the U.S. ?” in AI-inspired search mode
+</figcaption>
+</figure>
 
 Compared to traditional keyword-based search, the AI-inspired search mode returns a more comprehensive set of results by capturing interrelated factors relevant to a question, even when different terminology is used. This approach offers users a broader overview of their research question and can reveal perspectives they might have otherwise overlooked. **In addition, this makes finding critical SDOH datasets more equitable to a larger range of users, as now you don't need to be familiar with the key terminology used by most datasets to find the data you need.**
 
