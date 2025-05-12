@@ -60,12 +60,16 @@ The platform also incorporates features like automatic spelling correction, sent
 **This process retains the detailed query capabilities of traditional keyword search while adding a layer of semantic understanding to deliver more comprehensive results.** We also prompt the LLM to demonstrate the reasoning process to give users insights into how the question is interpreted. Additionally, we enable a highlight feature that allows users to hover over each result card to see which aspects of the data are relevant to their question.
 
 
+<figure>
+  <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-5.png" alt="The AI-Inspired search mode shows the reasoning process used to answer the question 'What factors influence food insecurity in the U.S.?’, even when the question contains typos." title="The AI-Inspired search mode shows the reasoning process used to answer the question 'What factors influence food insecurity in the U.S.?’, even when the question contains typos." />
+  <figcaption>The AI-Inspired search mode shows the reasoning process used to answer the question "What factors influence food insecurity in the U.S.?", even when the question contains typos.</figcaption>
+</figure>
 
 While the SDOH & Place Data Discovery tool may not have the direct answer to a research question, this AI-assisted approach may aid the user in considering new ways of thinking about their topic, as well as uncovering relevant datasets stored in the discovery database.
 
 ### How It Looks
 
-For example, with this mode enabled, a user can simply ask: “*What factors influence food insecurity in the U.S. ?*” The LLM translates this natural-language question into multiple related search terms in the background. The platform then displays a series of datasets that offer different perspectives on the question, such as child care (*the direct interpretation of the question*), social services, and education. Users can hover over each dataset to understand how it contributes to answering the question. If they wish to explore further, they can click “Details” to view more in-depth information.
+With this mode enabled, a user can simply ask: “What factors influence food insecurity in the U.S.?” The LLM translates this natural-language question into multiple related search terms in the background. The platform then displays a series of datasets that offer different perspectives on the question, such as child care (the direct interpretation of the question), social services, and education. Users can hover over each dataset to understand how it contributes to answering the question. If they wish to explore further, they can click “Details” to view more in-depth information.
 
 <figure>
   <img src="/images/transform-sdoh-data-discovery-with-llm-a-different-journey-6.png" alt="A snapshot of the results answering the question “What factors influence food insecurity in the U.S. ?” in AI-inspired search mode" title="A snapshot of the results answering the question “What factors influence food insecurity in the U.S. ?” in AI-inspired search mode" />
@@ -76,11 +80,10 @@ Compared to traditional keyword-based search, the AI-inspired search mode return
 
 ### Privacy Preservation
 
-The AI-Inspired search mode is currently powered by OpenAI’s API—the same interface behind the popular ChatGPT platform. Our team is aware of the privacy concerns surrounding OpenAI, and we have designed our AI-Inspired search mode with a strong commitment to user privacy and security at every step. While we harness advanced AI capabilities to translate natural language questions into precise search queries, **users’ search history and behavior are never saved or shared with OpenAI.** The translation process takes place in a secure, isolated environment, ensuring that your proprietary information is neither stored nor used for model training by us or by OpenAI. Our goal is to deliver the powerful benefits of AI-enhanced search while upholding robust privacy standards and protecting your data at all times.
+The AI-Inspired search mode is currently powered by OpenAI’s API—the same interface behind the popular ChatGPT platform. Our team is aware of the privacy concerns surrounding OpenAI, and we have designed our AI-Inspired search mode with a strong commitment to user privacy and security at every step. While we harness advanced AI capabilities to translate natural language questions into precise search queries, **users’ search history and behavior are not shared with OpenAI**. The translation process takes place in an isolated environment, ensuring that your proprietary information is not used for model training by OpenAI. Our goal is to deliver the powerful benefits of AI-enhanced search while upholding robust privacy standards and protecting your data at all times.
 
 ## Future
 
 As we continue to enhance our SDOH data discovery platform, we remain committed to building a more personalized, context-aware search experience for SDOH datasets. Our next steps include developing comprehensive mappings of SDOH relationships through ontology development, enabling us to represent complex social determinants as interconnected knowledge networks. While the path forward is still evolving, we’re excited to explore new possibilities that support more intuitive and impactful ways to engage with SDOH data.
 
 Contact our [engineering team](https://sdohplace.org/team) for any technical questions!
-
