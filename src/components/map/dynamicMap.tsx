@@ -10,6 +10,7 @@ import {
   Popup,
   LngLatBoundsLike,
   Source,
+  ScaleControl,
 } from "react-map-gl/maplibre";
 import maplibregl, {
   FilterSpecification,
@@ -323,6 +324,7 @@ export default function DynamicMap(props: Props): JSX.Element {
       touchZoomRotate={false}
       interactiveLayerIds={overlayLayerIds}
     >
+        <ScaleControl unit="imperial" />
       <Source
         id="state-2018"
         type="vector"
