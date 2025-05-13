@@ -184,9 +184,8 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
             suggestionManager.addSuggestion(suggestion);
             const queryBuilder = new SolrQueryBuilder();
             queryBuilder.setSchema(schema);
-            const { results: suggestionResults } = await queryBuilder
-              .generalQuery(suggestion)
-              .fetchResult(undefined, false);
+            queryBuilder.combineQueries(suggestion, filterQueries);
+            const { results: suggestionResults } = await queryBuilder.fetchResult(undefined, false);
             suggestionManager.removeSuggestion(suggestion);
             
             if (suggestionResults && suggestionResults.length > 0) {
@@ -336,8 +335,10 @@ export const reloadAiSearchFromUrl = createAsyncThunk(
         dispatch(setRelatedResultsLoading(true));
       }
       
+      const filterQueries = filterService.generateFilterQueries(state.search);
+      
       const searchService = new SearchService(schema);
-      const result = await searchService.performChatGptSearch(query, []);
+      const result = await searchService.performChatGptSearch(query, filterQueries);
       
       if (result.analysis?.thoughts) {
         dispatch(setThoughts(result.analysis.thoughts || ""));

@@ -147,6 +147,7 @@ export class SearchService {
   async fetchRelatedResults(
     validSuggestions: string[],
     usedQuery: string,
+    filterQueries: Array<any> = [],
     skipCache: boolean = false
   ): Promise<any[]> {
     const uniqueSuggestions = validSuggestions.filter(s => s !== usedQuery);
@@ -155,9 +156,8 @@ export class SearchService {
       if (suggestionManager.hasSuggestion(suggestion)) continue;
       try {
         suggestionManager.addSuggestion(suggestion);
-        const { results: suggestionResults } = await this.queryBuilder
-          .generalQuery(suggestion)
-          .fetchResult(undefined, skipCache);
+        this.queryBuilder.combineQueries(suggestion, filterQueries);
+        const { results: suggestionResults } = await this.queryBuilder.fetchResult(undefined, skipCache);
         suggestionManager.removeSuggestion(suggestion);
         
         if (suggestionResults && suggestionResults.length > 0) {

@@ -102,7 +102,7 @@ export const actionConfig: Record<string, ActionConfig> = {
   "search/setSort": {
     param: "sort",
     syncWithUrl: false,
-    requiresFetch: false,
+    requiresFetch: true,
     isFilter: false,
   },
 
