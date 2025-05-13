@@ -1,6 +1,8 @@
 import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
 import Header from "@/components/meta/Header";
+import NavBar from "@/components/NavBar";
+import TopLines from "@/components/TopLines";
 import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
 import TwitterCardMeta from "@/components/meta/TwitterCardMeta";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
@@ -21,15 +23,25 @@ type Props = {
   };
 };
 export default function Index({ posts, tags, pagination }: Props) {
-  const url = "/showcase";
-  const title = "Showcase";
   return (
-    <Layout page_header={"Fellows Showcase"}>
-      <Header url={url} title={title} />
-      <OpenGraphMeta url={url} title={title} />
-      <TwitterCardMeta url={url} title={title} />
-      <ShowcaseList posts={posts} pagination={pagination} />
-    </Layout>
+    <>
+        <Header url="/showcase" title="Showcase" />
+        <NavBar />
+        <TopLines />
+        <div className="flex flex-col pt-12">
+            <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
+                <h1 className="font-fredoka">Fellows Showcase</h1>
+                <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
+                    <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+                        <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
+                            <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-8"></div>
+                            <ShowcaseList posts={posts} pagination={pagination} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </>
   );
 }
 
