@@ -8,6 +8,7 @@ import { getSchema, SchemaObject } from "@/components/search/helper/GetSchema";
 import Footer from "@/components/homepage/footer";
 import DiscoveryArea from "@/components/search/discoveryArea";
 import SearchTopLines from "@/components/search/SearchTopLines";
+import SearchApp from "@/components/search/SearchApp";
 
 interface SearchPageProps {
   schema: SchemaObject;
@@ -24,7 +25,7 @@ export const getStaticProps: GetStaticProps<SearchPageProps> = async () => {
 
 const Search: NextPage<SearchPageProps> = ({ schema }) => {
   return (
-    <>
+    <SearchApp enableHistorySync={true}>
       <Header title={"Data Discovery"} />
       <NavBar />
       <SearchTopLines />
@@ -34,7 +35,7 @@ const Search: NextPage<SearchPageProps> = ({ schema }) => {
         </div>
       </div>
       <Footer />
-    </>
+    </SearchApp>
   );
 };
 

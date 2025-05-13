@@ -3,26 +3,39 @@ import { fetchSearchAndRelatedResults, setIsSearching } from "@/store/slices/sea
 import filterService from "./FilterService";
 import { actionConfig } from "./actionConfig";
 import urlSyncManager from "./UrlSyncManager";
+import historySync from "./HistorySync";
 import queryTracker from "./QueryTracker";
-
 const isClient = typeof window !== "undefined";
-
+let fetchInProgress = false;
 export const createMiddleware: Middleware = (store) => {
   let isInitializing = false;
   let pendingFetchTimer: NodeJS.Timeout | null = null;
-
+  let initialStateLoaded = false;
   return (next) => (action: AnyAction) => {
     if (!isClient) {
       return next(action);
     }
     if (action.type === "search/initialize/pending") {
       isInitializing = true;
-      urlSyncManager.initializeFromUrl(store.dispatch);
-      return next(action);
+      historySync.setDispatch(store.dispatch, store);
+      if (window.location.search) {
+        urlSyncManager.initializeFromUrl(store.dispatch);
+      }
+      const result = next(action);
+      return result;
     }
     if (action.type === "search/initialize/fulfilled") {
       isInitializing = false;
+      initialStateLoaded = true;
+      if ((window.location.pathname === '/search' || window.location.pathname === '/search/') 
+          && !window.location.search) {
+        const state = store.getState();
+        triggerResultsFetch(store, state.search.query || "*");
+      }
       return next(action);
+    }
+    if (action.type === 'search/setIsSearching') {
+      fetchInProgress = action.payload;
     }
     if (action.type === "search/batchResetFilters") {
       const result = next(action);
@@ -35,7 +48,9 @@ export const createMiddleware: Middleware = (store) => {
         action.payload.preserveSubject,
         action.payload.subject
       );
-      triggerResultsFetch(store, action.payload.query);
+      if (!fetchInProgress) {
+        triggerResultsFetch(store, action.payload.query);
+      }
       return result;
     }
     const result = next(action);
@@ -44,7 +59,7 @@ export const createMiddleware: Middleware = (store) => {
       if (config.syncWithUrl) {
         urlSyncManager.syncToUrl(action, config);
       }
-      if (config.requiresFetch && !isInitializing) {
+      if (config.requiresFetch && !isInitializing && initialStateLoaded && !fetchInProgress) {
         const state = store.getState();
         if (!state.search.isSearching) {
           if (pendingFetchTimer) {
@@ -60,15 +75,18 @@ export const createMiddleware: Middleware = (store) => {
     return result;
   };
 };
-
 async function triggerResultsFetch(
   store: any,
   query: string,
   bypassSpellCheck = false
 ): Promise<void> {
   const state = store.getState();
-  if (!state.search.schema) return;
-  if (state.search.isSearching) return;
+  if (!state.search.schema) {
+    return;
+  }
+  if (state.search.isSearching) {
+    return;
+  }
   const filterQueries = filterService.generateFilterQueries(state.search);
   const queryKey = queryTracker.generateQueryKey(
     query,
@@ -76,11 +94,14 @@ async function triggerResultsFetch(
     state.search.sort.sortBy,
     state.search.sort.sortOrder
   );
-  if (!queryTracker.shouldExecuteQuery(queryKey)) return;
+  if (!queryTracker.shouldExecuteQuery(queryKey)) {
+    return;
+  }
   try {
     queryTracker.addInFlight(queryKey);
     queryTracker.addRecent(queryKey);
     store.dispatch(setIsSearching(true));
+    fetchInProgress = true;
     if (state.search.aiSearch && (!query || query === "*")) {
       await store.dispatch(
         fetchSearchAndRelatedResults({
@@ -109,6 +130,7 @@ async function triggerResultsFetch(
   } finally {
     queryTracker.removeInFlight(queryKey);
     store.dispatch(setIsSearching(false));
+    fetchInProgress = false;
     queryTracker.cleanup();
   }
 }
