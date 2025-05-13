@@ -1,5 +1,4 @@
 import { SolrObject } from "../interface/SolrObject";
-// import { SolrParent } from "../interface/SolrParent";
 import { schemaMatch } from "./util";
 
 /**
@@ -36,7 +35,6 @@ const initSolrObject = (rawSolrObject: any, schema: {}): SolrObject => {
   result.meta = {};
   result.years = [];
   if (rawSolrObject.dct_isVersionOf_sm)
-    // child object only
     result.parents = rawSolrObject.dct_isVersionOf_sm;
   Object.keys(rawSolrObject).forEach((key) => {
     if (
@@ -67,9 +65,9 @@ const generateSolrObjectList = (solrObjects: SolrObject[]): SolrObject[] => {
   if (!solrObjects || !Array.isArray(solrObjects)) {
     return [];
   }
-  solrObjects = solrObjects.filter((solrObject) => solrObject !== undefined);
-  let result = new Set<SolrObject>(solrObjects);
-  return Array.from(result);
+  const filteredObjects = solrObjects.filter((solrObject) => solrObject !== undefined);
+  const resultSet = new Set<SolrObject>(filteredObjects);
+  return Array.from(resultSet).map(obj => ({...obj}));
 };
 
 /**

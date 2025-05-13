@@ -11,7 +11,6 @@ export const SortOptions = () => {
 
   const handleSort = (field: string, direction: string) => {
     if (isSearching || initializing) return;
-    if (isSearching || initializing) return;
     dispatch(setSort({ field, direction }));
   };
 

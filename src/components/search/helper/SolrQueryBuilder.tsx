@@ -5,6 +5,10 @@ import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
 import { adaptiveScoreFilter, scoreConfig } from "./FilterByScore";
 import { parseSolrQuery } from "./ParsingMethods";
 
+const requestCache = new Map();
+const REQUEST_CACHE_TTL = 60000;
+const pendingRequests = new Map();
+
 export default class SolrQueryBuilder {
   private query: QueryObject = {
     solrUrl: process.env.NEXT_PUBLIC_SOLR_URL || "",
@@ -41,11 +45,11 @@ export default class SolrQueryBuilder {
   }
 
   public fetchResult(
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    skipCache: boolean = false
   ): Promise<{ results: SolrObject[]; spellCheckSuggestion?: string }> {
     return new Promise((resolve, reject) => {
       const currentUrl = this.query.query;
-      console.log("Attempting to fetch URL:", currentUrl);
       if (!currentUrl || !this.query.solrUrl) {
         console.error("Invalid URL configuration:", {
           currentUrl,
@@ -64,6 +68,23 @@ export default class SolrQueryBuilder {
         reject(new Error(`Invalid URL: ${currentUrl}`));
         return;
       }
+      if (!skipCache && requestCache.has(currentUrl)) {
+        const cachedData = requestCache.get(currentUrl);
+        const now = Date.now();
+        if (now - cachedData.timestamp < REQUEST_CACHE_TTL) {
+          resolve(JSON.parse(JSON.stringify(cachedData.data)));
+          return;
+        } else {
+          requestCache.delete(currentUrl);
+        }
+      } else if (!skipCache) {
+      }
+      console.log("search query: ", currentUrl);
+      if (pendingRequests.has(currentUrl)) {
+        pendingRequests.get(currentUrl).push({ resolve, reject });
+        return;
+      }
+      pendingRequests.set(currentUrl, [{ resolve, reject }]);
       fetch(currentUrl, {
         method: "GET",
         headers: {
@@ -81,30 +102,45 @@ export default class SolrQueryBuilder {
         .then((text) => {
           try {
             const jsonResponse = JSON.parse(text);
-            const result = this.getSearchResult(jsonResponse);
+            let responseData;
+            
             if (jsonResponse && jsonResponse["suggest"]) {
-              resolve(jsonResponse);
-              return;
-            }
-            if (!result || result.length === 0) {
-              const spellcheck =
-                jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
-              if (spellcheck) {
-                resolve({
-                  results: result,
-                  spellCheckSuggestion: spellcheck[0],
-                });
-                return;
+              responseData = jsonResponse;
+            } else {
+              const result = this.getSearchResult(jsonResponse);
+              
+              if (!result || result.length === 0) {
+                const spellcheck =
+                  jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
+                if (spellcheck) {
+                  responseData = {
+                    results: result,
+                    spellCheckSuggestion: spellcheck[0],
+                  };
+                } else {
+                  responseData = { results: result };
+                }
+              } else {
+                responseData = { results: result };
               }
             }
-            resolve({ results: result });
+            requestCache.set(currentUrl, {
+              data: responseData,
+              timestamp: Date.now()
+            });
+            const subscribers = pendingRequests.get(currentUrl) || [];
+            subscribers.forEach(sub => sub.resolve(JSON.parse(JSON.stringify(responseData))));
+            pendingRequests.delete(currentUrl);
+            
           } catch (error) {
             console.error("Response parsing error:", error);
+            const subscribers = pendingRequests.get(currentUrl) || [];
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
-              resolve({ results: [] });
+              subscribers.forEach(sub => sub.resolve({ results: [] }));
             } else {
-              reject(new Error("Invalid response format"));
+              subscribers.forEach(sub => sub.reject(new Error("Invalid response format")));
             }
+            pendingRequests.delete(currentUrl);
           }
         })
         .catch((error) => {
@@ -113,7 +149,9 @@ export default class SolrQueryBuilder {
             message: error.message,
             url: currentUrl,
           });
-          reject(error);
+          const subscribers = pendingRequests.get(currentUrl) || [];
+          subscribers.forEach(sub => sub.reject(error));
+          pendingRequests.delete(currentUrl);
         });
     });
   }
@@ -155,17 +193,8 @@ export default class SolrQueryBuilder {
       if (q) {
         rawSolrObject.q = q;
       }
-      if (q.includes("*") || rawSolrObject.score >= 1) {
-        result.push(initSolrObject(rawSolrObject, this.query.schema_json));
-      }
+      result.push(initSolrObject(rawSolrObject, this.query.schema_json));
     });
-    if (!q.includes("*") && result.length > 0) {
-      result = adaptiveScoreFilter(
-        result,
-        scoreConfig.minResults || 1,
-        scoreConfig?.maxResults || 10
-      );
-    }
     return result;
   }
 
@@ -268,7 +297,6 @@ export default class SolrQueryBuilder {
         if (otherFilters.length > 0) {
           if (filterQuery) filterQuery += " AND ";
           else filterQuery = "&fq=";
-          // Process filters in order of appearance to main the correct 'AND/OR' relation
           const processedAttributes = new Set();
           const groupedFilters = otherFilters.reduce((acc, filter) => {
             if (filter.value == null) return acc;
@@ -309,11 +337,6 @@ export default class SolrQueryBuilder {
         if (filterQuery) {
           baseQuery += filterQuery;
         }
-      }
-      if (sortBy && sortOrder) {
-        baseQuery += `&sort=${encodeURIComponent(
-          findSolrAttribute(sortBy, this.query.schema_json)
-        )}+${sortOrder}`;
       }
       const cleanQuery = baseQuery.replace(/([^:])\/\//g, "$1/");
       return this.setQuery(

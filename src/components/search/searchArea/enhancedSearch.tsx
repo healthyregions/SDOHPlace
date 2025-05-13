@@ -1,58 +1,38 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import CloseIcon from "@mui/icons-material/Close";
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CircularProgress,
-  debounce,
-  IconButton,
-  InputAdornment,
-  Paper,
-  Popper,
-  TextField,
-} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { AppDispatch, RootState } from "@/store";
 import {
-  fetchSearchAndRelatedResults,
-  setQuery,
-  fetchSuggestions,
   setInputValue,
-  setThoughts,
-  setAISearch,
-  clearSearch,
-  setUsedSpellCheck,
+  setIsSearching,
+  setRelatedResultsLoading,
 } from "@/store/slices/searchSlice";
 import {
-  setInfoPanelTab,
-  setShowInfoPanel,
   setShowClearButton,
-  setShowDetailPanel,
-  clearMapPreview,
 } from "@/store/slices/uiSlice";
 import SpellCheckMessage from "./spellCheckMessage";
 import { usePlausible } from "next-plausible";
 import { EventType } from "@/lib/event";
-import { Tooltip } from "@mui/material";
+import { useSearch, useDeviceDetection } from "./searchHooks";
+import { 
+  handleClearSearch,
+  handleModeSwitch,
+  isSearchBlocked,
+} from "./searchUtils";
+import { CustomListbox } from "./searchUiComponents";
+import SearchInput from "./SearchInput";
+import AIThoughtsPanel from "./AIThoughtsPanel";
 
 interface Props {
   schema: any;
 }
 
 const fullConfig = resolveConfig(tailwindConfig);
-
 const useStyles = makeStyles((theme) => ({
   searchBox: {
     fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
-    // remove the button border and 'x' sign in the input field and other default hover settings
     "& input": {
       fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
       "&:focus": {
@@ -70,6 +50,20 @@ const useStyles = makeStyles((theme) => ({
       },
       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
         borderColor: "transparent",
+      },
+    },
+    "& .MuiAutocomplete-option": {
+      "&[aria-selected='true']": {
+        backgroundColor: "transparent !important",
+      },
+      "&:hover": {
+        backgroundColor: "#f0f0f0 !important",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "transparent !important",
+      },
+      "&[data-focus='true']": {
+        backgroundColor: "transparent !important",
       },
     },
   },
@@ -97,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:hover&.active": {
       backgroundColor: fullConfig.theme.colors["frenchviolet"],
-      color:"white"
-    }
+      color: "white",
+    },
   },
   loadingButton: {
     color: fullConfig.theme.colors["frenchviolet"],
@@ -114,104 +108,235 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomPopper = (props) => {
-  const classes = useStyles();
-  return (
-    <Popper {...props} className={classes.popper} placement="bottom-start" />
-  );
-};
-
-const CustomPaper = (props) => {
-  const classes = useStyles();
-  return <Paper {...props} className={classes.paper} />;
-};
-
 const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const plausible = usePlausible();
-  const classes = useStyles();
   const textFieldRef = React.useRef<HTMLInputElement>(null);
-  const [isLocalLoading, setIsLocalLoading] = React.useState(false);
+  const autocompleteRef = React.useRef<HTMLDivElement>(null);
+  const [isMouseInDropdown, setIsMouseInDropdown] = React.useState(false);
+  const [shouldShowDropdown, setShouldShowDropdown] = React.useState(false);
+  const [hasSelectedItem, setHasSelectedItem] = React.useState(false);
+  const [previousInput, setPreviousInput] = React.useState("");
   const { showClearButton } = useSelector((state: RootState) => state.ui);
-  const maxLength = 100;
   const {
     aiSearch,
     query,
     inputValue,
     suggestions,
-    filterQueries,
-    sort,
     thoughts,
     isSearching,
+    relatedResultsLoading,
   } = useSelector((state: RootState) => state.search);
+  const { 
+    isLocalLoading, 
+    setIsLocalLoading, 
+    clearSuggestions, 
+    debouncedFetchSuggestions, 
+    performSearch, 
+    debouncedPerformSearch 
+  } = useSearch({ schema });
+  const { isIOS, isBrowser } = useDeviceDetection();
+
+  const handleInputReset = () => {
+    if (hasSelectedItem) {
+      setHasSelectedItem(false);
+    }
+  };
+
   React.useEffect(() => {
     if (query) {
       dispatch(setInputValue(query));
     }
   }, [query, dispatch]);
-  const debouncedFetchSuggestions = React.useCallback(
-    debounce((value: string, schema: any) => {
-      if (value && !aiSearch) {
-        dispatch(fetchSuggestions({ inputValue: value, schema }));
-      }
-    }, 300),
-    [dispatch]
-  );
-  const performSearch = React.useCallback(
-    async (searchValue: string | null) => {
-      if (searchValue) {
-        dispatch(clearMapPreview());
-        dispatch(setQuery(searchValue));
-        dispatch(setShowDetailPanel(null));
-        setIsLocalLoading(true);
-        dispatch(setThoughts(""));
-        try {
-          await dispatch(
-            fetchSearchAndRelatedResults({
-              query: searchValue,
-              filterQueries,
-              schema,
-              sortBy: sort.sortBy,
-              sortOrder: sort.sortOrder,
-              bypassSpellCheck: false,
-            })
-          );
 
-          if (searchValue) {
-            const searchEventType = aiSearch
-              ? EventType.SubmittedChatSearch
-              : EventType.SubmittedKeywordSearch;
-            plausible(searchEventType, {
-              props: {
-                searchEvent: searchEventType + ": " + searchValue + " & " + filterQueries.join(" ")
-              },
-            });
-          }
-        } finally {
-          setIsLocalLoading(false);
-        }
+  React.useEffect(() => {
+    if (isSearching || isLocalLoading) {
+      setShouldShowDropdown(false);
+      clearSuggestions();
+    }
+  }, [isSearching, isLocalLoading, clearSuggestions]);
+
+  React.useEffect(() => {
+    if (!aiSearch) {
+      if (hasSelectedItem) {
+        setShouldShowDropdown(false);
+        return;
       }
-    },
-    [dispatch, filterQueries, schema, sort.sortBy, sort.sortOrder, aiSearch, plausible]
-  );
+      if (
+        suggestions &&
+        Array.isArray(suggestions) &&
+        suggestions.length > 0 &&
+        inputValue.length >= 2
+      ) {
+        setShouldShowDropdown(true);
+      } else {
+        setShouldShowDropdown(false);
+      }
+    } else {
+      setShouldShowDropdown(false);
+    }
+  }, [
+    suggestions,
+    aiSearch,
+    inputValue,
+    hasSelectedItem,
+    isSearching,
+    isLocalLoading,
+  ]);
+
+  React.useEffect(() => {
+    const handleDocumentClick = (e: MouseEvent) => {
+      if (!isMouseInDropdown && shouldShowDropdown) {
+        const target = e.target as HTMLElement;
+        const searchInput = textFieldRef.current;
+        const autocomplete = autocompleteRef.current;
+        if (
+          searchInput &&
+          autocomplete &&
+          !searchInput.contains(target) &&
+          !autocomplete.contains(target)
+        ) {
+          setShouldShowDropdown(false);
+        }
+        const elements = document.querySelectorAll(".MuiAutocomplete-option");
+        elements.forEach((element) => {
+          element.setAttribute("aria-selected", "false");
+          element.classList.remove("Mui-focused");
+          (element as HTMLElement).style.backgroundColor = "transparent";
+        });
+      }
+    };
+    document.addEventListener("click", handleDocumentClick);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [isMouseInDropdown, shouldShowDropdown]);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    performSearch(inputValue);
-  };
-  const handleDropdownSelect = (event: any, value: string | null) => {
-    if (value && value !== query) {
-      performSearch(value);
+    if (!aiSearch) {
+      setShouldShowDropdown(false);
+      if (isLoading) return;
+      clearSuggestions();
+      setIsLocalLoading(true);
+      dispatch(setIsSearching(true));
+      dispatch(setRelatedResultsLoading(true));
+      const originalValue = inputValue;
+      if (originalValue) {
+        debouncedPerformSearch(originalValue);
+      }
+      return;
+    }
+    setShouldShowDropdown(false);
+    if (isLoading) return;
+    clearSuggestions();
+    setIsLocalLoading(true);
+    dispatch(setIsSearching(true));
+    dispatch(setRelatedResultsLoading(true));
+    const originalValue = inputValue;
+    if (originalValue) {
+      debouncedPerformSearch(originalValue);
     }
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (!aiSearch) {
+        setShouldShowDropdown(false);
+        if (isLocalLoading || isSearching) return;
+        clearSuggestions();
+        const currentInputValue = inputValue;
+        setIsLocalLoading(true);
+        dispatch(setIsSearching(true));
+        dispatch(setRelatedResultsLoading(true));
+        if (!isMouseInDropdown) {
+          dispatch(setInputValue(currentInputValue));
+          if (currentInputValue) {
+            debouncedPerformSearch(currentInputValue);
+          }
+        } else {
+          if (inputValue) {
+            debouncedPerformSearch(inputValue);
+          }
+        }
+        return;
+      }
+      setShouldShowDropdown(false);
+      if (isLocalLoading || isSearching) return;
+      clearSuggestions();
+      const currentInputValue = inputValue;
+      setIsLocalLoading(true);
+      dispatch(setIsSearching(true));
+      dispatch(setRelatedResultsLoading(true));
+      if (!isMouseInDropdown) {
+        dispatch(setInputValue(currentInputValue));
+        if (currentInputValue) {
+          debouncedPerformSearch(currentInputValue);
+        }
+      } else {
+        if (inputValue) {
+          debouncedPerformSearch(inputValue);
+        }
+      }
+    }
+  };
+
+  const handleDropdownSelect = (event: any, value: string | null) => {
+    setHasSelectedItem(true);
+    setShouldShowDropdown(false);
+    clearSuggestions();
+    if (isLocalLoading || isSearching) {
+      return;
+    }
+    if (value) {
+      dispatch(setInputValue(value));
+      if (value !== query) {
+        setIsLocalLoading(true);
+        dispatch(setIsSearching(true));
+        debouncedPerformSearch(value);
+      }
+    }
+  };
+
   const handleUserInputChange = async (
     event: React.ChangeEvent<{}>,
     newInputValue: string
   ) => {
+    const inputChanged = newInputValue !== inputValue;
+    const lengthChanged = newInputValue.length !== inputValue.length;
+    const becameShorter = newInputValue.length < inputValue.length;
+    
+    if (hasSelectedItem && event && event.type === "change") {
+      handleInputReset();
+      dispatch(setInputValue(newInputValue));
+      dispatch(setShowClearButton(!!newInputValue));
+      return;
+    }
+    
+    if (
+      inputChanged &&
+      (lengthChanged || !newInputValue.includes(inputValue))
+    ) {
+      clearSuggestions();
+      setShouldShowDropdown(false);
+    }
+    
+    setPreviousInput(inputValue);
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
+    
     if (newInputValue !== "") {
       if (!aiSearch) {
-        debouncedFetchSuggestions(newInputValue, schema);
+        if (newInputValue.length >= 2) {
+          if (becameShorter) {
+            clearSuggestions();
+          }
+          debouncedFetchSuggestions(newInputValue, schema, inputValue);
+        } else if (newInputValue.length === 1) {
+          setShouldShowDropdown(false);
+          clearSuggestions();
+        }
       }
     } else {
       handleClear();
@@ -232,283 +357,94 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       }
     }
   };
-  const isBrowser = typeof window !== "undefined";
-  const isSearchBlocked = React.useMemo(() => {
-    return (isLocalLoading || isSearching) && aiSearch;
-  }, [isLocalLoading, isSearching, aiSearch]);
-  const noSearchAllowed = React.useMemo(() => {
-    return (
-      aiSearch &&
-      (!inputValue ||
-        inputValue.length > maxLength ||
-        inputValue.length === 0 ||
-        inputValue === "*")
-    );
-  }, [aiSearch, inputValue]);
-  const handleClear = () => {
-    if (isSearchBlocked) {
-      return;
-    }
-    dispatch(clearSearch());
-    if (isBrowser) {
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.delete("query");
-      const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-      window.history.pushState({}, "", newUrl);
-    }
-  };
-  const handleModeSwitch = () => {
-    if (isSearchBlocked) {
-      return;
-    }
-    const newValue = !aiSearch;
-    dispatch(setAISearch(newValue));
-    dispatch(setThoughts(""));
-    setInputValue("");
-    dispatch(setUsedSpellCheck(false));
-    plausible(EventType.ChangedSearchMode, {
-      props: {
-        aiSearch: !!newValue,
-      },
-    });
-  };
-  const isIOS = React.useMemo(() => {
-    if (
-      typeof window !== "undefined" &&
-      typeof window.navigator !== "undefined"
-    ) {
-      return (
-        /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
-        !(window as any).MSStream
-      );
-    }
-    return false;
-  }, []);
 
-  const isLoading = isLocalLoading || isSearching;
+  const searchBlockedState = isSearchBlocked(
+    isLocalLoading,
+    isSearching,
+    relatedResultsLoading,
+    aiSearch
+  );
+
+  const handleClear = () => {
+    handleClearSearch(dispatch, searchBlockedState, isBrowser);
+  };
+
+  const handleSearchModeSwitch = () => {
+    handleModeSwitch(
+      dispatch,
+      searchBlockedState,
+      aiSearch,
+      plausible,
+      EventType.ChangedSearchMode
+    );
+  };
+
+  const isLoading = isLocalLoading || isSearching || relatedResultsLoading;
+
+  const customListbox = React.forwardRef<
+    HTMLUListElement,
+    React.HTMLAttributes<HTMLUListElement>
+  >((props, ref) => {
+    return (
+      <CustomListbox
+        ref={ref}
+        {...props}
+        onMouseEnter={() => setIsMouseInDropdown(true)}
+        onMouseLeave={() => {
+          setIsMouseInDropdown(false);
+        }}
+      />
+    );
+  });
+
+  customListbox.displayName = "CustomListbox";
+
+  const handleAutocompleteBlur = (event: React.FocusEvent) => {
+    if (!isMouseInDropdown) {
+      setShouldShowDropdown(false);
+    }
+  };
+
+  const handleAutocompleteFocus = (event: React.FocusEvent) => {
+    if (hasSelectedItem) {
+      return;
+    }
+    if (inputValue && inputValue.length >= 2 && !aiSearch) {
+      debouncedFetchSuggestions(inputValue, schema, previousInput);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full sm:mt-6">
       <SpellCheckMessage />
-      <form id="search-form" onSubmit={handleSubmit}>
-        <Autocomplete
-          PopperComponent={CustomPopper}
-          PaperComponent={CustomPaper}
-          freeSolo
-          options={aiSearch ? [] : suggestions}
-          value={query === "*" ? "" : query}
-          inputValue={inputValue === "*" ? "" : inputValue}
-          onInputChange={handleUserInputChange}
-          onChange={handleDropdownSelect}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              inputRef={textFieldRef}
-              variant="outlined"
-              fullWidth
-              placeholder={
-                aiSearch
-                  ? `Ask a research question (max ${maxLength} characters)...`
-                  : "Type keyword..."
-              }
-              className={`${classes.searchBox} bg-white`}
-              inputProps={{ maxLength: maxLength, ...params.inputProps }}
-              sx={{
-                paddingRight: "0",
-                borderRadius: "1.75em",
-                border: `1px solid ${fullConfig.theme.colors["frenchviolet"]}`,
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "1.75em",
-                  color: fullConfig.theme.colors["smokegray"],
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "transparent",
-                  },
-                  transition: "all 0.2s ease-in-out",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "transparent",
-                },
-              }}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Tooltip
-                      title={
-                        isSearchBlocked
-                          ? "Please wait for the current search to complete"
-                          : !aiSearch
-                          ? "Currently using keyword search"
-                          : "Switch to keyword search"
-                      }
-                    >
-                        <IconButton
-                          sx={{
-                            mr: "m",
-                            cursor: isSearchBlocked ? "not-allowed" : "pointer",
-                            opacity: isSearchBlocked ? 0.5 : 1,
-                            color: fullConfig.theme.colors["frenchviolet"],
-                          }}
-                          onClick={handleModeSwitch}
-                          className={`${classes.aiModeButton} ${
-                            !aiSearch ? "active" : ""
-                          }`}
-                        >
-                          <SearchIcon />
-                        </IconButton>
-                      </Tooltip>
-                    <Box component="span" className="mx-2">
-                      <Tooltip
-                        title={
-                          isSearchBlocked
-                            ? "Please wait for the current search to complete"
-                            : aiSearch
-                            ? "Currently using AI-Inspired search"
-                            : "Switch to AI-Inspired search"
-                        }
-                      >
-                        <IconButton
-                          sx={{
-                            mr: ".2em",
-                            cursor: isSearchBlocked ? "not-allowed" : "pointer",
-                            opacity: isSearchBlocked ? 0.5 : 1,
-                            color: fullConfig.theme.colors["frenchviolet"],
-                          }}
-                          onClick={handleModeSwitch}
-                          className={`${classes.aiModeButton} ${
-                            aiSearch ? "active" : ""
-                          }`}
-                        >
-                          <QuestionAnswerIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip
-                        title={
-                          aiSearch
-                            ? "Learn more about AI-Inspired search"
-                            : "Learn more about keyword search"
-                        }
-                      >
-                        <IconButton
-                          sx={{
-                            color: fullConfig.theme.colors["frenchviolet"],
-                          }}
-                          className={`${classes.aiModeButton} font-black`}
-                          onClick={() => {
-                            dispatch(setShowInfoPanel(true));
-                            dispatch(setInfoPanelTab(aiSearch ? 2 : 1));
-                          }}
-                        >
-                          <InfoOutlinedIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <Box display="flex" alignItems="center">
-                    {showClearButton && (
-                      <InputAdornment position="end">
-                        <Tooltip
-                          title={
-                            isSearchBlocked
-                              ? "Please wait for the current search to complete"
-                              : "Clear search"
-                          }
-                        >
-                          <span>
-                            <IconButton
-                              onClick={handleClear}
-                              disabled={isSearchBlocked}
-                              sx={{
-                                opacity: isSearchBlocked ? 0.5 : 1,
-                                cursor: isSearchBlocked
-                                  ? "not-allowed"
-                                  : "pointer",
-                              }}
-                            >
-                              <CloseIcon className="text-2xl text-frenchviolet" />
-                            </IconButton>
-                          </span>
-                        </Tooltip>
-                      </InputAdornment>
-                    )}
-                    <InputAdornment position="end">
-                      <Tooltip
-                        title={
-                          isLoading || noSearchAllowed
-                            ? aiSearch &&
-                              (!inputValue ||
-                                inputValue === "*" ||
-                                inputValue.length > maxLength)
-                              ? !inputValue
-                                ? "Please enter your question first"
-                                : inputValue.length > maxLength
-                                ? `Question must be within ${maxLength} characters`
-                                : "Please enter a valid question"
-                              : ""
-                            : ""
-                        }
-                        enterDelay={0}
-                        leaveDelay={200}
-                      >
-                        <span style={{ display: "inline-flex" }}>
-                          <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            disabled={isLoading || noSearchAllowed}
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "flex-end",
-                              justifyContent: "center",
-                              backgroundColor: "transparent",
-                              color: fullConfig.theme.colors["frenchviolet"],
-                              boxShadow: "none",
-                              "&:hover": {
-                                backgroundColor: "transparent",
-                                boxShadow: "none",
-                              },
-                              "&:disabled": {
-                                color: fullConfig.theme.colors["frenchviolet"],
-                                opacity: noSearchAllowed ? 0.1 : 1.0,
-                                backgroundColor: "transparent",
-                              },
-                            }}
-                          >
-                            {isLoading ? (
-                              <span>
-                                <CircularProgress
-                                  className={`text-l ${classes.loadingButton}`}
-                                />
-                              </span>
-                            ) : (
-                              <ArrowCircleRightIcon className="text-xxl" />
-                            )}
-                          </Button>
-                        </span>
-                      </Tooltip>
-                    </InputAdornment>
-                  </Box>
-                ),
-                type: "search",
-              }}
-            />
-          )}
-        />
-      </form>
-      {thoughts && aiSearch && (
-        <div className="w-full bg-gray-50 rounded-lg border border-frenchviolet/20 mt-2">
-          <div className="p-4">
-            <h3 className="text-md text-frenchviolet mb-2">
-              Inspired by your search:
-            </h3>
-            <p className="text-sm text-gray-600 break-words">
-              <span dangerouslySetInnerHTML={{ __html: thoughts }} />
-            </p>
-          </div>
-        </div>
-      )}
+      <SearchInput 
+        textFieldRef={textFieldRef}
+        inputValue={inputValue}
+        aiSearch={aiSearch}
+        query={query}
+        suggestions={suggestions}
+        isLoading={isLoading}
+        showClearButton={showClearButton}
+        onUserInputChange={handleUserInputChange}
+        onDropdownSelect={handleDropdownSelect}
+        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
+        handleClear={handleClear}
+        handleModeSwitch={handleSearchModeSwitch}
+        shouldShowDropdown={shouldShowDropdown}
+        autocompleteRef={autocompleteRef}
+        CustomListbox={customListbox}
+        onAutocompleteFocus={handleAutocompleteFocus}
+        onAutocompleteBlur={handleAutocompleteBlur}
+        isLocalLoading={isLocalLoading}
+        isSearching={isSearching}
+        relatedResultsLoading={relatedResultsLoading}
+      />
+      <AIThoughtsPanel 
+        isLoading={isLoading}
+        thoughts={thoughts}
+        aiSearch={aiSearch}
+      />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 
 interface Props {
   variant?: string;
+  themeOnly?: boolean;
 }
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,7 @@ const ThemeIcons = (props: Props): JSX.Element => {
     <>
       {iconData.map((label) => (
         <IconTag
+          themeOnly={props.themeOnly}
           key={label}
           svgIcon={IconMatch(label)}
           label={label}

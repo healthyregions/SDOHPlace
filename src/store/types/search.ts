@@ -36,6 +36,7 @@ export interface SearchState {
   isLoading: boolean;
   isSearching: boolean;
   isSuggesting: boolean;
+  relatedResultsLoading: boolean;
 }
 
 export const initialState: SearchState = {
@@ -69,6 +70,7 @@ export const initialState: SearchState = {
   isLoading: false,
   isSearching: false,
   isSuggesting: false,
+  relatedResultsLoading: false,
 };
 
 export interface SolrSuggestion {
@@ -91,4 +93,6 @@ export interface SolrSuggestResponse {
 export interface BatchResetFiltersPayload {
   schema: any;
   query: string;
+  preserveSubject?: boolean;
+  subject?: string[];
 }
