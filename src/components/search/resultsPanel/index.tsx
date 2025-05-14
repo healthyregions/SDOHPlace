@@ -19,6 +19,7 @@ import {
 import ThemeIcons from "../helper/themeIcons";
 import { EventType } from "@/lib/event";
 import { usePlausible } from "next-plausible";
+import { reloadAiSearchFromUrl } from "@/store/slices/searchSlice";
 
 interface Props {
   schema: any;
@@ -36,77 +37,358 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
   const searchState = useSelector(selectSearchState);
-  const filterStatus = useSelector(getFilterStatus);
+  const { relatedResultsLoading } = useSelector(
+    (state: RootState) => state.search
+  );
+  const filterStatus = useSelector(getFilterStatus) as {
+    hasActiveFilters: boolean;
+    activeFilters: { [key: string]: boolean };
+  };
   const plausible = usePlausible();
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
-  const isLoading = searchState.isSearching || searchState.isSuggesting;
-  const isQuery = searchState.query !== "*" && searchState.query !== "";
+  const isLoading =
+    searchState.isSearching ||
+    searchState.isSuggesting ||
+    relatedResultsLoading;
+  const isQuery =
+    searchState.query && searchState.query !== "*" && searchState.query !== "";
   const [previousCount, setPreviousCount] = React.useState(
     searchState.results.length
   );
   const [isResetting, setIsResetting] = React.useState(false);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+  const [hasTriedUrlReload, setHasTriedUrlReload] = React.useState(false);
+  const [, forceUpdate] = React.useState({});
+  const [hasSearchBeenInitiated, setHasSearchBeenInitiated] =
+    React.useState(false);
+  const [showNoResults, setShowNoResults] = React.useState(false);
+  const [hasCompletedSearch, setHasCompletedSearch] = React.useState(false);
+  const [prevResults, setPrevResults] = React.useState([]);
+  const sortConfig = useSelector((state: RootState) => state.search.sort);
+  const isAiSearch = useSelector((state: RootState) => state.search.aiSearch);
+  const getSortedResults = React.useCallback((directResults, relatedResults) => {
+    const allResults = [...directResults, ...relatedResults];
+    if (sortConfig.sortBy === "score") {
+      return allResults.sort((a, b) => (b.score || 0) - (a.score || 0));
+    } else if (sortConfig.sortBy === "index_year") {
+      return allResults.sort((a, b) => {
+        const aYears = a.index_year || [];
+        const bYears = b.index_year || [];
+        if (aYears.length === 0 && bYears.length === 0) return 0;
+        if (aYears.length === 0) return 1;
+        if (bYears.length === 0) return -1;
+        const aYearsNum = aYears.map(year => parseInt(year, 10)).filter(y => !isNaN(y));
+        const bYearsNum = bYears.map(year => parseInt(year, 10)).filter(y => !isNaN(y));
+        if (aYearsNum.length === 0 && bYearsNum.length === 0) return 0;
+        if (aYearsNum.length === 0) return 1;
+        if (bYearsNum.length === 0) return -1;
+        const aValue = sortConfig.sortOrder === "desc" ? Math.max(...aYearsNum) : Math.min(...aYearsNum);
+        const bValue = sortConfig.sortOrder === "desc" ? Math.max(...bYearsNum) : Math.min(...bYearsNum);
+        return sortConfig.sortOrder === "desc" ? (bValue - aValue) : (aValue - bValue);
+      });
+    }
+    return allResults;
+  }, [sortConfig.sortBy, sortConfig.sortOrder]);
+  
+  const isNonLatinSearch = React.useMemo(() => {
+    if (!searchState.query) return false;
+    const nonLatinRegex = /[^\u0000-\u007F]/;
+    return nonLatinRegex.test(searchState.query);
+  }, [searchState.query]);
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
+    if (!hasTriedUrlReload && !searchState.isSearching) {
+      const query = params.get("query");
+      if (
+        hasAiSearch &&
+        query &&
+        query.trim() !== "" &&
+        searchState.results.length === 0
+      ) {
+        setHasTriedUrlReload(true);
+        if (hasAiSearch) {
+          setIsInitialLoad(false);
+        }
+        setTimeout(() => {
+          dispatch(
+            reloadAiSearchFromUrl({
+              query: query,
+              schema: props.schema,
+            })
+          );
+        }, 300);
+      } else {
+        setHasTriedUrlReload(true);
+      }
+    }
+  }, [
+    dispatch,
+    hasTriedUrlReload,
+    searchState.isSearching,
+    searchState.results.length,
+    props.schema,
+  ]);
+
+  React.useEffect(() => {
+    if (searchState.results.length > 0 && !isLoading) {
+      setPrevResults(searchState.results);
+    }
+  }, [searchState.results, isLoading]);
 
   const uniqueRelatedList = React.useMemo(() => {
-    const uniqueResults = searchState.relatedResults.filter(
-      (v, i, a) => a.findIndex((t) => t.id === v.id) === i
-    );
-    return uniqueResults.filter(
-      (v) => !searchState.results.some((t) => t.id === v.id)
-    );
-  }, [searchState.relatedResults, searchState.results]);
+    try {
+      if (relatedResultsLoading) {
+        return [];
+      }
+
+      const relatedResults = Array.isArray(searchState.relatedResults)
+        ? searchState.relatedResults
+        : [];
+
+      const uniqueResults = relatedResults.filter(
+        (v, i, a) => a.findIndex((t) => (t && t.id) === (v && v.id)) === i
+      );
+
+      const results = Array.isArray(searchState.results)
+        ? searchState.results
+        : [];
+
+      const filtered = uniqueResults.filter(
+        (v) => v && !results.some((t) => t && t.id === v.id)
+      );
+
+      return filtered.filter((item) => item && item.id);
+    } catch (error) {
+      console.error("Error processing related results:", error);
+      return [];
+    }
+  }, [searchState.relatedResults, searchState.results, relatedResultsLoading]);
+
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
   };
+
   const handleClearFilters = async () => {
     dispatch(clearMapPreview());
     setIsResetting(true);
     await resetFilters(store);
     setTimeout(() => {
       setIsResetting(false);
+      setIsInitialLoad(false);
+      setHasCompletedSearch(true);
+      setShowNoResults(true);
     }, 500);
   };
+
+  const resultsToShow = React.useMemo(() => {
+    if (searchState.aiSearch && isLoading && prevResults.length > 0) {
+      return prevResults;
+    }
+    return searchState.results;
+  }, [searchState.aiSearch, isLoading, prevResults, searchState.results]);
+  
+ 
+  const sortedResults = React.useMemo(() => {
+    const directResults = resultsToShow;
+    const relatedResults = uniqueRelatedList;
+    return getSortedResults(directResults, relatedResults);
+  }, [resultsToShow, uniqueRelatedList, getSortedResults]);
+
   const displayCount = React.useMemo(() => {
-    if (isResetting) return previousCount;
-    if (isLoading) return previousCount;
-    return searchState.results.length + uniqueRelatedList.length;
+    if (isResetting || isLoading) {
+      return previousCount;
+    }
+    if (sortedResults && sortedResults.length > 0) {
+      return sortedResults.length;
+    }
+    const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
+    const totalCount = searchState.results.length + relatedCount;
+    return totalCount;
   }, [
     isLoading,
     isResetting,
     previousCount,
     searchState.results.length,
     uniqueRelatedList.length,
+    relatedResultsLoading,
+    sortedResults
   ]);
+
+  React.useEffect(() => {
+    if (
+      searchState.query &&
+      searchState.query !== "" &&
+      searchState.query !== "*"
+    ) {
+      const isForceRefresh = searchState.query.includes(":");
+      if (isForceRefresh) {
+        setHasCompletedSearch(false);
+        setIsInitialLoad(true);
+        forceUpdate({});
+      }
+      setHasSearchBeenInitiated(true);
+    }
+  }, [searchState.query]);
+
+  React.useEffect(() => {
+    if (isLoading) {
+      setHasCompletedSearch(false);
+      setShowNoResults(false);
+      if (!(searchState.aiSearch && prevResults.length > 0)) {
+        setIsInitialLoad(true);
+      }
+    } else if (!isInitialLoad) {
+      if (isNonLatinSearch && searchState.aiSearch) {
+        setTimeout(() => {
+          setHasCompletedSearch(true);
+          setShowNoResults(true);
+        }, 1000);
+      } else {
+        setHasCompletedSearch(true);
+        setShowNoResults(true);
+      }
+    }
+  }, [
+    isLoading,
+    isInitialLoad,
+    isNonLatinSearch,
+    searchState.aiSearch,
+    prevResults.length
+  ]);
+
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const hasSearchParams = params.has("query") || params.has("ai_search");
-    // leave time for ai_search to be set
-    if (hasSearchParams) {
+    const hasAiSearch = params.has("ai_search") && params.get("ai_search") === "true";
+
+    if (hasSearchParams && !hasAiSearch) {
       setIsInitialLoad(true);
     }
+
     if (!isLoading) {
-      setIsInitialLoad(false);
-      setPreviousCount(searchState.results.length);
+      if (
+        searchState.results.length > 0 ||
+        (searchState.relatedResults.length > 0 && !relatedResultsLoading) ||
+        hasCompletedSearch
+      ) {
+        if (isNonLatinSearch && searchState.aiSearch) {
+          setTimeout(() => {
+            setIsInitialLoad(false);
+          }, 500);
+        } else {
+          setIsInitialLoad(false);
+        }
+      } else if (hasSearchBeenInitiated) {
+        setTimeout(() => {
+          setIsInitialLoad(false);
+          setHasCompletedSearch(true);
+          setShowNoResults(true);
+        }, 500);
+      }
+
+      const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
+      const totalCount = searchState.results.length + relatedCount;
+      setPreviousCount(totalCount);
+    } else if (!(searchState.aiSearch && prevResults.length > 0)) {
+      setIsInitialLoad(true);
     }
-  }, [isLoading, searchState.results.length, isResetting]);
-  const renderLoadingState = () => (
-    <Box className="flex flex-col w-full">
-      <Box className="flex justify-center items-center h-64">
-        <span className="mr-4">
-          {displayCount > 0
-            ? "Updating results..."
-            : isInitialLoad
-            ? "Searching for data you may be interested in..."
-            : "Looking for data you may be interested in..."}
-        </span>
-        <CircularProgress
-          size={24}
-          className="text-strongorange ml-2"
-          sx={{ animationDuration: "550ms" }}
-        />
+  }, [
+    isLoading,
+    searchState.results.length,
+    searchState.relatedResults.length,
+    uniqueRelatedList.length,
+    isResetting,
+    hasCompletedSearch,
+    relatedResultsLoading,
+    isNonLatinSearch, 
+    searchState.aiSearch,
+    hasSearchBeenInitiated,
+    prevResults.length
+  ]);
+
+  React.useEffect(() => {
+    if (isLoading) {
+      forceUpdate({});
+      if (!(searchState.aiSearch && prevResults.length > 0)) {
+        setIsInitialLoad(true);
+      }
+      setShowNoResults(false);
+      if (searchState.aiSearch && !prevResults.length) {
+        setPreviousCount(0);
+      }
+    } else if (hasSearchBeenInitiated || (filterStatus && filterStatus.hasActiveFilters)) {
+      setTimeout(() => {
+        if (searchState.results.length === 0 && uniqueRelatedList.length === 0) {
+          setIsInitialLoad(false);
+          setHasCompletedSearch(true);
+          setShowNoResults(true);
+        }
+      }, 300);
+    }
+  }, [
+    isLoading, 
+    searchState.aiSearch, 
+    searchState.results.length, 
+    uniqueRelatedList.length, 
+    hasSearchBeenInitiated, 
+    relatedResultsLoading,
+    prevResults.length,
+    filterStatus
+  ]);
+
+  const renderLoadingState = () => {
+    let loadingMessage;
+    if (displayCount > 0) {
+      loadingMessage = "Updating results...";
+    } else {
+      loadingMessage = "Searching for data you may be interested in...";
+    }
+    return (
+      <Box className="flex flex-col w-full">
+        <Box className="flex justify-center items-center h-64">
+          <div className="text-center w-full px-4 py-3 rounded-lg bg-white">
+            <span className="mr-4 text-lg transition-all duration-300 ease-in-out">
+              {loadingMessage}
+            </span>
+            <div className="mt-3">
+              <CircularProgress
+                size={24}
+                className="text-strongorange ml-2"
+                sx={{ animationDuration: "550ms" }}
+              />
+            </div>
+          </div>
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  };
+
+  const shouldShowResultsCount = React.useMemo(() => {
+    return !isLoading && !isResetting && hasCompletedSearch && displayCount > 0;
+  }, [isLoading, isResetting, hasCompletedSearch, displayCount]);
+
+  const shouldShowLoading = React.useMemo(() => {
+    if (filterStatus && 
+        filterStatus.hasActiveFilters && 
+        !isLoading && 
+        !isResetting && 
+        searchState.results.length === 0 && 
+        uniqueRelatedList.length === 0) {
+      return false;
+    }
+    
+    return isLoading || isResetting || isInitialLoad || !showNoResults;
+  }, [
+    isLoading, 
+    isResetting, 
+    isInitialLoad, 
+    showNoResults, 
+    filterStatus, 
+    searchState.results.length, 
+    uniqueRelatedList.length
+  ]);
 
   return (
     <div
@@ -119,7 +401,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
             <div className="flex flex-col sm:flex-row flex-grow text-2xl">
               <Fade in={!isResetting} timeout={300}>
                 <div>
-                  {displayCount > 0 && (
+                  {shouldShowResultsCount && (
                     <Box>
                       {isQuery
                         ? `Results (${displayCount})`
@@ -129,7 +411,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
                 </div>
               </Fade>
             </div>
-            {filterStatus.hasActiveFilters && !isLoading && !isResetting && (
+            {filterStatus && filterStatus.hasActiveFilters && !isLoading && !isResetting && (
               <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
                 <div className="text-frenchviolet" onClick={handleClearFilters}>
                   Clear All
@@ -162,11 +444,13 @@ const ResultsPanel = (props: Props): JSX.Element => {
         <div className="flex flex-col" style={{ height: "100%" }}>
           <Fade in={true} timeout={300}>
             <div>
-              {isLoading || isResetting || isInitialLoad ? (
-                renderLoadingState()
+              {shouldShowLoading ? (
+                <div className="transition-opacity duration-500">
+                  {renderLoadingState()}
+                </div>
               ) : (
-                <div className="force-scrollbar">
-                  {searchState.results.length > 0 ? (
+                <div className="force-scrollbar transition-opacity duration-500">
+                  {sortedResults.length > 0 || displayCount > 0 ? (
                     <Box
                       height="100%"
                       sx={{
@@ -175,46 +459,49 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         maxHeight: "100vh",
                       }}
                     >
-                      {searchState.results.map((result) => (
-                        <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard resultItem={result} />
-                        </div>
-                      ))}
-                      {uniqueRelatedList.map((result) => (
-                        <div key={result.id} className="mb-[0.75em]">
-                          <ResultCard resultItem={result} />
-                        </div>
-                      ))}
+                      {sortedResults.map((result) =>
+                        result && result.id ? (
+                          <div key={result.id} className="mb-[0.75em]">
+                            <ResultCard resultItem={result} />
+                          </div>
+                        ) : null
+                      )}
                     </Box>
                   ) : (
-                    !isInitialLoad && (
-                      <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
-                        <Box className="flex flex-col justify-center items-center mb-[1.5em]">
-                          <SearchIcon className="text-strongorange mb-[0.15em]" />
-                          <div className="text-s">No results</div>
-                          {plausible(EventType.ReceivedNoSearchResults, {
-                            props: {
-                              searchQuery: searchState.query,
-                              searchFilter: filterStatus.activeFilters,
-                              fullSearchStates:
-                                searchState.query +
-                                " || " +
-                                Object.entries(filterStatus.activeFilters)
-                                  .map(([key, value]) => `${key}: ${value}`)
-                                  .join(" || "),
-                            },
-                          })}
-                        </Box>
-                        <Box className="mb-[0.75em]">
-                          <div className="text-s">
-                            Search for themes instead?
-                          </div>
-                        </Box>
-                        <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
-                          <ThemeIcons variant="alternate" />
-                        </Box>
-                      </div>
-                    )
+                    <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+                      <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                        <SearchIcon className="text-strongorange my-[0.15em]" />
+                        <div className="text-s">No results</div>
+                        {(() => {
+                          try {
+                            if (process.env.NODE_ENV !== "development") {
+                              plausible(EventType.ReceivedNoSearchResults, {
+                                props: {
+                                  searchQuery: searchState.query,
+                                  searchFilter: filterStatus?.activeFilters || {},
+                                  fullSearchStates:
+                                    searchState.query +
+                                    " || " +
+                                    Object.entries(filterStatus?.activeFilters || {})
+                                      .map(([key, value]) => `${key}: ${value}`)
+                                      .join(" || "),
+                                },
+                              });
+                            }
+                            return null;
+                          } catch (error) {
+                            console.error("Analytics error:", error);
+                            return null;
+                          }
+                        })()}
+                      </Box>
+                      <Box className="mb-[0.75em]">
+                        <div className="text-s">Search for themes instead?</div>
+                      </Box>
+                      <Box className="flex flex-col sm:flex-row flex-wrap gap-4">
+                        <ThemeIcons variant="alternate" themeOnly={true} />
+                      </Box>
+                    </div>
                   )}
                 </div>
               )}

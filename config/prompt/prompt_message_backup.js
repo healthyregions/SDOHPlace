@@ -72,13 +72,13 @@ setEnvelopeQuery(bbox: number[]): string {
 }
 Make sure to make the Top latitude higher than bottom latitude input. If not, re-check your location bbox coordinates.
 
-3. Use the resulting string as a filter query (fq) parameter ONLY when there is a specific geographic location mentioned
+3. Use the resulting string as a filter query (fq) parameter
 Format: fq=locn_geometry:"Intersects(ENVELOPE(minX,maxX,maxY,minY))"
-If no geographic location is specifically mentioned, DO NOT include this filter.
+Query Construction Rules:
 
-4. Query Construction Rules:
-Add the locn_geometry filter as an 'fq' parameter ONLY when there is a geographic reference
-Without a geographic reference, do not add any geometry filter to the query`;
+Always add the locn_geometry filter as an 'fq' parameter
+The final query should look like:
+select?q=[main_query]&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:"Intersects(ENVELOPE(...))"`;
 
 
 const scoringGuidelines = `
@@ -103,11 +103,34 @@ When analyzing terms, consider these relationships:
 `;
 
 const languageProcessing = `
-You may encounter questions written in languages other than English. To ensure accurate understanding, begin by mentally translating the question into English. While your final query must always be in English, your thoughts should be written in the original language of the question.
-If your thoughts include recommended terms, filters, or keywords, you **must always include the corresponding English term** alongside the original-language term. This is required, even if the script is right-to-left (e.g., Arabic) or if punctuation use is uncommon in that language.
-Format the English term using the most natural and typographically appropriate method for the language you are writing in. For example, you may place the English term in quotation marks, parentheses, or use a dash — whichever fits best with the writing norms. But the English term must always appear and must always be easy to identify.
-Always quote or otherwise clearly highlight the **English term**, not the original-language term.
-Repeat this behavior for all languages. The English term must be included every time.
+When processing questions in any language (English or non-English), follow these strict rules:
+
+1. LANGUAGE IDENTIFICATION:
+   - First identify the language of the incoming question
+
+2. TRANSLATION APPROACH:
+   - For non-English questions, mentally translate the question into English
+   - Your final query MUST always be in English regardless of input language
+
+3. QUERY GENERATION CONSISTENCY:
+   - For English and Non-English questions, you must generate ${termLimit} key terms based on the question and corresponding queries
+   - If uncertain about translation, prioritize extracting basic domain keywords from the question
+
+4. THOUGHTS FORMAT:
+   - When mentioning key concepts in "thoughts", ALWAYS include the English equivalent:
+     Example: "住房(housing)", "教育(education)", "就业(employment)"
+   - This applies to ALL languages including right-to-left scripts
+
+5. ERROR HANDLING:
+   - If you cannot confidently translate or understand a question, extract basic SDOH keywords
+   - In such cases, add to thoughts: "<b>Using extracted keywords for search due to uncertain translation</b>"
+   - Even with uncertain translations, always provide search queries
+
+6. QUERY CONSISTENCY:
+   - When a user retries the exact same question, you must produce consistent results
+   - The suggested queries should follow the same pattern regardless of language
+
+Remember: Query generation consistency between languages is critical. The English search terms should be equally effective whether the original question was in English, Chinese, Hindi, Arabic, or any other language.
 `;
 
 
@@ -154,6 +177,25 @@ When I ask '芝加哥的孩童照护条件如何？', your response should be:
   ]
 }
 
+When I ask 'शिकागो में बच्चों के स्वास्थ्य की स्थिति कैसी है?', your response should be:
+{
+  "thoughts": "शिकागो में बच्चों के स्वास्थ्य की स्थिति का विश्लेषण करते समय, मैं SDOH के दृष्टिकोण से पांच महत्वपूर्ण अवधारणाओं पर विचार करता हूं: आवास <i>(housing)</i>, शिक्षा <i>(education)</i>, रोजगार <i>(employment)</i>, स्वास्थ्य <i>(health)</i>, और बच्चों की देखभाल <i>(childcare)</i>। इनमें सबसे अधिक प्रासंगिक अवधारणा स्वास्थ्य <i>(health)</i> है। <b>अगर आपको अपेक्षित परिणाम नहीं मिलते हैं, तो कृपया हमारी शब्द खोज का प्रयास करें।</b>"
+  "keyTerms": [
+    {"term": "health", "score": 100, "reason": "Primary topic of query about children's health"},
+    {"term": "healthcare", "score": 85, "reason": "Synonym for health"},
+    {"term": "children", "score": 90, "reason": "Direct focus of the query"},
+    {"term": "pediatric", "score": 80, "reason": "Related to children's health"},
+    {"term": "Chicago", "score": 95, "reason": "Specific location mentioned"}
+  ],
+  "suggestedQueries": [
+    "select?q=health&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\"",
+    "select?q=children&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\"",
+    "select?q=pediatric&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\"",
+    "select?q=healthcare&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\""
+  ],
+  "bbox": "-87.9401,41.644,-87.5241,42.023"
+}
+
 --
 
 INSTRUCTIONS
@@ -179,13 +221,15 @@ ${geometryRule}
 5. Most importantly, after applying all of the rules above, find exact 5 key terms and their scores, then put them to 'thoughts'
 6. Also for scoring, consider that ${scoringGuidelines}.
 
-b. When constructing the suggestedQuery:
+b. When constructing the query:
 1. Use appropriate field prefixes (e.g., dct_subject_sm, dct_title_s) based on the scenario of the question
 2. Consider both exact and related terms
 3. Validate the query in suggestedQueries using your knowledge of Solr before returning it to the user. If it is not valid, correct it before returning it.
 4. Add "if you didn't see the expected results, please try our term search instead" in the end of the thoughts.
 5. If the users' question is too general, just search for ${termLimit} terms that most related to SDOH.
-6. IMPORTANT: Only include geometry filters (locn_geometry) in queries if the user explicitly mentions a geographic location.
+6. For languages you have low confidence in translating:
+   - Extract general SDOH keywords (health, education, housing, etc.)
+   - Indicate in thoughts that you're using general SDOH concepts due to translation uncertainty
 
 c. Query JSON Formatting Rules:
 
@@ -198,10 +242,10 @@ c. Query JSON Formatting Rules:
     {"term": "health", "score": 100, "reason": "Direct match"}
   ],
   "suggestedQueries": [
-    "select?q=health&fq=(gbl_suppressed_b:false)&rows=1000", // No geometry filter for general queries
-    "select?q=medical&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\"" // Only include geometry when location is specified
+    "select?q=health&fq=(gbl_suppressed_b:false)&rows=1000&fq=locn_geometry:\"Intersects(ENVELOPE(-87.9401,-87.5241,42.0230,41.644))\"",
+    "select?q=medical&fq=(gbl_suppressed_b:false)&rows=1000"
   ],
-  "bbox": "-87.9401,41.644,-87.5241,42.023" // Only include when location is mentioned
+  "bbox": "-87.9401,41.644,-87.5241,42.023"
 }
 
 d. Available Solr search fields include:
