@@ -31,13 +31,10 @@ export function getScoreExplanation(
   ) {
     q = q.replace(/,/g, '"').replace(/"/g, " ");
     // Revise the scoring rule after we get ontology development with better scoring system. For now, use a more simple scoring rule.
-    if (score > maxScore * 0.9) {
-      return `This is a <b>strong</b> match for <b>${q}</b> in important fields like title and description.`;
-    }
     if (score > avgScore) {
-      return `This is a <b>good</b> match for <b>${q}</b> that contains your search terms across multiple fields.`;
+      return `This is a <b>good</b> match for <b>${q}</b> about ${currentQuery} that contains your search terms across multiple fields.`;
     }
-    return `This is a <b>broad</b> match for <b>${q}</b>.`;
+    return `This is a <b>broad</b> match for <b>${q}</b> about ${currentQuery}.`;
 
     //   if (score > maxScore * 0.9) {
     //     return `This is a <b>strong</b> match for <b>${q}</b> in important fields like title and description.`;
@@ -58,5 +55,7 @@ export function getScoreExplanation(
     //     return `While <i>${q}</i> may not visibly include <b>${currentQuery}</b>, it somewhat aligns with its meaning or intent, and is therefore shown as a <strong>good</strong> match.`;
     //   }
     //   return `While <i>${q}</i> may not visibly include <b>${currentQuery}</b>, it may aligns with its meaning or intent, and is therefore shown as a <strong>broad</strong> match.`;
+  } else {
+    return `You may find information about <b>${q}</b> in this result.`;
   }
 }
