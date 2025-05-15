@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import SolrQueryBuilder from "../../components/search/helper/SolrQueryBuilder";
 import { generateSolrObjectList } from "meta/helper/solrObjects";
 import {
   BatchResetFiltersPayload,
@@ -8,7 +7,6 @@ import {
 import { setShowClearButton } from "./uiSlice";
 import { RootState } from "..";
 import { SearchService } from "@/services/SearchService";
-import { deduplicateResults } from "@/components/search/helper/SearchUtils";
 import suggestionManager from "@/components/search/helper/SuggestionManager";
 import filterService from "@/middleware/FilterService";
 
@@ -74,19 +72,13 @@ export const performChatGptSearch = createAsyncThunk(
     { dispatch }
   ) => {
     try {
-      dispatch(setRelatedResultsLoading(true));
-      
       const searchService = new SearchService(schema);
       const result = await searchService.performChatGptSearch(question, filterQueries);
-      
       if (result.analysis?.thoughts) {
         dispatch(setThoughts(result.analysis.thoughts));
       }
-      
-      dispatch(setRelatedResultsLoading(false));
       return result;
     } catch (error) {
-      dispatch(setRelatedResultsLoading(false));
       throw new Error(`ChatGPT search failed: ${error.message}`);
     }
   }
@@ -117,8 +109,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     const state = getState() as RootState;
     const currentRequestId = state.search.currentRequestId;
     if (currentRequestId !== requestId && !bypassSpellCheck) return;
-    
-    dispatch(setRelatedResultsLoading(true));
     
     try {
       const isAISearch = state.search.aiSearch;
@@ -169,50 +159,12 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       if (isForceRefresh) {
         suggestionManager.clearAll();
       }
-      
-      const relatedResults = [];
-      if (searchResult.suggestions.length > 0) {
-        suggestionManager.cleanupSuggestions(searchResult.suggestions);
-        
-        const uniqueSuggestions = searchResult.suggestions.filter(s => s !== searchResult.usedQuery);
-        const allRelatedResults = [];
-        
-        for (const suggestion of uniqueSuggestions) {
-          if (suggestionManager.hasSuggestion(suggestion)) continue;
-          
-          try {
-            suggestionManager.addSuggestion(suggestion);
-            const queryBuilder = new SolrQueryBuilder();
-            queryBuilder.setSchema(schema);
-            const { results: suggestionResults } = await queryBuilder
-              .generalQuery(suggestion)
-              .fetchResult(undefined, false);
-            suggestionManager.removeSuggestion(suggestion);
-            
-            if (suggestionResults && suggestionResults.length > 0) {
-              allRelatedResults.push(...suggestionResults);
-            }
-          } catch (error) {
-            suggestionManager.removeSuggestion(suggestion);
-            console.error(`Error fetching related results for "${suggestion}":`, error);
-          }
-        }
-        
-        if (allRelatedResults.length > 0) {
-          const uniqueResults = deduplicateResults(allRelatedResults);
-          dispatch({
-            type: "search/updateRelatedResults",
-            payload: uniqueResults
-          });
-          uniqueResults.forEach(result => relatedResults.push(result));
-        } 
-      }
-      
-      dispatch(setRelatedResultsLoading(false));
+
+      dispatch(updateRelatedResults([]));
       
       return {
         searchResults: searchResult.searchResults,
-        relatedResults: relatedResults,
+        relatedResults: [],
         suggestions: searchResult.suggestions,
         originalQuery: cleanQuery,
         usedQuery: searchResult.usedQuery,
@@ -220,7 +172,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
       };
     } catch (error) {
       console.error("Error in fetchSearchAndRelatedResults:", error);
-      dispatch(setRelatedResultsLoading(false));
       throw error;
     }
   }
@@ -270,7 +221,11 @@ export const fetchSearchResults = createAsyncThunk(
 
 export const fetchSuggestions = createAsyncThunk(
   "search/fetchSuggestions",
-  async ({ inputValue, schema }: { inputValue: string; schema: any }) => {
+  async ({ inputValue, schema }: { inputValue: string; schema: any }, { getState }) => {
+    const state = getState() as RootState;
+    if (state.search.isSearching) {
+      return [];
+    }
     const searchService = new SearchService(schema);
     return searchService.getSearchSuggestions(inputValue);
   }
@@ -333,7 +288,6 @@ export const reloadAiSearchFromUrl = createAsyncThunk(
       
       if (!state.search.results.length && !state.search.thoughts) {
         dispatch(setIsSearching(true));
-        dispatch(setRelatedResultsLoading(true));
       }
       
       const searchService = new SearchService(schema);
@@ -342,8 +296,7 @@ export const reloadAiSearchFromUrl = createAsyncThunk(
       if (result.analysis?.thoughts) {
         dispatch(setThoughts(result.analysis.thoughts || ""));
       }
-      
-      dispatch(setRelatedResultsLoading(false));
+      result.relatedResults = [];
       
       return {
         searchResults: result.searchResults,
@@ -356,7 +309,6 @@ export const reloadAiSearchFromUrl = createAsyncThunk(
     } catch (error) {
       console.error("Failed to reload AI search:", error);
       dispatch(setIsSearching(false));
-      dispatch(setRelatedResultsLoading(false));
       return null;
     }
   }
@@ -461,15 +413,11 @@ const searchSlice = createSlice({
     updateRelatedResults: (state, action) => {
       state.relatedResults = Array.isArray(action.payload) ? [...action.payload] : [];
     },
-    setRelatedResultsLoading: (state, action) => {
-      state.relatedResultsLoading = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSearchAndRelatedResults.pending, (state, action) => {
         state.isSearching = true;
-        state.relatedResultsLoading = true;
         state.currentRequestId = action.meta.requestId;
       })
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
@@ -488,7 +436,6 @@ const searchSlice = createSlice({
       .addCase(fetchSearchAndRelatedResults.rejected, (state, action) => {
         if (state.currentRequestId === action.meta.requestId) {
           state.isSearching = false;
-          state.relatedResultsLoading = false;
           state.results = [];
           state.relatedResults = [];
         }
@@ -598,7 +545,6 @@ export const {
   setIsSearching,
   setInitializing,
   updateRelatedResults,
-  setRelatedResultsLoading,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

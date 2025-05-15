@@ -48,7 +48,6 @@ interface SearchInputProps {
   onAutocompleteBlur: (event: React.FocusEvent) => void;
   isLocalLoading: boolean;
   isSearching: boolean;
-  relatedResultsLoading: boolean;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -72,7 +71,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
   onAutocompleteBlur,
   isLocalLoading,
   isSearching,
-  relatedResultsLoading,
 }) => {
   const classes = useSearchStyles();
   const dispatch = useDispatch<AppDispatch>();
@@ -81,7 +79,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const searchBlocked = isSearchBlocked(
     isLocalLoading,
     isSearching,
-    relatedResultsLoading,
+    false,
     aiSearch
   );
   

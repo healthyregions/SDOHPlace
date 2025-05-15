@@ -40,9 +40,11 @@ export class SearchService {
       );
       let uniqueResults = deduplicateResults(combinedResults);
       let relatedResults = [];
+      /* Disabling related results fetching for AI search
       if ((uniqueResults.length === 0 || analysis.keyTerms) && analysis.keyTerms && analysis.keyTerms.length > 0) {
         relatedResults = await this.getRelatedResultsFromKeyTerms(analysis.keyTerms, filterQueries, uniqueResults);
       }
+      */
       return {
         searchResults: uniqueResults,
         relatedResults,
@@ -57,6 +59,7 @@ export class SearchService {
     }
   }
 
+  /* Disabling related results fetching from key terms
   private async getRelatedResultsFromKeyTerms(
     keyTerms: any[],
     filterQueries: Array<any>,
@@ -90,6 +93,7 @@ export class SearchService {
     const mainResultIds = new Set(mainResults.map(item => item.id));
     return relatedResults.filter(item => !mainResultIds.has(item.id));
   }
+  */
 
   async fetchSearchWithRelated(
     query: string,
@@ -99,16 +103,6 @@ export class SearchService {
     skipCache: boolean = false,
     isAiSearch: boolean = false
   ): Promise<SearchResult> {
-    let suggestions = [];
-    
-    if (query && query !== "*") {
-      const suggestResult = await this.queryBuilder
-        .suggestQuery(query)
-        .fetchResult();
-      const suggestResponse = suggestResult as unknown as SolrSuggestResponse;
-      suggestions = suggestResponse.suggest?.sdohSuggester[query]?.suggestions || [];
-    }
-    const validSuggestions = fetchSuggestionsFromSolr(query, this.queryBuilder);
     this.queryBuilder.combineQueries(query, filterQueries);
     const { results: searchResults, spellCheckSuggestion } =
       await this.queryBuilder.fetchResult(undefined, skipCache);
@@ -137,41 +131,11 @@ export class SearchService {
     return {
       searchResults: finalResults,
       relatedResults: [],
-      suggestions: await validSuggestions,
+      suggestions: [], // Always return empty suggestions to prevent related results fetching
       originalQuery: query,
       usedQuery,
       usedSpellCheck,
     };
-  }
-
-  async fetchRelatedResults(
-    validSuggestions: string[],
-    usedQuery: string,
-    skipCache: boolean = false
-  ): Promise<any[]> {
-    const uniqueSuggestions = validSuggestions.filter(s => s !== usedQuery);
-    const allRelatedResults = [];
-    for (const suggestion of uniqueSuggestions) {
-      if (suggestionManager.hasSuggestion(suggestion)) continue;
-      try {
-        suggestionManager.addSuggestion(suggestion);
-        const { results: suggestionResults } = await this.queryBuilder
-          .generalQuery(suggestion)
-          .fetchResult(undefined, skipCache);
-        suggestionManager.removeSuggestion(suggestion);
-        
-        if (suggestionResults && suggestionResults.length > 0) {
-          allRelatedResults.push(...suggestionResults);
-        }
-      } catch (error) {
-        suggestionManager.removeSuggestion(suggestion);
-        console.error(`Error fetching related results for "${suggestion}":`, error);
-      }
-    }
-    if (allRelatedResults.length > 0) {
-      return deduplicateResults(allRelatedResults);
-    }
-    return [];
   }
 
   async getSearchSuggestions(term: string): Promise<string[]> {

@@ -10,6 +10,7 @@ const isClient = typeof window !== "undefined";
 export const createMiddleware: Middleware = (store) => {
   let isInitializing = false;
   let pendingFetchTimer: NodeJS.Timeout | null = null;
+  let lastFilterAction: string | null = null;
 
   return (next) => (action: AnyAction) => {
     if (!isClient) {
@@ -49,11 +50,20 @@ export const createMiddleware: Middleware = (store) => {
         if (!state.search.isSearching) {
           if (pendingFetchTimer) {
             clearTimeout(pendingFetchTimer);
+            pendingFetchTimer = null;
+          }
+          const isFilterAction = config.isFilter;
+          const debounceTime = isFilterAction ? 5 : 20;
+          if (isFilterAction) {
+            lastFilterAction = action.type;
           }
           pendingFetchTimer = setTimeout(() => {
-            triggerResultsFetch(store, store.getState().search.query || "*");
+            const currentState = store.getState();
+            const currentQuery = currentState.search.query || "*";
+            triggerResultsFetch(store, currentQuery);
             pendingFetchTimer = null;
-          }, 50);
+            lastFilterAction = null;
+          }, debounceTime);
         }
       }
     }

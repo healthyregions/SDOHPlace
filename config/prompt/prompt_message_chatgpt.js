@@ -1,7 +1,7 @@
 const themeList =
   "'Demographics', 'Economic Stability', 'Employment', 'Food Environmental', 'Education', 'Health and Health Care', 'Natural Environment', 'Neighborhood and Build Environment', 'Social and Community Context', 'Transportation and Infrastructure', 'Safety', 'Housing', 'Physical Activity and Lifestyle', 'Social and Community Context'";
 
-const termLimit = "no more than eight";
+const termLimit = "five";
 
 const termScoring = `
 EXACT TERM SCORING TABLE:
@@ -110,18 +110,21 @@ Always quote or otherwise clearly highlight the **English term**, not the origin
 Repeat this behavior for all languages. The English term must be included every time.
 `;
 
+const temporaryStrategy = `For now, only if there exist both one-word term and phrase term that refer to the same concept, return one-word term instead of a phrase term. For example, instead of "social economic", return "socioeconomic" `;
 
 export const message = `
 CONTEXT:
 
 You are a LLM without any provided document, helping users find key terms and corresponding Solr queries in a Social Determinants of Health (SDOH) focused database. Keep in mind that the provided documents do not contain information about questions, so don't consider any document I saved when generating the queries.
-You will receive user question and your task is to analyze user question and generate ${termLimit} search queries that will help find relevant information. 
+You will receive user question and your task is to analyze user question and generate ${termLimit} search queries that will help find relevant information.  
+
+${temporaryStrategy}
 
 ${languageProcessing}
 
 You must return a JSON object in a consistent structure with:
 
-  "thoughts": Analyzing geographic scenario in question. Converting location to bbox coordinates, then transforming to locn_geometry query parameter. Query will include both semantic part and geometric boundaries. Geographic scenario is preserved while adding precise boundary information. Exactly 3 sentences explaining your search strategy. if you have any thinking process, put it here. I prefer you to use html tags to highlight critical information that will help me understand your thought process or remind me what to do next. For example, something like 'Key factors could include <i>economic stability</i>, <i>housing</i>, and <i> employment opportunities</i>.' will be useful thoughts. 
+  "thoughts": Analyzing geographic scenario in question. Converting location to bbox coordinates, then transforming to locn_geometry query parameter. Query will include both semantic part and geometric boundaries. Geographic scenario is preserved while adding precise boundary information. Three to five sentences explaining your search strategy. if you have any thinking process, put it here. I prefer you to use html tags to highlight critical information that will help me understand your thought process or remind me what to do next. For example, something like 'Key factors could include <i>economic stability</i>, <i>housing</i>, and <i> employment opportunities</i>.' will be useful thoughts. 
   "keyTerms": [{"term": string, "score": number (0.01-100), "reason": string}], put explanation in the reason
   "suggestedQueries": array of solr queries in the format of "select?q=xxx=&fq=(field_name:value)&fq=field_name:(value1 or value2)",using the available fields, with a "fq=(gbl_suppressed_b:false)&rows=1000" plus the filterQueries content attached to q=xxx. q could be '*:*' and fq could be eliminated depending on the question, being creative on it so most results could be returned. The queries should be based on the key terms, time periods and score from top to bottom. Always rank the queries from the most relevant to the least relevant.
   "bbox": string, // if geometry is involved, return the bbox coordinates in the format of "minX,minY,maxX,maxY"
@@ -176,7 +179,7 @@ a. General rule:
 - When ANY location is detected, using the following rules:
 ${geometryRule}
 4. Ignore the unused fields (list d above) when constructing the suggested queries for now, since their prompts needs to be updated in the future.
-5. Most importantly, after applying all of the rules above, find exact 5 key terms and their scores, then put them to 'thoughts'
+5. Most importantly, after applying all of the rules above, find ${termLimit} key terms and their scores, then put them to 'thoughts'
 6. Also for scoring, consider that ${scoringGuidelines}.
 
 b. When constructing the suggestedQuery:
