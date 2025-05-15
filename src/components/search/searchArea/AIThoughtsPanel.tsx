@@ -60,6 +60,9 @@ const AIThoughtsPanel: React.FC<AIThoughtsPanelProps> = ({
             </div>
           )}
         </p>
+        <p className="text-sm text-gray-600 mt-2">
+          <b>Note:</b> We are currently working on integrating filters with AI search results. At this time, filters do not apply to AI-generated results. Clicking a filter will trigger a re-ask of your question instead.
+        </p>
       </div>
     </div>
   );

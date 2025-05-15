@@ -37,9 +37,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
   const searchState = useSelector(selectSearchState);
-  const { relatedResultsLoading } = useSelector(
-    (state: RootState) => state.search
-  );
   const filterStatus = useSelector(getFilterStatus) as {
     hasActiveFilters: boolean;
     activeFilters: { [key: string]: boolean };
@@ -48,8 +45,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const showFilter = useSelector((state: RootState) => state.ui.showFilter);
   const isLoading =
     searchState.isSearching ||
-    searchState.isSuggesting ||
-    relatedResultsLoading;
+    searchState.isSuggesting;
   const isQuery =
     searchState.query && searchState.query !== "*" && searchState.query !== "";
   const [previousCount, setPreviousCount] = React.useState(
@@ -139,7 +135,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
 
   const uniqueRelatedList = React.useMemo(() => {
     try {
-      if (relatedResultsLoading) {
+      if (isLoading) {
         return [];
       }
 
@@ -164,7 +160,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
       console.error("Error processing related results:", error);
       return [];
     }
-  }, [searchState.relatedResults, searchState.results, relatedResultsLoading]);
+  }, [searchState.relatedResults, searchState.results, isLoading]);
 
   const handleFilterToggle = () => {
     dispatch(setShowFilter(!showFilter));
@@ -203,7 +199,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (sortedResults && sortedResults.length > 0) {
       return sortedResults.length;
     }
-    const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
+    const relatedCount = isLoading ? 0 : uniqueRelatedList.length;
     const totalCount = searchState.results.length + relatedCount;
     return totalCount;
   }, [
@@ -212,7 +208,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
     previousCount,
     searchState.results.length,
     uniqueRelatedList.length,
-    relatedResultsLoading,
     sortedResults
   ]);
 
@@ -270,7 +265,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     if (!isLoading) {
       if (
         searchState.results.length > 0 ||
-        (searchState.relatedResults.length > 0 && !relatedResultsLoading) ||
+        (searchState.relatedResults.length > 0 && !isLoading) ||
         hasCompletedSearch
       ) {
         if (isNonLatinSearch && searchState.aiSearch) {
@@ -288,7 +283,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
         }, 500);
       }
 
-      const relatedCount = relatedResultsLoading ? 0 : uniqueRelatedList.length;
+      const relatedCount = isLoading ? 0 : uniqueRelatedList.length;
       const totalCount = searchState.results.length + relatedCount;
       setPreviousCount(totalCount);
     } else if (!(searchState.aiSearch && prevResults.length > 0)) {
@@ -301,7 +296,6 @@ const ResultsPanel = (props: Props): JSX.Element => {
     uniqueRelatedList.length,
     isResetting,
     hasCompletedSearch,
-    relatedResultsLoading,
     isNonLatinSearch, 
     searchState.aiSearch,
     hasSearchBeenInitiated,
@@ -333,7 +327,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
     searchState.results.length, 
     uniqueRelatedList.length, 
     hasSearchBeenInitiated, 
-    relatedResultsLoading,
+    isNonLatinSearch,
     prevResults.length,
     filterStatus
   ]);

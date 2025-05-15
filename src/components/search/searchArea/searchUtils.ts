@@ -51,10 +51,9 @@ export const handleModeSwitch = (
 export const isSearchBlocked = (
   isLocalLoading: boolean, 
   isSearching: boolean, 
-  relatedResultsLoading: boolean, 
   aiSearch: boolean
 ) => {
-  return (isLocalLoading || isSearching || relatedResultsLoading) && aiSearch;
+  return (isLocalLoading || isSearching) && aiSearch;
 };
 
 export const isSearchAllowed = (

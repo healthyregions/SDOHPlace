@@ -3,11 +3,12 @@ import CheckBoxObject from "../interface/CheckboxObject";
 import { Checkbox } from "@mui/material";
 import tailwindConfig from "tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
-import { RootState } from "@/store";
+import { RootState, AppDispatch } from "@/store";
 import { setSpatialResolution } from "@/store/slices/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {usePlausible} from "next-plausible";
 import {EventType} from "@/lib/event";
+
 interface SpatialResolutionCheck {
   value: string;
   display_name: string;
@@ -17,13 +18,16 @@ interface Props {
   schema: any;
 }
 const fullConfig = resolveConfig(tailwindConfig);
+
 const SpatialResolutionCheck = (props: Props): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const plausible = usePlausible();
   const spatialResolution = useSelector(
     (state: RootState) => state.search.spatialResolution
   );
-
+  const isSearching = useSelector(
+    (state: RootState) => state.search.isSearching
+  );
   const [checkboxes, setCheckboxes] = React.useState(new Set<CheckBoxObject>());
 
   React.useEffect(() => {
@@ -42,6 +46,8 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
   }, [props.src, spatialResolution]);
 
   const handleSelectionChange = (value: string, checked: boolean) => {
+    if (isSearching) return;
+    
     const updatedCheckboxes = new Set(
       Array.from(checkboxes).map((obj) => ({
         ...obj,
@@ -49,10 +55,13 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
       }))
     );
     setCheckboxes(updatedCheckboxes);
+    
     const selectedValues = Array.from(updatedCheckboxes)
       .filter((box) => box.checked)
       .map((box) => box.value);
+      
     dispatch(setSpatialResolution(selectedValues));
+    
     plausible(EventType.ChangedSpatialResolution, {
       props: {
         spatialResolution: selectedValues.join(', '),
@@ -70,6 +79,7 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
               id={`sr-checkbox-${index}`}
               checked={checkbox.checked}
               value={checkbox.value}
+              disabled={isSearching}
               onChange={(event) =>
                 handleSelectionChange(checkbox.value, event.target.checked)
               }
@@ -120,7 +130,7 @@ const SpatialResolutionCheck = (props: Props): JSX.Element => {
               className="text-l cursor-pointer select-none pl-1 pr-2"
               style={{ letterSpacing: 0.5 }}
               onClick={() =>
-                handleSelectionChange(checkbox.value, !checkbox.checked)
+                !isSearching && handleSelectionChange(checkbox.value, !checkbox.checked)
               }
             >
               {checkbox.displayName}

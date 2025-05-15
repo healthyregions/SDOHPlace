@@ -7,7 +7,6 @@ import { AppDispatch, RootState } from "@/store";
 import {
   setInputValue,
   setIsSearching,
-  setRelatedResultsLoading,
 } from "@/store/slices/searchSlice";
 import {
   setShowClearButton,
@@ -125,7 +124,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     suggestions,
     thoughts,
     isSearching,
-    relatedResultsLoading,
   } = useSelector((state: RootState) => state.search);
   const { 
     isLocalLoading, 
@@ -220,7 +218,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       clearSuggestions();
       setIsLocalLoading(true);
       dispatch(setIsSearching(true));
-      dispatch(setRelatedResultsLoading(true));
       const originalValue = inputValue;
       if (originalValue) {
         debouncedPerformSearch(originalValue);
@@ -232,7 +229,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     clearSuggestions();
     setIsLocalLoading(true);
     dispatch(setIsSearching(true));
-    dispatch(setRelatedResultsLoading(true));
     const originalValue = inputValue;
     if (originalValue) {
       debouncedPerformSearch(originalValue);
@@ -249,7 +245,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         const currentInputValue = inputValue;
         setIsLocalLoading(true);
         dispatch(setIsSearching(true));
-        dispatch(setRelatedResultsLoading(true));
         if (!isMouseInDropdown) {
           dispatch(setInputValue(currentInputValue));
           if (currentInputValue) {
@@ -268,7 +263,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
       const currentInputValue = inputValue;
       setIsLocalLoading(true);
       dispatch(setIsSearching(true));
-      dispatch(setRelatedResultsLoading(true));
       if (!isMouseInDropdown) {
         dispatch(setInputValue(currentInputValue));
         if (currentInputValue) {
@@ -291,9 +285,10 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     }
     if (value) {
       dispatch(setInputValue(value));
+      setIsLocalLoading(true);
+      dispatch(setIsSearching(true));
+      
       if (value !== query) {
-        setIsLocalLoading(true);
-        dispatch(setIsSearching(true));
         debouncedPerformSearch(value);
       }
     }
@@ -326,7 +321,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     dispatch(setInputValue(newInputValue));
     dispatch(setShowClearButton(!!newInputValue));
     
-    if (newInputValue !== "") {
+    if (newInputValue !== "" && !isLocalLoading && !isSearching) {
       if (!aiSearch) {
         if (newInputValue.length >= 2) {
           if (becameShorter) {
@@ -338,7 +333,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
           clearSuggestions();
         }
       }
-    } else {
+    } else if (newInputValue === "") {
       handleClear();
       if (isIOS && textFieldRef.current) {
         setTimeout(() => textFieldRef.current?.focus(), 50);
@@ -361,7 +356,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
   const searchBlockedState = isSearchBlocked(
     isLocalLoading,
     isSearching,
-    relatedResultsLoading,
     aiSearch
   );
 
@@ -379,7 +373,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     );
   };
 
-  const isLoading = isLocalLoading || isSearching || relatedResultsLoading;
+  const isLoading = isLocalLoading || isSearching;
 
   const customListbox = React.forwardRef<
     HTMLUListElement,
@@ -409,7 +403,7 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
     if (hasSelectedItem) {
       return;
     }
-    if (inputValue && inputValue.length >= 2 && !aiSearch) {
+    if (inputValue && inputValue.length >= 2 && !aiSearch && !isLocalLoading && !isSearching) {
       debouncedFetchSuggestions(inputValue, schema, previousInput);
     }
   };
@@ -438,7 +432,6 @@ const EnhancedSearchBox = ({ schema }: Props): JSX.Element => {
         onAutocompleteBlur={handleAutocompleteBlur}
         isLocalLoading={isLocalLoading}
         isSearching={isSearching}
-        relatedResultsLoading={relatedResultsLoading}
       />
       <AIThoughtsPanel 
         isLoading={isLoading}

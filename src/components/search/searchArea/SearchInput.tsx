@@ -48,7 +48,6 @@ interface SearchInputProps {
   onAutocompleteBlur: (event: React.FocusEvent) => void;
   isLocalLoading: boolean;
   isSearching: boolean;
-  relatedResultsLoading: boolean;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -72,7 +71,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
   onAutocompleteBlur,
   isLocalLoading,
   isSearching,
-  relatedResultsLoading,
 }) => {
   const classes = useSearchStyles();
   const dispatch = useDispatch<AppDispatch>();
@@ -81,7 +79,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const searchBlocked = isSearchBlocked(
     isLocalLoading,
     isSearching,
-    relatedResultsLoading,
     aiSearch
   );
   
@@ -147,7 +144,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
             placeholder={
               aiSearch
                 ? `Ask a research question (max ${maxLength} characters)...`
-                : "Type keyword..."
+                : "Type keyword for recommended term and exact search (e.g. 'poverty' or 'socioeconomic')"
             }
             className={`${classes.searchBox} bg-white`}
             inputProps={{ maxLength: maxLength, ...params.inputProps }}

@@ -6,13 +6,13 @@ import {
   fetchSearchAndRelatedResults,
   fetchSuggestions,
   setQuery,
-  setInputValue,
   setIsSearching,
-  setRelatedResultsLoading,
 } from "@/store/slices/searchSlice";
 import { setShowDetailPanel, clearMapPreview } from "@/store/slices/uiSlice";
 import { usePlausible } from "next-plausible";
 import { EventType } from "@/lib/event";
+import filterService from "@/middleware/FilterService";
+import { useStore } from 'react-redux';
 
 interface UseSearchProps {
   schema: any;
@@ -20,6 +20,7 @@ interface UseSearchProps {
 
 export const useSearch = ({ schema }: UseSearchProps) => {
   const dispatch = useDispatch<AppDispatch>();
+  const store = useStore();
   const plausible = usePlausible();
   const [isLocalLoading, setIsLocalLoading] = React.useState(false);
   const searchInProgressRef = React.useRef<boolean>(false);
@@ -54,7 +55,6 @@ export const useSearch = ({ schema }: UseSearchProps) => {
       if (!searchValue) {
         setIsLocalLoading(false);
         dispatch(setIsSearching(false));
-        dispatch(setRelatedResultsLoading(false));
         return;
       }
 
@@ -78,10 +78,12 @@ export const useSearch = ({ schema }: UseSearchProps) => {
       setTimeout(() => dispatch(setQuery(searchValue)), 0);
 
       try {
+        const currentState = store.getState() as RootState;
+        const currentFilterQueries = filterService.generateFilterQueries(currentState.search);
         const result = await dispatch(
           fetchSearchAndRelatedResults({
             query: searchValue,
-            filterQueries,
+            filterQueries: currentFilterQueries,
             schema,
             sortBy: sort.sortBy,
             sortOrder: sort.sortOrder,
@@ -96,7 +98,7 @@ export const useSearch = ({ schema }: UseSearchProps) => {
           
           plausible(searchEventType, {
             props: {
-              searchEvent: searchEventType + ": " + searchValue + " & " + filterQueries.join(" "),
+              searchEvent: searchEventType + ": " + searchValue + " & " + currentFilterQueries.join(" "),
             },
           });
         }
@@ -104,7 +106,6 @@ export const useSearch = ({ schema }: UseSearchProps) => {
         console.error("Search failed:", error);
         setIsLocalLoading(false);
         dispatch(setIsSearching(false));
-        dispatch(setRelatedResultsLoading(false));
       } finally {
         searchTimeoutRef.current = setTimeout(() => {
           searchInProgressRef.current = false;
@@ -122,13 +123,13 @@ export const useSearch = ({ schema }: UseSearchProps) => {
     },
     [
       dispatch,
-      filterQueries,
       schema,
       sort.sortBy,
       sort.sortOrder,
       aiSearch,
       plausible,
       clearSuggestions,
+      store
     ]
   );
 
