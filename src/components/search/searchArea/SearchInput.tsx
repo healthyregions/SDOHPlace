@@ -144,7 +144,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
             placeholder={
               aiSearch
                 ? `Ask a research question (max ${maxLength} characters)...`
-                : "Type keyword..."
+                : "Type keyword for recommended term and exact search (e.g. 'poverty' or 'socioeconomic')"
             }
             className={`${classes.searchBox} bg-white`}
             inputProps={{ maxLength: maxLength, ...params.inputProps }}
