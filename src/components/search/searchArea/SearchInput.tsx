@@ -79,7 +79,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const searchBlocked = isSearchBlocked(
     isLocalLoading,
     isSearching,
-    false,
     aiSearch
   );
   
