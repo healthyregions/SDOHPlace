@@ -3,7 +3,7 @@ export class QueryTracker {
   private recentQueries: Map<string, number> = new Map();
   private readonly TTL: number;
 
-  constructor(ttl = 200) {
+  constructor(ttl = 100) {
     this.TTL = ttl;
   }
 
@@ -20,12 +20,16 @@ export class QueryTracker {
   }
 
   addRecent(queryKey: string): void {
-    this.recentQueries.set(queryKey, Date.now());
+    if (!this.isFilterQuery(queryKey)) {
+      this.recentQueries.set(queryKey, Date.now());
+    }
   }
 
   isRecentlyCompleted(queryKey: string): boolean {
+    if (this.isFilterQuery(queryKey)) {
+      return false;
+    }
     if (!this.recentQueries.has(queryKey)) return false;
-    
     const timestamp = this.recentQueries.get(queryKey);
     return Date.now() - timestamp < this.TTL;
   }
@@ -40,9 +44,23 @@ export class QueryTracker {
   }
 
   shouldExecuteQuery(queryKey: string): boolean {
+    if (this.isFilterQuery(queryKey)) {
+      return !this.isInFlight(queryKey);
+    }
     if (this.isInFlight(queryKey)) return false;
     if (this.isRecentlyCompleted(queryKey)) return false;
     return true;
+  }
+
+  isFilterQuery(queryKey: string): boolean {
+    return queryKey.includes("spatial_resolution") || 
+           queryKey.includes("subject") || 
+           queryKey.includes("bbox") || 
+           queryKey.includes("index_year") ||
+           queryKey.includes("setSpatialResolution") ||
+           queryKey.includes("setSubject") ||
+           queryKey.includes("setBbox") ||
+           queryKey.includes("setIndexYear");
   }
 
   generateQueryKey(query: string, filterQueries: any[], sortBy?: string, sortOrder?: string): string {
