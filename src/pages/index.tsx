@@ -114,7 +114,7 @@ const FeaturedIcon = () =>
     <FaStar style={{
       fill: "url(#featured-icon-gradient)",
       alignSelf: 'center',
-      marginRight: '0.7rem',
+      marginRight: '0.5rem',
     }} />
   </>;
 
@@ -380,7 +380,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 {/* Featured content */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '1pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                {/* TODO: eventually read this info from CMS? e.g. title, subtitle, image, links, etc */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
                 <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
                   This report seeks to illuminate the design process necessary to create accessible, enjoyable,
                   and empowering data tools for place-based health equity. It also outlines basic principles of
