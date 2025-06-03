@@ -45,7 +45,7 @@ import {
   FaBook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
-  FaPlus,
+  FaPlus, FaStar,
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
 
@@ -102,6 +102,21 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const FeaturedIcon = () =>
+  <>
+    <svg width="0" height="0">
+      <linearGradient id="featured-icon-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+        <stop stopColor="#7E1CC4" offset="0%" />
+        <stop stopColor="#FF9C77" offset="100%" />
+      </linearGradient>
+    </svg>
+    <FaStar style={{
+      fill: "url(#featured-icon-gradient)",
+      alignSelf: 'center',
+      marginRight: '0.7rem',
+    }} />
+  </>;
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -351,6 +366,43 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </IconButton>
             </Grid>
           </Grid>
+        </div>
+      </div>
+
+      <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
+            <Grid container spacing={0}>
+              <Grid item xs={8}>
+                {/* "Featured" section header */}
+                <div className={'flex flex-row text-[0.9rem]'}>
+                  <FeaturedIcon /> Featured
+                </div>
+
+                {/* Featured content */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '1pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
+                  This report seeks to illuminate the design process necessary to create accessible, enjoyable,
+                  and empowering data tools for place-based health equity. It also outlines basic principles of
+                  HCD, describing a general four-step process to put design into action, as well as showcasing
+                  best practices to create user-friendly designs in general.
+                </p>
+
+                {/* TODO: image w/ absolute position needs to properly support mobile */}
+                <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100} src={'images/human_centered_design.svg'} alt={'ClipArt/link here'}/>
+
+                {/* Actions related to Featured Content */}
+                <div className={'text-base'}>
+                  <strong><a className={'no-underline'} href={'#'}>Access resource &rarr;</a></strong>
+                  <a className={'no-underline ml-12'} href={'#'}>Research & Reports</a>
+                </div>
+              </Grid>
+
+              <Grid item xs={4}>
+                {/* Right-side ClipArt/Image */}
+              </Grid>
+            </Grid>
+          </div>
         </div>
       </div>
 
