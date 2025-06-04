@@ -49,6 +49,8 @@ import {
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
 
+import featuredData from "../../meta/featured.json";
+
 const fullConfig = resolveConfig(tailwindConfig);
 
 interface HomePageProps {
@@ -192,14 +194,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const classes = useStyles();
-  const loadFeatured = async () => {
-    const res = await fetch('meta/featured.json');
-    return await res.json();
-  }
-  const [featured,setFeatured] = useState(null);
-  loadFeatured().then((data) => {
-    setFeatured(data);
-  });
   return (
     <>
       <Header />
@@ -389,23 +383,24 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 {/* Featured content title */}
                 <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>
-                  { featured?.title || 'Coming Soon' }
+                  { featuredData?.title || 'Coming Soon' }
                 </h3>
 
                 {/* Featured content body */}
+                {/* TODO: support markdown? */}
                 <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
-                  { featured?.body || 'Check back later for exciting new features!' }
+                  { featuredData?.body || 'Check back later for exciting new features!' }
                 </p>
 
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100}
-                     src={featured?.image || 'images/human_centered_design.svg'} alt={'ClipArt/link here'} />
+                     src={featuredData?.image}  />
 
                 {/* Actions related to Featured Content */}
                 <div className={'text-base'}>
                   {
-                    featured?.links?.map((link) => <>
-                      {link?.bold && <strong className={'no-underline mr-12'}><a href={link?.url}>{link?.label}</a></strong>}
+                    featuredData?.links?.map((link) => <>
+                      {link?.bold && <strong className={'mr-12'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
                       {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
                     </>)
                   }
