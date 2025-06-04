@@ -107,6 +107,7 @@ collections:
             allow_multiple: false
           - name: links
             label: Links
+            label_singular: "Link"
             widget: list
             fields:
               - name: label
@@ -118,6 +119,7 @@ collections:
               - name: bold
                 label: Bold Label
                 widget: boolean
+                required: false
 
   - name: "people"
     label: "People"
