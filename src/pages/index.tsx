@@ -192,6 +192,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const classes = useStyles();
+  const loadFeatured = async () => {
+    const res = await fetch('meta/featured.json');
+    return await res.json();
+  }
+  const [featured,setFeatured] = useState(null);
+  loadFeatured().then((data) => {
+    setFeatured(data);
+  });
   return (
     <>
       <Header />
@@ -374,30 +382,33 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
               <Grid item xs={8}>
-                {/* "Featured" section header */}
+                {/* "Featured" section header / icon */}
                 <div className={'flex flex-row text-[0.9rem]'}>
                   <FeaturedIcon /> Featured
                 </div>
 
-                {/* Featured content */}
-                {/* TODO: eventually read this info from CMS? title / excerpt */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                {/* Featured content title */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>
+                  { featured?.title || 'Coming Soon' }
+                </h3>
+
+                {/* Featured content body */}
                 <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
-                  This report seeks to illuminate the design process necessary to create accessible, enjoyable,
-                  and empowering data tools for place-based health equity. It also outlines basic principles of
-                  HCD, describing a general four-step process to put design into action, as well as showcasing
-                  best practices to create user-friendly designs in general.
+                  { featured?.body || 'Check back later for exciting new features!' }
                 </p>
 
-                {/* TODO: eventually read this info from CMS? image */}
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100} src={'images/human_centered_design.svg'} alt={'ClipArt/link here'}/>
+                <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100}
+                     src={featured?.image || 'images/human_centered_design.svg'} alt={'ClipArt/link here'} />
 
                 {/* Actions related to Featured Content */}
-                {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <div className={'text-base'}>
-                  <strong><a className={'no-underline'} href={'#'}>Access resource &rarr;</a></strong>
-                  <a className={'no-underline ml-12'} href={'#'}>Research & Reports</a>
+                  {
+                    featured?.links?.map((link) => <>
+                      {link?.bold && <strong className={'no-underline mr-12'}><a href={link?.url}>{link?.label}</a></strong>}
+                      {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
+                    </>)
+                  }
                 </div>
               </Grid>
 
