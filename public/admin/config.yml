@@ -90,6 +90,34 @@ collections:
                 widget: "string"
                 hint: "Tag name for displaying on the site"
 
+      - name: "featured"
+        label: "Featured"
+        file: "meta/featured.json"
+        description: "Featured section of homepage"
+        fields:
+          - name: title
+            label: Title
+            widget: string
+          - name: body
+            label: Body
+            widget: text
+          - name: image
+            label: Image
+            widget: image
+            allow_multiple: false
+          - name: links
+            label: Links
+            widget: list
+            fields:
+              - name: label
+                label: Label
+                widget: string
+              - name: url
+                label: Destination URL
+                widget: string
+              - name: bold
+                label: Bold Label
+                widget: boolean
 
   - name: "people"
     label: "People"
