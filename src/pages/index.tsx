@@ -380,7 +380,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 {/* Featured content */}
-                {/* TODO: eventually read this info from CMS? e.g. title, subtitle, image, links, etc */}
+                {/* TODO: eventually read this info from CMS? title / excerpt */}
                 <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
                 <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
                   This report seeks to illuminate the design process necessary to create accessible, enjoyable,
@@ -389,10 +389,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   best practices to create user-friendly designs in general.
                 </p>
 
+                {/* TODO: eventually read this info from CMS? image */}
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100} src={'images/human_centered_design.svg'} alt={'ClipArt/link here'}/>
 
                 {/* Actions related to Featured Content */}
+                {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <div className={'text-base'}>
                   <strong><a className={'no-underline'} href={'#'}>Access resource &rarr;</a></strong>
                   <a className={'no-underline ml-12'} href={'#'}>Research & Reports</a>
