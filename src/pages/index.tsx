@@ -399,7 +399,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100}
-                     src={featured?.image || '/images/human_centered_design.svg'} alt={'ClipArt/link here'} />
+                     src={featured?.image || 'images/human_centered_design.svg'} alt={'ClipArt/link here'} />
 
                 {/* Actions related to Featured Content */}
                 <div className={'text-base'}>
