@@ -1,6 +1,14 @@
 {
   "advisory": [
     {
+      "status": "current",
+      "image": "/images/image-6-9-25-at-5.12-pm.jpg",
+      "name": "Rochelle Prosser",
+      "desc_long": "Rochelle Prosser RN, CLNC, is an Army Mom, a parent and wife of two cancer survivors. For one of her family members, it took nine years to finally find a viable solution that halted the progression of their cancer. As a Healthcare Founder and member of the African American Community, Ms. Prosser has leveraged her own struggles to navigate the Oncology space and create a vast database of cancer treatments, The Prosser Cancer Treatment Library, so that other families do not face the lack of information and stress that her family endured. In addition to providing everyone with better access to Oncological Care Navigation, Ms. Prosser’s work will help remove the Health Disparity barriers in Oncology care to provide options and foster improved overall survivorship rates to the community she serves. ",
+      "desc_short": "Ms. Prosser has leveraged her own struggles to navigate the Oncology space and create a vast database of cancer treatments, The Prosser Cancer Treatment Library, so that other families do not face the lack of information and stress that her family endured.",
+      "affiliation": "Orchid Healthcare Solutions"
+    },
+    {
       "name": "Malaika Simmons",
       "affiliation": "NADPH",
       "image": "/images/headshot-ms.png",
