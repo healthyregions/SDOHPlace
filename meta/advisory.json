@@ -2,6 +2,14 @@
   "advisory": [
     {
       "status": "current",
+      "image": "/images/image-6-9-25-at-6.16-pm.jpg",
+      "name": "Ian Brooks",
+      "affiliation": "University of Illinois",
+      "desc_long": "Ian Brooks, PhD, is the director of the Center for Health Informatics, in the School of Information Sciences at the University of Illinois Urbana-Champaign and leads the PAHO/WHO Anti-infodemic Virtual Center for the Americas. His research focuses on the use of data from traditional and non-traditional sources to understand population health and support public health decision makers. Previously, Brooks was the director of Health Sciences at the National Center for Supercomputing Applications, co-director of the bioinformatics core of the UIC Center for Translational Science, and a member of the CDC external advisory committee for high-performance computing. Dr Brooks completed his Ph.D. in Biochemistry at Bryn Mawr College in 1996, an MS in Applied and Engineering Physics at Cornell University in 1990, and a BSc in Biophysics at the University of York in 1987.",
+      "desc_short": "Ian Brooks, PhD, is the director of the Center for Health Informatics, in the School of Information Sciences at the University of Illinois Urbana-Champaign and leads the PAHO/WHO Anti-infodemic Virtual Center for the Americas. His research focuses on the use of data from traditional and non-traditional sources to understand population health and support public health decision makers. "
+    },
+    {
+      "status": "current",
       "image": "/images/image-6-9-25-at-5.12-pm.jpg",
       "name": "Rochelle Prosser",
       "desc_long": "Rochelle Prosser RN, CLNC, is an Army Mom, a parent and wife of two cancer survivors. For one of her family members, it took nine years to finally find a viable solution that halted the progression of their cancer. As a Healthcare Founder and member of the African American Community, Ms. Prosser has leveraged her own struggles to navigate the Oncology space and create a vast database of cancer treatments, The Prosser Cancer Treatment Library, so that other families do not face the lack of information and stress that her family endured. In addition to providing everyone with better access to Oncological Care Navigation, Ms. Prosser’s work will help remove the Health Disparity barriers in Oncology care to provide options and foster improved overall survivorship rates to the community she serves. ",
