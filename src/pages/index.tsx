@@ -45,9 +45,12 @@ import {
   FaBook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
-  FaPlus,
+  FaPlus, FaStar,
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
+
+import featuredData from "../../meta/featured.json";
+import styled from "@emotion/styled";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -102,6 +105,32 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const FeaturedIcon = () =>
+  <>
+    <svg width="0" height="0">
+      <linearGradient id="featured-icon-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+        <stop stopColor="#7E1CC4" offset="0%" />
+        <stop stopColor="#FF9C77" offset="100%" />
+      </linearGradient>
+    </svg>
+    <FaStar style={{
+      fill: "url(#featured-icon-gradient)",
+      alignSelf: 'center',
+      marginRight: '0.5rem',
+    }} />
+  </>;
+
+const FeaturedImage = styled.img`
+  display: block; /* Show by default */
+  position: absolute;
+  right: 5rem;
+  top: -8rem;
+  
+  @media (max-width: 768px) {
+    display: none; /* Hide image on smaller screens */
+  }
+`;
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -351,6 +380,51 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </IconButton>
             </Grid>
           </Grid>
+        </div>
+      </div>
+
+      <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
+            <Grid container spacing={0} className={'max-md:flex-row-reverse'}>
+              <Grid item xs={12} lg={9}>
+                {/* "Featured" section header / icon */}
+                <div className={'flex flex-row text-[0.9rem]'}>
+                  <FeaturedIcon /> Featured
+                </div>
+
+                {/* Featured content title */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>
+                  { featuredData?.title || 'Coming Soon' }
+                </h3>
+
+                {/* Featured content body */}
+                {/* TODO: support markdown? */}
+                <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
+                  { featuredData?.body || 'Check back later for exciting new features!' }
+                </p>
+
+                {/* Actions related to Featured Content */}
+                <div className={'text-base'}>
+                  <Grid container spacing={0}>
+                    {
+                      featuredData?.links?.map((link) =>
+                        <Grid key={`${link.label}-${link?.url}`} item lg={4} xs={12}>
+                          {link?.bold && <strong className={'mr-12'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                          {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
+                        </Grid>
+                      )
+                    }
+                  </Grid>
+                </div>
+              </Grid>
+
+              <Grid item xs={12} lg={3} style={{ position: 'relative' }}>
+                {/* TODO: image w/ absolute position needs to properly support mobile */}
+                <FeaturedImage height={100} src={featuredData?.image}  />
+              </Grid>
+            </Grid>
+          </div>
         </div>
       </div>
 
