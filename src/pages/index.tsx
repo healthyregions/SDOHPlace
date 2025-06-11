@@ -49,12 +49,9 @@ import {
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
 
-<<<<<<< HEAD
-=======
-import featuredData from "../../meta/featured.json";
+
 import styled from "@emotion/styled";
 
->>>>>>> 1e3dbb5 (style: update style according to 6/10 meeting w/ @shubhamk008)
 const fullConfig = resolveConfig(tailwindConfig);
 
 interface HomePageProps {
@@ -410,14 +407,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <div className={'text-base'}>
                   <Grid container spacing={0}>
-                    {
-                      featuredData?.links?.map((link) =>
-                        <Grid item lg={4} xs={12}>
-                          {link?.bold && <strong className={'mr-12'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
-                          {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
-                        </Grid>
-                      )
-                    }
+                    <Grid item lg={4} xs={12}>
+                      <strong className={'mr-12'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer"></a></strong>
+                      {/*<a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>*/}
                   </Grid>
                 </div>
               </Grid>
