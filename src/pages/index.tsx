@@ -407,9 +407,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <div className={'text-base'}>
                   <Grid container spacing={0}>
-                    <Grid item lg={4} xs={12}>
-                      <strong className={'mr-12'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer"></a></strong>
-                      {/*<a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>*/}
+                    <Grid item lg={3} xs={12}>
+                      <strong className={'mr-12'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
+                      {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
                     </Grid>
                   </Grid>
                 </div>
