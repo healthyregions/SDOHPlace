@@ -417,7 +417,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
               <Grid item xs={12} lg={3} style={{ position: 'relative' }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <FeaturedImage height={100} src={featuredData?.image}  />
+                <FeaturedImage height={100} src={'images/human_centered_design.svg'}  />
               </Grid>
             </Grid>
           </div>
