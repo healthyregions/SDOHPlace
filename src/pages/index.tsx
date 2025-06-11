@@ -396,7 +396,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* Actions related to Featured Content */}
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <div className={'text-base'}>
-                  <strong><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target={'_blank'}>Access resource &rarr;</a></strong>
+                  <strong><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target={'_blank'} rel="noreferrer">Access resource &rarr;</a></strong>
                   {/* TODO: Links to future page that does not yet exist/*}}
                   {/*<a className={'no-underline ml-12'} href={'#'}>Research & Reports</a>*/}
                 </div>
