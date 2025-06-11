@@ -49,6 +49,12 @@ import {
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
 
+<<<<<<< HEAD
+=======
+import featuredData from "../../meta/featured.json";
+import styled from "@emotion/styled";
+
+>>>>>>> 1e3dbb5 (style: update style according to 6/10 meeting w/ @shubhamk008)
 const fullConfig = resolveConfig(tailwindConfig);
 
 interface HomePageProps {
@@ -117,6 +123,17 @@ const FeaturedIcon = () =>
       marginRight: '0.5rem',
     }} />
   </>;
+
+const FeaturedImage = styled.img`
+  display: block; /* Show by default */
+  position: absolute;
+  right: 5rem;
+  top: -8rem;
+  
+  @media (max-width: 768px) {
+    display: none; /* Hide image on smaller screens */
+  }
+`;
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -373,8 +390,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
-              <Grid item xs={8}>
-                {/* "Featured" section header */}
+              <Grid item xs={12} lg={9}>
+                {/* "Featured" section header / icon */}
                 <div className={'flex flex-row text-[0.9rem]'}>
                   <FeaturedIcon /> Featured
                 </div>
@@ -389,21 +406,25 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   best practices to create user-friendly designs in general.
                 </p>
 
-                {/* TODO: eventually read this info from CMS? image */}
-                {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <img style={{ position: 'absolute', right:'10vw', top: '90rem' }} height={100} src={'images/human_centered_design.svg'} alt={'ClipArt/link here'}/>
-
                 {/* Actions related to Featured Content */}
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <div className={'text-base'}>
-                  <strong><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target={'_blank'} rel="noreferrer">Access resource &rarr;</a></strong>
-                  {/* TODO: Links to future page that does not yet exist/*}}
-                  {/*<a className={'no-underline ml-12'} href={'#'}>Research & Reports</a>*/}
+                  <Grid container spacing={0}>
+                    {
+                      featuredData?.links?.map((link) =>
+                        <Grid item lg={4} xs={12}>
+                          {link?.bold && <strong className={'mr-12'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                          {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
+                        </Grid>
+                      )
+                    }
+                  </Grid>
                 </div>
               </Grid>
 
-              <Grid item xs={4}>
-                {/* Right-side ClipArt/Image */}
+              <Grid item xs={12} lg={3} style={{ position: 'relative' }}>
+                {/* TODO: image w/ absolute position needs to properly support mobile */}
+                <FeaturedImage height={100} src={featuredData?.image}  />
               </Grid>
             </Grid>
           </div>
