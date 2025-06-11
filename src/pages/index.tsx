@@ -409,7 +409,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   <Grid container spacing={0}>
                     {
                       featuredData?.links?.map((link) =>
-                        <Grid item lg={4} xs={12}>
+                        <Grid key={`${link.label}-${link?.url}`} item lg={4} xs={12}>
                           {link?.bold && <strong className={'mr-12'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
                           {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
                         </Grid>
