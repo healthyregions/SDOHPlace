@@ -410,6 +410,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     <Grid item lg={4} xs={12}>
                       <strong className={'mr-12'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer"></a></strong>
                       {/*<a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>*/}
+                    </Grid>
                   </Grid>
                 </div>
               </Grid>
