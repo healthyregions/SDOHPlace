@@ -93,7 +93,7 @@ const Advisory: NextPage = () => {
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
                     {modalData.affiliation}
                   </div>
-                  {modalData.links.map((link, index) => (
+                  {modalData.links?.map((link, index) => (
                     <div
                       key={index}
                       className="text-lg font-medium leading-[177.778%] mt-2.5"
