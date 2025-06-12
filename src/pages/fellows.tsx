@@ -182,17 +182,19 @@ const Fellows: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-xl w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  The{" "}
-                  <Link href="https://sdohplace.org/news/community-fellowship-2024">
-                    SDOH & Place Fellowship Program
-                  </Link>{" "}
-                  launched in 2024 to support public health, geography, & health
-                  equity leaders learn how to develop a social determinants of
-                  health (SDOH) place-based visualization (e.g., asset map,
-                  story map, thematic map, or dashboard) based on a
-                  human-centered design (HCD) framework and participatory design
-                  principles. Program Ambassadors additionally contribute to the
-                  SDOH & Place community toolkit&apos;s design and development.
+                  <span>The <strong>SDOH & Place Fellowship Program</strong> was created
+                  to guide and support public health, geography, and health equity leaders
+                  in developing a social determinants of health (SDOH) place-based data
+                  visualization (ex. story map, asset map, interactive map or classic dashboard)
+                  centered in a{" "}
+                  <Link href={'https://www.w3docs.com/tools/code-editor/1085'} target={'_blank'} rel={'noreferrer noopener'}>
+                    <strong>human-centered design (HCD) framework</strong>
+                  </Link>. These fellows read through each module of the
+                  {" "}<Link href={'https://toolkit.sdohplace.org'}>Community Toolkit</Link>{" "}
+                  to develop a data visualization to help inform their research and their communities,
+                  along with providing necessary insight on how to improve our
+                  Community Toolkit for our users. You can view some of their applications{" "}
+                  <Link href={'/showcase'}>here.</Link>
                 </div>
               </div>
             </div>
