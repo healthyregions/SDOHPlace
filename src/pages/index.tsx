@@ -395,19 +395,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-8 pt-[2rem] pb-[5rem] grid grid-flow-col md:grid-flow-col text-start">
           {/* <div className={classes.imageContainer}> */}
             <Grid container spacing={2} className="flex justify-between">
-                <Grid item xs={6} sm={4} md={2}>
-                <Link
-                    href="https://www.rwjf.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <Image
-                    alt="Robert Wood Johnson Foundation"
-                    src={rwfjLogo}
-                    className={classes.image}
-                    />
-                </Link>
-              </Grid>
               <Grid item xs={6} sm={4} md={2}>
                 <Link
                   href="http://www.healthyregions.org/"
@@ -461,6 +448,19 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </Link>
               </Grid>
+                <Grid item xs={6} sm={4} md={2}>
+                <Link
+                    href="https://www.rwjf.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Image
+                    alt="Robert Wood Johnson Foundation"
+                    src={rwfjLogo}
+                    className={classes.image}
+                    />
+                </Link>
+            </Grid>
             </Grid>
           {/* </div> */}
         </div>
