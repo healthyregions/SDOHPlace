@@ -239,11 +239,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mb-[14%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-xl font-normal leading-8">
-              A{" "}
-              <span className="text-frenchviolet font-bold">free platform</span>{" "}
-              to discover and practice with place-based data for health equity,
-              connecting the Social Determinants of Health to communities,
-              researchers, policymakers, & health practitioners.
+              Discover and learn to wrangle
+              {" "}<span className="text-frenchviolet font-bold">place-based data for health equity</span>{" "}
+              with design thinking, connecting community-level
+              Social Determinants of Health for high impact
+              research and advocacy
             </p>
           </div>
           <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
@@ -482,10 +482,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Explore the Data Discovery Platform to identify high-quality
-                  data across the United States. Review data availability
-                  across topics, various spatial scales (i.e. census tract
-                  vs county), and time periods alongside usage tips.
+                  Looking for community-level SDOH for your project? Explore the
+                  Data Discovery search tool, with or without an AI assist, to
+                  identify high-quality data across the United States.
+                  <br />
+                  Review data availability across topics, various spatial scales
+                  (i.e. census tract vs county), and time periods alongside usage
+                  tips.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -522,9 +525,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
                   Learn how to make your own dashboard (ex. story map, asset map,
                   interactive map or classic dashboard) with open source and/or
-                  free GIS tools using the Community Toolkit. Get practice with
-                  spatial data for health equity initiatives, and engage human-centered
-                  design to build with communities.
+                  free GIS tools using the Community Toolkit.
+                  <br />
+                  Get practice with spatial data for health equity initiatives,
+                  and engage human-centered design to build with communities.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
