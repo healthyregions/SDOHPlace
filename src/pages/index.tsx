@@ -397,7 +397,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             <Grid container spacing={2} className="flex justify-between">
                 <Grid item xs={6} sm={4} md={2}>
                 <Link
-                    href="http://www.healthyregions.org/"
+                    href="https://www.rwjf.org/"
                     target="_blank"
                     rel="noreferrer"
                 >
