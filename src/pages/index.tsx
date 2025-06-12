@@ -309,13 +309,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   </a>
                 </Grid> */}
             </Grid>
-          </div>
 
-          <Grid container spacing={0}>
-            <Grid item xs={12}>
-              A series of <a href={'https://sdohplace.org/guides'}>research guides</a> walk through the measurements of key SDOH concepts. Suggest your own <a href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</a>
+            <Grid container spacing={0} className={'text-xl-rfs'}>
+              <Grid item xs={12}>
+                A series of <a className={'no-underline'} href={'https://sdohplace.org/guides'}>research guides</a> walk through the
+                measurements of key SDOH concepts. Suggest
+                your own <a className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</a>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
 
           <Grid container spacing={0}>
             <Grid item xs={1} className={"vertical-center"}>
@@ -482,13 +484,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Looking for community-level SDOH for your project? Explore the
-                  Data Discovery search tool, with or without an AI assist, to
-                  identify high-quality data across the United States.
-                  <br />
-                  Review data availability across topics, various spatial scales
-                  (i.e. census tract vs county), and time periods alongside usage
-                  tips.
+                  <p>
+                    Looking for community-level SDOH for your project? Explore the
+                    Data Discovery search tool, with or without an AI assist, to
+                    identify high-quality data across the United States.
+                  </p>
+                  <br/>
+                  <p>
+                    Review data availability across topics, various spatial scales
+                    (i.e. census tract vs county), and time periods alongside usage tips.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -523,12 +528,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Learn how to make your own dashboard (ex. story map, asset map,
-                  interactive map or classic dashboard) with open source and/or
-                  free GIS tools using the Community Toolkit.
+                  <p>
+                    Learn how to make your own dashboard (ex. story map, asset map,
+                    interactive map or classic dashboard) with open source and/or
+                    free GIS tools using the Community Toolkit.
+                  </p>
                   <br />
-                  Get practice with spatial data for health equity initiatives,
-                  and engage human-centered design to build with communities.
+                  <p>
+                    Get practice with spatial data for health equity initiatives,
+                    and engage human-centered design to build with communities.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
