@@ -150,8 +150,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "6",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: "", // "Discover more Social Determinants of Health" after the link is ready
-      link: "", // Add link after the link is ready
+      text: "Discover more Social Determinants of Health",
+      link: "https://sdohplace.org/guides",
     },
   ];
 
@@ -293,7 +293,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
               <Grid item xs={12} lg={7}>
-                Social Determinants of Health & Place Research Guides
+                Social Determinants of Health Research Guides
               </Grid>
               {/* TODO: uncomment these once they have destiations
                 <Grid item xs={12} lg={3} className={'carousel-link-container'}>
@@ -310,6 +310,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </Grid> */}
             </Grid>
           </div>
+
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              A series of <a href={'https://sdohplace.org/guides'}>research guides</a> walk through the measurements of key SDOH concepts. Suggest your own <a href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</a>
+            </Grid>
+          </Grid>
 
           <Grid container spacing={0}>
             <Grid item xs={1} className={"vertical-center"}>
@@ -476,9 +482,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Our data discovery platform provides access to spatially
-                  indexed and curated databases, specifically designed for
-                  conducting health equity research.
+                  Explore the Data Discovery Platform to identify high-quality
+                  data across the United States. Review data availability
+                  across topics, various spatial scales (i.e. census tract
+                  vs county), and time periods alongside usage tips.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -513,10 +520,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Enhance your health and equity initiatives with our toolkit.
-                  You will be able to create captivating spatial visualizations
-                  for community engagement using free and user-friendly tools
-                  including open-source GIS tools.
+                  Learn how to make your own dashboard (ex. story map, asset map,
+                  interactive map or classic dashboard) with open source and/or
+                  free GIS tools using the Community Toolkit. Get practice with
+                  spatial data for health equity initiatives, and engage human-centered
+                  design to build with communities.
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
