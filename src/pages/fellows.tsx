@@ -182,7 +182,7 @@ const Fellows: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-xl w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  <span>The <strong>SDOH & Place Fellowship Program</strong> was created
+                  The <strong>SDOH & Place Fellowship Program</strong> was created
                   to guide and support public health, geography, and health equity leaders
                   in developing a social determinants of health (SDOH) place-based data
                   visualization (ex. story map, asset map, interactive map or classic dashboard)
