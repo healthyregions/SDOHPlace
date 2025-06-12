@@ -18,6 +18,7 @@ import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-
 import heropLightLogo from "@/public/logos/herop-light-logo.svg";
 import universityWordmark from "@/public/logos/university-wordmark.svg";
 import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
+import rwfjLogo from "@/public/logos/rwjf-logo2.png";
 import ncsaLogo from "@/public/logos/ncsa-logo.svg";
 import scdLogo from "@/public/logos/scd-logo.png";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
@@ -74,9 +75,10 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 };
 const useStyles = makeStyles({
   imageContainer: {
-    display: "flex",
+    // display: "flex",
     justifyContent: "center",
-    flexDirection: "row",
+    // flexDirection: "row",
+    width: "100%",
     "@media (max-width: 959px)": {
       marginLeft: "1em",
     },
@@ -387,13 +389,26 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_4fr] text-start">
-          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
-            Brought to you by
-          </div>
-          <div className={classes.imageContainer}>
+        <div className="my-auto text-white text-center text-2xl-rfs pt-[2rem] font-normal leading-8 px-[5.5%] max-md:mb-[2rem] max-md:mt-[2rem]">
+        Brought to you by
+        </div>
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-8 pt-[2rem] pb-[5rem] grid grid-flow-col md:grid-flow-col text-start">
+          {/* <div className={classes.imageContainer}> */}
             <Grid container spacing={2} className="flex justify-between">
-              <Grid item xs={6} sm={2}>
+                <Grid item xs={6} sm={4} md={2}>
+                <Link
+                    href="http://www.healthyregions.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Image
+                    alt="Robert Wood Johnson Foundation"
+                    src={rwfjLogo}
+                    className={classes.image}
+                    />
+                </Link>
+              </Grid>
+              <Grid item xs={6} sm={4} md={2}>
                 <Link
                   href="http://www.healthyregions.org/"
                   target="_blank"
@@ -406,7 +421,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={6} sm={4} md={2}>
                 <Link
                   href="https://illinois.edu/"
                   target="_blank"
@@ -419,7 +434,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={6} sm={4} md={2}>
                 <Link
                   href="https://www.ncsa.illinois.edu/"
                   target="_blank"
@@ -433,7 +448,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </Link>
               </Grid>
 
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={6} sm={4} md={2}>
                 <Link
                   href="https://designcenter.illinois.edu/"
                   target="_blank"
@@ -447,7 +462,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </Link>
               </Grid>
             </Grid>
-          </div>
+          {/* </div> */}
         </div>
       </div>
 
