@@ -188,9 +188,8 @@ const Footer = (): JSX.Element => {
         <div className="max-md:max-w-[66.66%] mx-auto pt-[0] pb-[4.5rem] 2xl:max-w-[1536px] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
           <div className="flex flex-col justify-center gap-[1.56rem] flex-[33.33]">
             <div className="max-w-[21.5625rem] text-white text-xl-rfs leading-6 tracking-[0.03125rem]">
-              The SDOH & Place Project&apos;s mission is to unravel the
-              application design process essential for developing web
-              applications centered on neighborhood health.
+              The SDOH & Place Project works to build community around the definition, use, and understanding
+              of community SDOH data for high impact research and advocacy centered in health equity
             </div>
 
             <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
