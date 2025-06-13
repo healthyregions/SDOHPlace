@@ -574,7 +574,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   </p>
                   <br/>
                   <p>
-                    Review data availability across topics, various spatial scales
+                    Review data availability across topics, spatial scales
                     (i.e. census tract vs county), and time periods alongside usage tips.
                   </p>
                 </div>
