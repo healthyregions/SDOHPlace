@@ -123,7 +123,7 @@ const NavBar = (): JSX.Element => {
 
   const resourcesItems = [
     { title: "Data Discovery", url: "/search" },
-    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org", target: '_blank' },
+    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
     { title: "SDOH Guides", url: "/guides" },
   ];
 
