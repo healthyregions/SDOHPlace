@@ -17,16 +17,14 @@ import mobileFooterLine3 from "@/public/logos/mobile-footer-line3.svg";
 import mobileFooterLine4 from "@/public/logos/mobile-footer-line4.svg";
 import mobileFooterLine5 from "@/public/logos/mobile-footer-line5.svg";
 import theSDOHPlaceProjectFooter from "@/public/logos/the-sdoh-place-project-footer.svg";
-import githubIcon from "@/public/logos/github-purple-icon.svg";
-import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
-import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
-import xIcon from "@/public/logos/x-purple-icon.svg";
-import newsIcon from "@/public/logos/news.svg";
-import emailIcon from "@/public/logos/email-icon.svg";
-import chevronRight from "@/public/logos/chevron-right.svg";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import {ChevronRight, Feed, MailOutline} from "@mui/icons-material";
+
+import githubIcon from "@/public/logos/github-purple-icon.svg";
+import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
+import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
+import blueskyIcon from "@/public/logos/bluesky-purple-icon.svg";
 
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -194,14 +192,18 @@ const Footer = (): JSX.Element => {
 
             <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
 
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-row align-center gap-5">
               <a
                 href="https://github.com/healthyregions/SDOHPlace"
                 title="View code on GitHub"
                 rel="noreferrer"
                 target="_blank"
               >
-                <Image priority src={githubIcon} alt="View code on GitHub" />
+                <Image
+                    priority
+                    src={githubIcon}
+                    alt="Github logo"
+                />
               </a>
               <a
                 href="https://www.linkedin.com/groups/12857797/"
@@ -210,9 +212,9 @@ const Footer = (): JSX.Element => {
                 target="_blank"
               >
                 <Image
-                  priority
-                  src={linkedinIcon}
-                  alt="Follow us on LinkedIn"
+                    priority
+                    src={linkedinIcon}
+                    alt="LinkedIn logo"
                 />
               </a>
               <a
@@ -222,18 +224,22 @@ const Footer = (): JSX.Element => {
                 target="_blank"
               >
                 <Image
-                  priority
-                  src={facebookIcon}
-                  alt="HealthyRegions on Facebook"
+                    priority
+                    src={facebookIcon}
+                    alt="Facebook logo"
                 />
               </a>
               <a
-                href="https://x.com/healthyregions"
-                title="@healthyregions on X"
+                href="https://bsky.app/profile/healthyregions.bsky.social"
+                title="@healthyregions on BlueSky"
                 rel="noreferrer"
                 target="_blank"
               >
-                <Image priority src={xIcon} alt="@healthyregions on X" />
+                <Image
+                    priority
+                    src={blueskyIcon}
+                    alt="BlueSky logo"
+                />
               </a>
             </div>
           </div>

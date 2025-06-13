@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import githubIcon from "@/public/logos/github-purple-icon.svg";
 import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
 import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
-import xIcon from "@/public/logos/x-purple-icon.svg";
+import blueskyIcon from "@/public/logos/bluesky-purple-icon.svg";
 
 import TopLines from "@/components/TopLines";
 import Header from "@/components/meta/Header";
@@ -133,15 +133,15 @@ const Contact: NextPage = () => {
             </Link>
             <Link
               className="mr-10"
-              href="https://x.com/healthyregions"
-              title="@healthyregions on X"
+              href="https://bsky.app/profile/healthyregions.bsky.social"
+              title="@healthyregions on Bluesky"
               target="_blank"
             >
               <Image
                 priority
-                src={xIcon}
+                src={blueskyIcon}
                 height={36}
-                alt="@healthyregions on X"
+                alt="@healthyregions on Bluesky"
               />
             </Link>
           </div>
