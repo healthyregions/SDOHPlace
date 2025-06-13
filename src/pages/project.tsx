@@ -121,7 +121,7 @@ const Project: NextPage = () => {
                     The Healthy Regions & Policies Lab also manages the{" "}
                     <Link href={'https://uscovidatlas.org'} target={'_blank'} rel={'noreferrer noopener'}>US Covid Atlas</Link>,{" "}
                     <Link href={'https://chichives.com'} target={'_blank'} rel={'noreferrer noopener'}>ChiVes</Link>: the Chicago Environment Visualization Explorer,
-                    and the <Link href={'https://oeps.healthyregions.org'} target={'_blank'} rel={'noreferrer noopener'}>Opioid Environment Policy Scan</Link> Ecosystem (OEPS). For more details on HeRoP's research on the social and spatial determinants of health, check out their{" "}
+                    and the <Link href={'https://oeps.healthyregions.org'} target={'_blank'} rel={'noreferrer noopener'}>Opioid Environment Policy Scan</Link> Ecosystem (OEPS). For more details on HeRoP&#39;s research on the social and spatial determinants of health, check out their{" "}
                     <Link href={'https://healthyregions.org'} target={'_blank'} rel={'noreferrer noopener'}>Lab</Link> page.
                   </div>
 
