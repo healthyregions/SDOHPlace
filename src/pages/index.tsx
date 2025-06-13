@@ -126,11 +126,16 @@ const FeaturedImage = styled.img`
   position: absolute;
   right: 2rem;
   top: -9rem;
-  width: 20rem;
+  width: 18rem;
   
   @media (max-width: 768px) {
     display: none; /* Hide image on smaller screens */
   }
+`;
+const FeaturedImageMobile = styled.img`
+  position: absolute;
+  top: -15rem;
+  width: 14rem;
 `;
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
@@ -396,10 +401,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
+
+              {/* Mobile-only version of the FeaturedIcon */}
               <Grid item xs={12}
                     sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <img style={{ position: 'absolute', top: '-16rem', width: '16rem' }} src={'images/human_centered_design.svg'}  />
+                <FeaturedImageMobile  src={'images/human_centered_design.svg'}  />
               </Grid>
 
               <Grid item xs={12} lg={9}>
@@ -428,6 +435,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </Grid>
               </Grid>
 
+              {/* Desktop-only version of the FeaturedIcon */}
               <Grid item lg={3} style={{ position: 'relative' }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <FeaturedImage height={100} src={'images/human_centered_design.svg'}  />
