@@ -135,7 +135,7 @@ const Contact: NextPage = () => {
             </Link>
             <Link
               className="mr-10"
-              href="https://x.com/healthyregions"
+              href="https://bsky.app/profile/healthyregions.bsky.social"
               title="@healthyregions on Bluesky"
               target="_blank"
             >
