@@ -45,9 +45,12 @@ import {
   FaBook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
-  FaPlus,
+  FaPlus, FaStar,
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
+
+
+import styled from "@emotion/styled";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -102,6 +105,33 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const FeaturedIcon = () =>
+  <>
+    <svg width="0" height="0">
+      <linearGradient id="featured-icon-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+        <stop stopColor="#7E1CC4" offset="0%" />
+        <stop stopColor="#FF9C77" offset="100%" />
+      </linearGradient>
+    </svg>
+    <FaStar style={{
+      fill: "url(#featured-icon-gradient)",
+      alignSelf: 'center',
+      marginRight: '0.5rem',
+    }} />
+  </>;
+
+const FeaturedImage = styled.img`
+  display: block; /* Show by default */
+  position: absolute;
+  right: 2rem;
+  top: -9rem;
+  width: 20rem;
+  
+  @media (max-width: 768px) {
+    display: none; /* Hide image on smaller screens */
+  }
+`;
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -351,6 +381,51 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </IconButton>
             </Grid>
           </Grid>
+        </div>
+      </div>
+
+      <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
+            <Grid container spacing={0}>
+              <Grid item xs={12}
+                    sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
+                {/* TODO: image w/ absolute position needs to properly support mobile */}
+                <img style={{ position: 'absolute', top: '-16rem', width: '16rem' }} src={'images/human_centered_design.svg'}  />
+              </Grid>
+
+              <Grid item xs={12} lg={9}>
+                {/* "Featured" section header / icon */}
+                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
+                  <FeaturedIcon /> Featured
+                </div>
+
+                {/* Featured content */}
+                {/* TODO: eventually read this info from CMS? title / excerpt */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
+                  This report seeks to illuminate the design process necessary to create accessible, enjoyable,
+                  and empowering data tools for place-based health equity. It also outlines basic principles of
+                  HCD, describing a general four-step process to put design into action, as well as showcasing
+                  best practices to create user-friendly designs in general.
+                </p>
+
+                {/* Actions related to Featured Content */}
+                {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
+                <Grid container spacing={0}>
+                  <Grid item lg={3} xs={12}>
+                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
+                    {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid item lg={3} style={{ position: 'relative' }}>
+                {/* TODO: image w/ absolute position needs to properly support mobile */}
+                <FeaturedImage height={100} src={'images/human_centered_design.svg'}  />
+              </Grid>
+            </Grid>
+          </div>
         </div>
       </div>
 
