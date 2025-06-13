@@ -138,7 +138,7 @@ const Team: NextPage = () => {
               Healthy Regions & Policies (HEROP) Lab
             </a>{" "}in the Department of Geography & GIScience, and by{" "}
             <a href={'http://czhai.cs.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
-              Dr. ChengXiang Zhai's team
+              Dr. ChengXiang Zhai&apos;s team
             </a>{" "}at the Department of Computer Science.
 
             <br />
