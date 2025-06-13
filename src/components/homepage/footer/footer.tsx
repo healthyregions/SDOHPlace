@@ -20,7 +20,11 @@ import theSDOHPlaceProjectFooter from "@/public/logos/the-sdoh-place-project-foo
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
 import {ChevronRight, Feed, MailOutline} from "@mui/icons-material";
-import { FaBluesky, FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa6";
+
+import githubIcon from "@/public/logos/github-purple-icon.svg";
+import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
+import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
+import blueskyIcon from "@/public/logos/bluesky-purple-icon.svg";
 
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -196,7 +200,11 @@ const Footer = (): JSX.Element => {
                 rel="noreferrer"
                 target="_blank"
               >
-                <FaGithub />
+                <Image
+                    priority
+                    src={githubIcon}
+                    alt="Github logo"
+                />
               </a>
               <a
                 href="https://www.linkedin.com/groups/12857797/"
@@ -204,7 +212,11 @@ const Footer = (): JSX.Element => {
                 rel="noreferrer"
                 target="_blank"
               >
-                <FaLinkedin />
+                <Image
+                    priority
+                    src={linkedinIcon}
+                    alt="LinkedIn logo"
+                />
               </a>
               <a
                 href="https://www.facebook.com/HealthyRegions"
@@ -212,7 +224,11 @@ const Footer = (): JSX.Element => {
                 rel="noreferrer"
                 target="_blank"
               >
-                <FaFacebook />
+                <Image
+                    priority
+                    src={facebookIcon}
+                    alt="Facebook logo"
+                />
               </a>
               <a
                 href="https://bsky.app/profile/healthyregions.bsky.social"
@@ -220,7 +236,11 @@ const Footer = (): JSX.Element => {
                 rel="noreferrer"
                 target="_blank"
               >
-                <FaBluesky />
+                <Image
+                    priority
+                    src={blueskyIcon}
+                    alt="BlueSky logo"
+                />
               </a>
             </div>
           </div>
