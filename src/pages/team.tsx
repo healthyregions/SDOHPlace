@@ -17,6 +17,7 @@ import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
 
 import team from "../../meta/team.json";
+import Link from "next/link";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -134,20 +135,20 @@ const Team: NextPage = () => {
           <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Based at the University of Illinois Urbana-Champaign,
             The SDOH & Place Project team is led by Dr. Marynia Kolak’s
-            {" "}<a href={'http://www.healthyregions.org/'} target={'_blank'} rel={'noreferrer noopener'}>
+            {" "}<Link href={'http://www.healthyregions.org/'} target={'_blank'} rel={'noreferrer noopener'}>
               Healthy Regions & Policies (HEROP) Lab
-            </a>{" "}in the Department of Geography & GIScience, and by{" "}
-            <a href={'http://czhai.cs.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
+            </Link>{" "}in the Department of Geography & GIScience, and by{" "}
+            <Link href={'http://czhai.cs.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
               Dr. ChengXiang Zhai&#39;s team
-            </a>{" "}at the Department of Computer Science.
+            </Link>{" "}at the Department of Computer Science.
 
             <br />
             <br />
 
             This project is funded in part by the
-            {" "}<a href={'https://www.rwjf.org/'} target={'_blank'} rel={'noreferrer noopener'}>
+            {" "}<Link href={'https://www.rwjf.org/'} target={'_blank'} rel={'noreferrer noopener'}>
               Robert Wood Johnson Foundation
-            </a>.
+            </Link>.
           </p>
         </div>
         <div className="self-stretch flex mt-0 w-full flex-col max-md:max-w-full">

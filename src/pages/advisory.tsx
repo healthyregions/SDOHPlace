@@ -133,7 +133,7 @@ const Advisory: NextPage = () => {
                 <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   The SDOH & Place Project has an advisory board consisting of
                   experts from public, private, and academic sectors. The
-                  board’s responsibility is to provide methodological guidance,
+                  board&#39;s responsibility is to provide methodological guidance,
                   offer critical and technical insights, and ensure that the
                   SDOH & Place Project aligns with the requirements of communities
                   across the country that are disproportionately affected by

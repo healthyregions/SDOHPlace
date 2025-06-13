@@ -342,9 +342,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
             <Grid container spacing={0} className={'text-xl-rfs'}>
               <Grid item xs={12}>
-                A series of <a className={'no-underline'} href={'https://sdohplace.org/guides'}>research guides</a> walk through the
+                A series of <Link className={'no-underline'} href={'/guides'}>research guides</Link> walk through the
                 measurements of key SDOH concepts. Suggest
-                your own <a className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</a>
+                your own <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
               </Grid>
             </Grid>
           </div>
