@@ -91,15 +91,14 @@ const useStyles = makeStyles({
     //   height: "80%",
     // },
   },
-  // For siebel center for design logo only because it is a large png file, not an svg
-  // Could update this later if the logo is updated to an svg
+  // For siebel center for design logo only
   largeImage: {
-    width: "80%",
-    height: "80%",
+    width: "60%",
+    height: "60%",
     objectFit: "contain",
     "@media (max-width: 959px)": {
-      width: "60%",
-      height: "60%",
+      width: "50%",
+      height: "50%",
     },
   },
 });
@@ -389,10 +388,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="w-full h-auto bg-frenchviolet sm:px-[1rem] md:px-[4rem]">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto flex-column">
-            <div className="my-auto text-white text-left text-3xl-rfs pt-[4rem] font-normal leading-8 max-md:mb-[2rem] max-md:mt-[2rem]">
+            <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
                 Brought to you by
             </div>
-            <Grid container spacing={6} sx={{justifyContent: 'space-between',  alignItems:'center' }}  className="pt-[3rem] pb-[4rem]">
+            <Grid container spacing={6} sx={{justifyContent: 'space-between',  alignItems:'center' }}  className="pb-[4rem]">
               <Grid item xs={12} sm={6} md={2}>
                 <Link
                   href="http://www.healthyregions.org/"
@@ -439,7 +438,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   rel="noreferrer"
                 >
                   <Image
-                    className={`${classes.image}`}
+                    className={`${classes.image} ${classes.largeImage}`}
                     alt="Siebel Center for Design"
                     src={scdLogo}
                   />
