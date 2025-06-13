@@ -3,8 +3,6 @@ import Layout from "@/components/Layout";
 import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
-import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
-import TwitterCardMeta from "@/components/meta/TwitterCardMeta";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
 import config from "../../lib/config";
 import {
