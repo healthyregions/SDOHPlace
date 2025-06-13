@@ -61,7 +61,7 @@ const Project: NextPage = () => {
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  <p style={{ marginBottom: "10px" }}>
+                  <div style={{ marginBottom: "10px" }}>
                     Finding data about the Social Determinants of Health (SDOH) and community
                     context is tough. The data is often scattered, hard to find, and takes time
                     to learn how to use, especially when it involves integrating geospatial data
@@ -76,7 +76,7 @@ const Project: NextPage = () => {
                     and advocacy centered in health equity. This includes resources like:
                     <br />
                     <br />
-                    <ul>
+                    <ul className={"list-disc list-inside ml-4"}>
                       <li>
                         Learning how to make your own dashboard with free GIS tools
                         centered around SDOH, community context, and health equity using the{" "}
@@ -123,7 +123,7 @@ const Project: NextPage = () => {
                     <Link href={'https://chichives.com'} target={'_blank'} rel={'noreferrer noopener'}>ChiVes</Link>: the Chicago Environment Visualization Explorer,
                     and the <Link href={'https://oeps.healthyregions.org'} target={'_blank'} rel={'noreferrer noopener'}>Opioid Environment Policy Scan</Link> Ecosystem (OEPS). For more details on HeRoP's research on the social and spatial determinants of health, check out their{" "}
                     <Link href={'https://healthyregions.org'} target={'_blank'} rel={'noreferrer noopener'}>Lab</Link> page.
-                  </p>
+                  </div>
 
                   <p style={{ marginBottom: "10px" }}>
                     The SDOH & Place Project provides access to spatially
