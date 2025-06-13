@@ -98,6 +98,8 @@ const Project: NextPage = () => {
                         as a method for engaging communities when developing apps.
                       </li>
                     </ul>
+                    <br />
+                    <br />
                     Data offline? You’ll be linked to the{" "}
                     <Link href={'https://uofi.app.box.com/s/fqtslnfkpmgi32pb1cah1eyvmimvp740/folder/304656736187'} target={'_blank'} rel={'noreferrer noopener'}>
                       SDOH Data Refuge
