@@ -396,7 +396,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
               <Grid item xs={12} lg={9}>
                 {/* "Featured" section header / icon */}
-                <div className={'flex flex-row text-[0.9rem]'}>
+                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
                   <FeaturedIcon /> Featured
                 </div>
 
