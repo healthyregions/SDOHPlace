@@ -2,7 +2,6 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Layout from "@/components/Layout";
 import Header from "@/components/meta/Header";
 import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
-import TwitterCardMeta from "@/components/meta/TwitterCardMeta";
 import TagPostList from "@/components/news/TagPostList";
 import config from "@/lib/config";
 import { countPosts, listPostContent, PostContent } from "@/lib/posts";
@@ -24,7 +23,6 @@ export default function Index({ posts, tag, pagination, page }: Props) {
     <Layout>
       <Header url={url} title={title} />
       <OpenGraphMeta url={url} title={title} />
-      <TwitterCardMeta url={url} title={title} />
       <TagPostList posts={posts} tag={tag} pagination={pagination} />
     </Layout>
   );

@@ -17,6 +17,7 @@ import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
 
 import team from "../../meta/team.json";
+import Link from "next/link";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -132,30 +133,24 @@ const Team: NextPage = () => {
             <h1 className="font-fredoka">Core Team</h1>
           </div>
           <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
-            Our team is based out of the University of Illinois at
-            Urbana-Champaign via Dr. Kolak&apos;s{" "}
-            <a
-              className="underline"
-              href="http://www.healthyregions.org/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Healthy Regions & Policies (HEROP) Lab
-            </a>{" "}
-            at the Department of Geography & GIScience, and{" "}
-            <a
-              className="underline"
-              href="http://czhai.cs.illinois.edu/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Dr. Zhai&apos;s
-            </a>{" "}
-            team at the Department of Computer Science.
+            Based at the University of Illinois Urbana-Champaign,
+            the SDOH & Place Project team is led by Dr. Marynia Kolak&#39;s
+            {" "}<Link href={'http://www.healthyregions.org/'} target={'_blank'} rel={'noreferrer noopener'}>
+              Healthy Regions & Policies (HeRoP) Lab
+            </Link>{" "}in the Department of Geography & GIScience, and by{" "}
+            <Link href={'http://czhai.cs.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
+              Dr. ChengXiang Zhai&#39;s team
+            </Link>{" "}at the Department of Computer Science. The project is also made possible through collaboration with the <Link href={'https://www.ncsa.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
+              National Center for Supercomputing Applications (NCSA)
+            </Link>.
+
             <br />
             <br />
-            This project is funded in part by the Robert Wood Johnson
-            Foundation.
+
+            This project is funded in part by the
+            {" "}<Link href={'https://www.rwjf.org/'} target={'_blank'} rel={'noreferrer noopener'}>
+              Robert Wood Johnson Foundation
+            </Link>.
           </p>
         </div>
         <div className="self-stretch flex mt-0 w-full flex-col max-md:max-w-full">

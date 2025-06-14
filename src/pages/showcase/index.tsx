@@ -3,8 +3,6 @@ import Layout from "@/components/Layout";
 import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
-import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
-import TwitterCardMeta from "@/components/meta/TwitterCardMeta";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
 import config from "../../lib/config";
 import {
@@ -33,7 +31,7 @@ export default function Index({ posts, tags, pagination }: Props) {
                 <h1 className="font-fredoka">Fellows Showcase</h1>
                 <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
                     <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                        <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
+                        <div className="flex items-stretch w-[92%] max-md:w-full max-md:ml-0">
                             <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-8"></div>
                             <ShowcaseList posts={posts} pagination={pagination} />
                         </div>
