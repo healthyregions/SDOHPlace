@@ -126,11 +126,16 @@ const FeaturedImage = styled.img`
   position: absolute;
   right: 2rem;
   top: -9rem;
-  width: 20rem;
+  width: 18rem;
   
   @media (max-width: 768px) {
     display: none; /* Hide image on smaller screens */
   }
+`;
+const FeaturedImageMobile = styled.img`
+  position: absolute;
+  top: -15rem;
+  width: 14rem;
 `;
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
@@ -180,8 +185,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "6",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: "", // "Discover more Social Determinants of Health" after the link is ready
-      link: "", // Add link after the link is ready
+      text: "Discover more Social Determinants of Health",
+      link: "https://sdohplace.org/guides",
     },
   ];
 
@@ -269,11 +274,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mb-[14%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-xl font-normal leading-8">
-              A{" "}
-              <span className="text-frenchviolet font-bold">free platform</span>{" "}
-              to discover and practice with place-based data for health equity,
-              connecting the Social Determinants of Health to communities,
-              researchers, policymakers, & health practitioners.
+              Discover and learn to wrangle
+              {" "}<span className="text-frenchviolet font-bold">place-based data for health equity</span>{" "}
+              with design thinking, connecting community-level
+              Social Determinants of Health for high impact
+              research and advocacy
             </p>
           </div>
           <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
@@ -323,7 +328,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
               <Grid item xs={12} lg={7}>
-                Social Determinants of Health & Place Research Guides
+                Social Determinants of Health Research Guides
               </Grid>
               {/* TODO: uncomment these once they have destiations
                 <Grid item xs={12} lg={3} className={'carousel-link-container'}>
@@ -338,6 +343,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     Create a Guide
                   </a>
                 </Grid> */}
+            </Grid>
+
+            <Grid container spacing={0} className={'text-xl-rfs'}>
+              <Grid item xs={12}>
+                A series of <Link className={'no-underline'} href={'/guides'}>research guides</Link> walk through the
+                measurements of key SDOH concepts. Suggest
+                your own <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
+              </Grid>
             </Grid>
           </div>
 
@@ -388,16 +401,18 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
+
+              {/* Mobile-only version of the FeaturedIcon */}
               <Grid item xs={12}
                     sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <img style={{ position: 'absolute', top: '-16rem', width: '16rem' }} src={'images/human_centered_design.svg'}  />
+                <FeaturedImageMobile  src={'images/human_centered_design.svg'}  />
               </Grid>
 
               <Grid item xs={12} lg={9}>
                 {/* "Featured" section header / icon */}
                 <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
-                  <FeaturedIcon /> Featured
+                  <div className={'flex'} style={{ paddingBottom: '3px' }}><FeaturedIcon /></div> Featured
                 </div>
 
                 {/* Featured content */}
@@ -414,12 +429,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <Grid container spacing={0}>
                   <Grid item lg={3} xs={12}>
-                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
+                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
                     {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
                   </Grid>
                 </Grid>
               </Grid>
 
+              {/* Desktop-only version of the FeaturedIcon */}
               <Grid item lg={3} style={{ position: 'relative' }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <FeaturedImage height={100} src={'images/human_centered_design.svg'}  />
@@ -561,9 +577,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Our data discovery platform provides access to spatially
-                  indexed and curated databases, specifically designed for
-                  conducting health equity research.
+                  <p>
+                    Looking for community-level SDOH for your project? Explore the
+                    Data Discovery search tool, with or without an AI assist, to
+                    identify high-quality data across the United States.
+                  </p>
+                  <br/>
+                  <p>
+                    Review data availability across topics, spatial scales
+                    (i.e. census tract vs county), and time periods alongside usage tips.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -598,10 +621,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Enhance your health and equity initiatives with our toolkit.
-                  You will be able to create captivating spatial visualizations
-                  for community engagement using free and user-friendly tools
-                  including open-source GIS tools.
+                  <p>
+                    Learn how to make your own dashboard (ex. story map, asset map,
+                    interactive map or classic dashboard) with open source and/or
+                    free GIS tools using the Community Toolkit.
+                  </p>
+                  <br />
+                  <p>
+                    Get practice with spatial data for health equity initiatives,
+                    and engage human-centered design to build with communities.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
