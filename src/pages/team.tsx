@@ -134,13 +134,15 @@ const Team: NextPage = () => {
           </div>
           <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Based at the University of Illinois Urbana-Champaign,
-            The SDOH & Place Project team is led by Dr. Marynia Kolak’s
+            the SDOH & Place Project team is led by Dr. Marynia Kolak&#39;s
             {" "}<Link href={'http://www.healthyregions.org/'} target={'_blank'} rel={'noreferrer noopener'}>
-              Healthy Regions & Policies (HEROP) Lab
+              Healthy Regions & Policies (HeRoP) Lab
             </Link>{" "}in the Department of Geography & GIScience, and by{" "}
             <Link href={'http://czhai.cs.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
               Dr. ChengXiang Zhai&#39;s team
-            </Link>{" "}at the Department of Computer Science.
+            </Link>{" "}at the Department of Computer Science. The project is also made possible through collaboration with the <Link href={'https://www.ncsa.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
+              National Center for Supercomputing Applications (NCSA)
+            </Link>.
 
             <br />
             <br />

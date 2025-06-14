@@ -429,7 +429,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <Grid container spacing={0}>
                   <Grid item lg={3} xs={12}>
-                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://www.w3docs.com/tools/code-editor/1085'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
+                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
                     {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
                   </Grid>
                 </Grid>

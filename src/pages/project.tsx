@@ -106,7 +106,7 @@ const Project: NextPage = () => {
                     </Link>, a collaborative directory that retains copies of critical federal data.
                     <br />
                     <br />
-                    The SDOH & Place project adopts cutting edge spatial data science to support discovery
+                    The SDOH & Place Project adopts cutting edge spatial data science to support discovery
                     but at its core, the SDOH & Place Project takes a community-driven approach, focusing
                     on real-world impacts and making sure the process of working with this data and making
                     new data applications is open and inclusive. We prioritize collaboration between the

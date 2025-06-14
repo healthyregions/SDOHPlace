@@ -84,9 +84,9 @@ const Contact: NextPage = () => {
                 <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   Please feel free to reach out to us if you need assistance or
                   information regarding the Community Toolkit, Data Discovery Platform,
-                  or The SDOH & Place Project in general. We value your input and welcome
+                  or the SDOH & Place Project in general. We value your input and welcome
                   any comments you may have. Your feedback is essential in helping us
-                  improve and refine The SDOH & Place Project!
+                  improve and refine the SDOH & Place Project!
                 </div>
               </div>
             </div>
