@@ -142,7 +142,7 @@ const Team: NextPage = () => {
             </Link>. Past support comes from{" "}
             <Link href={'http://czhai.cs.illinois.edu/'} target={'_blank'} rel={'noreferrer noopener'}>
               Dr. ChengXiang Zhai&#39;s team
-            </Link>{" "}at the Department of Computer Science.
+            </Link>{" "}in the Department of Computer Science.
 
             <br />
             <br />
