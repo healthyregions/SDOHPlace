@@ -15,11 +15,11 @@ import housingIcon from "@/public/logos/housing-icon.svg";
 import etcIcon from "@/public/logos/etc-icon.svg";
 import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
 import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
-import heropLightLogo from "@/public/logos/herop-light-logo.svg";
-import universityWordmark from "@/public/logos/university-wordmark.svg";
-import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
-import ncsaLogo from "@/public/logos/ncsa-logo.svg";
-import scdLogo from "@/public/logos/scd-logo.png";
+import heropLogo from "@/public/logos/logo-herop.png";
+import rwfjLogo from "@/public/logos/logo-rwjf.png";
+import ncsaLogo from "@/public/logos/logo-ncsa.png";
+import scdLogo from "@/public/logos/logo-siebel.png";
+import uiucLogo from "@/public/logos/logo-uiuc.png";
 import sdohGraphic from "@/public/images/sdohGraphic.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
@@ -50,6 +50,7 @@ import {
 import { Handyman } from "@mui/icons-material";
 
 import featuredData from "../../meta/featured.json";
+
 import styled from "@emotion/styled";
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -77,31 +78,31 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 };
 const useStyles = makeStyles({
   imageContainer: {
-    display: "flex",
+    // display: "flex",
     justifyContent: "center",
-    flexDirection: "row",
+    // flexDirection: "row",
+    width: "100%",
     "@media (max-width: 959px)": {
       marginLeft: "1em",
     },
   },
   image: {
-    width: "100%",
-    height: "100%",
-    objectFit: "contain",
-    "@media (max-width: 959px)": {
-      width: "80%",
-      height: "80%",
-    },
+    // width: "100%",
+    // height: "100%",
+    // objectFit: "contain",
+    // "@media (max-width: 959px)": {
+    //   width: "80%",
+    //   height: "80%",
+    // },
   },
-  // For siebel center for design logo only because it is a large png file, not an svg
-  // Could update this later if the logo is updated to an svg
+  // For siebel center for design logo only
   largeImage: {
-    width: "80%",
-    height: "80%",
+    width: "60%",
+    height: "60%",
     objectFit: "contain",
     "@media (max-width: 959px)": {
-      width: "60%",
-      height: "60%",
+      width: "50%",
+      height: "50%",
     },
   },
 });
@@ -124,13 +125,21 @@ const FeaturedIcon = () =>
 const FeaturedImage = styled.img`
   display: block; /* Show by default */
   position: absolute;
-  right: 5rem;
-  top: -8rem;
+  right: 2rem;
+  top: -9rem;
+  width: 18rem;
   
   @media (max-width: 768px) {
     display: none; /* Hide image on smaller screens */
   }
 `;
+
+const FeaturedImageMobile = styled.img`
+  position: absolute;
+  top: -15rem;
+  width: 14rem;
+`;
+
 
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
@@ -179,8 +188,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "6",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: "", // "Discover more Social Determinants of Health" after the link is ready
-      link: "", // Add link after the link is ready
+      text: "Discover more Social Determinants of Health",
+      link: "https://sdohplace.org/guides",
     },
   ];
 
@@ -268,11 +277,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mb-[14%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-xl font-normal leading-8">
-              A{" "}
-              <span className="text-frenchviolet font-bold">free platform</span>{" "}
-              to discover and practice with place-based data for health equity,
-              connecting the Social Determinants of Health to communities,
-              researchers, policymakers, & health practitioners.
+              Discover and learn to wrangle
+              {" "}<span className="text-frenchviolet font-bold">place-based data for health equity</span>{" "}
+              with design thinking, connecting community-level
+              Social Determinants of Health for high impact
+              research and advocacy
             </p>
           </div>
           <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
@@ -322,7 +331,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
               <Grid item xs={12} lg={7}>
-                Social Determinants of Health & Place Research Guides
+                Social Determinants of Health Research Guides
               </Grid>
               {/* TODO: uncomment these once they have destiations
                 <Grid item xs={12} lg={3} className={'carousel-link-container'}>
@@ -337,6 +346,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     Create a Guide
                   </a>
                 </Grid> */}
+            </Grid>
+
+            <Grid container spacing={0} className={'text-xl-rfs'}>
+              <Grid item xs={12}>
+                A series of <Link className={'no-underline'} href={'/guides'}>research guides</Link> walk through the
+                measurements of key SDOH concepts. Suggest
+                your own <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
+              </Grid>
             </Grid>
           </div>
 
@@ -386,27 +403,35 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            <Grid container spacing={0} className={'max-md:flex-row-reverse'}>
+            <Grid container spacing={0}>
+
+              {/* Mobile-only version of the FeaturedIcon */}
+              <Grid item xs={12}
+                    sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
+                {/* TODO: image w/ absolute position needs to properly support mobile */}
+                <FeaturedImageMobile  src={featuredData?.image}  />
+              </Grid>
+
               <Grid item xs={12} lg={9}>
                 {/* "Featured" section header / icon */}
-                <div className={'flex flex-row text-[0.9rem]'}>
-                  <FeaturedIcon /> Featured
+                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
+                  <div className={'flex'} style={{ paddingBottom: '3px' }}><FeaturedIcon /></div> Featured
                 </div>
 
                 {/* Featured content title */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>
-                  { featuredData?.title || 'Coming Soon' }
+                {/* TODO: support markdown? */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>{
+                  featuredData?.title || 'Coming Soon' }
                 </h3>
 
                 {/* Featured content body */}
-                {/* TODO: support markdown? */}
-                <p className={'mb-8 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
+                <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
                   { featuredData?.body || 'Check back later for exciting new features!' }
                 </p>
 
                 {/* Actions related to Featured Content */}
-                <div className={'text-base'}>
-                  <Grid container spacing={0}>
+                <Grid container spacing={0}>
+                  <Grid item lg={3} xs={12}>
                     {
                       featuredData?.links?.map((link) =>
                         <Grid key={`${link.label}-${link?.url}`} item lg={4} xs={12}>
@@ -415,11 +440,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         </Grid>
                       )
                     }
+                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
+                    {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
                   </Grid>
-                </div>
+                </Grid>
               </Grid>
 
-              <Grid item xs={12} lg={3} style={{ position: 'relative' }}>
+              {/* Desktop-only version of the FeaturedIcon */}
+              <Grid item lg={3} style={{ position: 'relative' }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <FeaturedImage height={100} src={featuredData?.image}  />
               </Grid>
@@ -460,14 +488,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_4fr] text-start">
-          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
-            Brought to you by
-          </div>
-          <div className={classes.imageContainer}>
-            <Grid container spacing={2} className="flex justify-between">
-              <Grid item xs={6} sm={2}>
+      <div className="w-full h-auto bg-frenchviolet sm:px-[1rem] md:px-[4rem]">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto flex-column">
+            <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
+                Brought to you by
+            </div>
+            <Grid container spacing={6} sx={{justifyContent: 'space-between',  alignItems:'center' }}  className="pb-[4rem]">
+              <Grid item xs={12} sm={6} md={2}>
                 <Link
                   href="http://www.healthyregions.org/"
                   target="_blank"
@@ -475,12 +502,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 >
                   <Image
                     alt="Healthy Regions & Policies Lab"
-                    src={heropLightLogo}
+                    src={heropLogo}
                     className={classes.image}
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={12} sm={6} md={2}>
                 <Link
                   href="https://illinois.edu/"
                   target="_blank"
@@ -488,12 +515,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 >
                   <Image
                     alt="University of Illinois"
-                    src={universityWordmark}
+                    src={uiucLogo}
                     className={classes.image}
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={12} sm={6} md={2}>
                 <Link
                   href="https://www.ncsa.illinois.edu/"
                   target="_blank"
@@ -506,8 +533,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </Link>
               </Grid>
-
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={12} sm={6} md={2}>
                 <Link
                   href="https://designcenter.illinois.edu/"
                   target="_blank"
@@ -520,8 +546,20 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   />
                 </Link>
               </Grid>
+              <Grid item xs={12} sm={6} md={2}>
+                <Link
+                    href="https://www.rwjf.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Image
+                    alt="Robert Wood Johnson Foundation"
+                    src={rwfjLogo}
+                    className={classes.image}
+                    />
+                </Link>
+              </Grid>
             </Grid>
-          </div>
         </div>
       </div>
 
@@ -550,9 +588,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Our data discovery platform provides access to spatially
-                  indexed and curated databases, specifically designed for
-                  conducting health equity research.
+                  <p>
+                    Looking for community-level SDOH for your project? Explore the
+                    Data Discovery search tool, with or without an AI assist, to
+                    identify high-quality data across the United States.
+                  </p>
+                  <br/>
+                  <p>
+                    Review data availability across topics, spatial scales
+                    (i.e. census tract vs county), and time periods alongside usage tips.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -587,10 +632,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Enhance your health and equity initiatives with our toolkit.
-                  You will be able to create captivating spatial visualizations
-                  for community engagement using free and user-friendly tools
-                  including open-source GIS tools.
+                  <p>
+                    Learn how to make your own dashboard (ex. story map, asset map,
+                    interactive map or classic dashboard) with open source and/or
+                    free GIS tools using the Community Toolkit.
+                  </p>
+                  <br />
+                  <p>
+                    Get practice with spatial data for health equity initiatives,
+                    and engage human-centered design to build with communities.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -645,7 +696,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             font-size: 18px;
             letter-spacing: 0.5px;
             line-height: 24px;
-            
+
             svg {
               margin-right: 0.5rem;
               vertical-align: middle;
@@ -656,7 +707,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             align-self: center;
             margin-left: auto;
             margin-right: auto;
-            
+
             svg {
               color: #FF9C77;
               background: #FFE5C4;
