@@ -431,18 +431,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 {/* Actions related to Featured Content */}
                 <Grid container spacing={0}>
-                  <Grid item lg={3} xs={12}>
-                    {
-                      featuredData?.links?.map((link) =>
-                        <Grid key={`${link.label}-${link?.url}`} item lg={4} xs={12}>
-                          {link?.bold && <strong className={'mr-12'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
-                          {!link?.bold && <a className={'no-underline mr-12'} href={link?.url}>{link?.label}</a>}
-                        </Grid>
-                      )
-                    }
-                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
-                    {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
-                  </Grid>
+                  {
+                    featuredData?.links?.map((link) =>
+                      <Grid key={`${link.label}-${link?.url}`} item lg={3} xs={12}>
+                        {link?.bold && <strong className={'mr-12 text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                        {!link?.bold && <a className={'no-underline mr-12 text-base'} href={link?.url}>{link?.label}</a>}
+                      </Grid>
+                    )
+                  }
                 </Grid>
               </Grid>
 
