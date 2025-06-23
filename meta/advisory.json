@@ -2,6 +2,14 @@
   "advisory": [
     {
       "status": "current",
+      "image": "/images/dr.-abel-kho.jpg",
+      "name": "Abel Kho",
+      "affiliation": "Northwestern University",
+      "desc_long": "Dr. Abel Kho received his MD from the Medical College of Wisconsin and completed a residency and Chief residency in Internal Medicine at the University of Wisconsin, Madison. He completed a NLM/NIH fellowship in Medical Informatics at the Regenstrief Institute before joining the faculty at Northwestern University. Abel is Professor of Medicine and Preventive Medicine in the Feinberg School of Medicine at Northwestern University and Founding Director of the Center for Health Information Partnerships (CHIP https://www.feinberg.northwestern.edu/sites/chip/) and the Institute for Augmented Intelligence in Medicine (IAIM https://www.feinberg.northwestern.edu/sites/augmented-intelligence/). \n\nHe has served as PI for several regional or national projects including the ONC funded Chicago Health IT Regional Extension Center (www.chitrec.org), the PCORI funded Chicago Area Patient Centered Outcomes Research Network (http://capricorncdrn.org/), and the AHRQ funded Health Hearts in the Heartland consortium (http://www.healthyheartsintheheartland.org/) within the EvidenceNOW initiative. His research focuses on developing regional Electronic Health Record (EHR) enabled data sharing platforms for a range of health applications including high throughput phenotyping, cohort discovery, estimating population level disease burden, and quality improvement.",
+      "desc_short": "Dr. Abel Kho is a Professor of Medicine and Preventive Medicine in the Feinberg School of Medicine at Northwestern University and Founding Director of the Center for Health Information..."
+    },
+    {
+      "status": "current",
       "image": "/images/image-6-9-25-at-5.10-pm.jpg",
       "name": "David Haynes",
       "affiliation": "University of Minnesota, Twin Cities",
