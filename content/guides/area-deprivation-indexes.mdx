@@ -1,0 +1,214 @@
+---
+title: Area Deprivation Indexes
+featured_image: /images/adi-title-1-.png
+last_updated: May 19, 2025 8:22 AM
+author: Andy Kampfschulte
+---
+## 1. Introduction
+
+Area Deprivation Indexes (ADIs) are analytical tools designed to quantify socioeconomic disadvantage at various geographic scales. This provides policymakers, researchers, and healthcare providers with a standardized metric to identify neighborhoods for targeted interventions. While poverty metrics typically focus on income thresholds, deprivation encompasses a broader spectrum of disadvantage, integrating factors such as education, employment, housing quality, and community infrastructure (Kind and Buckingham 2018). This multidimensional approach aligns with Townsend’s conceptualization of deprivation as a systemic lack of resources necessary for full societal participation (Townsend 1987).
+
+ADIs take this theoretical construct of deprivation to construct a meaningful measurement of multi-dimensional poverty by synthesizing census-derived indicators into composite scores. Creating these indexes is important to attempt any objective comparative analyses across geographic regions. However, the challenge ADIs face is accurately measuring what is regarded as an abstract and flexible term; how we characterize deprivation cannot easily be reduced to a single question on a survey, nor does it necessarily hold the same meaning in different geographic areas. This research guide explores the theoretical foundations, methodological procedure, and practical applications of ADIs, equipping researchers and policy developers to deploy these tools effectively.
+
+Deprivation indices emerged from the recognition that economic disadvantage cannot be fully captured by income alone. These were first pioneered in the United Kingdom in the early 1980s with the Carstairs and Townsend Indexes, which were composite scores of four census variables related to socioeconomic status (Jarman, Townsend, and Carstairs 1991). In 1998, Smith et al explored individual disease risk factors and mortality and their relationship to area-level socioeconomic indicators, coining the term *Area-Level Deprivation* (Smith et al. 1998)*.* In 2003, Singh et al created a U.S.-based Area Deprivation Index based on 17 variables from the U.S. Census (Singh 2003). ADIs avoid conflating individual-level poverty with area-level deprivation. For example, a high-ADI neighborhood may include both low-income renters and middle-income homeowners facing substandard infrastructure, reflecting systemic underinvestment rather than individual financial status.
+
+## 2. Methods/Development
+
+Creating an ADI involves using statistical techniques, Principal Components Analysis (PCA) or Factor Analysis (FA), to combine socioeconomic variables into a single measure of disadvantage (Messer et al. 2006). PCA is the most common, as it simplifies the data by identifying patterns of shared variance among variables, creating composite scores (components) that prioritize the most influential factors (Kind and Buckingham 2018; Singh 2003). For example, variables such as low income and poor education might cluster into a "deprivation component" weighted by their contribution to overall variance. PCA treats all variance as meaningful, making it efficient for summarizing data but potentially overemphasizing variables with larger scales. This is why it is important that all variables are first standardized (i.e. transformed to have a mean of 0, and a standard deviation of 1) (Hannan et al. 2023).
+
+Factor Analysis (FA), by contrast, models variables as reflections of hidden, or "latent," factors (e.g., economic hardship or limited infrastructure access). FA separates shared variance (explained by the latent factor) from unique variances (e.g., measurement error), allowing researchers to isolate the underlying causes of deprivation. For instance, FA might reveal that unemployment and low education levels both stem from a latent "economic deprivation" factor (Trendafilov, Unkel, and Krzanowski 2013). 
+
+Regardless of the method, validating the results by testing how well the index correlates with real-world outcomes, ensures that the score accurately reflects deprivation (Spielman et al. 2020). PCA offers simplicity and data compression, while FA provides a nuanced view of structural drivers, making them complementary tools in ADI development.
+
+<br/>
+
+
+<details>
+<summary>Variable Selection</summary>
+
+Because deprivation can be viewed as a form of multidimensional poverty, variables included in deprivation indexes typically include items that go beyond strict economic poverty and into aspects of the built environment. Typical dimensions usually include:
+
+* **Economic Poverty**
+
+  * Examples: Median Household Income, Weekly Income, Percent Living Below the Poverty Line
+* **Educational Attainment**
+
+  * Examples: Percent of Population with a High-School Degree, Percent of Population of School-Age
+* **Employment**
+
+  * Examples: Percent of Population of Working Age, Percent of Population Unemployed, Percent of Population Unemployed in the Past 6 Months
+* **Crime**
+
+  * Examples: Incidence of Violent Crime, and Theft
+* **Housing**
+
+  * Examples: Median Age of Structure, Number of Occupants, Rate of Homeownership
+* **Health**
+
+  * Examples: Access to Healthcare, Percent of Population Insured
+
+
+Ultimately, the variables selected for an ADI are likely derived from population-level statistics. Researchers will have to be able to make do with the data that are available to derive the best index for their area and context. Table 1 provides an overview of popular deprivation indexes, the variables that compromise, and their data sources.
+</details>
+
+
+<details>
+<summary>Geographic Scales</summary>
+
+As with any spatially heterogeneous measurement, choosing the appropriate geographic scale is paramount for having a meaningful interpretation. Given that most deprivation indexes rely on information collected by the Census Bureau or similar government organizations, these indexes almost always aggregated to an administrative areal unit (i.e., Zip-code tabulation area, County, Tract, etc.). 
+
+The choice of geographic scale is a critical consideration when using a deprivation index, as it can significantly affect the interpretation and application of the results. This importance stems from several key factors:
+
+**Modifiable Areal Unit Problem (MAUP)**
+
+The Modifiable Areal Unit Problem is a fundamental issue in spatial analysis that can affect an ADI. MAUP refers to the fact that statistical results can vary depending on the scale and zoning system used to aggregate data (Dark and Bram 2007; Swift, Liu, and Uber 2014). For example, researchers using the Neighborhood Atlas found that higher ADI values where strongly associated with 30-day readmission rates when analyzed using small Census Block-Group geographic units, but found this relationship absent when using larger geographic units (Buckingham et al. 2024). This variation can lead to differing conclusions about the spatial distribution of deprivation and its relationship with other variables of interest.
+
+<br/>
+
+**Granularity vs. Stability**
+
+Smaller geographic units, such as census block groups, offer greater granularity and can capture more localized variations in deprivation. This fine-grained approach can be particularly useful for identifying pockets of high deprivation within larger areas that may appear less deprived on average. However, there is a wealth of evidence illustrating the instability of small area estimates such as Census Block-Groups (Spielman and Folch 2015; Spielman, Folch, and Nagle 2014). This is a consequence of, when sampling from ever more granular geographic units, the sample sizes become smaller; smaller sample sizes lead to larger uncertainty and statistical instability (Rao 2005). Conversely, larger geographic units like counties provide more stable estimates but may mask important within-area variations. For instance, a county-level deprivation index might obscure significant disparities between urban and rural areas within the same county.
+
+<br/>
+
+**Relevance to Policy and Intervention**
+
+The choice of geographic scale can have practical implications for policy-making and intervention strategies (Harvey 1974). Deprivation indexes calculated at different scales may lead to different resource allocation decisions, and may ignore economic or political relationships between areas (Rickard 2020). For example, in Block group or census tract level data might be more appropriate for targeting neighborhood-level interventions, such as improving local infrastructure or establishing community health centers.
+
+<br/>
+
+**Measurement Stability**
+
+The validity and reliability of Deprivation Indexes are strongly influenced by the stability of the underlying surveys used in their construction. When using census data in any capacity, it is important to understand that measurement stability - the consistency and precision of an estimate from a population-level survey - can drastically impact results and lead to erroneous composite scores (Baffour, King, Valente 2013). For example, in the United States, the long-form Census was discontinued in 2010 and replaced with the American Community Survey (ACS). While the ACS provides more timely responses as it’s collected on a yearly rolling-basis, it samples a much smaller proportion of the population creating large margins of error (Speilman, Folch and Nagle 2014). In addition to this, the questions and classifications employed by a census change over time, making temporal comparisons difficult (Strmic-Pawl, Jackson, Gardner 2017). It is important to understand how the census data are collected, aggregated, and weighted in order to responsibly use them for inference.
+<br/>
+
+<br/>
+In conclusion, the selection of an appropriate geographic scale for deprivation indexes requires careful consideration of the research question, data availability, statistical stability, and intended applications. Researchers should be transparent about their choice of scale and consider sensitivity analyses to assess how their results might change at different geographic levels. Understanding these scale-dependent effects is crucial for the responsible use and interpretation of deprivation indexes in research and policy-making.
+</details>
+
+<div class="decorative-image">
+![](/images/adi-body.png)
+</div>
+
+## 3. The Neighborhood Atlas
+
+The Neighborhood Atlas is a user-friendly publicly available ADI developed by researchers at the University of Wisconsin School of Medicine and Public Health. The Atlas uses the framework established by Singh et al, which incorporates 17 measures across four domains: income, education, employment, and housing quality (Singh 2003). This data is updated using current American Community Survey at the block-group level, offering a detailed view of neighborhood-level socioeconomic factors that may impact overall health outcomes (Kind and Buckingham 2018).
+
+<div style={{padding: "1em 1.5em", display:"flex", flexDirection:"column", borderRadius:"1em", backgroundColor:"#ffe5c4"}}>
+  <h4 style={{marginTop:0, marginBottom:".5em"}}>Alert!</h4>
+  <div style={{display:"flex"}}>
+  
+   </div>
+    <p style={{marginLeft:"2em", marginTop:"0"}}>
+
+Block-level measures may not be stable at all census tracts (see articles on uncertainty in ACS measurement). Note when measures are more certain/stable, and when to be careful when using block-level measure.
+
+</p></div>
+
+In public health research and policy, the Neighborhood Atlas has become a popular resource (Powell, Sheehy, and Kind 2023). It enables researchers, policymakers, and healthcare providers an easy to access tool to study the built environment’s impact on health and disease, develop targeted health policies, and better align resources to address health disparities. The tool is currently being utilized by the Centers for Medicare and Medicaid Services to inform local operations and targeting strategies for programs like Everyone with Diabetes Counts (Balintfy 2018). In addition, the Neighborhood Atlas is being employed in the Accountable Care Organization Realizing Equity, Access and Community Health (ACO REACH) model, which aims to help Medicare beneficiaries from under-resourced communities access healthcare more effectively (CMS 2022). 
+
+While popular among policy researchers, the Neighborhood Atlas has recently been scrutinized for the methods it uses in its development. As mentioned earlier, these indexes are commonly developed using PCA, which aims to explain the most variation between a set of variables. However, *this method is highly dependent on the scale of the variables being used*; variables that are measured in the hundreds-of-thousands being used alongside variables that are less than 2 can highly bias the procedure towards the variable with the highest variance. Peterson 2023 found that, because the Neighborhood Atlas does not standardize the Median Housing Price, effectively making the index skewed toward housing price at the cost of neglecting other measures. This underscores the importance of robust and transparent methodology when creating an index.
+
+## 4. Best Practices
+
+Using ADIs responsibly requires careful attention to conceptual clarity, methodological rigor, and geographic specificity. Here we provide three steps for best practices: operationalizing deprivation through multidimensional frameworks, maintaining transparency in analytical decisions, and accounting for spatial scale variations. These considerations will help ensure ADIs can complement your research by accurately capturing socioeconomic complexity. 
+
+<br/>
+
+
+<details>
+<summary>Defining Deprivation Appropriately</summary>
+
+At its most basic, an ADI is an agglomeration of various variables trying to measure an abstract construct that we refer to as *deprivation*. Because we cannot directly measure this, establishing robust and standardized definitions of deprivation is of the utmost importance. No single ADI can completely capture every aspect of deprivation in every area (Hinnant et al. 2022), so it is incumbent upon researchers to clearly articulate the meaning of deprivation in their research context. For instance, a 2024 analysis of 365 research articles that incorporated ADIs found that 76% of all studies that used ADIs categorized the index value with no coherent or justified standard (Balio et al. 2024). Furthermore, a 2022 scoping review found wide discrepancies in the variables that comprise different indexes, and researchers often did not justify their decision on using them in their analysis (Trinidad et al. 2022). For example, using an ADI that incorporates car ownership may be an effective indicator in suburban areas, but not in dense metropolitan areas with robust public transit. These decisions risk oversimplifying communities, blurring their context, and potentially eliminates any nuance in comparing deprivation between regions.
+</details>
+
+
+<details>
+<summary>Transparency of Methods</summary>
+
+Methodological opacity in ADI applications undermines reproducibility and cross-study comparisons, particularly regarding data selection and analytical choices. Methods transparency and reproducibility issues can be prevalent in research, and ADIs are no exception (Malički et al. 2023). For example, the Neighborhood Atlas has been criticized for a lack of transparency in its methodology (Petterson 2023; Rehkopf and Phillips 2023). Any alteration or creating of an ADI should be thoroughly and transparently validated (Gordon 1995).
+</details>
+
+
+<details>
+<summary>Geographic Considerations</summary>
+
+ADIs aim to capture multidimensional poverty at the neighborhood level. However, as noted in Arcaya et al, the term *neighborhood* is often not clearly defined, and the spatial considerations are often overlooked in research (Arcaya et al. 2016). Researchers should elaborate and justify their choice of geographic units as it pertains to their research context. For example, the Neighborhood Atlas publishes ADI rankings at the state and national level, and there is an appropriate use case for either scale that should be elaborated upon. A review of ADI research papers found that 7% of studies failed to clearly define what geographic scale was used (Balio et al. 2024). To that end, when comparing ADIs across regions, it is important to acknowledge differences in what deprivation means. 
+
+These examples highlight the need for ADI research that balances methodological precision with contextual relevance. By anchoring deprivation definitions in theoretical frameworks, maintaining open scientific practices, and respecting geographic heterogeneity, researchers can effectively use ADI's as a tool for health equity while mitigating risks of oversimplification.
+</details>
+
+## 5. Limitations
+
+ADIs are powerful tools for concisely synthesizing myriad built-environment variables into a single value. However, with this approach comes problems. 
+
+<br/>
+
+
+<details>
+<summary>Ecological Fallacy</summary>
+
+Researchers must be cautious about the ecological fallacy, which involves making inferences about individuals based on aggregate data (Openshaw 1984). The risk of ecological fallacy increases with larger geographic units. For example, assuming that all residents of a county classified as highly deprived by a county-level ADI experience the same level of deprivation would be an ecological fallacy, as there can be significant variation within the county. For getting a more granular estimate of deprivation, researchers should look toward individually collect screening tools, such as the PRAPARE tool (Weir et al. 2020).
+</details>
+
+
+<details>
+<summary>Geographic Consistency </summary>
+
+Because ADIs are a measurement of multidimensional poverty, they should in fact be measuring multidimensional poverty. However, when we take a geographic approach to ADIs, we can quickly realize that deprivation may have different meanings in different places. In a country as large and diverse as the United States, for example, while all of the variables that go into a standard ADI like the Neighborhood Atlas would be relevant throughout the country, it would be naïve to assume that the variable *weightings* (i.e. the importance of each variable in determining the deprivation score) would be consistent throughout the country. Living below the poverty threshold may look quite different when residing in a rural area than living in the inner city. In fact, there is debate as to whether ADIs can fully contextualize deprivation in rural areas entirely (Balio et al. 2024; Fecht et al. 2018; McCartney and Hoggett 2023).
+</details>
+
+
+<details>
+<summary>Multicollinearity</summary>
+
+A critical methodological limitation of many ADIs leads us back to the methodology of PCA and Factor Analysis; When input variables are highly correlated/conceptually similar, this can lead to redundancy and overweighting of certain dimensions. Kolnak et al (2020) illustrated how different combinations of variables yield different results (in different places) of SDoH indexes. Remember, if PCA is used to generate a singular value for a multidimensional, abstract idea; then regardless of the thoughtful consideration of the variables we use will undoubtedly have an interaction with geography that is difficult to predict. This can have negative downstream effects on policy.
+</details>
+
+
+<details>
+<summary>Deficit-Based Paradigm</summary>
+
+One last limitation to consider is the fundamental paradigm on which deprivation indices operate. By focusing on what communities lack (i.e. a deficit-based paradigm) rather than inherent strengths and advantages, this approach risks portraying disadvantaged communities solely through their problems. This potentially reductive assessment can reinforce negative stereotypes and disempower the very populations these tools aim to help. Asset-based approaches, in contrast, identify and mobilize existing community strengths, capabilities, and resources that can promote health and well-being. However, implementing asset-based approaches is complex and requires a significant amount of community engagement (Cassetti et al 2020). These approaches are not without their criticisms, either, and as Freidli (2013) states that “*its fatal weakness has been the failure to question the balance of power between public services, communities and corporate interests.*”
+</details>
+
+<br/>
+
+## Works Cited
+
+* Arcaya, Mariana C., Reginald D. Tucker-Seeley, Rockli Kim, Alina Schnake-Mahl, Marvin So, and S. V. Subramanian. 2016. “Research on Neighborhood Effects on Health in the United States: A Systematic Review of Study Characteristics.” *Social Science & Medicine* 168:16–29. doi: 10.1016/j.socscimed.2016.08.047.
+* Baffour, B., King, T. and Valente, P., 2013. The modern census: evolution, examples and evaluation. *International Statistical Review*, *81*(3), pp.407-425.
+* Balintfy, Joe. 2018. “NIH-Funded Scientists Put Socioeconomic Data on the Map.” *National Institute on Aging*. Retrieved February 17, 2025 (https://www.nia.nih.gov/news/nih-funded-scientists-put-socioeconomic-data-map).
+* Balio, Casey P., Nicole Galler, Stephanie Mathis, Margaret M. Francisco, Chyanne Morrison, Michael B. Meit, Robert Pack, and Kate E. Beatty. 2024. *Use of the Area Deprivation Index and Rural Applications in the Peer-Reviewed Literature*. *Policy Brief*. Rural Health Equity Research Center.
+* Buckingham, William R., W. Ryan Powell, Sarah Anne Keller, Kelia J. Hansmann, and Amy J. H. Kind. 2024. “Bigger Isn’t Better: Why Small Area Geographies Are Best for Actionable Index Development.” *Papers in Applied Geography* 10(2):89–95. doi: 10.1080/23754931.2024.2312192.
+* Cassetti, Viola, Katie Powell, Amy Barnes, and Tom Sanders. "A systematic scoping review of asset-based approaches to promote health in communities: development of a framework." *Global health promotion* 27, no. 3 (2020): 15-23.
+* CMS. 2022. “Accountable Care Organization (ACO) Realizing Equity, Access, and Community Health (REACH) Model.” Retrieved February 17, 2025 (https://www.cms.gov/newsroom/fact-sheets/accountable-care-organization-aco-realizing-equity-access-and-community-health-reach-model).
+* Dark, Shawna J., and Danielle Bram. 2007. “The Modifiable Areal Unit Problem (MAUP) in Physical Geography.” *Progress in Physical Geography: Earth and Environment* 31(5):471–79. doi: 10.1177/0309133307083294.
+* Fecht, D., A. Jones, T. Hill, T. Lindfield, R. Thomson, A. L. Hansell, and R. Shukla. 2018. “Inequalities in Rural Communities: Adapting National Deprivation Indices for Rural Settings.” *Journal of Public Health* 40(2):419–25. doi: 10.1093/pubmed/fdx048.
+* Friedli, Lynne. "‘What we’ve tried, hasn’t worked’: the politics of assets based public health." *Critical public health* 23, no. 2 (2013): 131-145.
+* Gordon, D. 1995. “Census Based Deprivation Indices: Their Weighting and Validation.” *Journal of Epidemiology & Community Health* 49(Suppl 2):S39–44. doi: 10.1136/jech.49.Suppl_2.S39.
+* Hannan, Edward L., Yifeng Wu, Kimberly Cozzens, and Brett Anderson. 2023. “The Neighborhood Atlas Area Deprivation Index For Measuring Socioeconomic Status: An Overemphasis On Home Value.” *Health Affairs* 42(5):702–9. doi: 10.1377/hlthaff.2022.01406.
+* Harvey, David. 1974. “What Kind of Geography for What Kind of Public Policy?” *Transactions of the Institute of British Geographers* (63):18–24. doi: 10.2307/621527.
+* Hinnant, Laurie, Sara Hairgrove, Heather Kane, Jason Williams, and Jessica Duncan Cance. 2022. *Social Determinants of Health: A Review of Publicly Available Indices*. RTI Press. doi: 10.3768/rtipress.2022.op.0081.2212.
+* Jarman, B., P. Townsend, and V. Carstairs. 1991. “Deprivation Indices.” *BMJ : British Medical Journal* 303(6801):523.
+* Kolak, Marynia, Jay Bhatt, Yoon Hong Park, Norma A. Padrón, and Ayrin Molefe. "Quantification of neighborhood-level social determinants of health in the continental United States." *JAMA network open* 3, no. 1 (2020): e1919928-e1919928.
+* Kind, Amy J. H., and William R. Buckingham. 2018. “Making Neighborhood-Disadvantage Metrics Accessible — The Neighborhood Atlas.” *The New England Journal of Medicine* 378(26):2456–58. doi: 10.1056/NEJMp1802313.
+* Malički, Mario, IJsbrand Jan Aalbersberg, Lex Bouter, Adrian Mulligan, and Gerben ter Riet. 2023. “Transparency in Conducting and Reporting Research: A Survey of Authors, Reviewers, and Editors across Scholarly Disciplines.” *PLOS ONE* 18(3):e0270054. doi: 10.1371/journal.pone.0270054.
+* McCartney, G., and R. Hoggett. 2023. “How Well Does the Scottish Index of Multiple Deprivation Identify Income and Employment Deprived Individuals across the Urban-Rural Spectrum and between Local Authorities?” *Public Health* 217:26–32. doi: 10.1016/j.puhe.2023.01.009.
+* Messer, Lynne C., Barbara A. Laraia, Jay S. Kaufman, Janet Eyster, Claudia Holzman, Jennifer Culhane, Irma Elo, Jessica G. Burke, and Patricia O’Campo. 2006. “The Development of a Standardized Neighborhood Deprivation Index.” *Journal of Urban Health* 83(6):1041–62. doi: 10.1007/s11524-006-9094-x.
+* Petterson, Stephen. 2023. “Deciphering the Neighborhood Atlas Area Deprivation Index: The Consequences of Not Standardizing.” *Health Affairs Scholar* 1(5):qxad063. doi: 10.1093/haschl/qxad063.
+* Powell, W. Ryan, Ann M. Sheehy, and Amy J. H. Kind. 2023. “The Area Deprivation Index Is The Most Scientifically Validated Social Exposome Tool Available For Policies Advancing Health Equity.” *Health Affairs*. doi: 10.1377/forefront.20230714.676093.
+* Rao, J. N. K. 2005. *Small Area Estimation*. John Wiley & Sons.
+* Rehkopf, David H., and Robert L. Phillips. 2023. “The Neighborhood Atlas Area Deprivation Index And Recommendations For Area-Based Deprivation Measures: Perspective Offers Recommendations for Improving Area-Based Deprivation Measures.” *Health Affairs* 42(5):710–11. doi: 10.1377/hlthaff.2023.00282.
+* Rickard, Stephanie J. 2020. “Economic Geography, Politics, and Policy.” *Annual Review of Political Science* 23(Volume 23, 2020):187–202. doi: 10.1146/annurev-polisci-050718-033649.
+* Singh, Gopal K. 2003. “Area Deprivation and Widening Inequalities in US Mortality, 1969–1998.” *American Journal of Public Health* 93(7):1137–43. doi: 10.2105/AJPH.93.7.1137.
+* Smith, G. D., C. Hart, G. Watt, D. Hole, and V. Hawthorne. 1998. “Individual Social Class, Area-Based Deprivation, Cardiovascular Disease Risk Factors, and Mortality: The Renfrew and Paisley Study.” *Journal of Epidemiology & Community Health* 52(6):399–405. doi: 10.1136/jech.52.6.399.
+* Spielman, Seth E., and David C. Folch. 2015. “Reducing Uncertainty in the American Community Survey through Data-Driven Regionalization” edited by A. R. Hernandez Montoya. *PLOS ONE* 10(2):e0115626. doi: 10.1371/journal.pone.0115626.
+* Spielman, Seth E., David Folch, and Nicholas Nagle. 2014. “Patterns and Causes of Uncertainty in the American Community Survey.” *Applied Geography* 46:147–57. doi: 10.1016/j.apgeog.2013.11.002.
+* Spielman, Seth E., Joseph Tuccillo, David C. Folch, Amy Schweikert, Rebecca Davies, Nathan Wood, and Eric Tate. 2020. “Evaluating Social Vulnerability Indicators: Criteria and Their Application to the Social Vulnerability Index.” *Natural Hazards* 100(1):417–36. doi: 10.1007/s11069-019-03820-z.
+* Strmic-Pawl, H.V., Jackson, B.A. and Garner, S., 2018. Race counts: racial and ethnic data on the US Census and the implications for tracking inequality. *Sociology of Race and Ethnicity*, *4*(1), pp.1-13.
+* Swift, Andrew, Lin Liu, and James Uber. 2014. “MAUP Sensitivity Analysis of Ecological Bias in Health Studies.” *GeoJournal* 79(2):137–53. doi: 10.1007/s10708-013-9504-z.
+* Townsend, Peter. 1987. “Deprivation.” *Journal of Social Policy* 16(2):125–46. doi: 10.1017/S0047279400020341.
+* Trendafilov, Nickolay T., Steffen Unkel, and Wojtek Krzanowski. 2013. “Exploratory Factor and Principal Component Analyses: Some New Aspects.” *Statistics and Computing* 23(2):209–20. doi: 10.1007/s11222-011-9303-7.
+* Trinidad, Stephen, Cole Brokamp, Andres Mor Huertas, Andrew F. Beck, Carley L. Riley, Erika Rasnick, Richard Falcone, and Meera Kotagal. 2022. “Use Of Area-Based Socioeconomic Deprivation Indices: A Scoping Review And Qualitative Analysis.” *Health Affairs* 41(12):1804–11. doi: 10.1377/hlthaff.2022.00482.
+* Weir, Rosy Chang, Michelle Proser, Michelle Jester, Vivian Li, Carlyn M. Hood-Ronick, and Deborah Gurewich. 2020. “Collecting Social Determinants of Health Data in the Clinical Setting: Findings from National PRAPARE Implementation.” *Journal of Health Care for the Poor and Underserved* 31(2):1018–35.
