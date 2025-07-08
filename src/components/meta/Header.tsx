@@ -27,7 +27,6 @@ export default function Header({
         content={description ? description : config.site_description}
       />
       <OpenGraphMeta url={''} />
-      <script>console.log("hello world")</script>
       <meta
         name="keywords"
         content={
