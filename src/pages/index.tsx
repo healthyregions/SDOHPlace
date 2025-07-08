@@ -417,7 +417,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 {/* Featured content */}
                 {/* TODO: eventually read this info from CMS? title / excerpt */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                <div className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</div>
                 <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
                   This report seeks to illuminate the design process necessary to create accessible, enjoyable,
                   and empowering data tools for place-based health equity. It also outlines basic principles of

@@ -26,7 +26,6 @@ export default function Header({
         name="description"
         content={description ? description : config.site_description}
       />
-      <OpenGraphMeta url={''} />
       <meta
         name="keywords"
         content={
