@@ -1,5 +1,6 @@
 import Head from "next/head";
 import config from "@/lib/config";
+import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
 
 type Props = {
   title?: string;
@@ -25,6 +26,8 @@ export default function Header({
         name="description"
         content={description ? description : config.site_description}
       />
+      <OpenGraphMeta url={''} />
+      <script>console.log("hello world")</script>
       <meta
         name="keywords"
         content={
