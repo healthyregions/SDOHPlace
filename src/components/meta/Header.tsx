@@ -1,5 +1,6 @@
 import Head from "next/head";
 import config from "@/lib/config";
+import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
 
 type Props = {
   title?: string;
