@@ -215,8 +215,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const classes = useStyles();
   return (
     <>
+      <meta name="title" property="og:title" content="Social Determinants of Health" />
+      <meta name="type" property="og:type" content="website" />
+      <meta name="image" property="og:image" content="/logos/place-project-logo-hero.svg" />
+      <meta name="url" property="og:url" content={window.origin} />
+      <meta name="url" property="og:description" content="SDOH & Place project from Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
+      <meta name="author" property="og:author" content="Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign">
+
       <Header />
-      <OpenGraphMeta url={''} />
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
         <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
