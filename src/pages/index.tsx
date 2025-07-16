@@ -51,6 +51,7 @@ import { Handyman } from "@mui/icons-material";
 
 
 import styled from "@emotion/styled";
+import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -215,6 +216,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   return (
     <>
       <Header />
+      <OpenGraphMeta url={''} />
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
         <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
