@@ -52,6 +52,7 @@ import { Handyman } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
 import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
+import Head from "next/head";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -215,11 +216,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const classes = useStyles();
   return (
     <>
-      <meta name="title" property="og:title" content="Social Determinants of Health" />
-      <meta name="type" property="og:type" content="website" />
-      <meta name="image" property="og:image" content="/logos/place-project-logo-hero.svg" />
-      <meta name="description" property="og:description" content="SDOH & Place project from Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
-      <meta name="author" property="og:author" content="Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
+      <Head>
+        <meta name="title" property="og:title" content="Social Determinants of Health" />
+        <meta name="type" property="og:type" content="website" />
+        <meta name="image" property="og:image" content="/logos/place-project-logo-hero.svg" />
+        <meta name="description" property="og:description" content="SDOH & Place project from Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
+        <meta name="author" property="og:author" content="Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
+      </Head>
 
       <Header />
       <NavBar />
