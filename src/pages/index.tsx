@@ -216,10 +216,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const classes = useStyles();
   return (
     <>
+      {/* TODO: Abstract to new component? */}
       <Head>
         <meta name="title" property="og:title" content="Social Determinants of Health" />
-        <meta name="type" property="og:type" content="website" />
-        <meta name="image" property="og:image" content="/logos/place-project-logo-hero.svg" />
+        <meta property="og:type" content="Website" />
+        <meta name="image" property="og:image" content="logos/place-project-logo-hero.svg" />
         <meta name="description" property="og:description" content="SDOH & Place project from Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
         <meta name="author" property="og:author" content="Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
       </Head>
