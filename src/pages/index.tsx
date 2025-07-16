@@ -51,6 +51,8 @@ import { Handyman } from "@mui/icons-material";
 
 
 import styled from "@emotion/styled";
+import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
+import Head from "next/head";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -214,6 +216,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const classes = useStyles();
   return (
     <>
+      {/* TODO: Abstract to new component? */}
+      <Head>
+        <meta name="title" property="og:title" content="Social Determinants of Health" />
+        <meta property="og:type" content="Website" />
+        <meta name="image" property="og:image" content="logos/place-project-logo-hero.svg" />
+        <meta name="description" property="og:description" content="SDOH & Place project from Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
+        <meta name="author" property="og:author" content="Healthy Regions & Policies Lab at University of Illinois, Urbana-Champaign" />
+      </Head>
+
       <Header />
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
@@ -417,7 +428,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 {/* Featured content */}
                 {/* TODO: eventually read this info from CMS? title / excerpt */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                <div className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</div>
                 <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
                   This report seeks to illuminate the design process necessary to create accessible, enjoyable,
                   and empowering data tools for place-based health equity. It also outlines basic principles of
