@@ -15,7 +15,7 @@ export default function ResearchItem({ item }: Props) {
           </div>
           <div style={{ paddingLeft: "2rem" }}>
             <h2>{item.title}</h2>
-            <p>{item.description}</p>
+            <p>{item.body}</p>
           </div>
         </div>
         <style jsx>

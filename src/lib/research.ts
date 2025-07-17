@@ -8,7 +8,7 @@ const researchDirectory = path.join(process.cwd(), "content/research");
 export type ResearchContent = {
   readonly publish_date: string;
   readonly title: string;
-  readonly description: string;
+  //readonly description: string;
   readonly slug: string;
   readonly image: string;
   readonly media: string;
@@ -36,11 +36,19 @@ export function fetchResearchContent(): ResearchContent[] {
           yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
         },
       });
-      return {
-        ...matterResult.data as ResearchContent,
-        description: matterResult.data.body,
-        slug: fileName.replace(/\.mdx$/, "")
+      const matterData = matterResult.data as {
+        publish_date: string;
+        title: string;
+        //description: string;
+        body: string;
+        image: string;
+        media: string;
+        slug: string;
       };
+      //matterData.description = matterData.body;
+      matterData.slug = fileName.replace(/\.mdx$/, "");
+
+      return matterData;
     });
   // Sort posts by date
   researchCache = allResearchData.sort((a, b) => {
