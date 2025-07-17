@@ -44,19 +44,18 @@ export default function Research({
   body = "",
   source,
 }: Props) {
-  const guide_props = {
-    title,
-    description,
-    publish_date: new Date(publish_date),
-    slug,
-    image,
-    media,
-    body,
-    children: <MDXRemote {...source} components={components} />,
-  };
   return (
     <>
-      <Layout type={"research"} guide_props={research_props}></Layout>
+      <Layout type={"research"} research_props={{
+        title,
+        description,
+        publish_date: new Date(publish_date),
+        slug,
+        image,
+        media,
+        body,
+        children: <MDXRemote {...source} components={components} />,
+      }}></Layout>
     </>
   );
 }
