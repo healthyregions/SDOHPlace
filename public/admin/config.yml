@@ -424,8 +424,8 @@ collections:
         media_library:
           allow_multiple: true
           choose_url: true
-      - label: "Featured Image"
-        name: "featured_image"
+      - label: "Image"
+        name: "image"
         widget: "image"
         choose_url: true
         default: "/images/default.jpg"
@@ -440,6 +440,7 @@ collections:
       - label: DOI
         name: "doi"
         widget: string
+        required: false
       - label: "Description"
         name: "body"
         widget: "markdown"
