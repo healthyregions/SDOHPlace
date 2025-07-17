@@ -139,7 +139,7 @@ const HeaderRow = (props: Props): JSX.Element => {
         >
         <div className={`flex w-full p-0 ${classes.introCard}`}>
           <div
-            className={`flex ${classes.wide}  flex-11 sm:justify-between sm:items-center sm:px-[1em] sm:py-[0.5em] sm:my-[1.5em]`}
+            className={`flex-1 sm:px-[1em] sm:py-[0.5em] sm:my-[1.5em]`}
             style={{
               fontFamily: `${fullConfig.theme.fontFamily["sans"]} !important`,
               backgroundColor: fullConfig.theme.colors["lightbisque"],
@@ -162,13 +162,18 @@ const HeaderRow = (props: Props): JSX.Element => {
                 </IconButton>
                 <p style={{ marginLeft: "2em" }}>Share link:</p>
               </div>
-              <div className="flex font-bold sm:flex-start sm:items-center sm:mb-[0.5em] sm:ml-[3.4em]">
-                <p>{window.location.href}</p>
+              <div className="font-bold sm:flex-start sm:mb-[0.5em] sm:ml-[3.4em] sm:pr-[2em]">
+                <p style={{ 
+                  wordBreak: "break-all",
+                  overflowWrap: "break-word",
+                  whiteSpace: "normal",
+                  lineHeight: "1.4"
+                }}>{window.location.href}</p>
               </div>
             </div>
           </div>
           <div
-            className="flex items-center justify-center sm:p-[1.5em] sm:my-[1.5em]"
+            className="flex items-center justify-center sm:p-[1.5em] sm:my-[1.5em] flex-shrink-0"
             style={{
               background: fullConfig.theme.colors["strongbisque"],
               borderRadius: "0 0.5em 0.5em 0",
