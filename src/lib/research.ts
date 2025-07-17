@@ -13,6 +13,7 @@ export type ResearchContent = {
   readonly image: string;
   readonly media: string;
   readonly body: string;
+  readonly fullPath: string;
 };
 
 let researchCache: ResearchContent[];
@@ -44,7 +45,9 @@ export function fetchResearchContent(): ResearchContent[] {
         image: string;
         media: string;
         slug: string;
+        fullPath: string;
       };
+      matterData.fullPath = fullPath;
       //matterData.description = matterData.body;
       matterData.slug = fileName.replace(/\.mdx$/, "");
 
