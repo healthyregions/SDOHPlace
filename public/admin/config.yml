@@ -422,8 +422,10 @@ collections:
         widget: "file"
         required: true
         media_library:
-          allow_multiple: true
           choose_url: true
+          allow_multiple: true
+          config:
+            multiple: true
       - label: "Image"
         name: "image"
         widget: "image"

@@ -3,6 +3,7 @@ import styles from "@/public/styles/posts.module.css";
 import Author from "../news/Author";
 import Copyright from "../news/Copyright";
 import DateComponent from "../news//Date";
+import {Grid} from "@mui/material";
 
 export type ResearchLayoutProps = {
   title: string;
@@ -10,7 +11,7 @@ export type ResearchLayoutProps = {
   publish_date: Date;
   slug: string;
   image: string;
-  media: string;
+  media: string[];
   body: any;
   children: React.ReactNode;
 };
@@ -33,25 +34,33 @@ export default function ResearchLayout({
           }
         >
           {/*<div className={"backlink"}>
-            <Link href="/guides" className={"no-underline"}>
-              &larr; Back to all guides
+            <Link href="/research" className={"no-underline"}>
+              &larr; Back to all research
             </Link>
           </div>*/}
           <header>
-            <h1 className={"guide-header"}>{title}</h1>
-            <div className={"metadata"}>
-              <div>
-                <DateComponent date={publish_date} />
-              </div>
-              <div>
-                {/*<Author author={authorObject} />*/}
-              </div>
-            </div>
-            <div>
-              <img src={image} alt={"image"} />
-            </div>
+
+            <Grid container spacing={0}>
+              <Grid item xs>
+                <h1 className={"guide-header"}>{title}</h1>
+                <DateComponent className={"metadata"} date={publish_date} />
+                <div className={styles.content}>{children}</div>
+              </Grid>
+              <Grid item xs={4}>
+                <img src={`/${image}`} alt={"image"} />
+              </Grid>
+            </Grid>
+
+            {media?.map(() => {
+
+            })}
+            <Grid container spacing={0}>
+              <Grid item xs={12}>
+
+              </Grid>
+            </Grid>
           </header>
-          <div className={styles.content}>{children}</div>
+
         </article>
         <footer>
           <Copyright />

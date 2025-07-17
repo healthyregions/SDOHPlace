@@ -11,7 +11,7 @@ export type ResearchContent = {
   //readonly description: string;
   readonly slug: string;
   readonly image: string;
-  readonly media: string;
+  readonly media: string[];
   readonly body: string;
   readonly fullPath: string;
 };
@@ -43,7 +43,7 @@ export function fetchResearchContent(): ResearchContent[] {
         //description: string;
         body: string;
         image: string;
-        media: string;
+        media: string[];
         slug: string;
         fullPath: string;
       };
