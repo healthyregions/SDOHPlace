@@ -2,28 +2,25 @@ import { GetStaticProps } from "next";
 import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
-import GuidesList from "@/components/guides/GuidesList";
+import ResearchList from "@/components/research/ResearchList";
 import config from "@/lib/config";
 import {
-  countGuides,
-  listGuidesContent,
-  GuidesContent
-} from "@/lib/guides";
-import { listTags, TagContent } from "@/lib/tags";
-import Link from "next/link";
+  countResearch,
+  listResearchContent,
+  ResearchContent
+} from "@/lib/research";
 
 type Props = {
-  guides: GuidesContent[];
-  tags: TagContent[];
+  research: ResearchContent[];
   pagination: {
     current: number;
     pages: number;
   };
 };
-export default function Index({ guides, tags, pagination }: Props) {
+export default function Index({ research, pagination }: Props) {
   return (
     <>
-    <Header url="/guides" title="SDOH Guides" />
+    <Header url="/research" title="SDOH Research Outputs" />
     <NavBar />
     <TopLines />
     <div className="flex flex-col pt-12">
@@ -34,18 +31,16 @@ export default function Index({ guides, tags, pagination }: Props) {
                     <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                         <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-16">
                           <p>
-                            While there exists a long and complex history studying the role of place, social context, and the built environment within health, current and common frameworks of the “social determinants of health” (SDOH) tend to be simplistic in application. The SDOH & Place Project works to build a community of practice around the definition & use of community-level SDOH data. To support these efforts, our SDOH Guides help focus and refine best practices and approaches in measuring distinct SDOH indicators or structural drivers of health at community or regional scales.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                           </p>
-                          <br />
                           <p>
-                            The guides are written by new and emerging scholars across the fields of SDOH research, including geography, social science, and public health. Each one takes a view on some SDOH topic, breaking down the jargon to clarify understanding and provide direct recommendations. The research guides will continue to be updated according to research directions that unfold.
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                           </p>
-                          <br />
                           <p>
-                            You can suggest your own guide <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
-                          </p>
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                           </p>
                         </div>
-                        <GuidesList guides={guides} pagination={pagination} />
+                        <ResearchList research={research} pagination={pagination} />
                     </div>
                 </div>
             </div>
@@ -56,16 +51,14 @@ export default function Index({ guides, tags, pagination }: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const guides = listGuidesContent( 1, config.posts_per_page);
-  const tags = listTags();
+  const research = listResearchContent( 1, config.posts_per_page);
   const pagination = {
     current: 1,
-    pages: Math.ceil(countGuides() / config.posts_per_page),
+    pages: Math.ceil(countResearch() / config.posts_per_page),
   };
   return {
     props: {
-      guides,
-      tags,
+      research,
       pagination,
     },
   };
