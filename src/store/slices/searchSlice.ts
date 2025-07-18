@@ -69,10 +69,11 @@ export const performChatGptSearch = createAsyncThunk(
       filterQueries: Array<any>;
       schema: any;
     },
-    { dispatch }
+    { dispatch, getState }
   ) => {
     try {
-      const searchService = new SearchService(schema);
+      const state = getState() as RootState;
+      const searchService = new SearchService(schema, state.search.enableLocalFallback);
       const result = await searchService.performChatGptSearch(question, filterQueries);
       if (result.analysis?.thoughts) {
         dispatch(setThoughts(result.analysis.thoughts));
@@ -413,12 +414,25 @@ const searchSlice = createSlice({
     updateRelatedResults: (state, action) => {
       state.relatedResults = Array.isArray(action.payload) ? [...action.payload] : [];
     },
+    setError: (state, action) => {
+      state.hasError = true;
+      state.errorMessage = action.payload.message || "An error occurred";
+      state.errorType = action.payload.type || "server";
+    },
+    clearError: (state) => {
+      state.hasError = false;
+      state.errorMessage = "";
+      state.errorType = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSearchAndRelatedResults.pending, (state, action) => {
         state.isSearching = true;
         state.currentRequestId = action.meta.requestId;
+        state.hasError = false;
+        state.errorMessage = "";
+        state.errorType = null;
       })
       .addCase(fetchSearchAndRelatedResults.fulfilled, (state, action) => {
         if (state.currentRequestId === action.meta.requestId) {
@@ -436,6 +450,17 @@ const searchSlice = createSlice({
       .addCase(fetchSearchAndRelatedResults.rejected, (state, action) => {
         if (state.currentRequestId === action.meta.requestId) {
           state.isSearching = false;
+          state.hasError = true;
+          state.errorMessage = action.error.message || "Search failed";
+          if (action.error.message?.includes("ChatGPT search failed") || 
+              action.error.message?.includes("Failed to get search strategy")) {
+            state.errorType = "server";
+          } else if (action.error.message?.includes("Network")) {
+            state.errorType = "network";
+          } else {
+            state.errorType = "server";
+          }
+          
           state.results = [];
           state.relatedResults = [];
         }
@@ -545,6 +570,8 @@ export const {
   setIsSearching,
   setInitializing,
   updateRelatedResults,
+  setError,
+  clearError,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -58,17 +58,24 @@ export const getBaseUrl = (): string => {
 
 export const fetchChatGptAnalysis = async (question: string): Promise<any> => {
   const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/.netlify/edge-functions/chat-search`, {
+  const response = await fetch(`${baseUrl}/cha-search`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question }),
   });
+  const responseData = await response.json();
   
   if (!response.ok) {
-    throw new Error(`Failed to get search strategy: ${response.status}`);
+    if (responseData.error) {
+      throw new Error(`ChatGPT search failed: ${responseData.error} - ${responseData.details || 'Please try using keyword search instead'}`);
+    } else {
+      throw new Error(`Failed to get search strategy: ${response.status} - The AI search service is temporarily unavailable. Please try keyword search instead.`);
+    }
   }
-  
-  return await response.json();
+  if (responseData.error) {
+    throw new Error(`ChatGPT search failed: ${responseData.error} - ${responseData.details || 'Please try using keyword search instead'}`);
+  }
+  return responseData;
 };
 
 export const executeQueries = async (

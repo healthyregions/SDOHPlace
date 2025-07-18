@@ -3,7 +3,7 @@ command = "npm run build"
 publish = "out"
 
 [[edge_functions]]
-pattern = "/.netlify/edge-functions/chat-search"
+pattern = "/chat-search"
 function = "chat-search"
 
 [[edge_functions]]
