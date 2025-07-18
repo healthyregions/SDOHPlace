@@ -125,6 +125,7 @@ const NavBar = (): JSX.Element => {
     { title: "Data Discovery", url: "/search" },
     { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
     { title: "SDOH Guides", url: "/guides" },
+    { title: "Research Outputs", url: "/research" },
   ];
 
   const communityItems = [
