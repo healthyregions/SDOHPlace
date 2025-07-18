@@ -444,7 +444,7 @@ collections:
         widget: string
         required: false
       - label: "Description"
-        name: "body"
+        name: "description"
         widget: "markdown"
 
   - name: "research-rabbit"

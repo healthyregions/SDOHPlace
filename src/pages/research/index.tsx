@@ -18,6 +18,7 @@ type Props = {
   };
 };
 export default function Index({ research, pagination }: Props) {
+  console.log("Listed:", research);
   return (
     <>
     <Header url="/research" title="SDOH Research Outputs" />

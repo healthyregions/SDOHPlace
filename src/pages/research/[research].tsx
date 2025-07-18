@@ -82,9 +82,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       title: data.title,
-      //description: data.description,
       publish_date: data.publish_date,
       slug,
+      //description: data.description,
       //body: data.body,
       image: data.image,
       media: data.media,

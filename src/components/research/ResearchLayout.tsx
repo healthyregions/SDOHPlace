@@ -51,14 +51,14 @@ export default function ResearchLayout({
               </Grid>
             </Grid>
 
-            {media?.map(() => {
-
-            })}
             <Grid container spacing={0}>
-              <Grid item xs={12}>
-
-              </Grid>
+              {media?.map((url) =>
+                <Grid item xs={12} key={`url:${url}`}>
+                  <a href={url} target={"_blank"} rel={'noreferrer noopener'}></a>
+                </Grid>
+              )}
             </Grid>
+
           </header>
 
         </article>

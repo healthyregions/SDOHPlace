@@ -8,11 +8,10 @@ const researchDirectory = path.join(process.cwd(), "content/research");
 export type ResearchContent = {
   readonly publish_date: string;
   readonly title: string;
-  //readonly description: string;
+  readonly description: string;
   readonly slug: string;
   readonly image: string;
   readonly media: string[];
-  readonly body: string;
   readonly fullPath: string;
 };
 
@@ -37,18 +36,18 @@ export function fetchResearchContent(): ResearchContent[] {
           yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
         },
       });
+      console.log("Matter Result:", matterResult);
       const matterData = matterResult.data as {
         publish_date: string;
         title: string;
-        //description: string;
-        body: string;
+        description: string;
         image: string;
         media: string[];
         slug: string;
         fullPath: string;
       };
       matterData.fullPath = fullPath;
-      //matterData.description = matterData.body;
+      matterData.description = matterResult.content;
       matterData.slug = fileName.replace(/\.mdx$/, "");
 
       return matterData;
