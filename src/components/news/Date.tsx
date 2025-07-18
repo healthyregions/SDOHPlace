@@ -2,6 +2,7 @@ import { format, formatISO } from "date-fns";
 
 type Props = {
   date: Date;
+  className: string;
 };
 export default function Date({ className, date }: Props) {
   return (
