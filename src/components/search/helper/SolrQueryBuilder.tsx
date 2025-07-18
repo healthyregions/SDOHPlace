@@ -2,7 +2,6 @@ import { initSolrObject } from "meta/helper/solrObjects";
 import { SolrObject } from "meta/interface/SolrObject";
 import { findSolrAttribute } from "meta/helper/util";
 import SRMatch from "../../search/helper/SpatialResolutionMatch.json";
-import { adaptiveScoreFilter, scoreConfig } from "./FilterByScore";
 import { parseSolrQuery } from "./ParsingMethods";
 
 const requestCache = new Map();
@@ -103,12 +102,12 @@ export default class SolrQueryBuilder {
           try {
             const jsonResponse = JSON.parse(text);
             let responseData;
-            
+
             if (jsonResponse && jsonResponse["suggest"]) {
               responseData = jsonResponse;
             } else {
               const result = this.getSearchResult(jsonResponse);
-              
+
               if (!result || result.length === 0) {
                 const spellcheck =
                   jsonResponse["spellcheck"]?.suggestions[1]?.suggestion;
@@ -126,19 +125,22 @@ export default class SolrQueryBuilder {
             }
             requestCache.set(currentUrl, {
               data: responseData,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             });
             const subscribers = pendingRequests.get(currentUrl) || [];
-            subscribers.forEach(sub => sub.resolve(JSON.parse(JSON.stringify(responseData))));
+            subscribers.forEach((sub) =>
+              sub.resolve(JSON.parse(JSON.stringify(responseData)))
+            );
             pendingRequests.delete(currentUrl);
-            
           } catch (error) {
             console.error("Response parsing error:", error);
             const subscribers = pendingRequests.get(currentUrl) || [];
             if (text.startsWith("<!DOCTYPE") || text.startsWith("<html")) {
-              subscribers.forEach(sub => sub.resolve({ results: [] }));
+              subscribers.forEach((sub) => sub.resolve({ results: [] }));
             } else {
-              subscribers.forEach(sub => sub.reject(new Error("Invalid response format")));
+              subscribers.forEach((sub) =>
+                sub.reject(new Error("Invalid response format"))
+              );
             }
             pendingRequests.delete(currentUrl);
           }
@@ -150,7 +152,7 @@ export default class SolrQueryBuilder {
             url: currentUrl,
           });
           const subscribers = pendingRequests.get(currentUrl) || [];
-          subscribers.forEach(sub => sub.reject(error));
+          subscribers.forEach((sub) => sub.reject(error));
           pendingRequests.delete(currentUrl);
         });
     });
