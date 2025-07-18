@@ -1,10 +1,6 @@
 import { format, formatISO } from "date-fns";
 
-type Props = {
-  date: Date;
-  className: string;
-};
-export default function Date({ className, date }: Props) {
+export default function Date({ className, date }) {
   return (
     <time dateTime={formatISO(date)} className={className}>
       <span>{format(date, "LLLL d, yyyy")}</span>
