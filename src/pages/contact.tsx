@@ -12,7 +12,7 @@ import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
 import blueskyIcon from "@/public/logos/bluesky-purple-icon.svg";
 
 import TopLines from "@/components/TopLines";
-import Header from "@/components/meta/Header";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/homepage/footer";
 
@@ -72,7 +72,7 @@ const Contact: NextPage = () => {
   })(TextField);
   return (
     <>
-      <Header title={"Contact"} />
+      <BasicPageMeta title={"Contact"} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">

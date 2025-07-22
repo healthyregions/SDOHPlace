@@ -3,6 +3,8 @@ import styles from "@/public/styles/posts.module.css";
 import Author from "../news/Author";
 import Copyright from "../news/Copyright";
 import DateComponent from "../news//Date";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
+import ArticleMeta from "@/components/meta/ArticleMeta";
 
 export type GuideLayoutProps = {
   title: string;
@@ -25,6 +27,15 @@ export default function GuidesLayout({
   const authorObject = { name: author, slug: null, introduction: null };
   return (
     <>
+        <BasicPageMeta
+            title={title}
+          />
+        <ArticleMeta
+            title={title}
+            date={last_updated}
+            author={author}
+            image={featured_image}
+            />
       <div className={styles.container}>
         <article
           className={

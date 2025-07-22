@@ -5,9 +5,8 @@ import Author from "./Author";
 import Copyright from "./Copyright";
 import Date from "./Date";
 import Layout from "../Layout";
-import Header from "../meta/Header";
-import JsonLdMeta from "@/components/meta/JsonLdMeta";
-import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
+import ArticleMeta from "@/components/meta/ArticleMeta";
 import TagButton from "./TagButton";
 import { getAuthor } from "../../lib/authors";
 import { getTag } from "../../lib/tags";
@@ -21,6 +20,7 @@ export type PostLayoutProps = {
   tags: string[];
   author: string;
   description?: string;
+  thumbnail?: string;
   children: React.ReactNode;
 };
 export default function PostLayout({
@@ -30,31 +30,26 @@ export default function PostLayout({
   author,
   tags,
   description = "",
+  thumbnail,
   children,
 }: PostLayoutProps) {
   const keywords = tags ? tags.map((it) => getTag(it).name) : [];
   const authorName = getAuthor(author).name;
   return (
     <>
-      <Header
-        url={`/news/${slug}`}
+      <BasicPageMeta
         title={title}
         keywords={keywords}
         description={description}
       />
-      <OpenGraphMeta
-        url={`/news/${slug}`}
-        title={title}
-        description={description}
-      />
-      <JsonLdMeta
-        url={`/news/${slug}`}
+      <ArticleMeta
         title={title}
         keywords={keywords}
         date={date}
         author={authorName}
         description={description}
-      />
+        image={thumbnail}
+        />
       <div className={styles.container}>
         <article
           className={
