@@ -23,7 +23,7 @@ export default function BasicPageMeta({
   const u = config.base_url + usePathname();
   const a = author ? author : "Healthy Regions & Policies Lab, University of Illinois, Urbana-Champaign";
   const i = image ? config.base_url + image : config.base_url + mainLogo.src
-  const k = keywords ? keywords : config.site_keywords
+  const k = keywords ? keywords : config.site_keywords.map(i => i.keyword)
 
   return (
     <Head>

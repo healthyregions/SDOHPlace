@@ -28,7 +28,7 @@ export default function ArticleMeta({
     const u = config.base_url + usePathname();
     const a = author ? author : "Healthy Regions & Policies Lab, University of Illinois, Urbana-Champaign";
     const i = image ? config.base_url + image : config.base_url + mainLogo.src
-    const k = keywords ? keywords : config.site_keywords
+    const k = keywords ? keywords : config.site_keywords.map(i => i.keyword)
   return (
     <Head>
         <title>{t}</title>
@@ -46,7 +46,7 @@ export default function ArticleMeta({
         <meta property="og:type" content="article" />
         {date && <meta property="article:published_time" content={formatISO(date)} />}
         {k.map((i) => (
-            <meta key={i.keyword} property="article:tag" content={i.keyword} />
+            <meta key={i} property="article:tag" content={i} />
         ))}
         <script
             {...jsonLdScriptProps<Article>({
