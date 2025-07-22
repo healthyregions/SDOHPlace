@@ -4,14 +4,10 @@ import styles from "@/public/styles/posts.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
 import Date from "./Date";
-import Layout from "../Layout";
-import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import ArticleMeta from "@/components/meta/ArticleMeta";
 import TagButton from "./TagButton";
 import { getAuthor } from "../../lib/authors";
 import { getTag } from "../../lib/tags";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import Footer from "../homepage/footer";
 
 export type PostLayoutProps = {
   title: string;
@@ -37,11 +33,6 @@ export default function PostLayout({
   const authorName = getAuthor(author).name;
   return (
     <>
-      <BasicPageMeta
-        title={title}
-        keywords={keywords}
-        description={description}
-      />
       <ArticleMeta
         title={title}
         keywords={keywords}

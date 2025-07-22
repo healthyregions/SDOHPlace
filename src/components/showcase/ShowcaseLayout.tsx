@@ -5,7 +5,6 @@ import styles from "@/public/styles/posts.module.css";
 import Copyright from "../news/Copyright";
 import { getFellow } from "../../lib/people";
 import { getTag } from "../../lib/tags";
-import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import ArticleMeta from "@/components/meta/ArticleMeta";
 
 export type ShowcaseLayoutProps = {
@@ -36,9 +35,6 @@ export default function ShowcaseLayout({
   const fellow = getFellow(fellowName);
   return (
     <>
-        <BasicPageMeta
-            title={title}
-            />
         <ArticleMeta
             title={title}
             image={image}

@@ -28,7 +28,8 @@ export default function BasicPageMeta({
   return (
     <Head>
         <title>{t}</title>
-        <meta name="description" content={d} />
+        <meta name="description" property="og:description" content={d} />
+        <meta name="image" property="og:image" content={i} />
         <meta
             name="keywords"
             content={k.join(",")}
@@ -38,8 +39,7 @@ export default function BasicPageMeta({
 
         <meta property="og:url" content={u} />
         <meta property="og:title" content={t} />
-        <meta property="og:description" content={d} />
-        <meta property="og:image" content={i} />
+        <meta property="og:type" content="website" />
     </Head>
   );
 }
