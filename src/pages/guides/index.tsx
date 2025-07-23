@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import Header from "@/components/meta/Header";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import GuidesList from "@/components/guides/GuidesList";
@@ -23,7 +23,7 @@ type Props = {
 export default function Index({ guides, tags, pagination }: Props) {
   return (
     <>
-    <Header url="/guides" title="SDOH Guides" />
+    <BasicPageMeta title="SDOH Guides" />
     <NavBar />
     <TopLines />
     <div className="flex flex-col pt-12">

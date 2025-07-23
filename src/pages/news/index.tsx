@@ -1,7 +1,6 @@
 import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
-import Header from "@/components/meta/Header";
-import OpenGraphMeta from "@/components/meta/OpenGraphMeta";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import PostList from "@/components/news/PostList";
 import config from "../../lib/config";
 import { countPosts, listPostContent, PostContent } from "../../lib/posts";
@@ -16,12 +15,10 @@ type Props = {
   };
 };
 export default function Index({ posts, tags, pagination }: Props) {
-  const url = "/news";
   const title = "All posts";
   return (
     <Layout page_header={"Project News"}>
-      <Header url={url} title={title} />
-      <OpenGraphMeta url={url} title={title} />
+      <BasicPageMeta title={title} />
       <PostList posts={posts} tags={tags} pagination={pagination} />
     </Layout>
   );

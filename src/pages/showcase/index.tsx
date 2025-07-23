@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
-import Header from "@/components/meta/Header";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
@@ -23,7 +23,7 @@ type Props = {
 export default function Index({ posts, tags, pagination }: Props) {
   return (
     <>
-        <Header url="/showcase" title="Showcase" />
+        <BasicPageMeta title="Showcase" />
         <NavBar />
         <TopLines />
         <div className="flex flex-col pt-12">
