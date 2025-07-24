@@ -14,6 +14,14 @@ export interface SearchState {
   usedSpellCheck: boolean;
   thoughts: string;
 
+  // error handling
+  hasError: boolean;
+  errorMessage: string;
+  errorType: 'server' | 'network' | 'parsing' | null;
+  
+  // local fallback configuration
+  enableLocalFallback: boolean;
+
   // sort
   sort: {
     sortBy: string;
@@ -49,6 +57,12 @@ export const initialState: SearchState = {
   results: [],
   relatedResults: [],
   suggestions: [],
+  // error handling
+  hasError: false,
+  errorMessage: "",
+  errorType: null,
+  // local fallback configuration
+  enableLocalFallback: true,
   // sort
   sort: {
     sortBy: "score",
