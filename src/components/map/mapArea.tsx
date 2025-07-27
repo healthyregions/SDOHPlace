@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { LngLatBoundsLike } from "react-map-gl/maplibre";
+import { LngLatBoundsLike } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { SolrObject } from "meta/interface/SolrObject";
 import dynamic from "next/dynamic";
