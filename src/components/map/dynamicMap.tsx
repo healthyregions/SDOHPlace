@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setBbox } from "@/store/slices/searchSlice";
+import { clearMapPreview, setGeosearchSelection } from "@/store/slices/uiSlice";
+import { AppDispatch, RootState } from "@/store";
 import maplibregl, {
     LngLatBoundsLike,
     FilterSpecification,
@@ -11,20 +14,17 @@ import maplibregl, {
     ScaleControl,
 } from "maplibre-gl";
 import { Protocol } from "pmtiles";
-import { AppDispatch, RootState } from "@/store";
-import { setBbox } from "@/store/slices/searchSlice";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { overlayRegistry, makePreviewLyrs, previewSources } from "./helper/layers";
-
-import "@maptiler/geocoding-control/style.css";
 
 import * as turf from "@turf/turf";
 
 import { GeocodingControl } from "@maptiler/geocoding-control/maplibregl";
-import { clearMapPreview, setGeosearchSelection } from "@/store/slices/uiSlice";
+import "@maptiler/geocoding-control/style.css";
+
 import {EventType} from "@/lib/event";
 import {usePlausible} from "next-plausible";
-import { debounce } from "@mui/material";
+
+import { overlayRegistry, makePreviewLyrs, previewSources } from "./helper/layers";
 
 const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -41,9 +41,9 @@ export default function DynamicMap(props: Props): JSX.Element {
   const [popupInfo, setPopupInfo] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  const mapContainer = useRef(null)
-  const map2 = useRef(null)
-  const gc2 = useRef(null)
+  const mapDivRef = useRef(null)
+  const mapRef = useRef(null)
+  const gcRef = useRef(null)
 
   // create ability to load pmtiles layers
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   })
 
   const setBboxOnMoveEnd = useCallback( () => {
-      const bounds = map2.current.getBounds();
+      const bounds = mapRef.current.getBounds();
       const newBbox: [number, number, number, number] = [
         Math.round(bounds._sw.lng * 1000) / 1000,
         Math.round(bounds._sw.lat * 1000) / 1000,
@@ -74,7 +74,7 @@ export default function DynamicMap(props: Props): JSX.Element {
 
   useEffect(() => {
     if (!mapLoaded) return;
-    const map = map2.current;
+    const map = mapRef.current;
     map.getStyle().layers.map((lyr) => {
       if (lyr.id.startsWith("herop-")) {
         map.removeLayer(lyr.id);
@@ -161,7 +161,7 @@ export default function DynamicMap(props: Props): JSX.Element {
 
   useEffect(() => {
     if (!mapLoaded) return;
-    const map = map2.current;
+    const map = mapRef.current;
     const mapLyrIds = map.getStyle().layers.map((lyr) => lyr.id);
 
     visOverlays.forEach((lyr) => {
@@ -223,20 +223,20 @@ export default function DynamicMap(props: Props): JSX.Element {
   }, [visOverlays, mapLoaded]);
 
   useEffect(() => {
-    if (!map2.current) return;
+    if (!mapRef.current) return;
     if (!popup) {
         const popupInstance = new Popup({
             closeButton: false,
             className: 'text-base'
         });
-        popupInstance.addTo(map2.current);
+        popupInstance.addTo(mapRef.current);
         setPopup(popupInstance);
         return
     }
     if (popupInfo) {
         popup.setLngLat([popupInfo.longitude, popupInfo.latitude])
             .setHTML(popupInfo.content);
-        popup.addTo(map2.current);
+        popup.addTo(mapRef.current);
     } else {
         popup.remove();
     }
@@ -245,7 +245,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   const handleGeoSearchSelection = useCallback(
     (e) => {
       dispatch(clearMapPreview());
-      const highlightSource = map2.current.getSource(
+      const highlightSource = mapRef.current.getSource(
         "geoSearchHighlight"
       ) as GeoJSONSource;
       if (
@@ -274,10 +274,10 @@ export default function DynamicMap(props: Props): JSX.Element {
       }
       if (e.feature) {
         dispatch(setGeosearchSelection(e.feature.text_en));
-        map2.current.on("moveend", setBboxOnMoveEnd);
+        mapRef.current.on("moveend", setBboxOnMoveEnd);
       } else {
         dispatch(setGeosearchSelection(null));
-        map2.current.off("moveend", setBboxOnMoveEnd);
+        mapRef.current.off("moveend", setBboxOnMoveEnd);
         dispatch(setBbox(null));
       };
 
@@ -294,18 +294,18 @@ export default function DynamicMap(props: Props): JSX.Element {
 
    const addOverlaySources = useCallback(() => {
         for (const [key, data] of Object.entries(overlayRegistry)) {
-            map2.current.addSource(data.source.id, overlayRegistry[key].source.spec);
+            mapRef.current.addSource(data.source.id, overlayRegistry[key].source.spec);
         }
    }, []);
 
    const addPreviewSources = useCallback(() => {
         previewSources.map((src) => {
-            map2.current.addSource(src.id, src.spec);
+            mapRef.current.addSource(src.id, src.spec);
         })
    }, []);
 
    const initializeGeocodeControl = useCallback(() => {
-        const map = map2.current;
+        const map = mapRef.current;
         const gc = new GeocodingControl({
             apiKey: apiKey,
             country: "us",
@@ -344,19 +344,19 @@ export default function DynamicMap(props: Props): JSX.Element {
         },
         });
 
-        gc2.current = gc;
+        gcRef.current = gc;
    }, [handleGeoSearchSelection])
 
    // add hook that responds to a clearing of the geosearchSelection state,
    // and clears the geocode control input and map
    useEffect(() => {
-        if (gc2.current && !geosearchSelection) {
-            gc2.current.setOptions({apiKey:apiKey, clearOnBlur:true});
+        if (gcRef.current && !geosearchSelection) {
+            gcRef.current.setOptions({apiKey:apiKey, clearOnBlur:true});
             setTimeout(() => {
-                gc2.current.clearMap()
-                gc2.current.focus() 
-                gc2.current.blur() 
-                gc2.current.setOptions({apiKey:apiKey, clearOnBlur:false});
+                gcRef.current.clearMap()
+                gcRef.current.focus() 
+                gcRef.current.blur() 
+                gcRef.current.setOptions({apiKey:apiKey, clearOnBlur:false});
             }, 1000);
         }
    }, [geosearchSelection])
@@ -369,10 +369,10 @@ export default function DynamicMap(props: Props): JSX.Element {
    }, [initializeGeocodeControl, addOverlaySources, addPreviewSources])
 
   useEffect(() => {
-    if (map2.current) return; // stops map from intializing more than once
+    if (mapRef.current) return; // stops map from intializing more than once
 
-    map2.current = new Map({
-        container: mapContainer.current,
+    mapRef.current = new Map({
+        container: mapDivRef.current,
         style: `https://api.maptiler.com/maps/3d4a663a-95c3-42d0-9ee6-6a4cce2ba220/style.json?key=${apiKey}`,
         bounds: props.initialBounds,
         dragRotate: false,
@@ -383,17 +383,17 @@ export default function DynamicMap(props: Props): JSX.Element {
     const nav = new NavigationControl({
         showCompass: false
     });
-    map2.current.addControl(nav)
+    mapRef.current.addControl(nav)
     const scale = new ScaleControl({
         maxWidth: 80,
         unit: 'imperial'
     });
-    map2.current.addControl(scale);
+    mapRef.current.addControl(scale);
 
-    map2.current.getCanvas().style.cursor = 'default';
+    mapRef.current.getCanvas().style.cursor = 'default';
 
     // final callback to be run after the map element has been fully loaded.
-    map2.current.on('load', () => {
+    mapRef.current.on('load', () => {
         initializeGeocodeControl();
         addOverlaySources();
         addPreviewSources();
@@ -403,7 +403,7 @@ export default function DynamicMap(props: Props): JSX.Element {
   }, [props.initialBounds, handleMapLoad, setBboxOnMoveEnd, initializeGeocodeControl, addOverlaySources, addPreviewSources])
 
   return (
-    <div ref={mapContainer} style={{ width: "100%", height: "100%" }}>
+    <div ref={mapDivRef} style={{ width: "100%", height: "100%" }}>
         {bbox && mapLoaded && (
             <div
             className={`z-1000 mt-[54px] ml-[10px] text-almostblack s py-1 px-2 rounded relative font-sans text-sm bg-white bg-opacity-75 inline-flex`}
