@@ -351,6 +351,7 @@ export default function DynamicMap(props: Props): JSX.Element {
    // and clears the geocode control input and map
    useEffect(() => {
         if (gcRef.current && !geosearchSelection) {
+            mapRef.current.fitBounds(props.initialBounds)
             gcRef.current.setOptions({apiKey:apiKey, clearOnBlur:true});
             setTimeout(() => {
                 gcRef.current.clearMap()
@@ -359,7 +360,7 @@ export default function DynamicMap(props: Props): JSX.Element {
                 gcRef.current.setOptions({apiKey:apiKey, clearOnBlur:false});
             }, 1000);
         }
-   }, [geosearchSelection])
+   }, [geosearchSelection, props])
 
    const handleMapLoad = useCallback(() => {
         initializeGeocodeControl();
