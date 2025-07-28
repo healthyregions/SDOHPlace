@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { LngLatBoundsLike } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { SolrObject } from "meta/interface/SolrObject";
 import dynamic from "next/dynamic";
 
 const DynamicMap = dynamic(() => import("./dynamicMap"), {
