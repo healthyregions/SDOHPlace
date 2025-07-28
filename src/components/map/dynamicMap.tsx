@@ -309,7 +309,7 @@ export default function DynamicMap(props: Props): JSX.Element {
         const gc = new GeocodingControl({
             apiKey: apiKey,
             country: "us",
-            types: ["region", "county", "postal_code", "municipality"],
+            types: ["region", "county", "postal_code", "municipality", "municipal_district", "joint_municipality", "joint_submunicipality", "locality", "neighbourhood"],
             marker: false,
             markerOnSelected: false,
             showResultMarkers: false,
