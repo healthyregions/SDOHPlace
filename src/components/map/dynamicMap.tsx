@@ -351,16 +351,18 @@ export default function DynamicMap(props: Props): JSX.Element {
    // and clears the geocode control input and map
    useEffect(() => {
         if (gcRef.current && !geosearchSelection) {
+            gcRef.current.clearMap()
             mapRef.current.fitBounds(props.initialBounds)
             gcRef.current.setOptions({apiKey:apiKey, clearOnBlur:true});
             setTimeout(() => {
-                gcRef.current.clearMap()
-                gcRef.current.focus() 
-                gcRef.current.blur() 
+                gcRef.current.focus()
+                gcRef.current.blur()
                 gcRef.current.setOptions({apiKey:apiKey, clearOnBlur:false});
             }, 1000);
         }
-   }, [geosearchSelection, props])
+        // Code linter wants props.initialBounds to be included in dependency array, but this causes
+        // a max recursion depth error. Leaving it out for now...
+   }, [geosearchSelection])
 
    const handleMapLoad = useCallback(() => {
         initializeGeocodeControl();
