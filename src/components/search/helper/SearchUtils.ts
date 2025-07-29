@@ -58,7 +58,7 @@ export const getBaseUrl = (): string => {
 
 export const fetchChatGptAnalysis = async (question: string): Promise<any> => {
   const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/cha-search`, {
+  const response = await fetch(`${baseUrl}/chat-search`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question }),
