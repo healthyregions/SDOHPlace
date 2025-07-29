@@ -185,6 +185,13 @@ const NavBar = (): JSX.Element => {
             />
           </li>
 
+          {/* Symposium Link */}
+          <li
+            className={`mt-4 ml-6`}
+          >
+            <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium 2025</Link>
+          </li>
+
           {/* News Link */}
           <li
             className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
@@ -267,6 +274,11 @@ const NavBar = (): JSX.Element => {
                 dropdownElId="fellows-dd-mobile"
                 items={communityItems}
               />
+            </li>
+
+            {/* Symposium Link */}
+            <li className={'text-uppercase'}>
+              <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium 2025</Link>
             </li>
 
             {/* News Link */}
