@@ -6,8 +6,9 @@ import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import SearchIcon from "@mui/icons-material/Search";
 import { clearMapPreview, setGeosearchSelection, setShowFilter } from "@/store/slices/uiSlice";
-import { Box, SvgIcon, CircularProgress, Fade, Collapse } from "@mui/material";
+import { Box, SvgIcon, CircularProgress, Fade, Collapse, Alert, Button } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import React from "react";
 import ResultCard from "./resultCard";
 import FilterPanel from "../filterPanel";
@@ -19,7 +20,7 @@ import {
 import ThemeIcons from "../helper/themeIcons";
 import { EventType } from "@/lib/event";
 import { usePlausible } from "next-plausible";
-import { reloadAiSearchFromUrl } from "@/store/slices/searchSlice";
+import { clearError, reloadAiSearchFromUrl, setAISearch } from "@/store/slices/searchSlice";
 
 interface Props {
   schema: any;
@@ -37,6 +38,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const classes = useStyles();
   const searchState = useSelector(selectSearchState);
+  const { hasError, errorMessage, errorType, aiSearch } = useSelector((state: RootState) => state.search);
   const filterStatus = useSelector(getFilterStatus) as {
     hasActiveFilters: boolean;
     activeFilters: { [key: string]: boolean };
@@ -462,6 +464,67 @@ const ResultsPanel = (props: Props): JSX.Element => {
                         ) : null
                       )}
                     </Box>
+                  ) : hasError ? (
+                    <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
+                      <Box className="flex flex-col justify-center items-center mb-[1.5em]">
+                        <ErrorOutlineIcon className="text-red-500 mb-3" sx={{ fontSize: 48 }} />
+                        <div className="text-lg font-medium text-gray-800 mb-2">
+                          {errorType === 'server' ? 'AI Search Service Unavailable' : 
+                           errorType === 'network' ? 'Connection Issue' : 'Search Error'}
+                        </div>
+                      </Box>              
+                      <Alert 
+                        severity={errorType === 'network' ? 'warning' : 'error'}
+                        className="mb-4"
+                        sx={{
+                          backgroundColor: errorType === 'network' ? '#fff3cd' : '#f8d7da',
+                          borderColor: errorType === 'network' ? '#ffeaa7' : '#f5c6cb',
+                          color: errorType === 'network' ? '#856404' : '#721c24',
+                        }}
+                      >
+                        <div className="flex flex-col space-y-3">
+                          <div className="text-sm">
+                            {errorMessage}
+                          </div>
+                          {aiSearch && (
+                            <Box className="flex flex-col sm:flex-row gap-3 mt-3">
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<SearchIcon />}
+                                onClick={() => {
+                                  dispatch(setAISearch(false));
+                                  dispatch(clearError());
+                                }}
+                                sx={{
+                                  backgroundColor: '#2563eb',
+                                  '&:hover': { backgroundColor: '#1d4ed8' },
+                                  textTransform: 'none',
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Switch to Keyword Search
+                              </Button>
+                              <div className="text-xs text-gray-600 self-center">
+                                Search for specific terms directly in our database
+                              </div>
+                            </Box>
+                          )}
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() => dispatch(clearError())}
+                            sx={{
+                              alignSelf: 'flex-start',
+                              textTransform: 'none',
+                              mt: 1
+                            }}
+                          >
+                            Dismiss
+                          </Button>
+                        </div>
+                      </Alert>
+                    </div>
                   ) : (
                     <div className="flex flex-col sm:ml-[1.1em] sm:mb-[2.5em]">
                       <Box className="flex flex-col justify-center items-center mb-[1.5em]">
