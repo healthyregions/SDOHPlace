@@ -197,26 +197,28 @@
   .sdoh-panel-header {
     font-family: Nunito;
     font-weight: 700;
-    font-size: 14pt;
+    font-size: 16pt;
     line-height: 100%;
     letter-spacing: 0;
-    margin: 0;
+    margin-top: 0.5rem;
   }
   .sdoh-panel-content {
+    padding: 0 1rem;
     display: flex;
     flex-direction: row;
-    margin: 0.5rem 0 1rem 0;
+    margin: 1.5rem 0 0 0;
 
     .sdoh-panel-image {
       width: 7rem;
       height: 7rem;
       margin: 0 2rem 1rem 0;
+      border-radius: 100px;
     }
     .sdoh-panel-body {
       display: flex;
       flex-direction: column;
-      .sdoh-panel-markdown {
-
+      .sdoh-panel-markdown > p {
+         margin-top: 0;
       }
       .sdoh-panel-link {
         width: 7rem;
