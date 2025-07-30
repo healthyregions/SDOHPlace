@@ -68,17 +68,7 @@ yarn install
 cp .env.local.example .env
 ```
 
-Update environment variables as needed.
-
-- `NEXT_PUBLIC_SOLR_URL` - If you are running Solr locally, the default value should be sufficient. Otherwise, set to `http://<your solr installation>/solr/blacklight-core`.
-- `NEXT_PUBLIC_MAPTILER_API_KEY` - Set the API key for MapTiler services. This is used for the basemap style, as well as the geocoding service.
-- `SOLR_USERNAME` - If you are running Solr with basic auth, set the username here.
-- `SOLR_PASSWORD` - If you are running Solr with basic auth, set the password here.
-- `LLM_ENDPOINT` - Set the endpoint for the LLM API. This is used for the API calls to the LLM.
-- `OPENAI_API_KEY` - Set the API key for OpenAI services. This is used for the LLM API calls if the model is OpenAI-based.
-- `UIUC_CHAT_API_EKY` - Set the API key for the UIUC Chatbot service. This is used for the chatbot API calls.
-- `COURSE_NAME` - Set the name of the course for the UIUC chatbot service. This is used for the chatbot API calls.
-- `MODEL_NAME` - Set the name of the model for the LLM API. This is used for the API calls to the LLM.
+Update environment variables as needed. See the explanation in `.env.local.example` for what variables need to be setup.
 
 2. To run the app locally, use:
 ```
@@ -158,7 +148,7 @@ Now, go to http://localhost:3000/admin/index.html. You will be presented with a 
 We also provide a Docker Compose recipe for building and running a local instance of the app.
 
 To build the image:
-```bash
+```
 docker compose build
 ```
 NOTE: this is a shorthand for running `docker build -t herop/sdoh-homepage .`

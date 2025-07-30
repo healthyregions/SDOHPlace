@@ -172,6 +172,7 @@ export default async (request, context) => {
           }),
         });
         const completion = await response.json();
+        console.info("api call completion response", completion);
         let content = completion.choices[0].message.content;
         try {
           if (
