@@ -423,9 +423,10 @@ collections:
         required: true
         media_library:
           choose_url: true
-          allow_multiple: true
+          # TODO: would be nice to have labels in the UI for this, instead of only a raw URL
+          allow_multiple: false
           config:
-            multiple: true
+            multiple: false
       - label: "Image"
         name: "image"
         widget: "image"

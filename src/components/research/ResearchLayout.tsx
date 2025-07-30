@@ -35,7 +35,7 @@ export default function ResearchLayout({
         >
           {/*<div className={"backlink"}>
             <Link href="/research" className={"no-underline"}>
-              &larr; Back to all research
+              &larr; Back to Research Outputs
             </Link>
           </div>*/}
           <header>
@@ -51,13 +51,13 @@ export default function ResearchLayout({
               </Grid>
             </Grid>
 
-            <Grid container spacing={0}>
-              {media?.map((url) =>
+            {media?.map((url) =>
+              <Grid container spacing={0}>
                 <Grid item xs={12} key={`url:${url}`}>
-                  <a href={url} target={"_blank"} rel={'noreferrer noopener'}></a>
+                  <a href={url} target={"_blank"} rel={'noreferrer noopener'}>Click Here to View</a>
                 </Grid>
-              )}
-            </Grid>
+              </Grid>
+            )}
 
           </header>
 
