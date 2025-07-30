@@ -19,7 +19,7 @@ export default function ResearchItem({ item }: Props) {
           <Grid item xs>
             <h2>{item.title}</h2>
             <small>{item.publish_date}</small>
-            <p>{item.description}</p>
+            <p className={'mt-4'}>{item.description}</p>
           </Grid>
         </Grid>
         <style jsx>
