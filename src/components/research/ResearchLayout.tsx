@@ -45,19 +45,17 @@ export default function ResearchLayout({
                 <h1 className={"guide-header"}>{title}</h1>
                 <DateComponent className={"metadata"} date={publish_date} />
                 <div className={styles.content}>{children}</div>
+
+                <ul className={'mt-4'} style={{ listStyleType: 'none' }}>
+                  {media?.map((url) =>
+                    <li key={`link:${url}`}><a href={url} target={"_blank"} rel={'noreferrer noopener'}>Click Here to View</a></li>
+                  )}
+                </ul>
               </Grid>
               <Grid item xs={4}>
                 <img src={`/${image}`} alt={"image"} />
               </Grid>
             </Grid>
-
-            {media?.map((url) =>
-              <Grid container spacing={0}>
-                <Grid item xs={12} key={`url:${url}`}>
-                  <a href={url} target={"_blank"} rel={'noreferrer noopener'}>Click Here to View</a>
-                </Grid>
-              </Grid>
-            )}
 
           </header>
 
