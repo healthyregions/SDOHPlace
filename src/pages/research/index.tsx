@@ -1,5 +1,4 @@
 import { GetStaticProps } from "next";
-import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import ResearchList from "@/components/research/ResearchList";
@@ -21,7 +20,6 @@ export default function Index({ research, pagination }: Props) {
   console.log("Listed:", research);
   return (
     <>
-    <Header url="/research" title="SDOH Research Outputs" />
     <NavBar />
     <TopLines />
     <div className="flex flex-col pt-12">
