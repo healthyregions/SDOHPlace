@@ -4,10 +4,24 @@ import Link from "next/link";
 import styles from "@/public/styles/posts.module.css";
 import React from "react";
 import {Grid} from "@mui/material";
+import {format, formatISO} from "date-fns";
+
 
 type Props = {
   item: ResearchContent;
 };
+
+const PublishDate = ({ item }: Props) => {
+  const date = new Date(item.publish_date);
+  return (
+    <small>
+      <time dateTime={formatISO(date)}>
+        <span>{format(date, "LLLL d, yyyy")}</span>
+      </time>
+    </small>
+  );
+}
+
 export default function ResearchItem({ item }: Props) {
   return (
     <Link href={"/research/" + item.slug} legacyBehavior>
@@ -18,7 +32,7 @@ export default function ResearchItem({ item }: Props) {
           </Grid>
           <Grid item xs>
             <h2>{item.title}</h2>
-            <small>{item.publish_date}</small>
+            <PublishDate item={item} />
             <p className={'mt-4'}>{item.description}</p>
           </Grid>
         </Grid>
