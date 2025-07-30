@@ -1,4 +1,3 @@
-import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import Footer from "./homepage/footer";
@@ -45,7 +44,7 @@ export default function Layout({
 
   return (
     <>
-      <Header title={title} url={url}/>
+      {/* put meta components like BasicPageMeta and ArticleMeta in the nested PostLayout, etc. components */}
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">

@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { AiOutlineClose } from "react-icons/ai";
 
-import Header from "@/components/meta/Header";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 import advisorData from "../../meta/advisory.json";
@@ -54,7 +54,7 @@ const Advisory: NextPage = () => {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Header title={"Advisory"} />
+      <BasicPageMeta title={"Advisory"} />
       <NavBar />
       <TopLines />
       <Modal
