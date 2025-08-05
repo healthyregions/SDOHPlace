@@ -306,7 +306,7 @@ const ResultCard = (props: Props): JSX.Element => {
                     fontSize: "0.875rem",
                   }}
                 >
-                  {isInMapPreview ? "Remove preview" : "Show on map"}
+                  {isInMapPreview ? "Remove coverage" : "Show coverage"}
                 </div>
               </div>
             </div>
