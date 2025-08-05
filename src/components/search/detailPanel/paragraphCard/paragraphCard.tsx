@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     color: `${fullConfig.theme.colors["almostblack"]}`,
     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
     fontSize: "0.875rem",
-    marginLeft: "0.25rem",
   },
   link: {
     color: `${fullConfig.theme.colors["frenchviolet"]}`,
@@ -41,7 +40,7 @@ const DisplayNote = ({ title, value }) => {
           className="mr-1"
         />
       )}
-      <b>{title ? title : "Notes"}:</b>
+      <b>{title ? title : "Notes"}:</b>{" "}
       <span
         className={classes.paragraphCard}
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
@@ -54,7 +53,7 @@ const UsageTip = ({ value }) => {
   const classes = useStyles();
   return (
     <div className={`container`}>
-      &#128161; <b>Usage Tip:</b>
+      &#128161; <b>Usage Tip:</b>{" "}
       <span
         className={classes.paragraphCard}
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
@@ -129,7 +128,7 @@ const ParagraphCard = (props: Props): JSX.Element => {
             </details>
           ) : (
             <>
-              <b className="text-s">{props.title}</b>
+              <b className="text-s">{props.title}</b>{" "}
               <span className={classes.paragraphCard}>{props.value}</span>
             </>
           )}

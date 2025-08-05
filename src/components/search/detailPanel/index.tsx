@@ -1,4 +1,3 @@
-import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import tailwindConfig from "../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
