@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     color: `${fullConfig.theme.colors["almostblack"]}`,
     fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
     fontSize: "0.875rem",
+    marginLeft: "0.25rem",
   },
   link: {
     color: `${fullConfig.theme.colors["frenchviolet"]}`,
