@@ -30,13 +30,7 @@ export default function Index({ research, pagination }: Props) {
                     <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                         <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-16">
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                          </p>
-                          <p>
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                          </p>
-                          <p>
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            The SDOH & Place team regularly releases reports, research articles, and related products. Learn more about our work to advance the measurement and understanding of the Social Determinants of Health and structural drivers of health!
                            </p>
                         </div>
                         <ResearchList research={research} pagination={pagination} />
