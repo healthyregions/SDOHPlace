@@ -40,9 +40,11 @@ export default function ResearchItem({ item }: Props) {
             <PublishDate item={item} />
             <p className={'mt-4'}>{item.description}</p>
             {
-              item.media?.map(url => <a className={'no-underline mt-4'} key={url} href={url} target={"_blank"}>
-                Access resource &rarr;
-              </a>)
+              item.media?.map(url =>
+                <a className={'no-underline mt-4'} key={url} href={url} target="_blank" rel="noopener noreferrer">
+                  Access resource &rarr;
+                </a>
+              )
             }
           </Grid>
         </Grid>
