@@ -22,24 +22,34 @@ const PublishDate = ({ item }: Props) => {
   );
 }
 
+const AuthorsList = ({ item }: Props) => <>
+  <div>{item.author}</div>
+</>
+
+
 export default function ResearchItem({ item }: Props) {
   return (
-    <Link href={"/research/" + item.slug} legacyBehavior>
-      <a className={"no-underline"}>
+    <>
         <Grid container spacing={0}>
           <Grid item xs={3}>
             <Image src={item.image} alt={item.title} width={200} height={25} />
           </Grid>
           <Grid item xs>
             <h2>{item.title}</h2>
+            <AuthorsList item={item} />
             <PublishDate item={item} />
             <p className={'mt-4'}>{item.description}</p>
+            {
+              item.media?.map(url => <a className={'no-underline mt-4'}
+                                        href={url}>
+                Access resource &rarr;
+              </a>)
+            }
           </Grid>
         </Grid>
         <style jsx>
           {`
             a {
-              color: #222;
               display: inline-block;
             }
             h2 {
@@ -48,7 +58,6 @@ export default function ResearchItem({ item }: Props) {
             }
           `}
         </style>
-      </a>
-    </Link>
+    </>
   );
 }

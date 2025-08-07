@@ -8,6 +8,7 @@ const researchDirectory = path.join(process.cwd(), "content/research");
 export type ResearchContent = {
   readonly publish_date: string;
   readonly title: string;
+  readonly author: string;
   readonly description: string;
   readonly slug: string;
   readonly image: string;
@@ -40,6 +41,7 @@ export function fetchResearchContent(): ResearchContent[] {
       const matterData = matterResult.data as {
         publish_date: string;
         title: string;
+        author: string;
         description: string;
         image: string;
         media: string[];
