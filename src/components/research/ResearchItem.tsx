@@ -40,8 +40,7 @@ export default function ResearchItem({ item }: Props) {
             <PublishDate item={item} />
             <p className={'mt-4'}>{item.description}</p>
             {
-              item.media?.map(url => <a className={'no-underline mt-4'}
-                                        href={url}>
+              item.media?.map(url => <a className={'no-underline mt-4'} key={url} href={url}>
                 Access resource &rarr;
               </a>)
             }
