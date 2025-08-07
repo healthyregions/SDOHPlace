@@ -203,7 +203,7 @@
     margin-top: 0.5rem;
   }
   .sdoh-panel-content {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     display: flex;
     flex-direction: row;
     margin: 1rem 0 0 0;
