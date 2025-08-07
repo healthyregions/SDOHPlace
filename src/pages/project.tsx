@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { AiOutlineClose } from "react-icons/ai";
 import Footer from "@/components/homepage/footer";
-import Header from "@/components/meta/Header";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
 
@@ -51,7 +51,7 @@ const pastTeam = team.team.filter((p) => p.status == "past");
 const Project: NextPage = () => {
   return (
     <>
-      <Header title={"About"} />
+      <BasicPageMeta title={"About"} />
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">
