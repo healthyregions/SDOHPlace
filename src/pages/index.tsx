@@ -29,7 +29,6 @@ import line5 from "@/public/logos/line5.svg";
 import line6 from "@/public/logos/line6.svg";
 
 import { GetStaticProps } from "next";
-import Header from "@/components/meta/Header";
 import { PostData, getSortedPostsData } from "@/components/Posts";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import CardWithImage from "@/components/homepage/cardwithimage/cardwithimage";
@@ -51,6 +50,8 @@ import { Handyman } from "@mui/icons-material";
 
 
 import styled from "@emotion/styled";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
+import Head from "next/head";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -214,7 +215,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const classes = useStyles();
   return (
     <>
-      <Header />
+      <BasicPageMeta />
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
         <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
@@ -417,7 +418,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
                 {/* Featured content */}
                 {/* TODO: eventually read this info from CMS? title / excerpt */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</h3>
+                <div className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</div>
                 <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
                   This report seeks to illuminate the design process necessary to create accessible, enjoyable,
                   and empowering data tools for place-based health equity. It also outlines basic principles of
@@ -428,9 +429,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* Actions related to Featured Content */}
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <Grid container spacing={0}>
-                  <Grid item lg={3} xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
-                    {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
+
+                    <Link href={'/research'} legacyBehavior>
+                      <a className={'no-underline text-base mr-12'}>More Resources</a>
+                    </Link>
+
                   </Grid>
                 </Grid>
               </Grid>

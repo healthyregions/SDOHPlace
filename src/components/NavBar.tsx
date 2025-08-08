@@ -125,6 +125,7 @@ const NavBar = (): JSX.Element => {
     { title: "Data Discovery", url: "/search" },
     { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
     { title: "SDOH Guides", url: "/guides" },
+    { title: "Research Outputs", url: "/research" },
   ];
 
   const communityItems = [
@@ -183,6 +184,13 @@ const NavBar = (): JSX.Element => {
               dropdownElId="fellows-dd"
               items={communityItems}
             />
+          </li>
+
+          {/* Symposium Link */}
+          <li
+            className={`mt-4 ml-6`}
+          >
+            <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium 2025</Link>
           </li>
 
           {/* News Link */}
@@ -267,6 +275,11 @@ const NavBar = (): JSX.Element => {
                 dropdownElId="fellows-dd-mobile"
                 items={communityItems}
               />
+            </li>
+
+            {/* Symposium Link */}
+            <li className={'text-uppercase'}>
+              <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium 2025</Link>
             </li>
 
             {/* News Link */}

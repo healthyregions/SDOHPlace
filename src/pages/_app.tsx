@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import * as React from "react";
-import Head from "next/head";
 import { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../createEmotionCache";
@@ -23,9 +22,6 @@ export default function MyApp(props: MyAppProps) {
     <>
       <PlausibleProvider domain="sdohplace.org">
         <CacheProvider value={emotionCache}>
-          <Head>
-            <meta name="viewport" content="initial-scale=1, width=device-width" />
-          </Head>
           <Provider store={store}>
             <AnyComponent {...pageProps} />
           </Provider>
