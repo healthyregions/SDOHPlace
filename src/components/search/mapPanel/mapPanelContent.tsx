@@ -205,8 +205,8 @@ const MapPanelContent = (props: Props): JSX.Element => {
             <Box className="text-s sm:mb-[1.5em]">
               <p className="mb-[1em]">
                 We have a selection of resource guides available for different SDOH topics, like {" "}
-                <Link href="/guides/greenspace-access">Greenspace Access</Link> and {" "}<Link href="/guides/public-transit-equity">Transportation Equity</Link>.
-                More guides are in the works! If you would like to collaborate on a research guide, please {" "}<Link href="/https://forms.illinois.edu/sec/1493227735" target="_blank">get in touch</Link>.
+                <Link href="/guides/greenspace-access">Greenspace Access</Link> and {" "}<Link href="/guides/transportation-equity">Transportation Equity</Link>.
+                More guides are in the works! If you would like to collaborate on a research guide, please {" "}<Link href="https://forms.illinois.edu/sec/1493227735" target="_blank">get in touch</Link>.
               </p>
             </Box>
             <Box className="text-2xl sm:mb-[0.6em]">
