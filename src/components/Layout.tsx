@@ -5,12 +5,14 @@ import React from "react";
 import PostLayout, { PostLayoutProps } from "./news/PostLayout";
 import ShowcaseLayout, { ShowcaseLayoutProps } from "./showcase/ShowcaseLayout";
 import GuidesLayout, { GuideLayoutProps } from "./guides/GuidesLayout";
+import ResearchLayout, { ResearchLayoutProps } from "./research/ResearchLayout";
 
 type Props = {
-  type?: "news" | "showcase" | "guide";
+  type?: "news" | "showcase" | "guide" | "research";
   news_props?: PostLayoutProps;
   showcase_props?: ShowcaseLayoutProps;
   guide_props?: GuideLayoutProps;
+  research_props?: ResearchLayoutProps;
   page_header?: string;
   children?: React.ReactNode;
 };
@@ -19,6 +21,7 @@ export default function Layout({
   news_props,
   showcase_props,
   guide_props,
+  research_props,
   page_header,
   children,
 }: Props) {
@@ -34,6 +37,9 @@ export default function Layout({
   } else if (type === "guide") {
     title = guide_props.title;
     url = "/guides/" + guide_props.slug;
+  } else if (type === "research") {
+    title = research_props.title;
+    url = "/research/" + research_props.slug;
   }
 
   return (
@@ -51,14 +57,13 @@ export default function Layout({
                 <PostLayout {...news_props}>{news_props.children}</PostLayout>
               )}
               {type === "showcase" && (
-                <ShowcaseLayout {...showcase_props}>
-                  {showcase_props.children}
-                </ShowcaseLayout>
+                <ShowcaseLayout {...showcase_props}>{showcase_props.children}</ShowcaseLayout>
               )}
               {type === "guide" && (
-                <GuidesLayout {...guide_props}>
-                  {guide_props.children}
-                </GuidesLayout>
+                <GuidesLayout {...guide_props}>{guide_props.children}</GuidesLayout>
+              )}
+              {type === "research" && (
+                <ResearchLayout {...research_props}>{research_props.children}</ResearchLayout>
               )}
             </div>
           </div>

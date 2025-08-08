@@ -429,9 +429,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 {/* Actions related to Featured Content */}
                 {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <Grid container spacing={0}>
-                  <Grid item lg={3} xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
-                    {/*<a className={'no-underline mr-12'} href={'#'}>{link?.label}</a>*/}
+
+                    <Link href={'/research'} legacyBehavior>
+                      <a className={'no-underline text-base mr-12'}>More Resources</a>
+                    </Link>
+
                   </Grid>
                 </Grid>
               </Grid>
