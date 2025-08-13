@@ -7,6 +7,11 @@
       "label": "Access resource →",
       "bold": true,
       "url": "https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing"
+    },
+    {
+      "label": "More resources",
+      "bold": false,
+      "url": "/research"
     }
   ]
 }
