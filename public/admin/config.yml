@@ -433,6 +433,55 @@ collections:
         name: "body"
         widget: "markdown"
 
+
+  - name: "research"              # Used in routes, e.g., /admin/collections/blog
+    label: "Research Outputs"     # Used in the UI
+    folder: "content/research"    # The path to the folder where the MDX files are stored
+    extension: "mdx"
+    format: "frontmatter"
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}"
+    preview_path: "research/{{slug}}"
+    fields: # The fields for each document, usually in front matter
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The title will be used to generate the URL path for this research entry, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
+      - label: Author
+        name: "author"
+        widget: string
+        hint: "The primary author or authors of this report"
+      - label: "Related Media"
+        name: "media"
+        widget: "file"
+        required: true
+        media_library:
+          choose_url: true
+          # TODO: would be nice to have labels in the UI for this, instead of only a raw URL
+          allow_multiple: false
+          config:
+            multiple: false
+      - label: "Image"
+        name: "image"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.jpg"
+      - label: "Publish Date"
+        name: "publish_date"
+        widget: "datetime"
+        default: "{{now}}"
+        date_format: "DD.MM.YYYY" # e.g. 24.12.2021
+        time_format: "HH:mm" # e.g. 21:07
+        format: "LLL"
+        picker_utc: false
+      - label: DOI
+        name: "doi"
+        widget: string
+        required: false
+      - label: "Description"
+        name: "description"
+        widget: "markdown"
+
   - name: "research-rabbit"
     label: "Research Rabbit"
     delete: false

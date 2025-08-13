@@ -14,6 +14,7 @@ interface UIState {
   showClearButton: boolean;
   showSharedLink: boolean;
   mapPreview: MapPreviewLyr[];
+  geosearchSelection: string;
 }
 
 const initialState: UIState = {
@@ -25,6 +26,7 @@ const initialState: UIState = {
   showClearButton: false,
   showSharedLink: false,
   mapPreview: [],
+  geosearchSelection: null,
 };
 
 const uiSlice = createSlice({
@@ -58,6 +60,9 @@ const uiSlice = createSlice({
     setMapPreview: (state, action) => {
       state.mapPreview = action.payload;
     },
+    setGeosearchSelection: (state, action) => {
+      state.geosearchSelection = action.payload;
+    },
   },
 });
 
@@ -70,7 +75,8 @@ export const {
   setShowClearButton,
   setShowSharedLink,
   setMapPreview,
-  clearMapPreview
+  clearMapPreview,
+  setGeosearchSelection,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

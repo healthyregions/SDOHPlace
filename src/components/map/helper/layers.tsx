@@ -151,6 +151,51 @@ export const makePreviewLyrs = function (
   return [newLineLayerSpec, newFillLayerSpec];
 };
 
+export const previewSources = [
+    {
+      id: "state-2018",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/state-2018.pmtiles",
+      }
+    },
+    {
+      id: "county-2018",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/county-2018.pmtiles",
+      }
+    },
+    {
+      id: "bg-2018",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/bg-2018.pmtiles",
+      }
+    },
+    {
+      id: "tract-2018",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/tract-2018.pmtiles",
+      }
+    },
+    {
+      id: "place-2018",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/place-2018.pmtiles",
+      }
+    },
+    {
+      id: "zcta-2018",
+      spec: {
+        type: "vector",
+        url: "pmtiles://https://herop-geodata.s3.us-east-2.amazonaws.com/sdohplace/zcta-2018.pmtiles",
+      }
+    }
+]
+
 
 export const overlayRegistry = {
   "Adult Education": {
