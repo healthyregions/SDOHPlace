@@ -190,7 +190,7 @@ const NavBar = (): JSX.Element => {
           <li
             className={`mt-4 ml-6`}
           >
-            <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium 2025</Link>
+            <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium</Link>
           </li>
 
           {/* News Link */}
@@ -279,7 +279,7 @@ const NavBar = (): JSX.Element => {
 
             {/* Symposium Link */}
             <li className={'text-uppercase'}>
-              <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium 2025</Link>
+              <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium</Link>
             </li>
 
             {/* News Link */}
