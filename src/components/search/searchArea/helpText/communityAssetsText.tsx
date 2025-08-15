@@ -19,6 +19,17 @@ export const CommunityAssetsText = () => {
         <Link href="/contact">get in touch</Link> if you have ideas for more
         layers you would like to see or contribute.
       </Typography>
+      <div className="my-3 mx-3 p-2 bg-lightbisque rounded-lg">
+        <Typography
+          className="pb-1"
+          sx={{
+            fontFamily: fullConfig.theme.fontFamily["sans"],
+            fontSize: "0.8em",
+          }}
+        >
+          Please note, locations are pulled from a global, crowdsourced dataset, and may contain omissions or errors.
+        </Typography>
+      </div>
       <Typography sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}>
         <strong>Community asset layers:</strong>
       </Typography>

@@ -5,16 +5,12 @@ import tailwindConfig from "../../../../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { displayNotesIcons } from "./displayNotesIcons";
 import { ParseReferenceLink } from "../../helper/ParsingMethods";
-import { List, ListItem } from "@mui/material";
 
 interface Props {
   type: string;
   title: string;
   value: string;
   collapsible?: boolean;
-}
-interface LinkProps {
-  value: string | Record<string, any>;
 }
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -44,7 +40,7 @@ const DisplayNote = ({ title, value }) => {
           className="mr-1"
         />
       )}
-      <b>{title ? title : "Notes"}:</b>
+      <b>{title ? title : "Notes"}:</b>{" "}
       <span
         className={classes.paragraphCard}
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
@@ -57,7 +53,7 @@ const UsageTip = ({ value }) => {
   const classes = useStyles();
   return (
     <div className={`container`}>
-      &#128161; <b>Usage Tip:</b>
+      &#128161; <b>Usage Tip:</b>{" "}
       <span
         className={classes.paragraphCard}
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
@@ -73,30 +69,42 @@ const Link = ({ value }) => {
     return (
       <div className="container">
         <b className="text-s">More links:</b>
-        <ul className={'py-2'}>
+        <ul className={"py-2"}>
           {links.downloadUrl && (
-            <li><a
-              href={String(links.downloadUrl)}
-              className={`${classes.paragraphCard} ${classes.link}`}
-            >Data Download (Official)</a></li>)
-          }
+            <li>
+              <a
+                href={String(links.downloadUrl)}
+                className={`${classes.paragraphCard} ${classes.link}`}
+              >
+                Data Download (Official)
+              </a>
+            </li>
+          )}
           {links.archiveUrl && (
-            <li><a
-              href={String(links.archiveUrl)}
-              className={`${classes.paragraphCard} ${classes.link}`}
-            >Data Archival Copy</a></li>)
-          }
+            <li>
+              <a
+                href={String(links.archiveUrl)}
+                className={`${classes.paragraphCard} ${classes.link}`}
+              >
+                Data Archival Copy
+              </a>
+            </li>
+          )}
           {links.dataDictionaryUrl && (
-            <li><a
-              href={String(links.dataDictionaryUrl)}
-              className={`${classes.paragraphCard} ${classes.link}`}
-            >Technical Documentation</a></li>)
-          }
+            <li>
+              <a
+                href={String(links.dataDictionaryUrl)}
+                className={`${classes.paragraphCard} ${classes.link}`}
+              >
+                Technical Documentation
+              </a>
+            </li>
+          )}
         </ul>
       </div>
-    )
+    );
   } else {
-    return <></> ;
+    return <></>;
   }
 };
 
@@ -113,16 +121,17 @@ const ParagraphCard = (props: Props): JSX.Element => {
         <div className={`container`}>
           {props.collapsible ? (
             <details>
-              <summary className="text-s"><b>{props.title}</b></summary>
-            <span className={classes.paragraphCard}>{props.value}</span>
+              <summary className="text-s">
+                <b>{props.title}</b>
+              </summary>
+              <span className={classes.paragraphCard}>{props.value}</span>
             </details>
           ) : (
             <>
-            <b className="text-s">{props.title}</b>{" "}
-          <span className={classes.paragraphCard}>{props.value}</span>
+              <b className="text-s">{props.title}</b>{" "}
+              <span className={classes.paragraphCard}>{props.value}</span>
             </>
-          )
-          }
+          )}
         </div>
       )}
     </div>
