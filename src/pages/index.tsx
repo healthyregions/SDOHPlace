@@ -142,7 +142,7 @@ const FeaturedImageMobile = styled.img`
 `;
 
 interface Factor {
-  id: number;
+  id: string|number;
   svgIcon: string;
   title: string;
   text: string;
