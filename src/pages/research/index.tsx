@@ -8,6 +8,8 @@ import {
   listResearchContent,
   ResearchContent
 } from "@/lib/research";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
+import * as React from "react";
 
 type Props = {
   research: ResearchContent[];
@@ -20,6 +22,7 @@ export default function Index({ research, pagination }: Props) {
   console.log("Listed:", research);
   return (
     <>
+    <BasicPageMeta title={"Research & Reports"} description="Reports, research articles, and related products from the SDOH & Place Project" />
     <NavBar />
     <TopLines />
     <div className="flex flex-col pt-12">
