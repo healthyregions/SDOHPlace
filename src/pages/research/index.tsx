@@ -19,7 +19,6 @@ type Props = {
   };
 };
 export default function Index({ research, pagination }: Props) {
-  console.log("Listed:", research);
   return (
     <>
     <BasicPageMeta title={"Research & Reports"} description="Reports, research articles, and related products from the SDOH & Place Project" />
