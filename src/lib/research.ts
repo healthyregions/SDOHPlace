@@ -5,15 +5,15 @@ import yaml from "js-yaml";
 
 const researchDirectory = path.join(process.cwd(), "content/research");
 
-export type ResearchContent = {
-  readonly publish_date: string;
-  readonly title: string;
-  readonly author: string;
-  readonly description: string;
-  readonly slug: string;
-  readonly image: string;
-  readonly media: string[];
-  readonly fullPath: string;
+export interface ResearchContent {
+  publish_date: string;
+  title: string;
+  author: string;
+  description: string;
+  slug: string;
+  image: string;
+  media: string[];
+  fullPath: string;
 };
 
 let researchCache: ResearchContent[];
@@ -26,7 +26,7 @@ export function fetchResearchContent(): ResearchContent[] {
   const fileNames = fs.readdirSync(researchDirectory);
   const allResearchData = fileNames
     .filter((it) => it.endsWith(".mdx"))
-    .map((fileName) => {
+    .map((fileName): ResearchContent => {
       // Read markdown file as string
       const fullPath = path.join(researchDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -34,45 +34,31 @@ export function fetchResearchContent(): ResearchContent[] {
       // Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents, {
         engines: {
-          yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
+          yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as ResearchContent,
         },
       });
-      console.log("Matter Result:", matterResult);
-      const matterData = matterResult.data as {
-        publish_date: string;
-        title: string;
-        author: string;
-        description: string;
-        image: string;
-        media: string[];
-        slug: string;
-        fullPath: string;
-      };
-      matterData.fullPath = fullPath;
-      matterData.description = matterResult.content;
-      matterData.slug = fileName.replace(/\.mdx$/, "");
 
-      return matterData;
+      // Synthesize ResearchContent from pieces we've fetched (maintain idempotence)
+      return {
+        ...matterResult.data as ResearchContent,
+        fullPath,
+        description: matterResult.content,
+        slug: fileName.replace(/\.mdx$/, "")
+      };
     });
-  // Sort posts by date
-  researchCache = allResearchData.sort((a, b) => {
-    if (a.publish_date < b.publish_date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
-  return researchCache;
+
+  // Sort posts by date and update internal cache
+  return researchCache = allResearchData.sort(
+    (a: ResearchContent, b: ResearchContent) => (a.publish_date < b.publish_date) ? 1 : -1
+  );
 }
 
 export function countResearch(): number {
   return fetchResearchContent().length;
 }
 
-export function listResearchContent(
-  page: number,
-  limit: number
-): ResearchContent[] {
-  return fetchResearchContent()
-    .slice((page - 1) * limit, page * limit);
+export function listResearchContent(page: number, limit: number): ResearchContent[] {
+  const start = (page - 1) * limit;
+  const end = page * limit;
+  return fetchResearchContent().slice(start, end);
 }
