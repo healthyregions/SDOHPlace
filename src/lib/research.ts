@@ -14,7 +14,7 @@ export interface ResearchContent {
   image: string;
   media: string[];
   fullPath: string;
-};
+}
 
 let researchCache: ResearchContent[];
 
