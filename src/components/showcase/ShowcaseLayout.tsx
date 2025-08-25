@@ -5,6 +5,7 @@ import styles from "@/public/styles/posts.module.css";
 import Copyright from "../news/Copyright";
 import { getFellow } from "../../lib/people";
 import { getTag } from "../../lib/tags";
+import ArticleMeta from "@/components/meta/ArticleMeta";
 
 export type ShowcaseLayoutProps = {
   title: string;
@@ -34,6 +35,10 @@ export default function ShowcaseLayout({
   const fellow = getFellow(fellowName);
   return (
     <>
+        <ArticleMeta
+            title={title}
+            image={image}
+            />
       <div className={styles.container}>
         <article
           className={

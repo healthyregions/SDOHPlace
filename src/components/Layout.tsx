@@ -1,4 +1,3 @@
-import Header from "@/components/meta/Header";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import Footer from "./homepage/footer";
@@ -6,12 +5,14 @@ import React from "react";
 import PostLayout, { PostLayoutProps } from "./news/PostLayout";
 import ShowcaseLayout, { ShowcaseLayoutProps } from "./showcase/ShowcaseLayout";
 import GuidesLayout, { GuideLayoutProps } from "./guides/GuidesLayout";
+import ResearchLayout, { ResearchLayoutProps } from "./research/ResearchLayout";
 
 type Props = {
-  type?: "news" | "showcase" | "guide";
+  type?: "news" | "showcase" | "guide" | "research";
   news_props?: PostLayoutProps;
   showcase_props?: ShowcaseLayoutProps;
   guide_props?: GuideLayoutProps;
+  research_props?: ResearchLayoutProps;
   page_header?: string;
   children?: React.ReactNode;
 };
@@ -20,6 +21,7 @@ export default function Layout({
   news_props,
   showcase_props,
   guide_props,
+  research_props,
   page_header,
   children,
 }: Props) {
@@ -35,31 +37,33 @@ export default function Layout({
   } else if (type === "guide") {
     title = guide_props.title;
     url = "/guides/" + guide_props.slug;
+  } else if (type === "research") {
+    title = research_props.title;
+    url = "/research/" + research_props.slug;
   }
 
   return (
     <>
-      <Header title={title} url={url}/>
+      {/* put meta components like BasicPageMeta and ArticleMeta in the nested PostLayout, etc. components */}
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
           {page_header && <h1 className="font-fredoka">{page_header}</h1>}
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10 max-md:overflow-x-auto">
-            <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+            <div className="gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">
               {!type && <main>{children}</main>}
               {type === "news" && (
                 <PostLayout {...news_props}>{news_props.children}</PostLayout>
               )}
               {type === "showcase" && (
-                <ShowcaseLayout {...showcase_props}>
-                  {showcase_props.children}
-                </ShowcaseLayout>
+                <ShowcaseLayout {...showcase_props}>{showcase_props.children}</ShowcaseLayout>
               )}
               {type === "guide" && (
-                <GuidesLayout {...guide_props}>
-                  {guide_props.children}
-                </GuidesLayout>
+                <GuidesLayout {...guide_props}>{guide_props.children}</GuidesLayout>
+              )}
+              {type === "research" && (
+                <ResearchLayout {...research_props}>{research_props.children}</ResearchLayout>
               )}
             </div>
           </div>

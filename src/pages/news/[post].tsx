@@ -20,6 +20,7 @@ export type Props = {
   tags: string[];
   author: string;
   description?: string;
+  thumbnail?: string;
   source: MDXRemoteSerializeResult;
 };
 
@@ -41,6 +42,7 @@ export default function Post({
   tags,
   author,
   description = "",
+  thumbnail,
   source,
 }: Props) {
   const news_props = {
@@ -50,6 +52,7 @@ export default function Post({
     tags,
     author,
     description,
+    thumbnail,
     children: <MDXRemote {...source} components={components} />,
   };
   return (
@@ -86,6 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       description: "",
       tags: data.tags || [],
       author: data.author,
+      thumbnail: data.thumbnail,
       source: mdxSource,
     },
   };

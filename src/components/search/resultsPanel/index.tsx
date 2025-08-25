@@ -411,7 +411,7 @@ const ResultsPanel = (props: Props): JSX.Element => {
             {filterStatus && filterStatus.hasActiveFilters && !isLoading && !isResetting && (
               <div className="flex flex-col sm:flex-row items-enter justify-center mr-4 cursor-pointer text-uppercase">
                 <div className="text-frenchviolet" onClick={handleClearFilters}>
-                  Clear All
+                  Reset Filters
                 </div>
               </div>
             )}

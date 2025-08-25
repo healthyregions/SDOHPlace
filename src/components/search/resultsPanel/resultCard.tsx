@@ -182,14 +182,14 @@ const ResultCard = (props: Props): JSX.Element => {
       event.stopPropagation();
       
       if (!itemId || !hasHighlightIds) return;
-      
       if (isInMapPreview) {
-        dispatch(
-          setMapPreview(
-            mapPreview.filter((item) => item.lyrId != itemId)
-          )
-        );
-      } else {
+          dispatch(
+              setMapPreview(
+                  mapPreview.filter((item) => item.lyrId != itemId)
+                )
+            );
+        } else {
+          dispatch(setShowDetailPanel(false))
         dispatch(
           setMapPreview([
             {
@@ -306,7 +306,7 @@ const ResultCard = (props: Props): JSX.Element => {
                     fontSize: "0.875rem",
                   }}
                 >
-                  {isInMapPreview ? "Remove preview" : "Show on map"}
+                  {isInMapPreview ? "Remove coverage" : "Show coverage"}
                 </div>
               </div>
             </div>

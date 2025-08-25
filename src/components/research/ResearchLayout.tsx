@@ -2,36 +2,31 @@ import React from "react";
 import styles from "@/public/styles/posts.module.css";
 import Author from "../news/Author";
 import Copyright from "../news/Copyright";
-import DateComponent from "../news/Date";
-import ArticleMeta from "@/components/meta/ArticleMeta";
+import DateComponent from "../news//Date";
+import {Grid} from "@mui/material";
 
-export type GuideLayoutProps = {
+export type ResearchLayoutProps = {
   title: string;
-  last_updated: Date;
+  description: string;
+  publish_date: Date;
   slug: string;
-  featured_image: string;
-  author: string;
+  image: string;
+  media: string[];
   body: any;
   children: React.ReactNode;
 };
-export default function GuidesLayout({
+export default function ResearchLayout({
   title,
-  last_updated,
+  description,
+  publish_date,
   slug,
-  author,
-  featured_image,
+  media,
+  image,
   body = "",
   children,
-}: GuideLayoutProps) {
-  const authorObject = { name: author, slug: null, introduction: null };
+}: ResearchLayoutProps) {
   return (
     <>
-        <ArticleMeta
-            title={title}
-            date={last_updated}
-            author={author}
-            image={featured_image}
-            />
       <div className={styles.container}>
         <article
           className={
@@ -39,25 +34,31 @@ export default function GuidesLayout({
           }
         >
           {/*<div className={"backlink"}>
-            <Link href="/guides" className={"no-underline"}>
-              &larr; Back to all guides
+            <Link href="/research" className={"no-underline"}>
+              &larr; Back to Research Outputs
             </Link>
           </div>*/}
           <header>
-            <h1 className={"guide-header"}>{title}</h1>
-            <div className={"metadata"}>
-              <div>
-                <DateComponent date={last_updated} />
-              </div>
-              <div>
-                <Author author={authorObject} />
-              </div>
-            </div>
-            <div>
-              <img src={featured_image} alt={"featured_image"} />
-            </div>
+
+            <Grid container spacing={0}>
+              <Grid item xs>
+                <h1 className={"guide-header"}>{title}</h1>
+                <DateComponent className={"metadata"} date={publish_date} />
+                <div className={styles.content}>{children}</div>
+
+                <ul className={'mt-4'} style={{ listStyleType: 'none' }}>
+                  {media?.map((url) =>
+                    <li key={`link:${url}`}><a href={url} target={"_blank"} rel={'noreferrer noopener'}>Click Here to View</a></li>
+                  )}
+                </ul>
+              </Grid>
+              <Grid item xs={4}>
+                <img src={`/${image}`} alt={"image"} />
+              </Grid>
+            </Grid>
+
           </header>
-          <div className={styles.content}>{children}</div>
+
         </article>
         <footer>
           <Copyright />
