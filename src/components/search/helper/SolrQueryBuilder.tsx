@@ -8,6 +8,7 @@ import { parseSolrQuery } from "./ParsingMethods";
 const requestCache = new Map();
 const REQUEST_CACHE_TTL = 60000;
 const pendingRequests = new Map();
+const CACHE_DISABLED = true; // enable this if using cache again
 
 export default class SolrQueryBuilder {
   private query: QueryObject = {
@@ -68,7 +69,7 @@ export default class SolrQueryBuilder {
         reject(new Error(`Invalid URL: ${currentUrl}`));
         return;
       }
-      if (!skipCache && requestCache.has(currentUrl)) {
+      if (!CACHE_DISABLED && !skipCache && requestCache.has(currentUrl)) {
         const cachedData = requestCache.get(currentUrl);
         const now = Date.now();
         if (now - cachedData.timestamp < REQUEST_CACHE_TTL) {
@@ -77,7 +78,7 @@ export default class SolrQueryBuilder {
         } else {
           requestCache.delete(currentUrl);
         }
-      } else if (!skipCache) {
+      } else if (!CACHE_DISABLED && !skipCache) {
       }
       console.log("search query: ", currentUrl);
       if (pendingRequests.has(currentUrl)) {
@@ -124,10 +125,12 @@ export default class SolrQueryBuilder {
                 responseData = { results: result };
               }
             }
-            requestCache.set(currentUrl, {
-              data: responseData,
-              timestamp: Date.now()
-            });
+            if (!CACHE_DISABLED) {
+              requestCache.set(currentUrl, {
+                data: responseData,
+                timestamp: Date.now()
+              });
+            }
             const subscribers = pendingRequests.get(currentUrl) || [];
             subscribers.forEach(sub => sub.resolve(JSON.parse(JSON.stringify(responseData))));
             pendingRequests.delete(currentUrl);

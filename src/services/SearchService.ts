@@ -157,15 +157,17 @@ export class SearchService {
     sortBy?: string,
     sortOrder?: string,
     skipCache: boolean = false,
-    isAiSearch: boolean = false
+    isAiSearch: boolean = false,
+    bypassSpellCheck: boolean = false
   ): Promise<SearchResult> {
     this.queryBuilder.combineQueries(query, filterQueries);
     const { results: searchResults, spellCheckSuggestion } =
-      await this.queryBuilder.fetchResult(undefined, skipCache);
+      await this.queryBuilder.fetchResult(undefined, skipCache || bypassSpellCheck);
     let finalResults = searchResults;
     let usedQuery = query;
     let usedSpellCheck = false;
     if (
+      !bypassSpellCheck &&
       (!searchResults || searchResults.length === 0) &&
       spellCheckSuggestion &&
       spellCheckSuggestion !== query
@@ -176,7 +178,6 @@ export class SearchService {
       );
       const { results: spellCheckResults } =
         await this.queryBuilder.fetchResult(undefined, skipCache);
-      
       if (spellCheckResults && spellCheckResults.length > 0) {
         finalResults = spellCheckResults;
         usedQuery = spellCheckSuggestion;
