@@ -7,22 +7,58 @@ import Footer from "@/components/homepage/footer";
 import * as React from "react";
 import Alert from '@mui/material/Alert';
 import Link from "next/link";
-import {Button, List as MuiList, ListItem as MuiListItem} from "@mui/material";
+import {Button, Grid, List as MuiList, ListItem as MuiListItem} from "@mui/material";
 import styled from "@emotion/styled";
 
-const AccessDatasetsButton = styled(Button)`
-  text-transform: 'none',
-`;
 
 const List = styled(MuiList)`
-  list-style-type: disc;
+  list-style: disc;
 `;
 
-const ListItem = ({children}) =>
-  <MuiListItem>
-    <div>{children}</div>
-  </MuiListItem>
+const Paragraph = styled.div`
+  a { color: #7E1CC4; }
+`;
 
+
+const ListItem = styled(MuiListItem)`
+  display: list-item;
+  margin-left: 2rem;
+  padding-left: 0;
+  ::marker {
+    color: #FF9C77;
+  }
+`;
+
+const StyledAlert = styled(Alert)`
+  background-color: #ECE6F0;
+  border-radius: 40px;
+  font-family: Nunito, sans-serif;
+  margin-top: 4rem;
+  margin-bottom: 6rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: #1E1E1E;
+  
+  img {
+    position: absolute;
+    top: 80vh;
+    width: 386px;
+  }
+  
+  strong {
+    font-weight: 700;
+  }
+  
+  button {
+    color: white;
+    background-color: #7E1CC4;
+    text-transform: none;
+    font-size: 1rem;
+    border-radius: 100px;
+    margin-top: 1rem;
+    font-family: Nunito, sans-serif;
+  }
+`;
 
 const DataRefuge: NextPage = () => {
   return (
@@ -40,66 +76,75 @@ const DataRefuge: NextPage = () => {
                 <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
                   <div style={{ marginBottom: "10px" }}>
 
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       In early 2025, there was a widespread effort to remove crucial federal public health
                       datasets in the United States. As researchers, community leaders, and scholars, this
                       has a significant impact on all of our work.
-                    </div>
+                    </Paragraph>
 
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       Fortunately, the SDOH & Place Project team had already earmarked, indexed, and
                       identified critical datasets pertinent to measuring the structural drivers of
                       health in the year prior.
-                    </div>
+                    </Paragraph>
 
-                    <div className={'mb-4'}>
-                      When the Great Purge began, the team extracted multiple datasets at risk of being lost,
+                    <Paragraph className={'mb-4'}>
+                      When the <i>Great Purge</i> began, the team extracted multiple datasets at risk of being lost,
                       in collaboration with colleagues across the state of Illinois, and has since
                       linked multiple datasets to the SDOH Search Discovery Platform. The University of
                       Chicago Library team, as an early collaborator, developed additional metadata for
                       the data, and colleagues from a central Illinois health system further supported
                       efforts by identifying and downloading critical measures.
-                    </div>
-                    <div className={'mb-4'}>
+                    </Paragraph>
+
+                    <Paragraph className={'mb-4'}>
                       The SDOH Data Refuge includes multiple datasets & guides from:
                       <List>
                         <ListItem>The Center for Disease Control (CDC), including the Social Vulnerability Index for all time periods and spatial scales</ListItem>
                         <ListItem>The Environmental Protection Agency (EPA), including EJScreen and EJ Index measures.</ListItem>
                         <ListItem>The Health Resources and Services Administration (HRSA)</ListItem>
                       </List>
-                    </div>
+                    </Paragraph>
 
-                    <Alert severity="info" className={'mb-4'}>
-                      <div className={"text-xl"}>
-                        You can access the datasets and download files to your own computer using our
-                        public Box link here:
-                      </div>
-                      <Link href={'https://go.illinois.edu/SDOH-Data-Refuge'}>
-                        <AccessDatasetsButton variant="contained" color="primary">
-                          Access Recovered Datasets
-                        </AccessDatasetsButton>
-                      </Link>
+                    <StyledAlert severity="info" className={'mb-4'} icon={false}>
+                      <Grid container spacing={0}>
+                        <Grid item xs={6}>
+                          <img src={'/images/data-refuge.svg'} alt={'data-refuge'} />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className={"text-xl"}>
+                            <strong>Looking for unavailable data on SDOH?</strong>
+                            <div className={'mt-2'}>
+                              You can access the datasets and download files to your own computer using our
+                              public Box link below. Data uploads are time-stamped.
+                            </div>
+                          </div>
+                          <Link href={'https://go.illinois.edu/SDOH-Data-Refuge'}>
+                            <Button variant="contained" color="primary">
+                              Access Recovered Datasets
+                            </Button>
+                          </Link>
+                        </Grid>
+                      </Grid>
+                    </StyledAlert>
 
-                      <div className={"mt-4"}>Data uploads are time-stamped.</div>
-                    </Alert>
-
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       Alternatively, you can search for the dataset of interest on the
                       {" "}<Link href={'/search'}>SDOH Discovery</Link>{" "}
                       platform, and find a link to the archive with additional
                       documentation made available, when available.
-                    </div>
+                    </Paragraph>
 
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       Our current approach to identifying, organizing, and sharing previously publicly-available
                       SDOH data across federal systems is informed as researchers who regularly use the data
                       for analyses. Thus on the Box site, screenshots of webpages are preserved in many
                       cases as are technical documentations, when available and accessible. We know that
                       data means more with context, so linking the metadata and related documents is crucial
                       to the work.
-                    </div>
+                    </Paragraph>
 
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       We also integrated resources and archives pulled from other teams across the country, including:
                       <List>
                         <ListItem>
@@ -129,23 +174,23 @@ const DataRefuge: NextPage = () => {
                           </div>
                         </ListItem>
                       </List>
-                    </div>
+                    </Paragraph>
 
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       We are grateful to additional feedback and guidance we received from
                       colleagues at the University of Illinois at Urbana-Champaign, the
                       National Center for Supercomputing Applications, and
                       Brown University’s School of Public Health.
-                    </div>
+                    </Paragraph>
 
-                    <div className={'mb-4'}>
+                    <Paragraph className={'mb-4'}>
                       Finally, we are incredibly grateful to the
                       Robert Wood Johnson Foundation for their support
                       of the SDOH & Place project, and their commitment to advancing
                       health for all populations. In January 2025, they renewed their promise (link).
                       Additionally, we are grateful to the State of Illinois for serving as
                       a refuge for research and innovations in public health for all peoples.
-                    </div>
+                    </Paragraph>
                   </div>
                 </div>
               </div>
