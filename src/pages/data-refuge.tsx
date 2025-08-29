@@ -100,7 +100,7 @@ const DataRefuge: NextPage = () => {
                     <Paragraph className={'mb-4'}>
                       The SDOH Data Refuge includes multiple datasets & guides from:
                       <List>
-                        <ListItem>The Center for Disease Control (CDC), including the Social Vulnerability Index for all time periods and spatial scales</ListItem>
+                        <ListItem>The Centers for Disease Control and Prevention (CDC), including the Social Vulnerability Index for all time periods and spatial scales</ListItem>
                         <ListItem>The Environmental Protection Agency (EPA), including EJScreen and EJ Index measures.</ListItem>
                         <ListItem>The Health Resources and Services Administration (HRSA)</ListItem>
                       </List>
