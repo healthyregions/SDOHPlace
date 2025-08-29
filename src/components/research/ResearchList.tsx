@@ -11,7 +11,6 @@ type Props = {
   };
 };
 export default function ResearchList({ research, pagination }: Props) {
-  console.log("ResearchList:", research);
   return (
     <>
       <div className={"post-list"}>

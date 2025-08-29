@@ -12,20 +12,53 @@ type Props = {
 };
 
 const PublishDate = ({ item }: Props) => {
-  const date = new Date(item.publish_date);
-  return (
-    <small>
-      <time dateTime={formatISO(date)}>
-        <span>{format(date, "LLLL d, yyyy")}</span>
-      </time>
-    </small>
-  );
+  const publish_date = new Date(item.publish_date);
+
+  var now = new Date();
+  now.setHours(0,0,0,0);
+  if (publish_date < now) {
+    // Selected date is in the past - print timestamp as normal
+    return (
+      <small>
+        <time dateTime={formatISO(publish_date)}>
+          <span>{format(publish_date, "LLLL d, yyyy")}</span>
+        </time>
+      </small>
+    );
+  } else {
+    // Selected date is NOT in the past - determine season and print Coming Soon message
+    const season = getSeason(publish_date);
+    const year = publish_date.getFullYear();
+    return (
+      <small>
+        Coming {(season && year) ? `in ${season} ${year}` : 'Soon!'}
+      </small>
+    );
+  }
 }
 
-const AuthorsList = ({ item }: Props) => <>
-  <div>{item.author}</div>
-</>
-
+const getSeason = (publish_date: Date) => {
+  switch (publish_date.getMonth()) {   // 0-indexed month (0 for January)
+    case 11: // December
+    case 0:  // January
+    case 1:  // February
+      return "Winter";
+    case 2:  // March
+    case 3:  // April
+    case 4:  // May
+      return "Spring";
+    case 5:  // June
+    case 6:  // July
+    case 7:  // August
+      return "Summer";
+    case 8:  // September
+    case 9:  // October
+    case 10: // November
+      return "Fall"; // Or "Autumn"
+    default:
+      return "Invalid Month"; // Should not happen with valid Date objects
+  }
+}
 
 export default function ResearchItem({ item }: Props) {
   return (
@@ -36,7 +69,7 @@ export default function ResearchItem({ item }: Props) {
           </Grid>
           <Grid item xs>
             <h2>{item.title}</h2>
-            <AuthorsList item={item} />
+            <div>{item.author}</div>
             <PublishDate item={item} />
             <p className={'mt-4'}>{item.description}</p>
             {
