@@ -188,7 +188,7 @@ const DataRefuge: NextPage = () => {
                       Robert Wood Johnson Foundation for their support
                       of the SDOH & Place project, and their commitment to advancing
                       health for all populations. In January 2025, they
-                      {" "}<Link href={'http://rwjf.org/en/our-vision/affirming-diversity-equity-and-inclusion.html'}target={'_blank'} rel={'noreferrer noopener'}>
+                      {" "}<Link href={'http://rwjf.org/en/our-vision/affirming-diversity-equity-and-inclusion.html'} target={'_blank'} rel={'noreferrer noopener'}>
                       renewed their promise
                       </Link>.
                       Additionally, we are grateful to the State of Illinois for serving as
