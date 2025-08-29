@@ -33,7 +33,7 @@ const StyledAlert = styled(Alert)`
   background-color: #ECE6F0;
   border-radius: 40px;
   font-family: Nunito, sans-serif;
-  margin-top: 4rem;
+  margin-top: 6rem;
   margin-bottom: 6rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -41,7 +41,7 @@ const StyledAlert = styled(Alert)`
   
   img {
     position: absolute;
-    top: 80vh;
+    top: 85vh;
     width: 386px;
   }
   
@@ -113,7 +113,7 @@ const DataRefuge: NextPage = () => {
                         </Grid>
                         <Grid item xs={6}>
                           <div className={"text-xl"}>
-                            <strong>Looking for unavailable data on SDOH?</strong>
+                            <strong style={{ color: '#7E1CC4' }}>Looking for unavailable data on SDOH?</strong>
                             <div className={'mt-2'}>
                               You can access the datasets and download files to your own computer using our
                               public Box link below. Data uploads are time-stamped.
