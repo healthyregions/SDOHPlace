@@ -38,10 +38,11 @@ const StyledAlert = styled(Alert)`
   padding-top: 2rem;
   padding-bottom: 2rem;
   color: #1E1E1E;
+  position: relative;
   
   img {
     position: absolute;
-    top: 85vh;
+    bottom: -18%;
     width: 386px;
   }
   
