@@ -338,24 +338,20 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
-          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            <Grid container spacing={0}>
-              <Grid item xs={12} lg={7}>
-                Measuring Community-level Social Determinants of Health
-              </Grid>
-              <Grid item xs={12} lg={3} className={'carousel-link-container'}>
-                <a href={'/guides'} className={'carousel-link'}>
-                  <FaBook></FaBook>
-                  All SDOH Research Guides
-                </a>
-              </Grid>
-              <Grid item xs={12} lg={2} className={"carousel-link-container"}>
-                <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
-                  <FaPlus></FaPlus>
-                  Create a Guide
-                </a>
-              </Grid>
-            </Grid>
+          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] flex flex-wrap justify-between">
+            <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
+            <div className={'flex-row mr-10'}>
+              <a href={'/guides'} className={'carousel-link'}>
+                <FaBook></FaBook>
+                All SDOH Research Guides
+              </a>
+            </div>
+            <div>
+              <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
+                <FaPlus></FaPlus>
+                Create a Guide
+              </a>
+            </div>
           </div>
 
           <div className={'flex'}>
