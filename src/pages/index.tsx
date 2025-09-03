@@ -341,48 +341,40 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
             <Grid container spacing={0}>
               <Grid item xs={12} lg={7}>
-                Social Determinants of Health Research Guides
+                Measuring Community-level Social Determinants of Health
               </Grid>
-              {/* TODO: uncomment these once they have destiations
-                <Grid item xs={12} lg={3} className={'carousel-link-container'}>
-                    <a href={'#'} className={'carousel-link'}>
-                        <FaBook></FaBook>
-                        Introduction to SDOH & Place
-                    </a>
-                </Grid>
-                <Grid item xs={12} lg={2} className={"carousel-link-container"}>
-                  <a href={"#"} className={"carousel-link"}>
-                    <FaPlus></FaPlus>
-                    Create a Guide
-                  </a>
-                </Grid> */}
-            </Grid>
-
-            <Grid container spacing={0} className={'text-xl-rfs'}>
-              <Grid item xs={12}>
-                A series of <Link className={'no-underline'} href={'/guides'}>research guides</Link> walk through the
-                measurements of key SDOH concepts. Suggest
-                your own <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
+              <Grid item xs={12} lg={3} className={'carousel-link-container'}>
+                <a href={'/guides'} className={'carousel-link'}>
+                  <FaBook></FaBook>
+                  All SDOH Research Guides
+                </a>
+              </Grid>
+              <Grid item xs={12} lg={2} className={"carousel-link-container"}>
+                <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
+                  <FaPlus></FaPlus>
+                  Create a Guide
+                </a>
               </Grid>
             </Grid>
           </div>
 
-          <Grid container spacing={0}>
-            <Grid item xs={1} className={"vertical-center"}>
-              <IconButton
-                className={"carousel-icon-button prev-button"}
-                onClick={prevPage}
-                disabled={!canPrevPage()}
-              >
-                <FaChevronCircleLeft />
-              </IconButton>
-            </Grid>
-            <Grid item xs={10}>
+          <div className={'flex'}>
+            {/* Prev Button */}
+            <IconButton
+              className={"carousel-icon-button prev-button"}
+              onClick={prevPage}
+              disabled={!canPrevPage()}
+            >
+              <FaChevronCircleLeft />
+            </IconButton>
+
+            {/* SDOH factors Carousel content */}
+            <div className={'overflow-hidden'}>
               <div className={"carousel-container"}>
                 <div
                   ref={carouselRef}
                   className={
-                    "carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto"
+                    "carousel pt-[3rem] grid grid-flow-col justify-between gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto "
                   }
                 >
                   {sdohFactors.map((factor: Factor) => (
@@ -396,17 +388,17 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   ))}
                 </div>
               </div>
-            </Grid>
-            <Grid item xs={1} className={"vertical-center"}>
-              <IconButton
-                className={"carousel-icon-button next-button"}
-                onClick={nextPage}
-                disabled={!canNextPage()}
-              >
-                <FaChevronCircleRight />
-              </IconButton>
-            </Grid>
-          </Grid>
+            </div>
+
+            {/* Next Button */}
+            <IconButton
+              className={"carousel-icon-button next-button"}
+              onClick={nextPage}
+              disabled={!canNextPage()}
+            >
+              <FaChevronCircleRight />
+            </IconButton>
+          </div>
         </div>
       </div>
 

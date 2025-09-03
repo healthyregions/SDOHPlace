@@ -18,7 +18,7 @@ const Card = (props: Props): JSX.Element => {
     <button
       className={`group flex flex-col items-start gap-2 rounded-lg p-8 w-[15rem] ${
         props.title === "Etc." ? "justify-self-start" : ""
-      } ${props.link ? "hover:bg-salmonpink" : "cursor-default"}`}
+      } ${props.link ? "" : "cursor-default"}`}
       onClick={() => {
         props.link ? (window.location.href = props.link) : "";
       }}
@@ -31,7 +31,7 @@ const Card = (props: Props): JSX.Element => {
       </div>
       <div className="font-bold">
         {props.link ? (
-          <p className="text-frenchviolet group-hover:text-lightbisque">
+          <p className="text-frenchviolet ">
             Learn more
           </p>
         ) : (
