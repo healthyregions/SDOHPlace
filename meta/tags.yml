@@ -5,3 +5,7 @@ tags:
     name: showcase
   - slug: events
     name: events
+  - slug: research
+    name: research
+  - slug: technology
+    name: technology
