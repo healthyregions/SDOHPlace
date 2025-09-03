@@ -7,6 +7,8 @@ import React, { useEffect, useRef, useState } from "react";
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import DataDiscovery from "@/public/logos/data-discovery-icon.svg?component";
 import transitIcon from "@/public/logos/transit-icon.svg";
+import foodAccessIcon from "@/public/icons/foodAccessAlt.svg";
+import compositeIcon from "@/public/icons/composite.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
 import workplaceIcon from "@/public/logos/workplace-icon.svg";
@@ -171,30 +173,44 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     },
     {
       id: "2",
+      svgIcon: foodAccessIcon,
+      title: "Food Environment",
+      text: "Access to fresh produce and healthy foods is essential for health. From food deserts to food swamps, tracking food accessibility is crucial.",
+      link: "/guides/measuring-food-access-on-a-neighborhood-level",
+    },
+    {
+      id: "3",
+      svgIcon: compositeIcon,
+      title: "Composite Measures",
+      text: "Integrating social, economic, and other environmental factors as an index can approximate neighborhood advantage and vulnerability.",
+      link: "/guides/area-deprivation-indexes",
+    },
+    {
+      id: "96",
       svgIcon: educationIcon,
       title: "Education",
       text: "Improved access to education can help in reducing health disparities by increasing job opportunities and income.",
     },
     {
-      id: "3",
+      id: "97",
       svgIcon: workplaceIcon,
       title: "Workplace",
       text: "Access to job opportunities and worker safety all influence population vibrancy and may be linked as structural drivers of health.",
     },
     {
-      id: "4",
+      id: "98",
       svgIcon: medicalIcon,
       title: "Medical",
       text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
     },
     {
-      id: "5",
+      id: "99",
       svgIcon: housingIcon,
       title: "Housing",
       text: "Housing cost, quality, and displacement influence populations at local and regional scales.",
     },
     {
-      id: "6",
+      id: "100",
       svgIcon: etcIcon,
       title: "Etc.",
       text: "Discover more Social Determinants of Health",

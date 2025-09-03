@@ -23,18 +23,40 @@
       "status": "current"
     },
     {
-      "desc_long": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated with the Carl R. Woese Institute for Genomic Biology, Department of Statistics, and the School of Information Sciences. Before joining UIUC in 2002, he worked at Clairvoyance Corp. as a Research Scientist and a Senior Research Scientist from 1997 to 2000. His research interests are in the general area of intelligent information systems, including specifically intelligent information retrieval, data mining, natural language processing, machine learning, and their applications in domains such as biomedical and health informatics, and intelligent education systems. He has published over 300 papers in these areas and holds 6 patents. He was a key contributor of the Lemur text retrieval and mining toolkit. He is a Fellow of the Association for Computing Machinery (ACM) and a member of ACM SIGIR Academy. He received numerous awards, including ACM SIGIR Gerard Salton Award, ACM SIGIR Test of Time Paper Award (three times), the 2004 Presidential Early Career Award for Scientists and Engineers (PECASE), Alfred P. Sloan Research Fellowship, IBM Faculty Award, and HP Innovation Research Award.",
-      "name": "ChengXiang Zhai",
-      "desc_short": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
-      "status": "current",
-      "title": "Co-Investigator",
+      "name": "Adam Cox",
+      "title": "Software Engineer & Co-Investigator ",
+      "image": "/images/headshot-ac.png",
+      "desc_short": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana ...",
       "links": [
         {
-          "link_label": "Profile",
-          "link_url": "https://czhai.cs.illinois.edu/"
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/mradamcox/"
+        },
+        {
+          "link_label": "GitHub",
+          "link_url": "https://github.com/mradamcox"
         }
       ],
-      "image": "/images/headshot-cz.png"
+      "desc_long": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads engineering and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement.",
+      "status": "current"
+    },
+    {
+      "name": "Pengyin Shan",
+      "title": "Software Engineer & Co-Investigator ",
+      "image": "/images/headshot-ps.png",
+      "desc_short": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": "https://www.linkedin.com/in/pengyinshan/"
+        },
+        {
+          "link_label": "GitHub",
+          "link_url": "https://github.com/pengyin-shan"
+        }
+      ],
+      "desc_long": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize and utilize unstructured, complex, and multilingual datasets. She has a B.S. in Computer Science Engineering and an M.B.A. degree.",
+      "status": "current"
     },
     {
       "name": "José Alavez",
@@ -43,15 +65,6 @@
       "desc_short": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives ...",
       "links": [],
       "desc_long": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives. During his doctoral dissertation, he charted the global and intimate posthumous geographies of migrants who faced the loss of a loved one in Quebec, Canada. In his earlier academic pursuits, he examined the domestic spaces inhabited by the homeless community in Mexico City, and he also developed methodological frameworks to bridge the realms of digital humanities and cartography.",
-      "status": "current"
-    },
-    {
-      "name": "Kamaria Barronville",
-      "title": "Instructional Designer",
-      "image": "/images/headshot-kb.png",
-      "desc_short": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
-      "links": [],
-      "desc_long": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap between urban education and policy by exploring innovative approaches to promote equitable and inclusive educational practices. At HeRoP, Kamaria leverages her knowledge and skills to contribute to the development and implementation of effective instructional strategies within the lab’s research initiatives.",
       "status": "current"
     },
     {
@@ -78,6 +91,14 @@
       "status": "current"
     },
     {
+      "image": "/images/sara.jpg",
+      "status": "current",
+      "name": "Sara Lambert",
+      "title": "Sr. Research Software Engineer",
+      "desc_long": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer. Over the past decade, she has contributed to dozens of research projects across many different programming languages. She assists with HEROP on various front-end development efforts, including the ChiVes project.",
+      "desc_short": "Sara graduated from UIUC with a BS in Computer Engineering and works at NCSA as a Senior Research Software Engineer..."
+    },
+    {
       "name": "Mandela Gadri",
       "title": "PhD Student",
       "image": "/images/headshot-mg.png",
@@ -90,15 +111,37 @@
       "name": "Catherine Discenza",
       "title": "Graduate Research Assistant",
       "image": "/images/headshot-cd.png",
-      "desc_short": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health ...",
+      "desc_short": "Catherine graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity ...",
       "links": [
         {
           "link_label": "LinkedIn",
           "link_url": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
         }
       ],
-      "desc_long": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors.",
+      "desc_long": "Catherine graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with social and structural determinants of health.",
       "status": "current"
+    },
+    {
+      "image": "/images/adrita.jpg",
+      "status": "current",
+      "name": "Mahjabin Kabir Adrita, MS",
+      "title": "Graduate Research Assistant ",
+      "desc_long": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches. She is passionate about leveraging her expertise in community-based research, data analysis, and interdisciplinary collaboration to make a meaningful impact.",
+      "desc_short": "Adrita’s research focuses on engaging marginalized communities and addressing health challenges through comprehensive fieldwork and mixed-method approaches...",
+      "links": [
+        {
+          "link_label": "LinkedIn",
+          "link_url": " https://www.linkedin.com/in/mahjabin-kabir-adrita"
+        }
+      ]
+    },
+    {
+      "image": "/images/missing-headshot.png",
+      "status": "current",
+      "name": "Camrin G., MA",
+      "title": "Graduate Research Assistant ",
+      "desc_long": "Camrin has a BA and MA in urban planning from the University of Illinois at Urbana-Champaign. He is interested in GIS, spatial analysis, public libraries, public transportation, and education. He wants to analyze the ways in which inequality shows itself in everyday life and what can be done to limit the impact.",
+      "desc_short": "Camrin has a BA and MA in urban planning from the University of Illinois at Urbana-Champaign..."
     },
     {
       "name": "Andre Vines",
@@ -110,40 +153,27 @@
       "status": "current"
     },
     {
-      "name": "Adam Cox",
-      "title": "Software Engineer",
-      "image": "/images/headshot-ac.png",
-      "desc_short": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana ...",
+      "desc_long": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated with the Carl R. Woese Institute for Genomic Biology, Department of Statistics, and the School of Information Sciences. Before joining UIUC in 2002, he worked at Clairvoyance Corp. as a Research Scientist and a Senior Research Scientist from 1997 to 2000. His research interests are in the general area of intelligent information systems, including specifically intelligent information retrieval, data mining, natural language processing, machine learning, and their applications in domains such as biomedical and health informatics, and intelligent education systems. He has published over 300 papers in these areas and holds 6 patents. He was a key contributor of the Lemur text retrieval and mining toolkit. He is a Fellow of the Association for Computing Machinery (ACM) and a member of ACM SIGIR Academy. He received numerous awards, including ACM SIGIR Gerard Salton Award, ACM SIGIR Test of Time Paper Award (three times), the 2004 Presidential Early Career Award for Scientists and Engineers (PECASE), Alfred P. Sloan Research Fellowship, IBM Faculty Award, and HP Innovation Research Award.",
+      "name": "ChengXiang Zhai",
+      "desc_short": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
+      "status": "past",
+      "title": "Co-Investigator",
       "links": [
         {
-          "link_label": "LinkedIn",
-          "link_url": "https://www.linkedin.com/in/mradamcox/"
-        },
-        {
-          "link_label": "GitHub",
-          "link_url": "https://github.com/mradamcox"
+          "link_label": "Profile",
+          "link_url": "https://czhai.cs.illinois.edu/"
         }
       ],
-      "desc_long": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads engineering and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement.",
-      "status": "current"
+      "image": "/images/headshot-cz.png"
     },
     {
-      "name": "Pengyin Shan",
-      "title": "Software Engineer",
-      "image": "/images/headshot-ps.png",
-      "desc_short": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
-      "links": [
-        {
-          "link_label": "LinkedIn",
-          "link_url": "https://www.linkedin.com/in/pengyinshan/"
-        },
-        {
-          "link_label": "GitHub",
-          "link_url": "https://github.com/pengyin-shan"
-        }
-      ],
-      "desc_long": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize and utilize unstructured, complex, and multilingual datasets. She has a B.S. in Computer Science Engineering and an M.B.A. degree.",
-      "status": "current"
+      "name": "Kamaria Barronville",
+      "title": "Instructional Designer",
+      "image": "/images/headshot-kb.png",
+      "desc_short": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
+      "links": [],
+      "desc_long": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap between urban education and policy by exploring innovative approaches to promote equitable and inclusive educational practices. At HeRoP, Kamaria leverages her knowledge and skills to contribute to the development and implementation of effective instructional strategies within the lab’s research initiatives.",
+      "status": "past"
     },
     {
       "name": "Mukesh Chugani",
