@@ -498,78 +498,76 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto bg-frenchviolet sm:px-[1rem] md:px-[4rem]">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto flex-column">
-            <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
-                Brought to you by
-            </div>
-            <Grid container spacing={6} sx={{justifyContent: 'space-between',  alignItems:'center' }}  className="pb-[4rem]">
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="http://www.healthyregions.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="Healthy Regions & Policies Lab"
-                    src={heropLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="https://illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="University of Illinois"
-                    src={uiucLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="https://www.ncsa.illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="National Center for Supercomputing Applications"
-                    src={ncsaLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="https://designcenter.illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    className={`${classes.image} ${classes.largeImage}`}
-                    alt="Siebel Center for Design"
-                    src={scdLogo}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                    href="https://www.rwjf.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <Image
-                    alt="Robert Wood Johnson Foundation"
-                    src={rwfjLogo}
-                    className={classes.image}
-                    />
-                </Link>
-              </Grid>
-            </Grid>
+      <div className="w-full h-auto bg-frenchviolet">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto px-[2.5%]">
+          <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
+              Brought to you by
+          </div>
+          <div className={'flex justify-between items-center pb-[4rem]'}>
+            <Link
+              href="http://www.healthyregions.org/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={'mr-12'}
+            >
+              <Image
+                alt="Healthy Regions & Policies Lab"
+                src={heropLogo}
+                className={classes.image}
+              />
+            </Link>
+
+            <Link
+              href="https://illinois.edu/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={'mx-12'}
+            >
+              <Image
+                alt="University of Illinois"
+                src={uiucLogo}
+                className={classes.image}
+              />
+            </Link>
+            <Link
+              href="https://www.ncsa.illinois.edu/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={'mx-12'}
+            >
+              <Image
+                alt="National Center for Supercomputing Applications"
+                src={ncsaLogo}
+                className={classes.image}
+              />
+            </Link>
+
+            <Link
+              href="https://designcenter.illinois.edu/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={'mx-12'}
+            >
+              <Image
+                className={`${classes.image} ${classes.largeImage}`}
+                alt="Siebel Center for Design"
+                src={scdLogo}
+              />
+            </Link>
+
+            <Link
+              href="https://www.rwjf.org/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={'ml-12'}
+            >
+              <Image
+                alt="Robert Wood Johnson Foundation"
+                src={rwfjLogo}
+                className={classes.image}
+              />
+            </Link>
+          </div>
         </div>
       </div>
 
