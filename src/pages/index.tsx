@@ -340,7 +340,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] flex flex-wrap justify-between">
             <div className={'flex-grow py-2'}>Measuring Community-level Social Determinants of Health</div>
-            <div className={'flex-row mr-10 py-2'}>
+            <div className={'flex-row mr-10'}>
               <a href={'/guides'} className={'carousel-link'}>
                 <FaBook></FaBook>
                 All SDOH Research Guides
