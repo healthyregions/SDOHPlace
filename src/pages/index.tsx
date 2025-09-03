@@ -142,6 +142,10 @@ const FeaturedImageMobile = styled.img`
   position: absolute;
   top: -15rem;
   width: 14rem;
+  
+  @media (min-width: 769px) {
+    display: none; /* Hide image on larger screens */
+  }
 `;
 
 interface Factor {
@@ -417,21 +421,17 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%]">
+
+            {/* Mobile-only version of the FeaturedIcon */}
+            <div className={'flex relative max-md:h-[8rem] max-md:top-[6.5rem]'}>
+              <FeaturedImageMobile height={100} src={featuredData?.image}  />
+            </div>
+
             <div className={'flex relative'}>
-
-              {/* Mobile-only version of the FeaturedIcon */}
-              <div style={{
-                position: 'relative',
-                marginTop: '8rem',
-                marginBottom: '2rem',
-              }}>
-                <FeaturedImageMobile  src={featuredData?.image}  />
-              </div>
-
               <div>
                 {/* "Featured" section header / icon */}
-                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
-                  <div className={'flex'} style={{ paddingBottom: '3px' }}><FeaturedIcon /></div> Featured
+                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2.0px' }}>
+                  <div className={'flex pb-[3px]'}><FeaturedIcon /></div> Featured
                 </div>
 
                 {/* Featured content title */}
@@ -455,10 +455,11 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     )
                   }
                 </div>
-                {/* Desktop-only version of the FeaturedIcon */}
-                <div className={'relative'}>
-                  <FeaturedImage height={100} src={featuredData?.image}  />
-                </div>
+              </div>
+
+              {/* Desktop-only version of the FeaturedIcon */}
+              <div className={'flex relative md:w-[60rem] ml-12'}>
+                <FeaturedImage height={100} src={featuredData?.image}  />
               </div>
             </div>
           </div>
