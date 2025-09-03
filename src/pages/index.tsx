@@ -339,8 +339,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] flex flex-wrap justify-between">
-            <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
-            <div className={'flex-row mr-10'}>
+            <div className={'flex-grow py-2'}>Measuring Community-level Social Determinants of Health</div>
+            <div className={'flex-row mr-10 py-2'}>
               <a href={'/guides'} className={'carousel-link'}>
                 <FaBook></FaBook>
                 All SDOH Research Guides
@@ -401,16 +401,18 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            <Grid container spacing={0}>
+            <div className={'flex relative'}>
 
               {/* Mobile-only version of the FeaturedIcon */}
-              <Grid item xs={12}
-                    sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
-                {/* TODO: image w/ absolute position needs to properly support mobile */}
+              <div style={{
+                position: 'relative',
+                marginTop: '8rem',
+                marginBottom: '2rem',
+              }}>
                 <FeaturedImageMobile  src={featuredData?.image}  />
-              </Grid>
+              </div>
 
-              <Grid item xs={12} lg={9}>
+              <div>
                 {/* "Featured" section header / icon */}
                 <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
                   <div className={'flex'} style={{ paddingBottom: '3px' }}><FeaturedIcon /></div> Featured
@@ -428,24 +430,24 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </p>
 
                 {/* Actions related to Featured Content */}
-                <Grid container spacing={0}>
+                <div>
                   {
                     featuredData?.links?.map((link) =>
-                      <Grid key={`${link.label}-${link?.url}`} item lg={3} xs={12}>
+                      <div key={`${link.label}-${link?.url}`} item lg={3} xs={12}>
                         {link?.bold && <strong className={'mr-12 text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
                         {!link?.bold && <a className={'no-underline mr-12 text-base'} href={link?.url}>{link?.label}</a>}
-                      </Grid>
+                      </div>
                     )
                   }
-                </Grid>
-              </Grid>
+                </div>
+              </div>
 
               {/* Desktop-only version of the FeaturedIcon */}
               <Grid item lg={3} style={{ position: 'relative' }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
                 <FeaturedImage height={100} src={featuredData?.image}  />
               </Grid>
-            </Grid>
+            </div>
           </div>
         </div>
       </div>
