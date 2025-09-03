@@ -37,7 +37,7 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box, Grid, IconButton } from "@mui/material";
+import {Box, Button, Grid, IconButton} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
@@ -53,6 +53,7 @@ import featuredData from "../../meta/featured.json";
 import styled from "@emotion/styled";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import Head from "next/head";
+import {useRouter} from "next/router";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -223,6 +224,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const classes = useStyles();
+  const router = useRouter();
   return (
     <>
       <BasicPageMeta />
@@ -295,20 +297,20 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
             <div>
               <ButtonWithIcon
+                noBox={true}
                 label={"Data Discovery"}
-                svgIcon={<DataDiscovery />}
                 fillColor={"salmonpink"}
                 labelColor={"almostblack"}
-                onClick={scrollToComingSoon}
+                onClick={() => router.push('/search')}
               ></ButtonWithIcon>
             </div>
             <div>
               <ButtonWithIcon
+                noBox={true}
                 label={"Community Toolkit"}
-                svgIcon={<Handyman />}
                 fillColor={"frenchviolet"}
                 labelColor={"white"}
-                onClick={scrollToComingSoon}
+                onClick={() => window.open('https://toolkit.sdohplace.org', '_blank')}
               ></ButtonWithIcon>
             </div>
           </div>
