@@ -128,7 +128,7 @@ const FeaturedImage = styled.img`
   display: block; /* Show by default */
   position: absolute;
   right: 2rem;
-  top: -9rem;
+  bottom: 0;
   width: 18rem;
   
   @media (max-width: 768px) {
@@ -339,14 +339,14 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] flex flex-wrap justify-between">
-            <div className={'flex-grow py-2'}>Measuring Community-level Social Determinants of Health</div>
-            <div className={'flex-row mr-10'}>
+            <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
+            <div className={'flex flex-row mr-10'}>
               <a href={'/guides'} className={'carousel-link'}>
                 <FaBook></FaBook>
                 All SDOH Research Guides
               </a>
             </div>
-            <div>
+            <div className={'flex'}>
               <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
                 <FaPlus></FaPlus>
                 Create a Guide
@@ -400,7 +400,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
-          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%]">
             <div className={'flex relative'}>
 
               {/* Mobile-only version of the FeaturedIcon */}
@@ -419,34 +419,31 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 {/* Featured content title */}
-                {/* TODO: support markdown? */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>{
+                <h3 className={'mb-4 text-[20px] text-extrabold'} style={{ letterSpacing: '0.5px', fontWeight: '1000' }}>{
                   featuredData?.title || 'Coming Soon' }
                 </h3>
 
                 {/* Featured content body */}
-                <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
+                <div className={'flex flex-wrap mb-6 text-[18px] tracking-wide'} style={{ lineHeight: '125%' }}>
                   { featuredData?.body || 'Check back later for exciting new features!' }
-                </p>
+                </div>
 
                 {/* Actions related to Featured Content */}
                 <div>
                   {
                     featuredData?.links?.map((link) =>
-                      <div key={`${link.label}-${link?.url}`} item lg={3} xs={12}>
-                        {link?.bold && <strong className={'mr-12 text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
-                        {!link?.bold && <a className={'no-underline mr-12 text-base'} href={link?.url}>{link?.label}</a>}
-                      </div>
+                      <span key={`${link.label}-${link?.url}`}>
+                        {link?.bold && <strong className={'mr-[2rem] text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                        {!link?.bold && <a className={'no-underline mr-[2rem] text-base'} href={link?.url}>{link?.label}</a>}
+                      </span>
                     )
                   }
                 </div>
+                {/* Desktop-only version of the FeaturedIcon */}
+                <div className={'relative'}>
+                  <FeaturedImage height={100} src={featuredData?.image}  />
+                </div>
               </div>
-
-              {/* Desktop-only version of the FeaturedIcon */}
-              <Grid item lg={3} style={{ position: 'relative' }}>
-                {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <FeaturedImage height={100} src={featuredData?.image}  />
-              </Grid>
             </div>
           </div>
         </div>
