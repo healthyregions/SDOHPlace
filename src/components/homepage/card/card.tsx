@@ -26,7 +26,7 @@ const Card = (props: Props): JSX.Element => {
       <div className="h-[3rem] w-[3.8125rem]">
         <Image priority src={props.svgIcon} alt={props.title + " icon"} />
       </div>
-      <div className="text-almostblack text-2xl-rfs font-bold leading-8">
+      <div className="text-almostblack text-2xl-rfs font-bold leading-8 text-left">
         {props.title}
       </div>
       <div className="font-bold">
