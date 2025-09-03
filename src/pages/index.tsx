@@ -181,7 +181,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       id: "3",
       svgIcon: compositeIcon,
       title: "Composite Measures",
-      text: "Integrating dimensions of social, economic, and other environmental factors as an index can be used to approximate neighborhood advantage and vulnerability.",
+      text: "Integrating social, economic, and other environmental factors as an index can approximate neighborhood advantage and vulnerability.",
       link: "/guides/area-deprivation-indexes",
     },
     {
