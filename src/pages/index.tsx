@@ -390,7 +390,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 <div
                   ref={carouselRef}
                   className={
-                    "carousel pt-[3rem] grid grid-flow-col justify-between gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto "
+                    "carousel lg:pt-[3rem] grid grid-flow-col justify-between gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto "
                   }
                 >
                   {sdohFactors.map((factor: Factor) => (
