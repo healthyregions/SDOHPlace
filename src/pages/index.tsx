@@ -503,12 +503,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
               Brought to you by
           </div>
-          <div className={'flex justify-between items-center pb-[4rem]'}>
+          <div className={'flex flex-row max-md:flex-col justify-between items-center pb-[4rem]'}>
             <Link
               href="http://www.healthyregions.org/"
               target="_blank"
               rel="noreferrer noopener"
-              className={'mr-12'}
+              className={'mr-12 h-[5rem] max-md:w-[12rem]'}
             >
               <Image
                 alt="Healthy Regions & Policies Lab"
@@ -521,7 +521,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               href="https://illinois.edu/"
               target="_blank"
               rel="noreferrer noopener"
-              className={'mx-12'}
+              className={'mx-12 h-[5rem] max-md:w-[12rem]'}
             >
               <Image
                 alt="University of Illinois"
@@ -533,7 +533,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               href="https://www.ncsa.illinois.edu/"
               target="_blank"
               rel="noreferrer noopener"
-              className={'mx-12'}
+              className={'mx-12 h-[5rem] max-md:w-[12rem]'}
             >
               <Image
                 alt="National Center for Supercomputing Applications"
@@ -546,7 +546,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               href="https://designcenter.illinois.edu/"
               target="_blank"
               rel="noreferrer noopener"
-              className={'mx-12'}
+              className={'mx-12 max-md:w-[12rem]'}
             >
               <Image
                 className={`${classes.image} ${classes.largeImage}`}
@@ -559,7 +559,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               href="https://www.rwjf.org/"
               target="_blank"
               rel="noreferrer noopener"
-              className={'ml-12'}
+              className={'ml-12 max-md:w-[16rem]'}
             >
               <Image
                 alt="Robert Wood Johnson Foundation"
@@ -580,16 +580,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="px-[2.5%]">
             <div
               style={{ marginBottom: "2rem" }}
-              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
+              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-1 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
             >
               <div className="flex flex-col gap-8 -order-1">
-                <div className="w-[3.5rem] h-[3.5rem]">
-                  <Image
-                    priority
-                    src={dataDiscoveryIconEnlarged}
-                    alt="Data Discovery Enlarged icon"
-                  />
-                </div>
+                <Image
+                  priority
+                  height={90}
+                  src={dataDiscoveryIconEnlarged}
+                  alt="Data Discovery Enlarged icon"
+                />
 
                 <div className="text-almostblack text-2xl-rfs leading-8">
                   <b>Data Discovery </b>
@@ -613,12 +612,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     <div>
                       <ButtonWithIcon
                         label={"Data Discovery"}
-                        svgIcon={<DataDiscovery />}
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
-                        onClick={() => {
-                          window.location.href = "/search";
-                        }}
+                        noBox={true}
+                        onClick={() => router.push("/search")}
                         iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>
@@ -627,13 +624,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </div>
 
               <div className="flex flex-col gap-8">
-                <div className="w-[3.5rem] h-[3.5rem]">
-                  <Image
-                    priority
-                    src={communityToolkitIconEnlarged}
-                    alt="Data Practice Enlarged icon"
-                  />
-                </div>
+                <Image
+                  priority
+                  height={90}
+                  src={communityToolkitIconEnlarged}
+                  alt="Data Practice Enlarged icon"
+                />
 
                 <div className="text-almostblack text-2xl-rfs font-bold leading-8">
                   Community Toolkit
@@ -656,12 +652,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   <div>
                     <ButtonWithIcon
                       label={"Community Toolkit"}
-                      svgIcon={<Handyman />}
                       fillColor={"frenchviolet"}
                       labelColor={"white"}
-                      onClick={() => {
-                        window.location.href = "https://toolkit.sdohplace.org";
-                      }}
+                      noBox={true}
+                      onClick={() => window.open('https://toolkit.sdohplace.org', '_blank')}
                     ></ButtonWithIcon>
                   </div>
                 </div>
