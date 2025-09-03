@@ -585,8 +585,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               <div className="flex flex-col gap-8 -order-1">
                 <Image
                   priority
+                  width={90}
                   height={90}
-                  src={dataDiscoveryIconEnlarged}
+                  src={'/icons/data_discovery_icon.png'}
                   alt="Data Discovery Enlarged icon"
                 />
 
@@ -626,8 +627,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               <div className="flex flex-col gap-8">
                 <Image
                   priority
+                  width={90}
                   height={90}
-                  src={communityToolkitIconEnlarged}
+                  src={'/icons/community_toolkit_icon.png'}
                   alt="Data Practice Enlarged icon"
                 />
 
