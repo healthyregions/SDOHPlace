@@ -58,13 +58,13 @@ const HeaderRow = (props: Props): JSX.Element => {
     alert("The shared link has been copied to the clipboard successfully!");
   };
 
-  const sanitizedDescription = DOMPurify.sanitize(
-    props.resultItem.description,
+  const sanitizedDescriptions = props.resultItem.description.map((d) => {
+    return DOMPurify.sanitize(d,
     {
       ALLOWED_TAGS: ["a", "b", "i", "em", "strong", "p", "div", "span"],
       ALLOWED_ATTR: ["href", "title", "target", "class"],
-    }
-  );
+    })
+  });
 
   const links = ParseReferenceLink(props.resultItem.meta.references)
   return (
@@ -198,14 +198,17 @@ const HeaderRow = (props: Props): JSX.Element => {
           </div>
         </div>
       </Collapse>
-      {props.resultItem.description ? (
-        <div className="flex flex-col sm:flex-row items-center">
-          <div
-            className="text-base"
-            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-          />
+      {props.resultItem.description.length > 0 && (
+        <div className="flex flex-col items-center">
+          {props.resultItem.description.map((description, index) => {
+            return <div
+              key={index}
+              className="text-base mb-2"
+            >{description}
+            </div>
+          })}
         </div>
-      ) : null}
+      )}
       {links.archiveUrl ? (
         <div className="mt-2">
           <strong>Data Offline?</strong> Checkout a copy of this dataset in our <a href={links.archiveUrl}>Data Archive</a>

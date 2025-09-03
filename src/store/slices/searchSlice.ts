@@ -110,7 +110,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
     const state = getState() as RootState;
     const currentRequestId = state.search.currentRequestId;
     if (currentRequestId !== requestId && !bypassSpellCheck) return;
-    
     try {
       const isAISearch = state.search.aiSearch;
       
@@ -124,7 +123,6 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         ).unwrap();
         return aiResponse;
       }
-      
       const searchService = new SearchService(schema);
       const currentSort = state.search.sort;
       const effectiveSortBy = sortBy || currentSort.sortBy;
@@ -135,7 +133,8 @@ export const fetchSearchAndRelatedResults = createAsyncThunk(
         effectiveSortBy, 
         effectiveSortOrder, 
         isForceRefresh,
-        state.search.aiSearch
+        state.search.aiSearch,
+        bypassSpellCheck
       );
       
       if (searchResult.usedSpellCheck && searchResult.usedQuery) {
@@ -206,7 +205,8 @@ export const fetchSearchResults = createAsyncThunk(
       sortBy, 
       sortOrder,
       false,
-      state.search.aiSearch
+      state.search.aiSearch,
+      bypassSpellCheck
     );
     if (result.usedSpellCheck && result.usedQuery) {
       dispatch(setSpellCheck(result.usedQuery));

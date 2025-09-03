@@ -8,7 +8,7 @@ export interface SolrObject {
   id: string;
   title: string;
   creator: string[];
-  description: string;
+  description: string[];
   index_year: string[];
   metadata_version: string;
   modified: string;

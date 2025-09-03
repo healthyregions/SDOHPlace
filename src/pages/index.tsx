@@ -7,6 +7,8 @@ import React, { useEffect, useRef, useState } from "react";
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import DataDiscovery from "@/public/logos/data-discovery-icon.svg?component";
 import transitIcon from "@/public/logos/transit-icon.svg";
+import foodAccessIcon from "@/public/icons/foodAccessAlt.svg";
+import compositeIcon from "@/public/icons/composite.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
 import workplaceIcon from "@/public/logos/workplace-icon.svg";
@@ -48,6 +50,7 @@ import {
 } from "react-icons/fa";
 import { Handyman } from "@mui/icons-material";
 
+import featuredData from "../../meta/featured.json";
 
 import styled from "@emotion/styled";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
@@ -133,17 +136,26 @@ const FeaturedImage = styled.img`
     display: none; /* Hide image on smaller screens */
   }
 `;
+
 const FeaturedImageMobile = styled.img`
   position: absolute;
   top: -15rem;
   width: 14rem;
 `;
 
+interface Factor {
+  id: string|number;
+  svgIcon: string;
+  title: string;
+  text: string;
+  link?: string;
+}
+
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
-  const sdohFactors = [
+  const sdohFactors: Array<Factor> = [
     {
       id: "0",
       svgIcon: transitIcon,
@@ -160,30 +172,44 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     },
     {
       id: "2",
+      svgIcon: foodAccessIcon,
+      title: "Food Environment",
+      text: "Access to fresh produce and healthy foods is essential for health. From food deserts to food swamps, tracking food accessibility is crucial.",
+      link: "/guides/measuring-food-access-on-a-neighborhood-level",
+    },
+    {
+      id: "3",
+      svgIcon: compositeIcon,
+      title: "Composite Measures",
+      text: "Integrating social, economic, and other environmental factors as an index can approximate neighborhood advantage and vulnerability.",
+      link: "/guides/area-deprivation-indexes",
+    },
+    {
+      id: "96",
       svgIcon: educationIcon,
       title: "Education",
       text: "Improved access to education can help in reducing health disparities by increasing job opportunities and income.",
     },
     {
-      id: "3",
+      id: "97",
       svgIcon: workplaceIcon,
       title: "Workplace",
       text: "Access to job opportunities and worker safety all influence population vibrancy and may be linked as structural drivers of health.",
     },
     {
-      id: "4",
+      id: "98",
       svgIcon: medicalIcon,
       title: "Medical",
       text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
     },
     {
-      id: "5",
+      id: "99",
       svgIcon: housingIcon,
       title: "Housing",
       text: "Housing cost, quality, and displacement influence populations at local and regional scales.",
     },
     {
-      id: "6",
+      id: "100",
       svgIcon: etcIcon,
       title: "Etc.",
       text: "Discover more Social Determinants of Health",
@@ -373,13 +399,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     "carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto"
                   }
                 >
-                  {sdohFactors.map((factor) => (
+                  {sdohFactors.map((factor: Factor) => (
                     <Card
                       key={factor.id}
                       svgIcon={factor.svgIcon}
                       title={factor.title}
                       text={factor.text}
-                      link={factor.link ? factor.link : ""}
+                      link={factor?.link ? factor.link! : ""}
                     />
                   ))}
                 </div>
@@ -407,7 +433,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               <Grid item xs={12}
                     sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <FeaturedImageMobile  src={'images/human_centered_design.svg'}  />
+                <FeaturedImageMobile  src={featuredData?.image}  />
               </Grid>
 
               <Grid item xs={12} lg={9}>
@@ -416,34 +442,34 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   <div className={'flex'} style={{ paddingBottom: '3px' }}><FeaturedIcon /></div> Featured
                 </div>
 
-                {/* Featured content */}
-                {/* TODO: eventually read this info from CMS? title / excerpt */}
-                <div className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>A Guide to Human-Centered Design</div>
+                {/* Featured content title */}
+                {/* TODO: support markdown? */}
+                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>{
+                  featuredData?.title || 'Coming Soon' }
+                </h3>
+
+                {/* Featured content body */}
                 <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
-                  This report seeks to illuminate the design process necessary to create accessible, enjoyable,
-                  and empowering data tools for place-based health equity. It also outlines basic principles of
-                  HCD, describing a general four-step process to put design into action, as well as showcasing
-                  best practices to create user-friendly designs in general.
+                  { featuredData?.body || 'Check back later for exciting new features!' }
                 </p>
 
                 {/* Actions related to Featured Content */}
-                {/* TODO: eventually read this info from CMS? link text / url / external(yes/no) */}
                 <Grid container spacing={0}>
-                  <Grid item lg={6} xs={12}>
-                    <strong className={'mr-12 text-base'}><a className={'no-underline'} href={'https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing'} target="_blank" rel="noopener noreferrer">Access Resource &rarr;</a></strong>
-
-                    <Link href={'/research'} legacyBehavior>
-                      <a className={'no-underline text-base mr-12'}>More Resources</a>
-                    </Link>
-
-                  </Grid>
+                  {
+                    featuredData?.links?.map((link) =>
+                      <Grid key={`${link.label}-${link?.url}`} item lg={3} xs={12}>
+                        {link?.bold && <strong className={'mr-12 text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                        {!link?.bold && <a className={'no-underline mr-12 text-base'} href={link?.url}>{link?.label}</a>}
+                      </Grid>
+                    )
+                  }
                 </Grid>
               </Grid>
 
               {/* Desktop-only version of the FeaturedIcon */}
               <Grid item lg={3} style={{ position: 'relative' }}>
                 {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <FeaturedImage height={100} src={'images/human_centered_design.svg'}  />
+                <FeaturedImage height={100} src={featuredData?.image}  />
               </Grid>
             </Grid>
           </div>
@@ -690,7 +716,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             font-size: 18px;
             letter-spacing: 0.5px;
             line-height: 24px;
-            
+
             svg {
               margin-right: 0.5rem;
               vertical-align: middle;
@@ -701,7 +727,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             align-self: center;
             margin-left: auto;
             margin-right: auto;
-            
+
             svg {
               color: #FF9C77;
               background: #FFE5C4;
