@@ -15,14 +15,12 @@ import workplaceIcon from "@/public/logos/workplace-icon.svg";
 import medicalIcon from "@/public/logos/medical-icon.svg";
 import housingIcon from "@/public/logos/housing-icon.svg";
 import etcIcon from "@/public/logos/etc-icon.svg";
-import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
-import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
 import heropLogo from "@/public/logos/logo-herop.png";
-import rwfjLogo from "@/public/logos/logo-rwjf.png";
+import rwjfLogo from "@/public/logos/logo-rwjf.png";
 import ncsaLogo from "@/public/logos/logo-ncsa.png";
 import scdLogo from "@/public/logos/logo-siebel.png";
 import uiucLogo from "@/public/logos/logo-uiuc.png";
-import sdohGraphic from "@/public/images/sdohGraphic.svg";
+import sdohGraphic from "@/public/images/sdoh_bannermation.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
 import line3 from "@/public/logos/line3.svg";
@@ -39,22 +37,19 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import {Box, Button, Grid, IconButton} from "@mui/material";
+import {IconButton} from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
   FaBook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
   FaPlus, FaStar,
 } from "react-icons/fa";
-import { Handyman } from "@mui/icons-material";
 
 import featuredData from "../../meta/featured.json";
 
 import styled from "@emotion/styled";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
-import Head from "next/head";
 import {useRouter} from "next/router";
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -110,6 +105,30 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const SponsorLink = ({ image, url, alt, classes, className }) =>
+  <Link
+    href={url}
+    target="_blank"
+    rel="noreferrer noopener"
+    className={'max-md:my-2 w-[12rem]'}
+  >
+    <div className={'flex items-center justify-center'}>
+    <Image
+      alt={alt}
+      src={image}
+      className={classes.image + ' ' + className}
+    />
+    </div>
+  </Link>;
+
+const sponsors = [
+  { key:'herop', image: heropLogo, url: 'https://illinois.edu/', alt: 'Healthy Regions & Policies Lab', className:'' },
+  { key:'uiuc', image: uiucLogo, url: 'http://www.healthyregions.org/', alt: 'University of Illinois at Urbana-Champaign', className:'' },
+  { key:'ncsa', image: ncsaLogo, url: 'https://www.ncsa.illinois.edu/', alt: 'National Center for Supercomputing Applications', className:'' },
+  { key:'scd', image: scdLogo, url: 'https://designcenter.illinois.edu/', alt: 'Siebel Center for Design', className:'h-[70px] w-[90px]' },
+  { key:'rwjf', image: rwjfLogo, url: 'https://www.rwjf.org/', alt: 'Robert Wood Johnson Foundation', className:'' },
+];
 
 const FeaturedIcon = () =>
   <>
@@ -272,7 +291,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
         <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
-          <div className="lg:pb-8 lg:mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
+          <div className="lg:pb-8 lg:mt-auto max-[500px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
               src={mainLogo}
@@ -313,9 +332,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               Social Determinants of Health for high impact
               research and advocacy
             </p>
-          </div>
-          <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
-            <div>
+            <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center mt-8">
               <ButtonWithIcon
                 noBox={true}
                 label={"Data Discovery"}
@@ -323,8 +340,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 labelColor={"almostblack"}
                 onClick={() => router.push('/search')}
               ></ButtonWithIcon>
-            </div>
-            <div>
               <ButtonWithIcon
                 noBox={true}
                 label={"Community Toolkit"}
@@ -357,16 +372,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
-          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] flex flex-wrap justify-between">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] px-[2.5%]">
+          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 flex flex-wrap justify-between">
             <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
-            <div className={'flex flex-row mr-10'}>
+            <div className={'flex flex-row mr-10'} style={{ fontWeight:700 }}>
               <a href={'/guides'} className={'carousel-link'}>
                 <FaBook></FaBook>
                 All SDOH Research Guides
               </a>
             </div>
-            <div className={'flex'}>
+            <div className={'flex'} style={{ fontWeight:700 }}>
               <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
                 <FaPlus></FaPlus>
                 Create a Guide
@@ -420,7 +435,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
-          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
 
             {/* Mobile-only version of the FeaturedIcon */}
             <div className={'flex relative max-md:h-[8rem] max-md:top-[6.5rem]'}>
@@ -504,69 +519,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               Brought to you by
           </div>
           <div className={'flex flex-row max-md:flex-col justify-between items-center pb-[4rem]'}>
-            <Link
-              href="http://www.healthyregions.org/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className={'mr-12 h-[5rem] max-md:w-[12rem]'}
-            >
-              <Image
-                alt="Healthy Regions & Policies Lab"
-                src={heropLogo}
-                className={classes.image}
-              />
-            </Link>
-
-            <Link
-              href="https://illinois.edu/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className={'mx-12 h-[5rem] max-md:w-[12rem]'}
-            >
-              <Image
-                alt="University of Illinois"
-                src={uiucLogo}
-                className={classes.image}
-              />
-            </Link>
-            <Link
-              href="https://www.ncsa.illinois.edu/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className={'mx-12 h-[5rem] max-md:w-[12rem]'}
-            >
-              <Image
-                alt="National Center for Supercomputing Applications"
-                src={ncsaLogo}
-                className={classes.image}
-              />
-            </Link>
-
-            <Link
-              href="https://designcenter.illinois.edu/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className={'mx-12 max-md:w-[12rem]'}
-            >
-              <Image
-                className={`${classes.image} ${classes.largeImage}`}
-                alt="Siebel Center for Design"
-                src={scdLogo}
-              />
-            </Link>
-
-            <Link
-              href="https://www.rwjf.org/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className={'ml-12 max-md:w-[16rem]'}
-            >
-              <Image
-                alt="Robert Wood Johnson Foundation"
-                src={rwfjLogo}
-                className={classes.image}
-              />
-            </Link>
+            {
+              sponsors?.map(sponsor =>
+                <SponsorLink className={sponsor.className}
+                             key={sponsor.key}
+                             classes={classes}
+                             image={sponsor.image}
+                             url={sponsor.url}
+                             alt={sponsor.alt} />
+              )
+            }
           </div>
         </div>
       </div>
