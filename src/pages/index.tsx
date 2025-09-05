@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
-import DataDiscovery from "@/public/logos/data-discovery-icon.svg?component";
 import transitIcon from "@/public/logos/transit-icon.svg";
 import foodAccessIcon from "@/public/icons/foodAccessAlt.svg";
 import compositeIcon from "@/public/icons/composite.svg";
