@@ -626,7 +626,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </div>
           </div>
 
-          <div className="relative self-center">
+          <div className="relative self-center px-[2.5%]">
             <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
           </div>
         </div>
