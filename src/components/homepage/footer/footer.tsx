@@ -19,7 +19,7 @@ import mobileFooterLine5 from "@/public/logos/mobile-footer-line5.svg";
 import theSDOHPlaceProjectFooter from "@/public/logos/the-sdoh-place-project-footer.svg";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import {ChevronRight, Feed, MailOutline} from "@mui/icons-material";
+import {ChevronRight, Feed, FeedOutlined, MailOutline} from "@mui/icons-material";
 
 import githubIcon from "@/public/logos/github-purple-icon.svg";
 import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
@@ -78,7 +78,7 @@ const Footer = (): JSX.Element => {
     <>
       <div className="w-full min-h-[33.625rem] max-md:min-h-[62rem] bg-almostblack z-10">
         <div className="w-full min-h-[33.625rem] max-md:min-h-[62rem] px-[2.5%] z-20 absolute">
-          <div className="absolute left-[63%] top-[-3.5%] w-[7.5vw] max-md:hidden h-auto">
+          <div className="absolute left-[63%] top-[-2.5%] w-[7.5vw] max-md:hidden h-auto">
             <Image
               priority
               src={footerLine1}
@@ -192,7 +192,7 @@ const Footer = (): JSX.Element => {
 
             <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
 
-            <div className="flex flex-row align-center gap-5">
+            <div className="flex flex-row align-center gap-5 ">
               <a
                 href="https://github.com/healthyregions/SDOHPlace"
                 title="View code on GitHub"
@@ -307,7 +307,7 @@ const Footer = (): JSX.Element => {
               <h5 className="text-gray-500">For all the latest and greatest</h5>
               <ButtonWithIcon
                 label={"NEWS"}
-                svgIcon={<Feed />}
+                svgIcon={<FeedOutlined />}
                 endIcon={<ChevronRight />}
                 borderRadius={"1rem"}
                 width={"100%"}
