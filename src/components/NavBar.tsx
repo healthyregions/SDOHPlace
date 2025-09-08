@@ -143,7 +143,7 @@ const NavBar = (): JSX.Element => {
       <div
         className={`flex justify-between items-center 2xl:max-w-[1536px] mt-8 pl-0 pr-0 mx-auto`}
       >
-        <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
+        <ul className="navbar hidden min-[840px]:flex pl-[2.5%]">
           { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
               <Link href="/" style={{ padding:0, margin:0 }}>
                 <Image width={40} height={40} src={'/logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
@@ -230,7 +230,7 @@ const NavBar = (): JSX.Element => {
         {/* Mobile Button */}
         <div
           onClick={handleNav}
-          className="block min-[768px]:hidden pl-[25px] z-50"
+          className="block min-[840px]:hidden pl-[25px] z-50"
         >
           {nav ? (
               <AiOutlineClose size={35} color={"white"} className={'animate-fade-in'} />
@@ -241,7 +241,7 @@ const NavBar = (): JSX.Element => {
 
         {/* Mobile Menu */}
         <div
-          className={`min-[768px]:hidden absolute ${
+          className={`min-[840px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 pt-100 flex justify-center items-baseline w-full
           h-screen bg-frenchviolet ease-in duration-300 `}
