@@ -18,20 +18,20 @@ const Card = (props: Props): JSX.Element => {
     <button
       className={`group flex flex-col items-start gap-2 rounded-lg p-8 w-[15rem] ${
         props.title === "Etc." ? "justify-self-start" : ""
-      } ${props.link ? "hover:bg-salmonpink" : "cursor-default"}`}
+      } ${props.link ? "" : "cursor-default"}`}
       onClick={() => {
         props.link ? (window.location.href = props.link) : "";
       }}
     >
       <div className="h-[3rem] w-[3.8125rem]">
-        <Image priority src={props.svgIcon} alt={props.title + " icon"} />
+        <Image priority style={{ height:'100%' }} src={props.svgIcon} alt={props.title + " icon"} />
       </div>
       <div className="text-almostblack text-2xl-rfs font-bold leading-8 text-left">
         {props.title}
       </div>
       <div className="font-bold">
         {props.link ? (
-          <p className="text-frenchviolet group-hover:text-lightbisque">
+          <p className="text-frenchviolet ">
             Learn more
           </p>
         ) : (
