@@ -289,7 +289,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
-        <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
+        <div className="flex lg:flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
           <div className="lg:pb-8 lg:mt-auto max-[500px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
