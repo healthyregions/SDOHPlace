@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
-import DataDiscovery from "@/public/logos/data-discovery-icon.svg?component";
 import transitIcon from "@/public/logos/transit-icon.svg";
 import foodAccessIcon from "@/public/icons/foodAccessAlt.svg";
 import compositeIcon from "@/public/icons/composite.svg";
@@ -15,14 +14,12 @@ import workplaceIcon from "@/public/logos/workplace-icon.svg";
 import medicalIcon from "@/public/logos/medical-icon.svg";
 import housingIcon from "@/public/logos/housing-icon.svg";
 import etcIcon from "@/public/logos/etc-icon.svg";
-import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
-import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
 import heropLogo from "@/public/logos/logo-herop.png";
-import rwfjLogo from "@/public/logos/logo-rwjf.png";
+import rwjfLogo from "@/public/logos/logo-rwjf.png";
 import ncsaLogo from "@/public/logos/logo-ncsa.png";
 import scdLogo from "@/public/logos/logo-siebel.png";
 import uiucLogo from "@/public/logos/logo-uiuc.png";
-import sdohGraphic from "@/public/images/sdohGraphic.svg";
+import sdohGraphic from "@/public/images/sdoh_bannermation.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
 import line3 from "@/public/logos/line3.svg";
@@ -39,22 +36,20 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box, Grid, IconButton } from "@mui/material";
+import {IconButton} from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
   FaBook,
   FaChevronCircleLeft,
   FaChevronCircleRight,
   FaPlus, FaStar,
 } from "react-icons/fa";
-import { Handyman } from "@mui/icons-material";
 
 import featuredData from "../../meta/featured.json";
 
 import styled from "@emotion/styled";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
-import Head from "next/head";
+import {useRouter} from "next/router";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -110,6 +105,30 @@ const useStyles = makeStyles({
   },
 });
 
+const SponsorLink = ({ image, url, alt, classes, className }) =>
+  <Link
+    href={url}
+    target="_blank"
+    rel="noreferrer noopener"
+    className={'max-md:my-2 w-[12rem]'}
+  >
+    <div className={'flex items-center justify-center'}>
+    <Image
+      alt={alt}
+      src={image}
+      className={classes.image + ' ' + className}
+    />
+    </div>
+  </Link>;
+
+const sponsors = [
+  { key:'herop', image: heropLogo, url: 'https://illinois.edu/', alt: 'Healthy Regions & Policies Lab', className:'' },
+  { key:'uiuc', image: uiucLogo, url: 'http://www.healthyregions.org/', alt: 'University of Illinois at Urbana-Champaign', className:'' },
+  { key:'ncsa', image: ncsaLogo, url: 'https://www.ncsa.illinois.edu/', alt: 'National Center for Supercomputing Applications', className:'' },
+  { key:'scd', image: scdLogo, url: 'https://designcenter.illinois.edu/', alt: 'Siebel Center for Design', className:'h-[70px] w-[90px]' },
+  { key:'rwjf', image: rwjfLogo, url: 'https://www.rwjf.org/', alt: 'Robert Wood Johnson Foundation', className:'' },
+];
+
 const FeaturedIcon = () =>
   <>
     <svg width="0" height="0">
@@ -129,7 +148,7 @@ const FeaturedImage = styled.img`
   display: block; /* Show by default */
   position: absolute;
   right: 2rem;
-  top: -9rem;
+  bottom: 0;
   width: 18rem;
   
   @media (max-width: 768px) {
@@ -141,6 +160,10 @@ const FeaturedImageMobile = styled.img`
   position: absolute;
   top: -15rem;
   width: 14rem;
+  
+  @media (min-width: 769px) {
+    display: none; /* Hide image on larger screens */
+  }
 `;
 
 interface Factor {
@@ -239,6 +262,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const classes = useStyles();
+  const router = useRouter();
   return (
     <>
       <BasicPageMeta />
@@ -265,8 +289,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
-        <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
-          <div className="lg:pb-8 lg:mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
+        <div className="flex lg:flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
+          <div className="lg:pb-8 lg:mt-auto max-[500px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
               src={mainLogo}
@@ -307,24 +331,20 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               Social Determinants of Health for high impact
               research and advocacy
             </p>
-          </div>
-          <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
-            <div>
+            <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center mt-8">
               <ButtonWithIcon
+                noBox={true}
                 label={"Data Discovery"}
-                svgIcon={<DataDiscovery />}
                 fillColor={"salmonpink"}
                 labelColor={"almostblack"}
-                onClick={scrollToComingSoon}
+                onClick={() => router.push('/search')}
               ></ButtonWithIcon>
-            </div>
-            <div>
               <ButtonWithIcon
+                noBox={true}
                 label={"Community Toolkit"}
-                svgIcon={<Handyman />}
                 fillColor={"frenchviolet"}
                 labelColor={"white"}
-                onClick={scrollToComingSoon}
+                onClick={() => window.open('https://toolkit.sdohplace.org', '_blank')}
               ></ButtonWithIcon>
             </div>
           </div>
@@ -351,52 +371,40 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
-          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            <Grid container spacing={0}>
-              <Grid item xs={12} lg={7}>
-                Social Determinants of Health Research Guides
-              </Grid>
-              {/* TODO: uncomment these once they have destiations
-                <Grid item xs={12} lg={3} className={'carousel-link-container'}>
-                    <a href={'#'} className={'carousel-link'}>
-                        <FaBook></FaBook>
-                        Introduction to SDOH & Place
-                    </a>
-                </Grid>
-                <Grid item xs={12} lg={2} className={"carousel-link-container"}>
-                  <a href={"#"} className={"carousel-link"}>
-                    <FaPlus></FaPlus>
-                    Create a Guide
-                  </a>
-                </Grid> */}
-            </Grid>
-
-            <Grid container spacing={0} className={'text-xl-rfs'}>
-              <Grid item xs={12}>
-                A series of <Link className={'no-underline'} href={'/guides'}>research guides</Link> walk through the
-                measurements of key SDOH concepts. Suggest
-                your own <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
-              </Grid>
-            </Grid>
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] px-[2.5%]">
+          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 flex flex-wrap justify-between">
+            <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
+            <div className={'flex flex-row mr-10'} style={{ fontWeight:700 }}>
+              <a href={'/guides'} className={'carousel-link'}>
+                <FaBook></FaBook>
+                All SDOH Research Guides
+              </a>
+            </div>
+            <div className={'flex'} style={{ fontWeight:700 }}>
+              <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
+                <FaPlus></FaPlus>
+                Create a Guide
+              </a>
+            </div>
           </div>
 
-          <Grid container spacing={0}>
-            <Grid item xs={1} className={"vertical-center"}>
-              <IconButton
-                className={"carousel-icon-button prev-button"}
-                onClick={prevPage}
-                disabled={!canPrevPage()}
-              >
-                <FaChevronCircleLeft />
-              </IconButton>
-            </Grid>
-            <Grid item xs={10}>
+          <div className={'flex'}>
+            {/* Prev Button */}
+            <IconButton
+              className={"carousel-icon-button prev-button"}
+              onClick={prevPage}
+              disabled={!canPrevPage()}
+            >
+              <FaChevronCircleLeft />
+            </IconButton>
+
+            {/* SDOH factors Carousel content */}
+            <div className={'overflow-hidden'}>
               <div className={"carousel-container"}>
                 <div
                   ref={carouselRef}
                   className={
-                    "carousel pt-[3rem] grid grid-flow-col justify-between px-[2.5%] gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto"
+                    "carousel lg:pt-[3rem] grid grid-flow-col justify-between gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto "
                   }
                 >
                   {sdohFactors.map((factor: Factor) => (
@@ -410,68 +418,64 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   ))}
                 </div>
               </div>
-            </Grid>
-            <Grid item xs={1} className={"vertical-center"}>
-              <IconButton
-                className={"carousel-icon-button next-button"}
-                onClick={nextPage}
-                disabled={!canNextPage()}
-              >
-                <FaChevronCircleRight />
-              </IconButton>
-            </Grid>
-          </Grid>
+            </div>
+
+            {/* Next Button */}
+            <IconButton
+              className={"carousel-icon-button next-button"}
+              onClick={nextPage}
+              disabled={!canNextPage()}
+            >
+              <FaChevronCircleRight />
+            </IconButton>
+          </div>
         </div>
       </div>
 
       <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
-          <div className="text-almostblack text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            <Grid container spacing={0}>
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
 
-              {/* Mobile-only version of the FeaturedIcon */}
-              <Grid item xs={12}
-                    sx={{ position: 'relative', marginTop: '8rem', marginBottom: '2rem', display: { xs: "block", md: "block", lg: "none", xl: "none"  } }}>
-                {/* TODO: image w/ absolute position needs to properly support mobile */}
-                <FeaturedImageMobile  src={featuredData?.image}  />
-              </Grid>
+            {/* Mobile-only version of the FeaturedIcon */}
+            <div className={'flex relative max-md:h-[8rem] max-md:top-[6.5rem]'}>
+              <FeaturedImageMobile height={100} src={featuredData?.image}  />
+            </div>
 
-              <Grid item xs={12} lg={9}>
+            <div className={'flex relative'}>
+              <div>
                 {/* "Featured" section header / icon */}
-                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2px' }}>
-                  <div className={'flex'} style={{ paddingBottom: '3px' }}><FeaturedIcon /></div> Featured
+                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2.0px' }}>
+                  <div className={'flex pb-[3px]'}><FeaturedIcon /></div> Featured
                 </div>
 
                 {/* Featured content title */}
-                {/* TODO: support markdown? */}
-                <h3 className={'mb-4 text-xl text-extrabold'} style={{ letterSpacing: '0.4pt', fontWeight: '1000' }}>{
+                <h3 className={'mb-4 text-[20px] text-extrabold'} style={{ letterSpacing: '0.5px', fontWeight: '1000' }}>{
                   featuredData?.title || 'Coming Soon' }
                 </h3>
 
                 {/* Featured content body */}
-                <p className={'mb-6 text-[1rem] tracking-wide'} style={{ lineHeight: '125%' }}>
+                <div className={'flex flex-wrap mb-6 text-[18px] tracking-wide'} style={{ lineHeight: '125%' }}>
                   { featuredData?.body || 'Check back later for exciting new features!' }
-                </p>
+                </div>
 
                 {/* Actions related to Featured Content */}
-                <Grid container spacing={0}>
+                <div>
                   {
                     featuredData?.links?.map((link) =>
-                      <Grid key={`${link.label}-${link?.url}`} item lg={3} xs={12}>
-                        {link?.bold && <strong className={'mr-12 text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
-                        {!link?.bold && <a className={'no-underline mr-12 text-base'} href={link?.url}>{link?.label}</a>}
-                      </Grid>
+                      <span key={`${link.label}-${link?.url}`}>
+                        {link?.bold && <strong className={'mr-[2rem] text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                        {!link?.bold && <a className={'no-underline mr-[2rem] text-base'} href={link?.url}>{link?.label}</a>}
+                      </span>
                     )
                   }
-                </Grid>
-              </Grid>
+                </div>
+              </div>
 
               {/* Desktop-only version of the FeaturedIcon */}
-              <Grid item lg={3} style={{ position: 'relative' }}>
-                {/* TODO: image w/ absolute position needs to properly support mobile */}
+              <div className={'flex relative md:w-[60rem] ml-12'}>
                 <FeaturedImage height={100} src={featuredData?.image}  />
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -508,78 +512,23 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto bg-frenchviolet sm:px-[1rem] md:px-[4rem]">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto flex-column">
-            <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
-                Brought to you by
-            </div>
-            <Grid container spacing={6} sx={{justifyContent: 'space-between',  alignItems:'center' }}  className="pb-[4rem]">
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="http://www.healthyregions.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="Healthy Regions & Policies Lab"
-                    src={heropLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="https://illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="University of Illinois"
-                    src={uiucLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="https://www.ncsa.illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="National Center for Supercomputing Applications"
-                    src={ncsaLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                  href="https://designcenter.illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    className={`${classes.image} ${classes.largeImage}`}
-                    alt="Siebel Center for Design"
-                    src={scdLogo}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={12} sm={6} md={2}>
-                <Link
-                    href="https://www.rwjf.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <Image
-                    alt="Robert Wood Johnson Foundation"
-                    src={rwfjLogo}
-                    className={classes.image}
-                    />
-                </Link>
-              </Grid>
-            </Grid>
+      <div className="w-full h-auto bg-frenchviolet">
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto px-[2.5%]">
+          <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
+              Brought to you by
+          </div>
+          <div className={'flex flex-row max-md:flex-col justify-between items-center pb-[4rem]'}>
+            {
+              sponsors?.map(sponsor =>
+                <SponsorLink className={sponsor.className}
+                             key={sponsor.key}
+                             classes={classes}
+                             image={sponsor.image}
+                             url={sponsor.url}
+                             alt={sponsor.alt} />
+              )
+            }
+          </div>
         </div>
       </div>
 
@@ -592,16 +541,16 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="px-[2.5%]">
             <div
               style={{ marginBottom: "2rem" }}
-              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
+              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-1 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
             >
               <div className="flex flex-col gap-8 -order-1">
-                <div className="w-[3.5rem] h-[3.5rem]">
-                  <Image
-                    priority
-                    src={dataDiscoveryIconEnlarged}
-                    alt="Data Discovery Enlarged icon"
-                  />
-                </div>
+                <Image
+                  priority
+                  width={90}
+                  height={90}
+                  src={'/icons/data_discovery_icon.png'}
+                  alt="Data Discovery Enlarged icon"
+                />
 
                 <div className="text-almostblack text-2xl-rfs leading-8">
                   <b>Data Discovery </b>
@@ -625,12 +574,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     <div>
                       <ButtonWithIcon
                         label={"Data Discovery"}
-                        svgIcon={<DataDiscovery />}
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
-                        onClick={() => {
-                          window.location.href = "/search";
-                        }}
+                        noBox={true}
+                        onClick={() => router.push("/search")}
                         iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>
@@ -639,13 +586,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </div>
 
               <div className="flex flex-col gap-8">
-                <div className="w-[3.5rem] h-[3.5rem]">
-                  <Image
-                    priority
-                    src={communityToolkitIconEnlarged}
-                    alt="Data Practice Enlarged icon"
-                  />
-                </div>
+                <Image
+                  priority
+                  width={90}
+                  height={90}
+                  src={'/icons/community_toolkit_icon.png'}
+                  alt="Data Practice Enlarged icon"
+                />
 
                 <div className="text-almostblack text-2xl-rfs font-bold leading-8">
                   Community Toolkit
@@ -668,12 +615,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   <div>
                     <ButtonWithIcon
                       label={"Community Toolkit"}
-                      svgIcon={<Handyman />}
                       fillColor={"frenchviolet"}
                       labelColor={"white"}
-                      onClick={() => {
-                        window.location.href = "https://toolkit.sdohplace.org";
-                      }}
+                      noBox={true}
+                      onClick={() => window.open('https://toolkit.sdohplace.org', '_blank')}
                     ></ButtonWithIcon>
                   </div>
                 </div>
@@ -681,7 +626,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </div>
           </div>
 
-          <div className="relative self-center">
+          <div className="relative self-center px-[2.5%] mt-[2rem]">
             <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
           </div>
         </div>
