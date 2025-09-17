@@ -53,6 +53,7 @@ import featuredData from "../../meta/featured.json";
 import styled from "@emotion/styled";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import {useRouter} from "next/router";
+import {LottiePlayer} from "lottie-web";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -191,16 +192,19 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const { View } = useLottie(defaultOptions);
 
   const play = () => {
+    const ref: LottiePlayer = lottieRef?.current;
+    ref && ref?.play();
     console.log('Playing');
-    lottieRef?.current?.play();
   }
   const pause = () => {
+    const ref: LottiePlayer = lottieRef?.current;
+    ref && ref?.pause();
     console.log('Paused');
-    lottieRef?.current?.pause();
   }
   const stop = () => {
+    const ref: LottiePlayer = lottieRef?.current;
+    ref && ref?.stop();
     console.log('Stopped');
-    lottieRef?.current?.stop();
   }
 
   const sdohFactors: Array<Factor> = [
