@@ -654,10 +654,12 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           {/* TODO: Advanced pattern */}
           <div className="relative self-center px-[2.5%] mt-[2rem]">
             <div className="">
+              <h3>Animation Autoplay on Loop</h3>
               <div style={{ width: '5%', height: '5%' }}>{View}</div>
             </div>
 
             <div className={'flex flex-col'}>
+              <h3>Animation with Controls</h3>
               <div className="w-full justify-center">
                 <Lottie lottieRef={lottieRef} animationData={animationData} style={{ width: '5%', height: '5%' }}></Lottie>
               </div>
