@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, {createRef, useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import transitIcon from "@/public/logos/transit-icon.svg";
@@ -35,7 +35,7 @@ import Footer from "@/components/homepage/footer";
 import Card from "@/components/homepage/card";
 
 import * as animationData from "@/public/animations/test.json";
-import { useLottie } from "lottie-react";
+import Lottie, { useLottie } from "lottie-react";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -181,14 +181,27 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
-  const ref = createRef();
+  const lottieRef = useRef();
+
+  // TODO: Basic pattern - autoplay animation, no control offered
   const defaultOptions = {
     animationData: animationData,
     loop: true,
   };
-
   const { View } = useLottie(defaultOptions);
 
+  const play = () => {
+    console.log('Playing');
+    lottieRef?.current?.play();
+  }
+  const pause = () => {
+    console.log('Paused');
+    lottieRef?.current?.pause();
+  }
+  const stop = () => {
+    console.log('Stopped');
+    lottieRef?.current?.stop();
+  }
 
   const sdohFactors: Array<Factor> = [
     {
@@ -638,10 +651,43 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </div>
           </div>
 
+          {/* TODO: Advanced pattern */}
           <div className="relative self-center px-[2.5%] mt-[2rem]">
             <div className="">
-              <div className="w-full">{View}</div>
+              <div style={{ width: '5%', height: '5%' }}>{View}</div>
             </div>
+
+            <div className={'flex flex-col'}>
+              <div className="w-full justify-center">
+                <Lottie lottieRef={lottieRef} animationData={animationData} style={{ width: '5%', height: '5%' }}></Lottie>
+              </div>
+              <div className={'flex flex-row'}>
+                <ButtonWithIcon
+                  noBox={true}
+                  label={"Play"}
+                  fillColor={"frenchviolet"}
+                  labelColor={"white"}
+                  onClick={() => play()}
+                ></ButtonWithIcon>
+
+                <ButtonWithIcon
+                  noBox={true}
+                  label={"Pause"}
+                  fillColor={"frenchviolet"}
+                  labelColor={"white"}
+                  onClick={() => pause()}
+                ></ButtonWithIcon>
+
+                <ButtonWithIcon
+                  noBox={true}
+                  label={"Stop"}
+                  fillColor={"frenchviolet"}
+                  labelColor={"white"}
+                  onClick={() => stop()}
+                ></ButtonWithIcon>
+              </div>
+            </div>
+
             <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
           </div>
         </div>
