@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, {createRef, useEffect, useRef, useState} from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
 import transitIcon from "@/public/logos/transit-icon.svg";
@@ -33,6 +33,9 @@ import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import CardWithImage from "@/components/homepage/cardwithimage/cardwithimage";
 import Footer from "@/components/homepage/footer";
 import Card from "@/components/homepage/card";
+
+import * as animationData from "@/public/animations/test.json";
+import { useLottie } from "lottie-react";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -178,6 +181,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
+  const ref = createRef();
+  const defaultOptions = {
+    animationData: animationData,
+    loop: true,
+  };
+
+  const { View } = useLottie(defaultOptions);
+
+
   const sdohFactors: Array<Factor> = [
     {
       id: "0",
@@ -627,6 +639,9 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div>
 
           <div className="relative self-center px-[2.5%] mt-[2rem]">
+            <div className="">
+              <div className="w-full">{View}</div>
+            </div>
             <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
           </div>
         </div>
