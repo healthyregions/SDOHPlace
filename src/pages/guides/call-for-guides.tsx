@@ -73,7 +73,7 @@ const StyledAlert = styled(Alert)`
 export default function Index() {
   return (
     <>
-      <BasicPageMeta title="Call for Guides" />
+      <BasicPageMeta title='Call for SDOH Measurement "Research Guide" Reports' />
       <NavBar />
       <TopLines />
       <div className="flex flex-col pt-12">
