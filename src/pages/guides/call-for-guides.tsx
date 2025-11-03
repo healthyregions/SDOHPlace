@@ -2,7 +2,6 @@ import { GetStaticProps } from "next";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
-import GuidesList from "@/components/guides/GuidesList";
 import config from "@/lib/config";
 import {
   countGuides,
@@ -14,7 +13,7 @@ import styled from "@emotion/styled";
 import {List as MuiList, ListItem as MuiListItem} from "@mui/material";
 
 const Paragraph = styled.div`
-  a { color: #7E1CC4; }
+  a { color: #7E1CC4; text-decoration: none }
   strong { font-weight: 700; }
 `;
 const NumberedList = styled.ol`
@@ -87,11 +86,11 @@ export default function Index() {
 
                     Illustrations, (e.g. of models), tables, or occasionally bullet points are welcome to
                     make the guide less one very long text. <strong>To view a Research Guide example, see our
-                    published Guides <Link href={'/guides'}>here!</Link></strong>
+                    published Guides <Link href={'/guides'} target='_blank' rel='noopener noreferrer'>here</Link>!</strong>
                   </Paragraph>
 
                   <br />
-                  <Link href={'/guides/public-transit-equity'}>
+                  <Link href={'/guides/public-transit-equity'} target='_blank' rel='noopener noreferrer'>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={'/images/call-for-guides-2.png'} alt={'Review our First SDOH Guide for Inspiration'} />
                   </Link>
@@ -120,7 +119,7 @@ export default function Index() {
                     <small><i>*Remuneration & Fee Eligibility:</i>{" "}At this time, we are only
                       able to provide remuneration & fees for U.S. based scholars. See a complete
                       list of eligibility details{" "}
-                      <Link href={'https://docs.google.com/document/d/1vlAkzcacCTqX6_UrqMTnDRduKLNE-moEA2PNA3LCYwo/edit?usp=sharing'}>here</Link>
+                      <Link href={'https://docs.google.com/document/d/1vlAkzcacCTqX6_UrqMTnDRduKLNE-moEA2PNA3LCYwo/edit?usp=sharing'} target='_blank' rel='noopener noreferrer'>here</Link>
                       . If you are an international scholar that is interested in participating and donating your time, please indicate in
                       the application.</small>
                   </Paragraph>
@@ -129,7 +128,12 @@ export default function Index() {
                     Application Procedure: To apply, please review the following:
 
                     <NumberedList>
-                      <ListItem>Identify your topic of interest in accordance with guidelines above, and{" "}<Link href={'https://docs.google.com/document/d/1341Dm8Edz3k2BJWBrexEUk2NEUKGYmldCSP4metWSFE/edit?usp=sharing'}>ensure it is available</Link>. You can also propose or refine specific calls for indicators like <i>food access</i> or <i>gentrification</i>.</ListItem>
+                      <ListItem>Identify your topic of interest in accordance with guidelines above, and{" "}
+                        <Link href={'https://docs.google.com/document/d/1341Dm8Edz3k2BJWBrexEUk2NEUKGYmldCSP4metWSFE/edit?usp=sharing'} target='_blank' rel='noopener noreferrer'>
+                          ensure it is available
+                        </Link>. You can also propose or refine specific calls for
+                        indicators like <i>food access</i> or <i>gentrification</i>.
+                      </ListItem>
                       <ListItem><strong>For Authors</strong>: Prepare a ~250 word abstract of your indicator of interest.</ListItem>
                       <ListItem><strong>For Reviewers</strong>: Prepare a ~250 word summary of your expertise for a specific SDOH topic.</ListItem>
                       <ListItem>Submit your application (including topic, abstract, curriculum vitae, and related details) using{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'}>this form</Link>{" "}(or click the button below).</ListItem>
@@ -139,15 +143,15 @@ export default function Index() {
                   </Paragraph>
                   <br />
                   <Paragraph>
-                    Submit your application here:{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'}>https://go.illinois.edu/SDOH-GUIDES-APPLY</Link>
+                    Submit your application here:{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'} target='_blank' rel='noopener noreferrer'>https://go.illinois.edu/SDOH-GUIDES-APPLY</Link>
                   </Paragraph>
 
                   <br />
                   <Paragraph>
                     Application decisions will be communicated on a rolling basis. If you have any questions
                     or have not heard back within 2 weeks, please reach out to Research Guide Lead,
-                    Catherine Discenza (<Link href={'mailto:cd43@illinois.edu'}>cd43@illinois.edu</Link>), and/or our Research Coordinator,
-                    Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'}>mastacio@illinois.edu</Link>). Be sure to check the list of
+                    Catherine Discenza (<Link href={'mailto:cd43@illinois.edu'} target='_blank' rel='noopener noreferrer'>cd43@illinois.edu</Link>), and/or our Research Coordinator,
+                    Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'} target='_blank' rel='noopener noreferrer'>mastacio@illinois.edu</Link>). Be sure to check the list of
                     accepted topics before submitting.
                   </Paragraph>
 
@@ -160,8 +164,8 @@ export default function Index() {
 
                   <Paragraph>
                     Please reach out to the team with any questions you may have via the{" "}
-                    <Link href={'/contact'}>SDOH & Place Contact Form</Link>, and/or directly messaging Research Coordinator
-                    Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'}>mastacio@illinois.edu</Link>).
+                    <Link href={'/contact'} target='_blank' rel='noopener noreferrer'>SDOH & Place Contact Form</Link>, and/or directly messaging Research Coordinator
+                    Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'} target='_blank' rel='noopener noreferrer'>mastacio@illinois.edu</Link>).
                   </Paragraph>
                 </div>
               </div>
