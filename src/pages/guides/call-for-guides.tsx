@@ -7,67 +7,28 @@ import config from "@/lib/config";
 import {
   countGuides,
   listGuidesContent,
-  GuidesContent
 } from "@/lib/guides";
-import { listTags, TagContent } from "@/lib/tags";
+import { listTags } from "@/lib/tags";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import {List as MuiList, ListItem as MuiListItem} from "@mui/material";
-import Alert from "@mui/material/Alert";
 
-
-const List = styled(MuiList)`
-  list-style: disc;
+const Paragraph = styled.div`
+  a { color: #7E1CC4; }
+  strong { font-weight: 700; }
 `;
 const NumberedList = styled.ol`
   list-style: decimal;
 `;
-
-
-const Paragraph = styled.div`
-  a { color: #7E1CC4; }
+const List = styled(MuiList)`
+  list-style: disc;
 `;
-
-
 const ListItem = styled(MuiListItem)`
   display: list-item;
   margin-left: 2rem;
   padding-left: 0;
-  ::marker {
-    color: #FF9C77;
-  }
-`;
-
-const StyledAlert = styled(Alert)`
-  background-color: #ECE6F0;
-  border-radius: 40px;
-  font-family: Nunito, sans-serif;
-  margin-top: 6rem;
-  margin-bottom: 6rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  color: #1E1E1E;
-  position: relative;
-  
-  img {
-    position: absolute;
-    bottom: -18%;
-    width: 386px;
-  }
-  
-  strong {
-    font-weight: 700;
-  }
-  
-  button {
-    color: white;
-    background-color: #7E1CC4;
-    text-transform: none;
-    font-size: 1rem;
-    border-radius: 100px;
-    margin-top: 1rem;
-    font-family: Nunito, sans-serif;
-  }
+  strong { font-weight: 700 }
+  ::marker { color: #FF9C77; }
 `;
 
 export default function Index() {
@@ -92,15 +53,16 @@ export default function Index() {
                   </Paragraph>
 
                   <br />
-                  IMAGE: Building Consensus & Community
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={'/images/call-for-guides-1.png'} alt={'Building Consensus & Community'} />
                   <br />
                   <br />
 
                   <h3>Research Guide Specifications</h3>
                   <Paragraph>
                     Research guides focus on a distinct measure of a social determinant
-                    of health / structural driver of health. For example,
-                    <i>transit equity</i>,  <i>greenspace</i>, or <i>gentrification</i>{" "}
+                    of health / structural driver of health. For example,{" "}
+                    <i>transit equity</i>, <i>greenspace</i>, or <i>gentrification</i>{" "}
                     may be topics of interest that are associated with health outcomes
                     in complex ways. Before researchers can analyze and interrogate those
                     pathways, the constructs themselves must be identified as distinct measures.
@@ -129,7 +91,10 @@ export default function Index() {
                   </Paragraph>
 
                   <br />
-                  IMAGE: Review our First SDOH Guide for Inspiration
+                  <Link href={'/guides/public-transit-equity'}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={'/images/call-for-guides-2.png'} alt={'Review our First SDOH Guide for Inspiration'} />
+                  </Link>
                   <br />
                   <br />
 
@@ -187,7 +152,8 @@ export default function Index() {
                   </Paragraph>
 
                   <br />
-                  IMAGE: Research Guide Topics Available
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={'/images/call-for-guides-3.png'} alt={'Research Guide Topics Available'} />
                   <br />
                   <br />
 
