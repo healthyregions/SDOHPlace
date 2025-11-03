@@ -11,7 +11,64 @@ import {
 } from "@/lib/guides";
 import { listTags, TagContent } from "@/lib/tags";
 import Link from "next/link";
+import styled from "@emotion/styled";
+import {List as MuiList, ListItem as MuiListItem} from "@mui/material";
+import Alert from "@mui/material/Alert";
 
+
+const List = styled(MuiList)`
+  list-style: disc;
+`;
+const NumberedList = styled.ol`
+  list-style: decimal;
+`;
+
+
+const Paragraph = styled.div`
+  a { color: #7E1CC4; }
+`;
+
+
+const ListItem = styled(MuiListItem)`
+  display: list-item;
+  margin-left: 2rem;
+  padding-left: 0;
+  ::marker {
+    color: #FF9C77;
+  }
+`;
+
+const StyledAlert = styled(Alert)`
+  background-color: #ECE6F0;
+  border-radius: 40px;
+  font-family: Nunito, sans-serif;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: #1E1E1E;
+  position: relative;
+  
+  img {
+    position: absolute;
+    bottom: -18%;
+    width: 386px;
+  }
+  
+  strong {
+    font-weight: 700;
+  }
+  
+  button {
+    color: white;
+    background-color: #7E1CC4;
+    text-transform: none;
+    font-size: 1rem;
+    border-radius: 100px;
+    margin-top: 1rem;
+    font-family: Nunito, sans-serif;
+  }
+`;
 
 export default function Index() {
   return (
@@ -21,42 +78,125 @@ export default function Index() {
       <TopLines />
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Call for Guides</h1>
+          <h1 className="font-fredoka">Call for SDOH Measurement &quot;Research Guide&quot; Reports</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-16">
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Sed faucibus leo felis, quis auctor dolor dignissim at.
-                    Praesent ex velit, vestibulum sit amet tempus sed, placerat
-                    in arcu. Sed ut tempor sapien. Etiam pulvinar est ac
-                    augue rhoncus fermentum. Vestibulum et nibh urna. Orci varius
-                    natoque penatibus et magnis dis parturient montes, nascetur
-                    ridiculus mus. Vivamus condimentum neque aliquet, varius odio
-                    sit amet, fermentum diam. Maecenas elementum suscipit semper.
-                    Pellentesque bibendum maximus consequat. Mauris a arcu at leo
-                    faucibus dignissim. Sed at tincidunt lectus. Sed efficitur in
-                    enim a facilisis. Nunc non hendrerit risus, nec aliquet justo.
-                    Etiam vitae accumsan nunc.
-                  </p>
+                  <Paragraph>
+                    <List>
+                      <ListItem><strong>Generate a public-friendly short report</strong> on the measurement of a specific social determinant of health topic for a national RWJF project: SDOH & Place.</ListItem>
+                      <ListItem>Potential to expand your report with an expert in your field to a manuscript, leveraging access to a <strong>network of scholars</strong> studying Community-Level SDOH</ListItem>
+                      <ListItem>U.S.-based scholars & residents participating in writing and/or reviewing Research Guides are eligible for <strong>compensation</strong> for their time ($100-$300).</ListItem>
+                    </List>
+                  </Paragraph>
+
                   <br />
-                  <p>
-                    Morbi vel diam risus. Mauris ultrices tempor condimentum.
-                    Pellentesque quis ante quis mauris iaculis ultricies nec
-                    at est. Duis ultrices efficitur tincidunt. Fusce consectetur
-                    luctus lacus, sed laoreet diam vestibulum non. Donec faucibus
-                    gravida odio, ac semper arcu facilisis in. Curabitur rutrum,
-                    libero bibendum faucibus dignissim, lectus erat condimentum nulla,
-                    sit amet luctus lacus elit vel ex. Donec accumsan, nisi quis
-                    eleifend iaculis, ligula risus semper nunc, et pretium arcu justo
-                    pretium mauris. Duis semper bibendum urna vitae fringilla. Nam
-                    accumsan volutpat turpis, a mollis nibh venenatis vitae. Aenean
-                    id gravida libero. Vivamus posuere turpis sed dui vulputate, eget
-                    fermentum orci aliquet. Nullam et dignissim tellus. Donec quis lacus
-                    rhoncus, cursus dolor id, lobortis elit. Maecenas efficitur diam
-                    tortor, id facilisis neque lacinia ac.
-                  </p>
+                  IMAGE: Building Consensus & Community
+                  <br />
+                  <br />
+
+                  <h3>Research Guide Specifications</h3>
+                  <Paragraph>
+                    Research guides focus on a distinct measure of a social determinant
+                    of health / structural driver of health. For example,
+                    <i>transit equity</i>,  <i>greenspace</i>, or <i>gentrification</i>{" "}
+                    may be topics of interest that are associated with health outcomes
+                    in complex ways. Before researchers can analyze and interrogate those
+                    pathways, the constructs themselves must be identified as distinct measures.
+                    Research guides provide an overview of goals, motivations, and best
+                    practices of measurement for the indicator of interest.
+                  </Paragraph>
+                  <br />
+                  <Paragraph>
+                    We are seeking SDOH & Place Research Guide topic proposals and paid
+                    final contributions for guide composition. The guides for a specific
+                    measure of interest should be:
+
+                    <List>
+                      <ListItem>A distinct indicator viewed as a SDoH and/or structural driver of health, that has a known association, impact, and/or relationship with health outcomes.</ListItem>
+                      <ListItem>Focused on <i>community-level</i> measures, rather than individual, to address the contextual aspects of SDoH. How might the measure be estimated at tract, zip code, or county levels?</ListItem>
+                      <ListItem>Grouped within one primary sub-category: demographics, economic stability, employment, education, food environment, health and healthcare, housing, neighborhood and built environment, physical activity and lifestyle, safety, social and community context, and transportation and infrastructure</ListItem>
+                      <ListItem>Literature review-driven summary of best practices for measurement of indicator</ListItem>
+                      <ListItem>Presented as a table of commonly used measures to represent indicator with varying levels of complexity (i.e. census proxy versus geocomputationally derived estimate or survey-driven response)</ListItem>
+                      <ListItem>Written in a style appropriate for a multi- or trans-disciplinary audience, explaining jargon thoughtfully and in plain language</ListItem>
+                      <ListItem>Offering a curated list of resources and evidence-based literature related to topic</ListItem>
+                    </List>
+
+                    Illustrations, (e.g. of models), tables, or occasionally bullet points are welcome to
+                    make the guide less one very long text. <strong>To view a Research Guide example, see our
+                    published Guides <Link href={'/guides'}>here!</Link></strong>
+                  </Paragraph>
+
+                  <br />
+                  IMAGE: Review our First SDOH Guide for Inspiration
+                  <br />
+                  <br />
+
+                  <h3>Application</h3>
+                  <Paragraph>
+                    Composing a research guide may be an excellent opportunity for geography,
+                    social sciences, urban planning, and/or public health graduate students
+                    mastering a specific topic of interest, as well as researchers or advocates
+                    specializing in a topic crucial to SDoH research. We are also seeking
+                    reviewers of research guides to enhance and validate content as masters
+                    in their field; reviewers may be proposed by research guide authors,
+                    and/or may submit interest for a topic separately. Authors and reviewer
+                    teams will be encouraged to collaborate on updates together, and expand
+                    as a full manuscript for submission to a peer-reviewed journal.
+                  </Paragraph>
+                  <br />
+                  <Paragraph>
+                    Authors of accepted SDoH Research Guides will receive a{" "}<strong>$300* flat-rate fee</strong>{" "}
+                    for their guide; Reviewers will receive a{" "}<strong>$100* remuneration</strong>.
+                  </Paragraph>
+                  <br />
+                  <Paragraph>
+                    <small><i>*Remuneration & Fee Eligibility:</i>{" "}At this time, we are only
+                      able to provide remuneration & fees for U.S. based scholars. See a complete
+                      list of eligibility details{" "}
+                      <Link href={'https://docs.google.com/document/d/1vlAkzcacCTqX6_UrqMTnDRduKLNE-moEA2PNA3LCYwo/edit?usp=sharing'}>here</Link>
+                      . If you are an international scholar that is interested in participating and donating your time, please indicate in
+                      the application.</small>
+                  </Paragraph>
+                  <br />
+                  <Paragraph>
+                    Application Procedure: To apply, please review the following:
+
+                    <NumberedList>
+                      <ListItem>Identify your topic of interest in accordance with guidelines above, and{" "}<Link href={'https://docs.google.com/document/d/1341Dm8Edz3k2BJWBrexEUk2NEUKGYmldCSP4metWSFE/edit?usp=sharing'}>ensure it is available</Link>. You can also propose or refine specific calls for indicators like <i>food access</i> or <i>gentrification</i>.</ListItem>
+                      <ListItem><strong>For Authors</strong>: Prepare a ~250 word abstract of your indicator of interest.</ListItem>
+                      <ListItem><strong>For Reviewers</strong>: Prepare a ~250 word summary of your expertise for a specific SDoH topic.</ListItem>
+                      <ListItem>Submit your application (including topic, abstract, curriculum vitae, and related details) using{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'}>this form</Link>{" "}(or click the button below).</ListItem>
+                      <ListItem>If invited to submit a full SDoH Research Guide, your deadline for completion will be <strong>March 15, 2026</strong>. The flat-rate fees and remunerations will be disbursed upon completion of work.</ListItem>
+                    </NumberedList>
+
+                  </Paragraph>
+                  <br />
+                  <Paragraph>
+                    Submit your application here:{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'}>https://go.illinois.edu/SDOH-GUIDES-APPLY</Link>
+                  </Paragraph>
+
+                  <br />
+                  <Paragraph>
+                    Application decisions will be communicated on a rolling basis. If you have any questions
+                    or have not heard back within 2 weeks, please reach out to Research Guide Lead,
+                    Catherine Discenza (<Link href={'mailto:cd43@illinois.edu'}>cd43@illinois.edu</Link>), and/or our Research Coordinator,
+                    Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'}>mastacio@illinois.edu</Link>). Be sure to check the list of
+                    accepted topics before submitting.
+                  </Paragraph>
+
+                  <br />
+                  IMAGE: Research Guide Topics Available
+                  <br />
+                  <br />
+
+
+                  <Paragraph>
+                    Please reach out to the team with any questions you may have via the{" "}
+                    <Link href={'/contact'}>SDOH & Place Contact Form</Link>, and/or directly messaging Research Coordinator
+                    Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'}>mastacio@illinois.edu</Link>).
+                  </Paragraph>
                 </div>
               </div>
             </div>
