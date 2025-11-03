@@ -39,7 +39,7 @@ export default function Index() {
       <TopLines />
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Call for SDOH Measurement &quot;Research Guide&quot; Reports</h1>
+          <h1 className="font-fredoka" style={{fontSize:'3.5rem', lineHeight:'5.25rem'}}>Call for SDOH Measurement &quot;Research Guide&quot; Reports</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
@@ -76,8 +76,8 @@ export default function Index() {
                     measure of interest should be:
 
                     <List>
-                      <ListItem>A distinct indicator viewed as a SDoH and/or structural driver of health, that has a known association, impact, and/or relationship with health outcomes.</ListItem>
-                      <ListItem>Focused on <i>community-level</i> measures, rather than individual, to address the contextual aspects of SDoH. How might the measure be estimated at tract, zip code, or county levels?</ListItem>
+                      <ListItem>A distinct indicator viewed as a SDOH and/or structural driver of health, that has a known association, impact, and/or relationship with health outcomes.</ListItem>
+                      <ListItem>Focused on <i>community-level</i> measures, rather than individual, to address the contextual aspects of SDOH. How might the measure be estimated at tract, zip code, or county levels?</ListItem>
                       <ListItem>Grouped within one primary sub-category: demographics, economic stability, employment, education, food environment, health and healthcare, housing, neighborhood and built environment, physical activity and lifestyle, safety, social and community context, and transportation and infrastructure</ListItem>
                       <ListItem>Literature review-driven summary of best practices for measurement of indicator</ListItem>
                       <ListItem>Presented as a table of commonly used measures to represent indicator with varying levels of complexity (i.e. census proxy versus geocomputationally derived estimate or survey-driven response)</ListItem>
@@ -103,7 +103,7 @@ export default function Index() {
                     Composing a research guide may be an excellent opportunity for geography,
                     social sciences, urban planning, and/or public health graduate students
                     mastering a specific topic of interest, as well as researchers or advocates
-                    specializing in a topic crucial to SDoH research. We are also seeking
+                    specializing in a topic crucial to SDOH research. We are also seeking
                     reviewers of research guides to enhance and validate content as masters
                     in their field; reviewers may be proposed by research guide authors,
                     and/or may submit interest for a topic separately. Authors and reviewer
@@ -112,7 +112,7 @@ export default function Index() {
                   </Paragraph>
                   <br />
                   <Paragraph>
-                    Authors of accepted SDoH Research Guides will receive a{" "}<strong>$300* flat-rate fee</strong>{" "}
+                    Authors of accepted SDOH Research Guides will receive a{" "}<strong>$300* flat-rate fee</strong>{" "}
                     for their guide; Reviewers will receive a{" "}<strong>$100* remuneration</strong>.
                   </Paragraph>
                   <br />
@@ -131,9 +131,9 @@ export default function Index() {
                     <NumberedList>
                       <ListItem>Identify your topic of interest in accordance with guidelines above, and{" "}<Link href={'https://docs.google.com/document/d/1341Dm8Edz3k2BJWBrexEUk2NEUKGYmldCSP4metWSFE/edit?usp=sharing'}>ensure it is available</Link>. You can also propose or refine specific calls for indicators like <i>food access</i> or <i>gentrification</i>.</ListItem>
                       <ListItem><strong>For Authors</strong>: Prepare a ~250 word abstract of your indicator of interest.</ListItem>
-                      <ListItem><strong>For Reviewers</strong>: Prepare a ~250 word summary of your expertise for a specific SDoH topic.</ListItem>
+                      <ListItem><strong>For Reviewers</strong>: Prepare a ~250 word summary of your expertise for a specific SDOH topic.</ListItem>
                       <ListItem>Submit your application (including topic, abstract, curriculum vitae, and related details) using{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'}>this form</Link>{" "}(or click the button below).</ListItem>
-                      <ListItem>If invited to submit a full SDoH Research Guide, your deadline for completion will be <strong>March 15, 2026</strong>. The flat-rate fees and remunerations will be disbursed upon completion of work.</ListItem>
+                      <ListItem>If invited to submit a full SDOH Research Guide, your deadline for completion will be <strong>March 15, 2026</strong>. The flat-rate fees and remunerations will be disbursed upon completion of work.</ListItem>
                     </NumberedList>
 
                   </Paragraph>
