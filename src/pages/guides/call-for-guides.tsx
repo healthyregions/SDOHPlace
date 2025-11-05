@@ -11,6 +11,8 @@ import { listTags } from "@/lib/tags";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import {List as MuiList, ListItem as MuiListItem} from "@mui/material";
+import Footer from "@/components/homepage/footer";
+import React from "react";
 
 const Paragraph = styled.div`
   a { color: #7E1CC4; text-decoration: none }
@@ -168,10 +170,14 @@ export default function Index() {
                     Marc Astacio-Palmer (<Link href={'mailto:mastacio@illinois.edu'} target='_blank' rel='noopener noreferrer'>mastacio@illinois.edu</Link>).
                   </Paragraph>
                 </div>
+
+
               </div>
             </div>
           </div>
         </div>
+        
+        <Footer />
       </div>
     </>
   );
