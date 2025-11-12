@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
-            <meta property="og:site_name" content="SDOH & Place Project" />
+            <meta property="og:site_name" content="SDOH &amp; Place Project" />
             {/* Some site-wide JSON-LD entries */}
             <script
                 {...jsonLdScriptProps<WebSite>({

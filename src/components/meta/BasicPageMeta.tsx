@@ -38,7 +38,7 @@ export default function BasicPageMeta({
         <link rel="canonical" href={u} />
 
         <meta property="og:url" content={u} />
-        <meta property="og:title" content="SDOH & Place Project" />
+        <meta property="og:title" content={t} />
         <meta property="og:type" content="website" />
     </Head>
   );
