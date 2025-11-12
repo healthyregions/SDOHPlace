@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -6,7 +5,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {Fade} from "@mui/material";
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
 const useStyles = makeStyles((theme) => ({
   mobileHamburgerMenu: {
@@ -18,6 +17,7 @@ type NavLinkType = {
   title: string;
   url: string;
   target?: string;
+  subitem?: boolean;
 };
 type Props = {
   title: string;
@@ -58,7 +58,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       >
         {items.map((item, index) => (
           <li key={index}>
-            <Link href={item.url} target={item.target || ''}>{item.title}</Link>
+            <Link href={item.url} target={item.target || ''}>{item.subitem && <SubdirectoryArrowRightIcon />}{item.title}</Link>
           </li>
         ))}
       </ul>
@@ -84,7 +84,7 @@ function NavDropdownMobile({ title, dropdownElId, items }: Props) {
               className={"text-white no-underline text-base"}
               href={item.url}
             >
-              {item.title}
+              {item.subitem && <SubdirectoryArrowRightIcon />}{item.title}
             </Link>
           </li>
         ))}
@@ -126,6 +126,7 @@ const NavBar = (): JSX.Element => {
     { title: "Data Refuge", url: "/data-refuge" },
     { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
     { title: "SDOH Guides", url: "/guides" },
+    { title: "Call for Guides", url: "/guides/call-for-guides", subitem: true },
     { title: "Research & Reports", url: "/research" },
   ];
 
