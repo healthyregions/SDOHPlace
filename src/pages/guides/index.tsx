@@ -42,7 +42,7 @@ export default function Index({ guides, tags, pagination }: Props) {
                           </p>
                           <br />
                           <p>
-                            You can suggest your own guide <Link className={'no-underline'} href={'https://forms.illinois.edu/sec/1493227735'} target={'_blank'} rel={'noreferrer noopener'}>here.</Link>
+                            Interested in writing or reviewing a Research Guide? Learn more <Link className={'no-underline'} href={'/guides/call-for-guides'} target={'_blank'} rel={'noreferrer noopener'}>here</Link>.
                           </p>
                         </div>
                         <GuidesList guides={guides} pagination={pagination} />
