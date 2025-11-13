@@ -337,7 +337,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 label={"Data Discovery"}
                 fillColor={"salmonpink"}
                 labelColor={"almostblack"}
-                onClick={() => router.push('/search')}
+                onClick={() => router.push('https://search.sdohplace.org')}
               ></ButtonWithIcon>
               <ButtonWithIcon
                 noBox={true}
@@ -577,7 +577,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
                         noBox={true}
-                        onClick={() => router.push("/search")}
+                        onClick={() => router.push("https://search.sdohplace.org")}
                         iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>

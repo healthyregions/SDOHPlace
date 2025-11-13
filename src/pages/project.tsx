@@ -87,7 +87,7 @@ const Project: NextPage = () => {
                       <li>
                         Discovering the details of nearly five dozen SDOH datasets for all U.S. communities
                         by topic, place, or time period, with or without AI support, with the{" "}
-                        <Link href={'/search'}>Data Discovery</Link>{" "}search tool.
+                        <Link href={'https://search.sdohplace.org'}>Data Discovery</Link>{" "}search tool.
                       </li>
                       <li>
                         <Link href={'/guides'}>Research guides</Link> to dive into the details of
