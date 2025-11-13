@@ -37,3 +37,4 @@ package = "@netlify/plugin-nextjs"
 from = "/search*"
 to = "https://search.sdohplace.org/:splat"
 status = 301
+force = true
