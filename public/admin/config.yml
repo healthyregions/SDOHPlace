@@ -506,7 +506,7 @@ collections:
               - label: "Metadata Record ID"
                 name: "record_ids"
                 hint: |
-                  Go to https://sdohplace.org/search, find and select a record, then copy the id from the URL
+                  Go to https://search.sdohplace.org, find and select a record, then copy the id from the URL
                   (Example: herop-jxbloa)
                 widget: "list"
                 summary: "{{record_id}}"

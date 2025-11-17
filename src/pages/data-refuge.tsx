@@ -131,7 +131,7 @@ const DataRefuge: NextPage = () => {
 
                     <Paragraph className={'mb-4'}>
                       Alternatively, you can search for the dataset of interest on the
-                      {" "}<Link href={'/search'}>SDOH Discovery</Link>{" "}
+                      {" "}<Link href={'https://search.sdohplace.org'}>SDOH Discovery</Link>{" "}
                       platform, and find a link to the archive with additional
                       documentation made available, when available.
                     </Paragraph>

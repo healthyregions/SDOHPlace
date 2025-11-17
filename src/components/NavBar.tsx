@@ -122,7 +122,7 @@ const NavBar = (): JSX.Element => {
   ];
 
   const resourcesItems = [
-    { title: "Data Discovery", url: "/search" },
+    { title: "Data Discovery", url: "https://search.sdohplace.org" },
     { title: "Data Refuge", url: "/data-refuge" },
     { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
     { title: "SDOH Guides", url: "/guides" },
