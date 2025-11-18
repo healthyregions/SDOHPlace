@@ -51,40 +51,6 @@ To contribute code to this repo:
 
 We've chosen this setup to keep code development history on the main branch, and isolate all of the blog-authored commit activity to the publish branch.
 
-## Dev install - Discovery App
-
-We use the latest Netlify Edge feature [netlify edge](https://www.netlify.com/platform/core/edge) to host the middle-layer API for LLM calls while keeping the site statically hosted, maintaining our existing setup. Netlify Edge is an advanced feature that will also allow us to localize content, serve relevant ads, authenticate users, personalize content, redirect visitors, and much more in the future. This feature allows us to implement, test and deploy both server-based api calls and static content in the same environment.
-
-1. (One-time setup) To install the app locally, run:
-
-```
-git clone https://github.com/healthyregions/SDOHPlace && cd SDOHPlace
-yarn install
-```
-
-2. Set up environment variables:
-
-```
-cp .env.local.example .env
-```
-
-Update environment variables as needed. See the explanation in `.env.local.example` for what variables need to be setup.
-
-2. To run the app locally, use:
-```
-npm run dev:full
-```
-
-This will start both the API and the display layer. Navigate to `localhost:3000` to view the front end. 
-
-Note: Your browser may automatically open `localhost:8888`, but that’s for the API—you can close it. You can also monitor API results in the console.
-
-3. To build and view the entire site locally, use
-```
-yarn build
-yarn start
-```
-
 ### Dev install - Decap CMS
 
 To access the blog backend locally for testing, choose one of these two approaches, based on what you need to do. Note, in both cases you will need to edit the config file: Be sure not to commit these changes to version control!
