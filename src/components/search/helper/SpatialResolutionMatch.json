@@ -1,9 +1,0 @@
-{
-  "state": "State",
-  "county": "County",
-  "tract": "Census Tract",
-  "block": "Census Block",
-  "bg": "Census Block Group",
-  "place": "City",
-  "zcta": "Zip Code Tabulation Area (ZCTA)"
-}

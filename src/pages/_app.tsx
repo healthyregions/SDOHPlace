@@ -3,9 +3,8 @@ import * as React from "react";
 import { AppProps } from "next/app";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../createEmotionCache";
-import { Provider } from "react-redux";
-import { store } from "@/store";
 import PlausibleProvider from 'next-plausible';
+import Head from 'next/head';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -19,14 +18,13 @@ export default function MyApp(props: MyAppProps) {
   const AnyComponent = Component as any;
 
   return (
-    <>
-      <PlausibleProvider domain="sdohplace.org">
-        <CacheProvider value={emotionCache}>
-          <Provider store={store}>
-            <AnyComponent {...pageProps} />
-          </Provider>
-        </CacheProvider>
-      </PlausibleProvider>
-    </>
+    <PlausibleProvider domain="sdohplace.org">
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <AnyComponent {...pageProps} />
+      </CacheProvider>
+    </PlausibleProvider>
   );
 }
