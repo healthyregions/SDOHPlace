@@ -10,7 +10,6 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-            <meta name="viewport" content="initial-scale=1, width=device-width" />
             <meta property="og:site_name" content={config.site_title} />
             {/* Some site-wide JSON-LD entries */}
             <script
