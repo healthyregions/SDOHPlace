@@ -6,6 +6,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* animation for icons on mobile navbar */
+.animate-fade-in{animation:opac 1.4s}@keyframes opac{from{opacity:0} to{opacity:1}}
+
+/* Support decorative images in rendered markdown */
+/* Smaller screens will still use 100% width */
+@media (min-width: 769px) {
+  .decorative-image {
+    width: 50%;
+  }
+}
+
+/*  WIP: Scalable background image for top lines?
+
+#searchTopLines {
+  background-image: url('../../public/logos/line15.svg');
+  background-repeat: no-repeat;
+  background-position: right 0 top -3vh;
+}
+
+ */
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.nomargin {
+  margin: 0 !important;
+}
+
+
 /* override the tailwind defaults to get bullets and numbers back on lists in blog posts.*/
 article ul {
   list-style: disc;
@@ -80,6 +110,8 @@ ul.navbar > li > ul {
   padding: 1rem 2rem;
   background-color: #ffe5c4;
   border-radius: 4px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
   @apply absolute;
 }
 
@@ -101,7 +133,7 @@ ul.navbar-mobile {
 
 ul.navbar-mobile > li,
 ul.navbar-mobile > li > button {
-  @apply p-4 text-2xl uppercase;
+  @apply p-4 text-2xl;
 }
 
 ul.navbar-mobile > li > button {
@@ -134,3 +166,229 @@ ul.navbar-mobile > li > a {
   font-family: Fredoka;
   margin: 2.5rem 0 0 0;
 }
+
+/* Markdown Styles */
+
+article {
+  flex: 1 0 auto;
+}
+
+/* Headers */
+
+article h1 {
+  color: #7e1cc4;
+  letter-spacing: 0.2px;
+}
+
+article h2 {
+  border-left: solid 4px;
+  border-color: #ff9c77;
+  padding-left: 11px !important;
+}
+
+/* Lists */
+
+article ul {
+  font-family: "Nunito", sans-serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article ul li::marker {
+  color: #ff9c77;
+}
+
+article ol {
+  font-family: "Nunito", sans-serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+/*  Details + Summary */
+
+article details,
+details summary {
+  font-family: "Nunito", sans-serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+article details {
+  margin-top: 1.5rem;
+}
+
+article summary {
+  cursor: pointer;
+}
+
+article summary::marker {
+  color: #ff9c77;
+  cursor: pointer;
+}
+
+article summary strong {
+  font-weight: 400 !important;
+}
+
+/* Lists */
+
+article li {
+  margin-bottom: 0.85em;
+}
+
+/* Links / Anchors */
+
+article a {
+  text-decoration: none !important;
+  font-weight: 400;
+}
+
+/* Image Captions */
+
+article p.caption,
+article .figcaption {
+  font-family: "Fredoka", sans-serif;
+  color: #333333;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+/* Tables */
+
+article table tr {
+  font-family: "Nunito", sans-serif;
+  border-top: 2px solid #ffe5c4 !important;
+  line-height: 27.2px;
+}
+
+article table tr th {
+  background-color: #fff;
+  font-weight: 700;
+  border-bottom: 2px solid #ffe5c4;
+}
+
+article table td,
+article table th {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+article table {
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  color: #333333;
+  overflow-x: auto;
+  width: 100%;
+}
+
+article table tr td:first-child {
+  min-width: 200px !important;
+}
+
+article table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+article table tbody tr:nth-child(even) {
+  background-color: #fffaf3;
+}
+
+article table tbody tr:last-child {
+  border-bottom: 3px solid #ffe5c4;
+}
+
+article table td {
+  text-align: left;
+}
+
+/* Force Scrollbar */
+
+.force-scrollbar ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px
+}
+
+.force-scrollbar ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0
+}
+
+.force-scrollbar ::-webkit-scrollbar-thumb {
+    background: #dad8d8;
+    border: 0 none #fff;
+    border-radius: 0
+}
+
+.force-scrollbar ::-webkit-scrollbar-thumb:hover {
+    background: #dad8d8
+}
+
+.force-scrollbar ::-webkit-scrollbar-thumb:active {
+    background:  #dad8d8;
+}
+
+.force-scrollbar ::-webkit-scrollbar-track {
+    background: #f4f6f9;
+    border: 0 none #fff;
+    border-radius: 0
+}
+
+.force-scrollbar ::-webkit-scrollbar-track:hover {
+    background: #f4f6f9;
+}
+
+.force-scrollbar ::-webkit-scrollbar-track:active {
+    background: #f4f6f9;
+}
+
+.force-scrollbar ::-webkit-scrollbar-corner {
+    background: 0 0
+}
+
+.sdoh-panel {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  /*background-color: #ECE6F0;*/
+
+  .sdoh-panel-header {
+    font-family: Nunito;
+    font-weight: 700;
+    font-size: 16pt;
+    line-height: 100%;
+    letter-spacing: 0;
+    margin-top: 0.5rem;
+  }
+  .sdoh-panel-content {
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0 0 0;
+
+    .sdoh-panel-image {
+      width: 9rem;
+      height: 9rem;
+      margin: 0 2rem 1rem 0;
+      border-radius: 1000px;
+    }
+    .sdoh-panel-body {
+      display: flex;
+      flex-direction: column;
+      .sdoh-panel-markdown > p {
+        margin-top: 0;
+      }
+      .sdoh-panel-link {
+        width: 7rem;
+        color: #7E1CC4;
+        font-weight: bolder;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+/* for some reason, this class is not built into tailwind CSS... */
+.before\:border-1:before{content:var(--tw-content);border-width:1px}
+

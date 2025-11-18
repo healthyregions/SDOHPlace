@@ -17,6 +17,7 @@
   <body>
     <!-- Include the script that builds the page and powers Netlify CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       // Register fonts so they can be used in the preview styles
       CMS.registerPreviewStyle(
@@ -29,6 +30,189 @@
         "https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap"
       );
       CMS.registerPreviewStyle("/styles/posts.module.css");
+
+      const toPanelHtml = (data, parse) => {
+        // Include style tags for raw HTML and override with JSX style for React mode
+        // This allows us to support both the preview in DecapCMS + the rendered markdown in SDOH
+        return `
+<div class='sdoh-panel' style='background-color:${data.backgroundColor}' style={{ backgroundColor: '${data.backgroundColor}' }}>
+<h4 class='sdoh-panel-header'>${data.title}</h4>
+<div class='sdoh-panel-content'>
+<img class='sdoh-panel-image' src='${data.image}' />
+<div class='sdoh-panel-body'>
+<span class='sdoh-panel-markdown'>${parse ? marked.parse(data.content || '') : data.content}</span>
+<br/>
+<a class='sdoh-panel-link' href='${data.link}'>${data.linkText || data.link}</a>
+</div></div></div>`;
+      };
+
+      // Register custom Editor Component: Link Panel
+      CMS.registerEditorComponent({
+        id: 'panel',
+        label: 'Panel',
+        fields: [
+          {
+            name: 'title',
+            label: 'Title',
+            widget: 'string',
+            required: true
+          },
+          {
+            name: 'content',
+            label: 'Content',
+            widget: 'markdown',
+            // exclude panel from being nested inside another panel
+            editor_components: [ "image", "code-block" ],
+            required: true
+          },
+          {
+            name: 'link',
+            label: 'Link',
+            widget: 'string'
+          },
+          {
+            name: 'linkText',
+            label: 'Link Text',
+            widget: 'string'
+          },
+          {
+            name: 'image',
+            label: 'Image',
+            widget: 'image',
+            allow_multiple: false
+          },
+          {
+            name: 'backgroundColor',
+            label: 'Background Color',
+            widget: 'color'
+          }
+        ],
+
+        // These are used to populate the custom widget in the markdown editor in the CMS.
+        // space becomes \s+
+        // newline becomes \n*
+        // () matches a value
+        // ? makes it optional
+        pattern: /<div class='sdoh-panel' style='background-color:([^']+)?' style={{ backgroundColor: '.*' }}>\n*<h4 class='sdoh-panel-header'>(.*?)<\/h4>\n*<div class='sdoh-panel-content'>\n*<img class='sdoh-panel-image' src='([^']+)?' \/>\n*<div class='sdoh-panel-body'>\n*<span class='sdoh-panel-markdown'>(.+?)<\/span>\n*<br\/>\n*<a class='sdoh-panel-link' href='([^']+)?'>(.*?)<\/a>\n*<\/div>\n*<\/div>\n*<\/div>/ms,
+        //pattern: /<div\s+class='sdoh-panel'\s+style='background-color:([^']+)?'>\n*<h4\s+class='sdoh-panel-header'>\n*(.*?)\n*<\/h4>\n*<div\s+class='sdoh-panel-content'>\n*<img\s+class='sdoh-panel-image'\s+src='([^']+)?'\s+\/>\n*(.*?)\n*<\/div>\n*(<a\s+class='sdoh-panel-link'\s+href='([^']+)?'\s+>(.*?)<\/a>)?\n*<\/div>/,
+        //pattern: /<details(\sname='([^']+)?')?>\n*<summary>\n*(.*?)\n*<\/summary>\n*(.*?)\n*<\/details>/ms,
+        fromBlock: (match) => {
+          console.log('Matches: ', match);
+          return {
+            backgroundColor: match[1],
+            title: match[2],
+            image: match[3],
+            content: match[4],
+            link: match[5],
+            linkText: match[6],
+          };
+        },
+
+        // This is used to serialize the data from the custom widget to the markdown document.
+        toBlock: (data) => toPanelHtml(data, false),
+
+        // Preview output for this component. Can either be a string or a React component
+        // (component gives better render performance)
+        toPreview: (data) => toPanelHtml(data, true),
+      });
+
+      // Register custom Editor Component: Toggle Section
+      CMS.registerEditorComponent({
+        // Internal id of the component
+        id: "toggle-section",
+        // Visible label
+        label: "Toggle Section",
+        // Fields the user need to fill out when adding an instance of the component
+        fields: [
+          {
+            name: 'title',
+            label: 'Title',
+            widget: 'string',
+            required: true
+          },
+          {
+            name: 'content',
+            label: 'Content',
+            widget: 'markdown',
+            // exclude toggle-section from being nested inside another toggle-section
+            editor_components: [ "image", "code-block" ],
+            required: true
+          },
+          {
+            name: 'group',
+            label: 'Group',
+            widget: 'string'
+          }
+        ],
+
+        // Regex pattern used to search for instances of this block in the markdown document.
+        // Patterns are run in a multiline environment (against the entire markdown document),
+        // and so generally should make use of the multiline flag (`m`). If you need to capture
+        // newlines in your capturing groups, you can either use something like
+        // `([\S\s]*)`, or you can additionally enable the "dot all" flag (`s`),
+        // which will cause `(.*)` to match newlines as well.
+        //
+        // Additionally, it's recommended that you use non-greedy capturing groups (e.g.
+        // `(.*?)` vs `(.*)`), especially if matching against newline characters.
+        pattern: /<details(\sname='([^']+)?')?>\n*<summary>\n*(.*?)\n*<\/summary>\n*(.*?)\n*<\/details>/ms,
+        // Given a RegExp Match object
+        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match#return_value),
+        // return an object with one property for each field defined in `fields`.
+        //
+        // This is used to populate the custom widget in the markdown editor in the CMS.
+        fromBlock: function(match) {
+          //console.log('Matches: ', match);
+          return {
+            title: match[3],
+            content: match[4],
+            group: match[2]
+          };
+        },
+
+        // Given an object with one property for each field defined in `fields`,
+        // return the string you wish to be inserted into your markdown.
+        //
+        // This is used to serialize the data from the custom widget to the
+        // markdown document
+        toBlock: function(data) {
+          if (data.group) {
+            return `
+<details name='${data.group}'>
+<summary>${data.title}</summary>
+
+${data.content}
+</details>`;
+          } else {
+            return `
+<details>
+<summary>${data.title}</summary>
+
+${data.content}
+</details>`;
+          }
+        },
+        // Preview output for this component. Can either be a string or a React component
+        // (component gives better render performance)
+        toPreview: function(data) {
+          if (data.group) {return `
+<details name='${data.group}'>
+<summary>${data.title}</summary>
+
+${marked.parse(data.content)}
+</details>
+`;
+          } else {
+            return `
+<details>
+<summary>${data.title}</summary>
+
+${marked.parse(data.content)}
+</details>
+`;
+          }
+
+        }
+      });
       // this preview generally mimics the structure of the actual post page, but it is not
       // actually derived from that component (tried for a long time to get that to work, no luck.)
       var PostPreview = createClass({
@@ -65,6 +249,46 @@
         },
       });
       CMS.registerPreviewTemplate("showcase", ShowcasePreview);
+      var GuidePreview = createClass({
+        render: function () {
+          var entry = this.props.entry;
+          var sdohGuideTheme = entry.getIn(["data", "theme"]);
+          return h(
+            "div",
+            { className: "container" },
+            !sdohGuideTheme ? "" : h("div", { className: "sdoh-theme-banner" },
+              h('h4', { className: "sdoh-theme-banner-header" }, `Looking for data on ${sdohGuideTheme}?`),
+              h("div", { className: "sdoh-theme-banner-content" },
+                h('img', {
+                  className: "sdoh-theme-banner-logo",
+                  src: "/images/place-project-logo.png"
+                }),
+                h("span", {},
+                  h("p", { className: "sdoh-theme-banner-caption" },
+                    'Our Data Discovery platform helps you search for data on ',
+                    h("strong", {}, sdohGuideTheme),
+                    ' along with 12 other social determinants of health. Search for KEYWORD 1, KEYWORD 2, KEYWORD 3, etc. on the platform for your analysis. More text comes here. More text comes here.'
+                  ),
+                  h("a", {
+                    className: "sdoh-theme-banner-link",
+                    href: `https://search.sdohplace.org/?subject=${encodeURIComponent(sdohGuideTheme)}`
+                  }, `Search for ${sdohGuideTheme} on Data Discovery →`),
+                ),
+              ),
+            ),
+            h("h1", {}, entry.getIn(["data", "title"])),
+            h(
+              "div",
+              { className: "content" },
+              h("img", { src: entry.getIn(["data", "featured_image"]) }),
+              h("time", {}, entry.getIn(["data", "last_updated"])),
+              h("p", {}, entry.getIn(["data", "author"])),
+              h("div", {}, this.props.widgetFor("body"))
+            )
+          );
+        },
+      });
+      CMS.registerPreviewTemplate("guides", GuidePreview);
     </script>
   </body>
 </html>

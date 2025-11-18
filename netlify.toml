@@ -1,2 +1,12 @@
+[build]
+command = "npm run build"
+publish = "out"
+
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+from = "/search*"
+to = "https://search.sdohplace.org/:splat"
+status = 301
+force = true

@@ -1,10 +1,11 @@
-import type { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
 const useStyles = makeStyles((theme) => ({
   mobileHamburgerMenu: {
@@ -15,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
 type NavLinkType = {
   title: string;
   url: string;
+  target?: string;
+  subitem?: boolean;
 };
 type Props = {
   title: string;
@@ -26,9 +29,10 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
   return (
     <>
       <button
-        className={`nav-button p-0 font-light${
+        className={`nav-button p-0 pb-3 font-light${
           directLink ? "" : " cursor-default"
         }`}
+
         onMouseLeave={() => {
           document.getElementById(dropdownElId).setAttribute("hidden", "");
         }}
@@ -43,6 +47,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       </button>
       <ul
         id={dropdownElId}
+        style={{ boxShadow: '#aaaaaa 6px 12px 16px -8px' }}
         onMouseEnter={() => {
           document.getElementById(dropdownElId).removeAttribute("hidden");
         }}
@@ -53,7 +58,7 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       >
         {items.map((item, index) => (
           <li key={index}>
-            <Link href={item.url}>{item.title}</Link>
+            <Link href={item.url} target={item.target || ''}>{item.subitem && <SubdirectoryArrowRightIcon />}{item.title}</Link>
           </li>
         ))}
       </ul>
@@ -65,6 +70,7 @@ function NavDropdownMobile({ title, dropdownElId, items }: Props) {
   return (
     <>
       <button
+        className={'text-uppercase'}
         onClick={() => {
           document.getElementById(dropdownElId).toggleAttribute("hidden");
         }}
@@ -78,7 +84,7 @@ function NavDropdownMobile({ title, dropdownElId, items }: Props) {
               className={"text-white no-underline text-base"}
               href={item.url}
             >
-              {item.title}
+              {item.subitem && <SubdirectoryArrowRightIcon />}{item.title}
             </Link>
           </li>
         ))}
@@ -109,14 +115,26 @@ const NavBar = (): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
 
-  const fellowItems = [
-    { title: "2024 Cohort", url: "/fellows" },
-    { title: "Showcase", url: "/showcase" },
+  const aboutItems = [
+    { title: "Project", url: "/project" },
+    { title: "Core Team", url: "/team" },
+    { title: "Advisory", url: "/advisory" },
   ];
 
-  const aboutItems = [
-    { title: "Advisory", url: "/advisory" },
-    { title: "SDOH & Place Project", url: "/about" },
+  const resourcesItems = [
+    { title: "Data Discovery", url: "https://search.sdohplace.org" },
+    { title: "Data Refuge", url: "/data-refuge" },
+    { title: "Community Toolkit", url: "https://toolkit.sdohplace.org" },
+    { title: "SDOH Guides", url: "/guides" },
+    { title: "Call for Guides", url: "/guides/call-for-guides", subitem: true },
+    { title: "Research & Reports", url: "/research" },
+  ];
+
+  const communityItems = [
+    { title: "Fellows", url: "/fellows" },
+    { title: "Showcase", url: "/showcase" },
+    //{ title: "Place Mini-Projects", url: "/mini-projects" },
+    //{ title: "Things We Like!", url: "/recommendations" },
   ];
 
   return (
@@ -124,14 +142,69 @@ const NavBar = (): JSX.Element => {
       className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
     >
       <div
-        className={`flex justify-between items-center 2xl:max-w-[1536px] pt-8 pb-12 pl-0 pr-0 mx-auto`}
+        className={`flex justify-between items-center 2xl:max-w-[1536px] mt-8 pl-0 pr-0 mx-auto`}
       >
-        <ul className="navbar hidden min-[768px]:flex pl-[2.5%]">
-          <li className={`${router.pathname == "/" ? "active" : ""}`}>
+        <ul className="navbar hidden min-[940px]:flex pl-[2.5%]">
+          { router.pathname != "/" && <li className={'p-0 pt-2 mr-6'}>
+              <Link href="/" style={{ padding:0, margin:0 }}>
+                <Image width={40} height={40} src={'/logos/sdoh-logo-navbar-desktop.svg'} alt={'LOGO'} />
+              </Link>
+            </li>
+          }
+
+          {/* Home Link */}
+          <li className={`mt-4 ${router.pathname == "/" ? "active" : ""}`}>
             <Link href="/">Home</Link>
           </li>
+
+          {/* Resources Menu */}
           <li
-            className={`${
+            className={`mt-4 ml-6 ${
+              router.pathname == "/search"
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Resources"
+              dropdownElId="resources-dd"
+              items={resourcesItems}
+            />
+          </li>
+
+          {/* Community Menu */}
+          <li
+            className={`mt-4 ml-6 ${
+              router.pathname == "/fellows" ||
+              router.pathname.startsWith("/showcase")
+                ? "active"
+                : ""
+            }`}
+          >
+            <NavDropdownButton
+              title="Community"
+              dropdownElId="fellows-dd"
+              items={communityItems}
+            />
+          </li>
+
+          {/* Symposium Link */}
+          <li
+            className={`mt-4 ml-6`}
+          >
+            <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium</Link>
+          </li>
+
+          {/* News Link */}
+          <li
+            className={`mt-4 ml-6 ${router.pathname.startsWith("/news") ? "active" : ""}`}
+          >
+            <Link href="/news">News</Link>
+          </li>
+
+          {/* About Menu */}
+          <li
+            className={`mt-4 ml-4 ${
               router.pathname.startsWith("/about") ||
               router.pathname.startsWith("/advisory")
                 ? "active"
@@ -144,27 +217,10 @@ const NavBar = (): JSX.Element => {
               items={aboutItems}
             />
           </li>
+
+          {/* Contact Us Link */}
           <li
-            className={`${
-              router.pathname == "/fellows" ||
-              router.pathname.startsWith("/showcase")
-                ? "active"
-                : ""
-            }`}
-          >
-            <NavDropdownButton
-              title="Fellows"
-              dropdownElId="fellows-dd"
-              items={fellowItems}
-            />
-          </li>
-          <li
-            className={`${router.pathname.startsWith("/news") ? "active" : ""}`}
-          >
-            <Link href="/news">News</Link>
-          </li>
-          <li
-            className={`${
+            className={`mt-4 ml-4 ${
               router.pathname.startsWith("/contact") ? "active" : ""
             }`}
           >
@@ -175,25 +231,36 @@ const NavBar = (): JSX.Element => {
         {/* Mobile Button */}
         <div
           onClick={handleNav}
-          className="block min-[768px]:hidden pl-[25px] z-50"
+          className="block min-[940px]:hidden pl-[25px] z-50"
         >
           {nav ? (
-            <AiOutlineClose size={35} color={"white"} />
+              <AiOutlineClose size={35} color={"white"} className={'animate-fade-in'} />
           ) : (
-            <AiOutlineMenu size={35} />
+              <AiOutlineMenu size={35} className={'animate-fade-in'} />
           )}
         </div>
 
         {/* Mobile Menu */}
         <div
-          className={`min-[768px]:hidden absolute ${
+          className={`min-[940px]:hidden absolute ${
             nav ? "left-0" : "left-[-100%]"
           } top-0 bottom-0 right-0 pt-100 flex justify-center items-baseline w-full
-          h-screen bg-frenchviolet text-center ease-in duration-300 `}
+          h-screen bg-frenchviolet ease-in duration-300 `}
         >
           <ul className="navbar-mobile">
             <li>
-              <Link href="/">Home</Link>
+              <Link href="/">
+                <Image width={150} height={75} src={'./logos/sdoh-logo-navbar-mobile.svg'} alt={'LOGO'} />
+              </Link>
+            </li>
+
+            {/* Resources Menu */}
+            <li>
+              <NavDropdownMobile
+                title="Resources"
+                dropdownElId="resources-dd-mobile"
+                items={resourcesItems}
+              />
             </li>
             <li>
               <NavDropdownMobile
@@ -202,17 +269,37 @@ const NavBar = (): JSX.Element => {
                 items={aboutItems}
               />
             </li>
+
+            {/* Community Menu */}
             <li>
               <NavDropdownMobile
-                title="Fellows"
+                title="Community"
                 dropdownElId="fellows-dd-mobile"
-                items={fellowItems}
+                items={communityItems}
               />
             </li>
-            <li>
+
+            {/* Symposium Link */}
+            <li className={'text-uppercase'}>
+              <Link href="https://symposium2025.sdohplace.org" target="_blank">Symposium</Link>
+            </li>
+
+            {/* News Link */}
+            <li className={'text-uppercase'}>
               <Link href="/news">News</Link>
             </li>
+
+            {/* About Menu */}
             <li>
+              <NavDropdownMobile
+                title="About"
+                dropdownElId="about-dd-mobile"
+                items={aboutItems}
+              />
+            </li>
+
+            {/* Contact Us Link */}
+            <li className={'text-uppercase'}>
               <Link href="/contact">Contact Us</Link>
             </li>
           </ul>

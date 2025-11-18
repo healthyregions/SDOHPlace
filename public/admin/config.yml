@@ -1,6 +1,7 @@
 backend:
-  name: git-gateway
-  branch: publish
+  name: github
+  repo: healthyregions/SDOHPlace
+  branch: main
 media_folder: public/images
 public_folder: /images
 publish_mode: editorial_workflow
@@ -89,6 +90,37 @@ collections:
                 widget: "string"
                 hint: "Tag name for displaying on the site"
 
+      - name: "featured"
+        label: "Featured"
+        file: "meta/featured.json"
+        description: "Featured section of homepage"
+        fields:
+          - name: title
+            label: Title
+            widget: string
+          - name: body
+            label: Body
+            widget: markdown
+          - name: image
+            label: Image
+            widget: image
+            allow_multiple: false
+          - name: links
+            label: Links
+            label_singular: "Link"
+            widget: list
+            fields:
+              - name: label
+                label: Label
+                widget: string
+              - name: url
+                label: Destination URL
+                widget: string
+              - name: bold
+                label: Bold Label
+                widget: boolean
+                required: false
+
   - name: "people"
     label: "People"
     delete: false
@@ -105,6 +137,7 @@ collections:
             label_singular: "Fellow"
             widget: list
             summary: "{{name}} - {{cohort}}"
+            add_to_top: true
             fields:
               - label: "Name"
                 name: "name"
@@ -120,7 +153,7 @@ collections:
               - label: "Cohort"
                 name: "cohort"
                 widget: "select"
-                options: ["Spring 2024", "Fall 2024"]
+                options: ["Spring 2024", "Fall 2024", "Spring 2025"]
               - label: "Links"
                 name: "links"
                 widget: "list"
@@ -201,15 +234,17 @@ collections:
                 name: "desc_long"
                 widget: "text"
                 hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
-      - name: tech_advisory
-        label: Technical Advisory Group
-        file: "meta/tech_advisory.json"
+
+      - name: advisory
+        label: Advisory Board
+        file: "meta/advisory.json"
         fields:
-          - name: tech_advisory
-            label: Tech Advisory Group
-            label_singular: "Tech Advisor"
+          - name: advisory
+            label: Advisory Board
+            label_singular: "Advisor"
             summary: "{{name}} - {{affiliation}}"
             widget: list
+            add_to_top: true
             fields:
               - label: "Name"
                 name: "name"
@@ -217,50 +252,13 @@ collections:
               - label: "Affiliation"
                 name: "affiliation"
                 widget: "string"
-              - label: "Profile Image"
-                name: "image"
-                widget: "image"
-                choose_url: true
-                default: "/images/missing-headshot.png"
-              - label: "Links"
-                name: "links"
-                widget: "list"
-                summary: "{{link_label}} - {{link_url}}"
-                fields:
-                  - { label: Label, name: link_label, widget: string }
-                  - {
-                      label: URL,
-                      name: link_url,
-                      widget: string,
-                      pattern:
-                        [
-                          '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
-                          "Must be a valid URL.",
-                        ],
-                    }
-              - label: "Short Description"
-                name: "desc_short"
-                widget: "text"
-              - label: "Full Description"
-                name: "desc_long"
-                widget: "text"
-                hint: "You can use any HTML tags within this description. To create a new paragraph, paste this in: <br/><br/>"
-      - name: stakeholder_advisory
-        label: Stakeholder Advisory Group
-        file: "meta/stakeholder_advisory.json"
-        fields:
-          - name: stakeholder_advisory
-            label: Stakeholder Advisory Group
-            label_singular: "Stakeholder Advisor"
-            summary: "{{name}} - {{affiliation}}"
-            widget: list
-            fields:
-              - label: "Name"
-                name: "name"
-                widget: "string"
-              - label: "Affiliation"
-                name: "affiliation"
-                widget: "string"
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                default: "current"
+                options:
+                  - { label: "Current", value: "current" }
+                  - { label: "Past", value: "past" }
               - label: "Profile Image"
                 name: "image"
                 widget: "image"
@@ -298,6 +296,7 @@ collections:
     create: true
     slug: "{{slug}}"
     summary: "{{title}}"
+    preview_path: "news/{{slug}}"
     fields:
       - label: "Title"
         name: "title"
@@ -358,6 +357,7 @@ collections:
     format: "frontmatter"
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}"
+    preview_path: "showcase/{{slug}}"
     fields: # The fields for each document, usually in front matter
       - label: "Project Title"
         name: "title"
@@ -368,6 +368,12 @@ collections:
         widget: "image"
         choose_url: true
         default: "/images/default.jpg"
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "M/D/YYYY"
+        default: '{{now}}'
+        hint: "The date when this showcase case was created, updated, or published."
       - label: "External Link"
         name: "link"
         widget: "string"
@@ -393,3 +399,147 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
+
+  - name: "guides" # Used in routes, e.g., /admin/collections/blog
+    label: "Guides" # Used in the UI
+    folder: "content/guides" # The path to the folder where the MDX files are stored
+    extension: "mdx"
+    format: "frontmatter"
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}"
+    preview_path: "guides/{{slug}}"
+    fields: # The fields for each document, usually in front matter
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
+      - label: "Featured Image"
+        name: "featured_image"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.jpg"
+      - label: "Last Updated"
+        name: "last_updated"
+        widget: "datetime"
+        default: "{{now}}"
+        date_format: "DD.MM.YYYY" # e.g. 24.12.2021
+        time_format: "HH:mm" # e.g. 21:07
+        format: "LLL"
+        picker_utc: false
+      - label: Author
+        name: "author"
+        widget: string
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+
+  - name: "research"              # Used in routes, e.g., /admin/collections/blog
+    label: "Research Outputs"     # Used in the UI
+    folder: "content/research"    # The path to the folder where the MDX files are stored
+    extension: "mdx"
+    format: "frontmatter"
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}"
+    preview_path: "research/{{slug}}"
+    fields: # The fields for each document, usually in front matter
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The title will be used to generate the URL path for this research entry, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
+      - label: Author
+        name: "author"
+        widget: string
+        hint: "The primary author or authors of this report"
+      - label: "Related Media"
+        name: "media"
+        widget: "file"
+        required: true
+        media_library:
+          choose_url: true
+          # TODO: would be nice to have labels in the UI for this, instead of only a raw URL
+          allow_multiple: false
+          config:
+            multiple: false
+      - label: "Image"
+        name: "image"
+        widget: "image"
+        choose_url: true
+        default: "/images/default.jpg"
+      - label: "Publish Date"
+        name: "publish_date"
+        widget: "datetime"
+        default: "{{now}}"
+        date_format: "DD.MM.YYYY" # e.g. 24.12.2021
+        time_format: "HH:mm" # e.g. 21:07
+        format: "LLL"
+        picker_utc: false
+      - label: DOI
+        name: "doi"
+        widget: string
+        required: false
+      - label: "Description"
+        name: "description"
+        widget: "markdown"
+
+  - name: "research-rabbit"
+    label: "Research Rabbit"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: research-rabbit
+        label: Research Rabbit entries
+        file: "meta/research-rabbit.json"
+        label_singular: "Research Rabbit"
+        fields:
+          - name: research-rabbit
+            label: Research Rabbit entries
+            label_singular: "Research Rabbit entry"
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - name: title
+                label: Title
+                hint: "Title for this Research Rabbit entry"
+                widget: string
+              - label: "Metadata Record ID"
+                name: "record_ids"
+                hint: |
+                  Go to https://search.sdohplace.org, find and select a record, then copy the id from the URL
+                  (Example: herop-jxbloa)
+                widget: "list"
+                summary: "{{record_id}}"
+                fields:
+                  - label: Record ID
+                    name: record_id
+                    widget: string
+              - label: Public Link
+                name: link_url
+                hint: "Link to Research Rabbit URL for specific dataset of interest"
+                widget: string
+                pattern:
+                  [
+                    '[(http(s)?):\/\/(www\\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)',
+                    "Must be a valid URL.",
+                  ]
+              - label: Collected by
+                name: collected_by
+                hint: "Person who developed and curated the original Research Rabbit collection"
+                widget: string
+              - label: Reviewed by
+                name: reviewed_by
+                hint: "Person who reviewed the curated Research Rabbit collection"
+                widget: string
+              - label: Documentation/Report
+                name: doc_report
+                hint: >
+                  Some documentation/report exists that describes how the dataset was developed.
+                  This is "gray literature" that was not peer-reviewed.
+                widget: boolean
+              - label: Original peer-reviewed article by authors
+                name: peer_reviewed
+                hint: >
+                  The authors of the dataset (or index featured by the dataset, for example) published a peer-reviewed article that details the development of the data of interest.
+                  This is linked in the Research Rabbit collection
+                widget: boolean

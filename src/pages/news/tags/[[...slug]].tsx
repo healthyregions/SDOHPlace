@@ -1,13 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "@/components/news/Layout";
-import BasicMeta from "@/components/news/meta/BasicMeta";
-import OpenGraphMeta from "@/components/news/meta/OpenGraphMeta";
-import TwitterCardMeta from "@/components/news/meta/TwitterCardMeta";
+import Layout from "@/components/Layout";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import TagPostList from "@/components/news/TagPostList";
-import config from "../../../lib/config";
-import { countPosts, listPostContent, PostContent } from "../../../lib/posts";
-import { getTag, listTags, TagContent } from "../../../lib/tags";
-import Head from "next/head";
+import config from "@/lib/config";
+import { countPosts, listPostContent, PostContent } from "@/lib/posts";
+import { getTag, listTags, TagContent } from "@/lib/tags";
 
 type Props = {
   posts: PostContent[];
@@ -23,9 +20,7 @@ export default function Index({ posts, tag, pagination, page }: Props) {
   const title = tag.name;
   return (
     <Layout>
-      <BasicMeta url={url} title={title} />
-      <OpenGraphMeta url={url} title={title} />
-      <TwitterCardMeta url={url} title={title} />
+      <BasicPageMeta title={title} />
       <TagPostList posts={posts} tag={tag} pagination={pagination} />
     </Layout>
   );

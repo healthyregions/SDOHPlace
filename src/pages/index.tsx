@@ -2,25 +2,24 @@ import type { NextPage } from "next";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import mainLogo from "@/public/logos/place-project-logo-hero.svg";
-import dataDiscoveryIcon from "@/public/logos/data-discovery-icon.svg";
-import communityToolkitIcon from "@/public/logos/community-toolkit-icon.svg";
+import transitIcon from "@/public/logos/transit-icon.svg";
+import foodAccessIcon from "@/public/icons/foodAccessAlt.svg";
+import compositeIcon from "@/public/icons/composite.svg";
 import greenspacesIcon from "@/public/logos/greenspaces.svg";
 import educationIcon from "@/public/logos/education-icon.svg";
 import workplaceIcon from "@/public/logos/workplace-icon.svg";
 import medicalIcon from "@/public/logos/medical-icon.svg";
 import housingIcon from "@/public/logos/housing-icon.svg";
 import etcIcon from "@/public/logos/etc-icon.svg";
-import dataDiscoveryIconEnlarged from "@/public/logos/data-discovery-icon-enlarged.svg";
-import communityToolkitIconEnlarged from "@/public/logos/community-toolkit-icon-enlarged.svg";
-import heropLightLogo from "@/public/logos/herop-light-logo.svg";
-import universityWordmark from "@/public/logos/university-wordmark.svg";
-import csdsLogo from "@/public/logos/CSDS-white-reduce.png";
-import ncsaLogo from "@/public/logos/ncsa-logo.svg";
-import scdLogo from "@/public/logos/scd-logo.png";
-import sdohGraphic from "@/public/images/sdohGraphic.svg";
+import heropLogo from "@/public/logos/logo-herop.png";
+import rwjfLogo from "@/public/logos/logo-rwjf.png";
+import ncsaLogo from "@/public/logos/logo-ncsa.png";
+import scdLogo from "@/public/logos/logo-siebel.png";
+import uiucLogo from "@/public/logos/logo-uiuc.png";
+import sdohGraphic from "@/public/images/sdoh_bannermation.svg";
 import line1 from "@/public/logos/line1.svg";
 import line2 from "@/public/logos/line2.svg";
 import line3 from "@/public/logos/line3.svg";
@@ -29,7 +28,6 @@ import line5 from "@/public/logos/line5.svg";
 import line6 from "@/public/logos/line6.svg";
 
 import { GetStaticProps } from "next";
-import Header from "@/components/Header";
 import { PostData, getSortedPostsData } from "@/components/Posts";
 import ButtonWithIcon from "@/components/homepage/buttonwithicon";
 import CardWithImage from "@/components/homepage/cardwithimage/cardwithimage";
@@ -38,8 +36,20 @@ import Card from "@/components/homepage/card";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { Box, Grid } from "@mui/material";
+import {IconButton} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import {
+  FaBook,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
+  FaPlus, FaStar,
+} from "react-icons/fa";
+
+import featuredData from "../../meta/featured.json";
+
+import styled from "@emotion/styled";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
+import {useRouter} from "next/router";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -49,7 +59,6 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   let newsItem = getSortedPostsData();
-  console.log(newsItem);
   // Convert date to string format
   newsItem = newsItem.map((item) => {
     return {
@@ -67,78 +76,182 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 };
 const useStyles = makeStyles({
   imageContainer: {
-    display: "flex",
+    // display: "flex",
     justifyContent: "center",
-    flexDirection: "row",
+    // flexDirection: "row",
+    width: "100%",
     "@media (max-width: 959px)": {
       marginLeft: "1em",
     },
   },
   image: {
-    width: "100%",
-    height: "100%",
-    objectFit: "contain",
-    "@media (max-width: 959px)": {
-      width: "80%",
-      height: "80%",
-    },
+    // width: "100%",
+    // height: "100%",
+    // objectFit: "contain",
+    // "@media (max-width: 959px)": {
+    //   width: "80%",
+    //   height: "80%",
+    // },
   },
-  // For siebel center for design logo only because it is a large png file, not an svg
-  // Could update this later if the logo is updated to an svg
+  // For siebel center for design logo only
   largeImage: {
-    width: "80%",
-    height: "80%",
+    width: "60%",
+    height: "60%",
     objectFit: "contain",
     "@media (max-width: 959px)": {
-      width: "60%",
-      height: "60%",
+      width: "50%",
+      height: "50%",
     },
   },
 });
 
+const SponsorLink = ({ image, url, alt, classes, className }) =>
+  <Link
+    href={url}
+    target="_blank"
+    rel="noreferrer noopener"
+    className={'max-md:my-2 w-[12rem]'}
+  >
+    <div className={'flex items-center justify-center'}>
+    <Image
+      alt={alt}
+      src={image}
+      className={classes.image + ' ' + className}
+    />
+    </div>
+  </Link>;
+
+const sponsors = [
+  { key:'herop', image: heropLogo, url: 'https://illinois.edu/', alt: 'Healthy Regions & Policies Lab', className:'' },
+  { key:'uiuc', image: uiucLogo, url: 'http://www.healthyregions.org/', alt: 'University of Illinois at Urbana-Champaign', className:'' },
+  { key:'ncsa', image: ncsaLogo, url: 'https://www.ncsa.illinois.edu/', alt: 'National Center for Supercomputing Applications', className:'' },
+  { key:'scd', image: scdLogo, url: 'https://designcenter.illinois.edu/', alt: 'Siebel Center for Design', className:'h-[70px] w-[90px]' },
+  { key:'rwjf', image: rwjfLogo, url: 'https://www.rwjf.org/', alt: 'Robert Wood Johnson Foundation', className:'' },
+];
+
+const FeaturedIcon = () =>
+  <>
+    <svg width="0" height="0">
+      <linearGradient id="featured-icon-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+        <stop stopColor="#7E1CC4" offset="0%" />
+        <stop stopColor="#FF9C77" offset="100%" />
+      </linearGradient>
+    </svg>
+    <FaStar style={{
+      fill: "url(#featured-icon-gradient)",
+      alignSelf: 'center',
+      marginRight: '0.5rem',
+    }} />
+  </>;
+
+const FeaturedImage = styled.img`
+  display: block; /* Show by default */
+  position: absolute;
+  right: 2rem;
+  bottom: 0;
+  width: 18rem;
+  
+  @media (max-width: 768px) {
+    display: none; /* Hide image on smaller screens */
+  }
+`;
+
+const FeaturedImageMobile = styled.img`
+  position: absolute;
+  top: -15rem;
+  width: 14rem;
+  
+  @media (min-width: 769px) {
+    display: none; /* Hide image on larger screens */
+  }
+`;
+
+interface Factor {
+  id: string|number;
+  svgIcon: string;
+  title: string;
+  text: string;
+  link?: string;
+}
+
 const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreRef = React.useRef(null);
-  console.log(newsItem);
-  const sdohFactors = [
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(4);
+  const sdohFactors: Array<Factor> = [
+    {
+      id: "0",
+      svgIcon: transitIcon,
+      title: "Transit",
+      text: "Travelers rely on public transit to get to work, school, and essential services. Measuring equity in transit gives insight into the fairness of systems.",
+      link: "/guides/public-transit-equity",
+    },
     {
       id: "1",
       svgIcon: greenspacesIcon,
       title: "Greenspaces",
-      text: "Greenspaces may combat urban heat island effects, purify air, offer recreation, and improve mental health by reducing stress and anxiety.",
+      text: "Areas with more trees, parks, and vegetation may provide access to recreation, improve mental health, and combat heat island effects.",
+      link: "/guides/greenspace-access",
     },
     {
       id: "2",
+      svgIcon: foodAccessIcon,
+      title: "Food Environment",
+      text: "Access to fresh produce and healthy foods is essential for health. From food deserts to food swamps, tracking food accessibility is crucial.",
+      link: "/guides/measuring-food-access-on-a-neighborhood-level",
+    },
+    {
+      id: "3",
+      svgIcon: compositeIcon,
+      title: "Composite Measures",
+      text: "Integrating social, economic, and other environmental factors as an index can approximate neighborhood advantage and vulnerability.",
+      link: "/guides/area-deprivation-indexes",
+    },
+    {
+      id: "96",
       svgIcon: educationIcon,
       title: "Education",
       text: "Improved access to education can help in reducing health disparities by increasing job opportunities and income.",
     },
     {
-      id: "3",
+      id: "97",
       svgIcon: workplaceIcon,
       title: "Workplace",
-      text: "At work, exposure to toxins and exploitation detrimentally impacts health, especially among vulnerable groups.",
+      text: "Access to job opportunities and worker safety all influence population vibrancy and may be linked as structural drivers of health.",
     },
     {
-      id: "4",
+      id: "98",
       svgIcon: medicalIcon,
       title: "Medical",
       text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
     },
     {
-      id: "5",
+      id: "99",
       svgIcon: housingIcon,
       title: "Housing",
-      text: "Expensive housing, limited healthy food access, and neighborhood insecurity harm individuals' physical and mental health.",
+      text: "Housing cost, quality, and displacement influence populations at local and regional scales.",
     },
     {
-      id: "6",
+      id: "100",
       svgIcon: etcIcon,
       title: "Etc.",
-      text: "", // "Discover more Social Determinants of Health" after the link is ready
-      link: "", // Add link after the link is ready
+      text: "Discover more Social Determinants of Health",
+      link: "https://sdohplace.org/guides",
     },
   ];
 
+  // TODO: detect edge of scroll width, hide buttons at edge?
+  const canNextPage = () => true;
+  const canPrevPage = () => true;
+
+  const scrollSize = 265;
+  const nextPage = () => canNextPage() && scrollCarousel(scrollSize);
+  const prevPage = () => canPrevPage() && scrollCarousel(-scrollSize);
+  const carouselRef = useRef();
+  const scrollCarousel = (scrollOffset) => {
+    const ref: any = carouselRef.current!;
+    ref.scrollLeft += scrollOffset;
+  };
   function scrollToComingSoon() {
     document
       .getElementById("coming-soon-section")
@@ -149,9 +262,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const classes = useStyles();
+  const router = useRouter();
   return (
     <>
-      <Header title={null} />
+      <BasicPageMeta />
       <NavBar />
       <div className="w-full h-screen max-md:h-auto max-md:min-h-[60rem] -z-50 absolute">
         <div className="absolute left-[70%] top-0 w-[13vw] max-md:w-[22vw] max-md:left-[28%] h-auto">
@@ -163,7 +277,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="absolute right-0 top-[43%] w-[5vw] max-[1150px]:hidden h-auto">
           <Image priority src={line3} alt="" className="w-full h-full" />
         </div>
-        <div className="absolute right-0 bottom-0 w-[5vw] max-md:[8vw] max-md:hidden  h-auto">
+        <div className="absolute right-0 bottom-0 w-[11vw] max-md:[8vw] max-md:hidden  h-auto">
           <Image priority src={line4} alt="" className="w-full h-full" />
         </div>
         <div className="absolute left-[80%] bottom-0 w-[7vw] max-md:hidden h-auto">
@@ -175,8 +289,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="grid grid-flow-row max-md:grid-rows-[1fr_1fr] max-md:gap-y-[0.1rem] md:grid-flow-col md:max-[921px]:grid-cols-[1fr_1fr] min-[921px]:grid-cols-[2fr_3fr] w-full h-screen max-md:h-auto  2xl:max-w-[1536px] 2xl:mx-auto">
-        <div className="flex flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
-          <div className="mt-auto max-[460px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
+        <div className="flex lg:flex-col justify-center items-center max-md:max-w-[26.43rem] max-md:mx-auto">
+          <div className="lg:pb-8 lg:mt-auto max-[500px]:pt-[10vw] min-[460px]:max-[500px]:pt-[15vw] min-[500px]:max-[768px]:pt-[20vw] px-[5%] relative top-[3%] min-[768px]:max-[921px]:top-[-3%]">
             <Image
               priority
               src={mainLogo}
@@ -208,33 +322,29 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mt-[15%]">
+        <div className="flex flex-col gap-8 items-center justify-center px-[5%] max-md:h-fit max-md:mb-[14%]">
           <div className="md:mx-auto max-w-[26.43rem]  max-md:w-full">
             <p className="text-almostblack text-xl font-normal leading-8">
-              A{" "}
-              <span className="text-frenchviolet font-bold">free platform</span>{" "}
-              to discover and practice with place-based data for health equity,
-              connecting the Social Determinants of Health to communities,
-              researchers, policymakers, & health practitioners.
+              Discover and learn to wrangle
+              {" "}<span className="text-frenchviolet font-bold">place-based data for health equity</span>{" "}
+              with design thinking, connecting community-level
+              Social Determinants of Health for high impact
+              research and advocacy
             </p>
-          </div>
-          <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center ">
-            <div>
+            <div className="flex flex-row gap-4 flex-wrap max-[460px]:flex-col max-[460px]:items-center min-[768px]:max-[921px]:flex-col min-[768px]:max-[921px]:items-center mt-8">
               <ButtonWithIcon
+                noBox={true}
                 label={"Data Discovery"}
-                svgIcon={dataDiscoveryIcon}
                 fillColor={"salmonpink"}
                 labelColor={"almostblack"}
-                onClick={scrollToComingSoon}
+                onClick={() => router.push('https://search.sdohplace.org')}
               ></ButtonWithIcon>
-            </div>
-            <div>
               <ButtonWithIcon
+                noBox={true}
                 label={"Community Toolkit"}
-                svgIcon={communityToolkitIcon}
                 fillColor={"frenchviolet"}
                 labelColor={"white"}
-                onClick={scrollToComingSoon}
+                onClick={() => window.open('https://toolkit.sdohplace.org', '_blank')}
               ></ButtonWithIcon>
             </div>
           </div>
@@ -261,20 +371,111 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
-          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 ml-[2.5%] max-md:max-w-[16rem]">
-            Social Determinants of Health
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] px-[2.5%]">
+          <div className="text-almostblack  text-2xl-rfs font-normal leading-8 flex flex-wrap justify-between">
+            <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
+            <div className={'flex flex-row mr-10'} style={{ fontWeight:700 }}>
+              <a href={'/guides'} className={'carousel-link'}>
+                <FaBook></FaBook>
+                All SDOH Research Guides
+              </a>
+            </div>
+            <div className={'flex'} style={{ fontWeight:700 }}>
+              <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
+                <FaPlus></FaPlus>
+                Create a Guide
+              </a>
+            </div>
           </div>
-          <div className="pt-[3rem] grid grid-flow-col justify-between px-[2.5%] max-md:grid-flow-row max-md:grid-cols-2 gap-y-12 gap-x-6 max-md:justify-items-center ">
-            {sdohFactors.map((factor) => (
-              <Card
-                key={factor.id}
-                svgIcon={factor.svgIcon}
-                title={factor.title}
-                text={factor.text}
-                link={factor.link ? factor.link : ""}
-              />
-            ))}
+
+          <div className={'flex'}>
+            {/* Prev Button */}
+            <IconButton
+              className={"carousel-icon-button prev-button"}
+              onClick={prevPage}
+              disabled={!canPrevPage()}
+            >
+              <FaChevronCircleLeft />
+            </IconButton>
+
+            {/* SDOH factors Carousel content */}
+            <div className={'overflow-hidden'}>
+              <div className={"carousel-container"}>
+                <div
+                  ref={carouselRef}
+                  className={
+                    "carousel lg:pt-[3rem] grid grid-flow-col justify-between gap-y-12 gap-x-6 max-md:justify-items-center overflow-x-auto "
+                  }
+                >
+                  {sdohFactors.map((factor: Factor) => (
+                    <Card
+                      key={factor.id}
+                      svgIcon={factor.svgIcon}
+                      title={factor.title}
+                      text={factor.text}
+                      link={factor?.link ? factor.link! : ""}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Next Button */}
+            <IconButton
+              className={"carousel-icon-button next-button"}
+              onClick={nextPage}
+              disabled={!canNextPage()}
+            >
+              <FaChevronCircleRight />
+            </IconButton>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
+
+            {/* Mobile-only version of the FeaturedIcon */}
+            <div className={'flex relative max-md:h-[8rem] max-md:top-[6.5rem]'}>
+              <FeaturedImageMobile height={100} src={featuredData?.image}  />
+            </div>
+
+            <div className={'flex relative'}>
+              <div>
+                {/* "Featured" section header / icon */}
+                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2.0px' }}>
+                  <div className={'flex pb-[3px]'}><FeaturedIcon /></div> Featured
+                </div>
+
+                {/* Featured content title */}
+                <h3 className={'mb-4 text-[20px] text-extrabold'} style={{ letterSpacing: '0.5px', fontWeight: '1000' }}>{
+                  featuredData?.title || 'Coming Soon' }
+                </h3>
+
+                {/* Featured content body */}
+                <div className={'flex flex-wrap mb-6 text-[18px] tracking-wide'} style={{ lineHeight: '125%' }}>
+                  { featuredData?.body || 'Check back later for exciting new features!' }
+                </div>
+
+                {/* Actions related to Featured Content */}
+                <div>
+                  {
+                    featuredData?.links?.map((link) =>
+                      <span key={`${link.label}-${link?.url}`}>
+                        {link?.bold && <strong className={'mr-[2rem] text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
+                        {!link?.bold && <a className={'no-underline mr-[2rem] text-base'} href={link?.url}>{link?.label}</a>}
+                      </span>
+                    )
+                  }
+                </div>
+              </div>
+
+              {/* Desktop-only version of the FeaturedIcon */}
+              <div className={'flex relative md:w-[60rem] ml-12'}>
+                <FeaturedImage height={100} src={featuredData?.image}  />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -312,66 +513,21 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       </div>
 
       <div className="w-full h-auto bg-frenchviolet">
-        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] grid grid-flow-row md:grid-flow-col md:grid-cols-[1fr_4fr] text-start">
-          <div className="my-auto text-white text-2xl-rfs font-normal leading-8 px-[5.5%] max-md:mb-[2rem] ">
-            Brought to you by
+        <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto px-[2.5%]">
+          <div className="my-auto text-white text-left text-l-rfs pt-[4rem] font-normal leading-8 max-md:mt-[2rem]">
+              Brought to you by
           </div>
-          <div className={classes.imageContainer}>
-            <Grid container spacing={2} className="flex justify-between">
-              <Grid item xs={6} sm={2}>
-                <Link
-                  href="http://www.healthyregions.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="Healthy Regions & Policies Lab"
-                    src={heropLightLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <Link
-                  href="https://illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="University of Illinois"
-                    src={universityWordmark}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-              <Grid item xs={6} sm={2}>
-                <Link
-                  href="https://www.ncsa.illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt="National Center for Supercomputing Applications"
-                    src={ncsaLogo}
-                    className={classes.image}
-                  />
-                </Link>
-              </Grid>
-
-              <Grid item xs={6} sm={2}>
-                <Link
-                  href="https://designcenter.illinois.edu/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    className={`${classes.image} ${classes.largeImage}`}
-                    alt="Siebel Center for Design"
-                    src={scdLogo}
-                  />
-                </Link>
-              </Grid>
-            </Grid>
+          <div className={'flex flex-row max-md:flex-col justify-between items-center pb-[4rem]'}>
+            {
+              sponsors?.map(sponsor =>
+                <SponsorLink className={sponsor.className}
+                             key={sponsor.key}
+                             classes={classes}
+                             image={sponsor.image}
+                             url={sponsor.url}
+                             alt={sponsor.alt} />
+              )
+            }
           </div>
         </div>
       </div>
@@ -385,26 +541,32 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           <div className="px-[2.5%]">
             <div
               style={{ marginBottom: "2rem" }}
-              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-2 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
+              className="flex flex-row justify-between flex-wrap items-center gap-y-12 max-[1150px]:flex-col before:border-1 before:border-solid before:border-neutralgray before:self-stretch min-[1150px]:before:[border-image:linear-gradient(to_bottom,white_33%,#CCC_33%,#CCC_75%,white_75%)_1] max-[1149px]:before:[border-image:linear-gradient(to_right,white_5%,#CCC_5%,#CCC_95%,white_95%)_1]"
             >
               <div className="flex flex-col gap-8 -order-1">
-                <div className="w-[3.5rem] h-[3.5rem]">
-                  <Image
-                    priority
-                    src={dataDiscoveryIconEnlarged}
-                    alt="Data Discovery Enlarged icon"
-                  />
-                </div>
+                <Image
+                  priority
+                  width={90}
+                  height={90}
+                  src={'/icons/data_discovery_icon.png'}
+                  alt="Data Discovery Enlarged icon"
+                />
 
                 <div className="text-almostblack text-2xl-rfs leading-8">
                   <b>Data Discovery </b>
-                  <em style={{ color: "grey" }}> &mdash; coming soon!</em>
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Our data discovery platform provides access to spatially
-                  indexed and curated databases, specifically designed for
-                  conducting health equity research.
+                  <p>
+                    Looking for community-level SDOH for your project? Explore the
+                    Data Discovery search tool, with or without an AI assist, to
+                    identify high-quality data across the United States.
+                  </p>
+                  <br/>
+                  <p>
+                    Review data availability across topics, spatial scales
+                    (i.e. census tract vs county), and time periods alongside usage tips.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
@@ -412,11 +574,10 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                     <div>
                       <ButtonWithIcon
                         label={"Data Discovery"}
-                        svgIcon={dataDiscoveryIcon}
                         fillColor={"salmonpink"}
                         labelColor={"almostblack"}
-                        onClick={scrollToComingSoon}
-                        disabled={true}
+                        noBox={true}
+                        onClick={() => router.push("https://search.sdohplace.org")}
                         iconOpacity={0.25}
                       ></ButtonWithIcon>
                     </div>
@@ -425,35 +586,39 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               </div>
 
               <div className="flex flex-col gap-8">
-                <div className="w-[3.5rem] h-[3.5rem]">
-                  <Image
-                    priority
-                    src={communityToolkitIconEnlarged}
-                    alt="Data Practice Enlarged icon"
-                  />
-                </div>
+                <Image
+                  priority
+                  width={90}
+                  height={90}
+                  src={'/icons/community_toolkit_icon.png'}
+                  alt="Data Practice Enlarged icon"
+                />
 
                 <div className="text-almostblack text-2xl-rfs font-bold leading-8">
                   Community Toolkit
                 </div>
 
                 <div className="max-w-[34.0625rem] text-black text-xl-rfs font-normal leading-6 tracking-[0.03125rem]">
-                  Enhance your health and equity initiatives with our toolkit.
-                  You will be able to create captivating spatial visualizations
-                  for community engagement using free and user-friendly tools
-                  including open-source GIS tools.
+                  <p>
+                    Learn how to make your own dashboard (ex. story map, asset map,
+                    interactive map or classic dashboard) with open source and/or
+                    free GIS tools using the Community Toolkit.
+                  </p>
+                  <br />
+                  <p>
+                    Get practice with spatial data for health equity initiatives,
+                    and engage human-centered design to build with communities.
+                  </p>
                 </div>
 
                 <div className="flex flex-row gap-6 items-center">
                   <div>
                     <ButtonWithIcon
                       label={"Community Toolkit"}
-                      svgIcon={communityToolkitIcon}
                       fillColor={"frenchviolet"}
                       labelColor={"white"}
-                      onClick={() => {
-                        window.location.href = "https://toolkit.sdohplace.org";
-                      }}
+                      noBox={true}
+                      onClick={() => window.open('https://toolkit.sdohplace.org', '_blank')}
                     ></ButtonWithIcon>
                   </div>
                 </div>
@@ -461,12 +626,66 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             </div>
           </div>
 
-          <div className="relative self-center">
+          <div className="relative self-center px-[2.5%] mt-[2rem]">
             <Image priority src={sdohGraphic} alt="The SDOH & Place graphic" />
           </div>
         </div>
       </div>
       <Footer />
+      <style>
+        {`
+          .vertical-center {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+          }
+          .carousel-container {
+            mask-image:
+              linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
+          }
+          .carousel {
+            overflow-x: none;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            mask-image:
+              linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 1%);
+          }
+          .carousel-link-container {
+            display: flex;
+            align-items: right;
+          }
+          .carousel-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+
+            svg {
+              margin-right: 0.5rem;
+              vertical-align: middle;
+            }
+          }
+          .carousel-icon-button {
+            background-color: transparent !important;
+            align-self: center;
+            margin-left: auto;
+            margin-right: auto;
+
+            svg {
+              color: #FF9C77;
+              background: #FFE5C4;
+            }
+          }
+          .prev-button {
+            display: ${canPrevPage() ? "inherit" : "none"};
+          }
+          .next-button {
+            display: ${canNextPage() ? "inherit" : "none"};
+          }
+        `}
+      </style>
     </>
   );
 };

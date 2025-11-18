@@ -17,14 +17,14 @@ import mobileFooterLine3 from "@/public/logos/mobile-footer-line3.svg";
 import mobileFooterLine4 from "@/public/logos/mobile-footer-line4.svg";
 import mobileFooterLine5 from "@/public/logos/mobile-footer-line5.svg";
 import theSDOHPlaceProjectFooter from "@/public/logos/the-sdoh-place-project-footer.svg";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config.js";
+import {ChevronRight, Feed, FeedOutlined, MailOutline} from "@mui/icons-material";
+
 import githubIcon from "@/public/logos/github-purple-icon.svg";
 import linkedinIcon from "@/public/logos/linkedin-purple-icon.svg";
 import facebookIcon from "@/public/logos/facebook-purple-icon.svg";
-import xIcon from "@/public/logos/x-purple-icon.svg";
-import newsIcon from "@/public/logos/news.svg";
-import chevronRight from "@/public/logos/chevron-right.svg";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "tailwind.config.js";
+import blueskyIcon from "@/public/logos/bluesky-purple-icon.svg";
 
 const fullConfig = resolveConfig(tailwindConfig);
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,7 @@ const Footer = (): JSX.Element => {
     <>
       <div className="w-full min-h-[33.625rem] max-md:min-h-[62rem] bg-almostblack z-10">
         <div className="w-full min-h-[33.625rem] max-md:min-h-[62rem] px-[2.5%] z-20 absolute">
-          <div className="absolute left-[63%] top-[-3.5%] w-[7.5vw] max-md:hidden h-auto">
+          <div className="absolute left-[63%] top-[-2.5%] w-[7.5vw] max-md:hidden h-auto">
             <Image
               priority
               src={footerLine1}
@@ -186,21 +186,24 @@ const Footer = (): JSX.Element => {
         <div className="max-md:max-w-[66.66%] mx-auto pt-[0] pb-[4.5rem] 2xl:max-w-[1536px] flex md:flex-row max-md:flex-col gap-y-16 px-[2.5%] z-30 relative">
           <div className="flex flex-col justify-center gap-[1.56rem] flex-[33.33]">
             <div className="max-w-[21.5625rem] text-white text-xl-rfs leading-6 tracking-[0.03125rem]">
-              The SDOH & Place Project&apos;s mission is to unravel the
-              application design process essential for developing web
-              applications centered on neighborhood health.
+              The SDOH & Place Project works to build community around the definition, use, and understanding
+              of community SDOH data for high impact research and advocacy centered in health equity
             </div>
 
             <div className="h-[0.0625rem] bg-[#3F3D56] max-w-[21.5625rem]"></div>
 
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-row align-center gap-5 ">
               <a
                 href="https://github.com/healthyregions/SDOHPlace"
                 title="View code on GitHub"
                 rel="noreferrer"
                 target="_blank"
               >
-                <Image priority src={githubIcon} alt="View code on GitHub" />
+                <Image
+                    priority
+                    src={githubIcon}
+                    alt="Github logo"
+                />
               </a>
               <a
                 href="https://www.linkedin.com/groups/12857797/"
@@ -209,9 +212,9 @@ const Footer = (): JSX.Element => {
                 target="_blank"
               >
                 <Image
-                  priority
-                  src={linkedinIcon}
-                  alt="Follow us on LinkedIn"
+                    priority
+                    src={linkedinIcon}
+                    alt="LinkedIn logo"
                 />
               </a>
               <a
@@ -221,18 +224,22 @@ const Footer = (): JSX.Element => {
                 target="_blank"
               >
                 <Image
-                  priority
-                  src={facebookIcon}
-                  alt="HealthyRegions on Facebook"
+                    priority
+                    src={facebookIcon}
+                    alt="Facebook logo"
                 />
               </a>
               <a
-                href="https://x.com/healthyregions"
-                title="@healthyregions on X"
+                href="https://bsky.app/profile/healthyregions.bsky.social"
+                title="@healthyregions on BlueSky"
                 rel="noreferrer"
                 target="_blank"
               >
-                <Image priority src={xIcon} alt="@healthyregions on X" />
+                <Image
+                    priority
+                    src={blueskyIcon}
+                    alt="BlueSky logo"
+                />
               </a>
             </div>
           </div>
@@ -275,7 +282,7 @@ const Footer = (): JSX.Element => {
               <li className="leading-4">
                 <Link
                   className="uppercase no-underline text-salmonpink text-center text-xl-rfs"
-                  href="/about"
+                  href="/project"
                 >
                   About
                 </Link>
@@ -300,8 +307,8 @@ const Footer = (): JSX.Element => {
               <h5 className="text-gray-500">For all the latest and greatest</h5>
               <ButtonWithIcon
                 label={"NEWS"}
-                svgIcon={newsIcon}
-                endIcon={chevronRight}
+                svgIcon={<FeedOutlined />}
+                endIcon={<ChevronRight />}
                 borderRadius={"1rem"}
                 width={"100%"}
                 justifyContent="space-between"
@@ -311,9 +318,23 @@ const Footer = (): JSX.Element => {
                   window.location.href = "/news";
                 }}
               ></ButtonWithIcon>
+              <ButtonWithIcon
+                label={"NEWSLETTER"}
+                svgIcon={<MailOutline />}
+                endIcon={<ChevronRight />}
+                borderRadius={"1rem"}
+                width={"100%"}
+                justifyContent="space-between"
+                fillColor={"smokegray"}
+                labelColor={"salmonpink"}
+                onClick={() => {
+                  // Link to sign up to the Mailing List
+                  window.open("https://groups.webservices.illinois.edu/subscribe/192463", "_blank");
+                }}
+              ></ButtonWithIcon>
             </div>
           </div>
-          {/*           
+          {/*
           <div className="flex flex-col justify-center flex-[34.86] items-start">
             <div className=" text-white text-2xl-rfs leading-8 tracking-[0.03125rem]">
               Sign up for our newsletter!

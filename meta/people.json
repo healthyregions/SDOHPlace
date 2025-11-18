@@ -1,0 +1,540 @@
+{
+  "hassanatu": {
+    "name": "Hassanatu Blake",
+    "affiliation": "NACCHO",
+    "image": "../../images/headshot-hb.png",
+    "text": "Hassanatu Blake has a diverse perspective to public health with over 15 years of experience working across multiple sectors intersecting with public health. Currently, Hassanatu is the Director of ...",
+    "category": ["stakeholder"],
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/hassanatu-blake-phd-mph-mba-27925b2/"
+    },
+    "long": [
+      "Hassanatu Blake has a diverse perspective to public health with over 15 years of experience working across multiple sectors intersecting with public health. Currently, Hassanatu is the Director of Health Equity and Social Justice at <em>National Association of City and County Health Officials (NACCHO)</em> in Washington, DC.",
+      "Outside of her public health work, Hassanatu is passionate about Education Technology and the future of learning. She is Adjunct Faculty at Brooklyn College and Tufts University School of Medicine teaching public health education and led a global EdTech non-profit organization as Co-Founder and President at <em>Focal Point Global</em>, which empowered over 20,000 youth and families in US, The Gambia, South Africa, Namibia, and Cameroon. Currently, she co-hosts a podcast that discusses all things EdTech.",
+      "Hassanatu holds degrees from Tufts University (B.A.), Emory Rollins School of Public Health (MPH), and Plymouth State University (MBA). She is currently a PhD candidate at the University of Alabama at Birmingham with a focus on digital health, and health education and promotion."
+    ]
+  },
+  "german": {
+    "name": "Germán Cadenas",
+    "affiliation": "Rutgers University",
+    "image": "../../images/headshot-gc.png",
+    "text": "Dr. Germán A. Cadenas (he/his/el) is an Assistant Professor of Counseling Psychology at Lehigh University. He is a formerly undocumented immigrant from Latin America. As a ...",
+    "category": ["stakeholder"],
+    "links": {},
+    "long": [
+      "Dr. Germán A. Cadenas (he/his/él) is an Assistant Professor of Counseling Psychology at Lehigh University. He is a formerly undocumented immigrant from Latin America. As a scholar-activist, he has been involved in the movement for immigrant rights for over a decade. He completed a PhD in Counseling Psychology at Arizona State University, and a Doctoral Internship and Postdoctoral Fellowship at the University of California Berkeley.",
+      "His academic work is community-based and focuses on the psychology of immigration and on critical consciousness as a tool for social justice. He particularly examines the impact of immigration policy on the psychological wellbeing, education, career/work, and health of Latinx immigrants. His work also includes the development and validation of strategies for mental health service providers and educators working with immigrants. His work has been externally funded and published widely. He serves as Associate Editor of Journal of Counseling Psychology, and is on the Editorial Boards of <em>Journal of Diversity in Higher Education</em> and <em>Journal of Career Development</em>.",
+      "Dr. Cadenas has informed policy and advocacy at the local, state, and national levels. This includes advocacy for higher education access of undocumented students, grassroots advocacy for humane federal immigration policies, and briefing Congress on research conducted with the National Latinx Psychological Association (NLPA) regarding COVID-19 among Latinxs. He serves on the APA <em>Advocacy Coordinating Committee</em> and as Vice President for Diversity and Public Interest in the <em>Society of Counseling Psychology (Divisions 17 of APA)</em>. He also co-led the <em>Interdivisional Immigration Project</em> that developed collaborative advocacy strategies for community activists and psychologists."
+    ]
+  },
+  "amena": {
+    "name": "Amena Karim",
+    "affiliation": "Community & UniteUs",
+    "image": "../../images/headshot-ak.png",
+    "text": "Amena Karim has spent her career serving marginalized communities for more than 20 years. She is a multi-award-winning health equity advocate, keynote speaker, and mayoral-appointed ...",
+    "category": ["stakeholder"],
+    "links": {
+      "Unite Us": "https://uniteus.com/"
+    },
+    "long": [
+      "Amena Karim has spent her career serving marginalized communities for more than 20 years. She is a multi-award-winning health equity advocate, keynote speaker, and mayoral-appointed community commissioner. Amena is a leader at <em>Unite Us</em>, the nation's leading software company bringing sectors together to improve the health and well-being of communities. She is the founder of <em>Feeding South Shore</em> and <em>Feeding Chicago Families</em>, raising more than $400,000 to address social determinants of health barriers, such as food insecurity in marginalized communities across Chicago. She graduated with a master's degree from Northwestern University. Amena is pursuing a Master of Public Health (MPH) at Harvard T. H. Chan School of Public Health."
+    ]
+  },
+  "julia": {
+    "name": "Julia Koschinsky",
+    "affiliation": "University of Chicago",
+    "image": "../../images/headshot-jk.png",
+    "text": "Dr. Julia Koschinsky is currently working on projects to integrate spatial data science with scientific reasoning to critically solve spatial data problems and avoid common cognitive and statistical ...",
+    "category": ["stakeholder"],
+    "links": {
+      "Putting Science into Data Science": "https://puttingscienceintodatascience.org/"
+    },
+    "long": [
+      "Dr. Julia Koschinsky is currently working on projects to integrate spatial data science with scientific reasoning to critically solve spatial data problems and avoid common cognitive and statistical pitfalls. She is the Executive Director and Senior Research Associate at the University of Chicago‘s <em>Center for Spatial Data Science (CSDS)</em>. CSDS developed the open spatial software GeoDa, which has been downloaded over half a million times, and hosts spatial analytics lectures with over 710,000 views on its YouTube channel. She earned a PhD in urban planning with a specialization in spatial data analysis (with Luc Anselin) from the University of Illinois at Urbana-Champaign."
+    ]
+  },
+  "qinyun": {
+    "name": "Qinyun Lin",
+    "affiliation": "University of Gothenburg",
+    "image": "../../images/headshot-ql.png",
+    "text": "Dr. Qinyun Lin is a Senior Lecturer in the School of Public Health and Community Medicine, Institute of Medicine, University of Gothenburg. Most broadly, she is a methodologist ...",
+    "category": ["stakeholder"],
+    "links": {
+      "Google Scholar": "https://scholar.google.com/citations?user=rn43UskAAAAJ&hl=en"
+    },
+    "long": [
+      "Dr. Qinyun Lin is a Senior Lecturer in the School of Public Health and Community Medicine, Institute of Medicine, University of Gothenburg. Most broadly, she is a methodologist invested in humanizing quantitative research to better understand mechanisms underlying inequities, particularly health and educational disparities, and, ultimately, informing policymaking. Towards this, she seeks to advance and expand existing quantitative methods and the interpretation of inferences by incorporating human interactions, social and spatial contexts, and mediating factors within these analyses."
+    ]
+  },
+  "aresha": {
+    "name": "Aresha Martinez-Cardoso",
+    "affiliation": "University of Chicago",
+    "image": "../../images/headshot-am.png",
+    "text": "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research ...",
+    "category": ["stakeholder"],
+    "links": {
+      "Embodying Race(ism)": "https://voices.uchicago.edu/areshamc/"
+    },
+    "long": [
+      "Dr. Aresha Martinez-Cardoso is an interdisciplinary public health researcher and Assistant Professor in the Department of Public Health Sciences. Her research integrates theoretical perspectives from the social sciences with epidemiological methods in public health to examine how social inequality in the US shapes population health, with a particular focus on the health of racial/ethnic groups and immigrants. Martinez-Cardoso's work interrogates how race and social inequities have been deeply embedded into our nation’s culture and institutions and traces the biosocial mechanisms by which these inequities get “under the skin” to affect health across the lifecourse."
+    ]
+  },
+  "imelda": {
+    "name": "Imelda Moise",
+    "affiliation": "University of Miami",
+    "image": "../../images/headshot-im.png",
+    "text": "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally responsive research and ...",
+    "category": ["stakeholder"],
+    "links": {
+      "Profile": "https://people.miami.edu/profile/55439772df280bf89e5f82f2a69c214f"
+    },
+    "long": [
+      "Dr. Imelda K. Moise is a broadly trained health geographer, founder of DataChores and the Geography and Inequalities Lab. She has dedicated her career to culturally responsive research and evaluation to advance health equity, and linking research to programs, policy, and practice in the US and sub-Saharan Africa. She works full-time in global public health as an Associate Professor and as Director of Global Health Studies at the University of Miami where she engages in scholarship of teaching and learning research to determine how to best prepare the next generation of geographers and global public health professionals. Her methodological expertise lies in utilizing mixed methods study designs with geospatial analysis to examine the combined effect of individual, sociocultural and contextual factors linked with health inequities. She has coordinated and evaluated various multi-partner systems-level interventions and is PI on projects working on strengthening early learning support in Miami; NIH greenness cardiovascular studies assessing disparities across Hispanic subgroups in Miami vs. San Diego and NYC. Her primary research is mostly responsive to community needs. Dr. Moise serves on the <em>National Association of City Health Officials (NACCHO)</em>, <em>Miami-Dade Refugee Task Force</em>, and the <em>Healthy Baby Taskforce</em> (part of the Consortium for a Healthier Miami-Dade) where she lends her expertise in health, geography and equity-centered impact. She earned her MSc. and PhD from University of Illinois at Urbana-Champaign, MPH from the University of Illinois Springfield, and bachelor’s from the University of Oregon. Prior to her current position, she backstopped Illinois Department of Public Health and USAID-funded programs in LMIC where she led in many areas of system strengthening, maternal and child health, substance use and HIV sentinel surveillance, and country performance management plans."
+    ]
+  },
+  "norma": {
+    "name": "Norma Padrón",
+    "affiliation": "EmpiricaLabs",
+    "image": "../../images/headshot-np.png",
+    "text": "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of EmpiricaLab, a company specializing in peer–to–peer training within healthcare organizations ...",
+    "category": ["stakeholder"],
+    "links": {
+      "Google Scholar": "https://scholar.google.com/citations?user=kNS54pUAAAAJ&hl=en"
+    },
+    "long": [
+      "Dr. Norma Padrón is a health economist and entrepreneur. She is the CEO and Founder of <em>EmpiricaLab</em>, a company specializing in peer-to-peer training within healthcare organizations to accelerate their digital transformation. Her career in healthcare spans over a decade, with leadership roles across academia, nonprofits, and the private sector. She built her expertise in data and technology teams at healthcare organizations, including the <em>Mount Sinai Health System</em>, <em>Thomas Jefferson Health</em>, the <em>American Hospital Association</em> and new ventures at Anthem Digital. Her teams have leveraged data analytics and technology to improve digital health products for patients and providers, design value-based care models, and quality and performance measurement and training for hospital systems across the country.",
+      "In addition to her work in health economics and analytics, Norma has held board positions on STEM education and technology initiatives. She served as chair of the industry advisory board for an NSF Industry-University Cooperative Research Center (IURC) focused on improving healthcare through organizational transformation. She earned a PhD in health policy and management from Yale University, as well as an MS in Economics from Duke University. She also holds a master's degree in public health from Universitat Pompeu Fabra in Barcelona, Spain, and a bachelor's degree in Economics and Math from the University of Texas at Rio Grande Valley."
+    ]
+  },
+  "sue": {
+    "name": "Sue Polis",
+    "affiliation": "National League of Cities",
+    "image": "../../images/headshot-sp.png",
+    "text": "Sue Pechilio Polis directs the health and well-being portfolio for NLC as part of the Institute for Youth, Education and Families. The portfolio includes the conceptualization ...",
+    "category": ["stakeholder"],
+    "links": {
+      "LinkedIn": "http://www.linkedin.com/in/spechpolis"
+    },
+    "long": [
+      "Sue Pechilio Polis directs the health and well-being portfolio for NLC as part of the <em>Institute for Youth, Education and Families</em>. The portfolio includes the conceptualization, development and implementation of <em>Cities of Opportunity</em>, a multi-year effort to engage mayors and city leaders in comprehensively addressing the root causes of poor health (SDOH) through an equitable policy and systems change approach. With expertise in health policy, Sue’s work spans the connection to housing, economic opportunity, mental health and substance use disorders, obesity, trauma, as well as local systems alignment and data for well-being. Prior to the <em>National League of Cities</em>, Mrs. Polis led the development and management of the <em>Trust for America’s Health (TFAH)</em> external relations and strategic partnership efforts in support of the organization’s public policy goals.",
+      "Prior to joining <em>TFAH</em>, Mrs. Polis worked at <em>AARP</em> on health and financial security-related issues with an emphasis on advancing policy to address the needs of vulnerable 50+ populations. Her focus areas included health care workforce, retirement savings, consumer protection, and low-income programs such as the <em>Supplemental Nutrition Assistance Program (SNAP)</em> and the <em>Low-Income Heating and Energy Assistance Program (LIHEAP)</em>. Mrs. Polis was the founding <em>National Director of Advocacy</em> for the <em>American Heart Association</em>."
+    ]
+  },
+  "ericL": {
+    "name": "Eric Larson",
+    "affiliation": "University of Minnesota",
+    "image": "../../images/headshot-el.png",
+    "text": "Eric Larson is a librarian (MLIS, University of Wisconsin-Madison), web architect, user-experience analyst, and senior application developer with over 17 years experience building ...",
+    "category": ["technical"],
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/eric-w-larson/"
+    },
+    "long": [
+      "Eric Larson is a librarian (MLIS, University of Wisconsin-Madison), web architect, user-experience analyst, and senior application developer with over 17 years experience building increasingly complex web-based tools and services within academia and for private enterprise. He has extensive open source software experience as a core contributor to the GeoBlacklight project, and has worked as the Lead Developer for the <em>Big Ten Academic Alliance Geoportal</em> for the last six years. Eric has completed GeoBlacklight consulting contracts for Johns Hopkins University, New York University, University of Massachusetts-Amherst, University of Minnesota, University of Wisconsin-Madison, and the University of Wisconsin-Milwaukee. Eric is also the Co-Founder of Gimlet, an online software-as-a-service platform used by over 750 libraries internationally."
+    ]
+  },
+  "stuart": {
+    "name": "Stuart Lynn",
+    "affiliation": "University of Chicago",
+    "image": "../../images/headshot-sl.png",
+    "text": "Stuart Lynn is a developer, data scientist and tinkerer whose interests involve widening the participation in scientific discussion and inquiry to non-traditional communities through the ...",
+    "category": ["technical"],
+    "links": {
+      "Website": "https://stuartlynn.me/"
+    },
+    "long": [
+      "Stuart Lynn is a developer, data scientist and tinkerer whose interests involve widening the participation in scientific discussion and inquiry to non-traditional communities through the development of tools and active participation in citizen science and collaborative processes. He holds a Master in Mathematical Physics and a PhD in Astrophysics from the University of Edinburgh. In previous roles he has worked with non-profits and NGOs with the Two Sigma Data Clinic, lead the Data Science team at CARTO and was the technical lead for the citizen science platform The Zooniverse. He is the lead developer of the Matico project and has built a number of other open source tools focused on understanding and using data."
+    ]
+  },
+  "karen": {
+    "name": "Karen Majewicz",
+    "affiliation": "University of Minnesota",
+    "image": "../../images/headshot-km.png",
+    "text": "Karen Majewicz is the Geospatial Product Manager at the University of Minnesota Libraries, where she guides application development, develops metadata workflows, and curates ...",
+    "category": ["technical"],
+    "links": {
+      "Profile": "https://www.lib.umn.edu/about/staff/karen-majewicz"
+    },
+    "long": [
+      "Karen Majewicz is the Geospatial Product Manager at the University of Minnesota Libraries, where she guides application development, develops metadata workflows, and curates resources for the <em>BTAA Geoportal</em>. She is also the Community Coordinator for GeoBlacklight and the Vice-chair of the Minnesota Geospatial Advisory Committee’s Archiving Workgroup. Majewicz has led the development of several initiatives for the GeoBlacklight community, including the latest metadata application profile (OpenGeoMetadata-Aardvark), the bi-annual community sprints, and multiple usability studies. Her research interests include geodata archives, geospatial metadata, technical documentation, and the advocacy of free & open government data."
+    ]
+  },
+  "ericP": {
+    "name": "Eric Polley",
+    "affiliation": "University of Chicago",
+    "image": "../../images/headshot-ep.png",
+    "text": "Dr. Eric Polley is an Associate Professor in the Department of Public Health Sciences at The University of Chicago where he is the director of the Biostatistics Laboratory and the faculty ...",
+    "category": ["technical"],
+    "links": {
+      "Profile": "https://health.uchicago.edu/faculty/eric-polley-phd"
+    },
+    "long": [
+      "Dr. Eric Polley is an Associate Professor in the Department of Public Health Sciences at The University of Chicago where he is the director of the Biostatistics Laboratory and the faculty director for the Data Science concentration in the Master of Public Health program. Dr. Polley was previously an Assistant Professor of Biostatistics in the Department of Quantitative Health Sciences at Mayo Clinic (2015-2021) and a mathematical statistician in the Biometric Research Branch at the U.S. National Cancer Institute (2012-2015). Dr. Polley received his PhD in biostatistics from the University of California, Berkeley in 2010. His research area involves the development and evaluation of prediction methods, innovative methods for diagnostic and prognostic prediction, and precision medicine clinical trial design."
+    ]
+  },
+  "evan": {
+    "name": "Evan Thornberry",
+    "affiliation": "University of British Columbia",
+    "image": "../../images/headshot-et.png",
+    "text": "Evan Thornberry is the Geographic Information Systems (GIS) Librarian at the University of British Columbia (UBC) Library where he supports teaching, learning, and research with ...",
+    "category": ["technical"],
+    "links": {
+      "Website": "https://evanthornberry.github.io/"
+    },
+    "long": [
+      "Evan Thornberry is the Head and Curator of the David Rumsey Map Center at Stanford University Library where he oversees the stewardship of a significant historical map collection. In this work he coordinates efforts to develop resources for maps, atlases, and other cartographic collections both digitally and physically, as well as library services to better equip a large base of historical map users. Previously, Evan was the Geographic Information Systems (GIS) Librarian at the University of British Columbia (UBC) Library where he supported teaching, learning, and research with geospatial information and technology. Evan was a co-principal investigator for the Geodisy project which improves the discoverability of geospatial research data across Canada. Evan was also recently a co-principal investigator for a project to create an openly available interactive textbook for teaching geomatics for environmental management in collaboration with UBC's Faculty of Forestry. He is the Past-President of the <em>Western Association of Map Libraries</em> and an organizer of Maptime Vancouver. Previous to his role at UBC, Evan was the Reference and Geospatial Librarian for the <em>Norman B. Leventhal Map Center</em> at the Boston Public Library where in 2016-2017 he was the director of an NEH-funded project to build a spatial discovery layer for BPL's large public collection of historical maps."
+    ]
+  },
+  "jamelle": {
+    "name": "Jamelle Watson-Daniels",
+    "affiliation": "Harvard University",
+    "image": "../../images/headshot-jw.png",
+    "text": "Jamelle Watson-Daniels is a PhD Candidate at Harvard's John A. Paulson School of Engineering and Applied Sciences. She is a Ford Foundation Pre-doctoral Fellow ...",
+    "category": ["technical"],
+    "links": {},
+    "long": [
+      "Jamelle Watson-Daniels is a PhD Candidate at Harvard's John A. Paulson School of Engineering and Applied Sciences. She is a Ford Foundation Pre-doctoral Fellow and NSF Graduate Research Fellow. Jamelle has experiences at the nexus of racial justice and data science for instance she previously served as Director of Research at Data for Black Lives. Before pursuing her PhD, Watson-Daniels received a combined degree in Physics and Africana Studies from Brown University. Her broad campus leadership was recognized when she was chosen to deliver the 2016 Brown commencement address and received the Joslin Student Leadership Award as well as the Mildred Widgoff Award for excellence in physics thesis. Jamelle's ongoing research focuses on developing fair and trustworthy machine learning methods. She also supports work on data literacy, data storytelling and data science promoting social policy innovation."
+    ]
+  },
+  "malaika": {
+    "name": "Malaika Simmons",
+    "affiliation": "NADPH",
+    "image": "../../images/headshot-ms.png",
+    "text": "Malaika Simmons, MSHE, is the Chief Operating Officer for the National Alliance against Disparities in Patient Health (NADPH), a data-driven, nonprofit health research organization. She uses her ...",
+    "category": ["technical"],
+    "links": {},
+    "long": [
+      "Malaika Simmons, MSHE, is the Chief Operating Officer for the <em>National Alliance against Disparities in Patient Health (NADPH)</em>, a data-driven, nonprofit health research organization. She uses her background in research, psychology, and design thinking to promote empathy-based leadership with over 20 years of experience in corporate policy, training, and program management, operating at the convergence of health research, IT, and consumer issues. She currently serves as the NADPH Program Manager for the Infrastructure Core of the AIM-AHEAD Program sponsored by NIH, and leads qualitative research for several projects aimed at centering patient or community voices in health and technology-related initiatives. Malaika has a strong commitment to improving the health of underserved populations and more broadly supports these efforts through her organization Momentology Media. Through Momentology, Malaika fulfills her passion for the elimination of economic and health disparities in minority communities by using her proprietary framework to empower women to own businesses, champion health causes and enter the corporate and political landscapes to affect change in their corner of the world."
+    ]
+  },
+  "marynia": {
+    "name": "Marynia Kolak",
+    "title": "Principal Investigator",
+    "image": "../../images/headshot-mk.png",
+    "text": "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate regional and ...",
+    "links": {
+      "Twitter": "https://twitter.com/MaryniaKolak",
+      "LinkedIn": "https://www.linkedin.com/in/maryniakolak",
+      "GitHub": "https://github.com/Makosak"
+    },
+    "category": ["core"],
+    "long": [
+      "Marynia is a health geographer & spatial data scientist integrating a socio-ecological view of health, geographic data science, and a human-centered design approach to investigate regional and neighborhood health equity. Kolak is an <a href='https://experts.illinois.edu/en/persons/marynia-aniela-kolak' target='_blank'>Assistant Professor</a> and Director of Undergraduate Studies at the Department of Geography & GIScience at the University of Illinois at Urbana-Champaign, Fellow at the Center for Spatial Data Science at the University of Chicago, Associate Editor at <em>Preventing Chronic Disease</em> and the <em>Journal of Maps</em>, and member of the <em>DEI Committee</em> at SER."
+    ]
+  },
+  "cheng": {
+    "name": "ChengXiang Zhai",
+    "title": "Co-Investigator",
+    "affiliation": "University of Illinois",
+    "image": "../../images/headshot-cz.png",
+    "text": "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated ...",
+    "links": {
+      "Profile": "https://czhai.cs.illinois.edu/"
+    },
+    "category": ["core", "technical"],
+    "long": [
+      "Dr. ChengXiang Zhai is a Donald Biggar Willett Professor in Engineering of the Department of Computer Science at the University of Illinois at Urbana-Champaign, where he is also affiliated with the Carl R. Woese Institute for Genomic Biology, Department of Statistics, and the School of Information Sciences. Before joining UIUC in 2002, he worked at Clairvoyance Corp. as a Research Scientist and a Senior Research Scientist from 1997 to 2000. His research interests are in the general area of intelligent information systems, including specifically intelligent information retrieval, data mining, natural language processing, machine learning, and their applications in domains such as biomedical and health informatics, and intelligent education systems. He has published over 300 papers in these areas and holds 6 patents. He was a key contributor of the Lemur text retrieval and mining toolkit. He is a Fellow of the Association for Computing Machinery (ACM) and a member of ACM SIGIR Academy. He received numerous awards, including ACM SIGIR Gerard Salton Award, ACM SIGIR Test of Time Paper Award (three times), the 2004 Presidential Early Career Award for Scientists and Engineers (PECASE), Alfred P. Sloan Research Fellowship, IBM Faculty Award, and HP Innovation Research Award."
+    ]
+  },
+  "jose": {
+    "name": "José Alavez",
+    "title": "Postdoctoral Scholar",
+    "image": "../../images/headshot-ja.png",
+    "text": "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives ...",
+    "links": {},
+    "category": ["core"],
+    "long": [
+      "José holds a PhD in Geography from Concordia University (Montreal). His research integrates diverse contemporary mapping theories and practices to gain insights into human experiences and narratives. During his doctoral dissertation, he charted the global and intimate posthumous geographies of migrants who faced the loss of a loved one in Quebec, Canada. In his earlier academic pursuits, he examined the domestic spaces inhabited by the homeless community in Mexico City, and he also developed methodological frameworks to bridge the realms of digital humanities and cartography."
+    ]
+  },
+  "kamaria": {
+    "name": "Kamaria Barronville",
+    "title": "Instructional Designer",
+    "image": "../../images/headshot-kb.png",
+    "text": "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap ...",
+    "links": {},
+    "category": ["core"],
+    "long": [
+      "Kamaria is pursuing her doctoral degree in Urban Educational Leadership at Morgan State University. Drawing on her interdisciplinary expertise, Kamaria focuses on bridging the gap between urban education and policy by exploring innovative approaches to promote equitable and inclusive educational practices. At HeRoP, Kamaria leverages her knowledge and skills to contribute to the development and implementation of effective instructional strategies within the lab’s research initiatives."
+    ]
+  },
+  "shubham": {
+    "name": "Shubham Kumar",
+    "title": "Product Designer",
+    "image": "../../images/headshot-sk.png",
+    "text": "Shubham is a Product Designer at HeRoP with a passion for collaborating with diverse teams to achieve design goals. Prior to his role at the lab, he was improving accessibility in education ...",
+    "links": {},
+    "category": ["core"],
+    "long": [
+      "Shubham is a UX Designer at HeRoP with a passion for collaborating with diverse teams to achieve design goals. Prior to his role at the lab, Shubham was improving accessibility in education with the Board of Trustees at the University of Illinois. He has a master’s degree in Information Management from the University of Illinois Urbana-Champaign and a bachelor’s degree in Information Science from PES University. In his leisure time, Shubham volunteers as a Product Lead at <a href='https://greenstand.org/' target='_blank'>Greenstand</a>, a non-profit addressing poverty and climate change through technology. He also loves going out for bike rides, recognizing the benefits it brings to both his well-being and the Earth."
+    ]
+  },
+  "marc": {
+    "name": "Marc Astacio-Palmer",
+    "title": "Research Coordinator",
+    "image": "../../images/headshot-ma.png",
+    "text": "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/marcastacio/"
+    },
+    "category": ["core"],
+    "long": [
+      "Marc received his Master of Science in Experimental Psychology from Nova Southeastern University. His previous work was in the area of cognitive psychology, specifically, on attention and memory. He is interested in open science, and how our environment shapes our cognition. Astacio leads day-to-day operations of multiple projects at HeRoP, guides communications & community engagement, and collaborates on how affect may influence user-experience and decision-making."
+    ]
+  },
+  "mandela": {
+    "name": "Mandela Gadri",
+    "title": "PhD Student",
+    "image": "../../images/headshot-mg.png",
+    "text": "Ph.D. student Mandela Gadri has a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana, and an MS in community and regional planning from Iowa State University ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
+    },
+    "category": ["core"],
+    "long": [
+      "Ph.D. student Mandela Gadri has a BS in urban planning from Kwame Nkrumah University of Science and Technology, Ghana, and an MS in community and regional planning from Iowa State University. He also has a certificate in GIS and worked as a planner with the city of Cedar Rapids, Iowa prior to joining UIUC. Mandela is interested in GIS and transport poverty."
+    ]
+  },
+  "catherine": {
+    "name": "Catherine Discenza",
+    "title": "Graduate Research Assistant",
+    "image": "../../images/headshot-cd.png",
+    "text": "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/catherine-discenza-8223721b7/"
+    },
+    "category": ["core"],
+    "long": [
+      "Catherine recently graduated from the University of Florida with a BS in Geography with a specialization in Medical Geography in Global Health. Their research interests lie at the intersection of place, health, and identity, with particular interest in how urban development patterns interact with health and identity factors."
+    ]
+  },
+  "andre": {
+    "name": "Andre Vines",
+    "title": "Graphic Designer",
+    "image": "../../images/headshot-av.png",
+    "text": "Andre is a self employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet ...",
+    "links": {},
+    "category": ["core"],
+    "long": [
+      "Andre is a self-employed branding designer and artist from Maryland who had a deep interest in the field as early as middle school. He is passionate about creating designs that are visually appealing yet highly functional. He also enjoys helping people do what they love by connecting them with others through branding and art."
+    ]
+  },
+  "adam": {
+    "name": "Adam Cox",
+    "title": "Software Engineer",
+    "image": "../../images/headshot-ac.png",
+    "text": "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/mradamcox/",
+      "GitHub": "https://github.com/mradamcox"
+    },
+    "category": ["core"],
+    "long": [
+      "Adam is a geospatial developer with a background in GIS and archaeology, and a passion for open source software. Originally from southwestern Wisconsin, he lives in New Orleans, Louisiana. Adam leads engineering and infrastructure development at HeRoP, contributes to open-source development of multiple projects including GeoBlacklight, and investigates innovative ways to preserve, integrate, and extend historical data for community engagement."
+    ]
+  },
+  "pengyin": {
+    "name": "Pengyin Shan",
+    "title": "Software Engineer",
+    "image": "../../images/headshot-ps.png",
+    "text": "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize ...",
+    "links": {
+      "LinkedIn": "https://www.linkedin.com/in/pengyinshan/",
+      "GitHub": "https://github.com/pengyin-shan"
+    },
+    "category": ["core"],
+    "long": [
+      "Pengyin is a passionate programmer with multiple years of full-stack expertise, serving large higher-education institutions. Her main focus is to develop accessible web applications to virtualize and utilize unstructured, complex, and multilingual datasets. She has a B.S. in Computer Science Engineering and an M.B.A. degree."
+    ]
+  },
+  "mukesh": {
+    "name": "Mukesh Chugani",
+    "title": "Software Engineer",
+    "image": "../../images/headshot-mc.png",
+    "text": "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University ...",
+    "links": {},
+    "category": ["past-core"],
+    "long": [
+      "Mukesh received his Master of Computer Science from the University of Illinois Urbana-Champaign and his Bachelor of Technology in Computer Science from Amrita University. His expertise lies in data visualization, dashboarding and machine learning. He is passionate about creating impactful user experiences and leveraging front-end technologies to bridge the gap between data analysis and user interaction. At HeRoP, he leads front-end engineering and data-viz development with a spatial twist."
+    ]
+  },
+  "ashwin": {
+    "name": "Ashwin Patil",
+    "title": "Research Assistant",
+    "image": "../../images/headshot-ap.png",
+    "text": "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai ...",
+    "links": {},
+    "category": ["past-core"],
+    "long": [
+      "Ashwin is a Computer Science graduate student at the University of Illinois at Urbana-Champaign, graduating in Dec’23. He worked as a Graduate Research Assistant advised by Prof. ChengXiang Zhai at the <em>Text Information Management and Analysis Group (TIMAN)</em> on multiple Information Retrieval, Natural Language Processing, Machine Learning and Bioinformatics Projects. At HeRoP, he supports the Place Project."
+    ]
+  },
+  "beth": {
+    "name": "Beth Beyer",
+    "title": "Executive Director",
+    "image": "../../images/headshot-bb.jpeg",
+    "text": "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Beth Beyer has dedicated her career to helping communities thrive. She works to empower students, teachers, and parents through the use of technology to enhance experiential learning and extend educational opportunities. As the executive director of The Technology Alliance, a small nonprofit organization whose mission is to “open new worlds through technology,” Beth actively directs projects and pursues partnerships with organizations, schools, and community members. Beth's work in collaboration with the Erikson Institute for Early Childhood Development in inner-city Chicago Public Schools earned her recognition and a 3-year Kellogg Foundation Leadership Fellowship program. During her Masters in Learning Sciences at Northwestern University, her research focused on using GIS technologies, including ArcView GIS, Google Earth Engine, Google My Maps, and mapping software prototypes under development. Her thesis explored the use of coloration in mapping and cognitive understanding of how maps work. Recently, she was nominated and accepted into the Alliance for Leadership Fellows, an organization that brings graduates of leadership fellowships together to further their development and work collaboratively to \"increase knowledge and skills that lead to equitable and sustainable flourishing within human communities.\" Beth is currently working on developing and reviewing the Climate Action Plan for People and Nature (CAPN) in collaboration with the Chicago Wilderness Alliance (CWA). This effort brings together community partners, including the Field Museum, The Nature Conservancy (TNC), Peggy Notebaert Nature Museum, The Technology Alliance, and more to ensure the success of people and nature. She co-taught a high school seminar on Environmental Justice, where she highlighted the importance of prioritizing communities struggling with air and water quality in future climate planning. Her current SDOH and Place project, HEAT (Hope, Education, and ArT), aims to highlight and celebrate art co-created in these communities to build community, connect with nature, and promote healing."
+    ]
+  },
+  "joseph": {
+    "name": "Joseph Braimah",
+    "title": "Assistant Professor",
+    "image": "../../images/headshot-jb.jpeg",
+    "text": "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Dr. Joseph A. Braimah is a health geographer and an Assistant Professor in the Department of Public Health at St. Lawrence University, Canton, New York. He has an interdisciplinary research interest that focuses broadly on the health and wellbeing of marginalized and structurally exposed populations in the global north and global south. He draws on multiple research methodologies and theoretical perspectives in his research projects. His work largely revolves around Aging and Health, Global Health, Social Determinants of Health, Community Health Systems, and Community-based Participatory Research. Prior to joining St. Lawrence University, Dr. Braimah was an Inclusive Excellence Postdoctoral Fellow with the Department of Health and Society at the University of Toronto Scarborough. He earned his Ph.D. in Geography from Queen’s University, Kingston, Canada."
+    ]
+  },
+  "peter": {
+    "name": "Peter Chen",
+    "title": "Assistant Professor",
+    "image": "../../images/headshot-pc.jpeg",
+    "text": "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Dr. Xiang \"Peter\" Chen is an Assistant Professor in the Department of Geography at the University of Connecticut. Peter received his Ph.D. in Geography from The Ohio State University. His research interests are focused on Geographic Information Systems (GIS) and community health. He employs both a data-driven approach and a mixed-methods approach to unveil socioeconomic and health inequities resulting from the unequal distribution of health resources. His topical area is food access, evaluating whether community members can perceive and utilize healthy, affordable food provisioning from both place-based and people-based perspectives. This research theme is substantiated using GIS modeling, big data analytics, AI-based food image recognition, and community surveys."
+    ]
+  },
+  "jessica": {
+    "name": "Jessica Davis",
+    "title": "Postdoctoral Scholar",
+    "image": "../../images/headshot-jd.jpeg",
+    "text": "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Jessica A. Davis, PhD, RN, CCRN-K, IBCLC is a postdoctoral scholar in the Division of General Academic Pediatrics at the University of Pittsburgh. She has extensive experience caring for diverse populations of newborns and their families through her time as a nurse and lactation consultant at UPMC Children’s Hospital of Pittsburgh, UPMC Magee Women’s Hospital, Midwife Center for Birth and Women’s Health, and the Pacify tele-lactation network. In addition to her clinical work, she was a peer lactation mentor with La Leche League, serves as a board member to the Mid-Atlantic Mother’s Milk Bank, and has recently joined the editorial board at the Journal for Perinatal and Neonatal Nursing. She is interested in building a program of clinical research that utilizes lactation and perinatal support interventions to enhance health equity for families impacted by fetal and/or infant diagnosis of a congenital heart defect."
+    ]
+  },
+  "tyler": {
+    "name": "Tyler Gorham",
+    "title": "Data Scientist",
+    "image": "../../images/headshot-tg.jpeg",
+    "text": "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Tyler is a health and data geek with a calling to use his research to promote health equity and improve health outcomes for all children. Working alongside a wide range of clinical and research collaborators as a Data Scientist at Nationwide Children’s Hospital, his work spans spatial data science, clinical prediction model development, and public health research."
+    ]
+  },
+  "amy": {
+    "name": "Amy Kryston",
+    "title": "Senior Analyst",
+    "image": "../../images/headshot-ak.jpeg",
+    "text": "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Amy Kryston is a public health practitioner and researcher determined to alleviate the systemic marginalization of communities in the United States and globally. In her role with PIH, she assists in the evaluation of community health worker (CHW) integration into federally qualified health centers and retrospective evaluation of CHW programming during the COVID-19 pandemic. She also provides technical support to North Carolina community-based organizations and health departments and leads the evaluation of community health needs assessment with the City of Montgomery, Alabama. Amy holds a Bachelor of Science in Civil Engineering from Gonzaga University, a Master of Science in Civil and Environmental Engineering and Earth Sciences from the University of Notre Dame, a Master of Public Health from the University of North Carolina, Chapel Hill (UNC).",
+      "Prior to her current role, Amy conducted research on remotely sensed early detection of cholera outbreaks in Bangladesh and transboundary water policy of the Ganges River under multiple potential climate futures. At UNC, she received the University’s inaugural Environmental Graduate Research Scholarship for her work on access to safe sanitation in the United States. Amy continues to work the UNC Gillings School of Global Public Health Humanitarian Health Initiative as the program coordinator and as a technical advisor for community health and water and sanitation in Nicaragua. She is a co-founder and the current president of Switchback Gear Collective, a North Carolina non-profit organization working to advance outdoor equity."
+    ]
+  },
+  "latrice": {
+    "name": "Latrice Landry",
+    "title": "Instructor",
+    "image": "../../images/headshot-ll.jpeg",
+    "text": "Latrice Landry is an instructor specializing in developing systems-based approaches to achieving equitable translation of precision medicine and precision public health at the Perelman School ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Latrice Landry is an instructor specializing in developing systems-based approaches to achieving equitable translation of precision medicine and precision public health at the Perelman School of Medicine at the University of Pennsylvania. She received both her master's degree in policy and her PhD in Nutrition from Tufts University. Her doctoral research focused on the interactions between diet and genetics as determinants for dyslipidemia in African Americans in the Jackson Heart Study. In 2015, she was the Inaugural Food and Drug Administration's Genomic Medicine and Minority Health Fellow. She has also been recognized as a thought leader in minority health and precision medicine by the National Minority Quality Forum in 2017 and an AIM AHEAD Leadership Fellow for artificial intelligence and social determinants of health in 2022. She has a sincere passion for building equitable systems, eliminating racism from research and medicine, and expanding minority participation and leadership in the biomedical workforce. Understanding that the present moment requires difficult conversations, honest truth, and persistence, she is committed to science that improves health for all."
+    ]
+  },
+  "alex": {
+    "name": "Alex Michels",
+    "title": "Graduate Student",
+    "image": "../../images/headshot-am.jpeg",
+    "text": "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Alex Michels is a PhD student studying Spatial Informatics under Dr. Shaowen Wang at the University of Illinois Urbana-Champaign (UIUC). He is currently a research assistant at the CyberGIS Center for Advanced Digital and Spatial Studies and will be on the job market in Fall 2024.",
+      "Alex is passionate about access & cyberGIS meaning: (1) using cyberGIS to explore, model, and analyze spatial patterns and systems of inaccessibility and inequity and (2) making cyberGIS tools and technology accessible to all. His work in analysis and modeling includes Spatial Agent-Based Models (SABMs) for public health and the WhereCOVID-19 Spatial Accessibility Explorer for rapidly measuring spatial accessibility during the COVID-19 pandemic. His work on FAIR (Findable, Accessible, Interoperable, and Reproducible) computing in the geosciences includes contributions to CyberGISX, CyberGIS-Jupyter for Water (CJW), and CyberGIS-Compute."
+    ]
+  },
+  "sarahn": {
+    "name": "Sarah Nelson",
+    "title": "Assistant Professor",
+    "image": "../../images/headshot-sn.jpeg",
+    "text": "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Sarah Nelson is an Assistant Professor in health geography at the University of Nebraska at Omaha, with expertise in aging, health care services, and the social determinants of health. She works most often with Indigenous communities and populations that have experienced being underserved in health care and policy, emphasizing community engagement and collaboration in research and teaching, and community- and participant-led research priorities in choosing and designing research projects.",
+      "Previously, she has also worked with Indigenous-led health organizations to understand links between mental health and colonialism, as well as barriers that Indigenous clients of health care organizations experience in an urban setting, and the roles of these organizations in opening health care spaces to Indigenous community members in the city."
+    ]
+  },
+  "kennedy": {
+    "name": "Kennedy Patterson",
+    "title": "Graduate Student",
+    "image": "../../images/headshot-kp.jpeg",
+    "text": "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Kennedy Patterson is a Sociology Master's Student within the MAPSS Program at the University of Chicago. She also works as a research assistant within the “UChicago Justice Project” Lab under the direction of Dr. Robert Vargas, where she digitalizes, cleans, and analyzes archival records of Chicago homicides, in pursuit of curating the first analysis of Chicago homicides from 1940-1964. Furthermore, as a SDOH & Place Fellow, she aims to illuminate the racialization and gendering of unhoused deaths to draw awareness to violence endured by unhoused Black women. Prior to attending the University of Chicago, Kennedy graduated from the University of Washington as a McNair scholar with a Bachelor of Arts in Medical Anthropology & Global Health- Honors, in addition to Gender, Women's, & Sexuality studies. Kennedy is also a 2023 Fulbright recipient and was awarded the 2022 \"Outstanding Research and Presentation\" Award at the National Diversity in STEM Research Conference in San Juan, Puerto Rico, for her work in \"How do Black Women Thrive Utilizing Social Services within the Greater Seattle Area\". Within this project, she uncovers (1) how social services have been socially constructed to sustain the experience of vulnerability within the Black community, and (2) highlights that through various levels of gratitude, Black women find spiritual peace and grow new resilience to systemic challenges. Following her Master’s degree, Kennedy will be receiving her PhD in Sociology at Northwestern University. "
+    ]
+  },
+  "sonia": {
+    "name": "Sonia Saxon",
+    "title": "Organizer and Graduate Student ",
+    "image": "../../images/headshot-sms.jpeg",
+    "text": "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Sonia is an advocate for environmental justice and health equity focused on community engagement to achieve broader systemic changes. Sonia lives in Chicago and works with the grassroots organizations Neighbors for Environmental Justice and Chicago’s Coalition to End Sacrifice Zones. She is also pursuing a PhD in Anthropology and a Master’s in Public Health from the Environmental and Occupational Health Science division at the University of Illinois Chicago. Her research interrogates the power structures behind whose voices are heard and what types of data are considered valid in policy-level engagements with environmental justice issues. The focus on making information about health risks actionable and more widely accessible to the public guides her work. She uses air monitoring data, qualitative methods, and ethnography to highlight the importance of “lived experiences” when assessing environmental hazards and determining which communities are disproportionately burdened by pollution."
+    ]
+  },
+  "sarahs": {
+    "name": "Sarah Scott",
+    "title": "Graduate Student",
+    "image": "../../images/headshot-ss.jpeg",
+    "text": "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Sarah E. Scott, MPH (she/her) is a Graduate Student Researcher for the Division of Adolescent and Young Adult Medicine at the University of Pittsburgh. She is currently obtaining her PhD in Epidemiology at the University of Pittsburgh School of Public Health. Ms. Scott utilizes mixed methods to explore the intersection of gender-based violence, social determinants of health, and women’s health. Her research interests include community-based participatory methods, intimate partner violence, economic abuse, mental health, and reproductive and sexual health. She received a Bachelor of Arts in Psychology from Pepperdine University and a Master of Public Health in Behavioral & Community Health Sciences from the University of Pittsburgh School of Public Health."
+    ]
+  },
+  "madeline": {
+    "name": "Madeline Smith-Johnson",
+    "title": "Graduate Candidate",
+    "image": "../../images/headshot-msj.jpeg",
+    "text": "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Madeline Smith-Johnson is a Ph.D. candidate in the Department of Sociology at Rice University, where they pilot research projects examining the health and social relationships of transgender adults in the United States. They hold a Master of Philosophy in Sociology from the University of Cambridge and a Master of Arts in Sociology from Rice University. Madeline is committed to building comprehensive and creative measures of multilevel gendered stigma to specify stigma’s impact on population health. Their research interests include LGBTQ+ population health, structural sexism, the relationship between state policies and health disparities, healthcare access and delivery, survey measurement of LGBTQ+ identity, and data visualization."
+    ]
+  },
+  "makiya": {
+    "name": "Makiya Thomas",
+    "title": "DEI Specialist",
+    "image": "../../images/headshot-mt.jpeg",
+    "text": "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Makiya Thomas was born and raised in Decatur, IL. She graduated high school from Eisenhower High School. She later went off to college and received her bachelor's and two master's degrees while attending Eastern Illinois University. Makiya has also served in the Illinois Army National Guard for the past 9 years. While in the Army, she’s served as a Platoon Leader, Operations Officer in Charge while being deployed, and currently serves as a Headquarters Commander. Makiya currently works as a DEI Specialist for the Public Health District of Champaign where she lives with her beauty baby boy named Judah."
+    ]
+  },
+  "wei": {
+    "name": "Wei Tu",
+    "title": "Professor",
+    "image": "../../images/headshot-wt.jpeg",
+    "text": "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics ...",
+    "links": {},
+    "category": ["fellow"],
+    "long": [
+      "Dr. Tu is a professor of Geography and Geographic Information Science, School of Earth, Environment, and Sustainability and a Faculty Fellow at the Institute for Health Logistics & Analytics (INLA). Dr. Tu’s research focuses on how and to what extent place and space influenced health outcomes, particularly the impacts of social determinants on maternal and child health. Dr. Tu uses a variety of statistical models and Geographic Information Systems to analyze and visualize geospatial health data, with an overarching goal of reducing health disparity, promoting community health, and improving population health."
+    ]
+  }
+}

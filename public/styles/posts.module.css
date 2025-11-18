@@ -31,7 +31,7 @@
 .content h3,
 .content h4,
 .content h5 {
-  font-family: Nunito;
+  font-family: Fredoka;
   margin: 2rem 0 0 0;
 }
 
@@ -39,10 +39,10 @@
   font-size: 1.75rem;
 }
 .content h3 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 .content h4 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .content p,
@@ -187,4 +187,45 @@
   border-radius: 1.5rem;
   font-size: 1rem;
   margin: 1.5em 0;
+}
+
+.sdoh-panel {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  /*background-color: #ECE6F0;*/
+
+  .sdoh-panel-header {
+    font-family: Nunito;
+    font-weight: 700;
+    font-size: 16pt;
+    line-height: 100%;
+    letter-spacing: 0;
+    margin-top: 0.5rem;
+  }
+  .sdoh-panel-content {
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0 0 0;
+
+    .sdoh-panel-image {
+      width: 9rem;
+      height: 9rem;
+      margin: 0 2rem 1rem 0;
+      border-radius: 1000px;
+    }
+    .sdoh-panel-body {
+      display: flex;
+      flex-direction: column;
+      .sdoh-panel-markdown > p {
+         margin-top: 0;
+      }
+      .sdoh-panel-link {
+        width: 7rem;
+        color: #7E1CC4;
+        font-weight: bolder;
+        text-decoration: none;
+      }
+    }
+  }
 }

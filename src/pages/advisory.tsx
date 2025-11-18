@@ -8,12 +8,10 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { AiOutlineClose } from "react-icons/ai";
 
-import Header from "@/components/Header";
+import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import ProfileImage from "@/components/ProfileImage";
 import TopLines from "@/components/TopLines";
-import people from "../../meta/people.json";
-import techAdvisorData from "../../meta/tech_advisory.json";
-import stakeholderData from "../../meta/stakeholder_advisory.json";
+import advisorData from "../../meta/advisory.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
@@ -48,15 +46,15 @@ const useStyles = makeStyles(() => ({
 
 const Advisory: NextPage = () => {
   const classes = useStyles();
-  const stakeholderList = stakeholderData.stakeholder_advisory;
-  const technicalList = techAdvisorData.tech_advisory;
+  const currentAdvisors = advisorData.advisory?.filter(a => a.status === 'current');
+  const pastAdvisors = advisorData.advisory?.filter(a => a.status === 'past');
   const [open, setOpen] = React.useState(false);
-  const [modalData, setModalData] = React.useState(stakeholderList[0]);
+  const [modalData, setModalData] = React.useState(currentAdvisors[0]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Header title={"Advisory"} />
+      <BasicPageMeta title={"Advisory"} />
       <NavBar />
       <TopLines />
       <Modal
@@ -95,7 +93,7 @@ const Advisory: NextPage = () => {
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
                     {modalData.affiliation}
                   </div>
-                  {modalData.links.map((link, index) => (
+                  {modalData.links?.map((link, index) => (
                     <div
                       key={index}
                       className="text-lg font-medium leading-[177.778%] mt-2.5"
@@ -126,28 +124,27 @@ const Advisory: NextPage = () => {
           <div className="bg-orange-300 w-full h-1 mt-10" />
         </Box>
       </Modal>
-      <div className="flex flex-col">
+      <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
           <h1 className="font-fredoka">Advisory</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
                 <div className="text-stone-900 text-xl leading-[133.333%] w-[1068px] max-w-[1068px] max-md:max-w-full max-md:mt-10">
-                  The Place Project has an advisory board consisting of experts
-                  from public, private, and academic sectors. Their primary
-                  responsibility is to provide methodological guidance, offer
-                  critical and technical insights, and ensure that the Place
-                  project aligns with the requirements of communities in the
-                  United States that are disproportionately affected by health,
-                  spatial, and racial disparities.
+                  The SDOH & Place Project has an advisory board consisting of
+                  experts from public, private, and academic sectors. The
+                  board&#39;s responsibility is to provide methodological guidance,
+                  offer critical and technical insights, and ensure that the
+                  SDOH & Place Project aligns with the requirements of communities
+                  across the country that are disproportionately affected by
+                  health, spatial, and racial disparities.
                   <br />
                   <br />
-                  The members of the Place Project advisory board combine vast
-                  experience in designing complex engineering and scientific
-                  solutions for both non-profit and academic settings, as well
-                  as a proven track record in conducting community-based
-                  research and outreach programs with minority and segregated
-                  communities.
+                  The members of the SDOH & Place Project advisory board combine
+                  vast experience in designing complex engineering and scientific
+                  solutions for both non-profit and academic settings. They also
+                  carry a proven track record in conducting community-based research
+                  and outreach programs with minority and segregated communities.
                 </div>
               </div>
             </div>
@@ -155,7 +152,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Stakeholder Team</h2>
+            <h2 className="font-fredoka">Advisory Board</h2>
           </div>
           <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
@@ -165,7 +162,7 @@ const Advisory: NextPage = () => {
               >
                 <div className="self-center w-full max-md:max-w-full">
                   <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                    {stakeholderList.map((item, index) => (
+                    {currentAdvisors.map((item, index) => (
                       <div
                         key={index}
                         className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"
@@ -214,7 +211,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Technical Team</h2>
+            <h2 className="font-fredoka">Project Launch Advisory</h2>
           </div>
         </div>
         <div className="bg-lightbisque self-stretch flex mt-0 w-full flex-col px-5 max-md:max-w-full">
@@ -224,7 +221,7 @@ const Advisory: NextPage = () => {
           >
             <div className="self-center w-full max-md:max-w-full">
               <div className="flex flex-wrap max-md:flex-col max-md:items-stretch max-md:gap-0">
-                {technicalList.map((item, index) => (
+                {pastAdvisors.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-col items-stretch w-1/4 p-[25px] mb-[70px] max-md:w-full max-md:ml-0"

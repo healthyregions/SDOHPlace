@@ -6,7 +6,9 @@ import { makeStyles } from "@mui/styles";
 
 const fullConfig = resolveConfig(tailwindConfig);
 interface Props {
-  svgIcon: any;
+  className?: string;
+  svgIcon?: any;
+  muiIcon?: any;
   label: string;
   fillColor: string;
   labelColor: string;
@@ -14,8 +16,11 @@ interface Props {
   disabled?: boolean;
   iconOpacity?: number;
   width?: string;
+  noBox?: boolean;
+  noHover?: boolean;
   justifyContent?: string;
   borderRadius?: string;
+  border?: string;
   endIcon?: any; // if there's end icon, then start icon and label will be left aligned and end icon will be right aligned (i.e. footer style)
 }
 const useStyles = makeStyles((theme) => ({
@@ -32,32 +37,24 @@ const useStyles = makeStyles((theme) => ({
       right: "1.5rem",
     },
     "& .button-content": {
+      textWrap: "pretty",
       position: "absolute",
       left: "4rem",
     },
-  },
+  }
 }));
 const ButtonWithIcon = (props: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div>
       <Button
-        className={props.endIcon ? classes.buttonWithEndIcon : ""}
+        className={props.className || ''}
         variant="contained"
         startIcon={
-          <Image
-            priority
-            src={props.svgIcon}
-            alt={props.label}
-            style={{
-              opacity: props.iconOpacity ? props.iconOpacity : 1,
-            }}
-          />
+          props.svgIcon ? props.svgIcon : null
         }
         endIcon={
-          props.endIcon ? (
-            <Image priority src={props.endIcon} alt={props.label} style={{}} />
-          ) : null
+          props.endIcon ? props.endIcon : null
         }
         onClick={props.onClick}
         disabled={props.disabled}
@@ -83,14 +80,18 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           justifyContent: props.justifyContent
             ? props.justifyContent
             : "initial",
+          boxShadow: props.noBox ? "none" : "3px 3px 5px rgba(0, 0, 0, 0.3)",
+          border: props.border ? props.border : "none",
           "&:hover": {
-            boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
+            boxShadow: props.noHover
+              ? "none"
+              : "3px 3px 5px rgba(0, 0, 0, 0.3)",
             backgroundColor: `${fullConfig.theme.colors[props.fillColor]}`,
             color: `${fullConfig.theme.colors[props.labelColor]}`,
           },
         }}
       >
-        <span className="button-content">{props.label}</span>
+        <span className="buttonContent">{props.label}</span>
       </Button>
     </div>
   );
