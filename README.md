@@ -40,7 +40,7 @@ To contribute code to this repo:
 
 1. Create a feature branch from `main`
 2. Commit code to it and create a PR against `main`
-3. After the PR is merged, changes will be reflected on the production site.
+3. After the PR is merged, changes will be reflected on the production site
 
 ### Dev install - Decap CMS
 
