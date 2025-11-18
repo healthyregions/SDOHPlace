@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: healthyregions/SDOHPlace
-  branch: publish
+  branch: main
 media_folder: public/images
 public_folder: /images
 publish_mode: editorial_workflow
