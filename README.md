@@ -17,7 +17,7 @@ To create/edit/delete content:
 
 Or
 
-- Switch to the `publish` branch and make direct edits to the `.mdx` files in `content/news`
+- Make direct edits to the `.mdx` files in `content/news`. When prompted, create a new fork, branch, and pull request.
 
 A full guide to using the CMS is available internally on our Notion workspace.
 
@@ -30,26 +30,17 @@ Write access to the content management system is based on Github authentication 
 
 Initial login is implemented through a Github OAuth application owned by the Healthy Regions org which is linked to deployment of this site on Netlify.
 
-The draft/publish restrictions are implemented through branch protection rulesets on the `main` and `publish` branches of this repository.
+The draft/publish restrictions are implemented through branch protection rulesets on the `main` branch of this repository.
 
 ## Branch Configuration
 
-The production site is built from the `publish` branch and visible at [https://sdohplace.org](https://sdohplace.org).
-
-A staging site is built from the `main` branch and is visible at [https://main--cheerful-treacle-913a24.netlify.app/](https://main--cheerful-treacle-913a24.netlify.app/).
-
-_The staging site should only be used to preview code changes, not to create/edit/delete blog posts._
+The production site is built from the `main` branch and visible at [https://sdohplace.org](https://sdohplace.org).
 
 To contribute code to this repo:
 
 1. Create a feature branch from `main`
 2. Commit code to it and create a PR against `main`
-3. After the PR is merged, changes will be reflected on the [staging site](https://main--cheerful-treacle-913a24.netlify.app/)
-4. To deploy, create another PR from `main` against the `publish` branch
-
-**_The `publish` branch should never be merged back into the `main` branch!_**
-
-We've chosen this setup to keep code development history on the main branch, and isolate all of the blog-authored commit activity to the publish branch.
+3. After the PR is merged, changes will be reflected on the production site.
 
 ### Dev install - Decap CMS
 
@@ -67,7 +58,7 @@ In `public/admin/config.yml` change `name: github` to `name: test-repo`, such th
 backend:
   name: github
   repo: healthyregions/SDOHPlace
-  branch: publish
+  branch: main
 ```
 
 becomes
@@ -76,7 +67,7 @@ becomes
 backend:
   name: test-repo
   repo: healthyregions/SDOHPlace
-  branch: publish
+  branch: main
 ```
 
 Now, go to http://localhost:3000/admin/index.html. You will be presented with a simple Login button. Once logged in, you will see "Test Backend" in the top right corner of the page.
@@ -89,7 +80,7 @@ In this case, Decap needs to be reading from your local filesystem. First add `l
 backend:
   name: github
   repo: healthyregions/SDOHPlace
-  branch: publish
+  branch: main
 ```
 
 becomes
@@ -99,7 +90,7 @@ local_backend: true
 backend:
   name: github
   repo: healthyregions/SDOHPlace
-  branch: publish
+  branch: main
 ```
 
 Next, open a new terminal and use the following command to run the Decap server locally:
