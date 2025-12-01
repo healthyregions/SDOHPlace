@@ -479,7 +479,7 @@ collections:
         widget: string
         required: false
       - label: "Description"
-        name: "description"
+        name: "body"
         widget: "markdown"
 
   - name: "research-rabbit"
