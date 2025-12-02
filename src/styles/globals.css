@@ -116,7 +116,10 @@ ul.navbar > li > ul {
 }
 
 ul.navbar > li > ul > li {
-  @apply pb-2 no-underline;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  @apply no-underline;
 }
 
 ul.navbar > li > ul > li:last-child {
@@ -124,7 +127,14 @@ ul.navbar > li > ul > li:last-child {
 }
 
 ul.navbar > li > ul > li > a {
+  display: flex;
+  align-items: center;
+  gap: 2px;
   @apply text-almostblack text-base font-bold tracking-[0.03125rem] leading-4 no-underline;
+}
+
+ul.navbar > li > ul > li > a > span {
+  height: 28px;
 }
 
 ul.navbar-mobile {
