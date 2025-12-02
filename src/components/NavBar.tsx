@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import OpenInNew from '@mui/icons-material/OpenInNew';
 
 const useStyles = makeStyles((theme) => ({
   mobileHamburgerMenu: {
@@ -58,7 +59,12 @@ function NavDropdownButton({ title, dropdownElId, items, directLink }: Props) {
       >
         {items.map((item, index) => (
           <li key={index}>
-            <Link href={item.url} target={item.target || ''}>{item.subitem && <SubdirectoryArrowRightIcon />}{item.title}</Link>
+            <Link href={item.url} target={item.target || ''}>
+              <span>
+                {item.subitem && <SubdirectoryArrowRightIcon style={{height:".9em"}} />}
+              </span>
+              {item.title}
+              {item.target =="_blank" && <OpenInNew style={{height:".75em"}} />}</Link>
           </li>
         ))}
       </ul>
@@ -133,8 +139,8 @@ const NavBar = (): JSX.Element => {
   const communityItems = [
     { title: "Fellows", url: "/fellows" },
     { title: "Showcase", url: "/showcase" },
-    //{ title: "Place Mini-Projects", url: "/mini-projects" },
-    //{ title: "Things We Like!", url: "/recommendations" },
+    { title: "Partner Projects", url: "" },
+    { title: "Butterflies Rising", url: "https://butterflies-rising.sdohplace.org/", subitem: true, target: "_blank" },
   ];
 
   return (
