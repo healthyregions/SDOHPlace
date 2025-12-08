@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "@/public/styles/posts.module.css";
 import Copyright from "../news/Copyright";
-import { getFellow } from "../../lib/people";
-import { getTag } from "../../lib/tags";
+import { getFellow } from "@/lib/people";
+import { getShowcaseTag } from "@/lib/tags";
 import ArticleMeta from "@/components/meta/ArticleMeta";
 
 export type ShowcaseLayoutProps = {
@@ -30,7 +30,7 @@ export default function ShowcaseLayout({
   description = "",
   children,
 }: ShowcaseLayoutProps) {
-  const keywords = tags ? tags.map((it) => getTag(it).name) : [];
+  const keywords = tags ? tags.map((it) => getShowcaseTag(it).name) : [];
   // const authorName = getAuthor(author).name;
   const fellow = getFellow(fellowName);
   return (

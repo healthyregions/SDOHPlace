@@ -1,0 +1,9 @@
+tags:
+  - slug: storymap
+    name: story-map
+  - slug: dashboard
+    name: dashboard
+  - slug: thematicmap
+    name: thematic-map
+  - slug: assetmap
+    name: asset-map

@@ -2,7 +2,7 @@ import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
 import config from "@/lib/config";
 import { countPosts, listPostContent } from "../../lib/posts";
-import { listTags } from "../../lib/tags";
+import { listNewsTags } from "../../lib/tags";
 import {Grid} from "@mui/material";
 import Link from "next/link";
 
@@ -43,7 +43,7 @@ export default function Index({}) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = listPostContent(1, config.posts_per_page);
-  const tags = listTags();
+  const tags = listNewsTags();
   const pagination = {
     current: 1,
     pages: Math.ceil(countPosts() / config.posts_per_page),

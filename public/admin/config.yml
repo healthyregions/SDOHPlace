@@ -71,10 +71,30 @@ collections:
               - label: "Introduction"
                 name: "introduction"
                 widget: "text"
-      - name: "tags"
-        label: "Tags"
-        file: "meta/tags.yml"
-        description: "List of tags"
+
+      - name: "showcase_tags"
+        label: "Showcase Tags"
+        file: "meta/tags_showcase.yml"
+        description: "List of tags for Fellows Showcase"
+        fields:
+          - name: tags
+            label: Tags
+            label_singular: "Tag"
+            widget: list
+            fields:
+              - label: "Slug"
+                name: "slug"
+                widget: "string"
+                hint: "The part of a URL identifies the tag"
+              - label: "Display Name"
+                name: "name"
+                widget: "string"
+                hint: "Tag name for displaying on the site"
+
+      - name: "news_tags"
+        label: "News Tags"
+        file: "meta/tags_news.yml"
+        description: "List of tags for News"
         fields:
           - name: tags
             label: Tags
@@ -332,12 +352,12 @@ collections:
           name: tag
           widget: relation
           collection: "meta"
-          file: "tags"
+          file: "news_tags"
           searchFields:
-            - "tags.*.name"
+            - "news_tags.*.name"
           displayFields:
-            - "tags.*.name"
-          valueField: "tags.*.slug"
+            - "news_tags.*.name"
+          valueField: "news_tags.*.slug"
       - label: "Featured Image"
         name: "thumbnail"
         widget: "image"
@@ -371,7 +391,7 @@ collections:
       - label: "Date"
         name: "date"
         widget: "datetime"
-        date_format: "M/D/YYYY"
+        date_format: "DD.MM.YYYY" # e.g. 24.12.2021
         default: '{{now}}'
         hint: "The date when this showcase case was created, updated, or published."
       - label: "External Link"
@@ -386,6 +406,22 @@ collections:
         name: "tech_used"
         widget: "string"
         required: false
+      - label: Tags
+        label_singular: "Tag"
+        name: "tags"
+        widget: list
+        summary: "{{fields.tag}}"
+        field:
+          label: Tag
+          name: tag
+          widget: relation
+          collection: "meta"
+          file: "showcase_tags"
+          searchFields:
+            - "showcase_tags.*.name"
+          displayFields:
+            - "showcase_tags.*.name"
+          valueField: "showcase_tags.*.slug"
       - label: Fellow
         name: "fellow"
         widget: relation
@@ -396,6 +432,9 @@ collections:
         displayFields:
           - "fellows.*.name"
         valueField: "fellows.*.name"
+      - label: "Description"
+        name: "description"
+        widget: "markdown"
       - label: "Body"
         name: "body"
         widget: "markdown"
@@ -423,7 +462,6 @@ collections:
         widget: "datetime"
         default: "{{now}}"
         date_format: "DD.MM.YYYY" # e.g. 24.12.2021
-        time_format: "HH:mm" # e.g. 21:07
         format: "LLL"
         picker_utc: false
       - label: Author
@@ -471,9 +509,6 @@ collections:
         widget: "datetime"
         default: "{{now}}"
         date_format: "DD.MM.YYYY" # e.g. 24.12.2021
-        time_format: "HH:mm" # e.g. 21:07
-        format: "LLL"
-        picker_utc: false
       - label: DOI
         name: "doi"
         widget: string
