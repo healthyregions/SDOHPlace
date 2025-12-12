@@ -69,7 +69,7 @@ export default function Showcase({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchShowcaseContent("content/showcase").map(
+  const paths = fetchShowcaseContent().map(
     (it) => "/showcase/" + it.slug
   );
   return {
