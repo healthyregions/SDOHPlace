@@ -66,7 +66,7 @@
     "dompurify": "^3.1.6",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
-    "next": "13.5.6",
+    "next": "14",
     "next-mdx-remote": "^4.4.1",
     "next-plausible": "^3.12.4",
     "react": "18.2.0",
