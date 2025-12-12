@@ -35,7 +35,7 @@ const slugToPostContent = ((postContents) => {
   let hash = {};
   postContents.forEach((it) => (hash[it.slug] = it));
   return hash;
-})(fetchShowcaseContent("content/showcase"));
+})(fetchShowcaseContent());
 
 export default function Showcase({
   title,
