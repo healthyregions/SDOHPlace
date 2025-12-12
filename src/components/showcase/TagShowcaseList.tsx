@@ -6,24 +6,24 @@ import ShowcaseItem from "./ShowcaseItem";
 import Pagination from "../news/Pagination";
 
 type Props = {
-  posts: ShowcaseContent[];
+  showcases: ShowcaseContent[];
   tag: TagContent;
   pagination: {
     current: number;
     pages: number;
   };
 };
-export default function TagShowcaseList({ posts, tag, pagination }: Props) {
+export default function TagShowcaseList({ showcases, tag, pagination }: Props) {
   return (
     <div className={"post-list"}>
       <h1 className="mb-8 text-2xl">
-        <Link href={"/news/"} className={"text-darkgray no-underline"}>
+        <Link href={"/showcase/"} className={"text-darkgray no-underline"}>
           All showcases
         </Link>{" "}
         / <span>{tag.name}</span>
       </h1>
       <ul>
-        {posts.map((it, i) => (
+        {showcases.map((it, i) => (
           <li key={i}>
             <ShowcaseItem item={it} />
           </li>

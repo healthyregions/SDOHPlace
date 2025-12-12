@@ -7,7 +7,7 @@ import { countShowcases, listShowcaseContent, ShowcaseContent } from "@/lib/show
 import { getShowcaseTag, listShowcaseTags, TagContent } from "@/lib/tags";
 
 type Props = {
-  posts: ShowcaseContent[];
+  showcases: ShowcaseContent[];
   tag: TagContent;
   page?: string;
   pagination: {
@@ -15,13 +15,13 @@ type Props = {
     pages: number;
   };
 };
-export default function Index({ posts, tag, pagination, page }: Props) {
+export default function Index({ showcases, tag, pagination, page }: Props) {
   const url = `/showcase/tags/${tag.name}` + (page ? `/${page}` : "");
   const title = tag.name;
   return (
     <Layout>
       <BasicPageMeta title={title} />
-      <TagShowcaseList posts={posts} tag={tag} pagination={pagination} />
+      <TagShowcaseList showcases={showcases} tag={tag} pagination={pagination} />
     </Layout>
   );
 }
@@ -29,7 +29,7 @@ export default function Index({ posts, tag, pagination, page }: Props) {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const queries = params.slug as string[];
   const [slug, page] = [queries[0], queries[1]];
-  const posts = listShowcaseContent(
+  const showcases = listShowcaseContent(
     page ? parseInt(page as string) : 1,
     config.posts_per_page,
     slug
@@ -40,11 +40,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     pages: Math.ceil(countShowcases() / config.posts_per_page),
   };
   const props: {
-    posts: ShowcaseContent[];
+    showcases: ShowcaseContent[];
     tag: TagContent;
     pagination: { current: number; pages: number };
     page?: string;
-  } = { posts, tag, pagination };
+  } = { showcases, tag, pagination };
   if (page) {
     props.page = page;
   }

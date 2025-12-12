@@ -5,6 +5,8 @@ import {Grid} from "@mui/material";
 import React from "react";
 import {format, formatISO} from "date-fns";
 import styles from "@/public/styles/posts.module.css";
+import {router} from "next/client";
+import { useRouter } from 'next/navigation'; // Use 'next/router' for Pages Router
 
 type Props = {
   item: ShowcaseContent;
@@ -58,6 +60,7 @@ const getSeason = (publish_date: Date) => {
   }
 }
 export default function ShowcaseItem({ item }: Props) {
+  const router = useRouter()
   /*
     <Link href={"/showcase/" + item.slug} legacyBehavior>
       <a className={"no-underline"}>
@@ -87,19 +90,63 @@ export default function ShowcaseItem({ item }: Props) {
     */
   return (
     <>
-      <Grid container spacing={0}>
+      <Link href={`/showcase/${item.slug}`} legacyBehavior>
+        <a className={"no-underline"}>
+          <Grid container spacing={0}>
+            <Grid item width={200}>
+              <Image src={item.image} alt={item.title} width={200} height={25} />
+            </Grid>
+            <Grid item xs={'auto'} paddingLeft={'2rem'}>
+              <Grid container spacing={0}>
+                <h2>{item.title}</h2>
+              </Grid>
+              <Grid container spacing={0}>
+                <Grid item xs={6}>
+                  <div>{item.fellow}</div>
+                  <PublishDate item={item} />
+                </Grid>
+                <Grid item xs alignSelf={'center'}>
+                  <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
+                    Access resource &rarr;
+                  </Link>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <style jsx>
+            {`
+            a {
+              color: #222;
+              display: inline-block;
+            }
+            h2 {
+              margin: 0;
+              font-size: 2rem;
+            }
+          `}
+          </style>
+        </a>
+      </Link>
+      {/*
+      <Grid container spacing={0} onClick={() => router.push(`/showcase/${item.slug}`)}>
           <Grid item xs={3}>
             <Image src={item.image} alt={item.title} width={200} height={25} />
           </Grid>
           <Grid item xs>
-            <h2>{item.title}</h2>
-            <div>{item.fellow}</div>
-            <PublishDate item={item} />
-            <p>
-              <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
-                Access resource &rarr;
-              </Link>
-            </p>
+            <Grid container spacing={0}>
+              <h2>{item.title}</h2>
+            </Grid>
+            <Grid container spacing={0}>
+              <Grid item xs={6}>
+                <div>{item.fellow}</div>
+                <PublishDate item={item} />
+              </Grid>
+              <Grid item xs alignSelf={'center'} alignItems={"center"}>
+                <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
+                  Access resource &rarr;
+                </Link>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       <style jsx>
@@ -112,7 +159,9 @@ export default function ShowcaseItem({ item }: Props) {
             font-size: 2rem;
           }
         `}
-      </style>
+      </style>*/}
     </>
+
   );
+
 }
