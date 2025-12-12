@@ -23,7 +23,7 @@ const TagsList = ({ tags }) => <div className={' my-4 flex flex-col'}>
   <ul className={"flex flex-col max-md:flex-row"}>
     {tags.map((it, i) => (
       <li key={i} className={'mr-8'}>
-        <TagLink tag={it} />
+        <TagLink tag={it} prefix={'/news/tags'} />
       </li>
     ))}
   </ul>

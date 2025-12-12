@@ -5,7 +5,7 @@ type Props = {
   tag: TagContent;
   prefix: string;
 };
-export default function TagLink({ tag, prefix = '/news/tags' }: Props) {
+export default function TagLink({ tag, prefix }: Props) {
   return (
     <Link
       href={prefix + "/[[...slug]]"}
