@@ -48,7 +48,6 @@ export function fetchGuidesContent(): GuidesContent[] {
       };
       matterData.fullPath = fullPath;
       matterData.slug = fileName.replace(/\.mdx$/, "");
-      matterData.description = matterData?.description || matterResult.content.split(' ').slice(0, 20).join(' ') + '...';
 
       return matterData;
     });

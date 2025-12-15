@@ -92,7 +92,7 @@ export default function ShowcaseItem({ item }: Props) {
     <>
       <Link href={`/showcase/${item.slug}`} legacyBehavior>
         <a className={"no-underline w-full"}>
-          <div className={'flex'}>
+          <div className={'flex max-md:flex-col'}>
             <div className={'flex-col'} style={{ minWidth: '200px' }}>
               <Image src={item.image} alt={item.title} width={200} height={25} />
             </div>
@@ -111,6 +111,11 @@ export default function ShowcaseItem({ item }: Props) {
                     Access resource &rarr;
                   </Link>
                 </div>*/}
+              </div>
+              <div className={'mt-4'}>
+                <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
+                  Access resource &rarr;
+                </Link>
               </div>
             </div>
           </div>
