@@ -91,28 +91,29 @@ export default function ShowcaseItem({ item }: Props) {
   return (
     <>
       <Link href={`/showcase/${item.slug}`} legacyBehavior>
-        <a className={"no-underline"}>
-          <Grid container spacing={0}>
-            <Grid item width={200}>
+        <a className={"no-underline w-full"}>
+          <div className={'flex'}>
+            <div className={'flex-col'} style={{ minWidth: '200px' }}>
               <Image src={item.image} alt={item.title} width={200} height={25} />
-            </Grid>
-            <Grid item xs={'auto'} paddingLeft={'2rem'}>
-              <Grid container spacing={0}>
+            </div>
+            <div className={'flex-col flex flex-grow-1'} style={{ paddingLeft: '2rem' }}>
+              <div className={'flex flex-row'}>
                 <h2>{item.title}</h2>
-              </Grid>
-              <Grid container spacing={0}>
-                <Grid item xs={6}>
+              </div>
+              <div className={'flex flex-row flex-grow-1 justify-between'}>
+                <div className={'flex-col'}>
                   <div>{item.fellow}</div>
                   <PublishDate item={item} />
-                </Grid>
-                <Grid item xs alignSelf={'center'}>
+                </div>
+                {/* TODO: I just can't get this to look right :/ */}
+                {/*<div className={'flex-col self-end'}>
                   <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
                     Access resource &rarr;
                   </Link>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+                </div>*/}
+              </div>
+            </div>
+          </div>
           <style jsx>
             {`
             a {

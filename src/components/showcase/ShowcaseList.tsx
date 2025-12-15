@@ -38,13 +38,14 @@ export default function ShowcaseList({ showcases, pagination, tags }: Props) {
   return (
     <>
       <div className={"post-list"}>
-        <Grid container spacing={0} className={'mb-12'}>
-          <StyledGrid item xs={10}>
+        <Grid container spacing={0} className={'mb-12 flex flex-grow-1'}>
+          <StyledGrid item xs={12} md={10}>
             Below are some of the impactful social determinants of health (SDOH)
             place-based data visualizations developed by our{" "}<StyledLink href={'/fellows'}>SDOH & Place Fellows</StyledLink>.
             To learn how to create your own, access our{" "}<StyledLink href={'https://toolkit.sdohplace.org/'}>Community Toolkit</StyledLink>.
           </StyledGrid>
-          <Grid item xs={2}>
+
+          <Grid item xs={12} md={2}>
             <TagsList tags={tags}></TagsList>
           </Grid>
         </Grid>

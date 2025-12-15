@@ -7,6 +7,7 @@ const guidesDirectory = path.join(process.cwd(), "content/guides");
 
 export type GuidesContent = {
   readonly last_updated: string;
+  readonly description: string;
   readonly title: string;
   readonly slug: string;
   readonly featured_image: string;
@@ -38,6 +39,7 @@ export function fetchGuidesContent(): GuidesContent[] {
       });
       const matterData = matterResult.data as {
         last_updated: string;
+        description: string;
         title: string;
         featured_image: string;
         author: string;
@@ -46,6 +48,7 @@ export function fetchGuidesContent(): GuidesContent[] {
       };
       matterData.fullPath = fullPath;
       matterData.slug = fileName.replace(/\.mdx$/, "");
+      matterData.description = matterData?.description || matterResult.content.split(' ').slice(0, 20).join(' ') + '...';
 
       return matterData;
     });
