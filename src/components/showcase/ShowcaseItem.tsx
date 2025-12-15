@@ -105,12 +105,6 @@ export default function ShowcaseItem({ item }: Props) {
                   <div>{item.fellow}</div>
                   <PublishDate item={item} />
                 </div>
-                {/* TODO: I just can't get this to look right :/ */}
-                {/*<div className={'flex-col self-end'}>
-                  <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
-                    Access resource &rarr;
-                  </Link>
-                </div>*/}
               </div>
               <div className={'mt-4'}>
                 <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
