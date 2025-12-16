@@ -3,8 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "@/public/styles/posts.module.css";
 import React from "react";
-import {Grid} from "@mui/material";
+import {Grid, Icon} from "@mui/material";
 import {format, formatISO} from "date-fns";
+import {Launch} from "@mui/icons-material";
 
 
 type Props = {
@@ -75,7 +76,7 @@ export default function ResearchItem({ item }: Props) {
             {
               item.media?.map(url =>
                 <a className={'no-underline mt-4'} key={url} href={url} target="_blank" rel="noopener noreferrer">
-                  Access resource &rarr;
+                  Access resource <Launch />
                 </a>
               )
             }

@@ -35,7 +35,7 @@ const slugToPostContent = ((postContents) => {
   let hash = {};
   postContents.forEach((it) => (hash[it.slug] = it));
   return hash;
-})(fetchShowcaseContent("content/showcase"));
+})(fetchShowcaseContent());
 
 export default function Showcase({
   title,
@@ -69,7 +69,7 @@ export default function Showcase({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchShowcaseContent("content/showcase").map(
+  const paths = fetchShowcaseContent().map(
     (it) => "/showcase/" + it.slug
   );
   return {

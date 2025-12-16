@@ -9,7 +9,7 @@ import {
   listGuidesContent,
   GuidesContent
 } from "@/lib/guides";
-import { listTags, TagContent } from "@/lib/tags";
+import { listNewsTags, TagContent } from "@/lib/tags";
 import Link from "next/link";
 
 type Props = {
@@ -57,7 +57,7 @@ export default function Index({ guides, tags, pagination }: Props) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const guides = listGuidesContent( 1, config.posts_per_page);
-  const tags = listTags();
+  const tags = listNewsTags();
   const pagination = {
     current: 1,
     pages: Math.ceil(countGuides() / config.posts_per_page),

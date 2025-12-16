@@ -1,13 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Layout from "@/components/Layout";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
-import TagPostList from "@/components/news/TagPostList";
+import TagShowcaseList from "@/components/showcase/TagShowcaseList";
 import config from "@/lib/config";
-import { countPosts, listPostContent, PostContent } from "@/lib/posts";
-import { getNewsTag, listNewsTags, TagContent } from "@/lib/tags";
+import { countShowcases, listShowcaseContent, ShowcaseContent } from "@/lib/showcases";
+import { getShowcaseTag, listShowcaseTags, TagContent } from "@/lib/tags";
 
 type Props = {
-  posts: PostContent[];
+  showcases: ShowcaseContent[];
   tag: TagContent;
   page?: string;
   pagination: {
@@ -15,13 +15,13 @@ type Props = {
     pages: number;
   };
 };
-export default function Index({ posts, tag, pagination, page }: Props) {
-  const url = `/news/tags/${tag.name}` + (page ? `/${page}` : "");
+export default function Index({ showcases, tag, pagination, page }: Props) {
+  const url = `/showcase/tags/${tag.name}` + (page ? `/${page}` : "");
   const title = tag.name;
   return (
     <Layout>
       <BasicPageMeta title={title} />
-      <TagPostList posts={posts} tag={tag} pagination={pagination} />
+      <TagShowcaseList showcases={showcases} tag={tag} pagination={pagination} />
     </Layout>
   );
 }
@@ -29,22 +29,22 @@ export default function Index({ posts, tag, pagination, page }: Props) {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const queries = params.slug as string[];
   const [slug, page] = [queries[0], queries[1]];
-  const posts = listPostContent(
+  const showcases = listShowcaseContent(
     page ? parseInt(page as string) : 1,
     config.posts_per_page,
     slug
   );
-  const tag = getNewsTag(slug);
+  const tag = getShowcaseTag(slug);
   const pagination = {
     current: page ? parseInt(page as string) : 1,
-    pages: Math.ceil(countPosts(slug) / config.posts_per_page),
+    pages: Math.ceil(countShowcases() / config.posts_per_page),
   };
   const props: {
-    posts: PostContent[];
+    showcases: ShowcaseContent[];
     tag: TagContent;
     pagination: { current: number; pages: number };
     page?: string;
-  } = { posts, tag, pagination };
+  } = { showcases, tag, pagination };
   if (page) {
     props.page = page;
   }
@@ -54,8 +54,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = listNewsTags().flatMap((tag) => {
-    const pages = Math.ceil(countPosts(tag.slug) / config.posts_per_page);
+  const paths = listShowcaseTags().flatMap((tag) => {
+    const pages = Math.ceil(countShowcases(tag.slug) / config.posts_per_page);
     return Array.from(Array(pages).keys()).map((page) =>
       page === 0
         ? {

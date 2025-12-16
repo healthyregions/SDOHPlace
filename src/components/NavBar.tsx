@@ -138,7 +138,7 @@ const NavBar = (): JSX.Element => {
 
   const communityItems = [
     { title: "Fellows", url: "/fellows" },
-    { title: "Showcase", url: "/showcase" },
+    { title: "Showcase", url: "/showcase", subitem: true },
     { title: "Partner Projects", url: "" },
     { title: "Butterflies Rising", url: "https://butterflies-rising.sdohplace.org/", subitem: true, target: "_blank" },
   ];
