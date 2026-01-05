@@ -7,7 +7,7 @@ import Date from "./Date";
 import ArticleMeta from "@/components/meta/ArticleMeta";
 import TagButton from "./TagButton";
 import { getAuthor } from "../../lib/authors";
-import { getTag } from "../../lib/tags";
+import { getNewsTag } from "../../lib/tags";
 
 export type PostLayoutProps = {
   title: string;
@@ -29,7 +29,7 @@ export default function PostLayout({
   thumbnail,
   children,
 }: PostLayoutProps) {
-  const keywords = tags ? tags.map((it) => getTag(it).name) : [];
+  const keywords = tags ? tags.map((it) => getNewsTag(it).name) : [];
   const authorName = getAuthor(author).name;
   return (
     <>
@@ -68,7 +68,7 @@ export default function PostLayout({
             {tags &&
               tags.map((it, i) => (
                 <li key={i}>
-                  <TagButton tag={getTag(it)} />
+                  <TagButton tag={getNewsTag(it)} />
                 </li>
               ))}
           </ul>

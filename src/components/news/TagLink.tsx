@@ -3,12 +3,13 @@ import { TagContent } from "../../lib/tags";
 
 type Props = {
   tag: TagContent;
+  prefix: string;
 };
-export default function Tag({ tag }: Props) {
+export default function TagLink({ tag, prefix }: Props) {
   return (
     <Link
-      href={"/news/tags/[[...slug]]"}
-      as={`/news/tags/${tag.slug}`}
+      href={prefix + "/[[...slug]]"}
+      as={`${prefix}/${tag.slug}`}
       className={"no-underline"}
     >
       {"#" + tag.name}

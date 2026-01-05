@@ -1,26 +1,26 @@
 import { GetStaticProps } from "next";
-import Layout from "@/components/Layout";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import NavBar from "@/components/NavBar";
 import TopLines from "@/components/TopLines";
 import ShowcaseList from "@/components/showcase/ShowcaseList";
-import config from "../../lib/config";
+import config from "@/lib/config";
 import {
   countShowcases,
   listShowcaseContent,
   ShowcaseContent
-} from "../../lib/showcases";
-import { listTags, TagContent } from "../../lib/tags";
+} from "@/lib/showcases";
+import { listShowcaseTags, TagContent } from "@/lib/tags";
+import React from "react";
 
 type Props = {
-  posts: ShowcaseContent[];
+  showcases: ShowcaseContent[];
   tags: TagContent[];
   pagination: {
     current: number;
     pages: number;
   };
 };
-export default function Index({ posts, tags, pagination }: Props) {
+export default function Index({ showcases, tags, pagination }: Props) {
   return (
     <>
         <BasicPageMeta title="Showcase" />
@@ -33,7 +33,7 @@ export default function Index({ posts, tags, pagination }: Props) {
                     <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                         <div className="flex items-stretch w-[92%] max-md:w-full max-md:ml-0">
                             <div className="text-stone-900 text-xl max-md:max-w-full max-md:mt-10 mb-8"></div>
-                            <ShowcaseList posts={posts} pagination={pagination} />
+                            <ShowcaseList showcases={showcases} tags={tags} pagination={pagination} />
                         </div>
                     </div>
                 </div>
@@ -44,15 +44,15 @@ export default function Index({ posts, tags, pagination }: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = listShowcaseContent("content/showcase", 1, config.posts_per_page);
-  const tags = listTags();
+  const showcases = listShowcaseContent(1, config.posts_per_page);
+  const tags = listShowcaseTags();
   const pagination = {
     current: 1,
     pages: Math.ceil(countShowcases("content/showcase") / config.posts_per_page),
   };
   return {
     props: {
-      posts,
+      showcases,
       tags,
       pagination,
     },

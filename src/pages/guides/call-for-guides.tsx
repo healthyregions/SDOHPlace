@@ -7,7 +7,7 @@ import {
   countGuides,
   listGuidesContent,
 } from "@/lib/guides";
-import { listTags } from "@/lib/tags";
+import { listNewsTags } from "@/lib/tags";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import {List as MuiList, ListItem as MuiListItem} from "@mui/material";
@@ -176,7 +176,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        
+
         <Footer />
       </div>
     </>
@@ -185,7 +185,7 @@ export default function Index() {
 
 export const getStaticProps: GetStaticProps = async () => {
   const guides = listGuidesContent( 1, config.posts_per_page);
-  const tags = listTags();
+  const tags = listNewsTags();
   const pagination = {
     current: 1,
     pages: Math.ceil(countGuides() / config.posts_per_page),
