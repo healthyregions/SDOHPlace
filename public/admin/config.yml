@@ -354,10 +354,10 @@ collections:
           collection: "meta"
           file: "news_tags"
           searchFields:
-            - "news_tags.*.name"
+            - "tags.*.name"
           displayFields:
-            - "news_tags.*.name"
-          valueField: "news_tags.*.slug"
+            - "tags.*.name"
+          valueField: "tags.*.slug"
       - label: "Featured Image"
         name: "thumbnail"
         widget: "image"
@@ -418,10 +418,10 @@ collections:
           collection: "meta"
           file: "showcase_tags"
           searchFields:
-            - "showcase_tags.*.name"
+            - "tags.*.name"
           displayFields:
-            - "showcase_tags.*.name"
-          valueField: "showcase_tags.*.slug"
+            - "tags.*.name"
+          valueField: "tags.*.slug"
       - label: Fellow
         name: "fellow"
         widget: relation
