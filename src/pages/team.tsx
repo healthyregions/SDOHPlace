@@ -13,7 +13,6 @@ import TopLines from "@/components/TopLines";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
 
 import team from "../../meta/team.json";
@@ -38,18 +37,10 @@ const modalBoxStyle = {
   overflowY: "auto",
 };
 
-const useStyles = makeStyles(() => ({
-  modalBtnStyle: {
-    marginTop: "10px",
-    cursor: "pointer",
-  },
-}));
-
 const currentTeam = team.team.filter((p) => p.status == "current");
 const pastTeam = team.team.filter((p) => p.status == "past");
 
 const Team: NextPage = () => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [modalData, setModalData] = React.useState(currentTeam[0]);
   const handleOpen = () => setOpen(true);
@@ -190,7 +181,7 @@ const Team: NextPage = () => {
                             {item.desc_short}
                           </div>
                           <div
-                            className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                            className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
                             onClick={() => {
                               setModalData(item);
                               handleOpen();
@@ -249,7 +240,7 @@ const Team: NextPage = () => {
                             {item.desc_short}
                           </div>
                           <div
-                            className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                            className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
                             onClick={() => {
                               setModalData(item);
                               handleOpen();

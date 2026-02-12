@@ -23,39 +23,34 @@ const PublishDate = ({ item }: Props) => {
 }
 export default function GuidesItem({ item }: Props) {
   return (
-    <Link href={"/guides/" + item.slug} legacyBehavior>
-      <a className={"no-underline"}>
-        <div className={'flex max-md:flex-col'}>
-          <div style={{ minWidth: '200px' }}>
-            <Image src={item.featured_image} alt={item.title} width={200} height={25} />
-          </div>
-          <div style={{ paddingLeft: "2rem" }}>
-            <h2>{item.title}</h2>
-            <p>{item.author}</p>
-            <PublishDate item={item}></PublishDate>
-            {item.description &&
-              <div className={'mt-4'}>{item.description}</div>
-            }
-            <div className={'flex-col self-end mt-4'}>
-              <Link className={'no-underline'} href={`/guides/${item.slug}`}>
-                Access resource &rarr;
-              </Link>
-            </div>
+    <Link
+      href={"/guides/" + item.slug}
+      className="no-underline text-almostblack hover:text-almostblack visited:text-almostblack"
+    >
+      <div className={'flex max-md:flex-col'}>
+        <div style={{ minWidth: '200px' }}>
+          <Image src={item.featured_image} alt={item.title} width={200} height={25} />
+        </div>
+        <div style={{ paddingLeft: "2rem" }}>
+          <h2>{item.title}</h2>
+          <p>{item.author}</p>
+          <PublishDate item={item}></PublishDate>
+          {item.description &&
+            <div className={'mt-4'}>{item.description}</div>
+          }
+          <div className={'flex-col self-end mt-4 text-frenchviolet'}>
+            <span>Access resource &rarr;</span>
           </div>
         </div>
-        <style jsx>
-          {`
-            a {
-              color: #222;
-              display: inline-block;
-            }
+      </div>
+      <style jsx>
+        {`
             h2 {
               margin: 0;
               font-size: 2rem;
             }
           `}
-        </style>
-      </a>
+      </style>
     </Link>
   );
 }
