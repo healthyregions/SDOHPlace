@@ -68,7 +68,7 @@ export default function ShowcaseLayout({
             <p>
               By: <Link href={fellow.link}>{fellow.name}</Link>
             </p>
-            <p>Fellow cohort: Spring 2024</p>
+            <p>Fellow cohort: {fellow.cohort}</p>
             <button
               onClick={() => {
                 window.open(link, "_blank");
