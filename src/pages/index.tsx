@@ -34,10 +34,7 @@ import CardWithImage from "@/components/homepage/cardwithimage/cardwithimage";
 import Footer from "@/components/homepage/footer";
 import Card from "@/components/homepage/card";
 
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "tailwind.config.js";
 import {IconButton} from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import {
   FaBook,
   FaChevronCircleLeft,
@@ -50,8 +47,6 @@ import featuredData from "../../meta/featured.json";
 import styled from "@emotion/styled";
 import BasicPageMeta from "@/components/meta/BasicPageMeta";
 import {useRouter} from "next/router";
-
-const fullConfig = resolveConfig(tailwindConfig);
 
 interface HomePageProps {
   newsItem: PostData[];
@@ -74,38 +69,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
     },
   };
 };
-const useStyles = makeStyles({
-  imageContainer: {
-    // display: "flex",
-    justifyContent: "center",
-    // flexDirection: "row",
-    width: "100%",
-    "@media (max-width: 959px)": {
-      marginLeft: "1em",
-    },
-  },
-  image: {
-    // width: "100%",
-    // height: "100%",
-    // objectFit: "contain",
-    // "@media (max-width: 959px)": {
-    //   width: "80%",
-    //   height: "80%",
-    // },
-  },
-  // For siebel center for design logo only
-  largeImage: {
-    width: "60%",
-    height: "60%",
-    objectFit: "contain",
-    "@media (max-width: 959px)": {
-      width: "50%",
-      height: "50%",
-    },
-  },
-});
-
-const SponsorLink = ({ image, url, alt, classes, className }) =>
+const SponsorLink = ({ image, url, alt, className }) =>
   <Link
     href={url}
     target="_blank"
@@ -116,7 +80,7 @@ const SponsorLink = ({ image, url, alt, classes, className }) =>
     <Image
       alt={alt}
       src={image}
-      className={classes.image + ' ' + className}
+      className={className || ""}
     />
     </div>
   </Link>;
@@ -261,7 +225,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
   const learnMoreClick = () => {
     learnMoreRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  const classes = useStyles();
   const router = useRouter();
   return (
     <>
@@ -522,7 +485,6 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
               sponsors?.map(sponsor =>
                 <SponsorLink className={sponsor.className}
                              key={sponsor.key}
-                             classes={classes}
                              image={sponsor.image}
                              url={sponsor.url}
                              alt={sponsor.alt} />

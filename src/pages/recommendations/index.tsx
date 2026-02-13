@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 import config from "@/lib/config";
 import { countPosts, listPostContent } from "../../lib/posts";
 import { listNewsTags } from "../../lib/tags";
-import {Grid} from "@mui/material";
+import Grid from "@mui/material/GridLegacy";
 import Link from "next/link";
 
 const recommendations = [{
