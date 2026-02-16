@@ -139,7 +139,7 @@ export default function Index() {
                       <ListItem><strong>For Authors</strong>: Prepare a ~250 word abstract of your indicator of interest.</ListItem>
                       <ListItem><strong>For Reviewers</strong>: Prepare a ~250 word summary of your expertise for a specific SDOH topic.</ListItem>
                       <ListItem>Submit your application (including topic, abstract, curriculum vitae, and related details) using{" "}<Link href={'https://go.illinois.edu/SDOH-GUIDES-APPLY'}>this form</Link>{" "}(or click the button below).</ListItem>
-                      <ListItem>If invited to submit a full SDOH Research Guide, your deadline for completion will be <strong>March 15, 2026</strong>. The flat-rate fees and remunerations will be disbursed upon completion of work.</ListItem>
+                      <ListItem>If invited to submit a full SDOH Research Guide, specific deadlines will be discussed at time of invitation. The flat-rate fees and remunerations will be disbursed upon completion of work.</ListItem>
                     </NumberedList>
 
                   </Paragraph>
