@@ -63,10 +63,10 @@ export default function ResearchItem({ item }: Props) {
   return (
     <>
         <Grid container spacing={0}>
-          <Grid item xs={3}>
+          <Grid size={3}>
             <Image src={item.image} alt={item.title} width={200} height={25} />
           </Grid>
-          <Grid item xs>
+          <Grid size="grow">
             <h2>{item.title}</h2>
             <div>{item.author}</div>
             <PublishDate item={item} />

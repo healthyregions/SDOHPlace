@@ -110,10 +110,10 @@ const DataRefuge: NextPage = () => {
 
                     <StyledAlert severity="info" icon={false}>
                       <Grid container spacing={0}>
-                        <Grid item xs={6}>
+                        <Grid size={6}>
                           <img src={'/images/data-refuge.svg'} alt={'data-refuge'} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid size={6}>
                           <div className={"text-xl"}>
                             <strong style={{ color: '#7E1CC4' }}>Looking for unavailable data on SDOH?</strong>
                             <div className={'mt-2'}>
