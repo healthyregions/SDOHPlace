@@ -3,9 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {format, formatISO} from "date-fns";
-import styles from "@/public/styles/posts.module.css";
-import {router} from "next/client";
-import { useRouter } from 'next/navigation'; // Use 'next/router' for Pages Router
 
 type Props = {
   item: ShowcaseContent;
@@ -59,34 +56,6 @@ const getSeason = (publish_date: Date) => {
   }
 }
 export default function ShowcaseItem({ item }: Props) {
-  const router = useRouter()
-  /*
-    <Link href={"/showcase/" + item.slug} legacyBehavior>
-      <a className={"no-underline"}>
-        <div style={{ display: "flex" }}>
-          <div style={{minWidth:'200px'}}>
-            <Image src={item.image} alt={item.title} width={200} height={25} />
-          </div>
-          <div style={{ paddingLeft: "2rem" }}>
-            <h2>{item.title}</h2>
-            <p>{item.fellow}</p>
-          </div>
-        </div>
-        <style jsx>
-          {`
-            a {
-              color: #222;
-              display: inline-block;
-            }
-            h2 {
-              margin: 0;
-              font-size: 2rem;
-            }
-          `}
-        </style>
-      </a>
-    </Link>
-    */
   return (
     <>
       <Link href={`/showcase/${item.slug}`} legacyBehavior>
@@ -126,39 +95,6 @@ export default function ShowcaseItem({ item }: Props) {
           </style>
         </a>
       </Link>
-      {/*
-      <Grid container spacing={0} onClick={() => router.push(`/showcase/${item.slug}`)}>
-          <Grid item xs={3}>
-            <Image src={item.image} alt={item.title} width={200} height={25} />
-          </Grid>
-          <Grid item xs>
-            <Grid container spacing={0}>
-              <h2>{item.title}</h2>
-            </Grid>
-            <Grid container spacing={0}>
-              <Grid item xs={6}>
-                <div>{item.fellow}</div>
-                <PublishDate item={item} />
-              </Grid>
-              <Grid item xs alignSelf={'center'} alignItems={"center"}>
-                <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
-                  Access resource &rarr;
-                </Link>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      <style jsx>
-        {`
-          a {
-            display: inline-block;
-          }
-          h2 {
-            margin: 0;
-            font-size: 2rem;
-          }
-        `}
-      </style>*/}
     </>
 
   );
