@@ -2,35 +2,29 @@ import { ShowcaseContent } from "../../lib/showcases";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import {format, formatISO} from "date-fns";
 
 type Props = {
   item: ShowcaseContent;
 };
 const PublishDate = ({ item }: Props) => {
-  const publish_date = new Date(item.date);
+  const dateObj = new Date(item.date);
 
-  var now = new Date();
-  now.setHours(0,0,0,0);
-  if (publish_date < now) {
-    // Selected date is in the past - print timestamp as normal
-    return (
-      <small>
-        <time dateTime={formatISO(publish_date)}>
-          <span>{format(publish_date, "LLLL d, yyyy")}</span>
-        </time>
-      </small>
-    );
-  } else {
-    // Selected date is NOT in the past - determine season and print Coming Soon message
-    const season = getSeason(publish_date);
-    const year = publish_date.getFullYear();
-    return (
-      <small>
-        Coming {(season && year) ? `in ${season} ${year}` : 'Soon!'}
-      </small>
-    );
-  }
+// Format as "February 10, 2026"
+  const publish_date = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(dateObj);
+
+  // Selected date is in the past - print timestamp as normal
+  return (
+    <small>
+      <time dateTime={publish_date}>
+        <span>{publish_date}</span>
+      </time>
+    </small>
+  );
 }
 
 const getSeason = (publish_date: Date) => {
@@ -74,11 +68,8 @@ export default function ShowcaseItem({ item }: Props) {
                   <PublishDate item={item} />
                 </div>
               </div>
-              <div className={'mt-4'}>
-                <Link className={'no-underline'} href={`/showcase/${item.slug}`}>
-                  Access resource &rarr;
-                </Link>
-              </div>
+
+              <div className={'mt-4'} style={{ color: '#7e1cc4' }}>Access resource &rarr;</div>
             </div>
           </div>
           <style jsx>
