@@ -1,10 +1,7 @@
 import { ResearchContent } from "@/lib/research";
 import Image from "next/image";
-import Link from "next/link";
-import styles from "@/public/styles/posts.module.css";
 import React from "react";
-import { Icon } from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import {format, formatISO} from "date-fns";
 import {Launch} from "@mui/icons-material";
 

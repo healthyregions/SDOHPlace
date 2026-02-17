@@ -8,7 +8,7 @@ import * as React from "react";
 import Alert from '@mui/material/Alert';
 import Link from "next/link";
 import {Button, List as MuiList, ListItem as MuiListItem} from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import styled from "@emotion/styled";
 
 

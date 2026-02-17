@@ -4,7 +4,7 @@ import PostItem from "./PostItem";
 import TagLink from "./TagLink";
 import Pagination from "./Pagination";
 import { TagContent } from "@/lib/tags";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import Link from "next/link";
 
 type Props = {
