@@ -1,7 +1,6 @@
 import { ShowcaseContent } from "../../lib/showcases";
 import Image from "next/image";
 import Link from "next/link";
-import {Grid} from "@mui/material";
 import React from "react";
 import {format, formatISO} from "date-fns";
 import styles from "@/public/styles/posts.module.css";

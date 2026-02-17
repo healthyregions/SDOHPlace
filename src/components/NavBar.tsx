@@ -3,16 +3,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { makeStyles } from "@mui/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import OpenInNew from '@mui/icons-material/OpenInNew';
-
-const useStyles = makeStyles((theme) => ({
-  mobileHamburgerMenu: {
-    fontSize: "1.5rem",
-  },
-}));
 
 type NavLinkType = {
   title: string;
@@ -119,7 +112,6 @@ const NavBar = (): JSX.Element => {
   }, []);
 
   const router = useRouter();
-  const classes = useStyles();
 
   const aboutItems = [
     { title: "Project", url: "/project" },

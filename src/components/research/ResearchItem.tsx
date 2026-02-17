@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "@/public/styles/posts.module.css";
 import React from "react";
-import {Grid, Icon} from "@mui/material";
+import { Icon } from "@mui/material";
+import Grid from "@mui/material/GridLegacy";
 import {format, formatISO} from "date-fns";
 import {Launch} from "@mui/icons-material";
 

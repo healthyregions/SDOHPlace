@@ -13,7 +13,6 @@ import TopLines from "@/components/TopLines";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
 
 import team from "../../meta/team.json";
@@ -37,13 +36,6 @@ const modalBoxStyle = {
   paddingTop: "10px",
   overflowY: "auto",
 };
-
-const useStyles = makeStyles(() => ({
-  modalBtnStyle: {
-    marginTop: "10px",
-    cursor: "pointer",
-  },
-}));
 
 const currentTeam = team.team.filter((p) => p.status == "current");
 const pastTeam = team.team.filter((p) => p.status == "past");

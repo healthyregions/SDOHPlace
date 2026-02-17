@@ -15,7 +15,6 @@ import advisorData from "../../meta/advisory.json";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config.js";
-import { makeStyles } from "@mui/styles";
 import { Typography } from "@mui/material";
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -37,15 +36,7 @@ const modalBoxStyle = {
   overflowY: "auto",
 };
 
-const useStyles = makeStyles(() => ({
-  modalBtnStyle: {
-    marginTop: "10px",
-    cursor: "pointer",
-  },
-}));
-
 const Advisory: NextPage = () => {
-  const classes = useStyles();
   const currentAdvisors = advisorData.advisory?.filter(a => a.status === 'current');
   const pastAdvisors = advisorData.advisory?.filter(a => a.status === 'past');
   const [open, setOpen] = React.useState(false);
@@ -191,7 +182,7 @@ const Advisory: NextPage = () => {
                               {item.desc_short}
                             </div>
                             <div
-                              className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                              className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
                               onClick={() => {
                                 setModalData(item);
                                 handleOpen();
@@ -250,7 +241,7 @@ const Advisory: NextPage = () => {
                           {item.desc_short}
                         </div>
                         <div
-                          className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                          className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
                           onClick={() => {
                             setModalData(item);
                             handleOpen();

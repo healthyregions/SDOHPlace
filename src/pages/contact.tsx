@@ -3,7 +3,6 @@ import type { NextPage } from "next";
 import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { withStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 
 import githubIcon from "@/public/logos/github-purple-icon.svg";
@@ -30,46 +29,46 @@ const Contact: NextPage = () => {
       setSuccess(true);
     }
   }, []);
-  const CssTextField = withStyles({
-    root: {
-      "& label.Mui-focused": {
-        color: `${fullConfig.theme.colors["darkgray"]}`,
+  const contactFieldSx = {
+    "& label.Mui-focused": {
+      color: `${fullConfig.theme.colors["darkgray"]}`,
+    },
+    "& label": {
+      color: `${fullConfig.theme.colors["darkgray"]}`,
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: `${fullConfig.theme.colors["darkgray"]}`,
+    },
+    "& .MuiOutlinedInput-root": {
+       
+      "& fieldset": {
+        borderColor: `${fullConfig.theme.colors["darkgray"]}`,
       },
-      "& label": {
-        color: `${fullConfig.theme.colors["darkgray"]}`,
+      "&.Mui-focused input": {
+        "--tw-ring-color": "none",
+        outline: "none",
       },
-      "& .MuiInput-underline:after": {
-        borderBottomColor: `${fullConfig.theme.colors["darkgray"]}`,
+      "&.Mui-focused textarea": {
+        "--tw-ring-color": "none",
+        outline: "none",
       },
-      "& .MuiOutlinedInput-root": {
-        "& fieldset": {
-          borderColor: `${fullConfig.theme.colors["darkgray"]}`,
-        },
-        "&.Mui-focused input": {
-          "--tw-ring-color": "none",
-          outline: "none",
-        },
-        "&.Mui-focused textarea": {
-          "--tw-ring-color": "none",
-          outline: "none",
-        },
-        "&:hover fieldset": {
-          borderColor: `${fullConfig.theme.colors["darkgray"]}`,
-        },
-        "&.Mui-focused fieldset": {
-          borderColor: `${fullConfig.theme.colors["darkgray"]}`,
-          outline: "none",
-        },
+      "&:hover fieldset": {
+        borderColor: `${fullConfig.theme.colors["darkgray"]}`,
       },
-      "& input": {
-        color: `${fullConfig.theme.colors["darkgray"]}`,
-      },
-      "& textarea": {
-        color: `${fullConfig.theme.colors["darkgray"]}`,
+      "&.Mui-focused fieldset": {
+        borderColor: `${fullConfig.theme.colors["darkgray"]}`,
         outline: "none",
       },
     },
-  })(TextField);
+    "& input": {
+      color: `${fullConfig.theme.colors["darkgray"]}`,
+      background: 'transparent',
+    },
+    "& textarea": {
+      color: `${fullConfig.theme.colors["darkgray"]}`,
+      outline: "none",
+    },
+  };
   return (
     <>
       <BasicPageMeta title={"Contact"} />
@@ -167,18 +166,19 @@ const Contact: NextPage = () => {
               >
                 <input type="hidden" name="form-name" value="contact" />
                 <div className="flex justify-start mb-5">
-                  <CssTextField
+                  <TextField
                     label="Name"
                     name="name"
                     focused
                     sx={{
+                      ...contactFieldSx,
                       marginRight: "20px",
                     }}
                   />
-                  <CssTextField label="Email" name="email" focused />
+                  <TextField label="Email" name="email" focused sx={contactFieldSx} />
                 </div>
                 <div className="w-full mb-5">
-                  <CssTextField
+                  <TextField
                     id="outlined-multiline-flexible"
                     label="Message"
                     name="message"
@@ -186,6 +186,7 @@ const Contact: NextPage = () => {
                     focused
                     multiline
                     sx={{
+                      ...contactFieldSx,
                       width: "100%",
                     }}
                   />
@@ -198,7 +199,7 @@ const Contact: NextPage = () => {
                       height: "2.5rem",
                       width: "6em",
                       borderRadius: "6.25rem",
-                      background: `${fullConfig.theme.colors["frenchviolet"]}`,
+                      background: `${fullConfig.theme.colors["frenchviolet"]} !important`,
                       textTransform: "none",
                       color: `${fullConfig.theme.colors["white"]}`,
                       fontSize: "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)",
@@ -207,7 +208,7 @@ const Contact: NextPage = () => {
                       lineHeight: "1.5rem",
                       letterSpacing: "0.00938rem",
                       marginRight: "20px",
-                      fontFamily: "nunito",
+                      fontFamily: "nunito"
                     }}
                   >
                     Send

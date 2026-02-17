@@ -7,7 +7,8 @@ import Footer from "@/components/homepage/footer";
 import * as React from "react";
 import Alert from '@mui/material/Alert';
 import Link from "next/link";
-import {Button, Grid, List as MuiList, ListItem as MuiListItem} from "@mui/material";
+import {Button, List as MuiList, ListItem as MuiListItem} from "@mui/material";
+import Grid from "@mui/material/GridLegacy";
 import styled from "@emotion/styled";
 
 
@@ -107,7 +108,7 @@ const DataRefuge: NextPage = () => {
                       </List>
                     </Paragraph>
 
-                    <StyledAlert severity="info" className={'mb-4'} icon={false}>
+                    <StyledAlert severity="info" icon={false}>
                       <Grid container spacing={0}>
                         <Grid item xs={6}>
                           <img src={'/images/data-refuge.svg'} alt={'data-refuge'} />

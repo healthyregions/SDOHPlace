@@ -1,4 +1,3 @@
-import { makeStyles } from "@mui/styles";
 import tailwindConfig from "../../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 
@@ -14,5 +13,3 @@ export const localStyles = {
     fontSize: "1.1em",
   },
 };
-
-export const useLocalStyles = makeStyles({ localStyles });

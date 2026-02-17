@@ -8,7 +8,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import { makeStyles } from "@mui/styles";
 import { AiOutlineClose } from "react-icons/ai";
 import { Typography } from "@mui/material";
 
@@ -41,28 +40,11 @@ const modalBoxStyle = {
   overflowY: "auto",
 };
 
-const modalBtnStyle = {
-  marginTop: "10px",
-  fontSize: "1em",
-  fontWeight: 700,
-  width: "unset",
-  color: `${fullConfig.theme.colors["frenchviolet"]}`,
-  textTransform: "uppercase",
-};
-
-const useStyles = makeStyles(() => ({
-  modalBtnStyle: {
-    marginTop: "10px",
-    cursor: "pointer",
-  },
-}));
-
 const Fellows: NextPage = () => {
   // Map of cohort to fellows in the cohort
   // This will be built up when the view loads
   const fellows = {};
 
-  const classes = useStyles();
   // Fellow all cohorts in the CMS system and group them by cohort
   fellowsData.fellows.forEach((fellow) => {
     // Add to the running list of fellows if this is not already present
@@ -243,7 +225,7 @@ const Fellows: NextPage = () => {
                                 {fellow.desc_short}
                               </div>
                               <div
-                                className={`text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase ${classes.modalBtnStyle}`}
+                                className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
                                 onClick={() => {
                                   setModalData(fellow);
                                   handleOpen();
