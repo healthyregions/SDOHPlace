@@ -4,7 +4,7 @@ import PostItem from "./PostItem";
 import TagLink from "./TagLink";
 import Pagination from "./Pagination";
 import { TagContent } from "@/lib/tags";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import Link from "next/link";
 
 type Props = {
@@ -51,7 +51,7 @@ export default function PostList({ posts, tags, pagination }: Props) {
   return (
     <div className={"post-list"}>
       <Grid container spacing={0}>
-        <Grid item xs={12} md={10}>
+        <Grid size={{ xs: 12, md: 10 }}>
           Here you can find information pertaining to events, calls for applications/interest,
           critical updates and information, and other news centered around the SDOH & Place Project.
           If you’d like to stay more up to date, subscribe to our monthly
@@ -59,9 +59,7 @@ export default function PostList({ posts, tags, pagination }: Props) {
           Newsletter</Link>.
         </Grid>
 
-        <Grid item md={1}>{/* Intentional gap, since this version of Grid may not support "offset" */}</Grid>
-
-        <Grid item xs={12} md={1}>
+        <Grid size={{ xs: 12, md: 1 }} offset={{ md: 1 }}>
           <TagsList tags={tags}></TagsList>
         </Grid>
       </Grid>

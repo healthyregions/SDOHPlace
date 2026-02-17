@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 import config from "@/lib/config";
 import { countPosts, listPostContent } from "../../lib/posts";
 import { listNewsTags } from "../../lib/tags";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import Link from "next/link";
 
 const recommendations = [{
@@ -21,10 +21,10 @@ export default function Index({}) {
         {
           recommendations.map((rec, index) =>
             <Grid key={`recommendation-${index}`} spacing={4} container>
-              <Grid item xs={2}>
+              <Grid size={2}>
                 <img src={rec.thumbnail} />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <h3>
                   <Link href={rec.link} className={'no-underline'} target={'_blank'}>
                     {rec.name}

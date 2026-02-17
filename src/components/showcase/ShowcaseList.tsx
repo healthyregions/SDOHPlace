@@ -1,7 +1,7 @@
 import React from "react";
 import ShowcaseItem from "./ShowcaseItem";
 import Pagination from "../news/Pagination";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import TagLink from "@/components/news/TagLink";
@@ -39,13 +39,13 @@ export default function ShowcaseList({ showcases, pagination, tags }: Props) {
     <>
       <div className={"post-list"}>
         <Grid container spacing={0} className={'mb-12 flex flex-grow-1'}>
-          <StyledGrid item xs={12} md={10}>
+          <StyledGrid size={{ xs: 12, md: 10 }}>
             Below are some of the impactful social determinants of health (SDOH)
             place-based data visualizations developed by our{" "}<StyledLink href={'/fellows'}>SDOH & Place Fellows</StyledLink>.
             To learn how to create your own, access our{" "}<StyledLink href={'https://toolkit.sdohplace.org/'}>Community Toolkit</StyledLink>.
           </StyledGrid>
 
-          <Grid item xs={12} md={2}>
+          <Grid size={{ xs: 12, md: 2 }}>
             <TagsList tags={tags}></TagsList>
           </Grid>
         </Grid>

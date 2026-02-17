@@ -1,10 +1,7 @@
 import { ResearchContent } from "@/lib/research";
 import Image from "next/image";
-import Link from "next/link";
-import styles from "@/public/styles/posts.module.css";
 import React from "react";
-import { Icon } from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
+import Grid from "@mui/material/Grid";
 import {format, formatISO} from "date-fns";
 import {Launch} from "@mui/icons-material";
 
@@ -66,10 +63,10 @@ export default function ResearchItem({ item }: Props) {
   return (
     <>
         <Grid container spacing={0}>
-          <Grid item xs={3}>
+          <Grid size={3}>
             <Image src={item.image} alt={item.title} width={200} height={25} />
           </Grid>
-          <Grid item xs>
+          <Grid size="grow">
             <h2>{item.title}</h2>
             <div>{item.author}</div>
             <PublishDate item={item} />
