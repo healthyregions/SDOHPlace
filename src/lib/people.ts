@@ -5,6 +5,7 @@ const fellows = fellowsData.fellows;
 export type FellowContent = {
   readonly name: string;
   readonly title: string;
+  readonly cohort: string;
   readonly link: string;
   readonly image: string;
 };
@@ -20,6 +21,7 @@ function generateFellowMap(): { [key: string]: FellowContent } {
       name: fellow.name,
       title: fellow.title,
       link: link,
+      cohort: fellow.cohort,
       image: fellow.image,
     };
   }
