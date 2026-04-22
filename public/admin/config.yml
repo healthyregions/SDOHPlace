@@ -173,7 +173,7 @@ collections:
               - label: "Cohort"
                 name: "cohort"
                 widget: "select"
-                options: ["Spring 2024", "Fall 2024", "Spring 2025"]
+                options: ["Spring 2024", "Fall 2024", "Spring 2025", "Fall 2025", "Spring 2026"]
               - label: "Links"
                 name: "links"
                 widget: "list"
