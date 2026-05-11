@@ -1,12 +1,22 @@
 {
   "fellows": [
     {
-      "image": "/images/karla-professional-headshot_fa22.jpg.png",
-      "name": "Karla Sanabria Véaz",
-      "title": "Scholar Activist and Ph.D. Candidate in Social Work from the colonized archipelago of Borinken (Occupied, Puerto Rico).",
-      "desc_long": "For context, PR is a predominantly Spanish-speaking Latin-American nation which despite\nlosing 11.8% of its native population, the percent change of English-only households increased\nto 19%. My collaborative research with Dr. Patricia Rose Turner and Joseph Géigel has shown\nthat individuals with higher income and white alone/non-Hispanic are statistically significant\npredictors of these households. Concurrently, the Puerto Rican government has granted 100% tax\nexemptions through Act 60 to wealthy English-only foreign (including US) investors which have\ncreated a minimal 2% and 3 billion USD in foregone tax revenue. Additionally, ongoing research\nis assessing whether Act beneficiaries invest in short-term rentals which increases rents up to\n22%.\n\nMy project will be an ArcGIS StoryMap of embedded maps of San Juan, PR as a case study to\nvisualize the role of English-only, non-Hispanic and higher income households in gentrification\nand employment. With the tool’s storytelling features, I will capture organizers’ stories of their\nstruggle against gentrification and how it impacts their overall health wellbeing. Their\nmultimedia and interactive accounts of family isolation, limited healthcare access, and worsening\nhardships due to limited English proficiency will raise the user’s awareness of gentrification’s\nstructural inequities. Likewise, I will link current policies addressing health inequity,\ngentrification, and labor precarity from the community’s perspective.",
-      "desc_short": "For context, PR is a predominantly Spanish-speaking Latin-American nation which despite\nlosing 11.8% of its native population, the percent change of English-only households increased\nto 19%. My collaborative research with Dr. Patricia Rose Turner and Joseph Géigel has shown\nthat individuals with higher income and white alone/non-Hispanic are statistically significant\npredictors of these households.",
-      "cohort": "Spring 2026"
+      "image": "/images/19408.1178461.story_x_large.jpeg",
+      "name": "Lauren McCalister",
+      "title": "Cooperative Director",
+      "links": [
+        {
+          "link_label": "Research",
+          "link_url": "https://acrobat.adobe.com/id/urn:aaid:sc:US:155839aa-51bf-4ca8-b092-4399316a84c4"
+        },
+        {
+          "link_label": "Speaking Engagement",
+          "link_url": "https://video.wfyi.org/video/our-existence-is-resistance-6wopmo/"
+        }
+      ],
+      "cohort": "Spring 2026",
+      "desc_long": "After pulling the first carrot out of the soil at a community garden plot, Lauren has cultivated cooperative local food initiatives in the Midwest. Lauren is a Black Queer farmer, rancher, food systems researcher, and textile artist. Lauren served as the education chair and secretary on the Board of Directors for Bloomingfoods Co-op and chairs the Bloomington Food Policy Council. Lauren provides technical assistance to regenerative farmers, facilitates conferences, and workshops to center the needs of Black, Indigenous, and Producers of Color. Since 2022, Lauren has conducted research in partnership with Indiana University to address food apartheid with community-based solutions.",
+      "desc_short": "After pulling the first carrot out of the soil at a community garden plot, Lauren has cultivated cooperative local food initiatives in the Midwest. Lauren is a Black Queer farmer, rancher, food systems researcher, and textile artist. Lauren served as the education chair and secretary on the Board of Directors for Bloomingfoods Co-op and chairs the Bloomington Food Policy Council. "
     },
     {
       "image": "/images/aliciaadiwidjaja_headshot.png",
@@ -55,6 +65,14 @@
       "cohort": "Spring 2026",
       "desc_long": "Jodi Roberts, MS, PHIT, is a PhD student at the University of Minnesota School of Nursing. Her research on health equity focuses on informing policy changes in healthcare and social services. The goal is to ensure all children thrive, regardless of location or complexity of needs. This research focus is a culmination of Jodi’s professional and lived experiences working with children and families who have complex medical needs. Raising her own children with hearing loss and rare disease in rural Minnesota transformed her understanding of the systemic challenges families face, such as living in an area without specialized medical or educational services. Jodi started her career working in rural school systems as a Physical Therapist Assistant for students ages 3 to 26. She earned her Master’s Degree, while simultaneously starting an adaptive cross-country ski program. Jodi then transitioned to the public health sector. She is an alumni of the University of Minnesota Project REACH (Rural Experts Advancing Community Health) Program, a year long health policy program through the Rural Health Research Center. Jodi has served as a contractor and family representative for the Early Hearing Detection and Intervention program through the Minnesota Department of Health and the Minnesota Commission on the Deaf, Deaf Blind and Hard of Hearing. Jodi looks forward to bringing this experience into the SDOH & Place Fellowship. In her free time, Jodi enjoys playing and reading with her kids, and biking along the shores of Lake Superior.",
       "desc_short": "Jodi Roberts, MS, PHIT, is a PhD student at the University of Minnesota School of Nursing. Her research on health equity focuses on informing policy changes in healthcare and social services. The goal is to ensure all children thrive, regardless of location or complexity of needs. This research focus is a culmination of Jodi’s professional and lived experiences working with children and families who have complex medical needs."
+    },
+    {
+      "image": "/images/karla-professional-headshot_fa22.jpg.png",
+      "name": "Karla Sanabria Véaz",
+      "title": "Scholar Activist and Ph.D. Candidate in Social Work from the colonized archipelago of Borinken (Occupied, Puerto Rico).",
+      "desc_long": "For context, PR is a predominantly Spanish-speaking Latin-American nation which despite\nlosing 11.8% of its native population, the percent change of English-only households increased\nto 19%. My collaborative research with Dr. Patricia Rose Turner and Joseph Géigel has shown\nthat individuals with higher income and white alone/non-Hispanic are statistically significant\npredictors of these households. Concurrently, the Puerto Rican government has granted 100% tax\nexemptions through Act 60 to wealthy English-only foreign (including US) investors which have\ncreated a minimal 2% and 3 billion USD in foregone tax revenue. Additionally, ongoing research\nis assessing whether Act beneficiaries invest in short-term rentals which increases rents up to\n22%.\n\nMy project will be an ArcGIS StoryMap of embedded maps of San Juan, PR as a case study to\nvisualize the role of English-only, non-Hispanic and higher income households in gentrification\nand employment. With the tool’s storytelling features, I will capture organizers’ stories of their\nstruggle against gentrification and how it impacts their overall health wellbeing. Their\nmultimedia and interactive accounts of family isolation, limited healthcare access, and worsening\nhardships due to limited English proficiency will raise the user’s awareness of gentrification’s\nstructural inequities. Likewise, I will link current policies addressing health inequity,\ngentrification, and labor precarity from the community’s perspective.",
+      "desc_short": "For context, PR is a predominantly Spanish-speaking Latin-American nation which despite\nlosing 11.8% of its native population, the percent change of English-only households increased\nto 19%. My collaborative research with Dr. Patricia Rose Turner and Joseph Géigel has shown\nthat individuals with higher income and white alone/non-Hispanic are statistically significant\npredictors of these households.",
+      "cohort": "Spring 2026"
     },
     {
       "image": "/images/image-4-17-25-at-1.30-pm-1-.jpg",
