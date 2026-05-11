@@ -1,22 +1,12 @@
 {
   "fellows": [
     {
-      "image": "/images/19408.1178461.story_x_large.jpeg",
-      "name": "Lauren McCalister",
-      "title": "Cooperative Director",
-      "links": [
-        {
-          "link_label": "Research",
-          "link_url": "https://acrobat.adobe.com/id/urn:aaid:sc:US:155839aa-51bf-4ca8-b092-4399316a84c4"
-        },
-        {
-          "link_label": "Speaking Engagement",
-          "link_url": "https://video.wfyi.org/video/our-existence-is-resistance-6wopmo/"
-        }
-      ],
+      "image": "/images/img_0995.jpg",
+      "name": "Meher Singh",
+      "title": "Research Consultant",
       "cohort": "Spring 2026",
-      "desc_long": "After pulling the first carrot out of the soil at a community garden plot, Lauren has cultivated cooperative local food initiatives in the Midwest. Lauren is a Black Queer farmer, rancher, food systems researcher, and textile artist. Lauren served as the education chair and secretary on the Board of Directors for Bloomingfoods Co-op and chairs the Bloomington Food Policy Council. Lauren provides technical assistance to regenerative farmers, facilitates conferences, and workshops to center the needs of Black, Indigenous, and Producers of Color. Since 2022, Lauren has conducted research in partnership with Indiana University to address food apartheid with community-based solutions.",
-      "desc_short": "After pulling the first carrot out of the soil at a community garden plot, Lauren has cultivated cooperative local food initiatives in the Midwest. Lauren is a Black Queer farmer, rancher, food systems researcher, and textile artist. Lauren served as the education chair and secretary on the Board of Directors for Bloomingfoods Co-op and chairs the Bloomington Food Policy Council. "
+      "desc_long": "Meher is an applied mixed-methods Research Consultant with a passion for advancing population health and health equity. Her work focuses on understanding the lived experiences of patients and communities and integrating qualitative and quantitative insights to help build more inclusive and responsive health systems.\n\nShe specializes in mixed-methods research and evaluation, with experience supporting equity-focused initiatives across organizations such as The Justice Collective, National Network of Public Health Institutes, Illinois Public Health Institute and local health departments. She holds a Master of Public Health from Johns Hopkins Bloomberg School of Public Health.\n\nMotivated by a strong commitment to health equity, Meher is currently working on select consulting engagements and is always open to exploring new opportunities and contributing to collaborative and impactful research. Meher’s professional interests include mental health, caregiving, and metabolic health, particularly where these areas intersect with equity and community experience. Outside of work, she enjoys spending time with her partner and dog Ziggy, as well as baking and weightlifting.",
+      "desc_short": "Meher is an applied mixed-methods Research Consultant with a passion for advancing population health and health equity. Her work focuses on understanding the lived experiences of patients and communities and integrating qualitative and quantitative insights to help build more inclusive and responsive health systems."
     },
     {
       "image": "/images/aliciaadiwidjaja_headshot.png",
@@ -57,6 +47,24 @@
       "cohort": "Spring 2026",
       "desc_long": "Jarah Jacquay is a Clinical Nurse Leader (CNL), civic entrepreneur, and place-based public health practitioner working at the intersection of healthcare delivery, the built environment, and community resilience in Northwest Florida.\n\nHe serves as a federal civil servant within the Defense Health Agency at Naval Hospital Pensacola, where he has spent nearly a decade caring for perioperative and pain management patients and applying systems-level thinking to quality improvement, patient flow, and population health challenges in a high-accountability federal care setting. That clinical work has consistently returned him to a central conviction: hospitals treat the consequences of unhealthy environments, but they cannot redesign the streets, corridors, and ecological systems that keep sending the same patients back.\n\nThat conviction shaped his work beyond the hospital. Jarah co-founded Bluffline Inc., a corridor-scale greenway and resilient placemaking initiative in Pensacola, framing trail, street safety, and waterfront infrastructure as essential public health strategy rather than just a civic amenity. He holds the Congress for the New Urbanism Accredited (CNU-A) credential and WEDG Associate designation from the Waterfront Alliance.\n\nA husband and father of seven, Jarah brings a long-view commitment to community work that is as personal as it is professional. He earned his Bachelor of Science in Nursing from the University of Florida and his Master of Science in Nursing from the University of Pittsburgh, and has been admitted to the Doctor of Public Health (DrPH) program at the Johns Hopkins Bloomberg School of Public Health in the Environmental Health concentration.",
       "desc_short": "Jarah Jacquay is a Clinical Nurse Leader (CNL), civic entrepreneur, and place-based public health practitioner working at the intersection of healthcare delivery, the built environment, and community resilience in Northwest Florida. He serves as a federal civil servant within the Defense Health Agency at Naval Hospital Pensacola, where he has spent nearly a decade caring for perioperative and pain management patients and applying systems-level thinking to quality improvement, patient flow, and population health challenges in a high-accountability federal care setting."
+    },
+    {
+      "image": "/images/19408.1178461.story_x_large.jpeg",
+      "name": "Lauren McCalister",
+      "title": "Cooperative Director",
+      "links": [
+        {
+          "link_label": "Research",
+          "link_url": "https://acrobat.adobe.com/id/urn:aaid:sc:US:155839aa-51bf-4ca8-b092-4399316a84c4"
+        },
+        {
+          "link_label": "Speaking Engagement",
+          "link_url": "https://video.wfyi.org/video/our-existence-is-resistance-6wopmo/"
+        }
+      ],
+      "cohort": "Spring 2026",
+      "desc_long": "After pulling the first carrot out of the soil at a community garden plot, Lauren has cultivated cooperative local food initiatives in the Midwest. Lauren is a Black Queer farmer, rancher, food systems researcher, and textile artist. Lauren served as the education chair and secretary on the Board of Directors for Bloomingfoods Co-op and chairs the Bloomington Food Policy Council. Lauren provides technical assistance to regenerative farmers, facilitates conferences, and workshops to center the needs of Black, Indigenous, and Producers of Color. Since 2022, Lauren has conducted research in partnership with Indiana University to address food apartheid with community-based solutions.",
+      "desc_short": "After pulling the first carrot out of the soil at a community garden plot, Lauren has cultivated cooperative local food initiatives in the Midwest. Lauren is a Black Queer farmer, rancher, food systems researcher, and textile artist. Lauren served as the education chair and secretary on the Board of Directors for Bloomingfoods Co-op and chairs the Bloomington Food Policy Council. "
     },
     {
       "image": "/images/20230718_094124.jpg",
