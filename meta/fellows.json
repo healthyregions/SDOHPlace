@@ -1,14 +1,6 @@
 {
   "fellows": [
     {
-      "image": "/images/image.png",
-      "name": "Yali He-Schaefer",
-      "title": "PhD student in the Department of Geography at UCLA.",
-      "cohort": "Spring 2026",
-      "desc_long": "My research focuses on internal migration in China and international migration between China and the United States, with particular attention to reproductive health, gender, and family. My current project examines cross-border reproductive care, exploring the motivations of individuals who travel overseas for reproductive assistance. In my free time, I enjoy swimming, cooking, and spending time with my dog.\n",
-      "desc_short": "My research focuses on internal migration in China and international migration between China and the United States, with particular attention to reproductive health, gender, and family. My current project examines cross-border reproductive care, exploring the motivations of individuals who travel overseas for reproductive assistance. In my free time, I enjoy swimming, cooking, and spending time with my dog.\n"
-    },
-    {
       "image": "/images/aliciaadiwidjaja_headshot.png",
       "name": "Alicia Adiwidjaja",
       "title": "Spatial Data Scientist",
@@ -38,7 +30,15 @@
       "title": "Graduate Student & Graduate Researcher, University of Colorado Boulder",
       "cohort": "Spring 2026",
       "desc_long": "Hayes Hart-Thompson (they/them) is a human geographer and educator whose work explores the intersections of displacement, health, and education. As a graduate student at the University of Colorado Boulder, their research examines how young people, particularly those from immigrant and displaced communities, navigate polycrisis and construct educational futures. Grounded in critical geography, their work centers questions of place, belonging, and care, with a focus on how structural inequalities shape access to opportunity and well-being.\n\nHayes brings a strong background in both research and practice. Prior to graduate study, they served as Director of Innovation in a Boston public school district, where they developed experiential learning programs and led initiatives connecting students to real-world problem solving. They have also worked in public health and have collaborated with international partners, including institutions in Uganda and Lebanon, on projects related to education and forced displacement.  Their current work includes the development of PLACE Lab (Partnership for Learning, Agency, and Community Equity), a youth-led research initiative that engages immigrant and first-generation students as co-researchers. Through participatory and community-based methods, Hayes seeks to reimagine research as a tool for collective inquiry, storytelling, and social change.  Across their work, Hayes is committed to building more just and caring futures by centering youth knowledge, fostering community partnerships, and advancing innovative, equity-driven approaches to research and education.",
-      "desc_short": "Hayes Hart-Thompson (they/them) is a human geographer and educator whose work explores the intersections of displacement, health, and education. As a graduate student at the University of Colorado Boulder, their research examines how young people, particularly those from immigrant and displaced communities, navigate polycrisis and construct educational futures. Grounded in critical geography, their work centers questions of place, belonging, and care, with a focus on how structural inequalities shape access to opportunity and well-being."
+      "desc_short": "Hayes Hart-Thompson (they/them) is a human geographer and educator whose work explores the intersections of displacement, health, and education. As a graduate student at the University of Colorado Boulder, their research examines how young people, particularly those from immigrant and displaced communities, navigate polycrisis and construct educational futures."
+    },
+    {
+      "image": "/images/image.png",
+      "name": "Yali He-Schaefer",
+      "title": "PhD student in the Department of Geography at UCLA.",
+      "cohort": "Spring 2026",
+      "desc_long": "My research focuses on internal migration in China and international migration between China and the United States, with particular attention to reproductive health, gender, and family. My current project examines cross-border reproductive care, exploring the motivations of individuals who travel overseas for reproductive assistance. In my free time, I enjoy swimming, cooking, and spending time with my dog.\n",
+      "desc_short": "My research focuses on internal migration in China and international migration between China and the United States, with particular attention to reproductive health, gender, and family. My current project examines cross-border reproductive care, exploring the motivations of individuals who travel overseas for reproductive assistance. In my free time, I enjoy swimming, cooking, and spending time with my dog.\n"
     },
     {
       "image": "/images/die_hu.jpg",
