@@ -34,8 +34,8 @@ This guide provides information on obtaining community-level employment data by 
 
 ##### Table 1. Examples of publicly available data sources with information about occupation, industry, and/or other work-related variables and geography
 
-| Data Source      | Description  | Link|                                                                                                                                                                                                                                                                       
-| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Data Source                                     | Description                                                                                                                                                                                               | Link                                                                                             |     |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --- |
 | American Community Survey                       | Data about occupation and industry and other work-related variables by state, county, city/town, ZIP code, and census tract.                                                                              | About: https://www.census.gov/programs-surveys/acs.html To access data: https://data.census.gov/ |     |
 | Occupational Employment and Wage Statistics     | Occupation and industry employment data at the national, state and Metropolitan or Non- Metropolitan Area.                                                                                                | https://www.bls.gov/oes/                                                                         |     |
 | Current Employment Statistics                   | Non-farm employment data about industries at the national, state, and Metro Area level. Includes information about                                                                                        | https://www.bls.gov/ces/                                                                         |     |
@@ -94,34 +94,55 @@ It is beyond the scope of this guide to discuss the advantages and disadvantages
 If you are working with raw occupation and industry data that has not been classified, you will need to classify the data into one of these systems for analysis. For example, when collecting survey data, many individuals will not be familiar with the exact classification of their job or industry, so respondents are often asked to enter whatever they feel is the best name for this occupation and/or industry (as with the NHIS discussed above). Similarly, death certificates allow free text entry for information about the decedent’s industry and occupation. If you are working with raw death certificate data, this industry and occupation information would need to be coded to standard categories. The process of coding raw occupation and industry information
 into standard categories can be time-consuming when done manually, especially with large volumes of data. The time-consuming nature of this process stems from the need to review each record individually and double-check that it is consistent with the classification performed. It also requires detailed familiarity with which occupations and industries fall into which category.
 
-
 Fortunately, the National Institute for Occupational Safety and Health (NIOSH) has developed an automated coding system to classify occupations, known as the Industry and
 Occupation Computerized Coding System (NIOCCS). Using this system, raw occupation and industry information can be assigned to standard industry and occupation classifications. 52 These
 classifications can then be reviewed and cross-walked to other systems if needed. 
 
 ***Obtaining employment and occupation information from the American Community Survey.***
 
-
 The United States Census consistently releases employment data by occupation and industry based on the American Community Survey (ACS). The ACS data is gathered annually
 from a representative sample of the U.S. population. Occupation data can be found at https://data.census.gov/ by searching for &quot;occupation,” &quot;industry,&quot; or other related terms.
 Specific data tables, including the ones listed below, are shown in Table 2.  In this example, I will focus on S2405, which uses broad occupation codes, and briefly discuss B24124. These
 principles apply to all tables containing occupation information.
 
-
-
 ##### Table 2. Example of tables available from the census with information about the occupation, industry, and other employment characteristics of communities
 
-| Table Number      | Table Name  | Work-related variable(s)|                                                                                                                                                                                                                                                                       
-|-------------------|--------------------|----------------- |
-|S2401|Occupation by Sex for the Civilian Employed Population 16 Years and Over|2018 Standard Occupational Classification (broad)|
-|S2405|Industry by Occupation for the Civilian Employed Population 16 Years and Over|2022 North American Industry Classification System (broad), 2018 Standard Occupational Classification (very broad)|
-|B24124|Detailed Occupation for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over|2018 Standard Occupational Classification (detailed)|
-|S2406|Occupation by Class of Worker for the Civilian Employed Population 16 Years and Over|2018 Standard Occupational Classification (very broad), Class of Worker (Private, self-employed, government, etc.)|
-|S2411|Occupation by Sex and Median Earnings in the Past 12 Months (in 2024 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over|2018 Standard Occupational Classification (broad)|
-|S2404|Industry by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over|2022 North American Industry Classification System (broad)|
-|S2403|Industry by Sex for the Civilian Employed Population 16 Years and Over|2022 North American Industry Classification System (broad), Class of Worker (Private, self-employed, government, etc.)|
-|S2407|Industry by Class of Worker for the Civilian Employed Population 16 Years and Over|2022 North American Industry Classification System (broad)|
-|S2413 |Industry by Sex and Median Earnings in the Past 12 Months (in 2024 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over|2022 North American Industry Classification System (broad)|
-|S2301|Employment Status|Labor force participation, employment, unemployment |
-|B08303|Travel Time to Work|Travel time to work (in minutes)|
-|S2408|Class of Worker by Sex for the Civilian Employed Population 16 Years and Over|Class of Worker (Private, self-employed, government, etc.)|
+| Table Number | Table Name                                                                                                                                              | Work-related variable(s)                                                                                               |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| S2401        | Occupation by Sex for the Civilian Employed Population 16 Years and Over                                                                                | 2018 Standard Occupational Classification (broad)                                                                      |
+| S2405        | Industry by Occupation for the Civilian Employed Population 16 Years and Over                                                                           | 2022 North American Industry Classification System (broad), 2018 Standard Occupational Classification (very broad)     |
+| B24124       | Detailed Occupation for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over                                                        | 2018 Standard Occupational Classification (detailed)                                                                   |
+| S2406        | Occupation by Class of Worker for the Civilian Employed Population 16 Years and Over                                                                    | 2018 Standard Occupational Classification (very broad), Class of Worker (Private, self-employed, government, etc.)     |
+| S2411        | Occupation by Sex and Median Earnings in the Past 12 Months (in 2024 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over | 2018 Standard Occupational Classification (broad)                                                                      |
+| S2404        | Industry by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over                                                            | 2022 North American Industry Classification System (broad)                                                             |
+| S2403        | Industry by Sex for the Civilian Employed Population 16 Years and Over                                                                                  | 2022 North American Industry Classification System (broad), Class of Worker (Private, self-employed, government, etc.) |
+| S2407        | Industry by Class of Worker for the Civilian Employed Population 16 Years and Over                                                                      | 2022 North American Industry Classification System (broad)                                                             |
+| S2413        | Industry by Sex and Median Earnings in the Past 12 Months (in 2024 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over   | 2022 North American Industry Classification System (broad)                                                             |
+| S2301        | Employment Status                                                                                                                                       | Labor force participation, employment, unemployment                                                                    |
+| B08303       | Travel Time to Work                                                                                                                                     | Travel time to work (in minutes)                                                                                       |
+| S2408        | Class of Worker by Sex for the Civilian Employed Population 16 Years and Over                                                                           | Class of Worker (Private, self-employed, government, etc.)                                                             |
+
+The general table shows the number of employed people in broad occupational categories, along with standard errors. The specific sample focuses on civilian employed individuals aged 16 and older. Estimates are also provided separately for males and females. For both genders, percentages are included with the estimates. Other statistics, including for age and race/ethnicity, can be obtained in other tables.\
+Obtaining employment and occupation information at different geographic levels.
+	
+
+Default tables often provide estimates for the entire country. To access data at different geographic levels, the "Geos" option is available under “More Tools”. This section offers many geographic options, including: 
+
+* 5-digit zip code
+* Census Tract
+* Congressional district 
+* County
+* State
+
+Specific geographies can be searched for after this selection is made. It is also possible to select multiple geographic areas simultaneously, such as all counties in a single state. 
+
+When multiple geographic areas are selected simultaneously, each area appears as a separate column. When many geographic areas are chosen, the results might not display in the browser. Instead, a file containing the information can be downloaded. When selecting data for small geographic areas, it is important to consider the estimates' margins of error. If these margins are large, it is recommended to use five-year estimates. The tables generally default to one-year estimates for the most recent year with data available, but you can also select additional years and five-year average estimates. Because the five-year average estimates are based on more years of data, they generally have smaller margins of error. In some cases, estimates for certain geographic areas might not be available for 1-year estimates but are available for 5-year estimates.
+
+Specific geographies can be searched for after this selection is made. It is also possible to select multiple geographic areas simultaneously, such as all counties in a single state. 
+	When multiple geographic areas are selected simultaneously, each area appears as a separate column. When many geographic areas are chosen, the results might not display in the browser. Instead, a file containing the information can be downloaded. When selecting data for small geographic areas, it is important to consider the estimates' margins of error. If these margins are large, it is recommended to use five-year estimates. The tables generally default to one-year estimates for the most recent year with data available, but you can also select additional years and five-year average estimates. Because the five-year average estimates are based on more years of data, they generally have smaller margins of error. In some cases, estimates for certain geographic areas might not be available for 1-year estimates but are available for 5-year estimates. 
+
+*Occupational Exposure Information* 
+
+Occupational information for different regions is essential forunderstanding the work-related exposures residents face in those areas. Severalpublicly available data sources provide estimates of occupational exposures,often through Job Exposure Matrices. These estimates can be linked tooccupation data downloaded from the census website or other sources, along withgeography, to create maps of occupational exposures at the geographic level.Below, I demonstrate how this can be done using data from the Occupational Employmentand Wage Statistics (O*Net) database, followed by a list of other sources ofwork-related exposure data (<https://www.onetonline.org/>). 
+
+O\*Net collects dataon various jobs by surveying workers about their work characteristics. Thisinformation can help estimate occupational exposures. One O\*Net variablemeasures work schedules, indicating how regular they are across occupations(higher values indicate less regular work, such as seasonal jobs; lower valuesindicate more regular schedules). An Excel file is available that lists workschedule values for 4-digit SOC occupation codes. These values can be matched tothe percentages of workers in those occupations at different geographic levels,obtained from the Census or other data sources. Before matching, it isimportant to ensure that occupation codes across data sources are consistent. Ifthe data sources are not consistent, cross-walking should be performed.Weighted averages for each geographic area can be calculated by multiplying theoccupation’s schedule value by the number of workers in that occupation withinthe area. These products are then summed and divided by the total number ofworkers across all occupations. This process allows comparison of scheduleregularity across geographic areas. Table 3 presents data sourcesfor job exposure information that can be used to perform this type ofanalysis.
