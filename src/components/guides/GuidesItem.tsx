@@ -1,4 +1,5 @@
-import { GuidesContent } from "@/lib/guides";
+import { getGuideUpdatedDate } from "@/lib/guideDates";
+import type { GuidesContent } from "@/lib/guides";
 import Image from "next/image";
 import Link from "next/link";
 import {format, formatISO} from "date-fns";
@@ -9,10 +10,8 @@ type Props = {
 };
 
 const PublishDate = ({ item }: Props) => {
-  const publish_date = new Date(item.last_updated);
+  const publish_date = getGuideUpdatedDate(item);
 
-  var now = new Date();
-  now.setHours(0,0,0,0);
   return (
     <small>
       <time dateTime={formatISO(publish_date)}>

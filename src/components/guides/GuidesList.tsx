@@ -1,5 +1,5 @@
 import React from "react";
-import { GuidesContent } from "../../lib/guides";
+import type { GuidesContent } from "../../lib/guides";
 import GuidesItem from "./GuidesItem";
 import Pagination from "../news/Pagination";
 

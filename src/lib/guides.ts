@@ -2,6 +2,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 import yaml from "js-yaml";
+import { getGuideUpdatedDate } from "./guideDates";
 
 const guidesDirectory = path.join(process.cwd(), "content/guides");
 
@@ -52,13 +53,9 @@ export function fetchGuidesContent(): GuidesContent[] {
       return matterData;
     });
   // Sort posts by date
-  guidesCache = allGuidesData.sort((a, b) => {
-    if (a.last_updated < b.last_updated) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+  guidesCache = allGuidesData.sort(
+    (a, b) => getGuideUpdatedDate(b).getTime() - getGuideUpdatedDate(a).getTime()
+  );
   return guidesCache;
 }
 
