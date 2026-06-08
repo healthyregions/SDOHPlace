@@ -190,7 +190,7 @@ const NavBar = (): JSX.Element => {
           <li
             className={`mt-4 ml-6 active`}
           >
-            <Link href="https://preview.canva.site/ebfe2511-73a4-4eea-9432-483c53367b27/symposium.sdohplace.org/" target="_blank">Symposium</Link>
+            <Link href="https://symposium.sdohplace.org/" target="_blank">Symposium</Link>
           </li>
 
           {/* News Link */}
@@ -279,7 +279,7 @@ const NavBar = (): JSX.Element => {
 
             {/* Symposium Link */}
             <li className={'text-uppercase'}>
-              <Link href="https://preview.canva.site/ebfe2511-73a4-4eea-9432-483c53367b27/symposium.sdohplace.org/" target="_blank">Symposium</Link>
+              <Link href="https://symposium.sdohplace.org/" target="_blank">Symposium</Link>
             </li>
 
             {/* News Link */}
