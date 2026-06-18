@@ -1,12 +1,12 @@
 {
-  "body": "This report seeks to illuminate the design process necessary to create accessible, enjoyable, and empowering data tools for place-based health equity. It also outlines basic principles of HCD, describing a general four-step process to put design into action, as well as showcasing best practices to create user-friendly designs in general.",
-  "title": "A Guide to Human-Centered Design",
-  "image": "images/human_centered_design.svg",
+  "body": "This report seeks to illuminate the design process necessary to create accessible, enjoyable, and empowering data tools for place-based health equity. It also outlines basic principles of HCD, describing a general four-step process to put design into action, as well as showcasing best practices to create user-friendly designs in general.\n\nThis September, the SDOH & Place Symposium will bring together researchers, practitioners, and advocates to advance the measurement and mapping of SDOH. Through presentations, collaborative discussion, and dashboard demonstrations, attendees will explore the intersections of public health, geography, GIS, and social science as we break bread, celebrate achievements, and learn from one other.",
+  "title": "The 2026 SDOH & Place Symposium",
+  "image": "/images/sdoh-place-website-2-4-2.jpg",
   "links": [
     {
       "label": "Access resource →",
       "bold": true,
-      "url": "https://drive.google.com/file/d/1qnXNkwat0FTbBEUZygjayCl_j7E8fIb7/view?usp=sharing"
+      "url": "https://symposium.sdohplace.org/"
     },
     {
       "label": "More resources",
