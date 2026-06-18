@@ -15,6 +15,7 @@ import Layout from "@/components/Layout";
 
 export type Props = {
   title: string;
+  excerpt: string;
   dateString: string;
   slug: string;
   tags: string[];
@@ -37,6 +38,7 @@ const slugToPostContent = ((postContents) => {
 
 export default function Post({
   title,
+  excerpt,
   dateString,
   slug,
   tags,
@@ -47,6 +49,7 @@ export default function Post({
 }: Props) {
   const news_props = {
     title,
+    excerpt,
     date: parseISO(dateString),
     slug,
     tags,
@@ -84,6 +87,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       title: data.title,
+      excerpt: data.excerpt,
       dateString: data.date,
       slug: slug,
       description: "",
