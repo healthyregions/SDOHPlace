@@ -47,7 +47,6 @@ export function fetchPostContent(): PostContent[] {
       };
       matterData.fullPath = fullPath;
       matterData.slug = fileName.replace(/\.mdx$/, "");
-      matterData.excerpt = matterResult.excerpt;
 
       return matterData;
     });

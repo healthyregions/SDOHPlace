@@ -55,7 +55,7 @@ export default function PostList({ posts, tags, pagination }: Props) {
           Here you can find information pertaining to events, calls for applications/interest,
           critical updates and information, and other news centered around the SDOH & Place Project.
           If you’d like to stay more up to date, subscribe to our monthly
-          {" "}<Link href={'https://groups.webservices.illinois.edu/subscribe/192463'} target={'_blank'} rel={'noreferrer noopener'}>
+          {" "}<Link className={"no-underline"} href={'https://groups.webservices.illinois.edu/subscribe/192463'} target={'_blank'} rel={'noreferrer noopener'}>
           Newsletter</Link>.
         </Grid>
 

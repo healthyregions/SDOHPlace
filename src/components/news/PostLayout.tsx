@@ -64,12 +64,8 @@ export default function PostLayout({
                 <Author author={getAuthor(author)} />
               </div>
             </div>
-            <div>
-              Summary:
-              <div>{excerpt}</div>
-            </div>
           </header>
-          <hr />
+
           <div className={styles.content}>{children}</div>
           <ul className={"tag-list"}>
             {tags &&
