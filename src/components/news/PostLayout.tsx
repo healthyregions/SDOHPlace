@@ -12,6 +12,7 @@ import { getNewsTag } from "../../lib/tags";
 export type PostLayoutProps = {
   title: string;
   date: Date;
+  excerpt: string;
   slug: string;
   tags: string[];
   author: string;
@@ -21,6 +22,7 @@ export type PostLayoutProps = {
 };
 export default function PostLayout({
   title,
+  excerpt,
   date,
   slug,
   author,
@@ -63,6 +65,7 @@ export default function PostLayout({
               </div>
             </div>
           </header>
+
           <div className={styles.content}>{children}</div>
           <ul className={"tag-list"}>
             {tags &&
