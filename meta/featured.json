@@ -1,17 +1,12 @@
 {
-  "body": "This September, the SDOH & Place Symposium will bring together researchers, practitioners, and advocates to advance the measurement and mapping of the social determinants of health. Through presentations, collaborative discussion, and dashboard demonstrations from this year's cohort of Fellowship Ambassadors, attendees will explore the intersections of public health, geography, GIS, and social science as we break bread, celebrate achievements, and learn from one other.",
+  "body": "From September 23–25, 2026, the SDOH & Place Symposium will bring together researchers, practitioners, and advocates in Chicago to advance the measurement and mapping of the social determinants of health. Through presentations, collaborative discussion, and dashboard demonstrations from this year's cohort of Fellowship Ambassadors, attendees will explore the intersections of public health, geography, GIS, and social science as we break bread, celebrate achievements, and learn from one other.",
   "title": "The 2026 SDOH & Place Symposium",
-  "image": "/images/sdoh-place-website-2-4-2.jpg",
+  "image": "/images/sdoh-place-website-2.png",
   "links": [
     {
-      "label": "Access resource →",
+      "label": "Visit event site →",
       "bold": true,
       "url": "https://symposium.sdohplace.org/"
-    },
-    {
-      "label": "More resources",
-      "bold": false,
-      "url": "/research"
     }
   ]
 }
