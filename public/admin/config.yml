@@ -474,6 +474,7 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
+        hint: "For links, always use the format [text](https://example.com). Do NOT paste a raw URL wrapped in angle brackets like <https://example.com> — it breaks the site build."
 
 
   - name: "research"              # Used in routes, e.g., /admin/collections/blog

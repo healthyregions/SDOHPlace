@@ -36,6 +36,8 @@
   },
   "scripts": {
     "dev": "next dev",
+    "check:content": "node scripts/check-mdx-content.js",
+    "prebuild": "node scripts/check-mdx-content.js",
     "build": "next build",
     "start": "next start",
     "clean": "rm -rf .next out",
