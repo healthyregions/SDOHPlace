@@ -8,10 +8,11 @@ type Props = {
 };
 export default function PostItem({ post }: Props) {
   return (
-    <Link href={"/news/" + post.slug} legacyBehavior>
+    <Link href={`/news/${post.slug}`} legacyBehavior>
       <a className={"no-underline"}>
         <Date date={parseISO(post.date)} />
         <h2>{post.title}</h2>
+        { post?.excerpt && <div>{post?.excerpt}</div> }
         <style jsx>
           {`
             a {

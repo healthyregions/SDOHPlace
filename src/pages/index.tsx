@@ -412,7 +412,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                 </div>
 
                 {/* Featured content title */}
-                <h3 className={'mb-4 text-[20px] text-extrabold'} style={{ letterSpacing: '0.5px', fontWeight: '1000' }}>{
+                <h3 className={'mb-4 text-[20px] font-bold'} style={{ letterSpacing: '0.5px' }}>{
                   featuredData?.title || 'Coming Soon' }
                 </h3>
 

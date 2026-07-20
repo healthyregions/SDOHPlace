@@ -200,11 +200,13 @@ collections:
               - label: Project Showcase
                 name: "project"
                 required: false
+                search: false
                 widget: relation
                 collection: "showcase"
                 searchFields: ["title"]
                 displayFields: ["title"]
                 valueField: "slug"
+                options_length: 50
       - name: team
         label: Team
         file: "meta/team.json"
@@ -321,7 +323,8 @@ collections:
       - label: "Title"
         name: "title"
         widget: "string"
-        hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
+        hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub. Title should be no longer than 60 characters."
+        pattern: [ "^.{0,60}$", "Must be less than 60 characters." ]
       - label: "Slug"
         name: "slug"
         widget: "string"
@@ -366,6 +369,8 @@ collections:
       - label: "Excerpt"
         name: "excerpt"
         widget: "string"
+        hint: "The excerpt will be displayed on the Homepage linking to this post in addition to being displayed in the list of all posts. Excerpt should be no longer than 150 characters."
+        pattern: [ "^.{0,150}$", "Must be less than 150 characters." ]
       - label: "Body"
         name: "body"
         widget: "markdown"
