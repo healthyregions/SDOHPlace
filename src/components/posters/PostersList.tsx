@@ -25,8 +25,8 @@ export default function PostersList({ posters, pagination }: Props) {
           current={pagination.current}
           pages={pagination.pages}
           link={{
-            href: (page) => (page === 1 ? "/news" : "/news/page/[page]"),
-            as: (page) => (page === 1 ? null : "/news/page/" + page),
+            href: (page) => (page === 1 ? "/posters" : "/posters/page/[page]"),
+            as: (page) => (page === 1 ? null : "/posters/page/" + page),
           }}
         /> */}
       </div>
