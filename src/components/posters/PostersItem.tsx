@@ -12,7 +12,8 @@ type Props = {
 export default function PostersItem({ item }: Props) {
   return (
     <Link
-      href={"/posters/" + item.slug}
+      href={item.link}
+      target={'_blank'}
       className="no-underline text-almostblack hover:text-almostblack visited:text-almostblack"
     >
       <div className={'flex max-md:flex-col'}>
@@ -22,10 +23,10 @@ export default function PostersItem({ item }: Props) {
         <div style={{ paddingLeft: "2rem" }}>
           <h2>{item.title}</h2>
           <p>{item.author}</p>
-          <p>{item.institution}</p>
-          {/*<div className={'flex-col self-end mt-4 text-frenchviolet'}>*/}
-          {/*  <span>View Poster &rarr;</span>*/}
-          {/*</div>*/}
+          <small>{item.institution}</small>
+          <div className={'flex-col self-end mt-4 text-frenchviolet'}>
+            <span>View Poster &rarr;</span>
+          </div>
         </div>
       </div>
       <style jsx>
