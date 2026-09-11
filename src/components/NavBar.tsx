@@ -133,6 +133,8 @@ const NavBar = (): JSX.Element => {
     { title: "Showcase", url: "/showcase", subitem: true },
     { title: "Partner Projects", url: "" },
     { title: "Butterflies Rising", url: "https://butterflies-rising.sdohplace.org/", subitem: true, target: "_blank" },
+    { title: "2026 Symposium", url: "" },
+    { title: "Posters", url: "/posters", subitem: true },
   ];
 
   return (
