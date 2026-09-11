@@ -537,43 +537,48 @@ collections:
       - name: posters
         label: Posters
         file: "meta/posters.json"
-        label_singular: "Poster"
-        fields: # The fields for each document, usually in front matter
-          - label: "Title"
-            name: "title"
-            widget: "string"
-            required: true
-            hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
-          - label: Author
-            name: "author"
-            widget: string
-            required: true
-          - label: "Institution"
-            name: "institution"
-            widget: string
-          - label: "Year"
-            name: "year"
-            widget: string
-            required: true
-          - label: "Tags"
-            name: "tags"
-            widget: string
-            multiple: true
-            options: [ "2026 Symposium" ]
-          - label: "Featured Image"
-            name: "image"
-            widget: "image"
-            choose_url: true
-            default: "/images/default.jpg"
-          - label: "Link"
-            name: "link"
-            widget: "file"
-            required: true
-            media_library:
+        fields:
+        - name: posters
+          label_singular: "Poster"
+          widget: list
+          add_to_top: true
+          summary: "{{title}} - {{author}} {{institution}}"
+          fields: # The fields for each document, usually in front matter
+            - label: "Title"
+              name: "title"
+              widget: "string"
+              required: true
+              hint: "The title will be used to generate the URL path for this post, the first time this entry is saved. You can change the title later, but the URL will not be updated. To change the URL, you must rename the .mdx file directly in GitHub."
+            - label: Author
+              name: "author"
+              widget: string
+              required: true
+            - label: "Institution"
+              name: "institution"
+              widget: string
+            - label: "Year"
+              name: "year"
+              widget: string
+              required: true
+            - label: "Tags"
+              name: "tags"
+              widget: select
+              multiple: true
+              options: [ "2026 Symposium" ]
+            - label: "Featured Image"
+              name: "image"
+              widget: "image"
               choose_url: true
-              allow_multiple: false
-              config:
-                multiple: false
+              default: "/images/default.jpg"
+            - label: "Link"
+              name: "link"
+              widget: "file"
+              required: true
+              media_library:
+                choose_url: true
+                allow_multiple: false
+                config:
+                  multiple: false
 
 
   - name: "research-rabbit"
