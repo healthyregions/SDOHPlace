@@ -1,0 +1,37 @@
+{
+  "posters": [
+    {
+      "title": "Example Poster 1",
+      "author": "Sara Lambert",
+      "institution": "UIUC",
+      "image": "/images/advisory-board-post-image.png",
+      "link": "/images/advisory-board-post-image.png",
+      "year": "2026",
+      "tags": [
+        "2026 Symposium"
+      ]
+    },
+    {
+      "title": "Example Poster 2",
+      "author": "Sara Lambert",
+      "institution": "UIUC",
+      "image": "/images/advisory-board-post-image.png",
+      "link": "/images/advisory-board-post-image.png",
+      "year": "2026",
+      "tags": [
+        "2026 Symposium"
+      ]
+    },
+    {
+      "title": "Example Poster 3",
+      "author": "Sara Lambert",
+      "institution": "UIUC",
+      "image": "/images/advisory-board-post-image.png",
+      "link": "/images/advisory-board-post-image.png",
+      "year": "2026",
+      "tags": [
+        "2026 Symposium"
+      ]
+    }
+  ]
+}
