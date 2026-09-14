@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import {BsGrid3X3GapFill, BsList} from "react-icons/bs";
+import {Divider} from "@mui/material";
 
 type Props = {
   posters: PostersContent[];
@@ -60,7 +61,7 @@ export default function PostersList({ posters, pagination }: Props) {
         </Grid>
 
         {/* Grid view: ImageList - more concise/clean, but hides author info behind a manual click */}
-        {view === 'grid' && <Grid container spacing={30} alignItems={'center'}>
+        {view === 'grid' && <Grid container spacing={15} alignItems={'center'}>
           <Grid size={6}>
             <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
               {posters.map((item, index) => (
@@ -83,12 +84,12 @@ export default function PostersList({ posters, pagination }: Props) {
               ))}
             </ImageList>
           </Grid>
-          <Grid size={6}>
+          <Grid size={6} borderLeft={'2px dotted black'} height={'100%'} paddingTop={'2rem'} paddingLeft={'2rem'}>
             {
               poster && <PostersItem item={poster}></PostersItem>
             }
             {
-              !poster && <Grid container justifyContent={'end'}>
+              !poster && <Grid container justifyContent={'center'} alignItems={'center'}>
                 Choose a poster to learn more
               </Grid>
             }
