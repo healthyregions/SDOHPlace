@@ -7,7 +7,8 @@ import Button from "@mui/material/Button";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import {BsGrid3X3GapFill, BsList} from "react-icons/bs";
-import {Divider} from "@mui/material";
+import {Divider, IconButton, ImageListItemBar, useMediaQuery} from "@mui/material";
+import {FaInfo} from "react-icons/fa";
 
 type Props = {
   posters: PostersContent[];
@@ -17,7 +18,8 @@ type Props = {
   };
 };
 export default function PostersList({ posters, pagination }: Props) {
-  const [poster, setPoster] = useState(undefined);
+  const largeScreen = useMediaQuery('(min-width: 600px)');
+  //const [poster, setPoster] = useState(undefined);
   //const [tag, setTag] = useState(undefined);
   //const tags = [...new Set(posters?.flatMap(p => p?.tags))];
   const [view, setView] = useState('grid');
@@ -62,37 +64,38 @@ export default function PostersList({ posters, pagination }: Props) {
 
         {/* Grid view: ImageList - more concise/clean, but hides author info behind a manual click */}
         {view === 'grid' && <Grid container spacing={15} alignItems={'center'}>
-          <Grid size={6}>
-            <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+          <Grid size={12}>
+            <ImageList sx={{ width: largeScreen ? 1000 : 350, height: 450 }} cols={largeScreen ? 4 : 2} rowHeight={164}>
               {posters.map((item, index) => (
                 <ImageListItem key={`poster-image-${index}`}
                                style={{
                                  cursor:'pointer',
-                                 border: poster === item ? 'dotted 2px #7e1cc4' : 'none',
+                                 //border: poster === item ? 'dotted 2px #7e1cc4' : 'none',
                                  borderRadius: '12px',
-                                 padding: '0.5rem'
                 }}>
                   <img
-                    onClick={() => setPoster(item)}
+                    onClick={() => /*setPoster(item)*/ window.open(item.link, '_blank')}
                     srcSet={`${item.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                     src={`${item.image}?w=164&h=164&fit=crop&auto=format`}
                     alt={item.title}
                     loading="lazy"
                     draggable="false"
                   />
+
+                  <ImageListItemBar
+                    title={item.title}
+                    subtitle={item.author}
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                        aria-label={`info about ${item.title}`}
+                      >
+                        <FaInfo />
+                      </IconButton>
+                    } />
                 </ImageListItem>
               ))}
             </ImageList>
-          </Grid>
-          <Grid size={6} borderLeft={'2px dotted #7e1cc4'} height={'100%'} paddingTop={'2rem'} paddingLeft={'2rem'}>
-            {
-              poster && <PostersItem item={poster}></PostersItem>
-            }
-            {
-              !poster && <Grid container justifyContent={'center'} alignItems={'center'}>
-                Choose a poster to learn more
-              </Grid>
-            }
           </Grid>
         </Grid>}
 
