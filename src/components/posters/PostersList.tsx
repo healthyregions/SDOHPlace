@@ -84,7 +84,7 @@ export default function PostersList({ posters, pagination }: Props) {
               ))}
             </ImageList>
           </Grid>
-          <Grid size={6} borderLeft={'2px dotted black'} height={'100%'} paddingTop={'2rem'} paddingLeft={'2rem'}>
+          <Grid size={6} borderLeft={'2px dotted #7e1cc4'} height={'100%'} paddingTop={'2rem'} paddingLeft={'2rem'}>
             {
               poster && <PostersItem item={poster}></PostersItem>
             }
