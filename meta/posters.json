@@ -1,0 +1,15 @@
+{
+  "posters": [
+    {
+      "image": "/images/advisory-board-post-image.png",
+      "title": "Example Poster 1",
+      "author": "Sara Lambert",
+      "institution": "UIUC",
+      "year": "2026",
+      "tags": [
+        "2026 Symposium"
+      ],
+      "link": "/images/advisory-board-post-image.png"
+    }
+  ]
+}
