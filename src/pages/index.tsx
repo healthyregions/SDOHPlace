@@ -172,22 +172,24 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       link: "/guides/area-deprivation-indexes",
     },
     {
+      id: "4",
+      svgIcon: workplaceIcon,
+      title: "Workplace",
+      text: "Access to job opportunities and worker safety all influence population vibrancy and may be linked as structural drivers of health.",
+      link: "/guides/employment-by-occupation-and-industry-research-guide",
+    },
+    {
+      id: "5",
+      svgIcon: medicalIcon,
+      title: "Health Equity",
+      text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
+      link: "/guides/conceptualizing-healthcare-equity",
+    },
+    {
       id: "96",
       svgIcon: educationIcon,
       title: "Education",
       text: "Improved access to education can help in reducing health disparities by increasing job opportunities and income.",
-    },
-    {
-      id: "97",
-      svgIcon: workplaceIcon,
-      title: "Workplace",
-      text: "Access to job opportunities and worker safety all influence population vibrancy and may be linked as structural drivers of health.",
-    },
-    {
-      id: "98",
-      svgIcon: medicalIcon,
-      title: "Medical",
-      text: "Affordable and equitable healthcare access is essential for the well-being of communities.",
     },
     {
       id: "99",
