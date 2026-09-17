@@ -49,7 +49,7 @@ export function fetchResearchContent(): ResearchContent[] {
 
   // Sort posts by date and update internal cache
   return researchCache = allResearchData.sort(
-    (a: ResearchContent, b: ResearchContent) => (a.publish_date < b.publish_date) ? 1 : -1
+    (a: ResearchContent, b: ResearchContent) => (new Date(a.publish_date) < new Date(b.publish_date)) ? 1 : -1
   );
 }
 

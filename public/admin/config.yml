@@ -506,9 +506,9 @@ collections:
         media_library:
           choose_url: true
           # TODO: would be nice to have labels in the UI for this, instead of only a raw URL
-          allow_multiple: false
+          allow_multiple: true
           config:
-            multiple: false
+            multiple: true
       - label: "Image"
         name: "image"
         widget: "image"
