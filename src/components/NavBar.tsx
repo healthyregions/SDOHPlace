@@ -133,8 +133,11 @@ const NavBar = (): JSX.Element => {
     { title: "Showcase", url: "/showcase", subitem: true },
     { title: "Partner Projects", url: "" },
     { title: "Butterflies Rising", url: "https://butterflies-rising.sdohplace.org/", subitem: true, target: "_blank" },
-    { title: "2026 Symposium", url: "" },
-    { title: "Posters", url: "/posters", subitem: true },
+  ];
+
+  const symposiumItems  = [
+    { title: "2026 Symposium", url: "https://symposium.sdohplace.org/" },
+    { title: "Poster Gallery", url: "/posters", subitem: true },
   ];
 
   return (
@@ -190,9 +193,17 @@ const NavBar = (): JSX.Element => {
 
           {/* Symposium Link */}
           <li
-            className={`mt-4 ml-6 active`}
+            className={`mt-4 ml-6 ${
+              router.pathname == "/posters"
+                ? "active"
+                : ""
+            }`}
           >
-            <Link href="https://symposium.sdohplace.org/" target="_blank">Symposium</Link>
+            <NavDropdownButton
+              title="Symposium"
+              dropdownElId="symposium-dd"
+              items={symposiumItems}
+            />
           </li>
 
           {/* News Link */}
@@ -279,9 +290,13 @@ const NavBar = (): JSX.Element => {
               />
             </li>
 
-            {/* Symposium Link */}
-            <li className={'text-uppercase'}>
-              <Link href="https://symposium.sdohplace.org/" target="_blank">Symposium</Link>
+            {/* Symposium Menu */}
+            <li>
+              <NavDropdownMobile
+                title="Symposium"
+                dropdownElId="symposium-dd-mobile"
+                items={symposiumItems}
+              />
             </li>
 
             {/* News Link */}
