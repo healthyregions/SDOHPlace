@@ -75,9 +75,16 @@ export default function PostersList({ posters, pagination }: Props) {
                 }}>
                   <img
                     onClick={() => /*setPoster(item)*/ window.open(item.link, '_blank')}
-                    srcSet={`${item.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    srcSet={`${item.image}?w=164&h=164&fit=crop&auto=format`}
                     src={`${item.image}?w=164&h=164&fit=crop&auto=format`}
                     alt={item.title}
+                    width={164}
+                    height={164}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
                     loading="lazy"
                     draggable="false"
                   />
@@ -89,6 +96,7 @@ export default function PostersList({ posters, pagination }: Props) {
                       <IconButton
                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                         aria-label={`info about ${item.title}`}
+                        onClick={() => /*setPoster(item)*/ window.open(item.link, '_blank')}
                       >
                         <FaInfo />
                       </IconButton>
