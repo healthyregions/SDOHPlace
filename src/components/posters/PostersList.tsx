@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import type { PostersContent } from "../../lib/posters";
+import type { PostersContent } from "@/lib/posters";
 import PostersItem from "./PostersItem";
 import Grid from "@mui/material/Grid";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import {BsGrid3X3GapFill, BsList} from "react-icons/bs";
-import {Divider, IconButton, ImageListItemBar, useMediaQuery} from "@mui/material";
+import {IconButton, ImageListItemBar, useMediaQuery} from "@mui/material";
 import {FaInfo} from "react-icons/fa";
 
 type Props = {
@@ -19,8 +19,8 @@ type Props = {
 };
 export default function PostersList({ posters, pagination }: Props) {
   const largeScreen = useMediaQuery('(min-width: 600px)');
-  const [poster, setPoster] = useState(undefined);
-  const [tag, setTag] = useState(undefined);
+  //const [poster, setPoster] = useState(undefined);
+  const [/*tag*/, setTag] = useState(undefined);
   const tags = [...new Set(posters?.flatMap(p => p?.tags))];
   const [view, setView] = useState('grid');
 
