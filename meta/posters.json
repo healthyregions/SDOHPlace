@@ -1,33 +1,77 @@
 {
   "posters": [
     {
-      "title": "Example Poster 1",
-      "author": "Sara Lambert",
-      "institution": "UIUC",
-      "image": "/images/advisory-board-post-image.png",
-      "link": "/images/advisory-board-post-image.png",
+      "image": "/images/when-care-is-out-of-reach-child-care-access-as-a-place-based-social-determinant-of-health-in-new-york-state.png",
+      "title": "When Care is Out of Reach: Child Care Access as a Place- Based Social Determinant of Health in New York State",
+      "link": "https://docs.google.com/presentation/d/13WaRO_6qIGfOCPfzLccVmY0byD0RDVTV/edit?slide=id.p1#slide=id.p1",
+      "institution": "Division of Nutritional Sciences, Cornell University ",
+      "author": "Rujia Xie, BA",
       "year": "2026",
       "tags": [
         "2026 Symposium"
       ]
     },
     {
-      "title": "Example Poster 2",
-      "author": "Sara Lambert",
-      "institution": "UIUC",
-      "image": "/images/advisory-board-post-image.png",
-      "link": "/images/advisory-board-post-image.png",
+      "image": "/images/using-integrated-data-and-interactive-technology-to-map-early-childhood-access-and-opportunity-in-illinois.png",
+      "title": "Using Integrated Data and Interactive Technology to Map Early Childhood Access and Opportunity in Illinois",
+      "author": "Hsiu-Wen Yang on Behalf of the Illinois Early Childhood Asset Map",
+      "institution": "Department of Special Education, College of Education, University of Illinois Urbana-Champaign",
+      "year": "2026",
+      "tags": [
+        "2026 Symposium"
+      ],
+      "link": "https://docs.google.com/presentation/d/1qgPSjEfEuC7lIzH1oWgz3cUWCOp9kGb7/edit?slide=id.p1#slide=id.p1"
+    },
+    {
+      "image": "/images/neighborhood-conditions-as-structural-drivers-of-youth-mental-health.png",
+      "title": "Neighborhood Conditions as Structural Drivers of Youth Mental Health",
+      "tags": [
+        "2026 Symposium"
+      ],
+      "year": "2026",
+      "author": "Robert L. Burries, DrPH, MD, MBA",
+      "institution": "Burries Health Strategy Group",
+      "link": "https://docs.google.com/presentation/d/1WFMmW3fzfrQzsAkKAVqOdq5Cl2YYeN-j/edit?slide=id.p1#slide=id.p1"
+    },
+    {
+      "image": "/images/place-based-resource-mapping-and-co-design-for-postpartum-health.png",
+      "title": "Place-Based Resource Mapping & Co-Design for Postpartum Health",
+      "tags": [
+        "2026 Symposium"
+      ],
+      "author": "Sarah McGlothlin, Marianella Becerra, Andrea Mayorga, Cynthia Fraga Rizo, Nicollette Violante, Paul Lanier",
+      "institution": "School of Social Work, University of North Carolina at Chapel Hill · Center for Galápagos Studies / Galápagos Science Center, UNC Chapel Hill · San Cristóbal Island, Galápagos, Ecuador",
+      "year": "2026",
+      "link": "https://docs.google.com/presentation/d/1gkq9kiMWla7wXyAh5_FOyoavGcPUASyh/edit?slide=id.p1#slide=id.p1"
+    },
+    {
+      "title": "Co-exposure to neighborhood walkability and outdoor air pollution across the rural-urban continuum",
+      "author": "Lydia Marcus Post, Jared A. Fisher, Imani Canton, Richard V. Remigio, Ian D. Buller, Jesse E. Bell, Rena R. Jones",
+      "institution": "Division of Cancer Epidemiology and Genetics, National Cancer Institute (NCI), National Institutes of Health (NIH), Rockville, MD; Cancer Prevention Fellowship Program, Division of Cancer Prevention, NCI, NIH; Division of Cancer Control and Population Sciences, NCI, NIH; College of Public Health, University of Nebraska Medical Center, Omaha, NE; DLH, LLC, Bethesda, MD",
+      "image": "/images/co-exposure-to-walkability-and-air-pollution_7_post.png",
+      "link": "https://docs.google.com/presentation/d/12c8KN45Fx7yH3zD6o-N3W9iNEpOoOv5S/edit?slide=id.p1#slide=id.p1",
       "year": "2026",
       "tags": [
         "2026 Symposium"
       ]
     },
     {
-      "title": "Example Poster 3",
-      "author": "Sara Lambert",
-      "institution": "UIUC",
-      "image": "/images/advisory-board-post-image.png",
-      "link": "/images/advisory-board-post-image.png",
+      "title": "From Neighborhoods to Regions: The Modifiable Areal Unit Problem in Latino Health Research",
+      "author": "Esaú Casimiro Vieyra, MA, MPP | Elizabeth Ackert, Phd |Peter Kedron, PhD | Grace Mercado",
+      "institution": "Department of Geography | University of California, Santa Barbara",
+      "image": "/images/from-neighborhoods-to-regions-the-modifiable-areal-unit-problem-in-latino-health-research.png",
+      "link": "https://docs.google.com/presentation/d/1PDe79-dpWwNgdgpNhIAaVZnn7us8ftsE/edit?slide=id.p1#slide=id.p1",
+      "year": "2026",
+      "tags": [
+        "2026 Symposium"
+      ]
+    },
+    {
+      "title": "If New York Stopped Adding Fluoride to Public Drinking Water: Estimated oral-health burden over five years",
+      "author": "Venkata RM Guturi",
+      "institution": "Cornell University",
+      "image": "/images/if-new-york-stopped-adding-fluoride-to-public-drinking-water-estimated-oral-health-burden-over-five-years.png",
+      "link": "https://drive.google.com/drive/folders/1qLcxPOSw5i8YyOuJQJ9EhcW928_XKnFF",
       "year": "2026",
       "tags": [
         "2026 Symposium"
