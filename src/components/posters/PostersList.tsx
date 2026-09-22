@@ -19,9 +19,9 @@ type Props = {
 };
 export default function PostersList({ posters, pagination }: Props) {
   const largeScreen = useMediaQuery('(min-width: 600px)');
-  //const [poster, setPoster] = useState(undefined);
-  //const [tag, setTag] = useState(undefined);
-  //const tags = [...new Set(posters?.flatMap(p => p?.tags))];
+  const [poster, setPoster] = useState(undefined);
+  const [tag, setTag] = useState(undefined);
+  const tags = [...new Set(posters?.flatMap(p => p?.tags))];
   const [view, setView] = useState('grid');
 
   return (
@@ -29,13 +29,13 @@ export default function PostersList({ posters, pagination }: Props) {
       <div className={"post-list"}>
         <Grid container spacing={2} alignItems={'center'} justifyContent={'space-between'} marginBottom={'2rem'}>
           {/* Future: Separate posters for different events using Tags */}
-          {/*<ButtonGroup variant="outlined" aria-label="Basic button group">*/}
-          {/*  {*/}
-          {/*    tags?.map((t, index) =>*/}
-          {/*      <Button size={'small'} style={{color:'#7e1cc4'}} color={'secondary'} key={`tag-${index}`} onClick={() => setTag(t)}>{t}</Button>*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*</ButtonGroup>*/}
+          <ButtonGroup variant="outlined" aria-label="Basic button group">
+            {
+              tags?.map((t, index) =>
+                <Button size={'small'} style={{color:'#7e1cc4'}} color={'secondary'} key={`tag-${index}`} onClick={() => setTag(t)}>{t}</Button>
+              )
+            }
+          </ButtonGroup>
 
           {/* Toggle between Grid vs List view */}
           <ButtonGroup aria-label="Grid or List View">
