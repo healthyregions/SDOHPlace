@@ -12,6 +12,21 @@ description: Many spatial analyses rely on a measure of distance.While
   quality
 ---
 
+Many spatial analyses rely on a measure of distance. While straight-line distance (“as the crow flies”) is appropriate for some use-cases, we often want transportation measures that better reflect the barriers between people and places. Transportation has an outsized effect on our health because it shapes how our communities are designed, the opportunities available to us, and environmental exposures like heat and air quality. It is intertwined with many of the other concepts covered in our Research Guides including [Public Transit Equity](https://sdohplace.org/guides/public-transit-equity) and access to critical needs such as [Food](https://sdohplace.org/guides/measuring-food-access-on-a-neighborhood-level), [Greenspace](https://sdohplace.org/guides/greenspace-access), and [Healthcare](https://sdohplace.org/guides/conceptualizing-healthcare-equity.).
+
+For those who want to use transportation measures, this guide provides example applications of transportation measures, discusses the two most common ways mobility data are presented (origin-destination matrices and isochrone), and examines a few common sources for such data. For those hoping to dive deeper, we provide a brief introduction to network analysis, tools and techniques for calculating transportation measures, and nuances of calculating driving, walking, and public transit transportation measures.
+
+#### 1. Measuring Spatial Impedance
+
+Many spatial analyses require a measure of *spatial impedance*, a measure of how difficult it is to overcome the space between two things. An everyday example is travel time: traveling to work or the store costs us some time out of our day. Traditionally, spatial impedance – how much space impedes or delays us – has been measured using straight-line distance. Straight-line or Euclidean distance tells how long the straight line between two things is, but is a poor measure of spatial impedance for humans because it is “as the crow flies” meaning we ignore buildings, waterways, and other obstructions that would stop us from moving along that straight-line.
+
+In reality, transportation happens along networks. Transportation networks are the roads, public transit systems, sidewalks, bike paths, and other systems that get people across space. We refer to them as networks because we model these transportation systems as nodes that serve as connection points (e.g., bus stops, intersections, airports) and edges that describe how these points are connected (e.g., bus routes, roads, flight paths). By using network distance, the distance along these transportation networks, for example how far someone must travel on the sidewalk to reach their destination, we are able to more accurately measure the experience spatial impedance.
+
+
+#### 5. Summary
+
+We have discussed the basics of transportation network travel time calculation, with a few approaches to obtaining the data including open sources, paid products, and programming packages. While this guide provides the basics of calculating network travel times, there are many additional considerations depending on your study area and goals. If you are working on very large-scale data (e.g., the size of the U.S.) you may need to rely on either cloud computing (Saxon and Snow 2020) or high-performance supercomputers (Michels et al. 2024). Depending on your task, you may also want to include more personal considerations like cost (Pereira et al. 2024), environmental exposure (Liu et al. 2025), or perceptions of safety (Kar et al. 2024). Some of these additional considerations and applications of network travel time are covered in further SDOH Guides, so be sure to check our additional resources!
+
 <div class='sdoh-panel' style='background-color:#ece6f0' style={{ backgroundColor: '#ece6f0' }}>
 <h4 class='sdoh-panel-header'>About the Author</h4>
 <div class='sdoh-panel-content'>
