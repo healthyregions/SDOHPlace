@@ -28,12 +28,20 @@ While network distance is an improvement on Euclidean distance, we generally pre
 
 Now we will briefly address some of the complications that could arise with each of the different kinds of transportation networks. Driving time is often the default because many communities are car-centric, public transit is not always available or reliable, and many resources are not within reasonable distances to bike or walk. The Census can provide data on [car ownership](https://www.census.gov/acs/www/about/why-we-ask-each-question/vehicles/) and use to help determine where that default assumption may fail. Your choice of travel modality may also depend on the specifics of your research questions as well. For example, you may be interested in a certain population that has lower rates of car ownership, or you may be interested in the coverage and shortcomings of your local public transit system.
 
-#### 2.1 Driving
+#### 2.1  Driving
 
 Additional considerations for calculating driving-times include:
 
-●	Congestion and Traffic: although this data is often very expensive and we usually just assume free-flow travel (everyone moving at the speed limit).
-●	Public roads: OSM has some data on non-traditional roads that fall under their highway tag, but have useful sub-tags to differentiate them like racetracks (track) and service roads (service). Be careful to exclude this data as if you accidentally match an origin or destination to a racetrack, it may not be connected to the rest of your road network!
+* **Congestion and Traffic**: although this data is often very expensive and we usually just assume free-flow travel (everyone moving at the speed limit).
+* **Public roads**: OSM has some data on non-traditional roads that fall under their highway tag, but have useful sub-tags to differentiate them like racetracks (track) and service roads (service). Be careful to exclude this data as if you accidentally match an origin or destination to a racetrack, it may not be connected to the rest of your road network!
+
+#### 2.2  Biking and Walking
+
+Additional considerations for calculating walking-times include:
+* **Connection**: side-walks and dedicated bike-lanes are not always connected networks due to issues with data or lack of infrastructure. You may need to consider bikers or pedestrians walking along roadways if you want a fully connected transportation network.
+* **Elevation and Slope**: changes in elevation can drastically affect the speed and ease of biking and walking.
+
+
 
 
 ## 5. Summary
