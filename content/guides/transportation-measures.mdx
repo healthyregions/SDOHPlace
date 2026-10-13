@@ -41,6 +41,14 @@ Additional considerations for calculating walking-times include:
 * **Connection**: side-walks and dedicated bike-lanes are not always connected networks due to issues with data or lack of infrastructure. You may need to consider bikers or pedestrians walking along roadways if you want a fully connected transportation network.
 * **Elevation and Slope**: changes in elevation can drastically affect the speed and ease of biking and walking.
 
+#### 2.3  Public Transit
+
+Public transit data usually comes in the form of General Transit Feed Specification (GTFS) data. This is pretty different from driving, biking, and walking networks as it depends on set public transit stops and schedules that vary across time. For example, your wait for a bus could take anywhere from 1 minute to an hour or more depending on the schedule and when you arrive. Some public transit operations also provide real-time GTFS data that you can compare against their schedules to measure reliability.
+
+A major complication when calculating network travel times on public transit data is that we must consider when we depart and arrive at each bus stop as this affects our waiting time before the next departure. Simply using the transit network without considering the schedule will drastically underestimate travel times. There are algorithms like RAPTOR (Delling et al. 2015) designed to efficiently tackle this problem.
+
+For more information, check out our guide on [Public Transit Equity](https://sdohplace.org/guides/public-transit-equity).
+
 
 
 
