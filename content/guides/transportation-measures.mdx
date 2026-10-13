@@ -49,8 +49,13 @@ A major complication when calculating network travel times on public transit dat
 
 For more information, check out our guide on [Public Transit Equity](https://sdohplace.org/guides/public-transit-equity).
 
+## 3. Working with Travel Time Data
 
+This section goes into a few options for those who want to obtain travel time data. While there are a few open data sources for travel time data, like the OpenTimes site mentioned below, you often need to calculate it yourself to match the specific study area, granularity (e.g., tract vs. county), and timeframe you are working with.  There are two major ways in which travel time data is stored: (1) as origin-destination (O-D) matrices sometimes called travel cost matrices (TCM) and (2) as isochrones that are shapes showing the area within a certain distance. We will discuss a few options for each type of data source.
 
+#### 3.1 Origin-Destination/Travel Cost Matrices
+
+An origin-destination or travel cost matrix is a table that gives the travel costs (most often in time) between origins and destinations. For example, in the table below we can see the “Origin” column with county FIPS (Federal Information Processing Standards) codes, a “Destination” column with county FIPS codes, and a “Travel Cost (in minutes)” column. So the first row says that going from county 48113 (Dallas County, TX) to 48113 (still Dallas County, TX) takes 0 minutes. This makes sense, but keep an eye out as these zeroes can throw a wrench in your analyses, for example when dividing by travel time and your travel time is 0! The second row gives the travel time between 48113 (Dallas County, TX) and 48085 (the neighboring Collin County, TX) as 30.1 minutes. 
 
 ## 5. Summary
 
