@@ -110,6 +110,19 @@ To calculate your own network travel times, we first need to obtain transportati
 
 * **OpenStreetMap (OSM)** is volunteered geographic information (VGI) (Yan et al. 2020) meaning it is contributed by users like Wikipedia. Its road network uses TIGER data as a baseline and has been expanded upon from there, making it relatively complete in much of the U.S., but this completeness varies spatially (Barrington-Leigh and Millard-Ball 2017; Zhang and Malczewski 2017). It can be accessed by a variety of tools and APIs including download sites like [Geofabrik](https://www.geofabrik.de/data/download.html), the [OSM Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API), the [Python OSMnx package](https://osmnx.readthedocs.io/en/stable/), and the [R osmdata package](https://cran.r-project.org/web/packages/osmdata/vignettes/osmdata.html). 
 * **Government Datasets** include the Census Bureau’s TIGER/Line road database and the Federal Highway Administration’s Highway Performance Monitoring System (HPMS). These datasets are good, but potentially incomplete and disagree with each other (Weber 2021). To download the TIGER/Line data, you can use the [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) website and when using the Web Interface, select “Roads” under the “Select a layer type” dropdown. This option is available for the U.S., but similar road networks may be available for other countries if you check their Census Bureau or Department of Transportation counterparts.
+* **ESRI** provides a proprietary road network dataset that can be accessed within their spatial analysis software. A big bonus of using this dataset is that they provide [historic, live, and predictive traffic](https://doc.esri.com/en/arcgis-pro/latest/help/analysis/networks/traffic.html) in some areas which greatly increases the accuracy of your network travel times, but unfortunately these data sources and accuracy are not transparent.
+
+#### 4.2 Calculating Travel Time
+
+Once you have the network data, you want to calculate shortest paths along it. First, we may need to do some data cleaning steps on our network to remove disconnected components of the network. This can arise from errors in the data, roadways near the border of your study area, or non-traditional roads like service roads. Second, we calculate travel times for each edge. For example, dividing the distance on each edge by the estimated speed to get travel time. Third, we have to figure out where on the network our origin and destination are. The simplest approach is to match your origins and destinations to the nearest node in the network, but there are more advanced approaches to snap our origins and destinations to a transportation network. Now we can use our software of choice to determine the shortest path. Note that you may need to specify what variable/weight from your edges you want to use to calculate the shortest path otherwise you may just get the number of edges between your origin and destination!
+
+Below is a short selection of packages in various languages that can help with transportation measures.
+
+|Package|Programming Language|Driving|Walking|Public Transit|
+|------|----------|-----------|---------|----------|
+|[r5r](https://ipeagit.github.io/r5r/index.html) (Pereira et al. 2021)|R|Yes|Yes/Yes|Yes|
+|[r5py](https://r5py.readthedocs.io/stable/)|Python|Yes|Yes/Yes|Yes|
+|[graphhopper](https://github.com/graphhopper/graphhopper)|Java|Yes|Yes/Yes|Yes|
 
 
 ## 5. Summary
