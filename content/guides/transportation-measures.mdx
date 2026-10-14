@@ -90,6 +90,15 @@ A key advantage of isochrones as compared to O-D matrices is that they can be ca
 
 While isochrones have advantages, being scale agnostic and easy to visualize, one must be careful when working with isochrones as they are not a well-defined concept. An isochrone is typically calculated by using a very detailed O-D matrix on the transportation network and then calculating a polygon around the destinations within a certain time threshold, but there are multiple approaches to determine this polygon. Figure 2 shows two approaches and how you can obtain significantly different results from the same data. The differences can affect your spatial analysis tasks like spatial accessibility analyses (Michels et al. 2023).
 
+![](/images/Figure_2.png)
+
+##### Figure 2: An isochrone map showing two different results from the same data 
+
+**Figure 2**: This figure from (Michels et al. 2023) shows the road network around Carle Hospital in Urbana, IL, USA. The red nodes are those within 30 minutes driving-time of Carle Hospital and the grey nodes are not. The left and right subfigures demonstrate two techniques for calculating the “isochrone” around these nodes. The left figure (blue) shows the convex hull, analogous to putting a rubber band around the nodes. The right figure (green) shows an alpha shape – sometimes referred to as a concave hull – around the same nodes. Despite using the same data, we end up with two different isochrones.
+
+A few options for obtaining isochrone data:
+
+
 ## 5. Summary
 
 We have discussed the basics of transportation network travel time calculation, with a few approaches to obtaining the data including open sources, paid products, and programming packages. While this guide provides the basics of calculating network travel times, there are many additional considerations depending on your study area and goals. If you are working on very large-scale data (e.g., the size of the U.S.) you may need to rely on either cloud computing (Saxon and Snow 2020) or high-performance supercomputers (Michels et al. 2024). Depending on your task, you may also want to include more personal considerations like cost (Pereira et al. 2024), environmental exposure (Liu et al. 2025), or perceptions of safety (Kar et al. 2024). Some of these additional considerations and applications of network travel time are covered in further SDOH Guides, so be sure to check our additional resources!
