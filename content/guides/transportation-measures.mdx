@@ -100,6 +100,16 @@ A few options for obtaining isochrone data:
 * **[QGIS](https://plugins.qgis.org/search/?q=travel)** has a few plugins designed for calculating isochrones and catchments.
 * ** [ESRI/ArcGIS](https://doc.arcgis.com/en/arcgis-online/analyze/generate-travel-areas-mv.htm)** has a Generate Travel Areas tool within ArcGIS Online.
 * ** [Mapbox](https://docs.mapbox.com/api/navigation/isochrone/) ** is a paid service with a free tier that can calculate isochrones.
+* ** [TravelTime](https://app.traveltime.com/) ** provides paid isochrone data across transportation modes.
+
+## 4. Calculating Your Own Network Travel Time
+
+#### 4.1 Getting the Data
+
+To calculate your own network travel times, we first need to obtain transportation network data. The most common open source for this data is [OpenStreetMap](https://www.openstreetmap.org/) (OSM) (Haklay and Weber 2008). OSM data can be accessed using their Overpass API or programming packages like Python’s OSMnx (Boeing 2017). This is volunteer geographic information (VGI) with data from around the world! Think of it as the Wikipedia of geospatial data; anyone can contribute, but there is a dedicated team assessing it for accuracy. While OSM has pretty good data coverage in North America and Europe, the accuracy and coverage of the data can vary greatly across space so some caution should be used when working with OSM data (Herfort et al. 2023). Below, we provide a short overview of OSM and two other common data sources: government datasets and ESRI.
+
+* **OpenStreetMap (OSM)** is volunteered geographic information (VGI) (Yan et al. 2020) meaning it is contributed by users like Wikipedia. Its road network uses TIGER data as a baseline and has been expanded upon from there, making it relatively complete in much of the U.S., but this completeness varies spatially (Barrington-Leigh and Millard-Ball 2017; Zhang and Malczewski 2017). It can be accessed by a variety of tools and APIs including download sites like [Geofabrik](https://www.geofabrik.de/data/download.html), the [OSM Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API), the [Python OSMnx package](https://osmnx.readthedocs.io/en/stable/), and the [R osmdata package](https://cran.r-project.org/web/packages/osmdata/vignettes/osmdata.html). 
+* **Government Datasets** include the Census Bureau’s TIGER/Line road database and the Federal Highway Administration’s Highway Performance Monitoring System (HPMS). These datasets are good, but potentially incomplete and disagree with each other (Weber 2021). To download the TIGER/Line data, you can use the [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) website and when using the Web Interface, select “Roads” under the “Select a layer type” dropdown. This option is available for the U.S., but similar road networks may be available for other countries if you check their Census Bureau or Department of Transportation counterparts.
 
 
 ## 5. Summary
