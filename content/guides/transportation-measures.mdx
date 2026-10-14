@@ -57,6 +57,16 @@ This section goes into a few options for those who want to obtain travel time da
 
 An origin-destination or travel cost matrix is a table that gives the travel costs (most often in time) between origins and destinations. For example, in the table below we can see the “Origin” column with county FIPS (Federal Information Processing Standards) codes, a “Destination” column with county FIPS codes, and a “Travel Cost (in minutes)” column. So the first row says that going from county 48113 (Dallas County, TX) to 48113 (still Dallas County, TX) takes 0 minutes. This makes sense, but keep an eye out as these zeroes can throw a wrench in your analyses, for example when dividing by travel time and your travel time is 0! The second row gives the travel time between 48113 (Dallas County, TX) and 48085 (the neighboring Collin County, TX) as 30.1 minutes. 
 
+
+|Origin|Destination|Travel Cost (in minutes)|
+|--------|-----------|----------|
+|48113|48113|0.0|
+|48113|48085|30.1|
+|...|...|...|
+|48085|48085|0.0|
+
+These matrices can be constructed at any scale – county-to-county, house-to-house, etc. – but are most often calculated for standard census units like counties and tracts to facilitate reusability of the data. However, note that these matrices only give an estimate of travel time, usually the travel time between centroids or population-weighted centroids, meaning they are not providing the full picture. In the above example, Dallas and Collin counties share a border, so it is very possible for someone in Dallas County to live across the street from their doctor in Collin County, a trip which likely doesn’t take a full half-hour.
+
 ## 5. Summary
 
 We have discussed the basics of transportation network travel time calculation, with a few approaches to obtaining the data including open sources, paid products, and programming packages. While this guide provides the basics of calculating network travel times, there are many additional considerations depending on your study area and goals. If you are working on very large-scale data (e.g., the size of the U.S.) you may need to rely on either cloud computing (Saxon and Snow 2020) or high-performance supercomputers (Michels et al. 2024). Depending on your task, you may also want to include more personal considerations like cost (Pereira et al. 2024), environmental exposure (Liu et al. 2025), or perceptions of safety (Kar et al. 2024). Some of these additional considerations and applications of network travel time are covered in further SDOH Guides, so be sure to check our additional resources!
