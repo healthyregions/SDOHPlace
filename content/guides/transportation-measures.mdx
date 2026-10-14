@@ -11,7 +11,6 @@ description: Many spatial analyses rely on a measure of distance.While
   opportunities available to us, and environmental exposures like heat and air
   quality
 ---
-
 Many spatial analyses rely on a measure of distance. While straight-line distance (“as the crow flies”) is appropriate for some use-cases, we often want transportation measures that better reflect the barriers between people and places. Transportation has an outsized effect on our health because it shapes how our communities are designed, the opportunities available to us, and environmental exposures like heat and air quality. It is intertwined with many of the other concepts covered in our Research Guides including [Public Transit Equity](https://sdohplace.org/guides/public-transit-equity) and access to critical needs such as [Food](https://sdohplace.org/guides/measuring-food-access-on-a-neighborhood-level), [Greenspace](https://sdohplace.org/guides/greenspace-access), and [Healthcare](https://sdohplace.org/guides/conceptualizing-healthcare-equity.).
 
 For those who want to use transportation measures, this guide provides example applications of transportation measures, discusses the two most common ways mobility data are presented (origin-destination matrices and isochrone), and examines a few common sources for such data. For those hoping to dive deeper, we provide a brief introduction to network analysis, tools and techniques for calculating transportation measures, and nuances of calculating driving, walking, and public transit transportation measures.
@@ -38,6 +37,7 @@ Additional considerations for calculating driving-times include:
 #### 2.2  Biking and Walking
 
 Additional considerations for calculating walking-times include:
+
 * **Connection**: side-walks and dedicated bike-lanes are not always connected networks due to issues with data or lack of infrastructure. You may need to consider bikers or pedestrians walking along roadways if you want a fully connected transportation network.
 * **Elevation and Slope**: changes in elevation can drastically affect the speed and ease of biking and walking.
 
@@ -57,19 +57,21 @@ This section goes into a few options for those who want to obtain travel time da
 
 An origin-destination or travel cost matrix is a table that gives the travel costs (most often in time) between origins and destinations. For example, in the table below we can see the “Origin” column with county FIPS (Federal Information Processing Standards) codes, a “Destination” column with county FIPS codes, and a “Travel Cost (in minutes)” column. So the first row says that going from county 48113 (Dallas County, TX) to 48113 (still Dallas County, TX) takes 0 minutes. This makes sense, but keep an eye out as these zeroes can throw a wrench in your analyses, for example when dividing by travel time and your travel time is 0! The second row gives the travel time between 48113 (Dallas County, TX) and 48085 (the neighboring Collin County, TX) as 30.1 minutes. 
 
-
-|Origin|Destination|Travel Cost (in minutes)|
-|--------|-----------|----------|
-|48113|48113|0.0|
-|48113|48085|30.1|
-|...|...|...|
-|48085|48085|0.0|
+| Origin | Destination | Travel Cost (in minutes) |
+| ------ | ----------- | ------------------------ |
+| 48113  | 48113       | 0.0                      |
+| 48113  | 48085       | 30.1                     |
+| ...    | ...         | ...                      |
+| 48085  | 48085       | 0.0                      |
 
 These matrices can be constructed at any scale – county-to-county, house-to-house, etc. – but are most often calculated for standard census units like counties and tracts to facilitate reusability of the data. However, note that these matrices only give an estimate of travel time, usually the travel time between centroids or population-weighted centroids, meaning they are not providing the full picture. In the above example, Dallas and Collin counties share a border, so it is very possible for someone in Dallas County to live across the street from their doctor in Collin County, a trip which likely doesn’t take a full half-hour.
+
+![](/images/figure_1.png)
 
 ## 5. Summary
 
 We have discussed the basics of transportation network travel time calculation, with a few approaches to obtaining the data including open sources, paid products, and programming packages. While this guide provides the basics of calculating network travel times, there are many additional considerations depending on your study area and goals. If you are working on very large-scale data (e.g., the size of the U.S.) you may need to rely on either cloud computing (Saxon and Snow 2020) or high-performance supercomputers (Michels et al. 2024). Depending on your task, you may also want to include more personal considerations like cost (Pereira et al. 2024), environmental exposure (Liu et al. 2025), or perceptions of safety (Kar et al. 2024). Some of these additional considerations and applications of network travel time are covered in further SDOH Guides, so be sure to check our additional resources!
+
 
 <div class='sdoh-panel' style='background-color:#ece6f0' style={{ backgroundColor: '#ece6f0' }}>
 <h4 class='sdoh-panel-header'>About the Author</h4>
@@ -83,38 +85,21 @@ We have discussed the basics of transportation network travel time calculation, 
 
 #### *References:*
 
-* Abbiasov, Timur, Cate Heine, Sadegh Sabouri, et al. 2024. “The 15-Minute City Quantified Using Human Mobility Data.” Nature Human Behaviour, February 5, 1–11. [https://doi.org/10.1038/s41562-023-01770-y.](https://doi.org/10.1038/s41562-023-01770-y.)
-
-* Barrington-Leigh, Christopher, and Adam Millard-Ball. 2017. “The World’s User-Generated Road Map Is More than 80% Complete.” PLOS ONE 12 (8): e0180698. [https://doi.org/10.1371/journal.pone.0180698.](https://doi.org/10.1371/journal.pone.0180698.)
-
-* Boeing, Geoff. 2017. “OSMnx: New Methods for Acquiring, Constructing, Analyzing, and Visualizing Complex Street Networks.” Computers, Environment and Urban Systems 65: 126–39. [https://doi.org/https://doi.org/10.1016/j.compenvurbsys.2017.05.004.](https://doi.org/https://doi.org/10.1016/j.compenvurbsys.2017.05.004.)
-
-* Delling, Daniel, Thomas Pajor, and Renato F. Werneck. 2015. “Round-Based Public Transit Routing.” Transportation Science 49 (3): 591–604. [https://doi.org/10.1287/trsc.2014.0534.] (https://doi.org/10.1287/trsc.2014.0534.)
-
-* Haklay, Mordechai, and Patrick Weber. 2008. “OpenStreetMap: User-Generated Street Maps.” IEEE Pervasive Computing 7 (4): 12–18. [https://doi.org/10.1109/MPRV.2008.80.](https://doi.org/10.1109/MPRV.2008.80.)
-
-* Herfort, Benjamin, Sven Lautenbach, João Porto de Albuquerque, Jennings Anderson, and Alexander Zipf. 2023. “A Spatio-Temporal Analysis Investigating Completeness and Inequalities of Global Urban Building Data in OpenStreetMap.” Nature Communications 14 (1): 1. [https://doi.org/10.1038/s41467-023-39698-6.](https://doi.org/10.1038/s41467-023-39698-6.)
-
-* Kar, Armita, Ningchuan Xiao, Harvey J. Miller, and Huyen T. K. Le. 2024. “Inclusive Accessibility: Analyzing Socio-Economic Disparities in Perceived Accessibility.” Computers, Environment and Urban Systems 114 (December): 102202. [https://doi.org/10.1016/j.compenvurbsys.2024.102202.](https://doi.org/10.1016/j.compenvurbsys.2024.102202.)
-
-* Liu, Luyu, Xiaojiang Li, Rafael H. M. Pereira, and Xiang Yan. 2025. “Measuring Exposure to Extreme Heat in Public Transit Systems.” Journal of Transport Geography 128 (October): 104383. [https://doi.org/10.1016/j.jtrangeo.2025.104383.](https://doi.org/10.1016/j.jtrangeo.2025.104383.)
-
-* Michels, Alexander, J. Park, J. Y. Kang, and S. Wang. 2024. “SPASTC: A Spatial Partitioning Algorithm for Scalable Travel-Time Computation.” International Journal of Geographical Information Science 0 (0): 1–22. [https://doi.org/10.1080/13658816.2024.2326445.](https://doi.org/10.1080/13658816.2024.2326445.)
-
-* Michels, Alexander, Jinwoo Park, Bo Li, Jeon-Young Kang, and Shaowen Wang. 2023. “Impacts of Catchments Derived from Fine-Grained Mobility Data on Spatial Accessibility.” In 12th International Conference on Geographic Information Science (GIScience 2023), edited by Roger Beecham, Jed A. Long, Dianna Smith, Qunshan Zhao, and Sarah Wise, vol. 277. Leibniz International Proceedings in Informatics (LIPIcs). Schloss Dagstuhl – Leibniz-Zentrum für Informatik. [https://doi.org/https://doi.org/10.4230/LIPIcs.GIScience.2023.52.](https://doi.org/https://doi.org/10.4230/LIPIcs.GIScience.2023.52.)
-
-* Moreno, Carlos, Zaheer Allam, Didier Chabaud, Catherine Gall, and Florent Pratlong. 2021. “Introducing the ‘15-Minute City’: Sustainability, Resilience and Place Identity in Future Post-Pandemic Cities.” Smart Cities 4 (1): 1. [https://doi.org/10.3390/smartcities4010006.](https://doi.org/10.3390/smartcities4010006.)
-
-* Pereira, Rafael H. M., Daniel Herszenhut, Marcus Saraiva, and Steve Farber. 2024. “Ride-Hailing and Transit Accessibility Considering the Trade-off between Time and Money.” Cities 144 (January): 104663. [https://doi.org/10.1016/j.cities.2023.104663.](https://doi.org/10.1016/j.cities.2023.104663.)
-
-* Pereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R.” Findings, ahead of print, March 4. [https://doi.org/10.32866/001c.21262.](https://doi.org/10.32866/001c.21262.)
-
-* Saxon, James, Julia Koschinsky, Karina Acosta, Vidal Anguiano, Luc Anselin, and Sergio Rey. 2022. “An Open Software Environment to Make Spatial Access Metrics More Accessible.” Journal of Computational Social Science 5 (1): 265–84. [https://doi.org/10.1007/s42001-021-00126-8.](https://doi.org/10.1007/s42001-021-00126-8.)
-
-* Saxon, James, and Daniel Snow. 2020. “A Rational Agent Model for the Spatial Accessibility of Primary Health Care.” Annals of the American Association of Geographers 110 (1): 205–22. [https://doi.org/10.1080/24694452.2019.1629870.] (https://doi.org/10.1080/24694452.2019.1629870.)
-
-* Weber, Joe. 2021. “Discrepancies in the Spatial Extent of Common GIS Highway Networks.” Transactions in GIS 25 (3): 1565–76. [https://doi.org/10.1111/tgis.12743.] (https://doi.org/10.1111/tgis.12743.)
-
-* Yan, Yingwei, Chen-Chieh Feng, Wei Huang, Hongchao Fan, Yi-Chen Wang, and Alexander Zipf. 2020. “Volunteered Geographic Information Research in the First Decade: A Narrative Review of Selected Journal Articles in GIScience.” International Journal of Geographical Information Science 34 (9): 1765–91. [https://doi.org/10.1080/13658816.2020.1730848.] (https://doi.org/10.1080/13658816.2020.1730848.)
-
-* Zhang, Hongyu, and Jacek Malczewski. 2017. “Accuracy Evaluation of the Canadian OpenStreetMap Road Networks.” International Journal of Geospatial and Environmental Research 5 (2). [https://ir.lib.uwo.ca/geographypub/347.](https://ir.lib.uwo.ca/geographypub/347.)
+* Abbiasov, Timur, Cate Heine, Sadegh Sabouri, et al. 2024. “The 15-Minute City Quantified Using Human Mobility Data.” Nature Human Behaviour, February 5, 1–11. <https://doi.org/10.1038/s41562-023-01770-y.>
+* Barrington-Leigh, Christopher, and Adam Millard-Ball. 2017. “The World’s User-Generated Road Map Is More than 80% Complete.” PLOS ONE 12 (8): e0180698. <https://doi.org/10.1371/journal.pone.0180698.>
+* Boeing, Geoff. 2017. “OSMnx: New Methods for Acquiring, Constructing, Analyzing, and Visualizing Complex Street Networks.” Computers, Environment and Urban Systems 65: 126–39. <https://doi.org/https://doi.org/10.1016/j.compenvurbsys.2017.05.004.>
+* Delling, Daniel, Thomas Pajor, and Renato F. Werneck. 2015. “Round-Based Public Transit Routing.” Transportation Science 49 (3): 591–604. <https://doi.org/10.1287/trsc.2014.0534.>
+* Haklay, Mordechai, and Patrick Weber. 2008. “OpenStreetMap: User-Generated Street Maps.” IEEE Pervasive Computing 7 (4): 12–18. <https://doi.org/10.1109/MPRV.2008.80.>
+* Herfort, Benjamin, Sven Lautenbach, João Porto de Albuquerque, Jennings Anderson, and Alexander Zipf. 2023. “A Spatio-Temporal Analysis Investigating Completeness and Inequalities of Global Urban Building Data in OpenStreetMap.” Nature Communications 14 (1): 1. <https://doi.org/10.1038/s41467-023-39698-6.>
+* Kar, Armita, Ningchuan Xiao, Harvey J. Miller, and Huyen T. K. Le. 2024. “Inclusive Accessibility: Analyzing Socio-Economic Disparities in Perceived Accessibility.” Computers, Environment and Urban Systems 114 (December): 102202. <https://doi.org/10.1016/j.compenvurbsys.2024.102202.>
+* Liu, Luyu, Xiaojiang Li, Rafael H. M. Pereira, and Xiang Yan. 2025. “Measuring Exposure to Extreme Heat in Public Transit Systems.” Journal of Transport Geography 128 (October): 104383. <https://doi.org/10.1016/j.jtrangeo.2025.104383.>
+* Michels, Alexander, J. Park, J. Y. Kang, and S. Wang. 2024. “SPASTC: A Spatial Partitioning Algorithm for Scalable Travel-Time Computation.” International Journal of Geographical Information Science 0 (0): 1–22. <https://doi.org/10.1080/13658816.2024.2326445.>
+* Michels, Alexander, Jinwoo Park, Bo Li, Jeon-Young Kang, and Shaowen Wang. 2023. “Impacts of Catchments Derived from Fine-Grained Mobility Data on Spatial Accessibility.” In 12th International Conference on Geographic Information Science (GIScience 2023), edited by Roger Beecham, Jed A. Long, Dianna Smith, Qunshan Zhao, and Sarah Wise, vol. 277. Leibniz International Proceedings in Informatics (LIPIcs). Schloss Dagstuhl – Leibniz-Zentrum für Informatik. <https://doi.org/https://doi.org/10.4230/LIPIcs.GIScience.2023.52.>
+* Moreno, Carlos, Zaheer Allam, Didier Chabaud, Catherine Gall, and Florent Pratlong. 2021. “Introducing the ‘15-Minute City’: Sustainability, Resilience and Place Identity in Future Post-Pandemic Cities.” Smart Cities 4 (1): 1. <https://doi.org/10.3390/smartcities4010006.>
+* Pereira, Rafael H. M., Daniel Herszenhut, Marcus Saraiva, and Steve Farber. 2024. “Ride-Hailing and Transit Accessibility Considering the Trade-off between Time and Money.” Cities 144 (January): 104663. <https://doi.org/10.1016/j.cities.2023.104663.>
+* Pereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R.” Findings, ahead of print, March 4. <https://doi.org/10.32866/001c.21262.>
+* Saxon, James, Julia Koschinsky, Karina Acosta, Vidal Anguiano, Luc Anselin, and Sergio Rey. 2022. “An Open Software Environment to Make Spatial Access Metrics More Accessible.” Journal of Computational Social Science 5 (1): 265–84. <https://doi.org/10.1007/s42001-021-00126-8.>
+* Saxon, James, and Daniel Snow. 2020. “A Rational Agent Model for the Spatial Accessibility of Primary Health Care.” Annals of the American Association of Geographers 110 (1): 205–22. <https://doi.org/10.1080/24694452.2019.1629870.>
+* Weber, Joe. 2021. “Discrepancies in the Spatial Extent of Common GIS Highway Networks.” Transactions in GIS 25 (3): 1565–76. <https://doi.org/10.1111/tgis.12743.>
+* Yan, Yingwei, Chen-Chieh Feng, Wei Huang, Hongchao Fan, Yi-Chen Wang, and Alexander Zipf. 2020. “Volunteered Geographic Information Research in the First Decade: A Narrative Review of Selected Journal Articles in GIScience.” International Journal of Geographical Information Science 34 (9): 1765–91. <https://doi.org/10.1080/13658816.2020.1730848.>
+* Zhang, Hongyu, and Jacek Malczewski. 2017. “Accuracy Evaluation of the Canadian OpenStreetMap Road Networks.” International Journal of Geospatial and Environmental Research 5 (2). <https://ir.lib.uwo.ca/geographypub/347.>
