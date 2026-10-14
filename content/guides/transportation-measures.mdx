@@ -64,6 +64,10 @@ An origin-destination or travel cost matrix is a table that gives the travel cos
 | ...    | ...         | ...                      |
 | 48085  | 48085       | 0.0                      |
 
+These matrices can be constructed at any scale – county-to-county, house-to-house, etc. – but are most often calculated for standard census units like counties and tracts to facilitate reusability of the data. However, note that these matrices only give an estimate of travel time, usually the travel time between centroids or population-weighted centroids, meaning they are not providing the full picture. In the above example, Dallas and Collin counties share a border, so it is very possible for someone in Dallas County to live across the street from their doctor in Collin County, a trip which likely doesn’t take a full half-hour.
+
+![](/images/figure_1.png)
+
 ##### Figure 1: A choropleth map showing the travel time in minutes from the 17031440600 census tract in Chicago, IL using the travel time data from the Pysal access package (Saxon et al. 2022).
 
 Sources of O-D matrices generally fall into two camps: open data and propriety data. Open data can be freely shared and used, but is often less accurate because they have less real-world data like actual trips and traffic congestion to draw on. Proprietary data is generally more accurate, but can be prohibitively expensive, the way the data was obtained is often not disclosed, and there are usually restrictions on the use and sharing of it. For example, an O-D matrix across the U.S. at the census tract level from Google would cost over half a million dollars (Saxon and Snow 2020) and Google has very prohibitive Terms of Service that prohibit caching or scraping the data.
@@ -76,9 +80,15 @@ A few options for O-D matrix data:
 * **[Mapbox](https://docs.mapbox.com/api/navigation/directions/)**  provides another propriety and paid option with a free tier. 
 * ** [TravelTime](https://app.traveltime.com/)** provides paid time matrix data across transportation modes.
 
-These matrices can be constructed at any scale – county-to-county, house-to-house, etc. – but are most often calculated for standard census units like counties and tracts to facilitate reusability of the data. However, note that these matrices only give an estimate of travel time, usually the travel time between centroids or population-weighted centroids, meaning they are not providing the full picture. In the above example, Dallas and Collin counties share a border, so it is very possible for someone in Dallas County to live across the street from their doctor in Collin County, a trip which likely doesn’t take a full half-hour.
 
-![](/images/figure_1.png)
+
+#### 3.2 Isochrones
+
+An *isochrone* is a polygon (a shape) that describes the area reachable within a certain time threshold. For example, a 30-minute travel zone around a hospital. Isochrones can be used for many of the same tasks as O-D matrices, but provide less detailed information on the travel time. For example, within a 60-minute isochrone you may not be able to distinguish between something that is 20 or 40 minutes away. This can be rectified by calculating multiple isochrones (e.g., 20, 40, and 60-minute isochrones), but still won’t give you exact travel times.
+
+A key advantage of isochrones as compared to O-D matrices is that they can be calculated without a specific spatial unit in mind. For example, an O-D matrix must be between defined origins and destinations (e.g., county centroids), but isochrones are usually calculated with a clear origin or destination and the resulting polygon can be compared against a variety of spatial scales.
+
+While isochrones have advantages, being scale agnostic and easy to visualize, one must be careful when working with isochrones as they are not a well-defined concept. An isochrone is typically calculated by using a very detailed O-D matrix on the transportation network and then calculating a polygon around the destinations within a certain time threshold, but there are multiple approaches to determine this polygon. Figure 2 shows two approaches and how you can obtain significantly different results from the same data. The differences can affect your spatial analysis tasks like spatial accessibility analyses (Michels et al. 2023).
 
 ## 5. Summary
 
