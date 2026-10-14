@@ -64,6 +64,18 @@ An origin-destination or travel cost matrix is a table that gives the travel cos
 | ...    | ...         | ...                      |
 | 48085  | 48085       | 0.0                      |
 
+##### Figure 1: A choropleth map showing the travel time in minutes from the 17031440600 census tract in Chicago, IL using the travel time data from the Pysal access package (Saxon et al. 2022).
+
+Sources of O-D matrices generally fall into two camps: open data and propriety data. Open data can be freely shared and used, but is often less accurate because they have less real-world data like actual trips and traffic congestion to draw on. Proprietary data is generally more accurate, but can be prohibitively expensive, the way the data was obtained is often not disclosed, and there are usually restrictions on the use and sharing of it. For example, an O-D matrix across the U.S. at the census tract level from Google would cost over half a million dollars (Saxon and Snow 2020) and Google has very prohibitive Terms of Service that prohibit caching or scraping the data.
+
+A few options for O-D matrix data:
+* **[Opentimes](https://opentimes.org/)** provides a website visualizing travel times across multiple travel modalities, scales (e.g., county, tract), and years! Their [Github page](https://github.com/dfsnow/opentimes) provides a few options to work with the data including downloading the files directly or connecting to their database.
+* ** [QGIS](https://plugins.qgis.org/search/?q=travel)** has a few plugins designed for calculating O-D matrices.
+* ** [ESRI/ArcGIS](https://doc.esri.com/en/arcgis-pro/latest/help/analysis/networks/od-cost-matrix-analysis-layer.html) ** has a Network Analyst toolkit with O-D matrix calculations.
+* **Google** provides an Application Programming Interface (API) that allows you to obtain travel times across multiple transportation modes with real-time traffic data.
+* **[Mapbox](https://docs.mapbox.com/api/navigation/directions/)**  provides another propriety and paid option with a free tier. 
+* ** [TravelTime](https://app.traveltime.com/)** provides paid time matrix data across transportation modes.
+
 These matrices can be constructed at any scale – county-to-county, house-to-house, etc. – but are most often calculated for standard census units like counties and tracts to facilitate reusability of the data. However, note that these matrices only give an estimate of travel time, usually the travel time between centroids or population-weighted centroids, meaning they are not providing the full picture. In the above example, Dallas and Collin counties share a border, so it is very possible for someone in Dallas County to live across the street from their doctor in Collin County, a trip which likely doesn’t take a full half-hour.
 
 ![](/images/figure_1.png)
