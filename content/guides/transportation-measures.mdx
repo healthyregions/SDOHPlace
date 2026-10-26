@@ -1,0 +1,162 @@
+---
+title: Transportation Measures
+featured_image: /images/default.jpg
+last_updated: October 13, 2026 4:45 PM
+author: Alex Michels, The University of Texas at Dallas
+description: Many spatial analyses rely on a measure of distance.While
+  straight-line distance (“as the crow flies”) is appropriate for some
+  use-cases, we often want transportation measures that better reflect the
+  barriers between people and places. Transportation has an outsized effect on
+  our health because it shapes how our communities are designed, the
+  opportunities available to us, and environmental exposures like heat and air
+  quality
+---
+Many spatial analyses rely on a measure of distance. While straight-line distance (“as the crow flies”) is appropriate for some use-cases, we often want transportation measures that better reflect the barriers between people and places. Transportation has an outsized effect on our health because it shapes how our communities are designed, the opportunities available to us, and environmental exposures like heat and air quality. It is intertwined with many of the other concepts covered in our Research Guides including [Public Transit Equity](https://sdohplace.org/guides/public-transit-equity) and access to critical needs such as [Food](https://sdohplace.org/guides/measuring-food-access-on-a-neighborhood-level), [Greenspace](https://sdohplace.org/guides/greenspace-access), and [Healthcare](https://sdohplace.org/guides/conceptualizing-healthcare-equity.).
+
+For those who want to use transportation measures, this guide provides example applications of transportation measures, discusses the two most common ways mobility data are presented (origin-destination matrices and isochrone), and examines a few common sources for such data. For those hoping to dive deeper, we provide a brief introduction to network analysis, tools and techniques for calculating transportation measures, and nuances of calculating driving, walking, and public transit transportation measures.
+
+## 1. Measuring Spatial Impedance
+
+Many spatial analyses require a measure of *spatial impedance*, a measure of how difficult it is to overcome the space between two things. An everyday example is travel time: traveling to work or the store costs us some time out of our day. Traditionally, spatial impedance – how much space impedes or delays us – has been measured using straight-line distance. Straight-line or *Euclidean* distance tells how long the straight line between two things is, but is a poor measure of spatial impedance for humans because it is “as the crow flies” meaning we ignore buildings, waterways, and other obstructions that would stop us from moving along that straight-line.
+
+In reality, transportation happens along *networks*. Transportation networks are the roads, public transit systems, sidewalks, bike paths, and other systems that get people across space. We refer to them as networks because we model these transportation systems as *nodes* that serve as connection points (e.g., bus stops, intersections, airports) and *edges* that describe how these points are connected (e.g., bus routes, roads, flight paths). By using *network distance*, the distance along these transportation networks, for example how far someone must travel on the sidewalk to reach their destination, we are able to more accurately measure the experience spatial impedance.
+
+While network distance is an improvement on Euclidean distance, we generally prefer to use *network travel time* when measuring spatial impedance for people. Comparing network distance across transportation modes is difficult: 5 kilometers (3.107 miles) is a long walk, but a short drive. However, even within the same mode of transportation, driving 10 miles could take anywhere from 10 minutes on a rural highway to hours in a large city. Using network travel time, a measure of how much time it takes to traverse a transportation network, provides us a meaningful and standardized way to measure spatial impedance. For example, the 15-minute city movement (Moreno et al. 2021; Abbiasov et al. 2024) focuses on ensuring all of our needs are met within a 15-minute zone of walk or bike from our homes.
+
+## 2. Travel Modalities
+
+Now we will briefly address some of the complications that could arise with each of the different kinds of transportation networks. Driving time is often the default because many communities are car-centric, public transit is not always available or reliable, and many resources are not within reasonable distances to bike or walk. The Census can provide data on [car ownership](https://www.census.gov/acs/www/about/why-we-ask-each-question/vehicles/) and use to help determine where that default assumption may fail. Your choice of travel modality may also depend on the specifics of your research questions as well. For example, you may be interested in a certain population that has lower rates of car ownership, or you may be interested in the coverage and shortcomings of your local public transit system.
+
+#### 2.1  Driving
+
+Additional considerations for calculating driving-times include:
+
+* **Congestion and Traffic**: although this data is often very expensive and we usually just assume free-flow travel (everyone moving at the speed limit).
+* **Public roads**: OSM has some data on non-traditional roads that fall under their highway tag, but have useful sub-tags to differentiate them like racetracks (track) and service roads (service). Be careful to exclude this data as if you accidentally match an origin or destination to a racetrack, it may not be connected to the rest of your road network!
+
+#### 2.2  Biking and Walking
+
+Additional considerations for calculating walking-times include:
+
+* **Connection**: side-walks and dedicated bike-lanes are not always connected networks due to issues with data or lack of infrastructure. You may need to consider bikers or pedestrians walking along roadways if you want a fully connected transportation network.
+* **Elevation and Slope**: changes in elevation can drastically affect the speed and ease of biking and walking.
+
+#### 2.3  Public Transit
+
+Public transit data usually comes in the form of General Transit Feed Specification (GTFS) data. This is pretty different from driving, biking, and walking networks as it depends on set public transit stops and schedules that vary across time. For example, your wait for a bus could take anywhere from 1 minute to an hour or more depending on the schedule and when you arrive. Some public transit operations also provide real-time GTFS data that you can compare against their schedules to measure reliability.
+
+A major complication when calculating network travel times on public transit data is that we must consider when we depart and arrive at each bus stop as this affects our waiting time before the next departure. Simply using the transit network without considering the schedule will drastically underestimate travel times. There are algorithms like RAPTOR (Delling et al. 2015) designed to efficiently tackle this problem.
+
+For more information, check out our guide on [Public Transit Equity](https://sdohplace.org/guides/public-transit-equity).
+
+## 3. Working with Travel Time Data
+
+This section goes into a few options for those who want to obtain travel time data. While there are a few open data sources for travel time data, like the OpenTimes site mentioned below, you often need to calculate it yourself to match the specific study area, granularity (e.g., tract vs. county), and timeframe you are working with.  There are two major ways in which travel time data is stored: (1) as origin-destination (O-D) matrices sometimes called travel cost matrices (TCM) and (2) as isochrones that are shapes showing the area within a certain distance. We will discuss a few options for each type of data source.
+
+#### 3.1 Origin-Destination/Travel Cost Matrices
+
+An origin-destination or travel cost matrix is a table that gives the travel costs (most often in time) between origins and destinations. For example, in the table below we can see the “Origin” column with county FIPS (Federal Information Processing Standards) codes, a “Destination” column with county FIPS codes, and a “Travel Cost (in minutes)” column. So the first row says that going from county 48113 (Dallas County, TX) to 48113 (still Dallas County, TX) takes 0 minutes. This makes sense, but keep an eye out as these zeroes can throw a wrench in your analyses, for example when dividing by travel time and your travel time is 0! The second row gives the travel time between 48113 (Dallas County, TX) and 48085 (the neighboring Collin County, TX) as 30.1 minutes. 
+
+| Origin | Destination | Travel Cost (in minutes) |
+| ------ | ----------- | ------------------------ |
+| 48113  | 48113       | 0.0                      |
+| 48113  | 48085       | 30.1                     |
+| ...    | ...         | ...                      |
+| 48085  | 48085       | 0.0                      |
+
+These matrices can be constructed at any scale – county-to-county, house-to-house, etc. – but are most often calculated for standard census units like counties and tracts to facilitate reusability of the data. However, note that these matrices only give an estimate of travel time, usually the travel time between centroids or population-weighted centroids, meaning they are not providing the full picture. In the above example, Dallas and Collin counties share a border, so it is very possible for someone in Dallas County to live across the street from their doctor in Collin County, a trip which likely doesn’t take a full half-hour.
+
+![](/images/figure_1.png)
+
+##### Figure 1: A choropleth map showing the travel time in minutes from the 17031440600 census tract in Chicago, IL using the travel time data from the Pysal access package (Saxon et al. 2022).
+
+Sources of O-D matrices generally fall into two camps: open data and propriety data. Open data can be freely shared and used, but is often less accurate because they have less real-world data like actual trips and traffic congestion to draw on. Proprietary data is generally more accurate, but can be prohibitively expensive, the way the data was obtained is often not disclosed, and there are usually restrictions on the use and sharing of it. For example, an O-D matrix across the U.S. at the census tract level from Google would cost over half a million dollars (Saxon and Snow 2020) and Google has very prohibitive Terms of Service that prohibit caching or scraping the data.
+
+A few options for O-D matrix data:
+* **[Opentimes](https://opentimes.org/)** provides a website visualizing travel times across multiple travel modalities, scales (e.g., county, tract), and years! Their [Github page](https://github.com/dfsnow/opentimes) provides a few options to work with the data including downloading the files directly or connecting to their database.
+* ** [QGIS](https://plugins.qgis.org/search/?q=travel)** has a few plugins designed for calculating O-D matrices.
+* ** [ESRI/ArcGIS](https://doc.esri.com/en/arcgis-pro/latest/help/analysis/networks/od-cost-matrix-analysis-layer.html) ** has a Network Analyst toolkit with O-D matrix calculations.
+* **Google** provides an Application Programming Interface (API) that allows you to obtain travel times across multiple transportation modes with real-time traffic data.
+* **[Mapbox](https://docs.mapbox.com/api/navigation/directions/)**  provides another propriety and paid option with a free tier. 
+* ** [TravelTime](https://app.traveltime.com/)** provides paid time matrix data across transportation modes.
+
+
+
+#### 3.2 Isochrones
+
+An *isochrone* is a polygon (a shape) that describes the area reachable within a certain time threshold. For example, a 30-minute travel zone around a hospital. Isochrones can be used for many of the same tasks as O-D matrices, but provide less detailed information on the travel time. For example, within a 60-minute isochrone you may not be able to distinguish between something that is 20 or 40 minutes away. This can be rectified by calculating multiple isochrones (e.g., 20, 40, and 60-minute isochrones), but still won’t give you exact travel times.
+
+A key advantage of isochrones as compared to O-D matrices is that they can be calculated without a specific spatial unit in mind. For example, an O-D matrix must be between defined origins and destinations (e.g., county centroids), but isochrones are usually calculated with a clear origin or destination and the resulting polygon can be compared against a variety of spatial scales.
+
+While isochrones have advantages, being scale agnostic and easy to visualize, one must be careful when working with isochrones as they are not a well-defined concept. An isochrone is typically calculated by using a very detailed O-D matrix on the transportation network and then calculating a polygon around the destinations within a certain time threshold, but there are multiple approaches to determine this polygon. Figure 2 shows two approaches and how you can obtain significantly different results from the same data. The differences can affect your spatial analysis tasks like spatial accessibility analyses (Michels et al. 2023).
+
+![](/images/Figure_2.png)
+
+##### Figure 2: An isochrone map showing two different results from the same data 
+
+**Figure 2**: This figure from (Michels et al. 2023) shows the road network around Carle Hospital in Urbana, IL, USA. The red nodes are those within 30 minutes driving-time of Carle Hospital and the grey nodes are not. The left and right subfigures demonstrate two techniques for calculating the “isochrone” around these nodes. The left figure (blue) shows the convex hull, analogous to putting a rubber band around the nodes. The right figure (green) shows an alpha shape – sometimes referred to as a concave hull – around the same nodes. Despite using the same data, we end up with two different isochrones.
+
+A few options for obtaining isochrone data:
+* **[QGIS](https://plugins.qgis.org/search/?q=travel)** has a few plugins designed for calculating isochrones and catchments.
+* ** [ESRI/ArcGIS](https://doc.arcgis.com/en/arcgis-online/analyze/generate-travel-areas-mv.htm)** has a Generate Travel Areas tool within ArcGIS Online.
+* ** [Mapbox](https://docs.mapbox.com/api/navigation/isochrone/) ** is a paid service with a free tier that can calculate isochrones.
+* ** [TravelTime](https://app.traveltime.com/) ** provides paid isochrone data across transportation modes.
+
+## 4. Calculating Your Own Network Travel Time
+
+#### 4.1 Getting the Data
+
+To calculate your own network travel times, we first need to obtain transportation network data. The most common open source for this data is [OpenStreetMap](https://www.openstreetmap.org/) (OSM) (Haklay and Weber 2008). OSM data can be accessed using their Overpass API or programming packages like Python’s OSMnx (Boeing 2017). This is volunteer geographic information (VGI) with data from around the world! Think of it as the Wikipedia of geospatial data; anyone can contribute, but there is a dedicated team assessing it for accuracy. While OSM has pretty good data coverage in North America and Europe, the accuracy and coverage of the data can vary greatly across space so some caution should be used when working with OSM data (Herfort et al. 2023). Below, we provide a short overview of OSM and two other common data sources: government datasets and ESRI.
+
+* **OpenStreetMap (OSM)** is volunteered geographic information (VGI) (Yan et al. 2020) meaning it is contributed by users like Wikipedia. Its road network uses TIGER data as a baseline and has been expanded upon from there, making it relatively complete in much of the U.S., but this completeness varies spatially (Barrington-Leigh and Millard-Ball 2017; Zhang and Malczewski 2017). It can be accessed by a variety of tools and APIs including download sites like [Geofabrik](https://www.geofabrik.de/data/download.html), the [OSM Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API), the [Python OSMnx package](https://osmnx.readthedocs.io/en/stable/), and the [R osmdata package](https://cran.r-project.org/web/packages/osmdata/vignettes/osmdata.html). 
+* **Government Datasets** include the Census Bureau’s TIGER/Line road database and the Federal Highway Administration’s Highway Performance Monitoring System (HPMS). These datasets are good, but potentially incomplete and disagree with each other (Weber 2021). To download the TIGER/Line data, you can use the [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) website and when using the Web Interface, select “Roads” under the “Select a layer type” dropdown. This option is available for the U.S., but similar road networks may be available for other countries if you check their Census Bureau or Department of Transportation counterparts.
+* **ESRI** provides a proprietary road network dataset that can be accessed within their spatial analysis software. A big bonus of using this dataset is that they provide [historic, live, and predictive traffic](https://doc.esri.com/en/arcgis-pro/latest/help/analysis/networks/traffic.html) in some areas which greatly increases the accuracy of your network travel times, but unfortunately these data sources and accuracy are not transparent.
+
+#### 4.2 Calculating Travel Time
+
+Once you have the network data, you want to calculate shortest paths along it. First, we may need to do some data cleaning steps on our network to remove disconnected components of the network. This can arise from errors in the data, roadways near the border of your study area, or non-traditional roads like service roads. Second, we calculate travel times for each edge. For example, dividing the distance on each edge by the estimated speed to get travel time. Third, we have to figure out where on the network our origin and destination are. The simplest approach is to match your origins and destinations to the nearest node in the network, but there are more advanced approaches to snap our origins and destinations to a transportation network. Now we can use our software of choice to determine the shortest path. Note that you may need to specify what variable/weight from your edges you want to use to calculate the shortest path otherwise you may just get the number of edges between your origin and destination!
+
+Below is a short selection of packages in various languages that can help with transportation measures.
+
+|Package|Programming Language|Driving|Walking|Public Transit|
+|------|----------|-----------|---------|----------|
+|[r5r](https://ipeagit.github.io/r5r/index.html) (Pereira et al. 2021)|R|Yes|Yes/Yes|Yes|
+|[r5py](https://r5py.readthedocs.io/stable/)|Python|Yes|Yes/Yes|Yes|
+|[graphhopper](https://github.com/graphhopper/graphhopper)|Java|Yes|Yes/Yes|Yes|
+
+
+## 5. Summary
+
+We have discussed the basics of transportation network travel time calculation, with a few approaches to obtaining the data including open sources, paid products, and programming packages. While this guide provides the basics of calculating network travel times, there are many additional considerations depending on your study area and goals. If you are working on very large-scale data (e.g., the size of the U.S.) you may need to rely on either cloud computing (Saxon and Snow 2020) or high-performance supercomputers (Michels et al. 2024). Depending on your task, you may also want to include more personal considerations like cost (Pereira et al. 2024), environmental exposure (Liu et al. 2025), or perceptions of safety (Kar et al. 2024). Some of these additional considerations and applications of network travel time are covered in further SDOH Guides, so be sure to check our additional resources!
+
+
+<div class='sdoh-panel' style='background-color:#ece6f0' style={{ backgroundColor: '#ece6f0' }}>
+<h4 class='sdoh-panel-header'>About the Author</h4>
+<div class='sdoh-panel-content'>
+<img class='sdoh-panel-image' src='/images/picture1.png' />
+<div class='sdoh-panel-body'>
+<span class='sdoh-panel-markdown'>Alex Michels is an Assistant Professor in the School of Economic, Political and Policy Sciences at The University of Texas at Dallas. He obtained his Ph.D. in Informatics in 2025 and M.S. in Geography in 2024, both from the University of Illinois Urbana-Champaign. Alex’s research focuses on geospatial data science and cyberGIS to address societal challenges.</span>
+<br/>
+<a class='sdoh-panel-link' href='undefined'>undefined</a>
+</div></div></div>
+
+#### *References:*
+
+* Abbiasov, Timur, Cate Heine, Sadegh Sabouri, et al. 2024. “The 15-Minute City Quantified Using Human Mobility Data.” Nature Human Behaviour, February 5, 1–11. <https://doi.org/10.1038/s41562-023-01770-y.>
+* Barrington-Leigh, Christopher, and Adam Millard-Ball. 2017. “The World’s User-Generated Road Map Is More than 80% Complete.” PLOS ONE 12 (8): e0180698. <https://doi.org/10.1371/journal.pone.0180698.>
+* Boeing, Geoff. 2017. “OSMnx: New Methods for Acquiring, Constructing, Analyzing, and Visualizing Complex Street Networks.” Computers, Environment and Urban Systems 65: 126–39. <https://doi.org/https://doi.org/10.1016/j.compenvurbsys.2017.05.004.>
+* Delling, Daniel, Thomas Pajor, and Renato F. Werneck. 2015. “Round-Based Public Transit Routing.” Transportation Science 49 (3): 591–604. <https://doi.org/10.1287/trsc.2014.0534.>
+* Haklay, Mordechai, and Patrick Weber. 2008. “OpenStreetMap: User-Generated Street Maps.” IEEE Pervasive Computing 7 (4): 12–18. <https://doi.org/10.1109/MPRV.2008.80.>
+* Herfort, Benjamin, Sven Lautenbach, João Porto de Albuquerque, Jennings Anderson, and Alexander Zipf. 2023. “A Spatio-Temporal Analysis Investigating Completeness and Inequalities of Global Urban Building Data in OpenStreetMap.” Nature Communications 14 (1): 1. <https://doi.org/10.1038/s41467-023-39698-6.>
+* Kar, Armita, Ningchuan Xiao, Harvey J. Miller, and Huyen T. K. Le. 2024. “Inclusive Accessibility: Analyzing Socio-Economic Disparities in Perceived Accessibility.” Computers, Environment and Urban Systems 114 (December): 102202. <https://doi.org/10.1016/j.compenvurbsys.2024.102202.>
+* Liu, Luyu, Xiaojiang Li, Rafael H. M. Pereira, and Xiang Yan. 2025. “Measuring Exposure to Extreme Heat in Public Transit Systems.” Journal of Transport Geography 128 (October): 104383. <https://doi.org/10.1016/j.jtrangeo.2025.104383.>
+* Michels, Alexander, J. Park, J. Y. Kang, and S. Wang. 2024. “SPASTC: A Spatial Partitioning Algorithm for Scalable Travel-Time Computation.” International Journal of Geographical Information Science 0 (0): 1–22. <https://doi.org/10.1080/13658816.2024.2326445.>
+* Michels, Alexander, Jinwoo Park, Bo Li, Jeon-Young Kang, and Shaowen Wang. 2023. “Impacts of Catchments Derived from Fine-Grained Mobility Data on Spatial Accessibility.” In 12th International Conference on Geographic Information Science (GIScience 2023), edited by Roger Beecham, Jed A. Long, Dianna Smith, Qunshan Zhao, and Sarah Wise, vol. 277. Leibniz International Proceedings in Informatics (LIPIcs). Schloss Dagstuhl – Leibniz-Zentrum für Informatik. <https://doi.org/https://doi.org/10.4230/LIPIcs.GIScience.2023.52.>
+* Moreno, Carlos, Zaheer Allam, Didier Chabaud, Catherine Gall, and Florent Pratlong. 2021. “Introducing the ‘15-Minute City’: Sustainability, Resilience and Place Identity in Future Post-Pandemic Cities.” Smart Cities 4 (1): 1. <https://doi.org/10.3390/smartcities4010006.>
+* Pereira, Rafael H. M., Daniel Herszenhut, Marcus Saraiva, and Steve Farber. 2024. “Ride-Hailing and Transit Accessibility Considering the Trade-off between Time and Money.” Cities 144 (January): 104663. <https://doi.org/10.1016/j.cities.2023.104663.>
+* Pereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid Realistic Routing on Multimodal Transport Networks with R5 in R.” Findings, ahead of print, March 4. <https://doi.org/10.32866/001c.21262.>
+* Saxon, James, Julia Koschinsky, Karina Acosta, Vidal Anguiano, Luc Anselin, and Sergio Rey. 2022. “An Open Software Environment to Make Spatial Access Metrics More Accessible.” Journal of Computational Social Science 5 (1): 265–84. <https://doi.org/10.1007/s42001-021-00126-8.>
+* Saxon, James, and Daniel Snow. 2020. “A Rational Agent Model for the Spatial Accessibility of Primary Health Care.” Annals of the American Association of Geographers 110 (1): 205–22. <https://doi.org/10.1080/24694452.2019.1629870.>
+* Weber, Joe. 2021. “Discrepancies in the Spatial Extent of Common GIS Highway Networks.” Transactions in GIS 25 (3): 1565–76. <https://doi.org/10.1111/tgis.12743.>
+* Yan, Yingwei, Chen-Chieh Feng, Wei Huang, Hongchao Fan, Yi-Chen Wang, and Alexander Zipf. 2020. “Volunteered Geographic Information Research in the First Decade: A Narrative Review of Selected Journal Articles in GIScience.” International Journal of Geographical Information Science 34 (9): 1765–91. <https://doi.org/10.1080/13658816.2020.1730848.>
+* Zhang, Hongyu, and Jacek Malczewski. 2017. “Accuracy Evaluation of the Canadian OpenStreetMap Road Networks.” International Journal of Geospatial and Environmental Research 5 (2). <https://ir.lib.uwo.ca/geographypub/347.>
