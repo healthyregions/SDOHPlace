@@ -273,13 +273,6 @@ const NavBar = (): JSX.Element => {
                 items={resourcesItems}
               />
             </li>
-            <li>
-              <NavDropdownMobile
-                title="About"
-                dropdownElId="about-dd-mobile"
-                items={aboutItems}
-              />
-            </li>
 
             {/* Community Menu */}
             <li>
