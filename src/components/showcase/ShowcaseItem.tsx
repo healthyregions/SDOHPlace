@@ -69,7 +69,7 @@ export default function ShowcaseItem({ item }: Props) {
                 </div>
               </div>
 
-              <div className={'mt-4'} style={{ color: '#7e1cc4' }}>Access resource &rarr;</div>
+              <div className={'mt-4 font-heading'} style={{ color: '#7e1cc4' }}>Access resource &rarr;</div>
             </div>
           </div>
           <style jsx>

@@ -197,7 +197,7 @@ const Footer = (): JSX.Element => {
           </div>
           <div className="flex flex-col justify-center gap-[1.56rem] flex-[33.33]">
             <ul
-              className="min-[960px]:mx-auto flex flex-col justify-center gap-5 items-start"
+              className="min-[960px]:mx-auto flex flex-col justify-center gap-5 items-start font-heading"
             >
               <li className="leading-4">
                 <Link

@@ -38,7 +38,7 @@ const Card = (props: Props): JSX.Element => {
           <p className="text-neutralgray">Coming soon...</p>
         )}
       </div>
-      <div className="text-almostblack text-xl-rfs leading-6 tracking-[0.03125rem]">
+      <div className="text-almostblack text-xl-rfs leading-6 tracking-[0.03125rem] font-sans">
         <p className="text-start">{props.text}</p>
       </div>
     </button>

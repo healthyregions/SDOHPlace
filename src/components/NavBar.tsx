@@ -142,7 +142,7 @@ const NavBar = (): JSX.Element => {
 
   return (
     <div
-      className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 bg-${navBackgroundColor}`}
+      className={`absolute left-0 top-0 w-full z-50 ease-in duration-300 font-heading bg-${navBackgroundColor}`}
     >
       <div
         className={`flex justify-between items-center 2xl:max-w-[1536px] mt-8 pl-0 pr-0 mx-auto`}

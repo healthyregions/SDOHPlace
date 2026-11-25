@@ -5,11 +5,11 @@
   margin: 0 auto;
   box-sizing: border-box;
   z-index: 0;
-  font-family: Nunito;
+  font-family: "Crimson Pro";
 }
 
 .container h1 {
-  font-family: "Fredoka";
+  font-family: "League Spartan";
   margin: 2.5rem 0 0 0;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .content h1 {
-  font-family: Fredoka;
+  font-family: "League Spartan";
   margin: 2.5rem 0 0 0;
 }
 
@@ -31,7 +31,7 @@
 .content h3,
 .content h4,
 .content h5 {
-  font-family: Fredoka;
+  font-family: "League Spartan";
   margin: 2rem 0 0 0;
 }
 
@@ -51,6 +51,9 @@
 .content details,
 .content details > summary {
   font-size: 1.25rem;
+}
+.content details > summary {
+  font-family: "League Spartan";
 }
 .content p {
   margin: 1.5rem 0 0 0;
@@ -195,7 +198,7 @@
   /*background-color: #ECE6F0;*/
 
   .sdoh-panel-header {
-    font-family: Nunito;
+    font-family: "League Spartan";
     font-weight: 700;
     font-size: 16pt;
     line-height: 100%;
