@@ -40,12 +40,11 @@ module.exports = {
       fontFamily: {
         // sans is the default font applied by tailwind, so alias
         // it to our custom font
-        sans: "Nunito",
+        sans: "Crimson Pro",
         // reset serif and mono fonts
         serif: "serif",
         mono: "mono",
-        // apply font-fredoka to all h* elements
-        fredoka: "Fredoka",
+        heading: "League Spartan",
       },
       borderRadius: {
         "81xl": "100px",

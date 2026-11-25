@@ -24,7 +24,7 @@ export default function Pagination({ current, pages, link }: Props) {
               legacyBehavior
             >
               <a
-                className={`no-underline ${
+                className={`no-underline font-heading ${
                   it.page === current ? "active" : ""
                 }`}
               >

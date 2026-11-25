@@ -81,7 +81,7 @@ const Team: NextPage = () => {
                     alt={modalData.name}
                     rounded={false}
                   />
-                  <div className="text-2xl font-bold leading-[133.333%] mt-6">
+                  <div className="text-2xl font-bold leading-[133.333%] mt-6 font-heading">
                     {modalData.name}
                   </div>
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
@@ -98,7 +98,7 @@ const Team: NextPage = () => {
                         rel="noreferrer"
                         className="text-salmonpink no-underline hover:underline"
                       >
-                        <Typography>{link.link_label}</Typography>
+                        <Typography sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}>{link.link_label}</Typography>
                       </a>
                     </div>
                   ))}
@@ -121,7 +121,7 @@ const Team: NextPage = () => {
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 pb-[8rem] max-md:max-w-full mt-[100px]">
           <div className="self-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] ml-18 max-md:ml-2.5">
-            <h1 className="font-fredoka">Core Team</h1>
+            <h1>Core Team</h1>
           </div>
           <p className="text-stone-900 text-xl leading-8 mt-10 self-center max-w-[1259px] max-md:max-w-full max-md:mt-10">
             Based at the University of Illinois Urbana-Champaign,
@@ -171,7 +171,7 @@ const Team: NextPage = () => {
                           />
                         </div>
                         <div className="flex grow flex-col max-md:mt-10">
-                          <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
+                          <div className="text-stone-900 text-2xl font-bold leading-[133.333%] font-heading">
                             {item.name}
                           </div>
                           <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
@@ -181,7 +181,7 @@ const Team: NextPage = () => {
                             {item.desc_short}
                           </div>
                           <div
-                            className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
+                            className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer font-heading"
                             onClick={() => {
                               setModalData(item);
                               handleOpen();
@@ -200,7 +200,7 @@ const Team: NextPage = () => {
         </div>
         <div className="self-center z-[1] flex w-full max-w-[1068px] flex-col mt-[100px] mb-[120px] px-5 max-md:max-w-full max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Past Team Members</h2>
+            <h2>Past Team Members</h2>
           </div>
         </div>
         <div className="self-stretch flex mt-0 w-full flex-col max-md:max-w-full">
@@ -230,7 +230,7 @@ const Team: NextPage = () => {
                           />
                         </div>
                         <div className="flex grow flex-col max-md:mt-10">
-                          <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
+                          <div className="text-stone-900 text-2xl font-bold leading-[133.333%] font-heading">
                             {item.name}
                           </div>
                           <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
@@ -240,7 +240,7 @@ const Team: NextPage = () => {
                             {item.desc_short}
                           </div>
                           <div
-                            className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
+                            className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer font-heading"
                             onClick={() => {
                               setModalData(item);
                               handleOpen();

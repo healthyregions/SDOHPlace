@@ -26,7 +26,7 @@ const CardWithImage = (props: Props): JSX.Element => {
           />
         </Link>
       </div>
-      <div className="text-almostblack text-3xl-rfs font-normal leading-10 max-w-[22.3125rem] mt-[2.31rem]">
+      <div className="text-almostblack text-3xl-rfs font-normal leading-10 max-w-[22.3125rem] mt-[2.31rem] font-heading">
         <Link href={props.url} className="no-underline text-black">
           {props.title}
         </Link>
@@ -36,7 +36,7 @@ const CardWithImage = (props: Props): JSX.Element => {
       </div>
       <a
         href={props.url}
-        className="text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem] no-underline"
+        className="text-[0.6875rem] font-bold leading-4 tracking-[0.03125rem] uppercase mt-[1.25rem] no-underline font-heading"
       >
         Learn More
       </a>

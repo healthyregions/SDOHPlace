@@ -24,7 +24,7 @@ export default function PostersItem({ item }: Props) {
           <h2>{item.title}</h2>
           <p>{item.author}</p>
           <small>{item.institution}</small>
-          <div className={'flex-col self-end mt-4 text-frenchviolet'}>
+          <div className={'flex-col self-end mt-4 text-frenchviolet font-heading'}>
             <span>View Poster &rarr;</span>
           </div>
         </div>

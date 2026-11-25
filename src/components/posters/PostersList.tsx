@@ -9,6 +9,10 @@ import ImageListItem from "@mui/material/ImageListItem";
 import {BsGrid3X3GapFill, BsList} from "react-icons/bs";
 import {IconButton, ImageListItemBar, useMediaQuery} from "@mui/material";
 import {FaInfo} from "react-icons/fa";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config.js";
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 type Props = {
   posters: PostersContent[];
@@ -32,7 +36,7 @@ export default function PostersList({ posters, pagination }: Props) {
           <ButtonGroup variant="outlined" aria-label="Basic button group">
             {
               tags?.map((t, index) =>
-                <Button size={'small'} style={{color:'#7e1cc4'}} color={'secondary'} key={`tag-${index}`} onClick={() => setTag(t)}>{t}</Button>
+                <Button size={'small'} style={{color:'#7e1cc4', fontFamily: fullConfig.theme.fontFamily["sans"]}} color={'secondary'} key={`tag-${index}`} onClick={() => setTag(t)}>{t}</Button>
               )
             }
           </ButtonGroup>
@@ -92,6 +96,10 @@ export default function PostersList({ posters, pagination }: Props) {
                   <ImageListItemBar
                     title={item.title}
                     subtitle={item.author}
+                    sx={{
+                      "& .MuiImageListItemBar-title": { fontFamily: fullConfig.theme.fontFamily["heading"] },
+                      "& .MuiImageListItemBar-subtitle": { fontFamily: fullConfig.theme.fontFamily["sans"] },
+                    }}
                     actionIcon={
                       <IconButton
                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}

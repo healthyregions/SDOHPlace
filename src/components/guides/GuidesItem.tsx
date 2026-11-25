@@ -37,7 +37,7 @@ export default function GuidesItem({ item }: Props) {
           {item.description &&
             <div className={'mt-4'}>{item.description}</div>
           }
-          <div className={'flex-col self-end mt-4 text-frenchviolet'}>
+          <div className={'flex-col self-end mt-4 text-frenchviolet font-heading'}>
             <span>Access resource &rarr;</span>
           </div>
         </div>

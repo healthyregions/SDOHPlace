@@ -73,7 +73,7 @@ export default function ResearchItem({ item }: Props) {
             <p className={'mt-4'}>{item.description}</p>
             {
               item.media?.map(url =>
-                <a className={'no-underline mt-4'} key={url} href={url} target="_blank" rel="noopener noreferrer">
+                <a className={'no-underline mt-4 font-heading'} key={url} href={url} target="_blank" rel="noopener noreferrer">
                   Access resource <Launch />
                 </a>
               )

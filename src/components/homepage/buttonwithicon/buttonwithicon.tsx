@@ -50,7 +50,7 @@ const ButtonWithIcon = (props: Props): JSX.Element => {
           backgroundImage: "none",
           textTransform: "none",
           color: `${fullConfig.theme.colors[props.labelColor]}`,
-          fontFamily: `${fullConfig.theme.fontFamily["sans"]}`,
+          fontFamily: `${fullConfig.theme.fontFamily["heading"]}`,
           fontSize: "clamp(1.125rem, 1vw + 0.1rem, 1.25rem)",
           fontStyle: "normal",
           fontWeight: 700,

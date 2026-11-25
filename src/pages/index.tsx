@@ -267,7 +267,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             style={{ cursor: "pointer" }}
             onClick={learnMoreClick}
           >
-            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase">
+            <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase font-heading">
               Learn More
             </div>
             <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -315,7 +315,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
           </div>
         </div>
         <div className="md:hidden text-center">
-          <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%]">
+          <div className="text-frenchviolet text-center text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase max-[460px]:mt-[7%] font-heading">
             Learn More
           </div>
           <div className="mx-auto w-[1.25rem] h-[1.25rem]">
@@ -338,15 +338,15 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
       <div ref={learnMoreRef} className="w-full h-auto bg-lightbisque">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem] px-[2.5%]">
           <div className="text-almostblack  text-2xl-rfs font-normal leading-8 flex flex-wrap justify-between">
-            <div className={'flex-grow'}>Measuring Community-level Social Determinants of Health</div>
+            <div className={'flex-grow font-heading'}>Measuring Community-level Social Determinants of Health</div>
             <div className={'flex flex-row mr-10'} style={{ fontWeight:700 }}>
-              <a href={'/guides'} className={'carousel-link'}>
+              <a href={'/guides'} className={'carousel-link font-heading'}>
                 <FaBook></FaBook>
                 All SDOH Research Guides
               </a>
             </div>
             <div className={'flex'} style={{ fontWeight:700 }}>
-              <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link"} target={'_blank'} rel="noreferrer noopener">
+              <a href={"https://forms.illinois.edu/sec/1493227735"} className={"carousel-link font-heading"} target={'_blank'} rel="noreferrer noopener">
                 <FaPlus></FaPlus>
                 Create a Guide
               </a>
@@ -397,7 +397,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         </div>
       </div>
 
-      <div className="w-full h-auto font-[Nunito,sans-serif]" style={{ background: '#ECE6F0' }}>
+      <div className="w-full h-auto font-sans" style={{ background: '#ECE6F0' }}>
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[2rem]">
           <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
 
@@ -409,7 +409,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
             <div className={'flex relative'}>
               <div>
                 {/* "Featured" section header / icon */}
-                <div className={'flex flex-row text-[0.9rem] text-uppercase'} style={{ letterSpacing: '2.0px' }}>
+                <div className={'flex flex-row text-[0.9rem] text-uppercase font-heading'} style={{ letterSpacing: '2.0px' }}>
                   <div className={'flex pb-[3px]'}><FeaturedIcon /></div> Featured
                 </div>
 
@@ -428,8 +428,8 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   {
                     featuredData?.links?.map((link) =>
                       <span key={`${link.label}-${link?.url}`}>
-                        {link?.bold && <strong className={'mr-[2rem] text-base'}><a className={'no-underline'} href={link?.url}>{link?.label}</a></strong>}
-                        {!link?.bold && <a className={'no-underline mr-[2rem] text-base'} href={link?.url}>{link?.label}</a>}
+                        {link?.bold && <strong className={'mr-[2rem] text-base'}><a className={'no-underline font-heading'} href={link?.url}>{link?.label}</a></strong>}
+                        {!link?.bold && <a className={'no-underline mr-[2rem] text-base font-heading'} href={link?.url}>{link?.label}</a>}
                       </span>
                     )
                   }
@@ -449,13 +449,13 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto py-[5rem]">
           <div className="flex flex-col px-[2.5%] gap-12">
             <div className="flex flex-row justify-between gap-4">
-              <div className=" text-2xl-rfs font-normal leading-8">
+              <div className=" text-2xl-rfs font-normal leading-8 font-heading">
                 News & Updates
               </div>
               <div className="uppercase text-2xl-rfs font-normal leading-8 text-end">
                 <Link
                   href="/news"
-                  className={"no-underline text-base font-bold"}
+                  className={"no-underline text-base font-bold font-heading"}
                 >
                   All News & Updates
                 </Link>
@@ -498,7 +498,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
 
       <div id="coming-soon-section" className="w-full h-auto">
         <div className="max-md:max-w-[87%] 2xl:max-w-[1536px] mx-auto pt-[5rem] pb-[4rem] flex flex-col gap-12">
-          <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%]">
+          <div className="text-almostblack text-2xl-rfs font-normal leading-8 px-[2.5%] font-heading">
             Access Data & Resources
           </div>
 
@@ -516,7 +516,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   alt="Data Discovery Enlarged icon"
                 />
 
-                <div className="text-almostblack text-2xl-rfs leading-8">
+                <div className="text-almostblack text-2xl-rfs leading-8 font-heading">
                   <b>Data Discovery </b>
                 </div>
 
@@ -558,7 +558,7 @@ const HomePage: NextPage<HomePageProps> = ({ newsItem }) => {
                   alt="Data Practice Enlarged icon"
                 />
 
-                <div className="text-almostblack text-2xl-rfs font-bold leading-8">
+                <div className="text-almostblack text-2xl-rfs font-bold leading-8 font-heading">
                   Community Toolkit
                 </div>
 

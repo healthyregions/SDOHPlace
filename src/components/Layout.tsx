@@ -43,7 +43,7 @@ export default function Layout({
       <TopLines />
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          {page_header && <h1 className="font-fredoka">{page_header}</h1>}
+          {page_header && <h1>{page_header}</h1>}
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10 max-md:overflow-x-auto">
             <div className="gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">
               {!type && <main>{children}</main>}

@@ -78,7 +78,7 @@ const Advisory: NextPage = () => {
                     alt={modalData.name}
                     rounded={false}
                   />
-                  <div className="text-2xl font-bold leading-[133.333%] mt-6">
+                  <div className="text-2xl font-bold leading-[133.333%] mt-6 font-heading">
                     {modalData.name}
                   </div>
                   <div className="text-lg font-medium leading-[177.778%] mt-2.5">
@@ -95,7 +95,7 @@ const Advisory: NextPage = () => {
                         rel="noreferrer"
                         className="text-salmonpink no-underline hover:underline"
                       >
-                        <Typography>{link.link_label}</Typography>
+                        <Typography sx={{ fontFamily: fullConfig.theme.fontFamily["sans"] }}>{link.link_label}</Typography>
                       </a>
                     </div>
                   ))}
@@ -117,7 +117,7 @@ const Advisory: NextPage = () => {
       </Modal>
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Advisory</h1>
+          <h1>Advisory</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
@@ -143,7 +143,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Advisory Board</h2>
+            <h2>Advisory Board</h2>
           </div>
           <div className="bg-lightbisque self-stretch flex grow flex-col px-5 max-md:max-w-full">
             <div className="self-center flex w-full max-w-[1246px] flex-col max-md:max-w-full">
@@ -172,7 +172,7 @@ const Advisory: NextPage = () => {
                             />
                           </div>
                           <div className="flex grow flex-col max-md:mt-10">
-                            <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
+                            <div className="text-stone-900 text-2xl font-bold leading-[133.333%] font-heading">
                               {item.name}
                             </div>
                             <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
@@ -182,7 +182,7 @@ const Advisory: NextPage = () => {
                               {item.desc_short}
                             </div>
                             <div
-                              className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
+                              className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer font-heading"
                               onClick={() => {
                                 setModalData(item);
                                 handleOpen();
@@ -202,7 +202,7 @@ const Advisory: NextPage = () => {
         </div>
         <div className="self-stretch flex flex-col mt-10 max-md:max-w-full max-md:mr-0.5 max-md:mt-10">
           <div className="self-center text-center w-full max-md:max-w-full mb-32 text-stone-900 max-w-[1246px] p-[25px] ml-18 max-md:ml-2.5">
-            <h2 className="font-fredoka">Project Launch Advisory</h2>
+            <h2>Project Launch Advisory</h2>
           </div>
         </div>
         <div className="bg-lightbisque self-stretch flex mt-0 w-full flex-col px-5 max-md:max-w-full">
@@ -231,7 +231,7 @@ const Advisory: NextPage = () => {
                         />
                       </div>
                       <div className="flex grow flex-col max-md:mt-10">
-                        <div className="text-stone-900 text-2xl font-bold leading-[133.333%]">
+                        <div className="text-stone-900 text-2xl font-bold leading-[133.333%] font-heading">
                           {item.name}
                         </div>
                         <div className="text-stone-900 text-lg font-medium leading-[177.778%] mt-1">
@@ -241,7 +241,7 @@ const Advisory: NextPage = () => {
                           {item.desc_short}
                         </div>
                         <div
-                          className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer"
+                          className="text-frenchviolet text-left text-[0.6875rem] leading-4 font-bold tracking-[0.03125rem] uppercase mt-[10px] cursor-pointer font-heading"
                           onClick={() => {
                             setModalData(item);
                             handleOpen();

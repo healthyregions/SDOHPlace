@@ -50,7 +50,7 @@ export default function PostLayout({
           }
         >
           <div className={"backlink"}>
-            <Link href="/news" className={"no-underline"}>
+            <Link href="/news" className={"no-underline font-heading"}>
               &larr; Back to all posts
             </Link>
           </div>

@@ -28,7 +28,7 @@ export default function Index({ showcases, tags, pagination }: Props) {
         <TopLines />
         <div className="flex flex-col pt-12">
             <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-                <h1 className="font-fredoka">Fellows Showcase</h1>
+                <h1>Fellows Showcase</h1>
                 <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
                     <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                         <div className="flex items-stretch w-[92%] max-md:w-full max-md:ml-0">

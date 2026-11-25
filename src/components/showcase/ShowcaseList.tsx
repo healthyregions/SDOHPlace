@@ -23,7 +23,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 const TagsList = ({ tags }) => <div className={' my-4 flex flex-col'}>
-  <strong>Tags</strong>
+  <strong className="font-heading">Tags</strong>
   {/* Mobile: Display tags as a horizontal row  */}
   {/* Desktop: Display tags as a vertical list  */}
   <ul className={"flex flex-col max-md:flex-row"}>

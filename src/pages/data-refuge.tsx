@@ -10,6 +10,10 @@ import Link from "next/link";
 import {Button, List as MuiList, ListItem as MuiListItem} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import styled from "@emotion/styled";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config.js";
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 
 const List = styled(MuiList)`
@@ -33,7 +37,7 @@ const ListItem = styled(MuiListItem)`
 const StyledAlert = styled(Alert)`
   background-color: #ECE6F0;
   border-radius: 40px;
-  font-family: Nunito, sans-serif;
+  font-family: ${fullConfig.theme.fontFamily["sans"]};
   margin-top: 6rem;
   margin-bottom: 6rem;
   padding-top: 2rem;
@@ -58,7 +62,7 @@ const StyledAlert = styled(Alert)`
     font-size: 1rem;
     border-radius: 100px;
     margin-top: 1rem;
-    font-family: Nunito, sans-serif;
+    font-family: ${fullConfig.theme.fontFamily["heading"]};
   }
 `;
 
@@ -71,7 +75,7 @@ const DataRefuge: NextPage = () => {
 
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 pb-[8rem] max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">SDOH Data Refuge</h1>
+          <h1>SDOH Data Refuge</h1>
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
               <div className="flex flex-col items-stretch w-[92%] max-md:w-full max-md:ml-0">
@@ -115,7 +119,7 @@ const DataRefuge: NextPage = () => {
                         </Grid>
                         <Grid size={6}>
                           <div className={"text-xl"}>
-                            <strong style={{ color: '#7E1CC4' }}>Looking for unavailable data on SDOH?</strong>
+                            <strong className="font-heading" style={{ color: '#7E1CC4' }}>Looking for unavailable data on SDOH?</strong>
                             <div className={'mt-2'}>
                               You can access the datasets and download files to your own computer using our
                               public Box link below. Data uploads are time-stamped.

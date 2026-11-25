@@ -25,7 +25,7 @@ const Posters: NextPage = ({ /* tags, */ pagination }: Props) => {
       <TopLines />
       <div className="flex flex-col pt-12">
         <div className="self-center flex w-full max-w-[1068px] flex-col px-5 max-md:max-w-full mt-[100px]">
-          <h1 className="font-fredoka">Poster Gallery</h1>
+          <h1>Poster Gallery</h1>
 
           <div className="self-center w-full mt-10 max-md:max-w-full max-md:mt-10">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
